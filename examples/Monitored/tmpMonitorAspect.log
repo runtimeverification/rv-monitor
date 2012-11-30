@@ -1,0 +1,20 @@
+This is METAFONT, Version 2.718281 (TeX Live 2011) (base=mf 2011.7.3)  10 SEP 2012 15:04
+**aspects/tmpMonitorAspect.aj
+(aspects/tmpMonitorAspect.aj
+>> import.android.media.MediaPlayer
+! Isolated expression.
+<to be read again> 
+                   ;
+l.2 import android.media.MediaPlayer;
+                                     
+? 
+! Interruption.
+l.2 import android.media.MediaPlayer;
+                                     
+? 
+! Emergency stop.
+l.2 import android.media.MediaPlayer;
+                                     
+End of file on the terminal!
+
+

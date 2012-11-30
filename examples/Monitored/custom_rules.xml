@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="custom_rules">
+
+  <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties"/>
+
+  <target name="-post-compile">
+    <path id="project.ajc.classpath">
+      <path refid="project.javac.classpath" />
+      <pathelement location="${sdk.dir}/platforms/android-16/android.jar" />
+    </path>
+    <echo> Weaving Aspects </echo>
+    <iajc srcdir="./aspects" 
+          inpath="./bin/classes/" 
+          destdir="./bin/classes/"
+          classpathref="project.ajc.classpath"
+          source="1.6" />
+  </target>
+</project>

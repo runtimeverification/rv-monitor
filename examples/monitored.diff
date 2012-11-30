@@ -1,0 +1,1010 @@
+Binary files ~/Downloads/Monitored/.DS_Store and Monitored/.DS_Store differ
+Common subdirectories: ~/Downloads/Monitored/.idea and Monitored/.idea
+diff -uN ~/Downloads/Monitored/AndroidManifest.xml Monitored/AndroidManifest.xml
+--- ~/Downloads/Monitored/AndroidManifest.xml	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/AndroidManifest.xml	2012-10-30 21:06:47.000000000 +0200
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++      package="com.example.myapp"
++      android:versionCode="1"
++      android:versionName="1.0">
++    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
++        <activity android:name="MonitoredApp"
++                  android:label="@string/app_name">
++            <intent-filter>
++                <action android:name="android.intent.action.MAIN" />
++                <category android:name="android.intent.category.LAUNCHER" />
++            </intent-filter>
++        </activity>
++    </application>
++</manifest>
+diff -uN ~/Downloads/Monitored/Monitored.iml Monitored/Monitored.iml
+--- ~/Downloads/Monitored/Monitored.iml	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/Monitored.iml	2012-10-31 21:23:18.000000000 +0200
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="FacetManager">
++    <facet type="android" name="Android">
++      <configuration>
++        <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/gen" />
++        <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/gen" />
++        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/AndroidManifest.xml" />
++        <option name="RES_FOLDER_RELATIVE_PATH" value="/res" />
++        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/assets" />
++        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/libs" />
++        <option name="REGENERATE_R_JAVA" value="true" />
++        <option name="REGENERATE_JAVA_BY_AIDL" value="true" />
++        <option name="USE_CUSTOM_APK_RESOURCE_FOLDER" value="false" />
++        <option name="CUSTOM_APK_RESOURCE_FOLDER" value="" />
++        <option name="USE_CUSTOM_COMPILER_MANIFEST" value="false" />
++        <option name="CUSTOM_COMPILER_MANIFEST" value="" />
++        <option name="APK_PATH" value="" />
++        <option name="LIBRARY_PROJECT" value="false" />
++        <option name="RUN_PROCESS_RESOURCES_MAVEN_TASK" value="true" />
++        <option name="GENERATE_UNSIGNED_APK" value="false" />
++        <option name="CUSTOM_DEBUG_KEYSTORE_PATH" value="" />
++        <option name="PACK_TEST_CODE" value="false" />
++        <option name="RUN_PROGUARD" value="false" />
++        <option name="PROGUARD_CFG_PATH" value="/proguard-project.txt" />
++        <resOverlayFolders>
++          <path>/res-overlay</path>
++        </resOverlayFolders>
++        <includeSystemProguardFile>true</includeSystemProguardFile>
++        <includeAssetsFromLibraries>false</includeAssetsFromLibraries>
++        <additionalNativeLibs />
++      </configuration>
++    </facet>
++  </component>
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++      <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
++
+diff -uN ~/Downloads/Monitored/README.txt Monitored/README.txt
+--- ~/Downloads/Monitored/README.txt	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/README.txt	2012-10-30 21:37:59.000000000 +0200
+@@ -0,0 +1,92 @@
++//////////
++// Info //
++//////////
++
++  The following project Monitored shows how we can use JavaMOP to find errors
++in Android Apps.  We just have one MOP property, to start.  It is the
++equivalent of the Develope09ForMusicPlayer app property, but stated in a
++simple, short JavaMOP file.
++
++////////////////////////
++//Installation Steps. //
++////////////////////////
++
++Note: for each step, make sure the installed binaries are visible in
++your PATH (POSIX) or %PATH% (Windows) variable.
++
++--Install the Android SDK
++
++--Install Ant
++
++--Install Aspectj
++
++--Copy aspectjtools.jar from <ASPECTJ_HOME>/lib to <ANT_HOME>/lib
++  This allows for running ajc from ant scripts.
++  For me the ant libraries go in /usr/share/ant/lib/
++
++--Install JavaMOP if you wish to compile mop properties yourself (not
++necessary for this example)
++
++////////////////////////
++//Compiling Steps.    //
++////////////////////////
++
++Open a terminal of some sort
++cd to MyFirstApp and run the following commands:
++
++$ant debug
++
++//This will build the app in debug mode
++
++$adb install bin/MyFirstApp-debug.apk
++
++//This installs the app.  I use an actual phone, which should work
++//as automatically in OS X when plugged in with the USB data cable.
++//For Windows I believe you must install a driver.  The other option
++//is to use the Android emulator manager to create a running emulator
++
++$adb logcat '*:E'
++
++//This starts logcat in a terminal, and sets it to show only errors.
++
++Run the app from the phone/emulator.  In logcat you should see
++
++E/SetOnPreparedListener(18637): setOnPreparedListener was not called before media player was started!
++
++40 times.  I have it set to print that many simply to make it easier to see.
++We could also kill the app, or attempt to recover from the error.
++
++/////////////////////////////////////////////////////
++// Creating a new App Project for use with JavaMOP //
++/////////////////////////////////////////////////////
++
++First we issue the following command:
++
++$ android create project --target 1 --name MyFirstApp \
++--path MyFirstApp --activity MyFirstActivity \
++--package com.example.myapp
++
++Where MyFirstApp and MyFirstActivity and com.example.myapp are replaced as 
++desired
++
++copy custom_rules.xml to the new app directory.  This is what correctly runs
++the aspectj weaver
++
++Make a directory called aspects.  This is where we will put JavaMOP compiled
++aspects.  You may also put properties there if you wish.  Ajc is smart enough
++to only compile .aj files.
++
++JavaMOP properties must be hand compiled using the javamop command line tool.
++The easiest way to do this is just to issue the command:
++
++$javamop <file>.mop
++
++Which will generate an .aj file in the same directory as the mop file.  Make
++sure to copy the .aj file to the aspect directory.  Any aj files in the aspect
++directory will be weaved.  In general, rather than having a file to turn off
++monitors, we prefer to use selective weaving, for performance reasons.
++
++I may add a javamop ant task, but, in general, it is not necessary to 
++regenerate aj files all that often, while the weaving step must happen
++every time.
++
+diff -uN ~/Downloads/Monitored/ajcore.20121101.002428.807.txt Monitored/ajcore.20121101.002428.807.txt
+--- ~/Downloads/Monitored/ajcore.20121101.002428.807.txt	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/ajcore.20121101.002428.807.txt	2012-11-01 00:24:28.000000000 +0200
+@@ -0,0 +1,168 @@
++---- AspectJ Properties ---
++AspectJ Compiler 1.6.12 built on Tuesday Oct 18, 2011 at 17:52:06 GMT
++---- Dump Properties ---
++Dump file: ajcore.20121101.002428.807.txt
++Dump reason: java.lang.RuntimeException
++Dump on exception: true
++Dump at exit condition: abort
++---- Exception Information ---
++java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
++	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:385)
++	at org.aspectj.weaver.bcel.BcelObjectType.<init>(BcelObjectType.java:162)
++	at org.aspectj.weaver.bcel.BcelWorld.buildBcelDelegate(BcelWorld.java:394)
++	at org.aspectj.weaver.bcel.BcelWorld.addSourceObjectType(BcelWorld.java:474)
++	at org.aspectj.weaver.bcel.BcelWorld.addSourceObjectType(BcelWorld.java:440)
++	at org.aspectj.weaver.bcel.BcelWeaver.addClassFile(BcelWeaver.java:455)
++	at org.aspectj.weaver.bcel.BcelWeaver.addClassFile(BcelWeaver.java:479)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.initBcelWorld(AjBuildManager.java:900)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:248)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:184)
++	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
++	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
++	at org.aspectj.tools.ajc.Main.run(Main.java:371)
++	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
++	at org.aspectj.tools.ant.taskdefs.AjcTask.executeInSameVM(AjcTask.java:1240)
++	at org.aspectj.tools.ant.taskdefs.AjcTask.execute(AjcTask.java:1050)
++	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
++	at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
++	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
++	at java.lang.reflect.Method.invoke(Method.java:597)
++	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
++	at org.apache.tools.ant.Task.perform(Task.java:348)
++	at org.apache.tools.ant.Target.execute(Target.java:392)
++	at org.apache.tools.ant.Target.performTasks(Target.java:413)
++	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1399)
++	at org.apache.tools.ant.Project.executeTarget(Project.java:1368)
++	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
++	at org.apache.tools.ant.Project.executeTargets(Project.java:1251)
++	at org.apache.tools.ant.Main.runBuild(Main.java:811)
++	at org.apache.tools.ant.Main.startAnt(Main.java:217)
++	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:280)
++	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:109)
++Caused by: java.lang.RuntimeException: bad WeaverState.Kind: -115.  File was :<Unknown>::0
++	at org.aspectj.weaver.WeaverStateInfo.read(WeaverStateInfo.java:170)
++	at org.aspectj.weaver.AjAttribute.read(AjAttribute.java:105)
++	at org.aspectj.weaver.bcel.Utility.readAjAttributes(Utility.java:101)
++	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:381)
++	... 31 more
++---- System Properties ---
++java.runtime.name=Java(TM) SE Runtime Environment
++sun.boot.library.path=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries
++java.vm.version=20.12-b01-434
++awt.nativeDoubleBuffering=true
++ant.library.dir=/usr/share/ant/lib
++gopherProxySet=false
++mrj.build=10M3909
++java.vm.vendor=Apple Inc.
++java.vendor.url=http://www.apple.com/
++path.separator=:
++java.vm.name=Java HotSpot(TM) 64-Bit Server VM
++file.encoding.pkg=sun.io
++sun.java.launcher=SUN_STANDARD
++user.country=US
++sun.os.patch.level=unknown
++java.vm.specification.name=Java Virtual Machine Specification
++user.dir=/Users/tserban2/Documents/javamop/examples/Monitored
++java.runtime.version=1.6.0_37-b06-434-10M3909
++java.awt.graphicsenv=apple.awt.CGraphicsEnvironment
++java.endorsed.dirs=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed
++os.arch=x86_64
++java.io.tmpdir=/var/folders/Jt/JtzI2k5CEvaa42LetgMGHE+++TI/-Tmp-/
++line.separator=
++
++java.vm.specification.vendor=Sun Microsystems Inc.
++os.name=Mac OS X
++ant.home=/usr/share/ant
++sun.jnu.encoding=MacRoman
++java.library.path=.:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
++java.specification.name=Java Platform API Specification
++java.class.version=50.0
++sun.management.compiler=HotSpot 64-Bit Tiered Compilers
++os.version=10.6.8
++http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
++user.home=/Users/tserban2
++user.timezone=Europe/Istanbul
++java.awt.printerjob=apple.awt.CPrinterJob
++file.encoding=MacRoman
++java.specification.version=1.6
++java.class.path=/usr/share/ant/lib/ant-launcher.jar:/usr/local/aspectj1.6/lib/aspectjrt.jar:/usr/share/ant/lib/ant-antlr.jar:/usr/share/ant/lib/ant-apache-bcel.jar:/usr/share/ant/lib/ant-apache-bsf.jar:/usr/share/ant/lib/ant-apache-log4j.jar:/usr/share/ant/lib/ant-apache-oro.jar:/usr/share/ant/lib/ant-apache-regexp.jar:/usr/share/ant/lib/ant-apache-resolver.jar:/usr/share/ant/lib/ant-apache-xalan2.jar:/usr/share/ant/lib/ant-commons-logging.jar:/usr/share/ant/lib/ant-commons-net.jar:/usr/share/ant/lib/ant-jai.jar:/usr/share/ant/lib/ant-javamail.jar:/usr/share/ant/lib/ant-jdepend.jar:/usr/share/ant/lib/ant-jmf.jar:/usr/share/ant/lib/ant-jsch.jar:/usr/share/ant/lib/ant-junit.jar:/usr/share/ant/lib/ant-junit4.jar:/usr/share/ant/lib/ant-launcher.jar:/usr/share/ant/lib/ant-netrexx.jar:/usr/share/ant/lib/ant-swing.jar:/usr/share/ant/lib/ant-testutil.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/aspectjtools.jar
++user.name=tserban2
++java.vm.specification.version=1.0
++sun.java.command=org.apache.tools.ant.launch.Launcher -cp /usr/local/aspectj1.6/lib/aspectjrt.jar: debug
++java.home=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
++sun.arch.data.model=64
++user.language=en
++java.specification.vendor=Sun Microsystems Inc.
++awt.toolkit=apple.awt.CToolkit
++java.vm.info=mixed mode
++java.version=1.6.0_37
++java.ext.dirs=/Library/Java/Extensions:/System/Library/Java/Extensions:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext
++sun.boot.class.path=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
++java.vendor=Apple Inc.
++file.separator=/
++java.vendor.url.bug=http://bugreport.apple.com/
++sun.io.unicode.encoding=UnicodeLittle
++sun.cpu.endian=little
++mrj.version=1060.1.6.0_37-434
++socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16
++jikes.class.path=:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/alt-rt.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/alt-string.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/charsets.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/classes.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/dt.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/jconsole.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/management-agent.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/ui.jar
++ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
++sun.cpu.isalist=
++---- Command Line ---
++-d
++/Users/tserban2/Documents/javamop/examples/Monitored/bin/classes
++-source
++1.6
++-classpath
++/Developer/SDKs/android-sdk-macosx/tools/support/annotations.jar:/Users/tserban2/Documents/javamop/examples/Monitored/libs/aspectjrt.jar:/Users/tserban2/Documents/javamop/examples/Monitored/libs/javamoprt.jar:/Developer/SDKs/android-sdk-macosx/platforms/android-16/android.jar
++-inpath
++/Users/tserban2/Documents/javamop/examples/Monitored/bin/classes
++/Users/tserban2/Documents/javamop/examples/Monitored/aspects/SetOnPreparedListenerMonitorAspect.aj
++---- Full Classpath ---
++Empty
++---- Compiler Messages ---
++info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar
++info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar
++info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar
++abort ABORT -- (RuntimeException) Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
++Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
++java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
++	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:385)
++	at org.aspectj.weaver.bcel.BcelObjectType.<init>(BcelObjectType.java:162)
++	at org.aspectj.weaver.bcel.BcelWorld.buildBcelDelegate(BcelWorld.java:394)
++	at org.aspectj.weaver.bcel.BcelWorld.addSourceObjectType(BcelWorld.java:474)
++	at org.aspectj.weaver.bcel.BcelWorld.addSourceObjectType(BcelWorld.java:440)
++	at org.aspectj.weaver.bcel.BcelWeaver.addClassFile(BcelWeaver.java:455)
++	at org.aspectj.weaver.bcel.BcelWeaver.addClassFile(BcelWeaver.java:479)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.initBcelWorld(AjBuildManager.java:900)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:248)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:184)
++	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
++	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
++	at org.aspectj.tools.ajc.Main.run(Main.java:371)
++	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
++	at org.aspectj.tools.ant.taskdefs.AjcTask.executeInSameVM(AjcTask.java:1240)
++	at org.aspectj.tools.ant.taskdefs.AjcTask.execute(AjcTask.java:1050)
++	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
++	at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
++	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
++	at java.lang.reflect.Method.invoke(Method.java:597)
++	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
++	at org.apache.tools.ant.Task.perform(Task.java:348)
++	at org.apache.tools.ant.Target.execute(Target.java:392)
++	at org.apache.tools.ant.Target.performTasks(Target.java:413)
++	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1399)
++	at org.apache.tools.ant.Project.executeTarget(Project.java:1368)
++	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
++	at org.apache.tools.ant.Project.executeTargets(Project.java:1251)
++	at org.apache.tools.ant.Main.runBuild(Main.java:811)
++	at org.apache.tools.ant.Main.startAnt(Main.java:217)
++	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:280)
++	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:109)
++Caused by: java.lang.RuntimeException: bad WeaverState.Kind: -115.  File was :<Unknown>::0
++	at org.aspectj.weaver.WeaverStateInfo.read(WeaverStateInfo.java:170)
++	at org.aspectj.weaver.AjAttribute.read(AjAttribute.java:105)
++	at org.aspectj.weaver.bcel.Utility.readAjAttributes(Utility.java:101)
++	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:381)
++	... 31 more
++
+diff -uN ~/Downloads/Monitored/ajcore.20121113.112011.494.txt Monitored/ajcore.20121113.112011.494.txt
+--- ~/Downloads/Monitored/ajcore.20121113.112011.494.txt	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/ajcore.20121113.112011.494.txt	2012-11-13 11:20:11.000000000 +0200
+@@ -0,0 +1,168 @@
++---- AspectJ Properties ---
++AspectJ Compiler 1.6.12 built on Tuesday Oct 18, 2011 at 17:52:06 GMT
++---- Dump Properties ---
++Dump file: ajcore.20121113.112011.494.txt
++Dump reason: java.lang.RuntimeException
++Dump on exception: true
++Dump at exit condition: abort
++---- Exception Information ---
++java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
++	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:385)
++	at org.aspectj.weaver.bcel.BcelObjectType.<init>(BcelObjectType.java:162)
++	at org.aspectj.weaver.bcel.BcelWorld.buildBcelDelegate(BcelWorld.java:394)
++	at org.aspectj.weaver.bcel.BcelWorld.addSourceObjectType(BcelWorld.java:474)
++	at org.aspectj.weaver.bcel.BcelWorld.addSourceObjectType(BcelWorld.java:440)
++	at org.aspectj.weaver.bcel.BcelWeaver.addClassFile(BcelWeaver.java:455)
++	at org.aspectj.weaver.bcel.BcelWeaver.addClassFile(BcelWeaver.java:479)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.initBcelWorld(AjBuildManager.java:900)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:248)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:184)
++	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
++	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
++	at org.aspectj.tools.ajc.Main.run(Main.java:371)
++	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
++	at org.aspectj.tools.ant.taskdefs.AjcTask.executeInSameVM(AjcTask.java:1240)
++	at org.aspectj.tools.ant.taskdefs.AjcTask.execute(AjcTask.java:1050)
++	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
++	at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
++	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
++	at java.lang.reflect.Method.invoke(Method.java:597)
++	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
++	at org.apache.tools.ant.Task.perform(Task.java:348)
++	at org.apache.tools.ant.Target.execute(Target.java:392)
++	at org.apache.tools.ant.Target.performTasks(Target.java:413)
++	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1399)
++	at org.apache.tools.ant.Project.executeTarget(Project.java:1368)
++	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
++	at org.apache.tools.ant.Project.executeTargets(Project.java:1251)
++	at org.apache.tools.ant.Main.runBuild(Main.java:811)
++	at org.apache.tools.ant.Main.startAnt(Main.java:217)
++	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:280)
++	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:109)
++Caused by: java.lang.RuntimeException: bad WeaverState.Kind: -115.  File was :<Unknown>::0
++	at org.aspectj.weaver.WeaverStateInfo.read(WeaverStateInfo.java:170)
++	at org.aspectj.weaver.AjAttribute.read(AjAttribute.java:105)
++	at org.aspectj.weaver.bcel.Utility.readAjAttributes(Utility.java:101)
++	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:381)
++	... 31 more
++---- System Properties ---
++java.runtime.name=Java(TM) SE Runtime Environment
++sun.boot.library.path=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries
++java.vm.version=20.12-b01-434
++awt.nativeDoubleBuffering=true
++ant.library.dir=/usr/share/ant/lib
++gopherProxySet=false
++mrj.build=10M3909
++java.vm.vendor=Apple Inc.
++java.vendor.url=http://www.apple.com/
++path.separator=:
++java.vm.name=Java HotSpot(TM) 64-Bit Server VM
++file.encoding.pkg=sun.io
++sun.java.launcher=SUN_STANDARD
++user.country=US
++sun.os.patch.level=unknown
++java.vm.specification.name=Java Virtual Machine Specification
++user.dir=/Users/tserban2/Documents/javamop/examples/Monitored
++java.runtime.version=1.6.0_37-b06-434-10M3909
++java.awt.graphicsenv=apple.awt.CGraphicsEnvironment
++java.endorsed.dirs=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed
++os.arch=x86_64
++java.io.tmpdir=/var/folders/Jt/JtzI2k5CEvaa42LetgMGHE+++TI/-Tmp-/
++line.separator=
++
++java.vm.specification.vendor=Sun Microsystems Inc.
++os.name=Mac OS X
++ant.home=/usr/share/ant
++sun.jnu.encoding=MacRoman
++java.library.path=.:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
++java.specification.name=Java Platform API Specification
++java.class.version=50.0
++sun.management.compiler=HotSpot 64-Bit Tiered Compilers
++os.version=10.6.8
++http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
++user.home=/Users/tserban2
++user.timezone=Europe/Istanbul
++java.awt.printerjob=apple.awt.CPrinterJob
++file.encoding=MacRoman
++java.specification.version=1.6
++java.class.path=/usr/share/ant/lib/ant-launcher.jar:/usr/local/aspectj1.6/lib/aspectjrt.jar:/usr/share/ant/lib/ant-antlr.jar:/usr/share/ant/lib/ant-apache-bcel.jar:/usr/share/ant/lib/ant-apache-bsf.jar:/usr/share/ant/lib/ant-apache-log4j.jar:/usr/share/ant/lib/ant-apache-oro.jar:/usr/share/ant/lib/ant-apache-regexp.jar:/usr/share/ant/lib/ant-apache-resolver.jar:/usr/share/ant/lib/ant-apache-xalan2.jar:/usr/share/ant/lib/ant-commons-logging.jar:/usr/share/ant/lib/ant-commons-net.jar:/usr/share/ant/lib/ant-jai.jar:/usr/share/ant/lib/ant-javamail.jar:/usr/share/ant/lib/ant-jdepend.jar:/usr/share/ant/lib/ant-jmf.jar:/usr/share/ant/lib/ant-jsch.jar:/usr/share/ant/lib/ant-junit.jar:/usr/share/ant/lib/ant-junit4.jar:/usr/share/ant/lib/ant-launcher.jar:/usr/share/ant/lib/ant-netrexx.jar:/usr/share/ant/lib/ant-swing.jar:/usr/share/ant/lib/ant-testutil.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/aspectjtools.jar
++user.name=tserban2
++java.vm.specification.version=1.0
++sun.java.command=org.apache.tools.ant.launch.Launcher -cp /usr/local/aspectj1.6/lib/aspectjrt.jar: debug install
++java.home=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
++sun.arch.data.model=64
++user.language=en
++java.specification.vendor=Sun Microsystems Inc.
++awt.toolkit=apple.awt.CToolkit
++java.vm.info=mixed mode
++java.version=1.6.0_37
++java.ext.dirs=/Library/Java/Extensions:/System/Library/Java/Extensions:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext
++sun.boot.class.path=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
++java.vendor=Apple Inc.
++file.separator=/
++java.vendor.url.bug=http://bugreport.apple.com/
++sun.io.unicode.encoding=UnicodeLittle
++sun.cpu.endian=little
++mrj.version=1060.1.6.0_37-434
++socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16
++jikes.class.path=:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/alt-rt.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/alt-string.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/charsets.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/classes.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/dt.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/jconsole.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/management-agent.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/../Classes/ui.jar
++ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16
++sun.cpu.isalist=
++---- Command Line ---
++-d
++/Users/tserban2/Documents/javamop/examples/Monitored/bin/classes
++-source
++1.6
++-classpath
++/Developer/SDKs/android-sdk-macosx/tools/support/annotations.jar:/Users/tserban2/Documents/javamop/examples/Monitored/libs/aspectjrt.jar:/Users/tserban2/Documents/javamop/examples/Monitored/libs/javamoprt.jar:/Developer/SDKs/android-sdk-macosx/platforms/android-16/android.jar
++-inpath
++/Users/tserban2/Documents/javamop/examples/Monitored/bin/classes
++/Users/tserban2/Documents/javamop/examples/Monitored/aspects/com/example/myapp/SetOnPreparedListenerMonitorAspect.aj
++---- Full Classpath ---
++Empty
++---- Compiler Messages ---
++info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar
++info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar
++info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar
++abort ABORT -- (RuntimeException) Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
++Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
++java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
++	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:385)
++	at org.aspectj.weaver.bcel.BcelObjectType.<init>(BcelObjectType.java:162)
++	at org.aspectj.weaver.bcel.BcelWorld.buildBcelDelegate(BcelWorld.java:394)
++	at org.aspectj.weaver.bcel.BcelWorld.addSourceObjectType(BcelWorld.java:474)
++	at org.aspectj.weaver.bcel.BcelWorld.addSourceObjectType(BcelWorld.java:440)
++	at org.aspectj.weaver.bcel.BcelWeaver.addClassFile(BcelWeaver.java:455)
++	at org.aspectj.weaver.bcel.BcelWeaver.addClassFile(BcelWeaver.java:479)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.initBcelWorld(AjBuildManager.java:900)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:248)
++	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:184)
++	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
++	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
++	at org.aspectj.tools.ajc.Main.run(Main.java:371)
++	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
++	at org.aspectj.tools.ant.taskdefs.AjcTask.executeInSameVM(AjcTask.java:1240)
++	at org.aspectj.tools.ant.taskdefs.AjcTask.execute(AjcTask.java:1050)
++	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
++	at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
++	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
++	at java.lang.reflect.Method.invoke(Method.java:597)
++	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
++	at org.apache.tools.ant.Task.perform(Task.java:348)
++	at org.apache.tools.ant.Target.execute(Target.java:392)
++	at org.apache.tools.ant.Target.performTasks(Target.java:413)
++	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1399)
++	at org.apache.tools.ant.Project.executeTarget(Project.java:1368)
++	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
++	at org.apache.tools.ant.Project.executeTargets(Project.java:1251)
++	at org.apache.tools.ant.Main.runBuild(Main.java:811)
++	at org.apache.tools.ant.Main.startAnt(Main.java:217)
++	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:280)
++	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:109)
++Caused by: java.lang.RuntimeException: bad WeaverState.Kind: -115.  File was :<Unknown>::0
++	at org.aspectj.weaver.WeaverStateInfo.read(WeaverStateInfo.java:170)
++	at org.aspectj.weaver.AjAttribute.read(AjAttribute.java:105)
++	at org.aspectj.weaver.bcel.Utility.readAjAttributes(Utility.java:101)
++	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:381)
++	... 31 more
++
+diff -uN ~/Downloads/Monitored/ant.properties Monitored/ant.properties
+--- ~/Downloads/Monitored/ant.properties	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/ant.properties	2012-07-20 05:05:52.000000000 +0300
+@@ -0,0 +1,16 @@
++# This file is used to override default values used by the Ant build system.
++#
++# This file must be checked into Version Control Systems, as it is
++# integral to the build system of your project.
++
++# This file is only used by the Ant script.
++
++# You can use this to override default values such as
++#  'source.dir' for the location of your java source folder and
++#  'out.dir' for the location of your output folder.
++
++# You can also use it define how the release builds are signed by declaring
++# the following properties:
++#  'key.store' for the location of your keystore and
++#  'key.alias' for the name of the key to use.
++# The password will be asked during the build when you use the 'release' target.
+Common subdirectories: ~/Downloads/Monitored/aspects and Monitored/aspects
+diff -uN ~/Downloads/Monitored/bak.aj Monitored/bak.aj
+--- ~/Downloads/Monitored/bak.aj	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/bak.aj	2012-07-26 10:50:15.000000000 +0300
+@@ -0,0 +1,270 @@
++
++import android.media.MediaPlayer;
++import android.util.Log;
++import java.util.*;
++import javamoprt.*;
++import java.lang.ref.*;
++import org.aspectj.lang.*;
++
++class SetOnPreparedListenerMonitor_Set extends javamoprt.MOPSet {
++	protected SetOnPreparedListenerMonitor[] elementData;
++
++	public SetOnPreparedListenerMonitor_Set(){
++		this.size = 0;
++		this.elementData = new SetOnPreparedListenerMonitor[4];
++	}
++
++	public final int size(){
++		while(size > 0 && elementData[size-1].MOP_terminated) {
++			elementData[--size] = null;
++		}
++		return size;
++	}
++
++	public final boolean add(MOPMonitor e){
++		ensureCapacity();
++		elementData[size++] = (SetOnPreparedListenerMonitor)e;
++		return true;
++	}
++
++	public final void endObject(int idnum){
++		int numAlive = 0;
++		for(int i = 0; i < size; i++){
++			SetOnPreparedListenerMonitor monitor = elementData[i];
++			if(!monitor.MOP_terminated){
++				monitor.endObject(idnum);
++			}
++			if(!monitor.MOP_terminated){
++				elementData[numAlive++] = monitor;
++			}
++		}
++		for(int i = numAlive; i < size; i++){
++			elementData[i] = null;
++		}
++		size = numAlive;
++	}
++
++	public final boolean alive(){
++		for(int i = 0; i < size; i++){
++			MOPMonitor monitor = elementData[i];
++			if(!monitor.MOP_terminated){
++				return true;
++			}
++		}
++		return false;
++	}
++
++	public final void endObjectAndClean(int idnum){
++		int size = this.size;
++		this.size = 0;
++		for(int i = size - 1; i >= 0; i--){
++			MOPMonitor monitor = elementData[i];
++			if(monitor != null && !monitor.MOP_terminated){
++				monitor.endObject(idnum);
++			}
++			elementData[i] = null;
++		}
++		elementData = null;
++	}
++
++	public final void ensureCapacity() {
++		int oldCapacity = elementData.length;
++		if (size + 1 > oldCapacity) {
++			cleanup();
++		}
++		if (size + 1 > oldCapacity) {
++			SetOnPreparedListenerMonitor[] oldData = elementData;
++			int newCapacity = (oldCapacity * 3) / 2 + 1;
++			if (newCapacity < size + 1){
++				newCapacity = size + 1;
++			}
++			elementData = Arrays.copyOf(oldData, newCapacity);
++		}
++	}
++
++	public final void cleanup() {
++		int numAlive = 0 ;
++		for(int i = 0; i < size; i++){
++			SetOnPreparedListenerMonitor monitor = (SetOnPreparedListenerMonitor)elementData[i];
++			if(!monitor.MOP_terminated){
++				elementData[numAlive] = monitor;
++				numAlive++;
++			}
++		}
++		for(int i = numAlive; i < size; i++){
++			elementData[i] = null;
++		}
++		size = numAlive;
++	}
++
++	public final void event_setOnPreparedListener() {
++		int numAlive = 0 ;
++		for(int i = 0; i < this.size; i++){
++			SetOnPreparedListenerMonitor monitor = (SetOnPreparedListenerMonitor)this.elementData[i];
++			if(!monitor.MOP_terminated){
++				elementData[numAlive] = monitor;
++				numAlive++;
++
++				monitor.Prop_1_event_setOnPreparedListener();
++				if(monitor.Prop_1_Category_violation) {
++					monitor.Prop_1_handler_violation();
++				}
++			}
++		}
++		for(int i = numAlive; i < this.size; i++){
++			this.elementData[i] = null;
++		}
++		size = numAlive;
++	}
++
++	public final void event_start() {
++		int numAlive = 0 ;
++		for(int i = 0; i < this.size; i++){
++			SetOnPreparedListenerMonitor monitor = (SetOnPreparedListenerMonitor)this.elementData[i];
++			if(!monitor.MOP_terminated){
++				elementData[numAlive] = monitor;
++				numAlive++;
++
++				monitor.Prop_1_event_start();
++				if(monitor.Prop_1_Category_violation) {
++					monitor.Prop_1_handler_violation();
++				}
++			}
++		}
++		for(int i = numAlive; i < this.size; i++){
++			this.elementData[i] = null;
++		}
++		size = numAlive;
++	}
++}
++
++class SetOnPreparedListenerMonitor extends javamoprt.MOPMonitor implements Cloneable, javamoprt.MOPObject {
++	public Object clone() {
++		try {
++			SetOnPreparedListenerMonitor ret = (SetOnPreparedListenerMonitor) super.clone();
++			return ret;
++		}
++		catch (CloneNotSupportedException e) {
++			throw new InternalError(e.toString());
++		}
++	}
++
++	int Prop_1_state;
++	static final int Prop_1_transition_setOnPreparedListener[] = {1, 1, 3, 3};;
++	static final int Prop_1_transition_start[] = {2, 0, 3, 3};;
++
++	boolean Prop_1_Category_violation = false;
++
++	public SetOnPreparedListenerMonitor () {
++		Prop_1_state = 0;
++
++	}
++
++	public final void Prop_1_event_setOnPreparedListener() {
++		MOP_lastevent = 0;
++
++		Prop_1_state = Prop_1_transition_setOnPreparedListener[Prop_1_state];
++		Prop_1_Category_violation = Prop_1_state == 2;
++	}
++
++	public final void Prop_1_event_start() {
++		MOP_lastevent = 1;
++
++		Prop_1_state = Prop_1_transition_start[Prop_1_state];
++		Prop_1_Category_violation = Prop_1_state == 2;
++	}
++
++	public final void Prop_1_handler_violation (){
++		{
++			for (int i = 0; i < 40; ++i) {
++				Log.e("SetOnPreparedListener", "setOnPreparedListener was not called before media player was started!");
++			}
++		}
++
++	}
++
++	public final void reset() {
++		MOP_lastevent = -1;
++		Prop_1_state = 0;
++		Prop_1_Category_violation = false;
++	}
++
++	public final void endObject(int idnum){
++		switch(idnum){
++		}
++		switch(MOP_lastevent) {
++			case -1:
++			return;
++			case 0:
++			//setOnPreparedListener
++			return;
++			case 1:
++			//start
++			return;
++		}
++		return;
++	}
++
++}
++
++public aspect SetOnPreparedListenerMonitorAspect implements javamoprt.MOPObject {
++	javamoprt.map.MOPMapManager SetOnPreparedListenerMapManager;
++	public SetOnPreparedListenerMonitorAspect(){
++		SetOnPreparedListenerMapManager = new javamoprt.map.MOPMapManager();
++		SetOnPreparedListenerMapManager.start();
++	}
++
++	// Declarations for the Lock
++	static Object SetOnPreparedListener_MOPLock = new Object();
++
++	static boolean SetOnPreparedListener_activated = false;
++
++	// Declarations for Indexing Trees
++	static SetOnPreparedListenerMonitor SetOnPreparedListener_Monitor = new SetOnPreparedListenerMonitor();
++
++	// Trees for References
++
++	pointcut MOP_CommonPointCut() : !within(javamoprt.MOPObject+) && !adviceexecution();
++	pointcut SetOnPreparedListener_setOnPreparedListener() : (call(void MediaPlayer.setOnPreparedListener(..))) && MOP_CommonPointCut();
++	after () : SetOnPreparedListener_setOnPreparedListener() {
++		SetOnPreparedListener_activated = true;
++		synchronized(SetOnPreparedListener_MOPLock) {
++			SetOnPreparedListenerMonitor mainMonitor = null;
++
++			mainMonitor = SetOnPreparedListener_Monitor;
++
++			if (mainMonitor == null) {
++				mainMonitor = new SetOnPreparedListenerMonitor();
++
++				SetOnPreparedListener_Monitor = mainMonitor;
++			}
++
++			mainMonitor.Prop_1_event_setOnPreparedListener();
++			if(mainMonitor.Prop_1_Category_violation) {
++				mainMonitor.Prop_1_handler_violation();
++			}
++		}
++	}
++
++	pointcut SetOnPreparedListener_start() : (call(void MediaPlayer.start())) && MOP_CommonPointCut();
++	before () : SetOnPreparedListener_start() {
++		SetOnPreparedListener_activated = true;
++		synchronized(SetOnPreparedListener_MOPLock) {
++			SetOnPreparedListenerMonitor mainMonitor = null;
++
++			mainMonitor = SetOnPreparedListener_Monitor;
++
++			if (mainMonitor == null) {
++				mainMonitor = new SetOnPreparedListenerMonitor();
++
++				SetOnPreparedListener_Monitor = mainMonitor;
++			}
++
++			mainMonitor.Prop_1_event_start();
++			if(mainMonitor.Prop_1_Category_violation) {
++				mainMonitor.Prop_1_handler_violation();
++			}
++		}
++	}
++
++}
+Common subdirectories: ~/Downloads/Monitored/bak_res and Monitored/bak_res
+Common subdirectories: ~/Downloads/Monitored/bin and Monitored/bin
+diff -uN ~/Downloads/Monitored/build.xml Monitored/build.xml
+--- ~/Downloads/Monitored/build.xml	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/build.xml	2012-10-30 21:08:02.000000000 +0200
+@@ -0,0 +1,92 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project name="MonitoredApp" default="help">
++
++    <!-- The local.properties file is created and updated by the 'android' tool.
++         It contains the path to the SDK. It should *NOT* be checked into
++         Version Control Systems. -->
++    <property file="local.properties" />
++
++    <!-- The ant.properties file can be created by you. It is only edited by the
++         'android' tool to add properties to it.
++         This is the place to change some Ant specific build properties.
++         Here are some properties you may want to change/update:
++
++         source.dir
++             The name of the source directory. Default is 'src'.
++         out.dir
++             The name of the output directory. Default is 'bin'.
++
++         For other overridable properties, look at the beginning of the rules
++         files in the SDK, at tools/ant/build.xml
++
++         Properties related to the SDK location or the project target should
++         be updated using the 'android' tool with the 'update' action.
++
++         This file is an integral part of the build system for your
++         application and should be checked into Version Control Systems.
++
++         -->
++    <property file="ant.properties" />
++
++    <!-- if sdk.dir was not set from one of the property file, then
++         get it from the ANDROID_HOME env var.
++         This must be done before we load project.properties since
++         the proguard config can use sdk.dir -->
++    <property environment="env" />
++    <condition property="sdk.dir" value="${env.ANDROID_HOME}">
++        <isset property="env.ANDROID_HOME" />
++    </condition>
++
++    <!-- The project.properties file is created and updated by the 'android'
++         tool, as well as ADT.
++
++         This contains project specific properties such as project target, and library
++         dependencies. Lower level build properties are stored in ant.properties
++         (or in .classpath for Eclipse projects).
++
++         This file is an integral part of the build system for your
++         application and should be checked into Version Control Systems. -->
++    <loadproperties srcFile="project.properties" />
++
++    <!-- quick check on sdk.dir -->
++    <fail
++            message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through the ANDROID_HOME environment variable."
++            unless="sdk.dir"
++    />
++
++    <!--
++        Import per project custom build rules if present at the root of the project.
++        This is the place to put custom intermediary targets such as:
++            -pre-build
++            -pre-compile
++            -post-compile (This is typically used for code obfuscation.
++                           Compiled code location: ${out.classes.absolute.dir}
++                           If this is not done in place, override ${out.dex.input.absolute.dir})
++            -post-package
++            -post-build
++            -pre-clean
++    -->
++    <import file="custom_rules.xml" optional="true" />
++
++    <!-- Import the actual build file.
++
++         To customize existing targets, there are two options:
++         - Customize only one target:
++             - copy/paste the target into this file, *before* the
++               <import> task.
++             - customize it to your needs.
++         - Customize the whole content of build.xml
++             - copy/paste the content of the rules files (minus the top node)
++               into this file, replacing the <import> task.
++             - customize to your needs.
++
++         ***********************
++         ****** IMPORTANT ******
++         ***********************
++         In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
++         in order to avoid having your file be overridden by tools such as "android update project"
++    -->
++    <!-- version-tag: 1 -->
++    <import file="${sdk.dir}/tools/ant/build.xml" />
++
++</project>
+diff -uN ~/Downloads/Monitored/custom_rules.xml Monitored/custom_rules.xml
+--- ~/Downloads/Monitored/custom_rules.xml	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/custom_rules.xml	2012-07-20 05:06:38.000000000 +0300
+@@ -0,0 +1,18 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project name="custom_rules">
++
++  <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties"/>
++
++  <target name="-post-compile">
++    <path id="project.ajc.classpath">
++      <path refid="project.javac.classpath" />
++      <pathelement location="${sdk.dir}/platforms/android-16/android.jar" />
++    </path>
++    <echo> Weaving Aspects </echo>
++    <iajc srcdir="./aspects" 
++          inpath="./bin/classes/" 
++          destdir="./bin/classes/"
++          classpathref="project.ajc.classpath"
++          source="1.6" />
++  </target>
++</project>
+Common subdirectories: ~/Downloads/Monitored/gen and Monitored/gen
+Common subdirectories: ~/Downloads/Monitored/libs and Monitored/libs
+diff -uN ~/Downloads/Monitored/local.properties Monitored/local.properties
+--- ~/Downloads/Monitored/local.properties	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/local.properties	2012-10-31 22:29:49.000000000 +0200
+@@ -0,0 +1,10 @@
++# This file is automatically generated by Android Tools.
++# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
++#
++# This file must *NOT* be checked into Version Control Systems,
++# as it contains information specific to your local configuration.
++
++# location of the SDK. This is only used by Ant
++# For customization when using a Version Control System, please read the
++# header note.
++sdk.dir=/Developer/SDKs/android-sdk-macosx
+Common subdirectories: ~/Downloads/Monitored/mop_properties and Monitored/mop_properties
+diff -uN ~/Downloads/Monitored/proguard-project.txt Monitored/proguard-project.txt
+--- ~/Downloads/Monitored/proguard-project.txt	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/proguard-project.txt	2012-07-17 03:42:05.000000000 +0300
+@@ -0,0 +1,20 @@
++# To enable ProGuard in your project, edit project.properties
++# to define the proguard.config property as described in that file.
++#
++# Add project specific ProGuard rules here.
++# By default, the flags in this file are appended to flags specified
++# in ${sdk.dir}/tools/proguard/proguard-android.txt
++# You can edit the include path and order by changing the ProGuard
++# include property in project.properties.
++#
++# For more details, see
++#   http://developer.android.com/guide/developing/tools/proguard.html
++
++# Add any project specific keep options here:
++
++# If your project uses WebView with JS, uncomment the following
++# and specify the fully qualified class name to the JavaScript interface
++# class:
++#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
++#   public *;
++#}
+diff -uN ~/Downloads/Monitored/project.properties Monitored/project.properties
+--- ~/Downloads/Monitored/project.properties	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/project.properties	2012-07-17 03:42:05.000000000 +0300
+@@ -0,0 +1,14 @@
++# This file is automatically generated by Android Tools.
++# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
++#
++# This file must be checked in Version Control Systems.
++#
++# To customize properties used by the Ant build system edit
++# "ant.properties", and override values to adapt the script to your
++# project structure.
++#
++# To enable ProGuard to shrink and obfuscate your code, uncomment this (available properties: sdk.dir, user.home):
++#proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
++
++# Project target.
++target=android-16
+Common subdirectories: ~/Downloads/Monitored/res and Monitored/res
+Common subdirectories: ~/Downloads/Monitored/src and Monitored/src
+diff -uN ~/Downloads/Monitored/tmpMonitorAspect.log Monitored/tmpMonitorAspect.log
+--- ~/Downloads/Monitored/tmpMonitorAspect.log	1970-01-01 02:00:00.000000000 +0200
++++ Monitored/tmpMonitorAspect.log	2012-09-10 23:04:37.000000000 +0300
+@@ -0,0 +1,20 @@
++This is METAFONT, Version 2.718281 (TeX Live 2011) (base=mf 2011.7.3)  10 SEP 2012 15:04
++**aspects/tmpMonitorAspect.aj
++(aspects/tmpMonitorAspect.aj
++>> import.android.media.MediaPlayer
++! Isolated expression.
++<to be read again> 
++                   ;
++l.2 import android.media.MediaPlayer;
++                                     
++? 
++! Interruption.
++l.2 import android.media.MediaPlayer;
++                                     
++? 
++! Emergency stop.
++l.2 import android.media.MediaPlayer;
++                                     
++End of file on the terminal!
++
++
