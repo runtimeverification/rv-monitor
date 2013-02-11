@@ -10,11 +10,11 @@ public class SafeFileWriter_1 {
 		FileWriter fw_4=null;
 		FileWriter fw_5=null;
 		try{
-			fw_1 = new FileWriter(File.createTempFile("javamoptest1", ".tmp"));
-			fw_2 = new FileWriter(File.createTempFile("javamoptest2", ".tmp"));
-			fw_3 = new FileWriter(File.createTempFile("javamoptest3", ".tmp"));
-			fw_4 = new FileWriter(File.createTempFile("javamoptest4", ".tmp"));
-			fw_5 = new FileWriter(File.createTempFile("javamoptest5", ".tmp"));
+			fw_1 = new FileWriter(File.createTempFile("rvmonitortest1", ".tmp"));
+			fw_2 = new FileWriter(File.createTempFile("rvmonitortest2", ".tmp"));
+			fw_3 = new FileWriter(File.createTempFile("rvmonitortest3", ".tmp"));
+			fw_4 = new FileWriter(File.createTempFile("rvmonitortest4", ".tmp"));
+			fw_5 = new FileWriter(File.createTempFile("rvmonitortest5", ".tmp"));
 
 			fw_1.write("testing\n");
 			fw_2.write("testing\n");

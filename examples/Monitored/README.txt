@@ -76,17 +76,17 @@ Make a directory called aspects.  This is where we will put JavaMOP compiled
 aspects.  You may also put properties there if you wish.  Ajc is smart enough
 to only compile .aj files.
 
-JavaMOP properties must be hand compiled using the javamop command line tool.
+JavaMOP properties must be hand compiled using the rvmonitor command line tool.
 The easiest way to do this is just to issue the command:
 
-$javamop <file>.mop
+$rvmonitor <file>.mop
 
 Which will generate an .aj file in the same directory as the mop file.  Make
 sure to copy the .aj file to the aspect directory.  Any aj files in the aspect
 directory will be weaved.  In general, rather than having a file to turn off
 monitors, we prefer to use selective weaving, for performance reasons.
 
-I may add a javamop ant task, but, in general, it is not necessary to 
+I may add a rvmonitor ant task, but, in general, it is not necessary to
 regenerate aj files all that often, while the weaving step must happen
 every time.
 

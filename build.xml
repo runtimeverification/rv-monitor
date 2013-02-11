@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="javamop" default="jar" basedir=".">
+<project name="rvmonitor" default="jar" basedir=".">
         <property name="bin" value="bin" />
         <property name="build" value="build" />
         <property name="lib" value="lib" />
@@ -21,10 +21,10 @@
         </taskdef>
 
         <!-- redefined these if you change the directory names -->
-        <property name="javamop" value="javamop" />
+        <property name="rvmonitor" value="rvmonitor" />
         <property name="lr" value="logicrepository" />
-        <property name="test" value="javamoptestsuite" />
-        <property name="javamoprt" value="javamoprt" />
+        <property name="test" value="rvmonitortestsuite" />
+        <property name="rvmonitorrt" value="rvmonitorrt" />
 
         <target name="init">
                 <mkdir dir="${build}" />
@@ -37,7 +37,7 @@
                 </delete>
                 <delete verbose="true">
                         <fileset dir="${lib}">
-                                <include name="${javamop}.jar" />
+                                <include name="${rvmonitor}.jar" />
                                 <include name="${lr}.jar" />
                                 <include name="${test}.jr" />
                         </fileset>
@@ -66,8 +66,8 @@
         </target>
 
         <target name="jar" depends="compile">
-                <jar destfile="${lib}/${javamop}.jar" basedir="${build}" includes="${javamop}/**" />
-                <jar destfile="${lib}/${javamoprt}.jar" basedir="${build}" includes="${javamoprt}/**" />
+                <jar destfile="${lib}/${rvmonitor}.jar" basedir="${build}" includes="${rvmonitor}/**" />
+                <jar destfile="${lib}/${rvmonitorrt}.jar" basedir="${build}" includes="${rvmonitorrt}/**" />
                 <jar destfile="${lib}/${lr}.jar" basedir="${build}">
                         <include name="${lr}/*" />
                         <include name="${lr}/parser/**" />
@@ -87,6 +87,6 @@
         </target>
 
         <!---   
-        <target name="jar" depends="javamop, test, plugins, logicrepository" />
+        <target name="jar" depends="rvmonitor, test, plugins, logicrepository" />
         -->
 </project>

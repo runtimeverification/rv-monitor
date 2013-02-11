@@ -3,11 +3,11 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
-import javamoprt.*;
+import rvmonitorrt.*;
 import java.lang.ref.*;
 import org.aspectj.lang.*;
 
-class SafeEnumMonitor_Set extends javamoprt.MOPSet {
+class SafeEnumMonitor_Set extends rvmonitorrt.MOPSet {
 	protected SafeEnumMonitor[] elementData;
 	String MOP_loc = null;
 
@@ -163,12 +163,12 @@ class SafeEnumMonitor_Set extends javamoprt.MOPSet {
 	}
 }
 
-class SafeEnumMonitor extends javamoprt.MOPMonitor implements Cloneable, javamoprt.MOPObject {
+class SafeEnumMonitor extends rvmonitorrt.MOPMonitor implements Cloneable, rvmonitorrt.MOPObject {
 	public long tau = -1;
 	public Object clone() {
 		try {
 			SafeEnumMonitor ret = (SafeEnumMonitor) super.clone();
-			ret.monitorInfo = (javamoprt.MOPMonitorInfo)this.monitorInfo.clone();
+			ret.monitorInfo = (rvmonitorrt.MOPMonitorInfo)this.monitorInfo.clone();
 			return ret;
 		}
 		catch (CloneNotSupportedException e) {
@@ -230,8 +230,8 @@ class SafeEnumMonitor extends javamoprt.MOPMonitor implements Cloneable, javamop
 		Prop_1_Category_violation = false;
 	}
 
-	public javamoprt.ref.MOPTagWeakReference MOPRef_v;
-	public javamoprt.ref.MOPTagWeakReference MOPRef_e;
+	public rvmonitorrt.ref.MOPTagWeakReference MOPRef_v;
+	public rvmonitorrt.ref.MOPTagWeakReference MOPRef_e;
 
 	//alive_parameters_0 = [Vector v, Enumeration e]
 	public boolean alive_parameters_0 = true;
@@ -282,13 +282,13 @@ class SafeEnumMonitor extends javamoprt.MOPMonitor implements Cloneable, javamop
 		return;
 	}
 
-	javamoprt.MOPMonitorInfo monitorInfo;
+	rvmonitorrt.MOPMonitorInfo monitorInfo;
 }
 
-public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
-	javamoprt.map.MOPMapManager SafeEnumMapManager;
+public aspect SafeEnumMonitorAspect implements rvmonitorrt.MOPObject {
+	rvmonitorrt.map.MOPMapManager SafeEnumMapManager;
 	public SafeEnumMonitorAspect(){
-		SafeEnumMapManager = new javamoprt.map.MOPMapManager();
+		SafeEnumMapManager = new rvmonitorrt.map.MOPMapManager();
 		SafeEnumMapManager.start();
 	}
 
@@ -302,24 +302,24 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 	static boolean SafeEnum_activated = false;
 
 	// Declarations for Indexing Trees
-	static javamoprt.ref.MOPTagWeakReference SafeEnum_v_Map_cachekey_0 = javamoprt.map.MOPTagRefMap.NULRef;
+	static rvmonitorrt.ref.MOPTagWeakReference SafeEnum_v_Map_cachekey_0 = rvmonitorrt.map.MOPTagRefMap.NULRef;
 	static SafeEnumMonitor_Set SafeEnum_v_Map_cacheset = null;
 	static SafeEnumMonitor SafeEnum_v_Map_cachenode = null;
-	static javamoprt.map.MOPAbstractMap SafeEnum_v_e_Map = new javamoprt.map.MOPMapOfAll(0);
-	static javamoprt.ref.MOPTagWeakReference SafeEnum_v_e_Map_cachekey_0 = javamoprt.map.MOPTagRefMap.NULRef;
-	static javamoprt.ref.MOPTagWeakReference SafeEnum_v_e_Map_cachekey_1 = javamoprt.map.MOPTagRefMap.NULRef;
+	static rvmonitorrt.map.MOPAbstractMap SafeEnum_v_e_Map = new rvmonitorrt.map.MOPMapOfAll(0);
+	static rvmonitorrt.ref.MOPTagWeakReference SafeEnum_v_e_Map_cachekey_0 = rvmonitorrt.map.MOPTagRefMap.NULRef;
+	static rvmonitorrt.ref.MOPTagWeakReference SafeEnum_v_e_Map_cachekey_1 = rvmonitorrt.map.MOPTagRefMap.NULRef;
 	static SafeEnumMonitor SafeEnum_v_e_Map_cachenode = null;
-	static javamoprt.map.MOPAbstractMap SafeEnum_e_Map = new javamoprt.map.MOPMapOfSetMon(1);
-	static javamoprt.ref.MOPTagWeakReference SafeEnum_e_Map_cachekey_1 = javamoprt.map.MOPTagRefMap.NULRef;
+	static rvmonitorrt.map.MOPAbstractMap SafeEnum_e_Map = new rvmonitorrt.map.MOPMapOfSetMon(1);
+	static rvmonitorrt.ref.MOPTagWeakReference SafeEnum_e_Map_cachekey_1 = rvmonitorrt.map.MOPTagRefMap.NULRef;
 	static SafeEnumMonitor_Set SafeEnum_e_Map_cacheset = null;
 	static SafeEnumMonitor SafeEnum_e_Map_cachenode = null;
 	static SafeEnumMonitor_Set SafeEnum__To__v_Set = new SafeEnumMonitor_Set();
 
 	// Trees for References
-	static javamoprt.map.MOPRefMap SafeEnum_Enumeration_RefMap = new javamoprt.map.MOPTagRefMap();
-	static javamoprt.map.MOPRefMap SafeEnum_Vector_RefMap = new javamoprt.map.MOPTagRefMap();
+	static rvmonitorrt.map.MOPRefMap SafeEnum_Enumeration_RefMap = new rvmonitorrt.map.MOPTagRefMap();
+	static rvmonitorrt.map.MOPRefMap SafeEnum_Vector_RefMap = new rvmonitorrt.map.MOPTagRefMap();
 
-	pointcut MOP_CommonPointCut() : !within(javamoprt.MOPObject+) && !adviceexecution();
+	pointcut MOP_CommonPointCut() : !within(rvmonitorrt.MOPObject+) && !adviceexecution();
 	pointcut SafeEnum_create(Vector v) : (call(Enumeration Vector+.elements()) && target(v)) && MOP_CommonPointCut();
 	after (Vector v) returning (Enumeration e) : SafeEnum_create(v) {
 		SafeEnum_activated = true;
@@ -327,14 +327,14 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 			Thread.yield();
 		}
 		Object obj;
-		javamoprt.map.MOPMap tempMap;
+		rvmonitorrt.map.MOPMap tempMap;
 		SafeEnumMonitor mainMonitor = null;
 		SafeEnumMonitor origMonitor = null;
-		javamoprt.map.MOPMap mainMap = null;
-		javamoprt.map.MOPMap origMap = null;
+		rvmonitorrt.map.MOPMap mainMap = null;
+		rvmonitorrt.map.MOPMap origMap = null;
 		SafeEnumMonitor_Set monitors = null;
-		javamoprt.ref.MOPTagWeakReference TempRef_v;
-		javamoprt.ref.MOPTagWeakReference TempRef_e;
+		rvmonitorrt.ref.MOPTagWeakReference TempRef_v;
+		rvmonitorrt.ref.MOPTagWeakReference TempRef_e;
 
 		// Cache Retrieval
 		if (v == SafeEnum_v_e_Map_cachekey_0.get() && e == SafeEnum_v_e_Map_cachekey_1.get()) {
@@ -351,10 +351,10 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 			tempMap = SafeEnum_v_e_Map;
 			obj = tempMap.getMap(TempRef_v);
 			if (obj == null) {
-				obj = new javamoprt.map.MOPMapOfMonitor(1);
+				obj = new rvmonitorrt.map.MOPMapOfMonitor(1);
 				tempMap.putMap(TempRef_v, obj);
 			}
-			mainMap = (javamoprt.map.MOPAbstractMap)obj;
+			mainMap = (rvmonitorrt.map.MOPAbstractMap)obj;
 			mainMonitor = (SafeEnumMonitor)mainMap.getNode(TempRef_e);
 
 			if (mainMonitor == null) {
@@ -399,7 +399,7 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 				}
 				if (mainMonitor == null) {
 					mainMonitor = new SafeEnumMonitor();
-					mainMonitor.monitorInfo = new javamoprt.MOPMonitorInfo();
+					mainMonitor.monitorInfo = new rvmonitorrt.MOPMonitorInfo();
 					mainMonitor.monitorInfo.isFullParam = true;
 
 					mainMonitor.MOPRef_v = TempRef_v;
@@ -458,9 +458,9 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 			Thread.yield();
 		}
 		SafeEnumMonitor mainMonitor = null;
-		javamoprt.map.MOPMap mainMap = null;
+		rvmonitorrt.map.MOPMap mainMap = null;
 		SafeEnumMonitor_Set mainSet = null;
-		javamoprt.ref.MOPTagWeakReference TempRef_v;
+		rvmonitorrt.ref.MOPTagWeakReference TempRef_v;
 
 		// Cache Retrieval
 		if (v == SafeEnum_v_Map_cachekey_0.get()) {
@@ -483,7 +483,7 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 
 			if (mainMonitor == null) {
 				mainMonitor = new SafeEnumMonitor();
-				mainMonitor.monitorInfo = new javamoprt.MOPMonitorInfo();
+				mainMonitor.monitorInfo = new rvmonitorrt.MOPMonitorInfo();
 				mainMonitor.monitorInfo.isFullParam = false;
 
 				mainMonitor.MOPRef_v = TempRef_v;
@@ -518,17 +518,17 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 			Thread.yield();
 		}
 		Object obj;
-		javamoprt.map.MOPMap tempMap;
+		rvmonitorrt.map.MOPMap tempMap;
 		SafeEnumMonitor mainMonitor = null;
 		SafeEnumMonitor origMonitor = null;
 		SafeEnumMonitor lastMonitor = null;
-		javamoprt.map.MOPMap mainMap = null;
-		javamoprt.map.MOPMap lastMap = null;
+		rvmonitorrt.map.MOPMap mainMap = null;
+		rvmonitorrt.map.MOPMap lastMap = null;
 		SafeEnumMonitor_Set mainSet = null;
 		SafeEnumMonitor_Set origSet = null;
 		SafeEnumMonitor_Set monitors = null;
-		javamoprt.ref.MOPTagWeakReference TempRef_v;
-		javamoprt.ref.MOPTagWeakReference TempRef_e;
+		rvmonitorrt.ref.MOPTagWeakReference TempRef_v;
+		rvmonitorrt.ref.MOPTagWeakReference TempRef_e;
 
 		// Cache Retrieval
 		if (e == SafeEnum_e_Map_cachekey_1.get()) {
@@ -565,10 +565,10 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 							tempMap = SafeEnum_v_e_Map;
 							obj = tempMap.getMap(TempRef_v);
 							if (obj == null) {
-								obj = new javamoprt.map.MOPMapOfMonitor(1);
+								obj = new rvmonitorrt.map.MOPMapOfMonitor(1);
 								tempMap.putMap(TempRef_v, obj);
 							}
-							lastMap = (javamoprt.map.MOPAbstractMap)obj;
+							lastMap = (rvmonitorrt.map.MOPAbstractMap)obj;
 							lastMonitor = (SafeEnumMonitor)lastMap.getNode(TempRef_e);
 							if (lastMonitor == null) {
 								boolean timeCheck = true;
@@ -615,7 +615,7 @@ public aspect SafeEnumMonitorAspect implements javamoprt.MOPObject {
 				}
 				if (mainMonitor == null) {
 					mainMonitor = new SafeEnumMonitor();
-					mainMonitor.monitorInfo = new javamoprt.MOPMonitorInfo();
+					mainMonitor.monitorInfo = new rvmonitorrt.MOPMonitorInfo();
 					mainMonitor.monitorInfo.isFullParam = false;
 
 					mainMonitor.MOPRef_e = TempRef_e;

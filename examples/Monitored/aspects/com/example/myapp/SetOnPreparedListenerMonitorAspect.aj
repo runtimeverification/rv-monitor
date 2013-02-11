@@ -8,11 +8,11 @@ import android.content.DialogInterface;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import java.util.*;
-import javamoprt.*;
+import rvmonitorrt.*;
 import java.lang.ref.*;
 import org.aspectj.lang.*;
 
-class SetOnPreparedListenerMonitor_Set extends javamoprt.MOPSet {
+class SetOnPreparedListenerMonitor_Set extends rvmonitorrt.MOPSet {
 	protected SetOnPreparedListenerMonitor[] elementData;
 	boolean MOP_skipAroundAdvice = false;
 
@@ -146,7 +146,7 @@ class SetOnPreparedListenerMonitor_Set extends javamoprt.MOPSet {
 	}
 }
 
-class SetOnPreparedListenerMonitor extends javamoprt.MOPMonitor implements Cloneable, javamoprt.MOPObject {
+class SetOnPreparedListenerMonitor extends rvmonitorrt.MOPMonitor implements Cloneable, rvmonitorrt.MOPObject {
 	public Object clone() {
 		try {
 			SetOnPreparedListenerMonitor ret = (SetOnPreparedListenerMonitor) super.clone();
@@ -238,10 +238,10 @@ class SetOnPreparedListenerMonitor extends javamoprt.MOPMonitor implements Clone
 
 		}
 
-		public aspect SetOnPreparedListenerMonitorAspect implements javamoprt.MOPObject {
-			javamoprt.map.MOPMapManager SetOnPreparedListenerMapManager;
+		public aspect SetOnPreparedListenerMonitorAspect implements rvmonitorrt.MOPObject {
+			rvmonitorrt.map.MOPMapManager SetOnPreparedListenerMapManager;
 			public SetOnPreparedListenerMonitorAspect(){
-				SetOnPreparedListenerMapManager = new javamoprt.map.MOPMapManager();
+				SetOnPreparedListenerMapManager = new rvmonitorrt.map.MOPMapManager();
 				SetOnPreparedListenerMapManager.start();
 			}
 
@@ -256,7 +256,7 @@ class SetOnPreparedListenerMonitor extends javamoprt.MOPMonitor implements Clone
 
 			// Trees for References
 
-			pointcut MOP_CommonPointCut() : !within(javamoprt.MOPObject+) && !adviceexecution();
+			pointcut MOP_CommonPointCut() : !within(rvmonitorrt.MOPObject+) && !adviceexecution();
 			pointcut SetOnPreparedListener_setOnPreparedListener() : (call(void MediaPlayer.setOnPreparedListener(..))) && MOP_CommonPointCut();
 			after () : SetOnPreparedListener_setOnPreparedListener() {
 				boolean MOP_skipAroundAdvice = false;

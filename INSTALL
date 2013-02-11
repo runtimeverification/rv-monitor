@@ -123,7 +123,7 @@ information.
 As the tool is still under active development, it is recommended that you 
 download JavaMOP directly from the SVN repository, as follows:
 
-  svn checkout http://javamop.googlecode.com/svn/trunk/ javamop
+  svn checkout http://rvmonitor.googlecode.com/svn/trunk/ rvmonitor
 
 =2.4 Build JavaMOP
 
@@ -151,15 +151,15 @@ POSIX based operating systems, set the PATH variable in your .login script or in
 the rc file for whatever shell you use.  A typical value for PATH is:
 
 In Windows
-  C:\javamop2.3\bin
+  C:\rvmonitor2.3\bin
 
 In Linux and Mac,
-  ~/javamop2.3/bin
+  ~/rvmonitor2.3/bin
 
 Add this to the left end of the "Path" followed by ";" (":" in Linux and Mac). 
 
---- To test: run 'javamop' from the command line, this should display usage
-information for javamop.
+--- To test: run 'rvmonitor' from the command line, this should display usage
+information for rvmonitor.
 
 ===4. Testing JavaMOP===
 
@@ -174,19 +174,19 @@ for examples.
 
 To execute the TestSuite with the remote Logic Repository, type
 
-'javamoptestsuite -remote' in Linux and Mac or 'javamoptestsuite.bat -remote' in Windows
+'rvmonitortestsuite -remote' in Linux and Mac or 'rvmonitortestsuite.bat -remote' in Windows
 
 To execute the test suite with the local Logic Repository, type
 
-'javamoptestsuite' or 'javamoptestsuite -local' in Linux and Mac
-or 'javamoptestsuite.bat' or 'javamoptestsuite.bat -local' in Windows
+'rvmonitortestsuite' or 'rvmonitortestsuite -local' in Linux and Mac
+or 'rvmonitortestsuite.bat' or 'rvmonitortestsuite.bat -local' in Windows
 
 If you want the verbose mode pass the -v flag to the script of your choice.
 
 The -j command allows multiple threads to be used to speed up the test suite.
 The number of threads is specified after -j. The default is two threads
 
-If you want to add a test case, make a sub directory under javamop2.3/examples/
+If you want to add a test case, make a sub directory under rvmonitor2.3/examples/
 and add a specification and programs in the new directory, with proper output
 files for the expected output of the given programs. For details about the
 TestSuite directory structure, read the next section.
@@ -197,18 +197,18 @@ A test case directory consists of specifications and testing program
 directories. All specifications will be applied to each testing program. The
 TestSuite will automatically generate another directory for each testing
 program directory with suffix _MOP, for a monitored testing program. For
-example, javamop2.3/examples/ERE/HasNext has a specification HasNext.mop and
+example, rvmonitor2.3/examples/ERE/HasNext has a specification HasNext.mop and
 three testing program directories HasNext_1, HasNext_2, and HasNext_3. TestSuite
 generates HasNextMonitorAspect.aj in the same directory where HasNext.mop is. It
 also generates three directories of monitored testing programs, HasNext_1_MOP,
 HasNext_2_MOP, and HasNext_3_MOP.
 
 Enter the test case directory you want. For example, 
-  javamop2.3/examples/ERE/HasNext
+  rvmonitor2.3/examples/ERE/HasNext
 
 To compile specifications, type
 
-  javamop *.mop
+  rvmonitor *.mop
 
 To compile all java files in a testing program directory, type
 
@@ -238,5 +238,5 @@ In Linux or Mac,
 
 If you experience any problems installing JavaMOP, please feel free to contact
 us by sending emails to mop@cs.uiuc.edu.  Bug reports can be submitted
-at javamop.googlecode.com.
+at rvmonitor.googlecode.com.
 

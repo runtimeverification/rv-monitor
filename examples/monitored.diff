@@ -150,17 +150,17 @@ diff -uN ~/Downloads/Monitored/README.txt Monitored/README.txt
 +aspects.  You may also put properties there if you wish.  Ajc is smart enough
 +to only compile .aj files.
 +
-+JavaMOP properties must be hand compiled using the javamop command line tool.
++JavaMOP properties must be hand compiled using the rvmonitor command line tool.
 +The easiest way to do this is just to issue the command:
 +
-+$javamop <file>.mop
++$rvmonitor <file>.mop
 +
 +Which will generate an .aj file in the same directory as the mop file.  Make
 +sure to copy the .aj file to the aspect directory.  Any aj files in the aspect
 +directory will be weaved.  In general, rather than having a file to turn off
 +monitors, we prefer to use selective weaving, for performance reasons.
 +
-+I may add a javamop ant task, but, in general, it is not necessary to 
++I may add a rvmonitor ant task, but, in general, it is not necessary to
 +regenerate aj files all that often, while the weaving step must happen
 +every time.
 +
@@ -176,7 +176,7 @@ diff -uN ~/Downloads/Monitored/ajcore.20121101.002428.807.txt Monitored/ajcore.2
 +Dump on exception: true
 +Dump at exit condition: abort
 +---- Exception Information ---
-+java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
++java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
 +	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:385)
 +	at org.aspectj.weaver.bcel.BcelObjectType.<init>(BcelObjectType.java:162)
 +	at org.aspectj.weaver.bcel.BcelWorld.buildBcelDelegate(BcelWorld.java:394)
@@ -232,7 +232,7 @@ diff -uN ~/Downloads/Monitored/ajcore.20121101.002428.807.txt Monitored/ajcore.2
 +user.country=US
 +sun.os.patch.level=unknown
 +java.vm.specification.name=Java Virtual Machine Specification
-+user.dir=/Users/tserban2/Documents/javamop/examples/Monitored
++user.dir=/Users/tserban2/Documents/rvmonitor/examples/Monitored
 +java.runtime.version=1.6.0_37-b06-434-10M3909
 +java.awt.graphicsenv=apple.awt.CGraphicsEnvironment
 +java.endorsed.dirs=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed
@@ -280,23 +280,23 @@ diff -uN ~/Downloads/Monitored/ajcore.20121101.002428.807.txt Monitored/ajcore.2
 +sun.cpu.isalist=
 +---- Command Line ---
 +-d
-+/Users/tserban2/Documents/javamop/examples/Monitored/bin/classes
++/Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes
 +-source
 +1.6
 +-classpath
-+/Developer/SDKs/android-sdk-macosx/tools/support/annotations.jar:/Users/tserban2/Documents/javamop/examples/Monitored/libs/aspectjrt.jar:/Users/tserban2/Documents/javamop/examples/Monitored/libs/javamoprt.jar:/Developer/SDKs/android-sdk-macosx/platforms/android-16/android.jar
++/Developer/SDKs/android-sdk-macosx/tools/support/annotations.jar:/Users/tserban2/Documents/rvmonitor/examples/Monitored/libs/aspectjrt.jar:/Users/tserban2/Documents/rvmonitor/examples/Monitored/libs/rvmonitorrt.jar:/Developer/SDKs/android-sdk-macosx/platforms/android-16/android.jar
 +-inpath
-+/Users/tserban2/Documents/javamop/examples/Monitored/bin/classes
-+/Users/tserban2/Documents/javamop/examples/Monitored/aspects/SetOnPreparedListenerMonitorAspect.aj
++/Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes
++/Users/tserban2/Documents/rvmonitor/examples/Monitored/aspects/SetOnPreparedListenerMonitorAspect.aj
 +---- Full Classpath ---
 +Empty
 +---- Compiler Messages ---
 +info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar
 +info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar
 +info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar
-+abort ABORT -- (RuntimeException) Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
-+Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
-+java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
++abort ABORT -- (RuntimeException) Problem processing attributes in /Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
++Problem processing attributes in /Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
++java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes/SetOnPreparedListenerMonitorAspect.class
 +	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:385)
 +	at org.aspectj.weaver.bcel.BcelObjectType.<init>(BcelObjectType.java:162)
 +	at org.aspectj.weaver.bcel.BcelWorld.buildBcelDelegate(BcelWorld.java:394)
@@ -348,7 +348,7 @@ diff -uN ~/Downloads/Monitored/ajcore.20121113.112011.494.txt Monitored/ajcore.2
 +Dump on exception: true
 +Dump at exit condition: abort
 +---- Exception Information ---
-+java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
++java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
 +	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:385)
 +	at org.aspectj.weaver.bcel.BcelObjectType.<init>(BcelObjectType.java:162)
 +	at org.aspectj.weaver.bcel.BcelWorld.buildBcelDelegate(BcelWorld.java:394)
@@ -404,7 +404,7 @@ diff -uN ~/Downloads/Monitored/ajcore.20121113.112011.494.txt Monitored/ajcore.2
 +user.country=US
 +sun.os.patch.level=unknown
 +java.vm.specification.name=Java Virtual Machine Specification
-+user.dir=/Users/tserban2/Documents/javamop/examples/Monitored
++user.dir=/Users/tserban2/Documents/rvmonitor/examples/Monitored
 +java.runtime.version=1.6.0_37-b06-434-10M3909
 +java.awt.graphicsenv=apple.awt.CGraphicsEnvironment
 +java.endorsed.dirs=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed
@@ -452,23 +452,23 @@ diff -uN ~/Downloads/Monitored/ajcore.20121113.112011.494.txt Monitored/ajcore.2
 +sun.cpu.isalist=
 +---- Command Line ---
 +-d
-+/Users/tserban2/Documents/javamop/examples/Monitored/bin/classes
++/Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes
 +-source
 +1.6
 +-classpath
-+/Developer/SDKs/android-sdk-macosx/tools/support/annotations.jar:/Users/tserban2/Documents/javamop/examples/Monitored/libs/aspectjrt.jar:/Users/tserban2/Documents/javamop/examples/Monitored/libs/javamoprt.jar:/Developer/SDKs/android-sdk-macosx/platforms/android-16/android.jar
++/Developer/SDKs/android-sdk-macosx/tools/support/annotations.jar:/Users/tserban2/Documents/rvmonitor/examples/Monitored/libs/aspectjrt.jar:/Users/tserban2/Documents/rvmonitor/examples/Monitored/libs/rvmonitorrt.jar:/Developer/SDKs/android-sdk-macosx/platforms/android-16/android.jar
 +-inpath
-+/Users/tserban2/Documents/javamop/examples/Monitored/bin/classes
-+/Users/tserban2/Documents/javamop/examples/Monitored/aspects/com/example/myapp/SetOnPreparedListenerMonitorAspect.aj
++/Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes
++/Users/tserban2/Documents/rvmonitor/examples/Monitored/aspects/com/example/myapp/SetOnPreparedListenerMonitorAspect.aj
 +---- Full Classpath ---
 +Empty
 +---- Compiler Messages ---
 +info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar
 +info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar
 +info directory classpath entry does not exist: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar
-+abort ABORT -- (RuntimeException) Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
-+Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
-+java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/javamop/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
++abort ABORT -- (RuntimeException) Problem processing attributes in /Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
++Problem processing attributes in /Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
++java.lang.RuntimeException: Problem processing attributes in /Users/tserban2/Documents/rvmonitor/examples/Monitored/bin/classes/com/example/myapp/SetOnPreparedListenerMonitorAspect.class
 +	at org.aspectj.weaver.bcel.BcelObjectType.ensureAspectJAttributesUnpacked(BcelObjectType.java:385)
 +	at org.aspectj.weaver.bcel.BcelObjectType.<init>(BcelObjectType.java:162)
 +	at org.aspectj.weaver.bcel.BcelWorld.buildBcelDelegate(BcelWorld.java:394)
@@ -537,11 +537,11 @@ diff -uN ~/Downloads/Monitored/bak.aj Monitored/bak.aj
 +import android.media.MediaPlayer;
 +import android.util.Log;
 +import java.util.*;
-+import javamoprt.*;
++import rvmonitorrt.*;
 +import java.lang.ref.*;
 +import org.aspectj.lang.*;
 +
-+class SetOnPreparedListenerMonitor_Set extends javamoprt.MOPSet {
++class SetOnPreparedListenerMonitor_Set extends rvmonitorrt.MOPSet {
 +	protected SetOnPreparedListenerMonitor[] elementData;
 +
 +	public SetOnPreparedListenerMonitor_Set(){
@@ -673,7 +673,7 @@ diff -uN ~/Downloads/Monitored/bak.aj Monitored/bak.aj
 +	}
 +}
 +
-+class SetOnPreparedListenerMonitor extends javamoprt.MOPMonitor implements Cloneable, javamoprt.MOPObject {
++class SetOnPreparedListenerMonitor extends rvmonitorrt.MOPMonitor implements Cloneable, rvmonitorrt.MOPObject {
 +	public Object clone() {
 +		try {
 +			SetOnPreparedListenerMonitor ret = (SetOnPreparedListenerMonitor) super.clone();
@@ -742,10 +742,10 @@ diff -uN ~/Downloads/Monitored/bak.aj Monitored/bak.aj
 +
 +}
 +
-+public aspect SetOnPreparedListenerMonitorAspect implements javamoprt.MOPObject {
-+	javamoprt.map.MOPMapManager SetOnPreparedListenerMapManager;
++public aspect SetOnPreparedListenerMonitorAspect implements rvmonitorrt.MOPObject {
++	rvmonitorrt.map.MOPMapManager SetOnPreparedListenerMapManager;
 +	public SetOnPreparedListenerMonitorAspect(){
-+		SetOnPreparedListenerMapManager = new javamoprt.map.MOPMapManager();
++		SetOnPreparedListenerMapManager = new rvmonitorrt.map.MOPMapManager();
 +		SetOnPreparedListenerMapManager.start();
 +	}
 +
@@ -759,7 +759,7 @@ diff -uN ~/Downloads/Monitored/bak.aj Monitored/bak.aj
 +
 +	// Trees for References
 +
-+	pointcut MOP_CommonPointCut() : !within(javamoprt.MOPObject+) && !adviceexecution();
++	pointcut MOP_CommonPointCut() : !within(rvmonitorrt.MOPObject+) && !adviceexecution();
 +	pointcut SetOnPreparedListener_setOnPreparedListener() : (call(void MediaPlayer.setOnPreparedListener(..))) && MOP_CommonPointCut();
 +	after () : SetOnPreparedListener_setOnPreparedListener() {
 +		SetOnPreparedListener_activated = true;

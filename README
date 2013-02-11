@@ -21,7 +21,7 @@ JavaMOP is an instance of MOP for Java.
 
 For more information, refer to the following URL:
 
-  javamop.googlecode.com
+  rvmonitor.googlecode.com
 
 ==2. Installation==
 
@@ -39,46 +39,46 @@ from the base directory to benefit of the latest fixes and features.
 =3.1 Linux and Mac (POSIX)
 
 If you want to use the Logic Repository Server provided by UIUC, use the
--remote option when using the 'javamop' script.
+-remote option when using the 'rvmonitor' script.
 
 If you want to use the Logic Repository included in this package, use the
--local option when using the 'javamop' script.
+-local option when using the 'rvmonitor' script.
 
 Using the remote repository is the preferred method for computers with viable
 Internet connections as it allows us to collect usage statistics used to improve
 JavaMOP.
 
-The 'javamop' script has the following usage:
+The 'rvmonitor' script has the following usage:
 
-Usage) javamop [-v] [-d <target directory>] <specification file or dir>
+Usage) rvmonitor [-v] [-d <target directory>] <specification file or dir>
 
 -v option is verbose mode -d option is used to specify the target directory
 where the resulting aspectj code will be saved. Specification files must have
 The .mop file extension.
 
-Example) javamop -d examples/FSM/ examples/FSM/HasNext.mop
+Example) rvmonitor -d examples/FSM/ examples/FSM/HasNext.mop
 
-For more options, type 'javamop' or 'javamop -h'
+For more options, type 'rvmonitor' or 'rvmonitor -h'
 
 =3.2 Windows
 
 If you want to use the Logic Repository server provided by UIUC, use -remote
-option when using the script 'javamop.bat'
+option when using the script 'rvmonitor.bat'
 
 If you want to use the Logic Repository included in this package, use -local
-option when using the script 'javamop.bat'
+option when using the script 'rvmonitor.bat'
 
-The script, 'javamop.bat' has the following usage.
+The script, 'rvmonitor.bat' has the following usage.
 
-Usage) javamop.bat [-v] [-d <target directory>] <specification file or dir>
+Usage) rvmonitor.bat [-v] [-d <target directory>] <specification file or dir>
 
 The -v option is used to specify verbose mode. The -d option is used to specify
 the target directory where the resulting aspectj code will be saved.
 Specification files must have The .mop file extension.
 
-Example) javamop.bat -d examples\FSM examples\FSM\HasNext.mop
+Example) rvmonitor.bat -d examples\FSM examples\FSM\HasNext.mop
 
-For more options, type 'javamop.bat' or 'javamop.bat -h'
+For more options, type 'rvmonitor.bat' or 'rvmonitor.bat -h'
 
 ==4. Additional Features of the JavaMOP Distribution==
 
@@ -86,14 +86,14 @@ For more options, type 'javamop.bat' or 'javamop.bat -h'
 
 When you execute a monitored program, you need to include the AspectJ library
 and JavaMOP Runtime Library in your class path. The JavaMOP Runtime Library is
-provided in this package in the javamop2.3/lib directory. A typical value of
+provided in this package in the rvmonitor2.3/lib directory. A typical value of
 this is:
 
 In Windows,
-  c:\javamop2.3\lib\javamoprt.jar
+  c:\rvmonitor2.3\lib\rvmonitorrt.jar
 
 In Linux and Mac,
-  ~/javamop2.3/lib/javamoprt.jar
+  ~/rvmonitor2.3/lib/rvmonitorrt.jar
 
 Add this to the left end of the "CLASSPATH" followed by ";" (in Windows) or ":"
 (in Linux and Mac). For more information, refer to Section 5 from the following
@@ -124,5 +124,5 @@ The resulting monitoring code is piped to standard output, in XML format.
 We welcome your interest in JavaMOP. Your feedback, comments and bug reports are
 highly appreciated. Please feel free to contact us by sending email to
 mop@cs.uiuc.edu. Bugs and feature requests may be submitted at the project
-website at javamop.googlecode.com.
+website at rvmonitor.googlecode.com.
 

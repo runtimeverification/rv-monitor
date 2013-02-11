@@ -11,7 +11,7 @@ public class SafeFile_1{
 
 		File file = null;
 		try{
-			file = File.createTempFile("javamoptest1", ".tmp");
+			file = File.createTempFile("rvmonitortest1", ".tmp");
 			FileWriter fw_1 = new FileWriter(file);
 			fw_1.write("testing\n");
 			fw_1.close();
@@ -38,7 +38,7 @@ public class SafeFile_1{
 
 		File file = null;
 		try{
-			file = File.createTempFile("javamoptest1", ".tmp");
+			file = File.createTempFile("rvmonitortest1", ".tmp");
 			FileWriter fw_1 = new FileWriter(file);
 			fw_1.write("testing\n");
 			fw_1.close();

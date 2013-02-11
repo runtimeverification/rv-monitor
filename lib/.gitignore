@@ -1,6 +1,6 @@
-javamop.jar
-javamoprt.jar
-javamoptestsuite.jar
+rvmonitor.jar
+rvmonitorrt.jar
+rvmonitortestsuite.jar
 logicrepository.jar
 plugins/*
 log/*
