@@ -19,97 +19,16 @@
 
 package rvmonitor.parser.ast.visitor;
 
+import rvmonitor.parser.ast.*;
+import rvmonitor.parser.ast.aspectj.*;
+import rvmonitor.parser.ast.body.*;
+import rvmonitor.parser.ast.expr.*;
+import rvmonitor.parser.ast.mopspec.*;
+import rvmonitor.parser.ast.stmt.*;
+import rvmonitor.parser.ast.type.*;
+
 import java.util.Iterator;
 import java.util.List;
-
-import rvmonitor.parser.ast.CompilationUnit;
-import rvmonitor.parser.ast.ImportDeclaration;
-import rvmonitor.parser.ast.Node;
-import rvmonitor.parser.ast.PackageDeclaration;
-import rvmonitor.parser.ast.TypeParameter;
-import rvmonitor.parser.ast.body.AnnotationDeclaration;
-import rvmonitor.parser.ast.body.AnnotationMemberDeclaration;
-import rvmonitor.parser.ast.body.BodyDeclaration;
-import rvmonitor.parser.ast.body.ClassOrInterfaceDeclaration;
-import rvmonitor.parser.ast.body.ConstructorDeclaration;
-import rvmonitor.parser.ast.body.EmptyMemberDeclaration;
-import rvmonitor.parser.ast.body.EmptyTypeDeclaration;
-import rvmonitor.parser.ast.body.EnumConstantDeclaration;
-import rvmonitor.parser.ast.body.EnumDeclaration;
-import rvmonitor.parser.ast.body.FieldDeclaration;
-import rvmonitor.parser.ast.body.InitializerDeclaration;
-import rvmonitor.parser.ast.body.MethodDeclaration;
-import rvmonitor.parser.ast.body.ModifierSet;
-import rvmonitor.parser.ast.body.Parameter;
-import rvmonitor.parser.ast.body.TypeDeclaration;
-import rvmonitor.parser.ast.body.VariableDeclarator;
-import rvmonitor.parser.ast.body.VariableDeclaratorId;
-import rvmonitor.parser.ast.expr.AnnotationExpr;
-import rvmonitor.parser.ast.expr.ArrayAccessExpr;
-import rvmonitor.parser.ast.expr.ArrayCreationExpr;
-import rvmonitor.parser.ast.expr.ArrayInitializerExpr;
-import rvmonitor.parser.ast.expr.AssignExpr;
-import rvmonitor.parser.ast.expr.BinaryExpr;
-import rvmonitor.parser.ast.expr.BooleanLiteralExpr;
-import rvmonitor.parser.ast.expr.CastExpr;
-import rvmonitor.parser.ast.expr.CharLiteralExpr;
-import rvmonitor.parser.ast.expr.ClassExpr;
-import rvmonitor.parser.ast.expr.ConditionalExpr;
-import rvmonitor.parser.ast.expr.DoubleLiteralExpr;
-import rvmonitor.parser.ast.expr.EnclosedExpr;
-import rvmonitor.parser.ast.expr.Expression;
-import rvmonitor.parser.ast.expr.FieldAccessExpr;
-import rvmonitor.parser.ast.expr.InstanceOfExpr;
-import rvmonitor.parser.ast.expr.IntegerLiteralExpr;
-import rvmonitor.parser.ast.expr.IntegerLiteralMinValueExpr;
-import rvmonitor.parser.ast.expr.LongLiteralExpr;
-import rvmonitor.parser.ast.expr.LongLiteralMinValueExpr;
-import rvmonitor.parser.ast.expr.MarkerAnnotationExpr;
-import rvmonitor.parser.ast.expr.MemberValuePair;
-import rvmonitor.parser.ast.expr.MethodCallExpr;
-import rvmonitor.parser.ast.expr.NameExpr;
-import rvmonitor.parser.ast.expr.NormalAnnotationExpr;
-import rvmonitor.parser.ast.expr.NullLiteralExpr;
-import rvmonitor.parser.ast.expr.ObjectCreationExpr;
-import rvmonitor.parser.ast.expr.QualifiedNameExpr;
-import rvmonitor.parser.ast.expr.SingleMemberAnnotationExpr;
-import rvmonitor.parser.ast.expr.StringLiteralExpr;
-import rvmonitor.parser.ast.expr.SuperExpr;
-import rvmonitor.parser.ast.expr.SuperMemberAccessExpr;
-import rvmonitor.parser.ast.expr.ThisExpr;
-import rvmonitor.parser.ast.expr.UnaryExpr;
-import rvmonitor.parser.ast.expr.VariableDeclarationExpr;
-import rvmonitor.parser.ast.stmt.AssertStmt;
-import rvmonitor.parser.ast.stmt.BlockStmt;
-import rvmonitor.parser.ast.stmt.BreakStmt;
-import rvmonitor.parser.ast.stmt.CatchClause;
-import rvmonitor.parser.ast.stmt.ContinueStmt;
-import rvmonitor.parser.ast.stmt.DoStmt;
-import rvmonitor.parser.ast.stmt.EmptyStmt;
-import rvmonitor.parser.ast.stmt.ExplicitConstructorInvocationStmt;
-import rvmonitor.parser.ast.stmt.ExpressionStmt;
-import rvmonitor.parser.ast.stmt.ForStmt;
-import rvmonitor.parser.ast.stmt.ForeachStmt;
-import rvmonitor.parser.ast.stmt.IfStmt;
-import rvmonitor.parser.ast.stmt.LabeledStmt;
-import rvmonitor.parser.ast.stmt.ReturnStmt;
-import rvmonitor.parser.ast.stmt.Statement;
-import rvmonitor.parser.ast.stmt.SwitchEntryStmt;
-import rvmonitor.parser.ast.stmt.SwitchStmt;
-import rvmonitor.parser.ast.stmt.SynchronizedStmt;
-import rvmonitor.parser.ast.stmt.ThrowStmt;
-import rvmonitor.parser.ast.stmt.TryStmt;
-import rvmonitor.parser.ast.stmt.TypeDeclarationStmt;
-import rvmonitor.parser.ast.stmt.WhileStmt;
-import rvmonitor.parser.ast.type.ClassOrInterfaceType;
-import rvmonitor.parser.ast.type.PrimitiveType;
-import rvmonitor.parser.ast.type.ReferenceType;
-import rvmonitor.parser.ast.type.Type;
-import rvmonitor.parser.ast.type.VoidType;
-import rvmonitor.parser.ast.type.WildcardType;
-import rvmonitor.parser.ast.MOPSpecFile;
-import rvmonitor.parser.ast.aspectj.*;
-import rvmonitor.parser.ast.mopspec.*;
 
 /**
  * @author Julio Vilmar Gesser
@@ -334,23 +253,8 @@ public class DumpVisitor implements VoidVisitor<Object> {
 	}
 
 	public void visit(EventDefinition e, Object arg) {
-		printer.print("event " + e.getId() + " " + e.getPos());
+		printer.print("event " + e.getId() + " ");
 		printSpecParameters(e.getParameters(), arg);
-		if (e.hasReturning()) {
-			printer.print("returning");
-			if (e.getRetVal() != null)
-				printSpecParameters(e.getRetVal(), arg);
-			printer.print(" ");
-		}
-		if (e.hasThrowing()) {
-			printer.print("throwing");
-			if (e.getThrowVal() != null)
-				printSpecParameters(e.getThrowVal(), arg);
-			printer.print(" ");
-		}
-		printer.print(":");
-		// e.getPointCut().accept(this, arg);
-		printer.print(e.getPointCutString());
 		if (e.getAction() != null) {
 			e.getAction().accept(this, arg);
 		}

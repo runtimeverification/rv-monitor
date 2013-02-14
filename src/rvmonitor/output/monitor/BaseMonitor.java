@@ -306,7 +306,6 @@ public class BaseMonitor extends Monitor {
 	
 	public String Monitoring(MOPVariable monitorVar, EventDefinition event, MOPVariable loc, MOPVariable staticsig, GlobalLock lock, String aspectName, boolean inMonitorSet) {
 		String ret = "";
-		boolean checkSkip = event.getPos().equals("around");
 
 		if (has__LOC) {
 			if(loc != null)
@@ -326,10 +325,6 @@ public class BaseMonitor extends Monitor {
 			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
-		if (checkSkip && event.has__SKIP()) {
-			ret += monitorVar + "." + skipAroundAdvice + " = false;\n";
-		}
-		
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			
@@ -338,17 +333,13 @@ public class BaseMonitor extends Monitor {
 			ret += event.getMOPParameters().parameterString();
 			ret += ");\n";
 			ret += this.afterEventMethod(monitorVar, prop, event, lock, aspectName);
-			
+
 			if (event.getCondition() != null && event.getCondition().length() != 0) {
 				ret += "if(" + monitorVar + "." + conditionFail + "){\n";
 				ret += monitorVar + "." + conditionFail + " = false;\n";
 				ret += "} else {\n";
 			}
 			
-			if (checkSkip && event.has__SKIP()) {
-				ret += skipAroundAdvice + " |= " + monitorVar + "." + skipAroundAdvice + ";\n";
-			}
-
 			for (String category : propMonitor.handlerMethods.keySet()) {
 				if (category.equals("deadlock"))
 					continue;
@@ -360,10 +351,6 @@ public class BaseMonitor extends Monitor {
 				ret += event.getMOPParametersOnSpec().parameterStringIn(specParam);
 				ret += ");\n";
 
-				if (checkSkip && handlerMethod.has__SKIP()) {
-					ret += skipAroundAdvice + " |= " + monitorVar + "." + skipAroundAdvice + ";\n";
-				}
-				
 				ret += "}\n";
 			}
 

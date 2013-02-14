@@ -41,7 +41,7 @@ public class CombinedAspect {
 
 	public CombinedAspect(String name, MOPSpecFile mopSpecFile, HashMap<JavaMOPSpec, MonitorSet> monitorSets, HashMap<JavaMOPSpec, SuffixMonitor> monitors,
 			HashMap<JavaMOPSpec, EnableSet> enableSets, boolean versionedStack) throws MOPException {
-		this.name = name + "MonitorAspect";
+		this.name = name + "RuntimeMonitor";
 		this.monitorSets = monitorSets;
 		this.monitors = monitors;
 		this.enableSets = enableSets;
@@ -56,9 +56,9 @@ public class CombinedAspect {
 		this.timestampManager = new TimestampManager(name, this.specs);
 		this.activatorsManager = new ActivatorManager(name, this.specs);
 		this.indexingTreeManager = new IndexingTreeManager(name, this.specs, this.monitorSets, this.monitors, this.enableSets);
-		
+
 		collectDisableParameters(mopSpecFile.getSpecs());
-		
+
 		this.eventManager = new EventManager(name, this.specs, this);
 
 		this.mapManager = new MOPVariable(name + "MapManager");
@@ -144,14 +144,14 @@ public class CombinedAspect {
 
 		ret += this.statManager.statClass();
 		
-		ret += "public aspect " + this.name + " implements rvmonitorrt.MOPObject {\n";
+		ret += "public class " + this.name + " implements rvmonitorrt.MOPObject {\n";
 
-		ret += "rvmonitorrt.map.MOPMapManager " + mapManager + ";\n";
+		ret += "private static rvmonitorrt.map.MOPMapManager " + mapManager + ";\n";
 
 		ret += this.statManager.fieldDecl2();
-		
+
 		// constructor
-		ret += "public " + this.name + "(){\n";
+		ret += "static {\n";
 
 		ret += this.eventManager.printConstructor();
 		
@@ -179,8 +179,7 @@ public class CombinedAspect {
 		ret += this.eventManager.advices();
 
 		if (this.has__ACTIVITY) {
-			ret += "pointcut onCreateActivityPointcut (Activity a) : (execution(void *.onCreate(..)) && this(a)) && MOP_CommonPointCut();\n";
-			ret += "before (Activity a) : onCreateActivityPointcut(a) {\n";
+			ret += "public static void onCreateActivity(Activity a) {\n";
 			for (Monitor m : monitors.values()) {
 				if (m.has__ACTIVITY()) {
 					ret += m.getOutermostName() + "." + m.getActivityName() + " = a;\n";
@@ -193,7 +192,9 @@ public class CombinedAspect {
 		ret += this.statManager.advice();
 
 		if(Main.dacapo2){
-			ret += "after () : (execution(* avrora.Main.main(..)) || call(* dacapo.Benchmark.run(..)) || call(* org.dacapo.harness.Benchmark.run(..))) {\n";
+			ret += "// after () : (execution(* avrora.Main.main(..)) || call(* dacapo.Benchmark.run(..)) || call(* org.dacapo.harness.Benchmark.run(..))) {\n";
+
+			ret += "public static void resetDaCapo() {\n";
 
 			//ret += "System.err.println(\"reset \" + Thread.currentThread().getName());\n";
 			
@@ -205,7 +206,7 @@ public class CombinedAspect {
 			
 			ret += "}\n";
 		}
-		
+
 		ret += "}\n";
 
 		return ret;

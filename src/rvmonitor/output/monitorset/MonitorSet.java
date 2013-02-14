@@ -1,8 +1,5 @@
 package rvmonitor.output.monitorset;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.output.combinedaspect.MOPStatistics;
@@ -12,6 +9,9 @@ import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 import rvmonitor.parser.ast.mopspec.MOPParameters;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 import rvmonitor.parser.ast.stmt.BlockStmt;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MonitorSet {
 	MOPVariable setName;
@@ -74,8 +74,6 @@ public class MonitorSet {
 		this.monitorLock = lock;
 		String ret = "";
 
-		boolean isAround = event.getPos().equals("around");
-
 		ret += "if(" + monitorSetVar + " != null) {\n";
 
 		if (has__LOC) {
@@ -96,17 +94,9 @@ public class MonitorSet {
 			ret += monitorSetVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
-		if (isAround && event.has__SKIP()) {
-			ret += monitorSetVar + "." + skipAroundAdvice + " = false;\n";
-		}
-
 		ret += monitorSetVar + ".event_" + event.getUniqueId() + "(";
 		ret += event.getMOPParameters().parameterString();
 		ret += ");\n";
-
-		if (isAround && event.has__SKIP()) {
-			ret += skipAroundAdvice + " |= " + monitorSetVar + "." + skipAroundAdvice + ";\n";
-		}
 
 		ret += "}\n";
 
@@ -270,7 +260,7 @@ public class MonitorSet {
 		ret += "size = numAlive;\n";
 		ret += "}\n";
 
-		
+
 		for (EventDefinition event : this.events) {
 			String eventName = event.getUniqueId();
 			MOPParameters parameters = event.getMOPParameters();
@@ -300,7 +290,7 @@ public class MonitorSet {
 		}
 
 		ret += "}\n";
-		
+
 		return ret;
 	}
 

@@ -1,28 +1,22 @@
 package rvmonitor.parser.ast.mopspec;
 
-import java.util.*;
-import java.io.*;
-import rvmonitor.parser.ast.*;
-import rvmonitor.parser.ast.aspectj.*;
-import rvmonitor.parser.ast.stmt.*;
+import rvmonitor.parser.ast.Node;
+import rvmonitor.parser.ast.aspectj.PointCut;
+import rvmonitor.parser.ast.aspectj.TypePattern;
+import rvmonitor.parser.ast.stmt.BlockStmt;
 import rvmonitor.parser.ast.visitor.*;
-import rvmonitor.parser.ast.type.*;
+
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventDefinition extends Node {
 
 	String id;
-	Type retType;
-	String pos;
 
-	String pointCutStr;
 	String purePointCutStr;
-	PointCut pointCut;
 
 	MOPParameters parameters;
-	boolean hasReturning;
-	MOPParameters retVal;
-	boolean hasThrowing;
-	MOPParameters throwVal;
 
 	MOPParameters mopParameters;
 
@@ -51,27 +45,13 @@ public class EventDefinition extends Node {
 	String uniqueId = null; // will be defined in JavaMOPSpec
 	MOPParameters mopParametersOnSpec; // will be defined in JavaMOPSpec
 
-	public EventDefinition(int line, int column, String id, Type retType, String pos, List<MOPParameter> parameters, String pointCutStr, BlockStmt block,
-			boolean hasReturning, List<MOPParameter> retVal, boolean hasThrowing, List<MOPParameter> throwVal, boolean startEvent)
-			throws rvmonitor.parser.main_parser.ParseException {
-		super(line, column);
-		this.id = id;
-		this.retType = retType;
-		this.pos = pos;
-		this.parameters = new MOPParameters(parameters);
-		this.pointCutStr = pointCutStr;
+	public EventDefinition(int beginLine, int beginColumn, String id, List<MOPParameter> mopParameters, BlockStmt block, boolean startEvent) {
+		super(beginLine, beginColumn);
+		this.id=id;
+		this.parameters = new MOPParameters(mopParameters);
+		this.mopParameters = new MOPParameters(mopParameters);
 		this.block = block;
-		this.hasReturning = hasReturning;
-		this.retVal = new MOPParameters(retVal);
-		this.hasThrowing = hasThrowing;
-		this.throwVal = new MOPParameters(throwVal);
-		if(pointCutStr != null) 
-			this.pointCut = parsePointCut(pointCutStr);
 		this.startEvent = startEvent;
-		this.mopParameters = new MOPParameters();
-		this.mopParameters.addAll(this.parameters);
-		this.mopParameters.addAll(this.retVal);
-		this.mopParameters.addAll(this.throwVal);
 	}
 
 	private PointCut parsePointCut(String input) throws rvmonitor.parser.main_parser.ParseException {
@@ -237,14 +217,6 @@ public class EventDefinition extends Node {
 		return uniqueId;
 	}
 
-	public Type getRetType() {
-		return retType;
-	}
-
-	public String getPos() {
-		return pos;
-	}
-
 	public MOPParameters getParameters() {
 		return parameters;
 	}
@@ -287,14 +259,6 @@ public class EventDefinition extends Node {
 		return mopParametersOnSpec;
 	}
 
-	public PointCut getPointCut() {
-		return pointCut;
-	}
-
-	public String getPointCutString() {
-		return pointCutStr;
-	}
-
 	public BlockStmt getAction() {
 		return block;
 	}
@@ -307,23 +271,6 @@ public class EventDefinition extends Node {
 		usedParameter = block.accept(new CollectMOPVarVisitor(), specParam);
 		
 		return usedParameter;
-	}
-
-
-	public boolean hasReturning() {
-		return hasReturning;
-	}
-
-	public MOPParameters getRetVal() {
-		return retVal;
-	}
-
-	public boolean hasThrowing() {
-		return hasThrowing;
-	}
-
-	public MOPParameters getThrowVal() {
-		return throwVal;
 	}
 
 	public String getThreadVar() {

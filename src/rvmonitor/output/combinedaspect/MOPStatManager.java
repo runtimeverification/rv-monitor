@@ -1,13 +1,13 @@
 package rvmonitor.output.combinedaspect;
 
-import java.util.HashMap;
-import java.util.List;
-
 import rvmonitor.MOPException;
 import rvmonitor.Main;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class MOPStatManager {
 
@@ -81,7 +81,7 @@ public class MOPStatManager {
 		if (!Main.statistics2)
 			return ret;
 
-		ret += "static " + statClass + " " + statObject + ";\n";
+		ret += "private static " + statClass + " " + statObject + ";\n";
 		
 		return ret;
 	}

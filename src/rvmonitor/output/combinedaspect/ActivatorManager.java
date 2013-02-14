@@ -1,10 +1,10 @@
 package rvmonitor.output.combinedaspect;
 
-import java.util.List;
-import java.util.TreeMap;
-
 import rvmonitor.output.MOPVariable;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+
+import java.util.List;
+import java.util.TreeMap;
 
 public class ActivatorManager {
 
@@ -26,7 +26,7 @@ public class ActivatorManager {
 		String ret = "";
 
 		for (MOPVariable activator : activators.values()) {
-			ret += "static boolean " + activator + " = false;\n";
+			ret += "private static boolean " + activator + " = false;\n";
 		}
 
 		if (activators.size() > 0)

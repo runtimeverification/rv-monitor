@@ -3,14 +3,14 @@
 
 package rvmonitor.output;
 
-import java.util.HashMap;
-
 import rvmonitor.MOPException;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
 import rvmonitor.parser.ast.MOPSpecFile;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
+
+import java.util.HashMap;
 
 public class JavaLibCode {
 	Package packageDecl;

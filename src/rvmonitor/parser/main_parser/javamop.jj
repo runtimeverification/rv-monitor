@@ -1382,53 +1382,41 @@ MOPParameter AdviceParameter():
 	{ return new MOPParameter(line, column, type, name); }
 }
 
+
+
+EventDefinitionExt Event():
+{
+	String name;
+	List<MOPParameter> parameters;
+	BlockStmt block = null;
+	int line = -1;
+	int column = 0;
+	boolean startEvent = false;
+}
+{
+  ["creation" {startEvent = true;}]
+  "event" {line = token.beginLine; column = token.beginColumn;}
+  (<IDENTIFIER> | "get" | "set")  { name = token.image; }
+  parameters = AdviceParameters()
+  ( block = Block() | ";" )
+
+	{ return new EventDefinitionExt(line, column, name, parameters, block, startEvent); }
+}
+
+/*
 EventDefinitionExt Event():
 {
 	int line, column;
 	String id;
 	Type rettype = null;
-	String pos;
-	List<MOPParameter> parameters = null;
-	String pointCut = null;
 	BlockStmt block = null;
-	boolean hasThread = false;
-	boolean hasCond = false;
-	boolean hasReturning = false;
-	List<MOPParameter> retVal = null;
-	boolean hasThrowing = false;
-	List<MOPParameter> throwVal = null;
 	boolean startEvent = false;
-	boolean abstractEvent = false;
 }
 {
    (
-     ( //to handle syntax of abstract events :Soha
-     ("abstract" {abstractEvent = true;} "event" {line = token.beginLine; column = token.beginColumn;}
-     (<IDENTIFIER> | "get" | "set") {id = token.image;})
-     (
-	  pos = Position() |
-	 rettype = ResultType()
-	 "around" { pos = token.image; }
-	)
-	 [parameters = AdviceParameters()]		
-	["returning" {hasReturning = true;} [retVal = AdviceParameters()]]
-	["throwing" {hasThrowing = true; } [throwVal = AdviceParameters()]]
-	";"
-	)
-	
-   | 
     ( //old syntax of events: Soha
-      ["creation" {startEvent = true;}]
-	"event" {line = token.beginLine; column = token.beginColumn;}
-	(<IDENTIFIER> | "get" | "set") {id = token.image;}
-	 
-	(
-	  pos = Position() |
-	 rettype = ResultType()
-	 "around" { pos = token.image; }
-	)
-
-	[parameters = AdviceParameters()]		
+	(<IDENTIFIER> ) {id = token.image;}
+	[parameters = AdviceParameters()]
 	["returning" {hasReturning = true;} [retVal = AdviceParameters()]]
 	["throwing" {hasThrowing = true; } [throwVal = AdviceParameters()]]
 	":" {pointCut = getStringUntil('{');} 
@@ -1436,6 +1424,7 @@ EventDefinitionExt Event():
 	
 	{ return new EventDefinitionExt(line, column, id, rettype, pos, parameters, pointCut, block, hasReturning, retVal, hasThrowing, throwVal, startEvent, abstractEvent); } 
 }
+*/
 
 String Position():
 {

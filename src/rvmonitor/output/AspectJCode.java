@@ -1,7 +1,5 @@
 package rvmonitor.output;
 
-import java.util.HashMap;
-
 import rvmonitor.MOPException;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
@@ -10,6 +8,8 @@ import rvmonitor.output.monitorset.MonitorSet;
 import rvmonitor.parser.ast.MOPSpecFile;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
+
+import java.util.HashMap;
 
 public class AspectJCode {
 	String name;
@@ -60,15 +60,15 @@ public class AspectJCode {
 		for (MonitorSet monitorSet : monitorSets.values()) {
 			monitorSet.setMonitorLock(aspect.getAspectName() + "." + aspect.lockManager.getLock().getName());
 		}
-		
+
 		HashMap<String, RefTree> refTrees = aspect.indexingTreeManager.refTrees;
-		
+
 		for(SuffixMonitor monitor : monitors.values()){
 			monitor.setRefTrees(refTrees);
 		}
 		
 		if(versionedStack)
-			systemAspect = new SystemAspect(name); 
+			systemAspect = new SystemAspect(name);
 	}
 
 	public String toString() {
@@ -86,7 +86,7 @@ public class AspectJCode {
 			ret += monitor;
 		ret += "\n";
 
-		
+
 		// The order of these two is really important.
 		if(systemAspect != null){
 			ret += "aspect " + name + "OrderAspect {\n";
@@ -101,12 +101,12 @@ public class AspectJCode {
 			ret += "}\n";
 			ret += "\n";
 		}
-		
+
 		ret += aspect;
 
 		if(systemAspect != null)
 			ret += "\n" + systemAspect;
-		
+
 		return ret;
 	}
 }

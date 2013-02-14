@@ -1,13 +1,13 @@
 package rvmonitor.output;
 
-import java.util.ArrayList;
-
 import rvmonitor.parser.ast.ImportDeclaration;
 import rvmonitor.parser.ast.MOPSpecFile;
 
+import java.util.ArrayList;
+
 public class Imports {
 	ArrayList<String> imports;
-	String[] required = {"java.util.concurrent.*", "java.util.concurrent.locks.*", "java.util.*", "rvmonitorrt.*", "java.lang.ref.*", "org.aspectj.lang.*" };
+	String[] required = {"java.util.concurrent.*", "java.util.concurrent.locks.*", "java.util.*", "rvmonitorrt.*", "java.lang.ref.*"};
 
 	public Imports(MOPSpecFile mopSpecFile) {
 		imports = new ArrayList<String>();

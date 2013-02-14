@@ -1,11 +1,11 @@
 package rvmonitor.output.combinedaspect;
 
-import java.util.HashMap;
-import java.util.List;
-
 import rvmonitor.MOPException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class TimestampManager {
 
@@ -30,7 +30,7 @@ public class TimestampManager {
 
 		ret += "// Declarations for Timestamps \n";
 		for (MOPVariable timestamp : timestamps.values()) {
-			ret += "static long " + timestamp + " = 1;\n";
+			ret += "private static long " + timestamp + " = 1;\n";
 		}
 		ret += "\n";
 

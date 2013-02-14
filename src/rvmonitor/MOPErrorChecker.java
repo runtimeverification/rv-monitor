@@ -1,12 +1,11 @@
 package rvmonitor;
 
-import java.util.HashMap;
-
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
 import rvmonitor.parser.ast.mopspec.MOPParameters;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
+
+import java.util.HashMap;
 
 public class MOPErrorChecker {
 
@@ -15,8 +14,6 @@ public class MOPErrorChecker {
 			verifyHandlers(prop);
 		}
 		for (EventDefinition event : mopSpec.getEvents()) {
-			verifyThreadPointCut(event);
-
 			//endProgram cannot have any parameter.
 			verifyEndProgramParam(event);
 
@@ -43,22 +40,6 @@ public class MOPErrorChecker {
 		}
 	}
 
-	public static void verifyThreadPointCut(EventDefinition event) throws MOPException {
-		String threadVar = event.getThreadVar();
-		if (threadVar == null || threadVar.length() == 0)
-			return;
-
-		for (MOPParameter param : event.getRetVal()) {
-			if (param.getName().equals(threadVar))
-				throw new MOPException("A variable from a thread pointcut cannot appear as the resulting variable.");
-		}
-
-		for (MOPParameter param : event.getThrowVal()) {
-			if (param.getName().equals(threadVar))
-				throw new MOPException("A variable from a thread pointcut cannot appear as the throwing variable.");
-		}
-	}
-	
 	public static void verifySameEventName(JavaMOPSpec mopSpec) throws MOPException {
 		HashMap<String, MOPParameters> nameToParam = new HashMap<String, MOPParameters>();
 		

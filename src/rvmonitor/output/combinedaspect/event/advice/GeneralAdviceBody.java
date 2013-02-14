@@ -1,9 +1,5 @@
 package rvmonitor.output.combinedaspect.event.advice;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import rvmonitor.MOPException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
@@ -13,11 +9,11 @@ import rvmonitor.output.combinedaspect.indexingtree.IndexingCache;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.MonitorInfo;
-import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameterPair;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class GeneralAdviceBody extends AdviceBody {
 	public MOPStatManager statManager;
@@ -830,7 +826,7 @@ public class GeneralAdviceBody extends AdviceBody {
 		}
 
 		ret += cacheResultWrap(handleCacheMiss);
-		
+
 		ret += monitoring();
 
 		ret = localVars.varDecl() + ret;

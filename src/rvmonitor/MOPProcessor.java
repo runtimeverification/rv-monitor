@@ -5,8 +5,6 @@
 
 package rvmonitor;
 
-import java.util.List;
-
 import rvmonitor.logicclient.LogicRepositoryConnector;
 import rvmonitor.logicpluginshells.LogicPluginShellFactory;
 import rvmonitor.logicpluginshells.LogicPluginShellResult;
@@ -21,7 +19,8 @@ import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 import rvmonitor.parser.ast.visitor.CollectUserVarVisitor;
 import rvmonitor.parser.logicrepositorysyntax.LogicRepositoryType;
 import rvmonitor.util.Tool;
-import rvmonitor.Main;
+
+import java.util.List;
 
 public class MOPProcessor {
 	public static boolean verbose = false;

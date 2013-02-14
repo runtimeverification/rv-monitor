@@ -1,34 +1,26 @@
 package rvmonitor.parser.astex.mopspec;
 
-import java.io.ByteArrayInputStream;
-import java.util.List;
-
 import rvmonitor.parser.ast.aspectj.PointCut;
 import rvmonitor.parser.ast.aspectj.TypePattern;
 import rvmonitor.parser.ast.mopspec.MOPParameter;
 import rvmonitor.parser.ast.mopspec.MOPParameters;
 import rvmonitor.parser.ast.stmt.BlockStmt;
-import rvmonitor.parser.ast.type.Type;
 import rvmonitor.parser.astex.ExtNode;
 import rvmonitor.parser.astex.visitor.GenericVisitor;
 import rvmonitor.parser.astex.visitor.VoidVisitor;
 
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
+
+
 public class EventDefinitionExt extends ExtNode {
 
 	String id;
-	Type retType;
-	String pos;
 
-	boolean abstractEvent = false;
-	String pointCutStr;
 	String purePointCutStr;
-	PointCut pointCut;
 
 	MOPParameters parameters;
-	boolean hasReturning;
-	MOPParameters retVal;
-	boolean hasThrowing;
-	MOPParameters throwVal;
 
 	MOPParameters mopParameters;
 
@@ -56,45 +48,37 @@ public class EventDefinitionExt extends ExtNode {
 	private Boolean cachedHas__SKIP = null;
 	private Boolean cachedHas__LOC = null;
 
-	public EventDefinitionExt(int line, int column, String id, Type retType, String pos, List<MOPParameter> parameters, String pointCutStr, BlockStmt block, boolean hasReturning,
-			List<MOPParameter> retVal, boolean hasThrowing, List<MOPParameter> throwVal, boolean startEvent, boolean abstractEvent)
+/*
+EventDefinitionExt Event()
+{
+	String name;
+	List parameters;
+	BlockStmt block = null;
+	int line = -1;
+	int column = 0;
+	boolean startEvent = false;
+}
+{
+	{ return new EventDefinitionExt(line, column, name, parameters, block, startEvent); }
+}
+ */
+	public EventDefinitionExt(int line, int column, String id, List<MOPParameter> parameters, BlockStmt block, boolean startEvent)
 			throws rvmonitor.parser.main_parser.ParseException {
 		super(line, column);
 		this.id = id;
-		this.retType = retType;
-		this.pos = pos;
 		this.parameters = new MOPParameters(parameters);
-		this.pointCutStr = pointCutStr;
 		this.block = block;
-		this.hasReturning = hasReturning;
-		this.retVal = new MOPParameters(retVal);
-		this.hasThrowing = hasThrowing;
-		this.throwVal = new MOPParameters(throwVal);
-		
-		if (pointCutStr != null)
-			this.pointCut = parsePointCutAsRaw(pointCutStr);
-		
 		this.startEvent = startEvent;
 		this.mopParameters = new MOPParameters();
 		this.mopParameters.addAll(this.parameters);
-		this.mopParameters.addAll(this.retVal);
-		this.mopParameters.addAll(this.throwVal);
-		this.abstractEvent = abstractEvent;
 	}
+
 
 	public EventDefinitionExt(int line, int column, EventDefinitionExt e) {
 		super(line, column);
 		this.id = e.getId();
-		this.retType = e.getRetType();
-		this.pos = e.getPos();
 		this.parameters = e.getParameters();
-		this.pointCutStr = e.getPointCutString();
 		this.block = e.getBlock();
-		this.hasReturning = e.getHasRetruning();
-		this.retVal = e.getRetVal();
-		this.hasThrowing = e.getHasThrowing();
-		this.throwVal = e.getThrowVal();
-		this.pointCut = e.getPointCut();
 		this.startEvent = e.getStartEvent();
 		this.mopParameters = e.getMOPParameters();
 		this.condition = e.getCondition();
@@ -159,14 +143,6 @@ public class EventDefinitionExt extends ExtNode {
 		return uniqueId;
 	}
 
-	public Type getRetType() {
-		return retType;
-	}
-
-	public String getPos() {
-		return pos;
-	}
-
 	public MOPParameters getParameters() {
 		return parameters;
 	}
@@ -208,28 +184,8 @@ public class EventDefinitionExt extends ExtNode {
 		return mopParametersOnSpec;
 	}
 
-	public String getPointCutString() {
-		return pointCutStr;
-	}
-
 	public BlockStmt getAction() {
 		return block;
-	}
-
-	public boolean hasReturning() {
-		return hasReturning;
-	}
-
-	public MOPParameters getRetVal() {
-		return retVal;
-	}
-
-	public boolean hasThrowing() {
-		return hasThrowing;
-	}
-
-	public MOPParameters getThrowVal() {
-		return throwVal;
 	}
 
 	public String getThreadVar() {
@@ -238,10 +194,6 @@ public class EventDefinitionExt extends ExtNode {
 
 	public String getCondition() {
 		return condition;
-	}
-
-	public boolean isAbstract() {
-		return this.abstractEvent;
 	}
 
 	public String getPurePointCutString() {
@@ -324,18 +276,6 @@ public class EventDefinitionExt extends ExtNode {
 		return this.block;
 	}
 
-	public boolean getHasRetruning() {
-		return this.hasReturning;
-	}
-
-	public boolean getHasThrowing() {
-		return this.hasThrowing;
-	}
-
-	public PointCut getPointCut() {
-		return this.pointCut;
-	}
-
 	public boolean getStartEvent() {
 		return this.startEvent;
 	}
@@ -358,17 +298,9 @@ public class EventDefinitionExt extends ExtNode {
 	}
 	
 	public boolean isImplementing(EventDefinitionExt absEvent){
-		if (this.isAbstract())
-			return false;
 		if (!this.getId().equals(absEvent.getId()))
 			return false;
 		if (this.getParameters().matchTypes(absEvent.getParameters()))
-			return false;
-		if (this.getRetVal().matchTypes(absEvent.getRetVal()))
-			return false;
-		if (this.getThrowVal().matchTypes(absEvent.getThrowVal()))
-			return false;
-		if (!this.getPos().equals(absEvent.getPos()))
 			return false;
 
 		return true; 

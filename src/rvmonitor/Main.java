@@ -85,11 +85,13 @@ public class Main {
 	
 	
 	/**
-	 * Process a java file including mop annotations to generate an aspectj file. The path argument should be an existing java file name. The location
-	 * argument should contain the original file name, But it may have a different directory.
+	 * Process a java file including mop annotations to generate a runtime
+	 * monitor file. The file argument should be an initialized file object.
+	 * The location argument should contain the original file name, but it
+	 * may have a different directory.
 	 * 
-	 * @param path
-	 *            an absolute path of a specification file
+	 * @param file
+	 *            a File object containing the specification file
 	 * @param location
 	 *            an absolute path for result file
 	 */
@@ -105,11 +107,13 @@ public class Main {
 	}
 
 	/**
-	 * Process a specification file to generate an aspectj file. The path argument should be an existing specification file name. The location
-	 * argument should contain the original file name, But it may have a different directory.
-	 * 
-	 * @param path
-	 *            an absolute path of a specification file
+	 * Process a specification file to generate a runtime monitor file.
+	 * The file argument should be an initialized file object. The location
+	 * argument should contain the original file name, But it may have a
+	 * different directory.
+	 *
+	 * @param file
+	 *            a File object containing the specification file
 	 * @param location
 	 *            an absolute path for result file
 	 */
@@ -148,7 +152,7 @@ public class Main {
 				File aspectFile;
 				do{
 					suffixNumber++;
-					aspectFile = new File(outputDir.getAbsolutePath() + File.separator + "MultiSpec_" + suffixNumber + "MonitorAspect.aj");
+					aspectFile = new File(outputDir.getAbsolutePath() + File.separator + "MultiSpec_" + suffixNumber + "RuntimeMonitor.java");
 				} while(aspectFile.exists());
 				
 				aspectName = "MultiSpec_" + suffixNumber;
@@ -191,13 +195,13 @@ public class Main {
 			return;
 
 		try {
-			FileWriter f = new FileWriter(outputDir.getAbsolutePath() + File.separator + aspectName + "MonitorAspect.aj");
+			FileWriter f = new FileWriter(outputDir.getAbsolutePath() + File.separator + aspectName + "RuntimeMonitor.java");
 			f.write(aspectContent);
 			f.close();
 		} catch (Exception e) {
 			throw new MOPException(e.getMessage());
 		}
-		System.out.println(" " + aspectName + "MonitorAspect.aj is generated");
+		System.out.println(" " + aspectName + "RuntimeMonitor.java is generated");
 	}
 
 	protected static void writeAspectFile(String aspectContent, String location) throws MOPException {
@@ -206,13 +210,13 @@ public class Main {
 
 		int i = location.lastIndexOf(File.separator);
 		try {
-			FileWriter f = new FileWriter(location.substring(0, i + 1) + Tool.getFileName(location) + "MonitorAspect.aj");
+			FileWriter f = new FileWriter(location.substring(0, i + 1) + Tool.getFileName(location) + "RuntimeMonitor.java");
 			f.write(aspectContent);
 			f.close();
 		} catch (Exception e) {
 			throw new MOPException(e.getMessage());
 		}
-		System.out.println(" " + Tool.getFileName(location) + "MonitorAspect.aj is generated");
+		System.out.println(" " + Tool.getFileName(location) + "RuntimeMonitor.java is generated");
 	}
 
 	protected static void writeJavaLibFile(String javaLibContent, String location) throws MOPException {

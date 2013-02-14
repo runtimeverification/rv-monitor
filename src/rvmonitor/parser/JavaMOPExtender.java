@@ -1,42 +1,17 @@
 package rvmonitor.parser;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import rvmonitor.MOPException;
 import rvmonitor.parser.ast.MOPSpecFile;
-import rvmonitor.parser.ast.aspectj.PointCut;
 import rvmonitor.parser.ast.body.BodyDeclaration;
-import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.Formula;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
-import rvmonitor.parser.ast.mopspec.Property;
-import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
+import rvmonitor.parser.ast.mopspec.*;
 import rvmonitor.parser.ast.stmt.BlockStmt;
 import rvmonitor.parser.astex.MOPSpecFileExt;
-import rvmonitor.parser.astex.aspectj.EventPointCut;
-import rvmonitor.parser.astex.aspectj.HandlerPointCut;
-import rvmonitor.parser.astex.mopspec.EventDefinitionExt;
-import rvmonitor.parser.astex.mopspec.ExtendedSpec;
-import rvmonitor.parser.astex.mopspec.FormulaExt;
-import rvmonitor.parser.astex.mopspec.HandlerExt;
-import rvmonitor.parser.astex.mopspec.JavaMOPSpecExt;
-import rvmonitor.parser.astex.mopspec.PropertyAndHandlersExt;
-import rvmonitor.parser.astex.mopspec.PropertyExt;
-import rvmonitor.parser.astex.mopspec.ReferenceSpec;
-import rvmonitor.parser.astex.visitor.CollectEventPointCutVisitor;
-import rvmonitor.parser.astex.visitor.CollectHandlerPointCutVisitor;
-import rvmonitor.parser.astex.visitor.RenameVariableVisitor;
-import rvmonitor.parser.astex.visitor.ReplacePointCutVisitor;
+import rvmonitor.parser.astex.mopspec.*;
 import rvmonitor.parser.main_parser.JavaMOPParser;
 import rvmonitor.util.Pair;
+
+import java.io.File;
+import java.util.*;
 
 class SpecContext {
 	JavaMOPSpecExt spec;
@@ -133,8 +108,6 @@ public class JavaMOPExtender {
 		}
 
 		for (EventDefinitionExt event : context.spec.getEvents()) {
-			if (event.isAbstract())
-				continue;
 
 			EventDefinition translatedEvent = translateEvent(event, context);
 			ret.add(translatedEvent);
@@ -232,108 +205,15 @@ public class JavaMOPExtender {
 
 	protected static EventDefinition translateEvent(EventDefinitionExt event, SpecContext context) throws MOPException {
 		EventDefinition ret;
-		String pointCutStr;
-		PointCut pointCut = event.getPointCut();
-
-		pointCut = resolveEventPointCuts(pointCut, event, context);
-
-		pointCut = resolveHandlerPointCuts(pointCut, event, context);
-
-		pointCutStr = pointCut.toString();
 		try {
-			ret = new EventDefinition(event.getBeginLine(), event.getBeginColumn(), event.getId(), event.getRetType(), event.getPos(), event
-					.getParameters().toList(), pointCutStr, event.getBlock(), event.getHasRetruning(), event.getRetVal().toList(),
-					event.getHasThrowing(), event.getThrowVal().toList(), event.isStartEvent());
+			ret = new EventDefinition(event.getBeginLine(), event.getBeginColumn(), event.getId(), event
+					.getParameters().toList(), event.getBlock(),  event.isStartEvent());
 		} catch (Exception e) {
 			throw new MOPException(e.getMessage());
 		}
 		return ret;
 	}
 
-	private static PointCut resolveEventPointCuts(PointCut pointCut, EventDefinitionExt event, SpecContext context) throws MOPException {
-		// collect all event pointcuts
-		List<EventPointCut> eventPointCuts = pointCut.accept(new CollectEventPointCutVisitor(), null);
-
-		// if there is no event pointcut, return the original pointcut
-		if (eventPointCuts == null || eventPointCuts.size() == 0)
-			return pointCut;
-
-		HashMap<PointCut, PointCut> pointcutReplaceTable = new HashMap<PointCut, PointCut>();
-
-		for (EventPointCut eventPointCut : eventPointCuts) {
-			HashMap<String, MOPParameter> varRenameTable = new HashMap<String, MOPParameter>();
-
-			MOPParameters params = getParametersFromStringList(eventPointCut.getParameters(), event.getMOPParameters());
-
-			// get the referenced event and translate it
-			Pair<EventDefinitionExt, SpecContext> targetEventExtPair = getReferencedEvent(eventPointCut.getReferenceSpec(), event.getPos(), params,
-					context);
-			if (targetEventExtPair == null)
-				throw new MOPException("cannot find the event " + eventPointCut.getReferenceSpec().getReferenceElement()
-						+ " referred by an event pointcut.");
-			EventDefinition targetEvent = translateEvent(targetEventExtPair.left, targetEventExtPair.right);
-
-			// prepare renaming table
-			for (int i = 0; i < params.size(); i++) {
-				MOPParameter origVar = targetEvent.getMOPParameters().get(i);
-				MOPParameter newVar = params.get(i);
-
-				varRenameTable.put(origVar.getName(), newVar);
-			}
-
-			// rename variables in the target pointcut
-			PointCut targetPointCut = targetEvent.getPointCut();
-			targetPointCut = (PointCut) targetPointCut.accept(new RenameVariableVisitor(), varRenameTable);
-
-			// register the target pointcut to the pointcut replaceTable
-			pointcutReplaceTable.put(eventPointCut, targetPointCut);
-		}
-
-		// replace event pointcuts with corresponding pointcuts.
-		pointCut = pointCut.accept(new ReplacePointCutVisitor(), pointcutReplaceTable);
-
-		return pointCut;
-	}
-
-	private static PointCut resolveHandlerPointCuts(PointCut pointCut, EventDefinitionExt event, SpecContext context) throws MOPException {
-		// collect all handler pointcuts
-		List<HandlerPointCut> handlerPointCuts = pointCut.accept(new CollectHandlerPointCutVisitor(), null);
-
-		// if there is no handler pointcut, return the original pointcut
-		if (handlerPointCuts == null || handlerPointCuts.size() == 0)
-			return pointCut;
-
-		HashMap<PointCut, PointCut> pointcutReplaceTable = new HashMap<PointCut, PointCut>();
-
-		for (HandlerPointCut handlerPointCut : handlerPointCuts) {
-			// get the referenced property
-			Pair<PropertyAndHandlersExt, SpecContext> targetPropExtPair = getReferencedProp(handlerPointCut.getReferenceSpec(), context);
-			if (targetPropExtPair == null) {
-				throw new MOPException("cannot find the category " + handlerPointCut.getReferenceSpec().getReferenceElement()
-						+ " referred by an handler pointcut.");
-			}
-			PropertyAndHandlersExt pnh = targetPropExtPair.left;
-			JavaMOPSpecExt spec = targetPropExtPair.right.spec;
-
-			// parse the method pointcut for the handler method
-			String methodPatternStr = "execution(void " + spec.getName() + "." + "Prop_" + pnh.getPropertyId() + "_handler_"
-					+ handlerPointCut.getState() + "(..))";
-			PointCut targetPointCut;
-			try {
-				targetPointCut = rvmonitor.parser.aspectj_parser.AspectJParser.parse(new ByteArrayInputStream(methodPatternStr.getBytes()));
-			} catch (Exception e) {
-				throw new MOPException("A JavaMOP internal method pattern for a handler pointcut cannot be parsed.\n" + e.getMessage());
-			}
-
-			// register the target pointcut to the pointcut replaceTable
-			pointcutReplaceTable.put(handlerPointCut, targetPointCut);
-		}
-
-		// replace event pointcuts with corresponding pointcuts.
-		pointCut = pointCut.accept(new ReplacePointCutVisitor(), pointcutReplaceTable);
-
-		return pointCut;
-	}
 
 	private static int numProperties(JavaMOPSpecExt spec) {
 		int numProps = 0;
@@ -450,12 +330,6 @@ public class JavaMOPExtender {
 			HashMap<String, MOPSpecFileExt> depFiles) throws MOPException {
 		List<EventDefinitionExt> ret = new ArrayList<EventDefinitionExt>();
 
-		for (EventDefinitionExt event : spec.getEvents()) {
-			if (event.isAbstract()) {
-				ret.add(event);
-			}
-		}
-
 		if (!spec.hasExtend())
 			return ret;
 
@@ -489,14 +363,6 @@ public class JavaMOPExtender {
 	private static Pair<EventDefinitionExt, SpecContext> getReferencedEvent(ReferenceSpec ref, String pos, MOPParameters params, SpecContext context)
 			throws MOPException {
 		// search in the same spec
-		if (ref.getSpecName() == null || ref.getSpecName().equals(context.spec.getName())) {
-			for (EventDefinitionExt specEvent : context.spec.getEvents()) {
-				if (specEvent.getId().equals(ref.getReferenceElement()) && specEvent.getPos().equals(pos)
-						&& params.matchTypes(specEvent.getMOPParameters())) {
-					return new Pair<EventDefinitionExt, SpecContext>(specEvent, context);
-				}
-			}
-		}
 
 		if (!context.spec.hasExtend())
 			return null;

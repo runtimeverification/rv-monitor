@@ -20,8 +20,6 @@ public class RawMonitor extends Monitor{
 	MOPVariable loc = new MOPVariable("MOP_loc");
 	MOPVariable activity = new MOPVariable("MOP_activity");
 	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
-	MOPVariable wrapper = new MOPVariable("wrapper");
-	MOPVariable reset = new MOPVariable("reset");
 	MOPVariable lastevent = new MOPVariable("MOP_lastevent");
 	MOPVariable skipAroundAdvice = new MOPVariable("MOP_skipAroundAdvice");
 	MOPVariable thisJoinPoint = new MOPVariable("thisJoinPoint");
@@ -81,15 +79,9 @@ public class RawMonitor extends Monitor{
 		return ret;
 	}
 
-	public boolean isReturningSKIP(EventDefinition event){
-		boolean isAround = event.getPos().equals("around");
-		return isAround && event.has__SKIP();
-	}
-	
 	public String doEvent(EventDefinition event){
 		String ret = "";
 
-		boolean isAround = event.getPos().equals("around");
 		String uniqueId = event.getUniqueId();
 		int idnum = event.getIdNum();
 		MOPJavaCode condition = new MOPJavaCode(event.getCondition(), monitorName);
@@ -110,22 +102,14 @@ public class RawMonitor extends Monitor{
 			eventAction = new MOPJavaCode(eventActionStr);
 		}
 
-		if (isAround) {
-			ret += "public final boolean event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
-		} else {
 			ret += "public final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
-		}
 
-		if (isAround || has__SKIP)
+		if ( has__SKIP)
 			ret += "boolean " + skipAroundAdvice + " = false;\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";
-			if (isAround && has__SKIP) {
-				ret += "return false;\n";
-			} else {
-				ret += "return;\n";
-			}
+			ret += "return;\n";
 			ret += "}\n";
 		}
 
@@ -136,10 +120,6 @@ public class RawMonitor extends Monitor{
 		if(eventAction != null)
 			ret += eventAction;
 
-		if (isAround) {
-			ret += "return " + skipAroundAdvice + ";\n";
-		}
-		
 		ret += "}\n";
 
 		return ret;
@@ -167,9 +147,6 @@ public class RawMonitor extends Monitor{
 			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
-		if (event.getPos().equals("around") && event.has__SKIP()) {
-			ret += skipAroundAdvice + " |= ";
-		}
 		ret += monitorVar + ".event_" + event.getUniqueId() + "(";
 		ret += event.getMOPParameters().parameterString();
 		ret += ");\n";

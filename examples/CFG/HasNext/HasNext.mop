@@ -13,10 +13,8 @@ import java.util.*;
 // for matching rather than failure
 
 suffix HasNext(Iterator i) {
-   event hasnext before(Iterator i) : 
-       call(* Iterator.hasNext()) && target(i) {}
-   event next before(Iterator i) : 
-       call(* Iterator.next()) && target(i) {}
+   event hasnext(Iterator i)  {}
+   event next(Iterator i) {}
 
    cfg : S -> next next
 

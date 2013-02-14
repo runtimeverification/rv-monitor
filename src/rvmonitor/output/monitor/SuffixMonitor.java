@@ -200,7 +200,6 @@ public class SuffixMonitor extends Monitor {
 
 	public String Monitoring(MOPVariable monitorVar, EventDefinition event, MOPVariable loc, MOPVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
 		String ret = "";
-		boolean checkSkip = event.getPos().equals("around");
 
 		if (!isDefined)
 			return innerMonitor.Monitoring(monitorVar, event, loc, staticsig, l, aspectName, inMonitorSet);
@@ -222,20 +221,12 @@ public class SuffixMonitor extends Monitor {
 			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
-		if (checkSkip && event.has__SKIP()) {
-			ret += monitorVar + "." + skipAroundAdvice + " = false;\n";
-		}
-
 		ret += monitorVar + ".event_" + event.getUniqueId() + "(";
 		ret += event.getMOPParameters().parameterString();
 		ret += ");\n";
 
 		if (this.hasThisJoinPoint){
 			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
-		}
-
-		if (checkSkip && event.has__SKIP()) {
-			ret += skipAroundAdvice + " |= " + monitorVar + "." + skipAroundAdvice + ";\n";
 		}
 
 		return ret;
@@ -298,7 +289,7 @@ public class SuffixMonitor extends Monitor {
 			ret += "}\n";
 			ret += "}\n";
 			ret += "\n";
-			
+
 			// events
 			for (EventDefinition event : this.events) {
 				ret += this.doEvent(event) + "\n";

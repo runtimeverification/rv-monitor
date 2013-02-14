@@ -1,4 +1,6 @@
 import java.util.*;
+import mop.UnsafeIteratorRuntimeMonitor;
+
 
 public class UnsafeIterator_1 {
   public static void main(String[] args){
@@ -7,11 +9,15 @@ public class UnsafeIterator_1 {
       testSet.add(new Integer(i));
     }
     Iterator i = testSet.iterator();
+    UnsafeIteratorRuntimeMonitor.createEvent(testSet, i);
   
     int output = 0;	
     for(int j = 0; j < 10 && i.hasNext(); ++j){
-	  output += (Integer)i.next();
+      UnsafeIteratorRuntimeMonitor.nextEvent(i);
+      output += (Integer)i.next();
+
       testSet.add(new Integer(j));
+      UnsafeIteratorRuntimeMonitor.updatesourceEvent(testSet);
     }
 	System.out.println(output);
   }

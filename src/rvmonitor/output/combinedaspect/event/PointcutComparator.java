@@ -1,31 +1,13 @@
 package rvmonitor.output.combinedaspect.event;
 
-import java.util.ArrayList;
+import rvmonitor.parser.ast.aspectj.*;
 
-import rvmonitor.parser.ast.aspectj.ArgsPointCut;
-import rvmonitor.parser.ast.aspectj.CFlowPointCut;
-import rvmonitor.parser.ast.aspectj.CombinedPointCut;
-import rvmonitor.parser.ast.aspectj.ConditionPointCut;
-import rvmonitor.parser.ast.aspectj.EndObjectPointCut;
-import rvmonitor.parser.ast.aspectj.EndProgramPointCut;
-import rvmonitor.parser.ast.aspectj.EndThreadPointCut;
-import rvmonitor.parser.ast.aspectj.FieldPointCut;
-import rvmonitor.parser.ast.aspectj.IDPointCut;
-import rvmonitor.parser.ast.aspectj.IFPointCut;
-import rvmonitor.parser.ast.aspectj.MethodPointCut;
-import rvmonitor.parser.ast.aspectj.NotPointCut;
-import rvmonitor.parser.ast.aspectj.PointCut;
-import rvmonitor.parser.ast.aspectj.StartThreadPointCut;
-import rvmonitor.parser.ast.aspectj.TargetPointCut;
-import rvmonitor.parser.ast.aspectj.ThisPointCut;
-import rvmonitor.parser.ast.aspectj.ThreadBlockedPointCut;
-import rvmonitor.parser.ast.aspectj.ThreadNamePointCut;
-import rvmonitor.parser.ast.aspectj.ThreadPointCut;
-import rvmonitor.parser.ast.aspectj.WithinPointCut;
+import java.util.ArrayList;
 
 public class PointcutComparator {
 
 	public boolean compare(PointCut p1, PointCut p2){
+		if (p1 == null || p2 ==null) return false;
 		return p1.toString().equals(p2.toString());
 	}
 	

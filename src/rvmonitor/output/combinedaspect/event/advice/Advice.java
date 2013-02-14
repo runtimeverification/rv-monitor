@@ -1,25 +1,20 @@
 package rvmonitor.output.combinedaspect.event.advice;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import rvmonitor.MOPException;
 import rvmonitor.Main;
 import rvmonitor.output.MOPVariable;
-import rvmonitor.output.combinedaspect.ActivatorManager;
-import rvmonitor.output.combinedaspect.CombinedAspect;
-import rvmonitor.output.combinedaspect.GlobalLock;
-import rvmonitor.output.combinedaspect.MOPStatManager;
-import rvmonitor.output.combinedaspect.MOPStatistics;
-import rvmonitor.parser.ast.aspectj.PointCut;
+import rvmonitor.output.combinedaspect.*;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 import rvmonitor.parser.ast.mopspec.MOPParameter;
 import rvmonitor.parser.ast.mopspec.MOPParameters;
 
-public class AdviceAndPointCut {
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class Advice {
 	public MOPStatManager statManager;
 	public ActivatorManager activatorsManager;
 
@@ -27,16 +22,10 @@ public class AdviceAndPointCut {
 	MOPParameters inlineParameters;
 
 	MOPVariable pointcutName;
-	public PointCut pointcut;
 	MOPParameters parameters;
 
 	boolean hasThisJoinPoint;
-	public boolean isAround = false;
 	public boolean beCounted = false;
-	public String retType;
-	public String pos;
-	public MOPParameters retVal;
-	public MOPParameters throwVal;
 	public MOPParameters threadVars = new MOPParameters();
 	GlobalLock globalLock;
 	boolean isSync;
@@ -47,27 +36,13 @@ public class AdviceAndPointCut {
 	
 	HashMap<EventDefinition, AdviceBody> advices = new HashMap<EventDefinition, AdviceBody>();
 
-	MOPVariable commonPointcut = new MOPVariable("MOP_CommonPointCut");
-
-	AroundAdviceLocalDecl aroundLocalDecl = null;
-	AroundAdviceReturn aroundAdviceReturn = null;
-
-	public AdviceAndPointCut(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
+	public Advice(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
-		this.pointcutName = new MOPVariable(mopSpec.getName() + "_" + event.getUniqueId());
+		this.pointcutName = new MOPVariable(event.getUniqueId() + "Event");
 		this.inlineFuncName = new MOPVariable("MOPInline" + mopSpec.getName() + "_" + event.getUniqueId());
 		this.parameters = event.getParametersWithoutThreadVar();
 		this.inlineParameters = event.getMOPParametersWithoutThreadVar();
-
-		if (event.getPos().equals("around")) {
-			isAround = true;
-			retType = event.getRetType().toString();
-		}
-
-		this.pos = event.getPos();
-		this.retVal = event.getRetVal();
-		this.throwVal = event.getThrowVal();
 
 		if (event.getThreadVar() != null && event.getThreadVar().length() != 0) {
 			if (event.getParameters().getParam(event.getThreadVar()) == null)
@@ -84,27 +59,16 @@ public class AdviceAndPointCut {
 		this.isSync = mopSpec.isSync();
 
 		this.advices.put(event, new GeneralAdviceBody(mopSpec, event, combinedAspect));
-		
+
 		this.events.add(event);
 		if (event.getCountCond() != null && event.getCountCond().length() != 0) {
 			this.beCounted = true;
 		}
-		
-		this.pointcut = event.getPointCut();
-		
-		if (mopSpec.has__SKIP() || event.getPos().equals("around"))
-			aroundLocalDecl = new AroundAdviceLocalDecl();
-		if (event.getPos().equals("around"))
-			aroundAdviceReturn = new AroundAdviceReturn(event.getRetType(), event.getParametersWithoutThreadVar());
 
 		if(event.isStartEvent())
 			specsForActivation.add(mopSpec);
 		else
 			specsForChecking.add(mopSpec);
-	}
-
-	public PointCut getPointCut() {
-		return pointcut;
 	}
 
 	public String getPointCutName() {
@@ -150,15 +114,12 @@ public class AdviceAndPointCut {
 	
 	protected String adviceBody(){
 		String ret = "";
-		
+
 		if(Main.empty_advicebody){
 			ret += "System.out.print(\"\");\n";
 
 			Iterator<EventDefinition> iter;
-			if(this.pos.equals("before"))
-				iter = this.events.descendingIterator();
-			else
-				iter = this.events.iterator();
+			iter = this.events.iterator();
 			
 			if (this.beCounted) {
 				ret += "++" + this.pointcutName + "_count;\n";
@@ -177,34 +138,31 @@ public class AdviceAndPointCut {
 			for (MOPParameter threadVar : threadVars) {
 				ret += "Thread " + threadVar.getName() + " = Thread.currentThread();\n";
 			}
-			
+
 			for(JavaMOPSpec spec : specsForActivation){
 				ret += activatorsManager.getActivator(spec) + " = true;\n";
-			}			
-			
+			}
+
 			if (isSync) {
 				ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
 				ret += "Thread.yield();\n";
 				ret += "}\n";
 			}
-			
+
 			Iterator<EventDefinition> iter;
-			if(this.pos.equals("before"))
-				iter = this.events.descendingIterator();
-			else
-				iter = this.events.iterator();
+			iter = this.events.iterator();
 			
 			if (this.beCounted) {
 				ret += "++" + this.pointcutName + "_count;\n";
 			}
-			
+
 			while(iter.hasNext()){
-				EventDefinition event = iter.next(); 
-						
+				EventDefinition event = iter.next();
+
 				AdviceBody advice = advices.get(event);
 
 				ret += this.statManager.incEvent(advice.mopSpec, event);
-				
+
 				if(specsForChecking.contains(advice.mopSpec)){
 					if(advices.size() > 1){
 						ret += "//" + advice.mopSpec.getName() + "_" + event.getUniqueId() + "\n";
@@ -217,7 +175,7 @@ public class AdviceAndPointCut {
 						ret += "{\n";
 					}
 				}
-				
+
 				if (Main.statistics) {
 					MOPStatistics stat = this.statManager.getStat(advice.mopSpec);
 					
@@ -229,7 +187,7 @@ public class AdviceAndPointCut {
 	
 					ret += "\n";
 				}
-				
+
 				// add check count condition here
 				String countCond = event.getCountCond();
 				
@@ -238,7 +196,7 @@ public class AdviceAndPointCut {
 					ret += "if (" + countCond + ") {\n";
 				}
 				ret += advice;
-				
+
 				if (countCond != null && countCond.length() != 0) {
 					ret += "}\n";
 				}
@@ -251,7 +209,7 @@ public class AdviceAndPointCut {
 					}
 				}
 			}
-			
+
 			if (isSync) {
 				ret += globalLock.getName() + ".unlock();\n";
 			}
@@ -263,9 +221,8 @@ public class AdviceAndPointCut {
 
 	public String toString() {
 		String ret = "";
-		String pointcutStr = pointcut.toString();
 
-		if(Main.inline && !isAround){
+		if(Main.inline){
 			ret += "void " + inlineFuncName + "(" + inlineParameters.parameterDeclString();
 			if(hasThisJoinPoint){
 				if(inlineParameters.size() > 0) 
@@ -278,44 +235,15 @@ public class AdviceAndPointCut {
 			
 			ret += "}\n";
 		}
-		
-		
-		ret += "pointcut " + pointcutName;
+
+
+		ret += "public static void " + pointcutName;
 		ret += "(";
 		ret += parameters.parameterDeclString();
 		ret += ")";
-		ret += " : ";
-		if (pointcutStr != null && pointcutStr.length() != 0) {
-			ret += "(";
-			ret += pointcutStr;
-			ret += ")";
-			ret += " && ";
-		}
-		ret += commonPointcut + "();\n";
+		ret += " {\n";
 
-		if (isAround)
-			ret += retType + " ";
-
-		ret += pos + " (" + parameters.parameterDeclString() + ") ";
-
-		if (retVal != null && retVal.size() > 0) {
-			ret += "returning (";
-			ret += retVal.parameterDeclString();
-			ret += ") ";
-		}
-
-		if (throwVal != null && throwVal.size() > 0) {
-			ret += "throwing (";
-			ret += throwVal.parameterDeclString();
-			ret += ") ";
-		}
-
-		ret += ": " + pointcutName + "(" + parameters.parameterString() + ") {\n";
-
-		if (aroundLocalDecl != null)
-			ret += aroundLocalDecl;
-		
-		if(Main.inline && !isAround){
+		if(Main.inline){
 			ret += inlineFuncName + "(" + inlineParameters.parameterString();
 			if(hasThisJoinPoint){
 				if(inlineParameters.size() > 0) 
@@ -326,9 +254,6 @@ public class AdviceAndPointCut {
 		} else {
 			ret += adviceBody();
 		}
-
-		if (aroundAdviceReturn != null)
-			ret += aroundAdviceReturn;
 
 		ret += "}\n";
 

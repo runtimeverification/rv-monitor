@@ -117,33 +117,11 @@ public final class DumpVisitor extends rvmonitor.parser.ast.visitor.DumpVisitor 
 	}
 
 	public void visit(EventDefinitionExt e, Object arg) {
-		if (e.isAbstract())
-			printer.print("abstract "); // Soha:printing out abstract keyword
-
-		printer.print("event " + e.getId() + " " + e.getPos());
+		printer.print("event " + e.getId() + " ");
 		printSpecParameters(e.getParameters(), arg);
-		if (e.hasReturning()) {
-			printer.print("returning");
-			if (e.getRetVal() != null)
-				printSpecParameters(e.getRetVal(), arg);
-			printer.print(" ");
+		if (e.getAction() != null) {
+			e.getAction().accept(this, arg);
 		}
-		if (e.hasThrowing()) {
-			printer.print("throwing");
-			if (e.getThrowVal() != null)
-				printSpecParameters(e.getThrowVal(), arg);
-			printer.print(" ");
-		}
-		if (!e.isAbstract()) {
-			printer.print(":");
-
-			// e.getPointCut().accept(this, arg);
-			printer.print(e.getPointCutString());
-			if (e.getAction() != null) {
-				e.getAction().accept(this, arg);
-			}
-		} else
-			printer.print(";");
 
 		printer.printLn();
 	}

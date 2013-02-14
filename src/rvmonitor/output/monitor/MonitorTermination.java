@@ -1,19 +1,15 @@
 package rvmonitor.output.monitor;
 
-import java.util.HashMap;
-import java.util.List;
-
 import rvmonitor.MOPNameSpace;
 import rvmonitor.Main;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.OptimizedCoenableSet;
 import rvmonitor.output.combinedaspect.MOPStatistics;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
-import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameterSet;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class MonitorTermination {
 
@@ -35,9 +31,11 @@ public class MonitorTermination {
 	}
 	
 	public String getRefType(MOPParameter p){
-		RefTree refTree = refTrees.get(p.getType().toString());
-
-		return refTree.getResultType();
+		if (refTrees != null) {
+			RefTree refTree = refTrees.get(p.getType().toString());
+			return refTree.getResultType();
+		}
+		return p.getType().toString();
 	}
 	
 	public void setRefTrees(HashMap<String, RefTree> refTrees){
@@ -61,6 +59,7 @@ public class MonitorTermination {
 	}
 	
 	public String toString(){
+		int step = 0;
 		String ret = "";
 
 		for (MOPParameter param : parameters) {
@@ -73,7 +72,7 @@ public class MonitorTermination {
 			ret += "public boolean " + new MOPVariable("alive_parameters_" + j) + " = true;\n";
 		}
 		ret += "\n";
-		
+
 		ret += "public final void endObject(int idnum){\n";
 
 		ret += "switch(idnum){\n";
@@ -135,7 +134,7 @@ public class MonitorTermination {
 				}
 				ret += ")){\n";
 				ret += "MOP_terminated = true;\n";
-				
+
 				if (Main.statistics) {
 					ret += stat.incTerminatedMonitor();
 				}
@@ -162,7 +161,8 @@ public class MonitorTermination {
 			ret += "}\n";
 			ret += "}\n";
 		}
-		
+
+
 		return ret;
 	}
 }
