@@ -1,6 +1,8 @@
 
 import java.util.*;
 
+import mop.*;
+
 public class HasNext_1 {
 	public static void main(String[] args){
 		Vector<Integer> v = new Vector<Integer>();
@@ -14,9 +16,14 @@ public class HasNext_1 {
 		int sum = 0;
 
 		if(i.hasNext()){
+			HasNextRuntimeMonitor.hasnextEvent(i);
+			HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
 

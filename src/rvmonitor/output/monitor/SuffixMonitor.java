@@ -207,8 +207,8 @@ public class SuffixMonitor extends Monitor {
 		if (has__LOC) {
 			if(loc != null)
 				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
-			else
-				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
+//			else
+//				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
 		}
 		if (has__STATICSIG) {
 			if(staticsig != null)

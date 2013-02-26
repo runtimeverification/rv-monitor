@@ -22,19 +22,13 @@ import java.util.*;
 SafeHashSet(HashSet t, Object o) {
   int hashcode;
  
-  event add after(HashSet t, Object o) : 
-    call(* Collection+.add(Object)) 
-      && target(t) && args(o) {
+  event add(HashSet t, Object o) {
       hashcode = o.hashCode();
-    }
-  event unsafe_contains 
-    before(HashSet t, Object o) : 
-    call(* Collection+.contains(Object)) 
-    && target(t) && args(o) 
-    && condition(hashcode != o.hashCode()) {}
-  event remove after(HashSet t, Object o) : 
-    call(* Collection+.remove(Object)) 
-    && target(t) && args(o){}
+  }
+  event unsafe_contains(HashSet t, Object o) {
+    if (!(hashcode != o.hashCode())) return;
+  }
+  event remove(HashSet t, Object o) {}
  
   ere: add unsafe_contains unsafe_contains*
  

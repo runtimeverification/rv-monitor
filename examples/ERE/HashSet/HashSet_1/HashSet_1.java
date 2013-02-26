@@ -1,4 +1,6 @@
-import java.util.*;
+import mop.HashSetRuntimeMonitor;
+
+import java.util.HashSet;
 
 public class HashSet_1 {
 	static class Item {
@@ -32,6 +34,8 @@ public class HashSet_1 {
 //		System.out.println("initial hashcode " + item.hashCode());
 
 		s.add(item);
+		HashSetRuntimeMonitor.addEvent(s, item);
+		HashSetRuntimeMonitor.unsafe_containsEvent(s, item);
 		System.out.println("contains 1 : " + s.contains(item));
 
 		// The hashcode of "item" object will be modified.
@@ -39,6 +43,7 @@ public class HashSet_1 {
 //		System.out.println("updated hashcode " + item.hashCode());
 
 		// "contains" method should trigger "unsafe_contains" event.
+		HashSetRuntimeMonitor.unsafe_containsEvent(s, item);
 		System.out.println("contains 2 : " + s.contains(item));
 	}
 }

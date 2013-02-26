@@ -1,3 +1,5 @@
+package mop;
+
 import java.io.*;
 import java.util.*;
 
@@ -12,13 +14,8 @@ import java.util.*;
 // http://abc.comlab.ox.ac.uk/papers)
 
 suffix HasNext(Iterator i) {
-       event hasnext 
-             before(Iterator i) : 
-             call(* Iterator.hasNext()) 
-             && target(i) {}
-       event next before(Iterator i) : 
-             call(* Iterator.next()) 
-             && target(i) {}
+       event hasnext(Iterator i) {}
+       event next(Iterator i) {}
 
        ere : next next
 

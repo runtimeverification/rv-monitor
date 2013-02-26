@@ -10,7 +10,9 @@ public class HasNext2_2 {
 		int sum = 0;
 
 		// JavaMOP should not match "next next"
+		mop.HasNext2RuntimeMonitor.hasnextEvent(i);
 		if (i.hasNext()) {
+			mop.HasNext2RuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
 

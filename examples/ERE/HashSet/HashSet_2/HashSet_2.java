@@ -32,9 +32,12 @@ public class HashSet_2 {
 //		System.out.println("initial hashcode " + item.hashCode());
 
 		s.add(item);
+		mop.HashSetRuntimeMonitor.addEvent(s, item);
+		mop.HashSetRuntimeMonitor.unsafe_containsEvent(s, item);
 		System.out.println("contains 1 : " + s.contains(item));
 
 		s.remove(item);
+		mop.HashSetRuntimeMonitor.removeEvent(s, item);
 
 		// The hashcode of "item" object will be modified.
 		item.update("world");
@@ -42,6 +45,7 @@ public class HashSet_2 {
 
 		// "contains" method should not trigger "unsafe_contains" event
 		// because "item" was removed from this set.
+		mop.HashSetRuntimeMonitor.unsafe_containsEvent(s, item);
 		System.out.println("contains 2 : " + s.contains(item));
 	}
 }

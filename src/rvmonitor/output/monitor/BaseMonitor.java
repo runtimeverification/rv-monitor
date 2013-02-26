@@ -234,6 +234,22 @@ public class BaseMonitor extends Monitor {
 			ret += "}\n";
 		}
 
+
+		if (prop == props.get(props.size() - 1) && eventAction != null) {
+			for (MOPParameter p : event.getUsedParametersIn(specParam)) {
+				if (!event.getMOPParametersOnSpec().contains(p)) {
+					MOPVariable v = this.varsToSave.get(p);
+
+					ret += p.getType() + " " + p.getName() + " = null;\n";
+					ret += "if(" + v + " != null){\n";
+					ret += p.getName() + " = (" + p.getType() + ")" + v + ".get();\n";
+					ret += "}\n";
+				}
+			}
+
+			ret += eventAction;
+		}
+
 		for (MOPParameter p : varsToSave.keySet()) {
 			if (event.getMOPParametersOnSpec().contains(p)) {
 				MOPVariable v = varsToSave.get(p);
@@ -279,20 +295,6 @@ public class BaseMonitor extends Monitor {
 
 		ret += aftereventMonitoringCode;
 
-		if (prop == props.get(props.size() - 1) && eventAction != null) {
-			for (MOPParameter p : event.getUsedParametersIn(specParam)) {
-				if (!event.getMOPParametersOnSpec().contains(p)) {
-					MOPVariable v = this.varsToSave.get(p);
-
-					ret += p.getType() + " " + p.getName() + " = null;\n";
-					ret += "if(" + v + " != null){\n";
-					ret += p.getName() + " = (" + p.getType() + ")" + v + ".get();\n";
-					ret += "}\n";
-				}
-			}
-
-			ret += eventAction;
-		}
 
 		ret += "}\n";
 
@@ -310,8 +312,8 @@ public class BaseMonitor extends Monitor {
 		if (has__LOC) {
 			if(loc != null)
 				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
-			else
-				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
+//			else
+//				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
 		}
 
 		if (has__STATICSIG) {

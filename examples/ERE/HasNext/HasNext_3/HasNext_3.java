@@ -1,5 +1,8 @@
 
 import java.util.*;
+import java.util.Iterator;
+
+import mop.*;
 
 public class HasNext_3 {
        public static void main(String[] args) {
