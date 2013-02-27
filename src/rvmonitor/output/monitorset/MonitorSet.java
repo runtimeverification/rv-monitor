@@ -79,6 +79,10 @@ public class MonitorSet {
 		if (has__LOC) {
 			if (loc != null)
 				ret += monitorSetVar + "." + this.loc + " = " + loc + ";\n";
+			else
+				ret += monitorSetVar + "." + this.loc + " = " +
+						"Thread.currentThread().getStackTrace()[2].toString()"
+						+ ";\n";
 //			else
 //				ret += monitorSetVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
 		}

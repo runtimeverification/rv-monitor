@@ -131,7 +131,10 @@ public class RawMonitor extends Monitor{
 		if (has__LOC) {
 			if(loc != null)
 				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
-//			else
+			else
+				ret += monitorVar + "." + this.loc + " = " +
+						"Thread.currentThread().getStackTrace()[2].toString()"
+					+ ";\n";
 //				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
 		}
 		
