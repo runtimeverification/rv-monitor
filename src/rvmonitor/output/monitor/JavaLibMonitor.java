@@ -3,17 +3,14 @@
 
 package rvmonitor.output.monitor;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import rvmonitor.MOPException;
-import rvmonitor.output.MOPJavaCode;
-import rvmonitor.output.MOPJavaCodeNoNewLine;
-import rvmonitor.output.MOPVariable;
-import rvmonitor.output.OptimizedCoenableSet;
+import rvmonitor.output.*;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class JavaLibMonitor extends BaseMonitor {
 	private BaseMonitor basemon;
@@ -62,7 +59,8 @@ public class JavaLibMonitor extends BaseMonitor {
  			eventActionStr = eventActionStr.replaceAll("__DEFAULT_MESSAGE", defaultMessage);
       //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
       // -P
-			eventActionStr = eventActionStr.replaceAll("__LOC", "this." + loc);
+			eventActionStr = eventActionStr.replaceAll("__LOC",
+					Util.defaultLocation);
 			eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 			eventActionStr = eventActionStr.replaceAll("__SKIP", skipAroundAdvice + " = true");
 

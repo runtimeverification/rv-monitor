@@ -14,9 +14,14 @@ public class HasNext_1 {
 		int sum = 0;
 
 		if(i.hasNext()){
+			mop.HasNextRuntimeMonitor.hasnextEvent(i);
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
 

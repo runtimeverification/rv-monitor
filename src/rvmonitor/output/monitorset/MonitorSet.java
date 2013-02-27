@@ -76,16 +76,16 @@ public class MonitorSet {
 
 		ret += "if(" + monitorSetVar + " != null) {\n";
 
-		if (has__LOC) {
-			if (loc != null)
-				ret += monitorSetVar + "." + this.loc + " = " + loc + ";\n";
-			else
-				ret += monitorSetVar + "." + this.loc + " = " +
-						"Thread.currentThread().getStackTrace()[2].toString()"
-						+ ";\n";
+//		if (has__LOC) {
+//			if (loc != null)
+//				ret += monitorSetVar + "." + this.loc + " = " + loc + ";\n";
+//			else
+//				ret += monitorSetVar + "." + this.loc + " = " +
+//						"Thread.currentThread().getStackTrace()[2].toString()"
+//						+ ";\n";
 //			else
 //				ret += monitorSetVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
-		}
+//		}
 		
 		if (has__STATICSIG) {
 			if(staticsig != null)
@@ -124,8 +124,8 @@ public class MonitorSet {
 		ret += "protected " + monitorName + "[] elementData;\n";
 //		ret += "public int size;\n";
 
-		if (has__LOC)
-			ret += "String " + loc + " = null;\n";
+//		if (has__LOC)
+//			ret += "String " + loc + " = null;\n";
 		if (this.has__STATICSIG)
 			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 

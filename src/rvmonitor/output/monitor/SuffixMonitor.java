@@ -204,16 +204,16 @@ public class SuffixMonitor extends Monitor {
 		if (!isDefined)
 			return innerMonitor.Monitoring(monitorVar, event, loc, staticsig, l, aspectName, inMonitorSet);
 
-		if (has__LOC) {
-			if(loc != null)
-				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
-			else
-				ret += monitorVar + "." + this.loc + " = " +
-						"Thread.currentThread().getStackTrace()[2].toString()"
-						+ ";\n";
+//		if (has__LOC) {
+//			if(loc != null)
+//				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
+//			else
+//				ret += monitorVar + "." + this.loc + " = " +
+//						"Thread.currentThread().getStackTrace()[2].toString()"
+//						+ ";\n";
 //			else
 //				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
-		}
+//		}
 		if (has__STATICSIG) {
 			if(staticsig != null)
 				ret += monitorVar + "." + this.staticsig + " = " + staticsig + ";\n";
@@ -263,8 +263,8 @@ public class SuffixMonitor extends Monitor {
 
 			if (this.has__ACTIVITY)
 				ret += activityCode();
-			if (this.has__LOC)
-				ret += "String " + loc + ";\n";
+//			if (this.has__LOC)
+//				ret += "String " + loc + ";\n";
 			if (this.has__STATICSIG)
 				ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 			if (this.hasThisJoinPoint)

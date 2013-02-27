@@ -1,10 +1,7 @@
 package rvmonitor.output.monitor;
 
 import rvmonitor.MOPException;
-import rvmonitor.output.MOPJavaCode;
-import rvmonitor.output.MOPVariable;
-import rvmonitor.output.OptimizedCoenableSet;
-import rvmonitor.output.UserJavaCode;
+import rvmonitor.output.*;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
@@ -94,7 +91,7 @@ public class RawMonitor extends Monitor{
  			eventActionStr = eventActionStr.replaceAll("__DEFAULT_MESSAGE", defaultMessage);
       //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
       // -P
-			eventActionStr = eventActionStr.replaceAll("__LOC", "this." + loc);
+			eventActionStr = eventActionStr.replaceAll("__LOC", Util.defaultLocation);
 			eventActionStr = eventActionStr.replaceAll("__ACTIVITY", "this." + activity);
 			eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 			eventActionStr = eventActionStr.replaceAll("__SKIP", skipAroundAdvice + " = true");
@@ -128,15 +125,15 @@ public class RawMonitor extends Monitor{
 	public String Monitoring(MOPVariable monitorVar, EventDefinition event, MOPVariable loc, MOPVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
 		String ret = "";
 
-		if (has__LOC) {
-			if(loc != null)
-				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
-			else
-				ret += monitorVar + "." + this.loc + " = " +
-						"Thread.currentThread().getStackTrace()[2].toString()"
-					+ ";\n";
+//		if (has__LOC) {
+//			if(loc != null)
+//				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
+//			else
+//				ret += monitorVar + "." + this.loc + " = " +
+//						"Thread.currentThread().getStackTrace()[2].toString()"
+//					+ ";\n";
 //				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
-		}
+//		}
 		
 		if (has__STATICSIG) {
 			if(staticsig != null)
@@ -192,8 +189,8 @@ public class RawMonitor extends Monitor{
 		ret += monitorDeclaration + "\n";
 		if (this.has__ACTIVITY)
 			ret += activityCode();
-		if (this.has__LOC)
-			ret += "String " + loc + ";\n";
+//		if (this.has__LOC)
+//			ret += "String " + loc + ";\n";
 		if (this.has__STATICSIG)
 			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 

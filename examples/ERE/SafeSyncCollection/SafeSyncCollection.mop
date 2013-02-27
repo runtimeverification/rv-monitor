@@ -13,22 +13,16 @@ import java.util.*;
 SafeSyncCollection(Object c, Iterator iter) {
 	Object c;
 
-	creation event sync after() returning(Object c) : 
-		call(* Collections.synchr*(..)) {
+	creation event sync(Object c) // after
+		{
 			this.c = c;
 		}
-	event syncCreateIter after(Object c) 
-                returning(Iterator iter) : 
-		call(* Collection+.iterator()) 
-                && target(c) && if(Thread.holdsLock(c)){}
-	event asyncCreateIter after(Object c) returning(Iterator iter) : 
-		call(* Collection+.iterator()) 
-                && target(c) 
-                && if(!Thread.holdsLock(c)){}
-	event accessIter before(Iterator iter) : 
-		call(* Iterator.*(..)) 
-                && target(iter) 
-                && condition(!Thread.holdsLock(this.c)) {}
+	event syncCreateIter(Object c, Iterator iter) // after
+                { if(!Thread.holdsLock(c)) return;}
+	event asyncCreateIter(Object c, Iterator iter) // after
+                { if(Thread.holdsLock(c)) return;}
+	event accessIter(Iterator iter) // before
+                { if (Thread.holdsLock(this.c)) return; }
 
 	ere : (sync asyncCreateIter) 
             | (sync syncCreateIter accessIter)

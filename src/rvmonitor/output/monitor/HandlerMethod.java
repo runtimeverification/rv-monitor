@@ -1,14 +1,15 @@
 package rvmonitor.output.monitor;
 
-import java.util.HashMap;
-
 import rvmonitor.Main;
 import rvmonitor.output.MOPJavaCode;
 import rvmonitor.output.MOPVariable;
+import rvmonitor.output.Util;
 import rvmonitor.parser.ast.mopspec.MOPParameter;
 import rvmonitor.parser.ast.mopspec.MOPParameters;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 import rvmonitor.parser.ast.stmt.BlockStmt;
+
+import java.util.HashMap;
 
 public class HandlerMethod {
 	PropertyAndHandlers prop;
@@ -45,7 +46,7 @@ public class HandlerMethod {
       handlerBody = handlerBody.replaceAll("__DEFAULT_MESSAGE", monitor.getDefaultMessage());
       //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
       // -P
-			handlerBody = handlerBody.replaceAll("__LOC", "this." + loc);
+			handlerBody = handlerBody.replaceAll("__LOC", Util.defaultLocation);
 			handlerBody = handlerBody.replaceAll("__STATICSIG", "this." + staticsig);
 			handlerBody = handlerBody.replaceAll("__SKIP", skipAroundAdvice + " = true");
 			

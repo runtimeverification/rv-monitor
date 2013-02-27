@@ -214,7 +214,9 @@ public class BaseMonitor extends Monitor {
 				eventActionStr = eventActionStr.replaceAll("__DEFAULT_MESSAGE", defaultMessage);
         //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
         // -P
-				eventActionStr = eventActionStr.replaceAll("__LOC", "this." + loc);
+				eventActionStr = eventActionStr.replaceAll("__LOC",
+						Util.defaultLocation);
+//						"this." + loc);
 				eventActionStr = eventActionStr.replaceAll("__ACTIVITY", "this." + activity);
 				eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 				eventActionStr = eventActionStr.replaceAll("__SKIP", "this." + skipAroundAdvice + " = true");
@@ -309,14 +311,14 @@ public class BaseMonitor extends Monitor {
 	public String Monitoring(MOPVariable monitorVar, EventDefinition event, MOPVariable loc, MOPVariable staticsig, GlobalLock lock, String aspectName, boolean inMonitorSet) {
 		String ret = "";
 
-		if (has__LOC) {
-			if(loc != null)
-				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
-			else
-				ret += monitorVar + "." + this.loc + " = " +
-						"Thread.currentThread().getStackTrace()[2].toString()"
-					+ ";\n";
-		}
+//		if (has__LOC) {
+//			if(loc != null)
+//				ret += monitorVar + "." + this.loc + " = " + loc + ";\n";
+//			else
+//				ret += monitorVar + "." + this.loc + " = " +
+//						"Thread.currentThread().getStackTrace()[2].toString()"
+//					+ ";\n";
+//		}
 
 		if (has__STATICSIG) {
 			if(staticsig != null)
@@ -415,8 +417,8 @@ public class BaseMonitor extends Monitor {
 		ret += monitorDeclaration + "\n";
 		if (this.has__ACTIVITY)
 			ret += activityCode();
-		if (this.has__LOC)
-			ret += "String " + loc + ";\n";
+//		if (this.has__LOC)
+//			ret += "String " + loc + ";\n";
 		if (this.has__STATICSIG)
 			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 		if (this.hasThisJoinPoint)

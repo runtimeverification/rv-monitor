@@ -11,17 +11,14 @@ SafeFileWriter(FileWriter f) {
 	static int counter = 0;
 	int writes = 0;
 
-	event open after() returning(FileWriter f) : 
-		call(FileWriter.new(..)) {
+	event open(FileWriter f) { //after
 			this.writes = 0;
 		}
-	event write before(FileWriter f) : 
-		call(* write(..)) && target(f) {
+	event write(FileWriter f) { //  before
 			this.writes ++;
 		}
-	event close after(FileWriter f) : 
-		call(* close(..)) && target(f) {}
- 		
+	event close(FileWriter f) {} //  after
+
 	ere : (open write write* close)*
 
 	@fail {
