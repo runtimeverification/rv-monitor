@@ -11,18 +11,14 @@ import java.util.*;
 // the CFG specifies the correct behavior.
 
 SafeFile(FileReader f, Thread t) {
-   event open after(Thread t) returning(FileReader f) : 
-      call(FileReader.new(..)) && thread(t){}
-   event close after(FileReader f, Thread t) : 
-      call(* FileReader.close(..)) && target(f) && thread(t){}
-   event begin before(Thread t) :
-      execution(* *.*(..)) && thread(t) {}
-   event end after(Thread t) :
-      execution(* *.*(..)) && thread(t) {}
+   event open(FileReader f, Thread t) {} // after
+   event close(FileReader f, Thread t) {} // after
+   event beginCall(Thread t) {} // before
+   event endCall(Thread t) {} // after
 
    cfg : 
       S -> A S | epsilon, 
-      A -> A begin A end | A open A close | epsilon
+      A -> A beginCall A endCall | A open A close | epsilon
 
    @fail {
       System.out.println("improper use of files");

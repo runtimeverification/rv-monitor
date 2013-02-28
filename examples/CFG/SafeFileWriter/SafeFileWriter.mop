@@ -15,12 +15,9 @@ import java.util.*;
 
 SafeFileWriter(FileWriter f) {
      
-   event open after() returning(FileWriter f) : 
-      call(FileWriter.new(..)) {}
-   event write before(FileWriter f) : 
-      call(* write(..)) && target(f) {}
-   event close after(FileWriter f) : 
-      call(* close(..)) && target(f) {}
+   event open(FileWriter f) {} // after
+   event write(FileWriter f) {} // before
+   event close(FileWriter f) {} // after
 
    cfg : 
       S -> open SafeWrite close write, 
