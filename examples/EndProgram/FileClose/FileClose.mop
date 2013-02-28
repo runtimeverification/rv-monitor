@@ -6,13 +6,12 @@ import java.util.*;
 
 FileClose(FileWriter f) {
 	FileWriter saved_fw;
-	creation event write before(FileWriter f) : call(* FileWriter+.write(..)) && target(f) {
+	creation event write(FileWriter f) { // before
 		saved_fw = f;
 	}
-	event close after(FileWriter f) : call(* FileWriter+.close(..)) && target(f) {
-	}
+	event close(FileWriter f) {} // after
 
-	event endProg before() : endProgram() {
+	event endProg() { // before
 		System.out.println("Program has ended.");
 	}
 

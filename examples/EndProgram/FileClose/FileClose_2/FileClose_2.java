@@ -1,6 +1,6 @@
 
-import java.util.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
 
 public class FileClose_2 {
 	public static void main(String[] args){
@@ -18,28 +18,44 @@ public class FileClose_2 {
 			fw_5 = new FileWriter(File.createTempFile("rvmonitortest5", ".tmp"));
 
 			fw_1.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_1);
 			fw_2.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_2);
 			fw_3.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_3);
 			fw_4.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_4);
 			fw_5.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_5);
 
 			fw_1.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_1);
 			fw_2.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_2);
 			fw_4.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_4);
 			fw_5.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_5);
 
 			fw_1.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_1);
 			fw_3.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_3);
 			fw_5.write("testing\n");
+			mop.FileCloseRuntimeMonitor.writeEvent(fw_5);
 
 			fw_1.close();
+			mop.FileCloseRuntimeMonitor.closeEvent(fw_1);
 			fw_2.close();
+			mop.FileCloseRuntimeMonitor.closeEvent(fw_2);
 			fw_3.close();
+			mop.FileCloseRuntimeMonitor.closeEvent(fw_3);
 			//fw_4.close();
 			//fw_5.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		mop.FileCloseRuntimeMonitor.endProgEvent();
 	}
 }
 

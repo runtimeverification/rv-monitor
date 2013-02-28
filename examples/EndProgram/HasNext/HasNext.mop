@@ -5,14 +5,10 @@ import java.util.*;
 
 
 HasNext(Iterator i) {
-	creation event hasnext after(Iterator i) : 
-              call(* Iterator.hasNext()) 
-              && target(i) {}
-	creation event next before(Iterator i) : 
-              call(* Iterator.next()) 
-              && target(i) {}
-	event endProg before() : endProgram() 
-		{System.out.println("Program has ended.");}
+	creation event hasnext(Iterator i) {} // after
+	creation event next(Iterator i) {} // before
+	event endProg() { // before
+		System.out.println("Program has ended.");}
 
 	ere : (hasnext+ next)* hasnext* endProg
 

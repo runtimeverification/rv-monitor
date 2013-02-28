@@ -10,17 +10,12 @@ import java.util.*;
 
 UnsafeIterator(Collection c, Iterator i) {
 
-	event create after(Collection c) 
-		returning(Iterator i) : 
-		call(Iterator Collection+.iterator()) && target(c) {}
+	event create(Collection c, Iterator i) {} // after
 
-	event updatesource after(Collection c) : 
-		call(* Collection+.remove*(..)) && target(c) {}
-	event updatesource after() : 
-		call(* Collection+.add*(..)) {}
+	event updatesource(Collection c) {} //  after
+	event updatesource() {} //  after
 
-	event next before(Iterator i) : 
-	call(* Iterator.next()) && target(i) {}
+	event next(Iterator i) {} // before
 
 	ere : create next* updatesource updatesource* next
 
