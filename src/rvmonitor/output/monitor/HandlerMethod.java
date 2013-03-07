@@ -76,7 +76,7 @@ public class HandlerMethod {
 	public String toString() {
 		String ret = "";
 
-		ret += "public final ";
+		ret += "final ";
 
 		// if we want a handler to return some value, change it.
 		ret += "void ";

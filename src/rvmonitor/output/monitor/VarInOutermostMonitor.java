@@ -1,11 +1,11 @@
 package rvmonitor.output.monitor;
 
-import java.util.List;
-
 import rvmonitor.output.MOPVariable;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 import rvmonitor.parser.ast.mopspec.MOPParameters;
+
+import java.util.List;
 
 public class VarInOutermostMonitor {
 	MOPParameters parameters;
@@ -25,7 +25,7 @@ public class VarInOutermostMonitor {
 		String ret = "";
 
 		if(isGeneral){
-			ret += "public long " + tau + " = -1;\n";
+			ret += "long " + tau + " = -1;\n";
 		}
 		
 		return ret;

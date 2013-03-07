@@ -63,13 +63,13 @@ public class MonitorTermination {
 		String ret = "";
 
 		for (MOPParameter param : parameters) {
-			ret += "public " + getRefType(param) + " " + references.get(param) + ";\n";
+			ret += getRefType(param) + " " + references.get(param) + ";\n";
 		}
 		ret += "\n";
 
 		for (int j = 0; j < coenableSet.getParameterGroups().size(); j++) {
 			ret += "//alive_parameters_" + j + " = " + coenableSet.getParameterGroups().get(j) + "\n";
-			ret += "public boolean " + new MOPVariable("alive_parameters_" + j) + " = true;\n";
+			ret += "boolean " + new MOPVariable("alive_parameters_" + j) + " = true;\n";
 		}
 		ret += "\n";
 

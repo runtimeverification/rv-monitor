@@ -69,7 +69,7 @@ public class JavaLibMonitor extends BaseMonitor {
 
 		// The parameter is omitted so as to be able to implement a more
 		// general interface
-		ret += "public final void event_" + uniqueId + "(" + ") {\n";
+		ret += "final void event_" + uniqueId + "(" + ") {\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";
@@ -118,7 +118,7 @@ public class JavaLibMonitor extends BaseMonitor {
 
 		PropMonitor propMonitor = propMonitors.get(prop);
 
-		ret += "public class " + monitorName;
+		ret += "class " + monitorName;
 		if (isOutermost)
 			ret += " extends " + basemon.monitorName;
 		ret += " implements JavaLibInterface, rvmonitorrt.MOPObject {\n";
@@ -134,7 +134,7 @@ public class JavaLibMonitor extends BaseMonitor {
 		ret += "\n";
 
 		// constructor
-		ret += "public " + monitorName + " () {\n";
+		ret += monitorName + " () {\n";
 		ret += "super();\n";
 		ret += "}\n";
 		ret += "\n";
@@ -146,13 +146,13 @@ public class JavaLibMonitor extends BaseMonitor {
 		}
 
 		ret += "@Override\n";
-		ret += "public boolean isCoreachable() {\n";
+		ret += "boolean isCoreachable() {\n";
 		// todo: check to make sure this is correct for coreachable
 		ret += "return " + (hasFail ? "!Category_fail" : "true") + ";\n";
 		ret += "}\n\n";
 
 		ret += "@Override\n";
-		ret += "public void process(String s) {\n";
+		ret += "void process(String s) {\n";
 		for (EventDefinition event : this.events) {
 			String e = event.getId();
 			ret += "if (s.equals(\"" + e + "\")) { event_" + e + "(); return; }\n";
@@ -161,7 +161,7 @@ public class JavaLibMonitor extends BaseMonitor {
 		ret += "}\n\n";
 
 		ret += "@Override\n";
-		ret += "public Category getCategory() {\n";
+		ret += "Category getCategory() {\n";
 		if (hasMatch)
 			ret += "if (Category_match) return Category.Match;\n";
 		if (hasFail)

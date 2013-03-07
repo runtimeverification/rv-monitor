@@ -99,7 +99,7 @@ public class RawMonitor extends Monitor{
 			eventAction = new MOPJavaCode(eventActionStr);
 		}
 
-			ret += "public final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+			ret += "final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
 
 		if ( has__SKIP)
 			ret += "boolean " + skipAroundAdvice + " = false;\n";
@@ -174,7 +174,7 @@ public class RawMonitor extends Monitor{
 			ret += varInOutermostMonitor;
 
 		//clone()
-		ret += "public Object clone() {\n";
+		ret += "protected Object clone() {\n";
 		ret += "try {\n";
 		ret += monitorName + " ret = (" + monitorName + ") super.clone();\n";
 		if (monitorInfo != null)
@@ -203,7 +203,7 @@ public class RawMonitor extends Monitor{
 		}
 		
 		//reset
-		ret += "public final void reset() {\n";
+		ret += "final void reset() {\n";
 		if (isOutermost) {
 			ret += lastevent + " = -1;\n";
 		}

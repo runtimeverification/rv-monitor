@@ -122,7 +122,7 @@ public class MonitorSet {
 
 		ret += "class " + setName + " extends rvmonitorrt.MOPSet {\n";
 		ret += "protected " + monitorName + "[] elementData;\n";
-//		ret += "public int size;\n";
+//		ret += "int size;\n";
 
 //		if (has__LOC)
 //			ret += "String " + loc + " = null;\n";
@@ -137,7 +137,7 @@ public class MonitorSet {
 
 		ret += "\n";
 
-		ret += "public " + setName + "(){\n";
+		ret += setName + "(){\n";
 		ret += "this.size = 0;\n";
 		ret += "this.elementData = new " + monitorName + "[4];\n";
 		ret += "}\n";
@@ -217,7 +217,7 @@ public class MonitorSet {
 		ret += "}\n";
 		ret += "\n";
 
-//		ret += "public final void cleanup() {\n";
+//		ret += "final void cleanup() {\n";
 //		ret += "int num_terminated_monitors = 0 ;\n";
 //		ret += "for(int i = 0; i + num_terminated_monitors < size; i ++){\n";
 //		ret += monitorName + " monitor = ";
@@ -248,7 +248,7 @@ public class MonitorSet {
 //		ret += "}\n";
 //		ret += "}\n";
 
-		ret += "public final void cleanup() {\n";
+		ret += "final void cleanup() {\n";
 		ret += "int numAlive = 0 ;\n";
 		ret += "for(int i = 0; i < size; i++){\n";
 		ret += monitorName + " monitor = ";
@@ -271,7 +271,7 @@ public class MonitorSet {
 
 			ret += "\n";
 
-			ret += "public final void event_" + eventName + "(";
+			ret += "final void event_" + eventName + "(";
 			ret += parameters.parameterDeclString();
 			ret += ") {\n";
 

@@ -159,7 +159,7 @@ public class SuffixMonitor extends Monitor {
 
 		categoryVars.addAll(innerMonitor.getCategoryVars());
 
-		ret += "public final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+		ret += "final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
 
 		if (isOutermost) {
 			ret += lastevent + " = " + idnum + ";\n";
@@ -273,7 +273,7 @@ public class SuffixMonitor extends Monitor {
 				ret += "boolean " + skipAroundAdvice + " = false;\n";
 
 			// clone()
-			ret += "public Object clone() {\n";
+			ret += "protected Object clone() {\n";
 			ret += "try {\n";
 			ret += monitorName + " ret = (" + monitorName + ") super.clone();\n";
 			if (monitorInfo != null)

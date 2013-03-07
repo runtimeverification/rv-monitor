@@ -225,7 +225,7 @@ public class BaseMonitor extends Monitor {
 			}
 		}
 
-		ret += "public final void " + methodNamePrefix + propMonitor.eventMethods.get(uniqueId) + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+		ret += "final void " + methodNamePrefix + propMonitor.eventMethods.get(uniqueId) + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";
@@ -396,7 +396,7 @@ public class BaseMonitor extends Monitor {
 			ret += varInOutermostMonitor;
 
 		// clone()
-		ret += "public Object clone() {\n";
+		ret += "protected Object clone() {\n";
 		if (Main.statistics) {
 			ret += stat.incNumMonitor();
 		}
@@ -452,7 +452,7 @@ public class BaseMonitor extends Monitor {
 		ret += "\n";
 
 		// constructor
-		ret += "public " + monitorName + " () {\n";
+		ret += monitorName + " () {\n";
 		for(PropertyAndHandlers prop : props){
 			if (prop.getVersionedStack()) {
 				MOPVariable global_depth = new MOPVariable("global_depth");
@@ -491,7 +491,7 @@ public class BaseMonitor extends Monitor {
 		}
 
 		// reset
-		ret += "public final void reset() {\n";
+		ret += "final void reset() {\n";
 		if (monitorInfo != null)
 			ret += monitorInfo.initConnected();
 		for(PropertyAndHandlers prop : props){
@@ -528,7 +528,7 @@ public class BaseMonitor extends Monitor {
 					
 					propMonitor.hashcodeMethod = new MOPVariable("Prop_" + prop.getPropertyId() + "_hashCode");
 					
-					ret += "public final int " + propMonitor.hashcodeMethod + "() {\n";
+					ret += "final int " + propMonitor.hashcodeMethod + "() {\n";
 					ret += propMonitor.hashcodeCode;
 					ret += "}\n";
 				}
