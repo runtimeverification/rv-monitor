@@ -161,6 +161,11 @@ public class SuffixMonitor extends Monitor {
 
 		ret += "final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
 
+
+		for (MOPVariable var : getCategoryVars()) {
+			ret += BaseMonitor.getNiceVariable(var) + " = false;\n";
+		}
+
 		if (isOutermost) {
 			ret += lastevent + " = " + idnum + ";\n";
 		}
@@ -229,6 +234,11 @@ public class SuffixMonitor extends Monitor {
 		ret += event.getMOPParameters().parameterString();
 		ret += ");\n";
 
+		for (MOPVariable var : getCategoryVars()) {
+			ret += BaseMonitor.getNiceVariable(var) + " |= " +
+					monitorVar + "." + BaseMonitor.getNiceVariable(var) + ";" +
+					"\n";
+		}
 		if (this.hasThisJoinPoint){
 			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
 		}
@@ -255,6 +265,10 @@ public class SuffixMonitor extends Monitor {
 			if (isOutermost)
 				ret += " extends rvmonitorrt.MOPMonitor";
 			ret += " implements Cloneable, rvmonitorrt.MOPObject {\n";
+
+			for (MOPVariable var : getCategoryVars()) {
+			ret += "boolean " + BaseMonitor.getNiceVariable(var) + ";\n";
+			}
 
 			if(varInOutermostMonitor != null)
 				ret += varInOutermostMonitor;

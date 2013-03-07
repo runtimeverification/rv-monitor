@@ -11,8 +11,11 @@ public class HasNext2_2 {
 
 		// JavaMOP should not match "next next"
 		if (i.hasNext()) {
+			mop.HasNext2RuntimeMonitor.hasnextEvent(i);
+			mop.HasNext2RuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-		}
+		} else mop.HasNext2RuntimeMonitor.hasnextEvent(i);
+
 
 		System.out.println("sum: " + sum);
 	}

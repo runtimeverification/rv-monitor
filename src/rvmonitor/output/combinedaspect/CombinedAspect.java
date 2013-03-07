@@ -9,6 +9,7 @@ import rvmonitor.output.combinedaspect.indexingtree.IndexingDecl;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTreeManager;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
+import rvmonitor.output.monitor.BaseMonitor;
 import rvmonitor.output.monitor.Monitor;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
@@ -18,6 +19,7 @@ import rvmonitor.parser.ast.mopspec.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CombinedAspect {
 	String name;
@@ -139,12 +141,33 @@ public class CombinedAspect {
 		return ret;
 	}
 
+
+	public String categoryVarsDecl() {
+		Set<MOPVariable> categoryVars = new HashSet<MOPVariable>();
+		for (JavaMOPSpec mopSpec : this.specs) {
+			MonitorSet monitorSet =  monitorSets.get(mopSpec);
+			Monitor monitorClass = monitors.get(mopSpec);
+			categoryVars.addAll(monitorSet.getCategoryVars());
+			categoryVars.addAll(monitorClass.getCategoryVars());
+		}
+		String ret = "";
+		for (MOPVariable variable : categoryVars) {
+			ret += "public static boolean " +
+					BaseMonitor.getNiceVariable(variable) + " = " +
+					"false;\n";
+		}
+		return ret;
+	}
+
+
 	public String toString() {
 		String ret = "";
 
 		ret += this.statManager.statClass();
 		
 		ret += "public class " + this.name + " implements rvmonitorrt.MOPObject {\n";
+
+		ret += categoryVarsDecl();
 
 		ret += "private static rvmonitorrt.map.MOPMapManager " + mapManager + ";\n";
 

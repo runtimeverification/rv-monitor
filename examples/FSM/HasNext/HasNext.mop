@@ -10,10 +10,8 @@ import java.util.*;
 // (see ECOOP'07 http://abc.comlab.ox.ac.uk/papers)
 
 full-binding HasNext(Iterator i) {
-   event hasnext after(Iterator i) : 
-      call(* Iterator.hasNext()) && target(i) {} 
-   event next before(Iterator i) : 
-      call(* Iterator.next()) && target(i) {}
+   event hasnext(Iterator i) {} // after
+   event next(Iterator i) {} // before 
 
    fsm :
      start [

@@ -8,6 +8,7 @@ import rvmonitor.output.combinedaspect.MOPStatManager;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingCache;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
+import rvmonitor.output.monitor.BaseMonitor;
 import rvmonitor.output.monitor.MonitorInfo;
 import rvmonitor.parser.ast.mopspec.*;
 
@@ -806,6 +807,11 @@ public class GeneralAdviceBody extends AdviceBody {
 	
 	public String toString() {
 		String ret = "";
+		if (!indexingTree.containsSet()) {
+			for (MOPVariable variable : monitorClass.getCategoryVars()) {
+				ret += BaseMonitor.getNiceVariable(variable) + " = false;\n";
+			}
+		}
 		localVars.init();
 
 		if (indexingTree.hasCache()) {

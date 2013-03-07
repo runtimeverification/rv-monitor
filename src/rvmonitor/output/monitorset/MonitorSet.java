@@ -3,6 +3,7 @@ package rvmonitor.output.monitorset;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.output.combinedaspect.MOPStatistics;
+import rvmonitor.output.monitor.BaseMonitor;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
@@ -12,6 +13,7 @@ import rvmonitor.parser.ast.stmt.BlockStmt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MonitorSet {
 	MOPVariable setName;
@@ -102,6 +104,11 @@ public class MonitorSet {
 		ret += event.getMOPParameters().parameterString();
 		ret += ");\n";
 
+		for (MOPVariable var : monitor.getCategoryVars()) {
+			ret += BaseMonitor.getNiceVariable(var) + " = " + monitorSetVar +
+					"." + BaseMonitor.getNiceVariable(var) + ";\n";
+		}
+
 		ret += "}\n";
 
 		if (this.hasThisJoinPoint) {
@@ -134,6 +141,11 @@ public class MonitorSet {
 
 		if (hasThisJoinPoint)
 			ret += "JoinPoint " + this.thisJoinPoint + " = null;\n";
+
+		for (MOPVariable var : this.monitor.getCategoryVars()) {
+			ret += "boolean " + BaseMonitor.getNiceVariable(var) + ";\n";
+		}
+
 
 		ret += "\n";
 
@@ -275,6 +287,12 @@ public class MonitorSet {
 			ret += parameters.parameterDeclString();
 			ret += ") {\n";
 
+
+			for (MOPVariable var : this.monitor.getCategoryVars()) {
+				ret += "this." + BaseMonitor.getNiceVariable(var) + " = " +
+						"false;\n";
+			}
+
 			ret += "int " + numAlive + " = 0 ;\n";
 			ret += "for(int " + i + " = 0; " + i + " < this.size; " + i + "++){\n";
 			ret += monitorName + " " + monitor + " = (" + monitorName + ")this.elementData[" + i + "];\n";
@@ -298,4 +316,7 @@ public class MonitorSet {
 		return ret;
 	}
 
+	public Set<MOPVariable> getCategoryVars() {
+		return this.monitor.getCategoryVars();
+	}
 }

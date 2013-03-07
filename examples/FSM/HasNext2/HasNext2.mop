@@ -11,10 +11,8 @@ import java.util.*;
 // because the fsm specifies correct behavior.
 
 HasNext2(Iterator i) {
-   event hasnext after(Iterator i) :
-      call(* Iterator.hasNext()) && target(i) {} 
-   event next before(Iterator i) :
-      call(* Iterator.next()) && target(i) {}
+   event hasnext(Iterator i) {} // after
+   event next(Iterator i) {} // before
 
    fsm :
      start [

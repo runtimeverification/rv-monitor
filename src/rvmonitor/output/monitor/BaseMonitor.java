@@ -8,11 +8,8 @@ import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.parser.ast.mopspec.*;
 import rvmonitor.parser.ast.stmt.BlockStmt;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 class PropMonitor {
 	MOPJavaCode cloneCode;
@@ -351,7 +348,10 @@ public class BaseMonitor extends Monitor {
 					continue;
 				HandlerMethod handlerMethod = propMonitor.handlerMethods.get(category);
 
-				ret += "if(" + monitorVar + "." + propMonitor.categoryVars.get(category) + ") {\n";
+				final MOPVariable mopVariable = propMonitor.categoryVars.get(category);
+				ret += BaseMonitor.getNiceVariable(mopVariable)
+						+ " |= " + monitorVar + "." + mopVariable + ";\n";
+				ret += "if(" +  monitorVar + "." + mopVariable  + ") {\n";
 
 				ret += monitorVar + "." + handlerMethod.getMethodName() + "(";
 				ret += event.getMOPParametersOnSpec().parameterStringIn(specParam);
@@ -608,5 +608,31 @@ public class BaseMonitor extends Monitor {
 	 */
 	public String printExtraDeclMethods() {
 		return "";
+	}
+
+	static Map<MOPVariable,MOPVariable> niceVars =
+			new HashMap<MOPVariable, MOPVariable>();
+	public static MOPVariable getNiceVariable(MOPVariable var) {
+		MOPVariable result = niceVars.get(var);
+		if (result != null) return result;
+		String v = var.getVarName();
+		if (v.contains("_Category_")) {
+			String[] parts = v.split("_Category_", 2);
+			parts[1] = parts[1].replaceAll("_","");
+			parts[0] = parts[0].replaceAll("_","");
+			parts[0] = Character.toUpperCase(parts[0].charAt(0)) +
+					parts[0].substring(1);
+			v = parts[1] + parts[0];
+		} else {
+			String[] parts = v.split("_");
+			v = parts[0];
+			for (int i = 1; i < parts.length; i++) {
+				v += Character.toUpperCase(parts[0].charAt(0)) +
+						parts[0].substring(1);
+			}
+		}
+		result = new MOPVariable(v);
+		niceVars.put(var, result);
+		return  result;
 	}
 }

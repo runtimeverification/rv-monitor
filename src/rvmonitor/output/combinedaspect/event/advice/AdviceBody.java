@@ -1,7 +1,5 @@
 package rvmonitor.output.combinedaspect.event.advice;
 
-import java.util.HashMap;
-
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.MOPStatistics;
@@ -13,6 +11,8 @@ import rvmonitor.output.monitorset.MonitorSet;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 import rvmonitor.parser.ast.mopspec.MOPParameters;
+
+import java.util.HashMap;
 
 public abstract class AdviceBody {
 	JavaMOPSpec mopSpec;
