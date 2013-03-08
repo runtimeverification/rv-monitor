@@ -13,21 +13,9 @@ import java.util.*;
 
 full-binding SafeEnum(Vector v, Enumeration e) {
  
-        event create after(Vector v) 
-                returning(Enumeration e) : 
-                call(Enumeration Vector+.elements()) 
-                && target(v) {}
-        event updatesource after(Vector v) : 
-                (call(* Vector+.remove*(..)) 
-             || call(* Vector+.add*(..)) 
-             || call(* Vector+.clear(..)) 
-             || call(* Vector+.insertElementAt(..)) 
-             || call(* Vector+.set*(..)) 
-             || call(* Vector+.retainAll(..))) 
-             && target(v){}
-        event next before(Enumeration e) : 
-                call(* Enumeration+.nextElement()) 
-             && target(e){}
+        event create(Vector v, Enumeration e) {} // after
+        event updatesource(Vector v) {} // after add clear insertElementAt set retainAll 
+        event next(Enumeration e) {} // before
                 
 
         ltl : [](next => (not updatesource S create)) 

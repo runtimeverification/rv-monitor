@@ -11,24 +11,10 @@ import java.util.*;
 // the collection.  
 
 full-binding SafeMapIterator(Map map, Collection c, Iterator i){
-	event createColl after(Map map) 
-              returning(Collection c) : 
-              (call(* Map.values()) 
-              || call(* Map.keySet())) 
-              && target(map) {}
-	event createIter after(Collection c) 
-              returning(Iterator i) : 
-	      call(* Collection.iterator()) 
-              && target(c) {}
-	event useIter before(Iterator i) : 
-	      call(* Iterator.next()) 
-              && target(i) {}
-	event updateMap after(Map map) : 
-	      (call(* Map.put*(..)) 
-              || call(* Map.putAll*(..)) 
-              || call(* Map.clear()) 
-              || call(* Map.remove*(..))) 
-              && target(map) {}
+	event createColl(Map map, Collection c) {} // after values keySet 
+	event createIter(Collection c, Iterator i) {} // after: 
+	event useIter(Iterator i) {} // before next 
+	event updateMap(Map map) {} // after: put putAll clear remove 
 
        // the positive LTL formula capturing the exact same meaning as the ERE
        // for UnsafeMapeIterator would be:

@@ -11,15 +11,13 @@ import java.util.*;
 
 HasNext(Iterator i) {
 
-  event hasnexttrue after(Iterator i) returning(boolean b) : 
-              call(* Iterator.hasNext()) 
-              && target(i) && condition(b) { } 
-  event hasnextfalse after(Iterator i) returning(boolean b) : 
-              call(* Iterator.hasNext()) 
-              && target(i) && condition(!b) { } 
-  event next before(Iterator i) : 
-              call(* Iterator.next()) 
-              && target(i) { } 
+  event hasnexttrue(Iterator i, boolean b) { // after
+          if (!b) return;
+  }
+  event hasnextfalse(Iterator i, boolean b) { // after
+          if (b) return;
+  }
+  event next(Iterator i) {} // before
 
   ltl: [](next => (*) hasnexttrue)
 

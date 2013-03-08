@@ -10,14 +10,9 @@ import java.util.*;
 
 full-binding SafeIterator(Collection c, Iterator i) {
  
-        event create after(Collection c) 
-              returning(Iterator i) : 
-              call(Iterator Collection+.iterator()) && target(c) {}
-        event updatesource after(Collection c) : 
-              (call(* Collection+.remove*(..)) 
-              || call(* Collection+.add*(..)) ) && target(c) {}
-        event next before(Iterator i) : 
-              call(* Iterator.next()) && target(i) {}
+        event create(Collection c, Iterator i) {} // after
+        event updatesource(Collection c) {} // after remove add 
+        event next(Iterator i) {} // before
 
         ltl : [](next => (not updatesource S create))
 

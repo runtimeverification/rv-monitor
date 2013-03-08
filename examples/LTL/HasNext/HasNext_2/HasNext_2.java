@@ -13,9 +13,15 @@ public class HasNext_2 {
 		Iterator i = v.iterator();
 		int sum = 0;
 
-		while(i.hasNext()){
+		boolean b;
+		while(b=i.hasNext()){
+			mop.HasNextRuntimeMonitor.hasnexttrueEvent(i,b);
+			mop.HasNextRuntimeMonitor.hasnextfalseEvent(i,b);
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
+		mop.HasNextRuntimeMonitor.hasnexttrueEvent(i,b);
+		mop.HasNextRuntimeMonitor.hasnextfalseEvent(i,b);
 
 		System.out.println("sum: " + sum);
 	}
