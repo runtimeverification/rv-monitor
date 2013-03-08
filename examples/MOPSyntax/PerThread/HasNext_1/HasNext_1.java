@@ -13,10 +13,16 @@ public class HasNext_1 {
 		Iterator i = v.iterator();
 		int sum = 0;
 
-		if(i.hasNext()){
+		final boolean b = i.hasNext();
+		mop.HasNextRuntimeMonitor.hasnextEvent(i);
+		if(b){
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
+			mop.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
 

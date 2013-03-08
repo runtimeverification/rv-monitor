@@ -6,10 +6,16 @@ public class HasNext_3 {
                Vector<Integer> v = new Vector<Integer>();
                v.add(1); v.add(2);
                Iterator it = v.iterator();
+		   mop.HasNextRuntimeMonitor.createEvent(v,it);
                while(it.hasNext()) {
-                       int sum = (Integer)it.next() + (Integer)it.next();
+				   mop.HasNextRuntimeMonitor.hasnextEvent(it);
+				   mop.HasNextRuntimeMonitor.nextEvent(it);
+				   final Integer next = (Integer) it.next();
+				   mop.HasNextRuntimeMonitor.nextEvent(it);
+				   int sum = next + (Integer)it.next();
                        System.out.println("sum = " + sum);
                }
+		   mop.HasNextRuntimeMonitor.hasnextEvent(it);
        }
 }
 

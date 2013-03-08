@@ -1,6 +1,4 @@
 
-import java.util.*;
-
 public class Creation_2 {
 	public int temp = 0;
 	public void fun1(){
@@ -15,12 +13,16 @@ public class Creation_2 {
 
 		System.out.println("fun2");
 		o.fun2();
+		mop.CreationRuntimeMonitor.fun2Event(o);
 		System.out.println("fun2");
 		o.fun2();
+		mop.CreationRuntimeMonitor.fun2Event(o);
 		System.out.println("fun2");
 		o.fun2();
+		mop.CreationRuntimeMonitor.fun2Event(o);
 
 		System.out.println("main end");
+		mop.CreationRuntimeMonitor.mainendEvent();
 	}
 }
 

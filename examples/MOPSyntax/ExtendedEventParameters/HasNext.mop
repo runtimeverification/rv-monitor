@@ -13,15 +13,9 @@ import java.util.*;
 
 HasNext(Iterator i) {
 
-	event create after(Collection c) 
-		returning(Iterator i) : 
-		call(Iterator Collection+.iterator()) && target(c) {}
-	event hasnext after(Iterator i) : 
-		call(* Iterator.hasNext()) 
-		&& target(i) {}
-	event next before(Iterator i) : 
-		call(* Iterator.next()) 
-		&& target(i) {}
+	event create(Collection c, Iterator i) {} // after 
+	event hasnext(Iterator i) {} // after
+	event next(Iterator i) {} // before
 
 	ere : create (hasnext hasnext* next)*
 

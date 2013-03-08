@@ -12,12 +12,10 @@ import casino.*;
 CheatedSlotMachine(SlotMachine machine) {
 	int num_try = 0;
 
-	event insert_coin after(SlotMachine machine) : 
-		call(* SlotMachine.insertCoin()) && target(machine) {}
-	event push_button after(SlotMachine machine) : 
-		call(* SlotMachine.push()) && target(machine) { num_try++; }
-	event result Integer around(SlotMachine machine) : 
-		call(Integer SlotMachine.getResult()) && target(machine) {}
+	event insert_coin(SlotMachine machine) {} // after
+	event push_button(SlotMachine machine) // after
+	  { num_try++; }
+	event result(SlotMachine machine) {} // around getResult 
 
 	ere : insert_coin push_button result
 
