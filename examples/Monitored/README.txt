@@ -29,6 +29,9 @@ your PATH (POSIX) or %PATH% (Windows) variable.
 //Compiling Steps.    //
 ////////////////////////
 
+Make sure to set sdk.dir in local.properties to the correct installation
+for the Android SDK.
+
 Open a terminal of some sort and cd to this directory
 run the following commands:
 
