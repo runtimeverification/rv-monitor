@@ -12,6 +12,10 @@ import java.lang.ref.*;
 import org.aspectj.lang.*;
 
 aspect SetOnPreparedListenerAspect {
+  before(Activity a): execution(void Activity+.onCreate(..) ) && this(a) {
+    SetOnPreparedListenerRuntimeMonitor.onCreateActivity(a);
+  }
+
   after(): call(void MediaPayer.setOnPreparedListener(..)) {
     SetOnPreparedListenerRuntimeMonitor.setOnPreparedListenerEvent();
   }
@@ -19,7 +23,7 @@ aspect SetOnPreparedListenerAspect {
   void around(MediaPlayer m): call(void MediaPlayer.start()) && target(m) {
     SetOnPreparedListenerRuntimeMonitor.startEvent(m);
     if(!SetOnPreparedListenerRuntimeMonitor.skipEvent){
-      proceed();
+      proceed(m);
     }
   }
 }
