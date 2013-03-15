@@ -546,7 +546,7 @@ public class BaseMonitor extends Monitor {
 							ret += "^";
 						}
 						
-						ret += propMonitor.hashcodeMethod;
+						ret += propMonitor.hashcodeMethod + "()";
 					}
 				}
 				ret += ";\n";
