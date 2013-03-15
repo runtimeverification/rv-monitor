@@ -18,7 +18,6 @@ public class RawMonitor extends Monitor{
 	MOPVariable activity = new MOPVariable("MOP_activity");
 	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
 	MOPVariable lastevent = new MOPVariable("MOP_lastevent");
-	MOPVariable skipAroundAdvice = new MOPVariable("MOP_skipAroundAdvice");
 	MOPVariable thisJoinPoint = new MOPVariable("thisJoinPoint");
 	
 	JavaMOPSpec mopSpec;
@@ -94,7 +93,8 @@ public class RawMonitor extends Monitor{
 			eventActionStr = eventActionStr.replaceAll("__LOC", Util.defaultLocation);
 			eventActionStr = eventActionStr.replaceAll("__ACTIVITY", "this." + activity);
 			eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
-			eventActionStr = eventActionStr.replaceAll("__SKIP", skipAroundAdvice + " = true");
+			eventActionStr = eventActionStr.replaceAll("__SKIP",
+					BaseMonitor.skipEvent + " = true");
 
 			eventAction = new MOPJavaCode(eventActionStr);
 		}
@@ -102,7 +102,7 @@ public class RawMonitor extends Monitor{
 			ret += "final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
 
 		if ( has__SKIP)
-			ret += "boolean " + skipAroundAdvice + " = false;\n";
+			ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";

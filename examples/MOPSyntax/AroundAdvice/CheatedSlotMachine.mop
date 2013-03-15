@@ -17,7 +17,7 @@ CheatedSlotMachine(SlotMachine machine) {
 	  { num_try++; }
 	event result(SlotMachine machine) {} // around getResult 
 
-	ere : insert_coin push_button result
+	ere : (insert_coin push_button result)+
 
 	@match {
 		if((num_try % 3) == 0) __SKIP;

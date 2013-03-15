@@ -9,15 +9,12 @@ import android.content.DialogInterface;
 
 SetOnPreparedListener(){
   MediaPlayer toFix;
- 
+
   //This event corresponds to setting the on prepared listener
-  event setOnPreparedListener after():
-              call(void MediaPlayer.setOnPreparedListener(..)) {} 
+  event setOnPreparedListener(){} 
 
   //This event corresponds to calling mp.start() in the code
-  event start void around(MediaPlayer m):
-              call(void MediaPlayer.start()) 
-                  && target(m) { toFix = m; }
+  event start(MediaPlayer m){ toFix = m; }
  
   //more correctly, we could use a cfg to guarantee that start is called within
   //the context of the onPrepared method, but we keep this simple for
@@ -31,18 +28,19 @@ SetOnPreparedListener(){
             builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
               public void onClick(DialogInterface dialog, int id) {
                // User clicked OK button
-              }
-            });
-       builder.create().show();
-   
-    //here we fix the code so that start is instead called
-    //by the handler 
+                  //here we fix the code so that start is instead called
+    //by the handler
     toFix.setOnPreparedListener(new OnPreparedListener(){
        @Override
        public void onPrepared(MediaPlayer mp){
          mp.start();
        }
     });
+              }
+            });
+       builder.create().show();
     __SKIP;
   }
 }
+
+

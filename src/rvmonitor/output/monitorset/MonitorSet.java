@@ -30,7 +30,6 @@ public class MonitorSet {
 	MOPVariable loc = new MOPVariable("MOP_loc");
 	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
 	MOPVariable thisJoinPoint = new MOPVariable("thisJoinPoint");
-	MOPVariable skipAroundAdvice = new MOPVariable("MOP_skipAroundAdvice");
 
 	MOPStatistics stat;
 	
@@ -137,7 +136,7 @@ public class MonitorSet {
 			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 
 		if (existSkip)
-			ret += "boolean " + skipAroundAdvice + " = false;\n";
+			ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
 
 		if (hasThisJoinPoint)
 			ret += "JoinPoint " + this.thisJoinPoint + " = null;\n";

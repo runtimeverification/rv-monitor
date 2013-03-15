@@ -62,7 +62,7 @@ public class JavaLibMonitor extends BaseMonitor {
 			eventActionStr = eventActionStr.replaceAll("__LOC",
 					Util.defaultLocation);
 			eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
-			eventActionStr = eventActionStr.replaceAll("__SKIP", skipAroundAdvice + " = true");
+			eventActionStr = eventActionStr.replaceAll("__SKIP", skipEvent + " = true");
 
 			eventAction = new MOPJavaCode(eventActionStr);
 		}

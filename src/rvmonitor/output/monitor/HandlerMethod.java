@@ -26,7 +26,6 @@ public class HandlerMethod {
 	// local variables for now
 	MOPVariable loc = new MOPVariable("MOP_loc");
 	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
-	MOPVariable skipAroundAdvice = new MOPVariable("MOP_skipAroundAdvice");
 
 	private boolean has__SKIP = false;
 
@@ -48,7 +47,8 @@ public class HandlerMethod {
       // -P
 			handlerBody = handlerBody.replaceAll("__LOC", Util.defaultLocation);
 			handlerBody = handlerBody.replaceAll("__STATICSIG", "this." + staticsig);
-			handlerBody = handlerBody.replaceAll("__SKIP", skipAroundAdvice + " = true");
+			handlerBody = handlerBody.replaceAll("__SKIP",
+					BaseMonitor.skipEvent + " = true");
 			
 			this.handlerCode = new MOPJavaCode(handlerBody);
 		}

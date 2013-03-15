@@ -811,7 +811,11 @@ public class GeneralAdviceBody extends AdviceBody {
 			for (MOPVariable variable : monitorClass.getCategoryVars()) {
 				ret += BaseMonitor.getNiceVariable(variable) + " = false;\n";
 			}
+			if (mopSpec.has__SKIP()) {
+				ret += BaseMonitor.skipEvent + " = false;\n";
+			}
 		}
+
 		localVars.init();
 
 		if (indexingTree.hasCache()) {

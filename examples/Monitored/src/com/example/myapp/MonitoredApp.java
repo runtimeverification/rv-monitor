@@ -1,12 +1,9 @@
 package com.example.myapp;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnPreparedListener;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 
 public class MonitoredApp extends Activity {
   private MediaPlayer mplay=null;

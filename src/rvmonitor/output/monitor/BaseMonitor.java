@@ -32,7 +32,7 @@ public class BaseMonitor extends Monitor {
 	MOPVariable loc = new MOPVariable("MOP_loc");
 	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
 	MOPVariable lastevent = new MOPVariable("MOP_lastevent");
-	MOPVariable skipAroundAdvice = new MOPVariable("MOP_skipAroundAdvice");
+	public static MOPVariable skipEvent = new MOPVariable("skipEvent");
 	MOPVariable conditionFail = new MOPVariable("MOP_conditionFail");
 	MOPVariable thisJoinPoint = new MOPVariable("thisJoinPoint");
 
@@ -216,7 +216,7 @@ public class BaseMonitor extends Monitor {
 //						"this." + loc);
 				eventActionStr = eventActionStr.replaceAll("__ACTIVITY", "this." + activity);
 				eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
-				eventActionStr = eventActionStr.replaceAll("__SKIP", "this." + skipAroundAdvice + " = true");
+				eventActionStr = eventActionStr.replaceAll("__SKIP", "this." + skipEvent + " = true");
 	
 				eventAction = new MOPJavaCode(eventActionStr);
 			}
@@ -359,6 +359,11 @@ public class BaseMonitor extends Monitor {
 
 				ret += "}\n";
 			}
+			if (existSkip) {
+				ret += skipEvent + " |= " + monitorVar + "." +
+						skipEvent + ";\n";
+				ret += monitorVar + "." + skipEvent + " = false;\n";
+			}
 
 			if (event.getCondition() != null && event.getCondition().length() != 0) {
 				ret += "}\n";
@@ -433,7 +438,7 @@ public class BaseMonitor extends Monitor {
 			ret += "boolean " + conditionFail + " = false;\n";
 		}
 		if (existSkip){
-			ret += "boolean " + skipAroundAdvice + " = false;\n";
+			ret += "boolean " + skipEvent + " = false;\n";
 		}
 
 		// state declaration

@@ -1,19 +1,19 @@
 package casino;
-import java.util.*;
+
+import casino.mop.CheatedSlotMachineRuntimeMonitor;
 
 public class CheatedSlotMachine_1 {
 	public static void main(String[] args){
-		Set<Integer> testSet = new HashSet<Integer>(); 
-		for(int i = 0; i < 10; ++i){
-			testSet.add(new Integer(i));
+		SlotMachine machine = new SlotMachine();
+		for (int i = 0; i < 10 ; ++i) {
+			System.out.println("Round " + i);
+			machine.insertCoin();
+			casino.mop.CheatedSlotMachineRuntimeMonitor.insert_coinEvent(machine);
+			machine.push();
+			casino.mop.CheatedSlotMachineRuntimeMonitor.push_buttonEvent(machine);
+			casino.mop.CheatedSlotMachineRuntimeMonitor.resultEvent(machine);
+			if (!CheatedSlotMachineRuntimeMonitor.skipEvent)
+				System.out.println(machine.getResult());
 		}
-		Iterator i = testSet.iterator();
-
-		int output = 0;	
-		for(int j = 0; j < 10 && i.hasNext(); ++j){
-			output += (Integer)i.next();
-			testSet.add(new Integer(j));
-		}
-		System.out.println(output);
 	}
 }

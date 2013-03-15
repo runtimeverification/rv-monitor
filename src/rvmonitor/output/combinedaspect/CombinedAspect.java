@@ -143,8 +143,12 @@ public class CombinedAspect {
 
 
 	public String categoryVarsDecl() {
+		boolean skipEvent = false;
 		Set<MOPVariable> categoryVars = new HashSet<MOPVariable>();
 		for (JavaMOPSpec mopSpec : this.specs) {
+			if (mopSpec.has__SKIP()) {
+				skipEvent = true;
+			}
 			MonitorSet monitorSet =  monitorSets.get(mopSpec);
 			Monitor monitorClass = monitors.get(mopSpec);
 			categoryVars.addAll(monitorSet.getCategoryVars());
@@ -155,6 +159,10 @@ public class CombinedAspect {
 			ret += "public static boolean " +
 					BaseMonitor.getNiceVariable(variable) + " = " +
 					"false;\n";
+		}
+		if (skipEvent) {
+			ret += "public static boolean " + BaseMonitor.skipEvent + " = false;" +
+					"\n";
 		}
 		return ret;
 	}

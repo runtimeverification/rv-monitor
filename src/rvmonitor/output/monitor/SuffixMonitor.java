@@ -17,7 +17,6 @@ public class SuffixMonitor extends Monitor {
 	MOPVariable loc = new MOPVariable("MOP_loc");
 	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
 	MOPVariable lastevent = new MOPVariable("MOP_lastevent");
-	MOPVariable skipAroundAdvice = new MOPVariable("MOP_skipAroundAdvice");
 	MOPVariable thisJoinPoint = new MOPVariable("thisJoinPoint");
 
 	List<EventDefinition> events;
@@ -239,7 +238,12 @@ public class SuffixMonitor extends Monitor {
 					monitorVar + "." + BaseMonitor.getNiceVariable(var) + ";" +
 					"\n";
 		}
-		if (this.hasThisJoinPoint){
+		if (existSkip) {
+			ret += BaseMonitor.skipEvent + " |= " +
+					monitorVar + "." + BaseMonitor.skipEvent + ";\n";
+			ret += monitorVar + "." + BaseMonitor.skipEvent + " = false;\n";
+		}
+		if (this.hasThisJoinPoint) {
 			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
 		}
 
@@ -284,7 +288,7 @@ public class SuffixMonitor extends Monitor {
 			if (this.hasThisJoinPoint)
 				ret += "JoinPoint " + thisJoinPoint + " = null;\n";
 			if (existSkip)
-				ret += "boolean " + skipAroundAdvice + " = false;\n";
+				ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
 
 			// clone()
 			ret += "protected Object clone() {\n";

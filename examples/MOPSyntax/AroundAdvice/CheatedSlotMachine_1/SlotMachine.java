@@ -1,11 +1,11 @@
 package casino;
 
 public class SlotMachine{
-	public void insertCoin(){
+		public void insertCoin(){
 	}
 	public void push(){
 	}
 	public Integer getResult(){
-		return null;
+		return new Integer((int)(100.0 * StrictMath.random()));
 	}
 }
