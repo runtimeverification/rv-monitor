@@ -1,72 +1,42 @@
 
-                          JavaMOP 2.3.1 README
+                          RV-Monitor README
 
 ==1. Overview==
-Monitoring-Oriented Programming, abbreviated MOP, is a software development and
-analysis framework aiming at reducing the gap between formal specification and
-implementation by allowing them together to form a system. In MOP, runtime
-monitoring is supported and encouraged as a fundamental principle for building
-reliable software: monitors are automatically synthesized from specified
-properties and integrated into the original system to check its dynamic
-behaviors during execution. When a specification is violated or validated at
-runtime, user-defined actions will be triggered, which can be any code from
-information logging to runtime recovery. One can understand MOP from at least
-three perspectives: as a discipline allowing one to improve safety, reliability
-and dependability of a system by monitoring its requirements against its
-implementation at runtime; as an extension of programming languages with logics
-(one can add logical statements anywhere in the program, referring to past or
-future states); and as a lightweight formal method. 
 
-JavaMOP is an instance of MOP for Java.
+RV-Monitor is a commercial product derived from earlier work on
+Monitoring-Oriented Programming, abbreviated MOP.  It is a software development
+and analysis framework aiming at reducing the gap between formal specification
+and implementation by allowing them together to form a system. In MOP, and by
+extension RV-Monitor, runtime monitoring is supported and encouraged as a
+fundamental principle for building reliable software: monitors are
+automatically synthesized from specified properties and integrated into the
+original system to check its dynamic behaviors during execution. When a
+specification is violated or validated at runtime, user-defined actions will be
+triggered, which can be any code from information logging to runtime recovery.
+One can understand RV-Monitor from at least three perspectives: as a discipline
+allowing one to improve safety, reliability and dependability of a system by
+monitoring its requirements against its implementation at runtime; as an
+extension of programming languages with logics (one can add logical statements
+anywhere in the program, referring to past or future states); and as a
+lightweight formal method. 
 
-For more information, refer to the following URL:
+==2. Usage==
 
-  rvmonitor.googlecode.com
-
-==2. Installation==
-
-For detailed installation instructions, please see the INSTALL file.
-
-As the tool is still under active development, it is recommended that you
-install JavaMOP directly from the svn repository and update it regularly using
-
-  svn up 
-
-from the base directory to benefit of the latest fixes and features.
-
-==3. Usage==
-
-=3.1 Linux and Mac (POSIX)
-
-If you want to use the Logic Repository Server provided by UIUC, use the
--remote option when using the 'rvmonitor' script.
-
-If you want to use the Logic Repository included in this package, use the
--local option when using the 'rvmonitor' script.
-
-Using the remote repository is the preferred method for computers with viable
-Internet connections as it allows us to collect usage statistics used to improve
-JavaMOP.
+=2.1 Linux and Mac (POSIX)
 
 The 'rvmonitor' script has the following usage:
 
 Usage) rvmonitor [-v] [-d <target directory>] <specification file or dir>
 
 -v option is verbose mode -d option is used to specify the target directory
-where the resulting aspectj code will be saved. Specification files must have
+where the resulting java code will be saved. Specification files must have
 The .mop file extension.
 
 Example) rvmonitor -d examples/FSM/ examples/FSM/HasNext.mop
 
 For more options, type 'rvmonitor' or 'rvmonitor -h'
 
-=3.2 Windows
-
-If you want to use the Logic Repository server provided by UIUC, use -remote
-option when using the script 'rvmonitor.bat'
-
-If you want to use the Logic Repository included in this package, use -local
-option when using the script 'rvmonitor.bat'
+=2.2 Windows
 
 The script, 'rvmonitor.bat' has the following usage.
 
@@ -80,49 +50,20 @@ Example) rvmonitor.bat -d examples\FSM examples\FSM\HasNext.mop
 
 For more options, type 'rvmonitor.bat' or 'rvmonitor.bat -h'
 
-==4. Additional Features of the JavaMOP Distribution==
+==3. Additional Features of the JavaMOP Distribution==
 
-=4.1 Executing a Monitored Program
+=3.1 Executing a Monitored Program
 
-When you execute a monitored program, you need to include the AspectJ library
-and JavaMOP Runtime Library in your class path. The JavaMOP Runtime Library is
-provided in this package in the rvmonitor2.3/lib directory. A typical value of
-this is:
+When you execute a monitored program, you need to include the RV-Monitor Runtime 
+Library in your class path. The RV-Monitor Runtime Library is provided in this package 
+in the rvmonitor2.3/lib directory. A typical value of this is:
 
 In Windows,
-  c:\rvmonitor2.3\lib\rvmonitorrt.jar
+  rv-monitor\lib\rvmonitorrt.jar
 
 In Linux and Mac,
-  ~/rvmonitor2.3/lib/rvmonitorrt.jar
+  rv-monitor/lib/rvmonitorrt.jar
 
 Add this to the left end of the "CLASSPATH" followed by ";" (in Windows) or ":"
 (in Linux and Mac). For more information, refer to Section 5 from the following
 URL http://java.sun.com/j2se/1.4.2/install-windows.html
-
-=4.2 Running the Logic Repository Tool
-
-JavaMOP uses the Logic Repository automatically. Therefore, you do not need to
-invoke the Logic Repository explicitly. JavaMOP will connect to the Logic
-Repository automatically and retrieve a monitor for the given specification.
-However, it is possible to use the Logic Repository directly for other uses.
-
-To use the LogicRepository, type 
-
-  'logicrepository' in Linux and Mac,
-
-  'logicrepository.bat' in Windows.
-
-And provide input through the standard input. For the XML syntax of input, refer
-to the following pages:
-
-  http://fsl.cs.uiuc.edu/index.php/Special:LogicRepository2.3
-
-The resulting monitoring code is piped to standard output, in XML format.
-
-=5. Contact Information
-
-We welcome your interest in JavaMOP. Your feedback, comments and bug reports are
-highly appreciated. Please feel free to contact us by sending email to
-mop@cs.uiuc.edu. Bugs and feature requests may be submitted at the project
-website at rvmonitor.googlecode.com.
-
