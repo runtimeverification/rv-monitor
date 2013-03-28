@@ -20,7 +20,7 @@ public class Main {
 
 	static boolean local = false;
 
-        static int numDots = 75;
+        static int numDots = 70;
 
 	public static boolean isJarFile = false;
 	public static String jarFilePath = null;
@@ -309,16 +309,16 @@ public class Main {
 			 */
 
 			// Phase 3
-			title1 = "*** Phase 3                                    ***";
-			title2 = "*** Weaving generated AspectJ monitors         ***";
-			title3 = "*** and generated program binaries (using ajc) ***";
-			System.out.println(repeatChar('*', title1.length()));
-			System.out.println(title1);
-			System.out.println(title2);
-			System.out.println(title3);
-			System.out.println(repeatChar('*', title1.length()));
-			allPassed = traverseTestCaseDir(rootDir, new AspectJCompileFunctor());
-			System.out.println();
+//			title1 = "*** Phase 3                                    ***";
+//			title2 = "*** Weaving generated AspectJ monitors         ***";
+//			title3 = "*** and generated program binaries (using ajc) ***";
+//			System.out.println(repeatChar('*', title1.length()));
+//			System.out.println(title1);
+//			System.out.println(title2);
+//			System.out.println(title3);
+//			System.out.println(repeatChar('*', title1.length()));
+//			allPassed = traverseTestCaseDir(rootDir, new AspectJCompileFunctor());
+//			System.out.println();
 
 			/*
 			 * if (!Main.verbose && allPassed) {

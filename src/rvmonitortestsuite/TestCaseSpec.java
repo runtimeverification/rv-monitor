@@ -1,16 +1,13 @@
 package rvmonitortestsuite;
 
-import java.util.*;
-import java.io.*;
-
 public class TestCaseSpec {
 	TestCase testcase;
 	String name;
 	
 	String spec_filename;
+	String monitor_filename;
 	String err_filename;
-	String aspectj_filename;
-	
+
 	boolean hasErrorFile = false;
 	
 	public TestCaseSpec(TestCase parent, String specFileName) throws Exception{
@@ -22,7 +19,7 @@ public class TestCaseSpec {
 
 		this.spec_filename = this.name + ".mop";
 		this.err_filename = this.name + ".err";
-		this.aspectj_filename = this.name + "MonitorAspect.aj";
+		this.monitor_filename = this.name + "RuntimeMonitor.java";
 	}
 	
 	

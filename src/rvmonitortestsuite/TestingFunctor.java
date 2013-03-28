@@ -1,9 +1,11 @@
 package rvmonitortestsuite;
 
-import java.io.*;
-import java.lang.reflect.*;
-
 import rvmonitor.util.StreamGobbler;
+
+import java.io.File;
+import java.io.FileReader;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 public class TestingFunctor implements TestCaseFunctor {
 
@@ -79,8 +81,9 @@ public class TestingFunctor implements TestCaseFunctor {
 			ret.addSubCase(testCaseProg.dirName);
 
 			String origDirPath = testCase.basepath + File.separator + testCase.path + File.separator + testCaseProg.dirName;
-			String monitoredDirPath = testCase.basepath + File.separator + testCase.path + File.separator + testCaseProg.dirName
-			+ "_MOP";
+			String monitoredDirPath = testCase.basepath + File.separator +
+					testCase.path + File.separator + testCaseProg.dirName;
+//			+ "_MOP";
 			
 			TestClassLoader loader = new TestClassLoader(origDirPath);
 			
@@ -126,7 +129,7 @@ public class TestingFunctor implements TestCaseFunctor {
 	
 					if (Main.Debug)
 						System.out.println("Testing breakpoint 1");
-	
+
 					child = Runtime.getRuntime().exec(cmdarray, null);
 	
 					if (Main.Debug)

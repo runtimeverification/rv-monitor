@@ -1,10 +1,9 @@
 package rvmonitortestsuite;
 
-import java.util.*;
-import java.io.*;
+import rvmonitor.util.StreamGobbler;
+import rvmonitor.util.Tool;
 
-import rvmonitor.*;
-import rvmonitor.util.*;
+import java.io.File;
 
 public class JavaMOPCompileFunctor implements TestCaseFunctor {
 	public FunctorResult apply(TestCase testCase) {
@@ -21,21 +20,23 @@ public class JavaMOPCompileFunctor implements TestCaseFunctor {
 
 			String[] cmdarray = null;
 
+			final String testFilePath = testCase.basepath + File.separator + testCase.path + File.separator;
+			final String testFileName = testFilePath + testCaseSpec.spec_filename;
 			if (Main.isJarFile) {
 				if (Main.local) {
 					String logicRepositoryPath = new File(Main.jarFilePath).getParent() + File.separator + "logicrepository.jar";
 
 					String[] cmdarray2 = { "java", "-cp", Main.jarFilePath + File.pathSeparator + logicRepositoryPath, "rvmonitor.Main",
-							server, "-v", "-debug", testCase.basepath + File.separator + testCase.path + File.separator + testCaseSpec.spec_filename };
+							server, "-v", "-debug", testFileName};
 					cmdarray = cmdarray2;
 				} else {
 					String[] cmdarray2 = { "java", "-cp", Main.jarFilePath, "rvmonitor.Main", server, "-v", "-debug",
-							testCase.basepath + File.separator + testCase.path + File.separator + testCaseSpec.spec_filename };
+							testFileName};
 					cmdarray = cmdarray2;
 				}
 			} else {
 				String[] cmdarray2 = { "java", "-cp", Main.rvmonitorDir, "rvmonitor.Main", server, "-v", "-debug",
-						testCase.basepath + File.separator + testCase.path + File.separator + testCaseSpec.spec_filename };
+						testFileName};
 				cmdarray = cmdarray2;
 			}
 
@@ -105,4 +106,5 @@ public class JavaMOPCompileFunctor implements TestCaseFunctor {
 
 		return ret;
 	}
+
 }

@@ -1,16 +1,30 @@
 package rvmonitortestsuite;
 
-import java.io.File;
-
 import rvmonitor.util.StreamGobbler;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 
 public class ProgramCompileFunctor implements TestCaseFunctor {
 	public FunctorResult apply(TestCase testCase) {
+		String rvmonitorrtLibPath = null;
+		if (Main.isJarFile)
+			rvmonitorrtLibPath = new File(Main.jarFilePath).getParent() + "/rvmonitorrt.jar";
+		else
+			rvmonitorrtLibPath = Main.rvmonitorDir + "/lib/rvmonitorrt.jar";
+
 		FunctorResult ret = new FunctorResult();
 
 		for (TestCaseProgDir testCaseProg : testCase.testing_programs) {
+			copyToMopDir(testCase.basepath + testCase.path, testCaseProg.dirName,
+					testCase.specFiles.get(0).monitor_filename);
 			ret.addSubCase(testCaseProg.dirName);
-			
+//			System.out.println(testCaseProg.dirName);
+
 			for (File javaFile : testCaseProg.javaFiles) {
 				String javaFilePath = null;
 				try {
@@ -52,7 +66,9 @@ public class ProgramCompileFunctor implements TestCaseFunctor {
 					}
 				}
 
-				String[] cmdarray = { "javac", "-cp", origDirPath, "-Xlint:unchecked", "-d", origDirPath, javaFilePath };
+				String[] cmdarray = { "javac", "-cp", origDirPath +
+						File.pathSeparator + rvmonitorrtLibPath,
+						"-Xlint:unchecked", "-d", origDirPath, javaFilePath };
 
 				try {
 					Process child;
@@ -61,6 +77,9 @@ public class ProgramCompileFunctor implements TestCaseFunctor {
 					if (Main.Debug)
 						System.out.println("ProgramCompile breakpoint 1");
 
+//					System.out.println("Executing: '");
+//					for (String x : cmdarray) System.out.print(x + " ");
+//					System.out.println("'");
 					child = Runtime.getRuntime().exec(cmdarray, null);
 
 					if (Main.Debug)
@@ -111,5 +130,59 @@ public class ProgramCompileFunctor implements TestCaseFunctor {
 		}
 
 		return ret;
+	}
+
+	private void copyToMopDir(String testCaseFilePath, String testFilePath,
+							  String monitorFileName) {
+		String mopDirPath = testCaseFilePath + File.separator + testFilePath +
+				File.separator	+ "mop";
+		File mopDir = new File(mopDirPath);
+
+		// if the directory does not exist, create it
+		if (!mopDir.exists())
+		{
+			boolean result = mopDir.mkdir();
+			if(!result){
+				System.err.println("Could not create directory " + mopDirPath);
+			}
+
+		} else if (!mopDir.isDirectory()) {
+			System.err.println(mopDirPath + " is not a directory!");
+		}  else if (!mopDir.canWrite()) {
+			System.err.println(mopDirPath + " is not writable!");
+		}
+		String oldMonitorPath = testCaseFilePath + File.separator +
+				monitorFileName;
+		String newMonitorPath = mopDirPath + File.separator + monitorFileName;
+
+//		System.out.println("Moving from " + oldMonitorPath + " to " +
+//				newMonitorPath);
+		File oldMonitor = new File(oldMonitorPath);
+		File newMonitor = new File(newMonitorPath);
+		if (newMonitor.exists()) {
+			newMonitor.delete();
+		}
+
+
+		try {
+			copyFile(oldMonitor, newMonitor);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void copyFile(File input, File output) throws IOException {
+		FileInputStream inputStream = new FileInputStream(input);
+		FileOutputStream outputStream = new FileOutputStream(output);
+		try {
+			FileChannel fc = inputStream.getChannel();
+			FileChannel oc = outputStream.getChannel();
+			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0,
+					fc.size());
+			oc.write(bb);
+		} finally {
+			inputStream.close();
+			outputStream.close();
+		}
 	}
 }
