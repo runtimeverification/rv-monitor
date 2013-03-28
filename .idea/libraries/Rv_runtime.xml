@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="Rv-runtime">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/plugins/CFG.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plugins/ERE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plugins/FSM.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plugins/LTL.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plugins/PDA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plugins/PO.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plugins/PTCARET.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plugins/PTLTL.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plugins/SRS.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/logicrepository.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rvmonitor.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
