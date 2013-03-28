@@ -1,3 +1,5 @@
+package mop;
+
 UnsafeMapIterator(Map m, Collection c, Iterator i){
   int useCounter = 0;
   event createColl(Map m, Collection c) {System.out.println("createColl");}
