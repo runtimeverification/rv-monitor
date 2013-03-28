@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import rvmonitor.util.Tool;
+
 public class TestCaseDir {
 	String basepath;
 	String path;
@@ -42,7 +44,7 @@ public class TestCaseDir {
 		
 		for (File file : directory.listFiles()) {
 			if (!file.isDirectory()) {
-				if (file.getName().endsWith(".mop")) {
+				if (file.getName().endsWith(Tool.getSpecFileExt())) {
 					String name = file.getName();
 					ret.add(name);
 				}

@@ -9,6 +9,7 @@ import rvmonitor.parser.astex.MOPSpecFileExt;
 import rvmonitor.parser.astex.mopspec.*;
 import rvmonitor.parser.main_parser.JavaMOPParser;
 import rvmonitor.util.Pair;
+import rvmonitor.util.Tool;
 
 import java.io.File;
 import java.util.*;
@@ -250,7 +251,7 @@ public class JavaMOPExtender {
 			if (findJavaMOPSpec(extSpec.getName(), currentFile) != null)
 				continue;
 
-			File parentFile = new File(extSpec.getName() + ".mop");
+			File parentFile = new File(extSpec.getName() + Tool.getSpecFileExt());
 			MOPSpecFileExt parentSpecFile;
 			if (!parentFile.exists())
 				throw new MOPException("cannot find the specification: " + extSpec.getName() + ".");
