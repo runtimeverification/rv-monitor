@@ -16,14 +16,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="856a59a6-8b49-4115-8449-5adb0b5511d9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/UnsafeMapIterator.mop" afterPath="$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/UnsafeMapIterator.mop" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitortestsuite/JavaMOPCompileFunctor.java" afterPath="$PROJECT_DIR$/src/rvmonitortestsuite/JavaMOPCompileFunctor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitortestsuite/TestCaseSpec.java" afterPath="$PROJECT_DIR$/src/rvmonitortestsuite/TestCaseSpec.java" />
     </list>
     <ignored path="rv-monitor.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364389268595" ignored="false" />
     <file path="/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362639851417" ignored="false" />
     <file path="/fragment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364470589057" ignored="false" />
-    <file path="/a.dummy" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364470827328" ignored="false" />
+    <file path="/a.dummy" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364472293282" ignored="false" />
     <file path="/*.regexp" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362684110001" ignored="false" />
     <file path="/HasNextRuntimeMonitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362648070079" ignored="false" />
     <file path="/HasNext_1.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362774664337" ignored="false" />
@@ -196,6 +197,8 @@
     <file path="$PROJECT_DIR$/../../k/dist/include/latex/k.sty" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364390372831" ignored="false" />
     <file path="/k.sty" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364390332094" ignored="false" />
     <file path="/UnsafeMapIterator.mop" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364453783001" ignored="false" />
+    <file path="/JavaMOPCompileFunctor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364473104510" ignored="false" />
+    <file path="/TestCaseSpec.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364472219821" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,20 +214,6 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/examples/MOPSyntax/AroundAdvice/CheatedSlotMachine_1/mop/CheatedSlotMachineRuntimeMonitor.java" line="227" class="casino.mop.CheatedSlotMachineMonitor" package="casino.mop">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="394" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -316,15 +305,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UnsafeIteratorRuntimeMonitor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/ERE/UnsafeIterator/UnsafeIterator_1/mop/UnsafeIteratorRuntimeMonitor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="287" column="4" selection-start="7414" selection-end="7414" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UnsafeIterator_1.output" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/ERE/UnsafeIterator/UnsafeIterator_1/UnsafeIterator_1.output">
           <provider selected="true" editor-type-id="text-editor">
@@ -338,15 +318,6 @@
         <entry file="file://$PROJECT_DIR$/examples/ERE/UnsafeIterator/UnsafeIterator_1/UnsafeIterator_1.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="4" column="13" selection-start="76" selection-end="76" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UnsafeMapIteratorRuntimeMonitor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/mop/UnsafeMapIteratorRuntimeMonitor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="618" column="32" selection-start="22036" selection-end="22036" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -372,19 +343,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProgramCompileFunctor.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ProgramCompileFunctor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="8" selection-start="1990" selection-end="1990" vertical-scroll-proportion="0.96240604">
+            <state line="29" column="24" selection-start="801" selection-end="801" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JavaMOPCompileFunctor.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="JavaMOPCompileFunctor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/JavaMOPCompileFunctor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="24" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
+            <state line="135" column="39" selection-start="4095" selection-end="4095" vertical-scroll-proportion="0.8166259">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestCaseSpec.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestCaseSpec.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="63" selection-start="631" selection-end="631" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -408,8 +388,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/AroundAdviceReturn.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/HandlerMethod.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitorset/MonitorSet.java" />
         <option value="$PROJECT_DIR$/examples/MOPSyntax/AroundAdvice/CheatedSlotMachine_1/CheatedSlotMachine_1.java" />
@@ -424,6 +402,8 @@
         <option value="$PROJECT_DIR$/examples/Monitored/src/com/example/myapp/MonitoredApp.java" />
         <option value="$PROJECT_DIR$/examples/Monitored/aspects/com/example/myapp/SetOnPreparedListenerMonitorAspect.aj" />
         <option value="$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/UnsafeMapIterator.mop" />
+        <option value="$PROJECT_DIR$/src/rvmonitortestsuite/TestCaseSpec.java" />
+        <option value="$PROJECT_DIR$/src/rvmonitortestsuite/JavaMOPCompileFunctor.java" />
       </list>
     </option>
   </component>
@@ -1438,13 +1418,6 @@
         <state line="24" column="2" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/Monitored/src/com/example/myapp/SetOnPreparedListenerRuntimeMonitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="324" column="45" selection-start="8645" selection-end="8645" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/MOPSyntax/AroundAdvice/CheatedSlotMachine_1/CheatedSlotMachine_1.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="0" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0">
@@ -1480,33 +1453,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/ERE/UnsafeIterator/UnsafeIterator_1/mop/UnsafeIteratorRuntimeMonitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="287" column="4" selection-start="7414" selection-end="7414" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/mop/UnsafeMapIteratorRuntimeMonitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="618" column="32" selection-start="22036" selection-end="22036" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="180" column="0" selection-start="6441" selection-end="6441" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/JavaMOPCompileFunctor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="24" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1519,7 +1471,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="8" selection-start="1990" selection-end="1990" vertical-scroll-proportion="0.96240604">
+        <state line="29" column="24" selection-start="801" selection-end="801" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestCaseSpec.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="63" selection-start="631" selection-end="631" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/io/File.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="41" selection-start="427" selection-end="427" vertical-scroll-proportion="0.36674815">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/JavaMOPCompileFunctor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="135" column="39" selection-start="4095" selection-end="4095" vertical-scroll-proportion="0.8166259">
           <folding />
         </state>
       </provider>
