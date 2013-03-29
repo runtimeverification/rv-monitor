@@ -42,8 +42,8 @@ public class ProgramCompileFunctor implements TestCaseFunctor {
 				}
 
 				String origDirPath = testCase.basepath + File.separator + testCase.path + File.separator + testCaseProg.dirName;
-				String monitoredDirPath = testCase.basepath + File.separator + testCase.path + File.separator + testCaseProg.dirName
-						+ "_MOP";
+				String monitoredDirPath =  // origDirPath;
+						testCase.basepath + File.separator + testCase.path + File.separator + testCaseProg.dirName + "_RVM";
 
 				File origDir = new File(origDirPath);
 				if (!origDir.exists()) {
@@ -59,7 +59,7 @@ public class ProgramCompileFunctor implements TestCaseFunctor {
 				if (!monitoredDir.exists()) {
 					boolean status = monitoredDir.mkdirs();
 					if (!status) {
-						ret.addStdErr(testCaseProg.dirName, "  [ERROR] _MOP directory " + monitoredDir
+						ret.addStdErr(testCaseProg.dirName, "  [ERROR] _RVM directory " + monitoredDir
 								+ "does not exist and it could not be created either.");
 						ret.success = false;
 						continue;

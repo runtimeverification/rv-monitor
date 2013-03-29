@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.OptimizedCoenableSet;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 import rvmonitor.parser.ast.stmt.BlockStmt;
 
@@ -25,7 +25,7 @@ public class EnforceMonitor extends BaseMonitor {
 	private BlockStmt deadlockHandler = null;
 	
 	
-	public EnforceMonitor(String name, JavaMOPSpec mopSpec,
+	public EnforceMonitor(String name, RVMonitorSpec mopSpec,
 			OptimizedCoenableSet coenableSet, boolean isOutermost)
 			throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost, "Enforcement");
@@ -51,7 +51,7 @@ public class EnforceMonitor extends BaseMonitor {
 		
 		// Callback class declaration
 		ret += "static public class " + this.monitorName
-				+ "DeadlockCallback implements rvmonitorrt.MOPCallBack { \n";
+				+ "DeadlockCallback implements rvmonitorrt.RVMCallBack { \n";
 		ret += "public void apply() {\n";
 		if (this.deadlockHandler != null) {
 			ret += this.deadlockHandler;
@@ -68,7 +68,7 @@ public class EnforceMonitor extends BaseMonitor {
 	 * 
 	 * */
 	@Override
-	public String afterEventMethod(MOPVariable monitor, PropertyAndHandlers prop, 
+	public String afterEventMethod(RVMVariable monitor, PropertyAndHandlers prop,
 			EventDefinition event, GlobalLock lock, String aspectName) {
 		String ret = "";
 		if (lock != null) {
@@ -83,7 +83,7 @@ public class EnforceMonitor extends BaseMonitor {
 	 * 
 	 * */
 	@Override
-	public String beforeEventMethod(MOPVariable monitor, PropertyAndHandlers prop, 
+	public String beforeEventMethod(RVMVariable monitor, PropertyAndHandlers prop,
 			EventDefinition event, GlobalLock lock, String aspectName, boolean inMonitorSet) {
 		
 		String ret = "";
@@ -96,11 +96,11 @@ public class EnforceMonitor extends BaseMonitor {
 		}
 
 		ret += "do {\n";
-		MOPVariable clonedMonitor = new MOPVariable("clonedMonitor");
+		RVMVariable clonedMonitor = new RVMVariable("clonedMonitor");
 		ret += this.monitorName + " " + clonedMonitor + " = (" + this.monitorName +")" + monitor + ".clone();\n";
 		
-		MOPVariable enforceCategory = (MOPVariable)propMonitor.categoryVars.values().toArray()[0];
-		ret += clonedMonitor + "." + methodName + "(" + event.getMOPParameters().parameterInvokeString() + ");\n";
+		RVMVariable enforceCategory = (RVMVariable)propMonitor.categoryVars.values().toArray()[0];
+		ret += clonedMonitor + "." + methodName + "(" + event.getRVMParameters().parameterInvokeString() + ");\n";
 		
 		
 		// Check if the condition fails, if it does, then return directly.

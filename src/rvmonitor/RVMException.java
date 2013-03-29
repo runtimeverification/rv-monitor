@@ -15,7 +15,7 @@ package rvmonitor;
 public class RVMException extends Exception {
 	private static final long serialVersionUID = 2145299315023315212L;
 	public RVMException(Exception e){
-		super("MOP Expection:" + e.getMessage());
+		super("RV Monitor Expection:" + e.getMessage());
 	}
 	public RVMException(String str){
 		super(str);

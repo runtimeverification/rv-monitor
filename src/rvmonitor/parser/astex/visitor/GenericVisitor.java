@@ -21,15 +21,11 @@
  */
 package rvmonitor.parser.astex.visitor;
 
-import rvmonitor.parser.astex.MOPSpecFileExt;
+import rvmonitor.parser.astex.RVMSpecFileExt;
 import rvmonitor.parser.astex.aspectj.EventPointCut;
 import rvmonitor.parser.astex.aspectj.HandlerPointCut;
-import rvmonitor.parser.astex.mopspec.EventDefinitionExt;
-import rvmonitor.parser.astex.mopspec.ExtendedSpec;
-import rvmonitor.parser.astex.mopspec.FormulaExt;
-import rvmonitor.parser.astex.mopspec.JavaMOPSpecExt;
-import rvmonitor.parser.astex.mopspec.PropertyAndHandlersExt;
-import rvmonitor.parser.astex.mopspec.ReferenceSpec;
+import rvmonitor.parser.astex.mopspec.*;
+import rvmonitor.parser.astex.mopspec.RVMonitorSpecExt;
 
 /**
  * @author Julio Vilmar Gesser
@@ -38,13 +34,13 @@ public interface GenericVisitor<R, A> extends rvmonitor.parser.ast.visitor.Gener
 
 	// All extended componenets
 	
-    //- JavaMOP components
+    //- RV Monitor components
     
-    public R visit(MOPSpecFileExt f, A arg);
+    public R visit(RVMSpecFileExt f, A arg);
     
 	public R visit(ReferenceSpec r, A arg);
 
-    public R visit(JavaMOPSpecExt s, A arg);
+    public R visit(RVMonitorSpecExt s, A arg);
     
     public R visit(EventDefinitionExt e, A arg);
     

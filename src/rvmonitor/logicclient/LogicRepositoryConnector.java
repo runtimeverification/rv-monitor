@@ -1,34 +1,27 @@
 package rvmonitor.logicclient;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-
 import rvmonitor.Configuration;
-import rvmonitor.RVMException;
 import rvmonitor.Main;
+import rvmonitor.RVMException;
 import rvmonitor.parser.ast.mopspec.Formula;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.logicrepositorysyntax.LogicRepositoryType;
 import rvmonitor.parser.logicrepositorysyntax.PropertyType;
 import rvmonitor.util.StreamGobbler;
 import rvmonitor.util.Tool;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
 public class LogicRepositoryConnector {
 	public static String serverName = "local";
 	public static boolean verbose = false;
 
-	public static LogicRepositoryType process(JavaMOPSpec mopSpec, PropertyAndHandlers prop) throws RVMException {
+	public static LogicRepositoryType process(RVMonitorSpec mopSpec, PropertyAndHandlers prop) throws RVMException {
 		if (mopSpec == null || prop == null)
 			throw new RVMException("No annotation specified");
 
@@ -47,7 +40,7 @@ public class LogicRepositoryConnector {
 		logicProperty.setFormula(formula);
 		logicProperty.setLogic(prop.getProperty().getType());
 
-		logicInputXML.setClient("JavaMOP");
+		logicInputXML.setClient("RVMonitor");
 		logicInputXML.setEvents(mopSpec.getEventStr());
 		logicInputXML.setCategories(categories);
 		logicInputXML.setProperty(logicProperty);

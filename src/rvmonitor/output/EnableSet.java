@@ -10,32 +10,32 @@ import java.util.regex.Pattern;
 
 import rvmonitor.Main;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.MOPParameterSet;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameterSet;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 
 public class EnableSet {
-	Map<String, MOPParameterSet> contents;
-	protected MOPParameters specParameters;
+	Map<String, RVMParameterSet> contents;
+	protected RVMParameters specParameters;
 	protected List<EventDefinition> events;
 
-	HashMap<String, MOPParameters> parametersOnSpec = new HashMap<String, MOPParameters>();
+	HashMap<String, RVMParameters> parametersOnSpec = new HashMap<String, RVMParameters>();
 
-	public EnableSet(List<EventDefinition> events, MOPParameters specParameters) {
+	public EnableSet(List<EventDefinition> events, RVMParameters specParameters) {
 		this.specParameters = specParameters;
 		this.events = events;
 		for (EventDefinition event : events) {
-			parametersOnSpec.put(event.getId(), event.getMOPParametersOnSpec());
+			parametersOnSpec.put(event.getId(), event.getRVMParametersOnSpec());
 		}
-		this.contents = new HashMap<String, MOPParameterSet>();
+		this.contents = new HashMap<String, RVMParameterSet>();
 	}
 
-	public EnableSet(String enableSetStr, List<EventDefinition> events, MOPParameters specParameters) {
+	public EnableSet(String enableSetStr, List<EventDefinition> events, RVMParameters specParameters) {
 		this(events, specParameters);
 		this.contents = parseSets(enableSetStr);
 	}
 
-	public EnableSet(PropertyAndHandlers prop, List<EventDefinition> events, MOPParameters specParameters) {
+	public EnableSet(PropertyAndHandlers prop, List<EventDefinition> events, RVMParameters specParameters) {
 		this(events, specParameters);
 		for (String categoryName : prop.getHandlers().keySet()) {
 			String enableForCategory = prop.getLogicProperty(categoryName.toLowerCase() + " enables");
@@ -49,8 +49,8 @@ public class EnableSet {
 		if (enableSet == null)
 			return;
 
-		for (Entry<String, MOPParameterSet> entry : enableSet.getEnables()) {
-			MOPParameterSet enables = contents.get(entry.getKey());
+		for (Entry<String, RVMParameterSet> entry : enableSet.getEnables()) {
+			RVMParameterSet enables = contents.get(entry.getKey());
 
 			if (enables == null) {
 				contents.put(entry.getKey(), entry.getValue());
@@ -60,8 +60,8 @@ public class EnableSet {
 		}
 	}
 
-	private Map<String, MOPParameterSet> parseSets(String logicResultEnableSets) {
-		Map<String, MOPParameterSet> ret = new HashMap<String, MOPParameterSet>();
+	private Map<String, RVMParameterSet> parseSets(String logicResultEnableSets) {
+		Map<String, RVMParameterSet> ret = new HashMap<String, RVMParameterSet>();
 
 		String patternStr = "\\s*(\\w+)\\s*=\\s*\\[\\s*(\\[\\s*(\\w+\\s*(\\,\\s*\\w+\\s*)*)?\\s*\\](\\s*\\,\\s*\\[\\s*(\\w+\\s*(\\,\\s*\\w+\\s*)*)?\\s*\\])*)\\]";
 		String patternStr2 = "\\[\\s*(\\w+\\s*(\\,\\s*\\w+\\s*)*)?\\s*\\]";
@@ -79,7 +79,7 @@ public class EnableSet {
 			eventName = aLine.replaceAll(patternStr, "$1");
 			enableSetsStr = aLine.replaceAll(patternStr, "$2").replaceAll("\\n", "");
 
-			MOPParameterSet enables = new MOPParameterSet();
+			RVMParameterSet enables = new RVMParameterSet();
 
 			Pattern p2 = Pattern.compile(patternStr2);
 			Matcher matcher2 = p2.matcher(enableSetsStr);
@@ -87,7 +87,7 @@ public class EnableSet {
 			while (matcher2.find()) {
 				String aLine2 = matcher2.group();
 
-				MOPParameters enableEntity = new MOPParameters();
+				RVMParameters enableEntity = new RVMParameters();
 
 				Pattern p3 = Pattern.compile("\\w+");
 				Matcher matcher3 = p3.matcher(aLine2);
@@ -113,19 +113,19 @@ public class EnableSet {
 		return ret;
 	}
 
-	public MOPParameterSet getEnable(String event) {
+	public RVMParameterSet getEnable(String event) {
 		if(contents.get(event) == null || Main.noopt1)
 			return getFullEnable();
 		return contents.get(event);
 	}
 
-	MOPParameterSet cachedFullEntity = null;
+	RVMParameterSet cachedFullEntity = null;
 	
-	public MOPParameterSet getFullEnable() {
+	public RVMParameterSet getFullEnable() {
 		if(cachedFullEntity != null)
 			return cachedFullEntity;
 		
-		MOPParameterSet fullEntity = new MOPParameterSet();
+		RVMParameterSet fullEntity = new RVMParameterSet();
 
 		boolean[] paramBool = new boolean[specParameters.size()];
 		for (int i = 0; i < specParameters.size(); i++) {
@@ -134,7 +134,7 @@ public class EnableSet {
 
 		while (true) {
 			int i;
-			MOPParameters entity = new MOPParameters();
+			RVMParameters entity = new RVMParameters();
 			for (i = 0; i < specParameters.size(); i++) {
 				if (paramBool[i] == true)
 					entity.add(specParameters.get(i));
@@ -160,7 +160,7 @@ public class EnableSet {
 		return fullEntity;
 	}
 
-	public Set<Entry<String, MOPParameterSet>> getEnables() {
+	public Set<Entry<String, RVMParameterSet>> getEnables() {
 		return contents.entrySet();
 	}
 

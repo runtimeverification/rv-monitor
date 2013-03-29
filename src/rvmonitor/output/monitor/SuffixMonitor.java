@@ -1,40 +1,40 @@
 package rvmonitor.output.monitor;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.OptimizedCoenableSet;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 import rvmonitor.parser.ast.stmt.BlockStmt;
 
 import java.util.*;
 
 public class SuffixMonitor extends Monitor {
-	MOPVariable activity = new MOPVariable("MOP_activity");
-	MOPVariable loc = new MOPVariable("MOP_loc");
-	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
-	MOPVariable lastevent = new MOPVariable("MOP_lastevent");
-	MOPVariable thisJoinPoint = new MOPVariable("thisJoinPoint");
+	RVMVariable activity = new RVMVariable("RVM_activity");
+	RVMVariable loc = new RVMVariable("RVM_loc");
+	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
+	RVMVariable lastevent = new RVMVariable("RVM_lastevent");
+	RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 
 	List<EventDefinition> events;
 
 	Monitor innerMonitor = null;
 
 	ArrayList<String> categories;
-	MOPVariable monitorList = new MOPVariable("monitorList");
+	RVMVariable monitorList = new RVMVariable("monitorList");
 	boolean existSkip = false;
 	String aspectName;
 	
-	public SuffixMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+	public SuffixMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 
 		this.isDefined = mopSpec.isSuffixMatching();
 
 		if (this.isDefined) {
-			monitorName = new MOPVariable(mopSpec.getName() + "SuffixMonitor");
+			monitorName = new RVMVariable(mopSpec.getName() + "SuffixMonitor");
 
 			if (isOutermost) {
 				varInOutermostMonitor = new VarInOutermostMonitor(name, mopSpec, mopSpec.getEvents());
@@ -126,7 +126,7 @@ public class SuffixMonitor extends Monitor {
 		return this.aspectName;
 	}
 
-	public MOPVariable getOutermostName() {
+	public RVMVariable getOutermostName() {
 		if (isDefined)
 			return monitorName;
 		else
@@ -140,7 +140,7 @@ public class SuffixMonitor extends Monitor {
 		return ret;
 	}
 
-	public Set<MOPVariable> getCategoryVars() {
+	public Set<RVMVariable> getCategoryVars() {
 		return innerMonitor.getCategoryVars();
 	}
 
@@ -149,18 +149,18 @@ public class SuffixMonitor extends Monitor {
 
 		int idnum = event.getIdNum();
 
-		MOPVariable monitor = new MOPVariable("monitor");
-		MOPVariable monitorSet = new MOPVariable("monitorSet");
-		MOPVariable newMonitor = new MOPVariable("newMonitor");
-		MOPVariable it = new MOPVariable("it");
-		HashSet<MOPVariable> categoryVars = new HashSet<MOPVariable>();
+		RVMVariable monitor = new RVMVariable("monitor");
+		RVMVariable monitorSet = new RVMVariable("monitorSet");
+		RVMVariable newMonitor = new RVMVariable("newMonitor");
+		RVMVariable it = new RVMVariable("it");
+		HashSet<RVMVariable> categoryVars = new HashSet<RVMVariable>();
 
 		categoryVars.addAll(innerMonitor.getCategoryVars());
 
-		ret += "final void event_" + event.getId() + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+		ret += "final void event_" + event.getId() + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
 
 
-		for (MOPVariable var : getCategoryVars()) {
+		for (RVMVariable var : getCategoryVars()) {
 			ret += BaseMonitor.getNiceVariable(var) + " = false;\n";
 		}
 
@@ -185,7 +185,7 @@ public class SuffixMonitor extends Monitor {
 		ret += innerMonitor.Monitoring(monitor, event, loc, staticsig, null, this.aspectName, false);
 
 		ret += "if(" + monitorSet + ".contains(" + monitor + ")";
-		for (MOPVariable categoryVar : categoryVars) {
+		for (RVMVariable categoryVar : categoryVars) {
 			ret += " || " + monitor + "." + categoryVar;
 		}
 		ret += " ) {\n";
@@ -201,7 +201,7 @@ public class SuffixMonitor extends Monitor {
 		return ret;
 	}
 
-	public String Monitoring(MOPVariable monitorVar, EventDefinition event, MOPVariable loc, MOPVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
 		String ret = "";
 
 		if (!isDefined)
@@ -229,10 +229,10 @@ public class SuffixMonitor extends Monitor {
 		}
 
 		ret += monitorVar + ".event_" + event.getId() + "(";
-		ret += event.getMOPParameters().parameterString();
+		ret += event.getRVMParameters().parameterString();
 		ret += ");\n";
 
-		for (MOPVariable var : getCategoryVars()) {
+		for (RVMVariable var : getCategoryVars()) {
 			ret += BaseMonitor.getNiceVariable(var) + " |= " +
 					monitorVar + "." + BaseMonitor.getNiceVariable(var) + ";" +
 					"\n";
@@ -260,16 +260,16 @@ public class SuffixMonitor extends Monitor {
 	public String toString() {
 		String ret = "";
 
-		MOPVariable monitor = new MOPVariable("monitor");
-		MOPVariable newMonitor = new MOPVariable("newMonitor");
+		RVMVariable monitor = new RVMVariable("monitor");
+		RVMVariable newMonitor = new RVMVariable("newMonitor");
 
 		if (isDefined) {
 			ret += "class " + monitorName;
 			if (isOutermost)
-				ret += " extends rvmonitorrt.MOPMonitor";
-			ret += " implements Cloneable, rvmonitorrt.MOPObject {\n";
+				ret += " extends rvmonitorrt.RVMMonitor";
+			ret += " implements Cloneable, rvmonitorrt.RVMObject {\n";
 
-			for (MOPVariable var : getCategoryVars()) {
+			for (RVMVariable var : getCategoryVars()) {
 			ret += "boolean " + BaseMonitor.getNiceVariable(var) + ";\n";
 			}
 

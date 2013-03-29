@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public abstract class IndexingTree {
-	public MOPVariable name;
+	public RVMVariable name;
 	
-	public MOPParameters fullParam;
-	public MOPParameters queryParam;
-	public MOPParameters contentParam;
+	public RVMParameters fullParam;
+	public RVMParameters queryParam;
+	public RVMParameters contentParam;
 	
 	public MonitorSet monitorSet;
 	public SuffixMonitor monitorClass;
@@ -35,7 +35,7 @@ public abstract class IndexingTree {
 	public IndexingTree parentTree = null;
 	public ArrayList<IndexingTree> childTrees = new ArrayList<IndexingTree>();
 
-	public IndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
+	public IndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
 		this.queryParam = queryParam;
 		this.contentParam = contentParam;
 		this.fullParam = fullParam;
@@ -58,7 +58,7 @@ public abstract class IndexingTree {
 		this.isGeneral = isGeneral;
 	}
 
-	public MOPVariable getName() {
+	public RVMVariable getName() {
 		return name;
 	}
 
@@ -103,13 +103,13 @@ public abstract class IndexingTree {
 	////////////////////////
 	/*
 	public abstract String retrieveTree();
-	public abstract String addMonitor(MOPVariable map, MOPVariable obj, MOPVariable monitors, HashMap<String, MOPVariable> mopRefs, MOPVariable monitor);
-	public abstract String getWeakReferenceAfterLookup(MOPVariable map, MOPVariable monitor, HashMap<String, MOPVariable> mopRefs);
-	public abstract String addMonitorAfterLookup(MOPVariable map, MOPVariable monitor, HashMap<String, MOPVariable> mopRefs);
-	public abstract String addExactWrapper(MOPVariable wrapper, MOPVariable lastMap, MOPVariable set, HashMap<String, MOPVariable> mopRefs);
-	public abstract String addWrapper(MOPVariable wrapper, MOPVariable lastMap, MOPVariable set, HashMap<String, MOPVariable> mopRefs);
-	public abstract String lookup(MOPVariable map, MOPVariable obj, HashMap<String, MOPVariable> tempRefs, boolean creative);
-	public abstract String lookupExactMonitor(MOPVariable wrapper, MOPVariable lastMap, MOPVariable set, MOPVariable map, MOPVariable obj,
-			HashMap<String, MOPVariable> tempRefs, boolean creative);
+	public abstract String addMonitor(RVMVariable map, RVMVariable obj, RVMVariable monitors, HashMap<String, RVMVariable> mopRefs, RVMVariable monitor);
+	public abstract String getWeakReferenceAfterLookup(RVMVariable map, RVMVariable monitor, HashMap<String, RVMVariable> mopRefs);
+	public abstract String addMonitorAfterLookup(RVMVariable map, RVMVariable monitor, HashMap<String, RVMVariable> mopRefs);
+	public abstract String addExactWrapper(RVMVariable wrapper, RVMVariable lastMap, RVMVariable set, HashMap<String, RVMVariable> mopRefs);
+	public abstract String addWrapper(RVMVariable wrapper, RVMVariable lastMap, RVMVariable set, HashMap<String, RVMVariable> mopRefs);
+	public abstract String lookup(RVMVariable map, RVMVariable obj, HashMap<String, RVMVariable> tempRefs, boolean creative);
+	public abstract String lookupExactMonitor(RVMVariable wrapper, RVMVariable lastMap, RVMVariable set, RVMVariable map, RVMVariable obj,
+			HashMap<String, RVMVariable> tempRefs, boolean creative);
 	 */
 }

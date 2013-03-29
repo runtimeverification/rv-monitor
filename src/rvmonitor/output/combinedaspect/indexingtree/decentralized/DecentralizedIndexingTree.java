@@ -7,11 +7,11 @@ import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public class DecentralizedIndexingTree {
 
-	static public IndexingTree defineIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet,
+	static public IndexingTree defineIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet,
 			SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 
 		if (perthread)

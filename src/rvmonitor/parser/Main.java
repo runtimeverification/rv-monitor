@@ -2,16 +2,16 @@ package rvmonitor.parser;
 
 import java.io.File;
 
-import rvmonitor.parser.ast.MOPSpecFile;
-import rvmonitor.parser.astex.MOPSpecFileExt;
-import rvmonitor.parser.main_parser.JavaMOPParser;
+import rvmonitor.parser.ast.RVMSpecFile;
+import rvmonitor.parser.astex.RVMSpecFileExt;
+import rvmonitor.parser.main_parser.RVMonitorParser;
 
 public class Main {
 
 	public static void main(String[] args) {
 		try {
-			MOPSpecFileExt f = JavaMOPParser.parse(new File(args[0]));
-			MOPSpecFile o = JavaMOPExtender.translateMopSpecFile(f);
+			RVMSpecFileExt f = RVMonitorParser.parse(new File(args[0]));
+			RVMSpecFile o = RVMonitorExtender.translateMopSpecFile(f);
 			
 			System.out.print(o.toString());
 		} catch (Exception e) {

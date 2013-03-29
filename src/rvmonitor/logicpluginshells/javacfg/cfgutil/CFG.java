@@ -39,7 +39,7 @@ public class CFG implements java.io.Serializable {
    // See Cooper and Torczon p 99
    // I am not quite sure what will happen if there are epsilons left in the grammar
    // before running this
-   // Either way MOP doesn't need epsilons so we will use this latter
+   // Either way RVM doesn't need epsilons so we will use this latter
    HashMap<Symbol,HashSet<Terminal>> firstS() {
       HashMap<Symbol,HashSet<Terminal>> ret = new HashMap<Symbol,HashSet<Terminal>>();
       HashSet<Symbol> temp = new HashSet<Symbol>();

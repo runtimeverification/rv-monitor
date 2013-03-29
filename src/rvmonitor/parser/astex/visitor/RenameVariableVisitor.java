@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import rvmonitor.parser.ast.CompilationUnit;
-import rvmonitor.parser.ast.ImportDeclaration;
-import rvmonitor.parser.ast.MOPSpecFile;
-import rvmonitor.parser.ast.Node;
-import rvmonitor.parser.ast.PackageDeclaration;
-import rvmonitor.parser.ast.TypeParameter;
+import rvmonitor.parser.ast.*;
+import rvmonitor.parser.ast.RVMSpecFile;
 import rvmonitor.parser.ast.aspectj.ArgsPointCut;
 import rvmonitor.parser.ast.aspectj.BaseTypePattern;
 import rvmonitor.parser.ast.aspectj.CFlowPointCut;
@@ -86,11 +82,8 @@ import rvmonitor.parser.ast.expr.SuperMemberAccessExpr;
 import rvmonitor.parser.ast.expr.ThisExpr;
 import rvmonitor.parser.ast.expr.UnaryExpr;
 import rvmonitor.parser.ast.expr.VariableDeclarationExpr;
-import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.Formula;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
+import rvmonitor.parser.ast.mopspec.*;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.stmt.AssertStmt;
 import rvmonitor.parser.ast.stmt.BlockStmt;
 import rvmonitor.parser.ast.stmt.BreakStmt;
@@ -118,55 +111,55 @@ import rvmonitor.parser.ast.type.ReferenceType;
 import rvmonitor.parser.ast.type.VoidType;
 import rvmonitor.parser.ast.type.WildcardType;
 
-public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.GenericVisitor<Node, HashMap<String, MOPParameter>> {
+public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.GenericVisitor<Node, HashMap<String, RVMParameter>> {
 
 	@Override
-	public Node visit(Node n, HashMap<String, MOPParameter> arg) {
+	public Node visit(Node n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(MOPSpecFile f, HashMap<String, MOPParameter> arg) {
+	public Node visit(RVMSpecFile f, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(JavaMOPSpec s, HashMap<String, MOPParameter> arg) {
+	public Node visit(RVMonitorSpec s, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(MOPParameter p, HashMap<String, MOPParameter> arg) {
-		MOPParameter param = arg.get(p.getName());
+	public Node visit(RVMParameter p, HashMap<String, RVMParameter> arg) {
+		RVMParameter param = arg.get(p.getName());
 		
 		if(param != null)
-			return new MOPParameter(p.getBeginLine(), p.getBeginColumn(), p.getType(), param.getName());
+			return new RVMParameter(p.getBeginLine(), p.getBeginColumn(), p.getType(), param.getName());
 
 		return p;
 	}
 
 	@Override
-	public Node visit(EventDefinition e, HashMap<String, MOPParameter> arg) {
+	public Node visit(EventDefinition e, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(PropertyAndHandlers p, HashMap<String, MOPParameter> arg) {
+	public Node visit(PropertyAndHandlers p, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(Formula f, HashMap<String, MOPParameter> arg) {
+	public Node visit(Formula f, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(WildcardParameter w, HashMap<String, MOPParameter> arg) {
+	public Node visit(WildcardParameter w, HashMap<String, RVMParameter> arg) {
 		return w;
 	}
 
 	@Override
-	public Node visit(ArgsPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(ArgsPointCut p, HashMap<String, RVMParameter> arg) {
 		List<TypePattern> list = new ArrayList<TypePattern>();
 
 		for(int i = 0; i < p.getArgs().size(); i++){
@@ -179,7 +172,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(CombinedPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(CombinedPointCut p, HashMap<String, RVMParameter> arg) {
 		List<PointCut> pointcuts = new ArrayList<PointCut>();
 		
 		for(PointCut p2 : p.getPointcuts()){
@@ -192,7 +185,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(NotPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(NotPointCut p, HashMap<String, RVMParameter> arg) {
 		PointCut sub = (PointCut)p.getPointCut().accept(this, arg);
 		
 		if(p.getPointCut() == sub)
@@ -202,7 +195,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(ConditionPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(ConditionPointCut p, HashMap<String, RVMParameter> arg) {
 		Expression expr = (Expression)p.getExpression().accept(this, arg);
 		
 		if(p.getExpression() == expr)
@@ -212,7 +205,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 	
 	@Override
-	public Node visit(CountCondPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(CountCondPointCut p, HashMap<String, RVMParameter> arg) {
 		Expression expr = (Expression)p.getExpression().accept(this, arg);
 		
 		if(p.getExpression() == expr)
@@ -222,17 +215,17 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(FieldPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(FieldPointCut p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(MethodPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(MethodPointCut p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(TargetPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(TargetPointCut p, HashMap<String, RVMParameter> arg) {
 		TypePattern target = (TypePattern)p.getTarget().accept(this, arg);
 		
 		if(p.getTarget() == target)
@@ -242,7 +235,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(ThisPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(ThisPointCut p, HashMap<String, RVMParameter> arg) {
 		TypePattern target = (TypePattern)p.getTarget().accept(this, arg);
 		
 		if(p.getTarget() == target)
@@ -252,7 +245,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(CFlowPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(CFlowPointCut p, HashMap<String, RVMParameter> arg) {
 		PointCut sub = (PointCut)p.getPointCut().accept(this, arg);
 		
 		if(p.getPointCut() == sub)
@@ -262,7 +255,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(IFPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(IFPointCut p, HashMap<String, RVMParameter> arg) {
 		Expression expr = (Expression)p.getExpression().accept(this, arg);
 		
 		if(p.getExpression() == expr)
@@ -272,7 +265,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(IDPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(IDPointCut p, HashMap<String, RVMParameter> arg) {
 		List<TypePattern> list = new ArrayList<TypePattern>();
 
 		for(int i = 0; i < p.getArgs().size(); i++){
@@ -285,13 +278,13 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(WithinPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(WithinPointCut p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(ThreadPointCut p, HashMap<String, MOPParameter> arg) {
-		MOPParameter param = arg.get(p.getId());
+	public Node visit(ThreadPointCut p, HashMap<String, RVMParameter> arg) {
+		RVMParameter param = arg.get(p.getId());
 		
 		if(param != null)
 			return new ThreadPointCut(p.getBeginLine(), p.getBeginColumn(), param.getName());
@@ -300,28 +293,28 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 	
 	@Override
-	public Node visit(ThreadNamePointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(ThreadNamePointCut p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 	
 	@Override
-	public Node visit(ThreadBlockedPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(ThreadBlockedPointCut p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(EndProgramPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(EndProgramPointCut p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(EndThreadPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(EndThreadPointCut p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(EndObjectPointCut p, HashMap<String, MOPParameter> arg) {
-		MOPParameter param = arg.get(p.getId());
+	public Node visit(EndObjectPointCut p, HashMap<String, RVMParameter> arg) {
+		RVMParameter param = arg.get(p.getId());
 		
 		if(param != null)
 			return new EndObjectPointCut(p.getBeginLine(), p.getBeginColumn(), p.getTargetType(), param.getName());
@@ -330,22 +323,22 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(StartThreadPointCut p, HashMap<String, MOPParameter> arg) {
+	public Node visit(StartThreadPointCut p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(FieldPattern p, HashMap<String, MOPParameter> arg) {
+	public Node visit(FieldPattern p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(MethodPattern p, HashMap<String, MOPParameter> arg) {
+	public Node visit(MethodPattern p, HashMap<String, RVMParameter> arg) {
 		return p;
 	}
 
 	@Override
-	public Node visit(CombinedTypePattern p, HashMap<String, MOPParameter> arg) {
+	public Node visit(CombinedTypePattern p, HashMap<String, RVMParameter> arg) {
 		List<TypePattern> subTypes = new ArrayList<TypePattern>();
 
 		for(int i = 0; i < p.getSubTypes().size(); i++){
@@ -356,7 +349,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(NotTypePattern p, HashMap<String, MOPParameter> arg) {
+	public Node visit(NotTypePattern p, HashMap<String, RVMParameter> arg) {
 		TypePattern type = (TypePattern)p.getType().accept(this, arg);
 		
 		if(p.getType() == type)
@@ -366,8 +359,8 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(BaseTypePattern p, HashMap<String, MOPParameter> arg) {
-		MOPParameter param = arg.get(p.getOp());
+	public Node visit(BaseTypePattern p, HashMap<String, RVMParameter> arg) {
+		RVMParameter param = arg.get(p.getOp());
 		
 		if(param != null)
 			return new BaseTypePattern(p.getBeginLine(), p.getBeginColumn(), param.getName());
@@ -376,122 +369,122 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(CompilationUnit n, HashMap<String, MOPParameter> arg) {
+	public Node visit(CompilationUnit n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(PackageDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(PackageDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(ImportDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ImportDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(TypeParameter n, HashMap<String, MOPParameter> arg) {
+	public Node visit(TypeParameter n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(ClassOrInterfaceDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ClassOrInterfaceDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(EnumDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(EnumDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(EmptyTypeDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(EmptyTypeDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(EnumConstantDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(EnumConstantDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(AnnotationDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(AnnotationDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(AnnotationMemberDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(AnnotationMemberDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(FieldDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(FieldDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(VariableDeclarator n, HashMap<String, MOPParameter> arg) {
+	public Node visit(VariableDeclarator n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(VariableDeclaratorId n, HashMap<String, MOPParameter> arg) {
+	public Node visit(VariableDeclaratorId n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(ConstructorDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ConstructorDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(MethodDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(MethodDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(Parameter n, HashMap<String, MOPParameter> arg) {
+	public Node visit(Parameter n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(EmptyMemberDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(EmptyMemberDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(InitializerDeclaration n, HashMap<String, MOPParameter> arg) {
+	public Node visit(InitializerDeclaration n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(ClassOrInterfaceType n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ClassOrInterfaceType n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(PrimitiveType n, HashMap<String, MOPParameter> arg) {
+	public Node visit(PrimitiveType n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(ReferenceType n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ReferenceType n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(VoidType n, HashMap<String, MOPParameter> arg) {
+	public Node visit(VoidType n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(WildcardType n, HashMap<String, MOPParameter> arg) {
+	public Node visit(WildcardType n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(ArrayAccessExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ArrayAccessExpr n, HashMap<String, RVMParameter> arg) {
 		Expression name = (Expression)n.getName().accept(this, arg);
 		Expression index = (Expression)n.getIndex().accept(this, arg);
 
@@ -502,7 +495,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(ArrayCreationExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ArrayCreationExpr n, HashMap<String, RVMParameter> arg) {
 		if(n.getDimensions() != null){
 			List<Expression> dims = new ArrayList<Expression>();
 	
@@ -524,7 +517,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(ArrayInitializerExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ArrayInitializerExpr n, HashMap<String, RVMParameter> arg) {
 		List<Expression> values = new ArrayList<Expression>();
 		
 		for(int i = 0; i < n.getValues().size(); i++){
@@ -535,7 +528,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(AssignExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(AssignExpr n, HashMap<String, RVMParameter> arg) {
 		Expression target = (Expression)n.getTarget().accept(this, arg);
 		Expression value = (Expression)n.getValue().accept(this, arg);
 
@@ -546,7 +539,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(BinaryExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(BinaryExpr n, HashMap<String, RVMParameter> arg) {
 		Expression left = (Expression)n.getLeft().accept(this, arg);
 		Expression right = (Expression)n.getRight().accept(this, arg);
 
@@ -557,7 +550,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(CastExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(CastExpr n, HashMap<String, RVMParameter> arg) {
 		Expression expr = (Expression)n.getExpr().accept(this, arg);
 		
 		if(n.getExpr() == expr)
@@ -567,12 +560,12 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(ClassExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ClassExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(ConditionalExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ConditionalExpr n, HashMap<String, RVMParameter> arg) {
 		Expression condition = (Expression)n.getCondition().accept(this, arg);
 		Expression thenExpr = (Expression)n.getThenExpr().accept(this, arg);
 		Expression elseExpr = (Expression)n.getElseExpr().accept(this, arg);
@@ -584,7 +577,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(EnclosedExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(EnclosedExpr n, HashMap<String, RVMParameter> arg) {
 		Expression inner = (Expression)n.getInner().accept(this, arg);
 
 		if(n.getInner() == inner)
@@ -594,7 +587,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(FieldAccessExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(FieldAccessExpr n, HashMap<String, RVMParameter> arg) {
 		Expression scope = (Expression)n.getScope().accept(this, arg);
 		
 		if(n.getScope() == scope)
@@ -604,7 +597,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(InstanceOfExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(InstanceOfExpr n, HashMap<String, RVMParameter> arg) {
 		Expression expr = (Expression)n.getExpr().accept(this, arg);
 		
 		if(n.getExpr() == expr)
@@ -614,52 +607,52 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(StringLiteralExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(StringLiteralExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(IntegerLiteralExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(IntegerLiteralExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(LongLiteralExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(LongLiteralExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(IntegerLiteralMinValueExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(IntegerLiteralMinValueExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(LongLiteralMinValueExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(LongLiteralMinValueExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(CharLiteralExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(CharLiteralExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(DoubleLiteralExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(DoubleLiteralExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(BooleanLiteralExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(BooleanLiteralExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(NullLiteralExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(NullLiteralExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(MethodCallExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(MethodCallExpr n, HashMap<String, RVMParameter> arg) {
 		Expression scope = (Expression)n.getScope().accept(this, arg);
 		
 		List<Expression> args = new ArrayList<Expression>();
@@ -672,8 +665,8 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(NameExpr n, HashMap<String, MOPParameter> arg) {
-		MOPParameter param = arg.get(n.getName());
+	public Node visit(NameExpr n, HashMap<String, RVMParameter> arg) {
+		RVMParameter param = arg.get(n.getName());
 
 		if(param != null)
 			return new NameExpr(n.getBeginLine(), n.getBeginColumn(), param.getName());
@@ -682,7 +675,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(ObjectCreationExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ObjectCreationExpr n, HashMap<String, RVMParameter> arg) {
 		Expression scope = (Expression)n.getScope().accept(this, arg);
 		
 		List<Expression> args = new ArrayList<Expression>();
@@ -696,9 +689,9 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(QualifiedNameExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(QualifiedNameExpr n, HashMap<String, RVMParameter> arg) {
 		NameExpr qualifier = (NameExpr)n.getQualifier().accept(this, arg);
-		MOPParameter param = arg.get(n.getName());		
+		RVMParameter param = arg.get(n.getName());
 		
 		if(n.getQualifier() == qualifier && param == null)
 			return n;
@@ -707,12 +700,12 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(SuperMemberAccessExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(SuperMemberAccessExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(ThisExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ThisExpr n, HashMap<String, RVMParameter> arg) {
 		Expression classExpr = (Expression)n.getClassExpr().accept(this, arg);
 		
 		if(n.getClassExpr() == classExpr)
@@ -722,7 +715,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(SuperExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(SuperExpr n, HashMap<String, RVMParameter> arg) {
 		Expression classExpr = (Expression)n.getClassExpr().accept(this, arg);
 		
 		if(n.getClassExpr() == classExpr)
@@ -732,7 +725,7 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(UnaryExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(UnaryExpr n, HashMap<String, RVMParameter> arg) {
 		Expression expr = (Expression)n.getExpr().accept(this, arg);
 		
 		if(n.getExpr() == expr)
@@ -743,132 +736,132 @@ public class RenameVariableVisitor implements rvmonitor.parser.ast.visitor.Gener
 	}
 
 	@Override
-	public Node visit(VariableDeclarationExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(VariableDeclarationExpr n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(MarkerAnnotationExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(MarkerAnnotationExpr n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(SingleMemberAnnotationExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(SingleMemberAnnotationExpr n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(NormalAnnotationExpr n, HashMap<String, MOPParameter> arg) {
+	public Node visit(NormalAnnotationExpr n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(MemberValuePair n, HashMap<String, MOPParameter> arg) {
+	public Node visit(MemberValuePair n, HashMap<String, RVMParameter> arg) {
 		return null;
 	}
 
 	@Override
-	public Node visit(ExplicitConstructorInvocationStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ExplicitConstructorInvocationStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(TypeDeclarationStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(TypeDeclarationStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(AssertStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(AssertStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(BlockStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(BlockStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(LabeledStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(LabeledStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(EmptyStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(EmptyStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(ExpressionStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ExpressionStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(SwitchStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(SwitchStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(SwitchEntryStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(SwitchEntryStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(BreakStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(BreakStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(ReturnStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ReturnStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(IfStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(IfStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(WhileStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(WhileStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(ContinueStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ContinueStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(DoStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(DoStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(ForeachStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ForeachStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(ForStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ForStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(ThrowStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(ThrowStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(SynchronizedStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(SynchronizedStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(TryStmt n, HashMap<String, MOPParameter> arg) {
+	public Node visit(TryStmt n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 
 	@Override
-	public Node visit(CatchClause n, HashMap<String, MOPParameter> arg) {
+	public Node visit(CatchClause n, HashMap<String, RVMParameter> arg) {
 		return n;
 	}
 }

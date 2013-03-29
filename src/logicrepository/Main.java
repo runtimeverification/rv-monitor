@@ -163,7 +163,7 @@ public class Main {
 				logicStat.setClientAndLogicCount(clientAndLogicCount);
 				logicStat.setClientCount(clientCount);
 				logicStat.setLogicCount(logicCount);
-				logicStat.setTotalMOPCount(totalCount);
+				logicStat.setTotalRVMCount(totalCount);
 				logicStat.setTotalExecutionTime(runTime + "ms");
 
 				logicOutputXML.setStatistics(logicStat);

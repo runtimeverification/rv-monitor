@@ -83,7 +83,7 @@ public class TestingFunctor implements TestCaseFunctor {
 			String origDirPath = testCase.basepath + File.separator + testCase.path + File.separator + testCaseProg.dirName;
 			String monitoredDirPath = testCase.basepath + File.separator +
 					testCase.path + File.separator + testCaseProg.dirName;
-//			+ "_MOP";
+//			+ "_RVM";
 			
 			TestClassLoader loader = new TestClassLoader(origDirPath);
 			

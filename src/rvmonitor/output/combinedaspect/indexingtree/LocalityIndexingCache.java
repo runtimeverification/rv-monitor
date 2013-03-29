@@ -2,13 +2,13 @@ package rvmonitor.output.combinedaspect.indexingtree;
 
 import java.util.HashMap;
 
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 
 // it turns out that this cache is inefficient.
@@ -16,23 +16,23 @@ import rvmonitor.parser.ast.mopspec.MOPParameters;
 public class LocalityIndexingCache extends IndexingCache{
 	int size = 16;
 	
-	public LocalityIndexingCache(MOPVariable name, MOPParameters param, MOPParameters fullParam, SuffixMonitor monitor, MonitorSet monitorSet, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
+	public LocalityIndexingCache(RVMVariable name, RVMParameters param, RVMParameters fullParam, SuffixMonitor monitor, MonitorSet monitorSet, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
 		super(name, param, fullParam, monitor, monitorSet, refTrees, perthread, isGeneral);
 	}
 
-	public String getKeyType(MOPParameter p) {
+	public String getKeyType(RVMParameter p) {
 		return refTrees.get(p.getType().toString()).getResultType();
 	}
 
-	public String getTreeType(MOPParameter p) {
+	public String getTreeType(RVMParameter p) {
 		return refTrees.get(p.getType().toString()).getType();
 	}
 
-	public MOPVariable getKey(MOPParameter p) {
+	public RVMVariable getKey(RVMParameter p) {
 		return keys.get(p.getName());
 	}
 
-	public MOPVariable getKey(int i) {
+	public RVMVariable getKey(int i) {
 		return keys.get(param.get(i).getName());
 	}
 
@@ -56,8 +56,8 @@ public class LocalityIndexingCache extends IndexingCache{
 	public String getCacheKeys(LocalVariables localVars) {
 		String ret = "";
 
-		for (MOPParameter p : param) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+		for (RVMParameter p : param) {
+			RVMVariable tempRef = localVars.getTempRef(p);
 
 			ret += tempRef + " = ";
 
@@ -71,7 +71,7 @@ public class LocalityIndexingCache extends IndexingCache{
 		return ret;
 	}
 
-	public String getCacheSet(MOPVariable obj) {
+	public String getCacheSet(RVMVariable obj) {
 		String ret = "";
 
 		if (!hasSet)
@@ -86,7 +86,7 @@ public class LocalityIndexingCache extends IndexingCache{
 		return ret;
 	}
 
-	public String getCacheNode(MOPVariable obj) {
+	public String getCacheNode(RVMVariable obj) {
 		String ret = "";
 
 		if (perthread) {
@@ -101,8 +101,8 @@ public class LocalityIndexingCache extends IndexingCache{
 	public String setCacheKeys(LocalVariables localVars) {
 		String ret = "";
 
-		for (MOPParameter p : param) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+		for (RVMParameter p : param) {
+			RVMVariable tempRef = localVars.getTempRef(p);
 
 			if (perthread) {
 				ret += getKey(p) + ".set(" + tempRef + ");\n";
@@ -114,7 +114,7 @@ public class LocalityIndexingCache extends IndexingCache{
 		return ret;
 	}
 
-	public String setCacheSet(MOPVariable obj) {
+	public String setCacheSet(RVMVariable obj) {
 		String ret = "";
 
 		if (!hasSet)
@@ -129,7 +129,7 @@ public class LocalityIndexingCache extends IndexingCache{
 		return ret;
 	}
 
-	public String setCacheNode(MOPVariable obj) {
+	public String setCacheNode(RVMVariable obj) {
 		String ret = "";
 
 		if(!hasNode)
@@ -147,13 +147,13 @@ public class LocalityIndexingCache extends IndexingCache{
 	public String init(){
 		String ret = "";
 
-		MOPVariable i = new MOPVariable("i");
+		RVMVariable i = new RVMVariable("i");
 		
 		if(perthread)
 			return ret;
 
-		for (MOPParameter p : param) {
-			MOPVariable key = keys.get(p.getName());
+		for (RVMParameter p : param) {
+			RVMVariable key = keys.get(p.getName());
 			ret += key + " = new " + getKeyType(p) + "[" + size + "];\n";
 		}
 		if (hasSet) {
@@ -164,8 +164,8 @@ public class LocalityIndexingCache extends IndexingCache{
 		}
 		
 		ret += "for(int " + i + " = 0; " + i + " < 16; " + i + "++){\n";
-		for (MOPParameter p : param) {
-			MOPVariable key = keys.get(p.getName());
+		for (RVMParameter p : param) {
+			RVMVariable key = keys.get(p.getName());
 			ret += key + "[" + i + "] = " + getTreeType(p) + ".NULRef;\n";
 		}
 		if (hasSet) {
@@ -183,8 +183,8 @@ public class LocalityIndexingCache extends IndexingCache{
 		String ret = "";
 
 		if (perthread) {
-			for (MOPParameter p : param) {
-				MOPVariable key = keys.get(p.getName());
+			for (RVMParameter p : param) {
+				RVMVariable key = keys.get(p.getName());
 
 				ret += "static final ThreadLocal " + key + " = new ThreadLocal() {\n";
 				ret += "protected " + getKeyType(p) + " initialValue(){\n";
@@ -209,8 +209,8 @@ public class LocalityIndexingCache extends IndexingCache{
 				ret += "};\n";
 			}
 		} else {
-			for (MOPParameter p : param) {
-				MOPVariable key = keys.get(p.getName());
+			for (RVMParameter p : param) {
+				RVMVariable key = keys.get(p.getName());
 				ret += "static " + getKeyType(p) + "[] " + key + ";\n";
 			}
 			if (hasSet) {

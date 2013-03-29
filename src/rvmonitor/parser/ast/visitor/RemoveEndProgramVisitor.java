@@ -15,17 +15,17 @@ public class RemoveEndProgramVisitor implements GenericVisitor<PointCut, Integer
 		return null;
 	}
 
-	// - JavaMOP components
+	// - RV Monitor components
 
-	public PointCut visit(MOPSpecFile f, Integer arg){
+	public PointCut visit(RVMSpecFile f, Integer arg){
 		return null;
 	}
 
-	public PointCut visit(JavaMOPSpec s, Integer arg){
+	public PointCut visit(RVMonitorSpec s, Integer arg){
 		return null;
 	}
 
-	public PointCut visit(MOPParameter p, Integer arg){
+	public PointCut visit(RVMParameter p, Integer arg){
 		return null;
 	}
 

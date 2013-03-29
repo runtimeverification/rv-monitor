@@ -2,7 +2,7 @@
  * Copyright (C) 2008 Feng Chen.
  * updates by Patrick Meredith
  * 
- * This file is part of JavaMOP parser.  It is based on the Java 1.5 parser developed by Julio Vilmar Gesser
+ * This file is part of RVMonitor parser.  It is based on the Java 1.5 parser developed by Julio Vilmar Gesser
  *
  * The original parser is under the LGPL, you should have recieve a copy of the LGPL with this
  * parser code.  If not see <http://www.gnu.org/licenses/>.
@@ -19,7 +19,7 @@ options {
   DEBUG_TOKEN_MANAGER=false;
 }
 
-PARSER_BEGIN(JavaMOPParser)
+PARSER_BEGIN(RVMonitorParser)
 package rvmonitor.parser.main_parser;
 
 import java.io.*;
@@ -39,24 +39,24 @@ import rvmonitor.parser.astex.mopspec.*;
  * @author Sreenivasa Viswanadha - Simplified and enhanced for 1.5
  * @author Julio Vilmar Gesser (jgesser@gmail.com) - bug fixes and added AST generation
  */
-public final class JavaMOPParser {
+public final class RVMonitorParser {
 
-    private static JavaMOPParser parser;
+    private static RVMonitorParser parser;
 
-    public static MOPSpecFileExt parse(InputStream in, String encoding) throws ParseException {
+    public static RVMSpecFileExt parse(InputStream in, String encoding) throws ParseException {
         if (parser == null) {
-            parser = new JavaMOPParser(in, encoding);
+            parser = new RVMonitorParser(in, encoding);
         } else {
             parser.ReInit(in);
         }
-        return parser.MOPSpecFile();
+        return parser.RVMSpecFile();
     }
 
-    public static MOPSpecFileExt parse(InputStream in) throws ParseException {
+    public static RVMSpecFileExt parse(InputStream in) throws ParseException {
         return parse(in, null);
     }
 
-    public static MOPSpecFileExt parse(File file, String encoding) throws ParseException {
+    public static RVMSpecFileExt parse(File file, String encoding) throws ParseException {
         try {
 	        FileInputStream in = new FileInputStream(file);
 	        try {
@@ -69,7 +69,7 @@ public final class JavaMOPParser {
         }
     }
     
-    public static MOPSpecFileExt parse(File file) throws ParseException {
+    public static RVMSpecFileExt parse(File file) throws ParseException {
 		return parse(file, null);
     }
     
@@ -215,7 +215,7 @@ public final class JavaMOPParser {
 
 }
 
-PARSER_END(JavaMOPParser)
+PARSER_END(RVMonitorParser)
 
 /* WHITE SPACE */
 
@@ -319,7 +319,7 @@ TOKEN :
 | < WHILE: "while" >
 }
 
-/* RESERVED WORDS AND LITERALS for AspectJ and JavaMOP */
+/* RESERVED WORDS AND LITERALS for AspectJ and RVMonitor */
 
 TOKEN :
 {
@@ -1221,32 +1221,32 @@ TOKEN :
 /* operators used in different logics, may need to be extended when new logics come*/
 
 /*************************************************
- * THE JAVAMOP SPECIFICATION GRAMMAR STARTS HERE *
+ * THE JAVARVM SPECIFICATION GRAMMAR STARTS HERE *
  *************************************************/
 
-MOPSpecFileExt MOPSpecFile():
+RVMSpecFileExt RVMSpecFile():
 {
 	PackageDeclaration packageName = null;
 	List<ImportDeclaration> imports = new ArrayList<ImportDeclaration>();
 	ImportDeclaration im = null;
-	List<JavaMOPSpecExt> specList = new ArrayList<JavaMOPSpecExt>();
-	JavaMOPSpecExt spec = null;
+	List<RVMonitorSpecExt> specList = new ArrayList<RVMonitorSpecExt>();
+	RVMonitorSpecExt spec = null;
 	int line = -1;
 	int column = -1;
 }
 {
 	[ LOOKAHEAD(PackageDeclaration()) packageName = PackageDeclaration() {line = packageName.getBeginLine(); column = packageName.getBeginColumn();}]
 	( im = ImportDeclaration() { if(line==-1){line = im.getBeginLine(); column = im.getBeginColumn();} imports.add(im); } )* 
-	(spec = JavaMOPSpec(packageName) {if(line==-1){line = spec.getBeginLine(); column = spec.getBeginColumn();} specList.add(spec);})+
+	(spec = RVMonitorSpec(packageName) {if(line==-1){line = spec.getBeginLine(); column = spec.getBeginColumn();} specList.add(spec);})+
 	(<EOF> | "\u001A" /** ctrl+z char **/)
-	{return new MOPSpecFileExt(line, column, packageName, imports, specList);}
+	{return new RVMSpecFileExt(line, column, packageName, imports, specList);}
 }
 
-JavaMOPSpecExt JavaMOPSpec(PackageDeclaration packageName):
+RVMonitorSpecExt RVMonitorSpec(PackageDeclaration packageName):
 {  
 	int modifiers;
 	String name;
-	List<MOPParameter> parameters = null;
+	List<RVMParameter> parameters = null;
 	//MethodPattern inMethod = null;
 	String inMethod = null;
 	List<BodyDeclaration> declarations = null;
@@ -1265,17 +1265,17 @@ JavaMOPSpecExt JavaMOPSpec(PackageDeclaration packageName):
 	["public" { isPublic = true; }]
 	modifiers = SpecModifier()
 	(<IDENTIFIER> | "get" | "set") { if(line==-1){line = token.beginLine; column = token.beginColumn;} name = token.image; }
-	[parameters = MOPParameters()]
+	[parameters = RVMParameters()]
 	["within" { inMethod = getStringUntil('{'); }]
 	//****************soha adding here*****************/
-	[<INCLUDES> extendedSpecList = MOPExtendedSpec()]
+	[<INCLUDES> extendedSpecList = RVMExtendedSpec()]
 	//****************soha ends addition here*****************/
 	"{"
 	 declarations = ClassOrInterfaceBody(false)
 	(event = Event() { events.add(event); } )+
 	(prop = PropertyAndHandlers(propId++) {props.add(prop);})*
 	"}"
-	{return new JavaMOPSpecExt(packageName, line, column, isPublic, modifiers, name, parameters, inMethod, extendedSpecList, declarations, events, props);}
+	{return new RVMonitorSpecExt(packageName, line, column, isPublic, modifiers, name, parameters, inMethod, extendedSpecList, declarations, events, props);}
 }
 
 int SpecModifier():
@@ -1304,8 +1304,8 @@ int SpecModifier():
 }
 
 //**************** soha adding here*************/
-//List<MOPExtendedSpec> MOPExtendedSpec():
-List<ExtendedSpec> MOPExtendedSpec():
+//List<RVMExtendedSpec> RVMExtendedSpec():
+List<ExtendedSpec> RVMExtendedSpec():
 {	
 	List<ExtendedSpec> extendedSpecList= new ArrayList<ExtendedSpec>();
 	ExtendedSpec S = null;
@@ -1335,20 +1335,20 @@ ExtendedSpec singleExtendedSpec():
 
 //************ soha ends addition here*************/
 
-List<MOPParameter> MOPParameters():
+List<RVMParameter> RVMParameters():
 {
-	List<MOPParameter> parameters = new ArrayList<MOPParameter>();
-	MOPParameter p = null;
+	List<RVMParameter> parameters = new ArrayList<RVMParameter>();
+	RVMParameter p = null;
 }
 {
-  "(" [ p = MOPParameter() {parameters.add(p);} ( "," p = MOPParameter() {parameters.add(p);} )* ] ")"
+  "(" [ p = RVMParameter() {parameters.add(p);} ( "," p = RVMParameter() {parameters.add(p);} )* ] ")"
   { return parameters; }
 }
 
-List<MOPParameter> AdviceParameters():
+List<RVMParameter> AdviceParameters():
 {
-	List<MOPParameter> parameters = new ArrayList<MOPParameter>();
-	MOPParameter p = null;
+	List<RVMParameter> parameters = new ArrayList<RVMParameter>();
+	RVMParameter p = null;
 }
 {
   "(" [ p = AdviceParameter() {parameters.add(p);} ( "," p = AdviceParameter() {parameters.add(p);} )* ] ")"
@@ -1356,7 +1356,7 @@ List<MOPParameter> AdviceParameters():
 }
 
 
-MOPParameter MOPParameter():
+RVMParameter RVMParameter():
 {
 	TypePattern type;
 	String name;
@@ -1365,11 +1365,11 @@ MOPParameter MOPParameter():
 }
 {
 	type = SimpleTypePattern() {line = type.getBeginLine(); column = type.getBeginColumn();} (<IDENTIFIER> | "get" | "set") { name = token.image; }
-	{ return new MOPParameter(line, column, type, name); }
+	{ return new RVMParameter(line, column, type, name); }
 }
 
 
-MOPParameter AdviceParameter():
+RVMParameter AdviceParameter():
 {
 	TypePattern type;
 	String name;
@@ -1379,7 +1379,7 @@ MOPParameter AdviceParameter():
 {
 	type = TypePattern() {line = type.getBeginLine(); column = type.getBeginColumn();}
         (<IDENTIFIER> | "get" | "set") { name = token.image; }
-	{ return new MOPParameter(line, column, type, name); }
+	{ return new RVMParameter(line, column, type, name); }
 }
 
 
@@ -1387,7 +1387,7 @@ MOPParameter AdviceParameter():
 EventDefinitionExt Event():
 {
 	String name;
-	List<MOPParameter> parameters;
+	List<RVMParameter> parameters;
 	BlockStmt block = null;
 	int line = -1;
 	int column = 0;
@@ -1528,7 +1528,7 @@ PropertyExt Property(int propId):
 }
 
 /***********************************************
- * THE JAVAMOP SPECIFICATION GRAMMAR ENDS HERE *
+ * THE JAVARVM SPECIFICATION GRAMMAR ENDS HERE *
  ***********************************************/
 
 /*****************************************

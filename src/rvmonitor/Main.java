@@ -8,7 +8,7 @@
 package rvmonitor;
 
 import rvmonitor.logicclient.LogicRepositoryConnector;
-import rvmonitor.parser.ast.MOPSpecFile;
+import rvmonitor.parser.ast.RVMSpecFile;
 import rvmonitor.util.Tool;
 
 import java.io.File;
@@ -22,7 +22,7 @@ class JavaFileFilter implements FilenameFilter {
 	}
 }
 
-class MOPFileFilter implements FilenameFilter {
+class RVMFileFilter implements FilenameFilter {
 	public boolean accept(File dir, String name) {
 		return name.endsWith(Tool.getSpecFileDotExt());
 	}
@@ -96,11 +96,11 @@ public class Main {
 	 *            an absolute path for result file
 	 */
 	public static void processJavaFile(File file, String location) throws RVMException {
-		MOPNameSpace.init();
+		RVMNameSpace.init();
 		String specStr = SpecExtractor.process(file);
-		MOPSpecFile spec =  SpecExtractor.parse(specStr);
+		RVMSpecFile spec =  SpecExtractor.parse(specStr);
 		
-		MOPProcessor processor = new MOPProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
+		RVMProcessor processor = new RVMProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
 
 		String aspect = processor.process(spec);
 		writeAspectFile(aspect, location);
@@ -118,11 +118,11 @@ public class Main {
 	 *            an absolute path for result file
 	 */
 	public static void processSpecFile(File file, String location) throws RVMException {
-		MOPNameSpace.init();
+		RVMNameSpace.init();
 		String specStr = SpecExtractor.process(file);
-		MOPSpecFile spec =  SpecExtractor.parse(specStr);
+		RVMSpecFile spec =  SpecExtractor.parse(specStr);
 
-		MOPProcessor processor = new MOPProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
+		RVMProcessor processor = new RVMProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
 
 		String output = processor.process(spec);
 
@@ -159,17 +159,17 @@ public class Main {
 			}
 		}
 		
-		MOPNameSpace.init();
-		ArrayList<MOPSpecFile> specs = new ArrayList<MOPSpecFile>();
+		RVMNameSpace.init();
+		ArrayList<RVMSpecFile> specs = new ArrayList<RVMSpecFile>();
 		for(File file : specFiles){
 			String specStr = SpecExtractor.process(file);
-			MOPSpecFile spec =  SpecExtractor.parse(specStr);
+			RVMSpecFile spec =  SpecExtractor.parse(specStr);
 			
 			specs.add(spec);
 		}
-		MOPSpecFile combinedSpec = SpecCombiner.process(specs);
+		RVMSpecFile combinedSpec = SpecCombiner.process(specs);
 		
-		MOPProcessor processor = new MOPProcessor(aspectName);
+		RVMProcessor processor = new RVMProcessor(aspectName);
 		String output = processor.process(combinedSpec);
 		
 		writeCombinedAspectFile(output, aspectName);
@@ -266,14 +266,16 @@ public class Main {
 				throw new RVMException("[Error] Target file, " + file + ", doesn't exsit!");
 			} else if (f.isDirectory()) {
 				ret.addAll(collectFiles(f.list(new JavaFileFilter()), f.getAbsolutePath()));
-				ret.addAll(collectFiles(f.list(new MOPFileFilter()), f.getAbsolutePath()));
+				ret.addAll(collectFiles(f.list(new RVMFileFilter()), f.getAbsolutePath()));
 			} else {
 				if (Tool.isSpecFile(file)) {
 					ret.add(f);
 				} else if (Tool.isJavaFile(file)) {
 					ret.add(f);
 				} else
-					throw new RVMException("Unrecognized file type! The JavaMOP specification file should have .mop as the extension.");
+					throw new RVMException("Unrecognized file type! The RV " +
+							"Monitor specification file should have .rvm as" +
+							" the extension.");
 			}
 		}
 
@@ -377,7 +379,7 @@ public class Main {
 				LogicRepositoryConnector.serverName = args[i].substring(8);
 			} else if (args[i].compareTo("-v") == 0 || args[i].compareTo("-verbose") == 0) {
 				LogicRepositoryConnector.verbose = true;
-				MOPProcessor.verbose = true;
+				RVMProcessor.verbose = true;
 			} else if (args[i].compareTo("-javalib") == 0) {
 				toJavaLib = true;
 			} else if (args[i].compareTo("-debug") == 0) {

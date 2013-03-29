@@ -3,23 +3,23 @@ package rvmonitor.output.combinedaspect.indexingtree.decentralized;
 import java.util.HashMap;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public class OneFullParamIndexingTree extends IndexingTree {
-	MOPParameter firstKey;
+	RVMParameter firstKey;
 
-	public OneFullParamIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
+	public OneFullParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
 			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
-		this.name = new MOPVariable(aspectName + "_Monitor");
+		this.name = new RVMVariable(aspectName + "_Monitor");
 		this.firstKey = queryParam.get(0);
 	}
 
@@ -30,7 +30,7 @@ public class OneFullParamIndexingTree extends IndexingTree {
 	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
 		String ret = "";
 
-		MOPVariable monitor = localVars.get(monitorStr);
+		RVMVariable monitor = localVars.get(monitorStr);
 		ret += monitor + " = " + retrieveTree() + ";\n";
 
 		return ret;
@@ -51,7 +51,7 @@ public class OneFullParamIndexingTree extends IndexingTree {
 	public String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) {
 		String ret = "";
 
-		MOPVariable monitor = localVars.get(monitorStr);
+		RVMVariable monitor = localVars.get(monitorStr);
 
 		ret += retrieveTree() + " = " + monitor + ";\n";
 
@@ -69,7 +69,7 @@ public class OneFullParamIndexingTree extends IndexingTree {
 	public String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr) {
 		String ret = "";
 
-		MOPVariable monitor = localVars.get(monitorStr);
+		RVMVariable monitor = localVars.get(monitorStr);
 		ret += retrieveTree() + " = " + monitor + ";\n";
 
 		return ret;

@@ -1,10 +1,10 @@
 package rvmonitor.output.combinedaspect.event.advice;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.GlobalLock;
-import rvmonitor.output.combinedaspect.MOPStatManager;
+import rvmonitor.output.combinedaspect.RVMonitorStatManager;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingCache;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
@@ -17,17 +17,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class GeneralAdviceBody extends AdviceBody {
-	public MOPStatManager statManager;
+	public RVMonitorStatManager statManager;
 	
 	public IndexingTree indexingTree;
 	public IndexingCache cache = null;
 
-	public HashMap<MOPParameterPair, IndexingTree> indexingTreesForCopy;
-	public ArrayList<MOPParameterPair> paramPairsForCopy;
+	public HashMap<RVMonitorParameterPair, IndexingTree> indexingTreesForCopy;
+	public ArrayList<RVMonitorParameterPair> paramPairsForCopy;
 
-	MOPVariable timestamp;
+	RVMVariable timestamp;
 
-	public HashSet<MOPParameter> parametersForDisable;
+	public HashSet<RVMParameter> parametersForDisable;
 
 	boolean isFullBinding;
 	boolean isConnected;
@@ -42,7 +42,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	String aspectName;
 
 	// assumes: mopSpec.getParameters().size() != 0
-	public GeneralAdviceBody(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
+	public GeneralAdviceBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		super(mopSpec, event, combinedAspect);
 
 		this.isFullBinding = mopSpec.isFullBinding();
@@ -65,11 +65,11 @@ public class GeneralAdviceBody extends AdviceBody {
 		
 		this.statManager = combinedAspect.statManager;
 		this.aspectName = combinedAspect.getAspectName();
-		lock = new GlobalLock(new MOPVariable(this.aspectName + "." + combinedAspect.lockManager.getLock().getName()));
+		lock = new GlobalLock(new RVMVariable(this.aspectName + "." + combinedAspect.lockManager.getLock().getName()));
 	}
 
 	public boolean doDisable(){
-		for (MOPParameter p : eventParams) {
+		for (RVMParameter p : eventParams) {
 			if (parametersForDisable.contains(p))
 				return true;
 		}
@@ -78,7 +78,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 	
 	// opt done
-	public RefTree getRefTree(MOPParameter p) {
+	public RefTree getRefTree(RVMParameter p) {
 		return refTrees.get(p.getType().toString());
 	}
 
@@ -117,8 +117,8 @@ public class GeneralAdviceBody extends AdviceBody {
 	public String refRetrievalFromTree() {
 		String ret = "";
 
-		for (MOPParameter p : this.eventParams) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+		for (RVMParameter p : this.eventParams) {
+			RVMVariable tempRef = localVars.getTempRef(p);
 
 			if((!isGeneral && !event.isStartEvent()) || (isGeneral && !event.isStartEvent() && paramPairsForCopy.size() == 0 && !doDisable))
 				ret += getRefTree(p).getRefNonCreative(tempRef, p);
@@ -145,11 +145,11 @@ public class GeneralAdviceBody extends AdviceBody {
 			ret += refRetrievalFromCache();
 			ret += "\n";
 			if (indexingTree.containsSet()) {
-				MOPVariable mainSet = localVars.get("mainSet");
+				RVMVariable mainSet = localVars.get("mainSet");
 				ret += cache.getCacheSet(mainSet);
 			}
 			if (isUsingMonitor()) {
-				MOPVariable mainMonitor = localVars.get("mainMonitor");
+				RVMVariable mainMonitor = localVars.get("mainMonitor");
 				ret += cache.getCacheNode(mainMonitor);
 			}
 		}
@@ -158,7 +158,7 @@ public class GeneralAdviceBody extends AdviceBody {
 			ret += refRetrievalFromTree();
 
 //			if((!isGeneral && !event.isStartEvent()) || (isGeneral && !event.isStartEvent() && paramPairsForCopy.size() == 0 && !doDisable)){
-//				MOPVariable cacheHit = localVars.get("cacheHit");
+//				RVMVariable cacheHit = localVars.get("cacheHit");
 //				ret += cacheHit + " = false;\n";
 //			}
 		}
@@ -191,16 +191,16 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String copyStateFromList(MOPParameterPair paramPair, IndexingTree indexingTreeForCopy)  throws RVMException {
+	public String copyStateFromList(RVMonitorParameterPair paramPair, IndexingTree indexingTreeForCopy)  throws RVMException {
 		String ret = "";
 
 		IndexingTree targetIndexingTree = null;
 
-		MOPParameters fromParams = paramPair.getParam2();
-		MOPParameters toParams = MOPParameters.unionSet(fromParams, eventParams);
+		RVMParameters fromParams = paramPair.getParam2();
+		RVMParameters toParams = RVMParameters.unionSet(fromParams, eventParams);
 		toParams = mopSpec.getParameters().sortParam(toParams);
 
-		for (MOPParameters param : indexingTrees.keySet()) {
+		for (RVMParameters param : indexingTrees.keySet()) {
 			if (param.equals(toParams)) {
 				targetIndexingTree = indexingTrees.get(param);
 			}
@@ -208,17 +208,17 @@ public class GeneralAdviceBody extends AdviceBody {
 		if (targetIndexingTree == null)
 			throw new Error("[Internal] cannot find the indexing tree");
 
-		MOPVariable origSet = localVars.get("origSet");
-		MOPVariable origMonitor = localVars.get("origMonitor");
+		RVMVariable origSet = localVars.get("origSet");
+		RVMVariable origMonitor = localVars.get("origMonitor");
 
-		MOPVariable lastMonitor = localVars.get("lastMonitor");
+		RVMVariable lastMonitor = localVars.get("lastMonitor");
 
-		MOPVariable numAlive = new MOPVariable("numAlive");
-		MOPVariable i = new MOPVariable("i");
-		MOPVariable timeCheck = new MOPVariable("timeCheck");
+		RVMVariable numAlive = new RVMVariable("numAlive");
+		RVMVariable i = new RVMVariable("i");
+		RVMVariable timeCheck = new RVMVariable("timeCheck");
 
-		MOPParameters newParam = new MOPParameters();
-		for (MOPParameter p : fromParams) {
+		RVMParameters newParam = new RVMParameters();
+		for (RVMParameter p : fromParams) {
 			if (eventParams.contains(p))
 				continue;
 			newParam.add(p);
@@ -228,11 +228,11 @@ public class GeneralAdviceBody extends AdviceBody {
 		ret += "for(int " + i + " = 0; " + i + " < " + origSet + ".size; " + i + "++) {\n";
 		{
 			ret += origMonitor + " = " + origSet + ".elementData[" + i + "];\n";
-			for (MOPParameter p : newParam)
-				ret += p.getType() + " " + p.getName() + " = " + "(" + p.getType() + ")" + origMonitor + "." + monitorClass.getMOPRef(p) + ".get();\n";
+			for (RVMParameter p : newParam)
+				ret += p.getType() + " " + p.getName() + " = " + "(" + p.getType() + ")" + origMonitor + "." + monitorClass.getRVMonitorRef(p) + ".get();\n";
 
-			ret += "if (!" + origMonitor + ".MOP_terminated";
-			for (MOPParameter p : newParam)
+			ret += "if (!" + origMonitor + ".RVM_terminated";
+			for (RVMParameter p : newParam)
 				ret += " && " + p.getName() + " != null";
 			ret += ") {\n";
 			{
@@ -240,9 +240,9 @@ public class GeneralAdviceBody extends AdviceBody {
 				ret += numAlive + "++;\n";
 				ret += "\n";
 
-				for (MOPParameter p : newParam) {
-					MOPVariable tempRef = localVars.getTempRef(p);
-					ret += tempRef + " = " + origMonitor + "." + monitorClass.getMOPRef(p) + ";\n";
+				for (RVMParameter p : newParam) {
+					RVMVariable tempRef = localVars.getTempRef(p);
+					ret += tempRef + " = " + origMonitor + "." + monitorClass.getRVMonitorRef(p) + ";\n";
 				}
 				
 				ret += "\n";
@@ -252,10 +252,10 @@ public class GeneralAdviceBody extends AdviceBody {
 				ret += "if (" + lastMonitor + " == null) {\n";
 				{
 					ret += "boolean " + timeCheck + " = true;\n\n";
-					for (MOPParameter p : eventParams) {
+					for (RVMParameter p : eventParams) {
 
 						if (!fromParams.contains(p)) {
-							MOPVariable tau = new MOPVariable("tau");
+							RVMVariable tau = new RVMVariable("tau");
 							String tempRefTau = getTempRefTau(p);
 
 							ret += "if (" + getTempRefDisable(p) + " > " + origMonitor + "." + tau;
@@ -274,11 +274,11 @@ public class GeneralAdviceBody extends AdviceBody {
 
 						ret += lastMonitor + " = " + "(" + monitorClass.getOutermostName() + ")" + origMonitor + ".clone();\n";
 
-						for (MOPParameter p : toParams) {
+						for (RVMParameter p : toParams) {
 							if (!fromParams.contains(p)) {
-								MOPVariable tempRef = localVars.getTempRef(p);
+								RVMVariable tempRef = localVars.getTempRef(p);
 								
-								ret += lastMonitor + "." + monitorClass.getMOPRef(p) + " = " + tempRef + ";\n";
+								ret += lastMonitor + "." + monitorClass.getRVMonitorRef(p) + " = " + tempRef + ";\n";
 								
 								RefTree refTree = getRefTree(p);
 
@@ -304,7 +304,7 @@ public class GeneralAdviceBody extends AdviceBody {
 						if (monitorInfo != null)
 							ret += monitorInfo.expand(lastMonitor, monitorClass, toParams);
 
-						for (MOPParameters param : indexingTrees.keySet()) {
+						for (RVMParameters param : indexingTrees.keySet()) {
 							if (toParams.contains(param) && !toParams.equals(param)) {
 								IndexingTree indexingTree = indexingTrees.get(param);
 
@@ -316,7 +316,7 @@ public class GeneralAdviceBody extends AdviceBody {
 							}
 						}
 
-						for (MOPParameterPair paramPair2 : indexingTreesForCopy.keySet()) {
+						for (RVMonitorParameterPair paramPair2 : indexingTreesForCopy.keySet()) {
 							if (paramPair2.getParam2().equals(toParams)) {
 								IndexingTree indexingTree = indexingTreesForCopy.get(paramPair2);
 
@@ -342,21 +342,21 @@ public class GeneralAdviceBody extends AdviceBody {
 		return ret;
 	}
 
-	public String copyStateFromMonitor(MOPParameterPair paramPair, IndexingTree indexingTreeForCopy) throws RVMException {
+	public String copyStateFromMonitor(RVMonitorParameterPair paramPair, IndexingTree indexingTreeForCopy) throws RVMException {
 		String ret = "";
 
-		MOPParameters fromParams = paramPair.getParam2();
-		MOPParameters toParams = eventParams;
+		RVMParameters fromParams = paramPair.getParam2();
+		RVMParameters toParams = eventParams;
 
-		MOPVariable origMonitor = localVars.get("origMonitor");
-		MOPVariable mainMonitor = localVars.get("mainMonitor");
+		RVMVariable origMonitor = localVars.get("origMonitor");
+		RVMVariable mainMonitor = localVars.get("mainMonitor");
 
-		MOPVariable timeCheck = new MOPVariable("timeCheck");
+		RVMVariable timeCheck = new RVMVariable("timeCheck");
 
 		ret += "boolean " + timeCheck + " = true;\n\n";
-		for (MOPParameter p : eventParams) {
+		for (RVMParameter p : eventParams) {
 			if (!fromParams.contains(p)) {
-				MOPVariable tau = new MOPVariable("tau");
+				RVMVariable tau = new RVMVariable("tau");
 
 				ret += "if (" + getTempRefDisable(p) + " > " + origMonitor + "." + tau + ") {\n";
 				{
@@ -373,10 +373,10 @@ public class GeneralAdviceBody extends AdviceBody {
 			
 			ret += mainMonitor + " = " + "(" + monitorClass.getOutermostName() + ")" + origMonitor + ".clone();\n";
 
-			for (MOPParameter p : toParams) {
+			for (RVMParameter p : toParams) {
 				if (!fromParams.contains(p)) {
-					MOPVariable tempRef = localVars.getTempRef(p);
-					ret += mainMonitor + "." + monitorClass.getMOPRef(p) + " = " + tempRef + ";\n";
+					RVMVariable tempRef = localVars.getTempRef(p);
+					ret += mainMonitor + "." + monitorClass.getRVMonitorRef(p) + " = " + tempRef + ";\n";
 					
 					RefTree refTree = getRefTree(p);
 
@@ -405,7 +405,7 @@ public class GeneralAdviceBody extends AdviceBody {
 			if (monitorInfo != null)
 				ret += monitorInfo.expand(mainMonitor, monitorClass, toParams);
 
-			for (MOPParameters param : indexingTrees.keySet()) {
+			for (RVMParameters param : indexingTrees.keySet()) {
 				if (!param.equals(toParams) && toParams.contains(param)) {
 					IndexingTree indexingTree = indexingTrees.get(param);
 
@@ -414,7 +414,7 @@ public class GeneralAdviceBody extends AdviceBody {
 				}
 			}
 
-			for (MOPParameterPair paramPair2 : indexingTreesForCopy.keySet()) {
+			for (RVMonitorParameterPair paramPair2 : indexingTreesForCopy.keySet()) {
 				if (paramPair2.getParam2().equals(toParams)) {
 					IndexingTree indexingTree = indexingTreesForCopy.get(paramPair2);
 
@@ -434,17 +434,17 @@ public class GeneralAdviceBody extends AdviceBody {
 		if(!isGeneral)
 			return ret;
 
-		for (MOPParameterPair paramPair : paramPairsForCopy) {
+		for (RVMonitorParameterPair paramPair : paramPairsForCopy) {
 			IndexingTree indexingTreeForCopy = null;
-			for (MOPParameterPair paramPair2 : indexingTreesForCopy.keySet()){
+			for (RVMonitorParameterPair paramPair2 : indexingTreesForCopy.keySet()){
 				if(paramPair.equals(paramPair2)){
 					indexingTreeForCopy = indexingTreesForCopy.get(paramPair2);
 					break;
 				}
 			}
 
-			if (!event.getMOPParametersOnSpec().contains(paramPair.getParam2())) {
-				MOPVariable origSet = localVars.get("origSet");
+			if (!event.getRVMParametersOnSpec().contains(paramPair.getParam2())) {
+				RVMVariable origSet = localVars.get("origSet");
 
 				ret += indexingTreeForCopy.lookupSet(localVars, "origMonitor", "origMap", "origSet", false);
 				ret += "if (" + origSet + "!= null) {\n";
@@ -453,11 +453,11 @@ public class GeneralAdviceBody extends AdviceBody {
 				}
 				ret += "}\n";
 			} else {
-				MOPVariable mainMonitor = localVars.get("mainMonitor");
-				MOPVariable origMonitor = localVars.get("origMonitor");
+				RVMVariable mainMonitor = localVars.get("mainMonitor");
+				RVMVariable origMonitor = localVars.get("origMonitor");
 
 				if (indexingTreeForCopy == null) {
-					for (MOPParameters param : indexingTrees.keySet()) {
+					for (RVMParameters param : indexingTrees.keySet()) {
 						if (param.equals(paramPair.getParam2())) {
 							indexingTreeForCopy = indexingTrees.get(param);
 						}
@@ -481,13 +481,13 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String setMonitorRefs(MOPVariable monitor) {
+	public String setMonitorRefs(RVMVariable monitor) {
 		String ret = "";
 
-		for (MOPParameter p : eventParams) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+		for (RVMParameter p : eventParams) {
+			RVMVariable tempRef = localVars.getTempRef(p);
 
-			ret += monitor + "." + monitorClass.getMOPRef(p) + " = " + tempRef + ";\n";
+			ret += monitor + "." + monitorClass.getRVMonitorRef(p) + " = " + tempRef + ";\n";
 		}
 
 		if (ret.length() > 0)
@@ -515,12 +515,12 @@ public class GeneralAdviceBody extends AdviceBody {
 		if (!isGeneral)
 			return ret;
 
-		MOPVariable mainMonitor = localVars.get("mainMonitor");
+		RVMVariable mainMonitor = localVars.get("mainMonitor");
 
 		ret += mainMonitor + ".tau = " + timestamp + ";\n";
 
-		for (MOPParameter p : eventParams) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+		for (RVMParameter p : eventParams) {
+			RVMVariable tempRef = localVars.getTempRef(p);
 			RefTree refTree = getRefTree(p);
 
 			int tagNumber = refTree.getTagNumber(mopSpec);
@@ -548,7 +548,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	public String addToAllCompatibleTrees() throws RVMException {
 		String ret = "";
 
-		for (MOPParameters param : indexingTrees.keySet()) {
+		for (RVMParameters param : indexingTrees.keySet()) {
 			if (param.equals(eventParams))
 				continue;
 
@@ -561,7 +561,7 @@ public class GeneralAdviceBody extends AdviceBody {
 			ret += indexingTree.addMonitor(localVars, "mainMonitor");
 		}
 
-		for (MOPParameterPair paramPair : indexingTreesForCopy.keySet()) {
+		for (RVMonitorParameterPair paramPair : indexingTreesForCopy.keySet()) {
 			if (!paramPair.getParam2().equals(eventParams))
 				continue;
 
@@ -581,7 +581,7 @@ public class GeneralAdviceBody extends AdviceBody {
 		if (!event.isStartEvent())
 			return ret;
 
-		MOPVariable mainMonitor = localVars.get("mainMonitor");
+		RVMVariable mainMonitor = localVars.get("mainMonitor");
 
 		ret += statManager.incMonitor(mopSpec);
 
@@ -603,7 +603,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String getTempRefDisable(MOPParameter p) {
+	public String getTempRefDisable(RVMParameter p) {
 		String ret = "";
 
 		RefTree refTree = getRefTree(p);
@@ -611,7 +611,7 @@ public class GeneralAdviceBody extends AdviceBody {
 			return ret;
 
 		if (parametersForDisable.contains(p)) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+			RVMVariable tempRef = localVars.getTempRef(p);
 
 			int tagNumber = refTree.getTagNumber(mopSpec);
 
@@ -625,7 +625,7 @@ public class GeneralAdviceBody extends AdviceBody {
 		return ret;
 	}
 	
-	public String getTempRefTau(MOPParameter p) {
+	public String getTempRefTau(RVMParameter p) {
 		String ret = "";
 
 		RefTree refTree = getRefTree(p);
@@ -633,7 +633,7 @@ public class GeneralAdviceBody extends AdviceBody {
 			return ret;
 
 		if (parametersForDisable.contains(p)) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+			RVMVariable tempRef = localVars.getTempRef(p);
 
 			int tagNumber = refTree.getTagNumber(mopSpec);
 
@@ -656,7 +656,7 @@ public class GeneralAdviceBody extends AdviceBody {
 			return ret;
 
 
-		for (MOPParameter p : eventParams) {
+		for (RVMParameter p : eventParams) {
 			if (parametersForDisable.contains(p)) {
 				RefTree refTree = getRefTree(p);
 				if (!refTree.isTagging())
@@ -683,7 +683,7 @@ public class GeneralAdviceBody extends AdviceBody {
 		String setDisable = setDisable();
 
 		if (copyState.length() > 0 || createNewMonitor.length() > 0 || setDisable.length() > 0) {
-			MOPVariable mainMonitor = localVars.get("mainMonitor");
+			RVMVariable mainMonitor = localVars.get("mainMonitor");
 
 			ret += "if (" + mainMonitor + " == null) {\n";
 			{
@@ -707,12 +707,12 @@ public class GeneralAdviceBody extends AdviceBody {
 		
 		ret += cache.setCacheKeys(localVars);
 		if (indexingTree.containsSet()) {
-			MOPVariable mainSet = localVars.get("mainSet");
+			RVMVariable mainSet = localVars.get("mainSet");
 			ret += cache.setCacheSet(mainSet);
 		}
 
 		if (indexingTree.cache.hasNode){
-			MOPVariable mainMonitor = localVars.get("mainMonitor");
+			RVMVariable mainMonitor = localVars.get("mainMonitor");
 			ret += cache.setCacheNode(mainMonitor);
 		}
 
@@ -741,18 +741,18 @@ public class GeneralAdviceBody extends AdviceBody {
 			return handleCacheMiss;
 
 		if (indexingTree.containsSet()) {
-			MOPVariable mainSet = localVars.get("mainSet");
+			RVMVariable mainSet = localVars.get("mainSet");
 			cacheResultCondition += mainSet + " == null";
 		}
 		if (isUsingMonitor()) {
-			MOPVariable mainMonitor = localVars.get("mainMonitor");
+			RVMVariable mainMonitor = localVars.get("mainMonitor");
 			if (cacheResultCondition.length() > 0)
 				cacheResultCondition += " || ";
 			cacheResultCondition += mainMonitor + " == null";
 		}
 		
 		if((!isGeneral && !event.isStartEvent()) || (isGeneral && !event.isStartEvent() && paramPairsForCopy.size() == 0 && !doDisable)){
-//			MOPVariable cacheHit = localVars.get("cacheHit");
+//			RVMVariable cacheHit = localVars.get("cacheHit");
 			
 			if (cacheResultCondition.length() > 0){
 				cacheResultCondition = "(" + cacheResultCondition + ")";
@@ -762,8 +762,8 @@ public class GeneralAdviceBody extends AdviceBody {
 //				cacheResultCondition = " && " + cacheResultCondition;
 //			cacheResultCondition = "!" + cacheHit + cacheResultCondition; 
 			
-			for (MOPParameter p : this.eventParams) {
-				MOPVariable tempRef = localVars.getTempRef(p);
+			for (RVMParameter p : this.eventParams) {
+				RVMVariable tempRef = localVars.getTempRef(p);
 				cacheResultCondition += " && " + tempRef + " != " + getRefTree(p).getType() + ".NULRef";
 			}
 		}
@@ -784,15 +784,15 @@ public class GeneralAdviceBody extends AdviceBody {
 		String ret = "";
 
 		if (indexingTree.containsSet()) {
-			MOPVariable mainSet = localVars.get("mainSet");
+			RVMVariable mainSet = localVars.get("mainSet");
 
 			ret += monitorSet.Monitoring(mainSet, event, null, null, this.lock);
 		} else if (event.isStartEvent() && isFullParam) {
-			MOPVariable mainMonitor = localVars.get("mainMonitor");
+			RVMVariable mainMonitor = localVars.get("mainMonitor");
 			
 			ret += monitorClass.Monitoring(mainMonitor, event, null, null, this.lock, this.aspectName, false);
 		} else {
-			MOPVariable mainMonitor = localVars.get("mainMonitor");
+			RVMVariable mainMonitor = localVars.get("mainMonitor");
 
 			ret += "if (" + mainMonitor + " != null " + ") {\n";
 			{
@@ -808,7 +808,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	public String toString() {
 		String ret = "";
 		if (!indexingTree.containsSet()) {
-			for (MOPVariable variable : monitorClass.getCategoryVars()) {
+			for (RVMVariable variable : monitorClass.getCategoryVars()) {
 				ret += BaseMonitor.getNiceVariable(variable) + " = false;\n";
 			}
 			if (mopSpec.has__SKIP()) {

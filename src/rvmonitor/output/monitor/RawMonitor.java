@@ -5,7 +5,7 @@ import rvmonitor.output.*;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,20 +14,20 @@ import java.util.Set;
 
 public class RawMonitor extends Monitor{
 
-	MOPVariable loc = new MOPVariable("MOP_loc");
-	MOPVariable activity = new MOPVariable("MOP_activity");
-	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
-	MOPVariable lastevent = new MOPVariable("MOP_lastevent");
-	MOPVariable thisJoinPoint = new MOPVariable("thisJoinPoint");
+	RVMVariable loc = new RVMVariable("RVM_loc");
+	RVMVariable activity = new RVMVariable("RVM_activity");
+	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
+	RVMVariable lastevent = new RVMVariable("RVM_lastevent");
+	RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 	
-	JavaMOPSpec mopSpec;
+	RVMonitorSpec mopSpec;
 	List<EventDefinition> events;
 	
 	boolean isGeneral;
 	
 	UserJavaCode monitorDeclaration;
 
-	public RawMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+	public RawMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		
 		this.isDefined = true;
@@ -35,7 +35,7 @@ public class RawMonitor extends Monitor{
 		this.mopSpec = mopSpec;
 		this.isGeneral = mopSpec.isGeneral();
 
-		this.monitorName = new MOPVariable(mopSpec.getName() + "RawMonitor");
+		this.monitorName = new RVMVariable(mopSpec.getName() + "RawMonitor");
 
 		if (isOutermost) {
 			varInOutermostMonitor = new VarInOutermostMonitor(name, mopSpec, mopSpec.getEvents());
@@ -59,7 +59,7 @@ public class RawMonitor extends Monitor{
 			monitorTermination.setRefTrees(refTrees);
 	}
 
-	public MOPVariable getOutermostName() {
+	public RVMVariable getOutermostName() {
 		return monitorName;
 	}
 
@@ -70,8 +70,8 @@ public class RawMonitor extends Monitor{
 		return ret;
 	}
 	
-	public Set<MOPVariable> getCategoryVars(){
-		HashSet<MOPVariable> ret = new HashSet<MOPVariable>();
+	public Set<RVMVariable> getCategoryVars(){
+		HashSet<RVMVariable> ret = new HashSet<RVMVariable>();
 		return ret;
 	}
 
@@ -79,8 +79,8 @@ public class RawMonitor extends Monitor{
 		String ret = "";
 
 		int idnum = event.getIdNum();
-		MOPJavaCode condition = new MOPJavaCode(event.getCondition(), monitorName);
-		MOPJavaCode eventAction = null;
+		RVMJavaCode condition = new RVMJavaCode(event.getCondition(), monitorName);
+		RVMJavaCode eventAction = null;
 
 		if (event.getAction() != null && event.getAction().getStmts() != null && event.getAction().getStmts().size() != 0) {
 			String eventActionStr = event.getAction().toString();
@@ -95,10 +95,10 @@ public class RawMonitor extends Monitor{
 			eventActionStr = eventActionStr.replaceAll("__SKIP",
 					BaseMonitor.skipEvent + " = true");
 
-			eventAction = new MOPJavaCode(eventActionStr);
+			eventAction = new RVMJavaCode(eventActionStr);
 		}
 
-			ret += "final void event_" + event.getId() + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+			ret += "final void event_" + event.getId() + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
 
 		if ( has__SKIP)
 			ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
@@ -121,7 +121,7 @@ public class RawMonitor extends Monitor{
 		return ret;
 	}
 
-	public String Monitoring(MOPVariable monitorVar, EventDefinition event, MOPVariable loc, MOPVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
 		String ret = "";
 
 //		if (has__LOC) {
@@ -147,7 +147,7 @@ public class RawMonitor extends Monitor{
 		}
 
 		ret += monitorVar + ".event_" + event.getId() + "(";
-		ret += event.getMOPParameters().parameterString();
+		ret += event.getRVMParameters().parameterString();
 		ret += ");\n";
 		
 		if (this.hasThisJoinPoint){
@@ -166,8 +166,8 @@ public class RawMonitor extends Monitor{
 	
 		ret += "class " + monitorName;
 		if (isOutermost)
-			ret += " extends rvmonitorrt.MOPMonitor";
-		ret += " implements Cloneable, rvmonitorrt.MOPObject {\n";
+			ret += " extends rvmonitorrt.RVMMonitor";
+		ret += " implements Cloneable, rvmonitorrt.RVMObject {\n";
 	
 		if(varInOutermostMonitor != null)
 			ret += varInOutermostMonitor;

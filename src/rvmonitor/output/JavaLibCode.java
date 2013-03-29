@@ -6,8 +6,8 @@ package rvmonitor.output;
 import rvmonitor.RVMException;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.MOPSpecFile;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.RVMSpecFile;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 
 import java.util.HashMap;
@@ -15,16 +15,16 @@ import java.util.HashMap;
 public class JavaLibCode {
 	Package packageDecl;
 	Imports imports;
-	HashMap<JavaMOPSpec, MonitorSet> monitorSets = new HashMap<JavaMOPSpec, MonitorSet>();
-	HashMap<JavaMOPSpec, SuffixMonitor> monitors = new HashMap<JavaMOPSpec, SuffixMonitor>();
-	HashMap<JavaMOPSpec, EnableSet> enableSets = new HashMap<JavaMOPSpec, EnableSet>();
-	HashMap<JavaMOPSpec, CoEnableSet> coenableSets = new HashMap<JavaMOPSpec, CoEnableSet>();
+	HashMap<RVMonitorSpec, MonitorSet> monitorSets = new HashMap<RVMonitorSpec, MonitorSet>();
+	HashMap<RVMonitorSpec, SuffixMonitor> monitors = new HashMap<RVMonitorSpec, SuffixMonitor>();
+	HashMap<RVMonitorSpec, EnableSet> enableSets = new HashMap<RVMonitorSpec, EnableSet>();
+	HashMap<RVMonitorSpec, CoEnableSet> coenableSets = new HashMap<RVMonitorSpec, CoEnableSet>();
 
-	public JavaLibCode(String name, MOPSpecFile mopSpecFile) throws RVMException {
-		packageDecl = new Package(mopSpecFile);
-		imports = new Imports(mopSpecFile);
+	public JavaLibCode(String name, RVMSpecFile rvmSpecFile) throws RVMException {
+		packageDecl = new Package(rvmSpecFile);
+		imports = new Imports(rvmSpecFile);
 
-		for (JavaMOPSpec mopSpec : mopSpecFile.getSpecs()) {
+		for (RVMonitorSpec mopSpec : rvmSpecFile.getSpecs()) {
 			EnableSet enableSet = new EnableSet(mopSpec.getEvents(), mopSpec.getParameters());
 			CoEnableSet coenableSet = new CoEnableSet(mopSpec.getEvents(), mopSpec.getParameters());
 

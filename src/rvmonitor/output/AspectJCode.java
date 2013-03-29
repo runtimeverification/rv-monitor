@@ -5,8 +5,8 @@ import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.MOPSpecFile;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.RVMSpecFile;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 
 import java.util.HashMap;
@@ -16,21 +16,21 @@ public class AspectJCode {
 	
 	Package packageDecl;
 	Imports imports;
-	HashMap<JavaMOPSpec, MonitorSet> monitorSets = new HashMap<JavaMOPSpec, MonitorSet>();
-	HashMap<JavaMOPSpec, SuffixMonitor> monitors = new HashMap<JavaMOPSpec, SuffixMonitor>();
+	HashMap<RVMonitorSpec, MonitorSet> monitorSets = new HashMap<RVMonitorSpec, MonitorSet>();
+	HashMap<RVMonitorSpec, SuffixMonitor> monitors = new HashMap<RVMonitorSpec, SuffixMonitor>();
 	//Aspect aspect;
 	CombinedAspect aspect;
-	HashMap<JavaMOPSpec, EnableSet> enableSets = new HashMap<JavaMOPSpec, EnableSet>();
-	HashMap<JavaMOPSpec, CoEnableSet> coenableSets = new HashMap<JavaMOPSpec, CoEnableSet>();
+	HashMap<RVMonitorSpec, EnableSet> enableSets = new HashMap<RVMonitorSpec, EnableSet>();
+	HashMap<RVMonitorSpec, CoEnableSet> coenableSets = new HashMap<RVMonitorSpec, CoEnableSet>();
 	boolean versionedStack = false;
 	SystemAspect systemAspect;
 	
-	public AspectJCode(String name, MOPSpecFile mopSpecFile) throws RVMException {
+	public AspectJCode(String name, RVMSpecFile rvmSpecFile) throws RVMException {
 		this.name = name;
-		packageDecl = new Package(mopSpecFile);
-		imports = new Imports(mopSpecFile);
+		packageDecl = new Package(rvmSpecFile);
+		imports = new Imports(rvmSpecFile);
 
-		for (JavaMOPSpec mopSpec : mopSpecFile.getSpecs()) {
+		for (RVMonitorSpec mopSpec : rvmSpecFile.getSpecs()) {
 			EnableSet enableSet = new EnableSet(mopSpec.getEvents(), mopSpec.getParameters());
 			CoEnableSet coenableSet = new CoEnableSet(mopSpec.getEvents(), mopSpec.getParameters());
 
@@ -53,8 +53,8 @@ public class AspectJCode {
 
 		}
 
-		//aspect = new Aspect(name, mopSpecFile, monitorSets, monitors, enableSets, versionedStack);
-		aspect = new CombinedAspect(name, mopSpecFile, monitorSets, monitors, enableSets, versionedStack);
+		//aspect = new Aspect(name, rvmSpecFile, monitorSets, monitors, enableSets, versionedStack);
+		aspect = new CombinedAspect(name, rvmSpecFile, monitorSets, monitors, enableSets, versionedStack);
 
 		// Set monitor lock for each monitor set
 		for (MonitorSet monitorSet : monitorSets.values()) {

@@ -64,7 +64,7 @@ public class TestCase {
 		ArrayList<TestCaseProgDir> ret = new ArrayList<TestCaseProgDir>();
 		
 		for (File file : directory.listFiles()) {
-			if (file.isDirectory() && !file.getName().endsWith("_MOP")&& !file.getName().startsWith(".svn")) {
+			if (file.isDirectory() && !file.getName().endsWith("_RVM")&& !file.getName().startsWith(".svn")) {
 				TestCaseProgDir subDir = new TestCaseProgDir(this, file.getName());
 				ret.add(subDir);
 			}

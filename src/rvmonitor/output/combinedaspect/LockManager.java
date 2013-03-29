@@ -3,25 +3,25 @@ package rvmonitor.output.combinedaspect;
 import java.util.List;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.output.RVMVariable;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 public class LockManager {
 
-	//HashMap<JavaMOPSpec, GlobalLock> locks = new HashMap<JavaMOPSpec, GlobalLock>();
+	//HashMap<RVMonitorSpec, GlobalLock> locks = new HashMap<RVMonitorSpec, GlobalLock>();
 	
 	GlobalLock lock;
 
-	public LockManager(String name, List<JavaMOPSpec> specs) throws RVMException {
-//		for (JavaMOPSpec spec : specs) {
+	public LockManager(String name, List<RVMonitorSpec> specs) throws RVMException {
+//		for (RVMonitorSpec spec : specs) {
 //			if (spec.isSync())
-//				locks.put(spec, new GlobalLock(new MOPVariable(spec.getName() + "_MOPLock")));
+//				locks.put(spec, new GlobalLock(new RVMVariable(spec.getName() + "_RVMLock")));
 //		}
 		
-		lock = new GlobalLock(new MOPVariable(name + "_MOPLock"));
+		lock = new GlobalLock(new RVMVariable(name + "_RVMLock"));
 	}
 
-/*	public GlobalLock getLock(JavaMOPSpec spec){
+/*	public GlobalLock getLock(RVMonitorSpec spec){
 		return locks.get(spec);
 	}
 */

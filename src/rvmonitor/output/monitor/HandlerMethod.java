@@ -1,11 +1,11 @@
 package rvmonitor.output.monitor;
 
 import rvmonitor.Main;
-import rvmonitor.output.MOPJavaCode;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMJavaCode;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.Util;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 import rvmonitor.parser.ast.stmt.BlockStmt;
 
@@ -13,27 +13,27 @@ import java.util.HashMap;
 
 public class HandlerMethod {
 	PropertyAndHandlers prop;
-	MOPVariable methodName;
-	MOPJavaCode handlerCode = null;
-	MOPParameters specParam;
-	MOPVariable categoryVar;
+	RVMVariable methodName;
+	RVMJavaCode handlerCode = null;
+	RVMParameters specParam;
+	RVMVariable categoryVar;
 	String category;
 	Monitor monitor;
 
-	MOPParameters varsToRestore;
-	HashMap<MOPParameter, MOPVariable> savedParams;
+	RVMParameters varsToRestore;
+	HashMap<RVMParameter, RVMVariable> savedParams;
 
 	// local variables for now
-	MOPVariable loc = new MOPVariable("MOP_loc");
-	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
+	RVMVariable loc = new RVMVariable("RVM_loc");
+	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 
 	private boolean has__SKIP = false;
 
-	public HandlerMethod(PropertyAndHandlers prop, String category, MOPParameters specParam, MOPParameters commonParamInEvents,
-			HashMap<MOPParameter, MOPVariable> savedParams, BlockStmt body, MOPVariable categoryVar, Monitor monitor) {
+	public HandlerMethod(PropertyAndHandlers prop, String category, RVMParameters specParam, RVMParameters commonParamInEvents,
+			HashMap<RVMParameter, RVMVariable> savedParams, BlockStmt body, RVMVariable categoryVar, Monitor monitor) {
 		this.prop = prop;
 		this.category = category;
-		this.methodName = new MOPVariable("Prop_" + prop.getPropertyId() + "_handler_" + category);
+		this.methodName = new RVMVariable("Prop_" + prop.getPropertyId() + "_handler_" + category);
 		if(body != null){
 			String handlerBody = body.toString();
 
@@ -50,15 +50,15 @@ public class HandlerMethod {
 			handlerBody = handlerBody.replaceAll("__SKIP",
 					BaseMonitor.skipEvent + " = true");
 			
-			this.handlerCode = new MOPJavaCode(handlerBody);
+			this.handlerCode = new RVMJavaCode(handlerBody);
 		}
 		this.specParam = specParam;
 		this.categoryVar = categoryVar;
 		this.monitor = monitor;
-		this.varsToRestore = new MOPParameters();
+		this.varsToRestore = new RVMParameters();
 		this.savedParams = savedParams;
 
-		for (MOPParameter p : prop.getUsedParametersIn(category, specParam)) {
+		for (RVMParameter p : prop.getUsedParametersIn(category, specParam)) {
 			if (!commonParamInEvents.contains(p)) {
 				this.varsToRestore.add(p);
 			}
@@ -69,7 +69,7 @@ public class HandlerMethod {
 		return has__SKIP;
 	}
 
-	public MOPVariable getMethodName() {
+	public RVMVariable getMethodName() {
 		return methodName;
 	}
 
@@ -89,8 +89,8 @@ public class HandlerMethod {
 			ret += "}\n";
 		}
 
-		for (MOPParameter p : this.varsToRestore) {
-			MOPVariable v = this.savedParams.get(p);
+		for (RVMParameter p : this.varsToRestore) {
+			RVMVariable v = this.savedParams.get(p);
 
 			ret += "if(" + p.getName() + " == null && " + v + " != null){\n";
 			ret += p.getName() + " = (" + p.getType() + ")" + v + ".get();\n";

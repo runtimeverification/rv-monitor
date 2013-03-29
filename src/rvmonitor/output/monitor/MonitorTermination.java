@@ -1,10 +1,10 @@
 package rvmonitor.output.monitor;
 
-import rvmonitor.MOPNameSpace;
+import rvmonitor.RVMNameSpace;
 import rvmonitor.Main;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.OptimizedCoenableSet;
-import rvmonitor.output.combinedaspect.MOPStatistics;
+import rvmonitor.output.combinedaspect.RVMonitorStatistics;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.parser.ast.mopspec.*;
 
@@ -13,24 +13,24 @@ import java.util.List;
 
 public class MonitorTermination {
 
-	MOPParameters parameters;
+	RVMParameters parameters;
 	List<EventDefinition> events;
 	OptimizedCoenableSet coenableSet;
 
-	MOPStatistics stat;
+	RVMonitorStatistics stat;
 	
-	HashMap<MOPParameter, MOPVariable> references = new HashMap<MOPParameter, MOPVariable>();
+	HashMap<RVMParameter, RVMVariable> references = new HashMap<RVMParameter, RVMVariable>();
 	HashMap<String, RefTree> refTrees;
 
-	public MonitorTermination(String name, JavaMOPSpec mopSpec, List<EventDefinition> events, OptimizedCoenableSet coenableSet){
+	public MonitorTermination(String name, RVMonitorSpec mopSpec, List<EventDefinition> events, OptimizedCoenableSet coenableSet){
 		this.parameters = mopSpec.getParameters();
 		this.events = events;
 		this.coenableSet = coenableSet;
 		
-		this.stat = new MOPStatistics(name, mopSpec);
+		this.stat = new RVMonitorStatistics(name, mopSpec);
 	}
 	
-	public String getRefType(MOPParameter p){
+	public String getRefType(RVMParameter p){
 		if (refTrees != null) {
 			RefTree refTree = refTrees.get(p.getType().toString());
 			return refTree.getResultType();
@@ -41,16 +41,16 @@ public class MonitorTermination {
 	public void setRefTrees(HashMap<String, RefTree> refTrees){
 		this.refTrees = refTrees;
 
-		for (MOPParameter param : parameters) {
-			references.put(param, new MOPVariable("MOPRef_" + param.getName()));
+		for (RVMParameter param : parameters) {
+			references.put(param, new RVMVariable("RVMRef_" + param.getName()));
 		}
 	}
 	
-	public String copyAliveParameters(MOPVariable toMonitor, MOPVariable fromMonitor){
+	public String copyAliveParameters(RVMVariable toMonitor, RVMVariable fromMonitor){
 		String ret = "";
 		
 		for (int j = 0; j < coenableSet.getParameterGroups().size(); j++) {
-			MOPVariable alive_parameter = new MOPVariable("alive_parameters_" + j);
+			RVMVariable alive_parameter = new RVMVariable("alive_parameters_" + j);
 			
 			ret += toMonitor + "." + alive_parameter + " = " + fromMonitor + "." + alive_parameter + ";\n";
 		}
@@ -62,14 +62,14 @@ public class MonitorTermination {
 		int step = 0;
 		String ret = "";
 
-		for (MOPParameter param : parameters) {
+		for (RVMParameter param : parameters) {
 			ret += getRefType(param) + " " + references.get(param) + ";\n";
 		}
 		ret += "\n";
 
 		for (int j = 0; j < coenableSet.getParameterGroups().size(); j++) {
 			ret += "//alive_parameters_" + j + " = " + coenableSet.getParameterGroups().get(j) + "\n";
-			ret += "boolean " + new MOPVariable("alive_parameters_" + j) + " = true;\n";
+			ret += "boolean " + new RVMVariable("alive_parameters_" + j) + " = true;\n";
 		}
 		ret += "\n";
 
@@ -81,7 +81,7 @@ public class MonitorTermination {
 
 			for (int j = 0; j < coenableSet.getParameterGroups().size(); j++) {
 				if (coenableSet.getParameterGroups().get(j).contains(parameters.get(i)))
-					ret += MOPNameSpace.getMOPVar("alive_parameters_" + j) + " = false;\n";
+					ret += RVMNameSpace.getRVMVar("alive_parameters_" + j) + " = false;\n";
 			}
 
 			ret += "break;\n";
@@ -89,28 +89,28 @@ public class MonitorTermination {
 		ret += "}\n";
 
 		// do endObject event
-		ret += "switch(MOP_lastevent) {\n";
+		ret += "switch(RVM_lastevent) {\n";
 		ret += "case -1:\n";
 		ret += "return;\n";
 		for (EventDefinition event : this.events) {
 			ret += "case " + event.getIdNum() + ":\n";
 			ret += "//" + event.getId() + "\n";
 
-			MOPParameterSet simplifiedDNF = coenableSet.getEnable(event.getId());
+			RVMParameterSet simplifiedDNF = coenableSet.getEnable(event.getId());
 			if (simplifiedDNF.size() == 1 && simplifiedDNF.get(0).size() == 0) {
 				ret += "return;\n";
 			} else {
 				boolean firstFlag = true;
 
 				ret += "//";
-				for (MOPParameters param : simplifiedDNF) {
+				for (RVMParameters param : simplifiedDNF) {
 					if (firstFlag) {
 						firstFlag = false;
 					} else {
 						ret += " || ";
 					}
 					boolean firstFlag2 = true;
-					for (MOPParameter s : param) {
+					for (RVMParameter s : param) {
 						if (firstFlag2) {
 							firstFlag2 = false;
 						} else {
@@ -124,7 +124,7 @@ public class MonitorTermination {
 
 				ret += "if(!(";
 				firstFlag = true;
-				for (MOPParameters param : simplifiedDNF) {
+				for (RVMParameters param : simplifiedDNF) {
 					if (firstFlag) {
 						firstFlag = false;
 					} else {
@@ -133,7 +133,7 @@ public class MonitorTermination {
 					ret += "alive_parameters_" + coenableSet.getParameterGroups().getIdnum(param);
 				}
 				ret += ")){\n";
-				ret += "MOP_terminated = true;\n";
+				ret += "RVM_terminated = true;\n";
 
 				if (Main.statistics) {
 					ret += stat.incTerminatedMonitor();

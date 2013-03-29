@@ -78,14 +78,14 @@ public class JavaSRS extends LogicPluginShell {
       monitoredEventsStr.append("int out = rewrite($l$);\n}}\n\n");
     }
     result.put("monitored events", monitoredEventsStr.toString());
-    result.put("state declaration", "MOPIntSpliceList $l$;\n" 
+    result.put("state declaration", "RVMIntSpliceList $l$;\n"
               + pmaInput.toImplString() 
               + rewriteStr);
-    result.put("state declaration for set", "MOPIntSpliceList $l$;\n" 
+    result.put("state declaration for set", "RVMIntSpliceList $l$;\n"
               + pmaInput.toImplString()
               + rewriteStr);
-    result.put("reset", "$l$ = new MOPIntSpliceList();\n");
-    result.put("initialization", "$l$ = new MOPIntSpliceList();\n");
+    result.put("reset", "$l$ = new RVMIntSpliceList();\n");
+    result.put("initialization", "$l$ = new RVMIntSpliceList();\n");
   	result.put("monitoring body", "");
     result.put("fail condition", "out == 0\n");
     result.put("nonfail condition", "out != 0\n");
@@ -106,13 +106,13 @@ public class JavaSRS extends LogicPluginShell {
 	}
 
   static String rewriteStr = 
-  " static private int rewrite(MOPIntSpliceList l){\n"
+  " static private int rewrite(RVMIntSpliceList l){\n"
 + "    if(l.isEmpty()) return -1;\n"
-+ "    MOPSLIntIterator first;\n"
-+ "    MOPSLIntIterator second;\n"
-+ "    MOPSLIntIterator lastRepl = null;\n"
++ "    RVMSLIntIterator first;\n"
++ "    RVMSLIntIterator second;\n"
++ "    RVMSLIntIterator lastRepl = null;\n"
 + "    int currentState;\n"
-+ "    MOPPMATransitionImpl trans;\n"
++ "    RVMPMATransitionImpl trans;\n"
 + "    int symbol; \n"
 + "    boolean changed;\n"
 + "    boolean atOrPastLastChange;\n"

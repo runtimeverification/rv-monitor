@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rvmonitor.parser.ast.ImportDeclaration;
-import rvmonitor.parser.ast.MOPSpecFile;
+import rvmonitor.parser.ast.RVMSpecFile;
 import rvmonitor.parser.ast.PackageDeclaration;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 public class SpecCombiner {
 
-	static public MOPSpecFile process(ArrayList<MOPSpecFile> specFiles) throws RVMException {
+	static public RVMSpecFile process(ArrayList<RVMSpecFile> specFiles) throws RVMException {
 		PackageDeclaration pakage = null;
 		List<ImportDeclaration> imports = new ArrayList<ImportDeclaration>();
-		List<JavaMOPSpec> specList = new ArrayList<JavaMOPSpec>();
+		List<RVMonitorSpec> specList = new ArrayList<RVMonitorSpec>();
 		
-		for(MOPSpecFile specFile : specFiles){
+		for(RVMSpecFile specFile : specFiles){
 			//package decl
 			PackageDeclaration pakage2 = specFile.getPakage();
 			if(pakage == null)
@@ -42,11 +42,11 @@ public class SpecCombiner {
 			}
 			
 			//specs
-			List<JavaMOPSpec> specList2 = specFile.getSpecs();
+			List<RVMonitorSpec> specList2 = specFile.getSpecs();
 			
-			for(JavaMOPSpec spec2 : specList2){
+			for(RVMonitorSpec spec2 : specList2){
 				boolean included = false;
-				for(JavaMOPSpec spec : specList){
+				for(RVMonitorSpec spec : specList){
 					if(spec2.getName().equals(spec.getName())){
 						included = true;
 						break;
@@ -58,6 +58,6 @@ public class SpecCombiner {
 			}
 		}
 		
-		return new MOPSpecFile(0, 0, pakage, imports, specList);
+		return new RVMSpecFile(0, 0, pakage, imports, specList);
 	}
 }

@@ -1,12 +1,12 @@
 package rvmonitor.output;
 
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.MOPParameterSet;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
-import rvmonitor.util.MOPBooleanSimplifier;
+import rvmonitor.parser.ast.mopspec.RVMParameterSet;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
+import rvmonitor.util.RVMBooleanSimplifier;
 
 public class OptimizedCoenableSet extends CoEnableSet{
-	MOPParameterSet parameterGroups = new MOPParameterSet();
+	RVMParameterSet parameterGroups = new RVMParameterSet();
 	
 	public OptimizedCoenableSet(CoEnableSet coenableSet){
 		super(coenableSet.events, coenableSet.specParameters);
@@ -16,14 +16,14 @@ public class OptimizedCoenableSet extends CoEnableSet{
 	
 	private void optimize(){
 		for (EventDefinition event : this.events) {
-			MOPParameterSet enables = contents.get(event.getId());
+			RVMParameterSet enables = contents.get(event.getId());
 			
 			if(enables == null)
 				enables = getFullEnable();
 			
-			MOPParameterSet simplifiedDNF = MOPBooleanSimplifier.simplify(enables, this.specParameters);
+			RVMParameterSet simplifiedDNF = RVMBooleanSimplifier.simplify(enables, this.specParameters);
 
-			for(MOPParameters param : simplifiedDNF){
+			for(RVMParameters param : simplifiedDNF){
 				if(param.size() > 0)
 					parameterGroups.add(param);
 			}
@@ -32,7 +32,7 @@ public class OptimizedCoenableSet extends CoEnableSet{
 		}
 	}
 
-	public MOPParameterSet getParameterGroups(){
+	public RVMParameterSet getParameterGroups(){
 		return parameterGroups;
 	}
 }

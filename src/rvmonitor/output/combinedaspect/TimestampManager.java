@@ -1,24 +1,24 @@
 package rvmonitor.output.combinedaspect;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.output.RVMVariable;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class TimestampManager {
 
-	HashMap<JavaMOPSpec, MOPVariable> timestamps = new HashMap<JavaMOPSpec, MOPVariable>();
+	HashMap<RVMonitorSpec, RVMVariable> timestamps = new HashMap<RVMonitorSpec, RVMVariable>();
 
-	public TimestampManager(String name, List<JavaMOPSpec> specs) throws RVMException {
-		for (JavaMOPSpec spec : specs) {
+	public TimestampManager(String name, List<RVMonitorSpec> specs) throws RVMException {
+		for (RVMonitorSpec spec : specs) {
 			if (spec.isGeneral())
-				timestamps.put(spec, new MOPVariable(spec.getName() + "_timestamp"));
+				timestamps.put(spec, new RVMVariable(spec.getName() + "_timestamp"));
 		}
 	}
 	
-	public MOPVariable getTimestamp(JavaMOPSpec spec){
+	public RVMVariable getTimestamp(RVMonitorSpec spec){
 		return timestamps.get(spec);
 	}
 
@@ -29,7 +29,7 @@ public class TimestampManager {
 			return ret;
 
 		ret += "// Declarations for Timestamps \n";
-		for (MOPVariable timestamp : timestamps.values()) {
+		for (RVMVariable timestamp : timestamps.values()) {
 			ret += "private static long " + timestamp + " = 1;\n";
 		}
 		ret += "\n";
@@ -43,7 +43,7 @@ public class TimestampManager {
 		if (timestamps.size() <= 0)
 			return ret;
 
-		for (MOPVariable timestamp : timestamps.values()) {
+		for (RVMVariable timestamp : timestamps.values()) {
 			ret += timestamp + " = 1;\n";
 		}
 		ret += "\n";

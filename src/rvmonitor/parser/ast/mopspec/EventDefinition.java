@@ -16,15 +16,15 @@ public class EventDefinition extends Node {
 
 	String purePointCutStr;
 
-	MOPParameters parameters;
+	RVMParameters parameters;
 
-	MOPParameters mopParameters;
+	RVMParameters rvmParameters;
 
 	BlockStmt block;
-	MOPParameters usedParameter = null;
+	RVMParameters usedParameter = null;
 
 
-	// will be modified by JavaMOPSpec when creation events are not specified
+	// will be modified by RVMonitorSpec when creation events are not specified
 	boolean startEvent = false;
 
 	String condition;
@@ -40,16 +40,16 @@ public class EventDefinition extends Node {
 	String countCond;
 
 	// things that should be defined afterward
-	int idnum; // will be defined in JavaMOPSpec
-	boolean duplicated = false; // will be defined in JavaMOPSpec
-	String uniqueId = null; // will be defined in JavaMOPSpec
-	MOPParameters mopParametersOnSpec; // will be defined in JavaMOPSpec
+	int idnum; // will be defined in RVMonitorSpec
+	boolean duplicated = false; // will be defined in RVMonitorSpec
+	String uniqueId = null; // will be defined in RVMonitorSpec
+	RVMParameters rvmParametersOnSpec; // will be defined in RVMonitorSpec
 
-	public EventDefinition(int beginLine, int beginColumn, String id, List<MOPParameter> mopParameters, BlockStmt block, boolean startEvent) {
+	public EventDefinition(int beginLine, int beginColumn, String id, List<RVMParameter> rvmParameters, BlockStmt block, boolean startEvent) {
 		super(beginLine, beginColumn);
 		this.id=id;
-		this.parameters = new MOPParameters(mopParameters);
-		this.mopParameters = new MOPParameters(mopParameters);
+		this.parameters = new RVMParameters(rvmParameters);
+		this.rvmParameters = new RVMParameters(rvmParameters);
 		this.block = block;
 		this.startEvent = startEvent;
 	}
@@ -217,18 +217,18 @@ public class EventDefinition extends Node {
 		return uniqueId;
 	}
 
-	public MOPParameters getParameters() {
+	public RVMParameters getParameters() {
 		return parameters;
 	}
 
-	MOPParameters parametersWithoutThreadVar = null;
+	RVMParameters parametersWithoutThreadVar = null;
 
-	public MOPParameters getParametersWithoutThreadVar() {
+	public RVMParameters getParametersWithoutThreadVar() {
 		if (parametersWithoutThreadVar != null)
 			return parametersWithoutThreadVar;
 
-		parametersWithoutThreadVar = new MOPParameters();
-		for (MOPParameter param : parameters) {
+		parametersWithoutThreadVar = new RVMParameters();
+		for (RVMParameter param : parameters) {
 			if (getThreadVar() != null && getThreadVar().length() != 0 && param.getName().equals(getThreadVar()))
 				continue;
 			parametersWithoutThreadVar.add(param);
@@ -237,38 +237,38 @@ public class EventDefinition extends Node {
 		return parametersWithoutThreadVar;
 	}
 
-	public MOPParameters getMOPParameters() {
-		return mopParameters;
+	public RVMParameters getRVMParameters() {
+		return rvmParameters;
 	}
 
-	MOPParameters mopParametersWithoutThreadVar = null;
-	public MOPParameters getMOPParametersWithoutThreadVar() {
-		if(mopParametersWithoutThreadVar != null)
-			return mopParametersWithoutThreadVar;
+	RVMParameters rvmParametersWithoutThreadVar = null;
+	public RVMParameters getRVMParametersWithoutThreadVar() {
+		if(rvmParametersWithoutThreadVar != null)
+			return rvmParametersWithoutThreadVar;
 		
-		mopParametersWithoutThreadVar = new MOPParameters();
-		for(MOPParameter param : mopParameters){
+		rvmParametersWithoutThreadVar = new RVMParameters();
+		for(RVMParameter param : rvmParameters){
 			if (getThreadVar() != null && getThreadVar().length() != 0 && param.getName().equals(getThreadVar()))
 				continue;
-			mopParametersWithoutThreadVar.add(param);
+			rvmParametersWithoutThreadVar.add(param);
 		}
-		return mopParametersWithoutThreadVar;
+		return rvmParametersWithoutThreadVar;
 	}
 	
-	public MOPParameters getMOPParametersOnSpec() {
-		return mopParametersOnSpec;
+	public RVMParameters getRVMParametersOnSpec() {
+		return rvmParametersOnSpec;
 	}
 
 	public BlockStmt getAction() {
 		return block;
 	}
 	
-	public MOPParameters getUsedParametersIn(MOPParameters specParam){
+	public RVMParameters getUsedParametersIn(RVMParameters specParam){
 		//if cached, return it.
 		if(usedParameter != null)
 			return usedParameter;
 		
-		usedParameter = block.accept(new CollectMOPVarVisitor(), specParam);
+		usedParameter = block.accept(new CollectRVMVarVisitor(), specParam);
 		
 		return usedParameter;
 	}

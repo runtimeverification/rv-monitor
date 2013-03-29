@@ -1,13 +1,14 @@
 package rvmonitor.parser.ast.visitor;
 
-import java.util.*;
 import rvmonitor.parser.ast.*;
+import rvmonitor.parser.ast.aspectj.*;
 import rvmonitor.parser.ast.body.*;
 import rvmonitor.parser.ast.expr.*;
+import rvmonitor.parser.ast.mopspec.*;
 import rvmonitor.parser.ast.stmt.*;
 import rvmonitor.parser.ast.type.*;
-import rvmonitor.parser.ast.mopspec.*;
-import rvmonitor.parser.ast.aspectj.*;
+
+import java.util.Collection;
 
 public class CheckThisJoinPointVisitor implements GenericVisitor<Boolean, Object> {
 
@@ -45,17 +46,17 @@ public class CheckThisJoinPointVisitor implements GenericVisitor<Boolean, Object
 		return Boolean.FALSE;
 	}
 
-	// - JavaMOP components
+	// - RV Monitor components
 
-	public Boolean visit(MOPSpecFile f, Object arg) {
+	public Boolean visit(RVMSpecFile f, Object arg) {
 		return Boolean.FALSE;
 	}
 
-	public Boolean visit(JavaMOPSpec s, Object arg) {
+	public Boolean visit(RVMonitorSpec s, Object arg) {
 		return Boolean.FALSE;
 	}
 
-	public Boolean visit(MOPParameter p, Object arg) {
+	public Boolean visit(RVMParameter p, Object arg) {
 		return Boolean.FALSE;
 	}
 

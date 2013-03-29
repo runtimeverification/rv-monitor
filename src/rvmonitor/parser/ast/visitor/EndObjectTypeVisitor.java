@@ -16,17 +16,17 @@ public class EndObjectTypeVisitor implements GenericVisitor<TypePattern, Object>
 		return null;
 	}
 
-	// - JavaMOP components
+	// - RV Monitor components
 
-	public TypePattern visit(MOPSpecFile f, Object arg) {
+	public TypePattern visit(RVMSpecFile f, Object arg) {
 		return null;
 	}
 
-	public TypePattern visit(JavaMOPSpec s, Object arg) {
+	public TypePattern visit(RVMonitorSpec s, Object arg) {
 		return null;
 	}
 
-	public TypePattern visit(MOPParameter p, Object arg) {
+	public TypePattern visit(RVMParameter p, Object arg) {
 		return null;
 	}
 

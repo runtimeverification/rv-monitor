@@ -3,7 +3,7 @@ package rvmonitor.output.combinedaspect.event;
 import java.util.HashMap;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.output.combinedaspect.event.advice.AdviceBody;
@@ -14,17 +14,17 @@ import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
 import rvmonitor.parser.ast.aspectj.TypePattern;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public class EndObject {
-	JavaMOPSpec mopSpec;
+	RVMonitorSpec mopSpec;
 	EventDefinition event;
 	MonitorSet monitorSet;
 	SuffixMonitor monitorClass;
 	IndexingDecl indexingDecl;
-	HashMap<MOPParameters, IndexingTree> indexingTrees;
+	HashMap<RVMParameters, IndexingTree> indexingTrees;
 	GlobalLock globalLock;
 
 	String endObjectVar;
@@ -34,9 +34,9 @@ public class EndObject {
 	boolean isStart;
 	AdviceBody eventBody = null;
 	
-	MOPVariable endObjectSupportType;
+	RVMVariable endObjectSupportType;
 
-	public EndObject(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
+	public EndObject(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isEndObject())
 			throw new RVMException("EndObject should be defined only for endObject pointcut.");
 
@@ -52,16 +52,16 @@ public class EndObject {
 		this.endObjectVar = event.getEndObjectVar();
 		if (this.endObjectVar == null || this.endObjectVar.length() == 0)
 			throw new RVMException("The variable for an endObject pointcut is not defined.");
-		this.endObjectSupportType = new MOPVariable(endObjectType.toString() + "MOPFinalized"); 
+		this.endObjectSupportType = new RVMVariable(endObjectType.toString() + "RVMFinalized");
 		
 		this.isStart = event.isStartEvent();
 
-		MOPParameter endParam = event.getMOPParametersOnSpec().getParam(event.getEndObjectVar());
-		MOPParameters endParams = new MOPParameters();
+		RVMParameter endParam = event.getRVMParametersOnSpec().getParam(event.getEndObjectVar());
+		RVMParameters endParams = new RVMParameters();
 		if (endParam != null)
 			endParams.add(endParam);
 
-		for (MOPParameters params : indexingTrees.keySet()) {
+		for (RVMParameters params : indexingTrees.keySet()) {
 			if (endParams.equals(params))
 				this.indexingTree = indexingTrees.get(params);
 		}

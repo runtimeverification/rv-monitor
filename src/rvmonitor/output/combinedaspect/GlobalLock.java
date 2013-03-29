@@ -1,15 +1,15 @@
 package rvmonitor.output.combinedaspect;
 
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 
 public class GlobalLock {
-	MOPVariable lock;
+	RVMVariable lock;
 
-	public GlobalLock(MOPVariable lock) {
+	public GlobalLock(RVMVariable lock) {
 		this.lock = lock;
 	}
 
-	public MOPVariable getName(){
+	public RVMVariable getName(){
 		return lock;
 	}
 	

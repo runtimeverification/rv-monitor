@@ -1,9 +1,14 @@
 package rvmonitortestsuite;
 
-import java.io.*;
-import java.util.*;
-
 import rvmonitor.util.Tool;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Main {
 	static boolean Debug = false;
@@ -275,14 +280,14 @@ public class Main {
 
 			// Phase 1
 			title1 = "*** Phase 1                                 ***";
-			title2 = "*** Compiling MOP specifications            ***";
+			title2 = "*** Compiling RVM specifications            ***";
 			title3 = "*** into runtime monitors (using rvmonitor) ***";
 			System.out.println(repeatChar('*', title1.length()));
 			System.out.println(title1);
 			System.out.println(title2);
 			System.out.println(title3);
 			System.out.println(repeatChar('*', title1.length()));
-			allPassed = traverseTestCaseDir(rootDir, new JavaMOPCompileFunctor());
+			allPassed = traverseTestCaseDir(rootDir, new RVMonitorCompileFunctor());
 			System.out.println();
 
 			/*
@@ -481,17 +486,17 @@ public class Main {
 		}
 		System.out.println();
 		System.out.println("*************************");
-		System.out.println("*** JavaMOP TestSuite ***");
+		System.out.println("*** RV Monitor TestSuite ***");
 		System.out.println("*************************");
 //		System.out.println();
 
-		System.out.println("This test suite tests JavaMOP by generating monitors ");
+		System.out.println("This test suite tests RV Monitor by generating monitors ");
 		System.out.println("and running testing programs, which have been weaved");
 		System.out.println("with the generated monitors, against specified output files.");
 		System.out.println();
 		System.out.println("For detailed test output, use the \"-v\" (verbose) flag to the testsuite script."); 
 		System.out.println();
-		System.out.println("See the JavaMOP README file for more information."); 
+		System.out.println("See the RV Monitor README file for more information.");
 		System.out.println();
 	
 	    System.out.println("Are you sure you wish to continue with this test suite [Y/n]?");	

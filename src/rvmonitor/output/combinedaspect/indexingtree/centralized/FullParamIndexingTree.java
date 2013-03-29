@@ -3,19 +3,19 @@ package rvmonitor.output.combinedaspect.indexingtree.centralized;
 import java.util.HashMap;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingCache;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public class FullParamIndexingTree extends IndexingTree {
 
-	public FullParamIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
+	public FullParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
 			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
@@ -26,12 +26,12 @@ public class FullParamIndexingTree extends IndexingTree {
 			throw new RVMException("FullParamIndexingTree should contain at least one parameter.");
 
 		if (anycontent) {
-			this.name = new MOPVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "_Map");
+			this.name = new RVMVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "_Map");
 		} else {
 			if (!contentParam.contains(queryParam))
 				throw new RVMException("[Internal] contentParam should contain queryParam");
 
-			this.name = new MOPVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
+			this.name = new RVMVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
 		}
 	
 		if (anycontent){
@@ -40,32 +40,32 @@ public class FullParamIndexingTree extends IndexingTree {
 		}
 	}
 
-	public MOPParameter getLastParam(){
+	public RVMParameter getLastParam(){
 		return queryParam.get(queryParam.size() - 1);
 	}
 
-	protected String lookupIntermediateCreative(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i) {
+	protected String lookupIntermediateCreative(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i) {
 		String ret = "";
 
-		MOPVariable obj = localVars.get("obj");
-		MOPVariable tempMap = localVars.get("tempMap");
+		RVMVariable obj = localVars.get("obj");
+		RVMVariable tempMap = localVars.get("tempMap");
 
-		MOPParameter p = queryParam.get(i);
-		MOPVariable tempRef = localVars.getTempRef(p);
+		RVMParameter p = queryParam.get(i);
+		RVMVariable tempRef = localVars.getTempRef(p);
 
 		ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
-		MOPParameter nextP = queryParam.get(i + 1);
+		RVMParameter nextP = queryParam.get(i + 1);
 
 		ret += "if (" + obj + " == null) {\n";
 
 		if (i == queryParam.size() - 2){
-			ret += obj + " = new rvmonitorrt.map.MOPMapOfMonitor(" + fullParam.getIdnum(nextP) + ");\n";
+			ret += obj + " = new rvmonitorrt.map.RVMMapOfMonitor(" + fullParam.getIdnum(nextP) + ");\n";
 		} else {
 			if(isGeneral){
-				ret += obj + " = new rvmonitorrt.map.MOPMapOfAll(" + fullParam.getIdnum(nextP) + ");\n";
+				ret += obj + " = new rvmonitorrt.map.RVMMapOfAll(" + fullParam.getIdnum(nextP) + ");\n";
 			} else {
-				ret += obj + " = new rvmonitorrt.map.MOPMapOfMapSet(" + fullParam.getIdnum(nextP) + ");\n";
+				ret += obj + " = new rvmonitorrt.map.RVMMapOfMapSet(" + fullParam.getIdnum(nextP) + ");\n";
 			}
 		}
 		
@@ -73,34 +73,34 @@ public class FullParamIndexingTree extends IndexingTree {
 		ret += "}\n";
 
 		if (i == queryParam.size() - 2) {
-			ret += lastMap + " = (rvmonitorrt.map.MOPAbstractMap)" + obj + ";\n";
+			ret += lastMap + " = (rvmonitorrt.map.RVMAbstractMap)" + obj + ";\n";
 			ret += lookupNodeLast(localVars, monitor, lastMap, lastSet, i + 1, true);
 		} else {
-			ret += tempMap + " = (rvmonitorrt.map.MOPAbstractMap)" + obj + ";\n";
+			ret += tempMap + " = (rvmonitorrt.map.RVMAbstractMap)" + obj + ";\n";
 			ret += lookupIntermediateCreative(localVars, monitor, lastMap, lastSet, i + 1);
 		}
 
 		return ret;
 	}
 	
-	protected String lookupIntermediateNonCreative(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i) {
+	protected String lookupIntermediateNonCreative(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i) {
 		String ret = "";
 
-		MOPVariable obj = localVars.get("obj");
-		MOPVariable tempMap = localVars.get("tempMap");
+		RVMVariable obj = localVars.get("obj");
+		RVMVariable tempMap = localVars.get("tempMap");
 
-		MOPParameter p = queryParam.get(i);
-		MOPVariable tempRef = localVars.getTempRef(p);
+		RVMParameter p = queryParam.get(i);
+		RVMVariable tempRef = localVars.getTempRef(p);
 
 		ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
 		ret += "if (" + obj + " != null) {\n";
 
 		if (i == queryParam.size() - 2) {
-			ret += lastMap + " = (rvmonitorrt.map.MOPAbstractMap)" + obj + ";\n";
+			ret += lastMap + " = (rvmonitorrt.map.RVMAbstractMap)" + obj + ";\n";
 			ret += lookupNodeLast(localVars, monitor, lastMap, lastSet, i + 1, false);
 		} else {
-			ret += tempMap + " = (rvmonitorrt.map.MOPAbstractMap)" + obj + ";\n";
+			ret += tempMap + " = (rvmonitorrt.map.RVMAbstractMap)" + obj + ";\n";
 			ret += lookupIntermediateNonCreative(localVars, monitor, lastMap, lastSet, i + 1);
 		}
 
@@ -109,11 +109,11 @@ public class FullParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 	
-	protected String lookupNodeLast(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i, boolean creative) {
+	protected String lookupNodeLast(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i, boolean creative) {
 		String ret = "";
 
-		MOPParameter p = queryParam.get(i);
-		MOPVariable tempRef = localVars.getTempRef(p);
+		RVMParameter p = queryParam.get(i);
+		RVMVariable tempRef = localVars.getTempRef(p);
 
 		ret += monitor + " = " + "(" + monitorClass.getOutermostName() + ")" + lastMap + ".getNode(" + tempRef + ");\n";
 
@@ -123,14 +123,14 @@ public class FullParamIndexingTree extends IndexingTree {
 	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative){
 		String ret = "";
 
-		MOPVariable monitor = localVars.get(monitorStr);
-		MOPVariable lastMap = localVars.get(lastMapStr);
+		RVMVariable monitor = localVars.get(monitorStr);
+		RVMVariable lastMap = localVars.get(lastMapStr);
 
 		if (queryParam.size() == 1) {
 			ret += lastMap + " = " + retrieveTree() + ";\n";
 			ret += lookupNodeLast(localVars, monitor, lastMap, null, 0, creative);
 		} else {
-			MOPVariable tempMap = localVars.get("tempMap");
+			RVMVariable tempMap = localVars.get("tempMap");
 			ret += tempMap + " = " + retrieveTree() + ";\n";
 
 			if (creative) {
@@ -154,14 +154,14 @@ public class FullParamIndexingTree extends IndexingTree {
 	public String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr){
 		String ret = "";
 
-		MOPVariable monitor = localVars.get(monitorStr);
+		RVMVariable monitor = localVars.get(monitorStr);
 
-		MOPVariable tempRef = localVars.getTempRef(getLastParam());
+		RVMVariable tempRef = localVars.getTempRef(getLastParam());
 
 		if (queryParam.size() == 1) {
 			ret += retrieveTree() + ".putNode(" + tempRef + ", " + monitor + ");\n";
 		} else {
-			MOPVariable lastMap = localVars.get(lastMapStr);
+			RVMVariable lastMap = localVars.get(lastMapStr);
 
 			ret += lastMap + ".putNode(" + tempRef + ", " + monitor + ");\n";
 		}
@@ -176,38 +176,38 @@ public class FullParamIndexingTree extends IndexingTree {
 	public String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr){
 		String ret = "";
 
-		MOPVariable obj = localVars.get("obj");
-		MOPVariable tempMap = localVars.get(tempMapStr);
-		MOPVariable monitor = localVars.get(monitorStr);
+		RVMVariable obj = localVars.get("obj");
+		RVMVariable tempMap = localVars.get(tempMapStr);
+		RVMVariable monitor = localVars.get(monitorStr);
 
 		ret += tempMap + " = " + retrieveTree() + ";\n";
 
 		for (int i = 0; i < queryParam.size() - 1; i++) {
-			MOPParameter p = queryParam.get(i);
-			MOPParameter nextp = queryParam.get(i + 1);
-			MOPVariable tempRef = localVars.getTempRef(p);
+			RVMParameter p = queryParam.get(i);
+			RVMParameter nextp = queryParam.get(i + 1);
+			RVMVariable tempRef = localVars.getTempRef(p);
 
 			ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
 			ret += "if (" + obj + " == null) {\n";
 
 			if (i == queryParam.size() - 2) {
-				ret += obj + " = new rvmonitorrt.map.MOPMapOfMonitor(" + fullParam.getIdnum(nextp) + ");\n";
+				ret += obj + " = new rvmonitorrt.map.RVMMapOfMonitor(" + fullParam.getIdnum(nextp) + ");\n";
 			} else {
 				if(isGeneral)
-					ret += obj + " = new rvmonitorrt.map.MOPMapOfAll(" + fullParam.getIdnum(nextp) + ");\n";
+					ret += obj + " = new rvmonitorrt.map.RVMMapOfAll(" + fullParam.getIdnum(nextp) + ");\n";
 				else
-					ret += obj + " = new rvmonitorrt.map.MOPMapOfMapSet(" + fullParam.getIdnum(nextp) + ");\n";
+					ret += obj + " = new rvmonitorrt.map.RVMMapOfMapSet(" + fullParam.getIdnum(nextp) + ");\n";
 			}
 
 			ret += tempMap + ".putMap(" + tempRef + ", " + obj + ");\n";
 			ret += "}\n";
 
-			ret += tempMap + " = (rvmonitorrt.map.MOPAbstractMap)" + obj + ";\n";
+			ret += tempMap + " = (rvmonitorrt.map.RVMAbstractMap)" + obj + ";\n";
  		}
 
-		MOPParameter p = getLastParam();
-		MOPVariable tempRef = localVars.getTempRef(p);
+		RVMParameter p = getLastParam();
+		RVMVariable tempRef = localVars.getTempRef(p);
 
 		ret += tempMap + ".putNode(" + tempRef + ", " + monitor + ");\n";
 
@@ -235,7 +235,7 @@ public class FullParamIndexingTree extends IndexingTree {
 			String ret = "";
 
 			ret += "(";
-			ret += "(rvmonitorrt.map.MOPAbstractMap)";
+			ret += "(rvmonitorrt.map.RVMAbstractMap)";
 			ret += name + ".get()";
 			ret += ")";
 
@@ -258,37 +258,37 @@ public class FullParamIndexingTree extends IndexingTree {
 		if(isGeneral){
 			if (queryParam.size() == 1) {
 				if (parasiticRefTree.generalProperties.size() == 0) {
-					ret = "rvmonitorrt.map.MOPBasicRefMapOfMonitor";
+					ret = "rvmonitorrt.map.RVMBasicRefMapOfMonitor";
 				} else if (parasiticRefTree.generalProperties.size() == 1) {
-					ret = "rvmonitorrt.map.MOPTagRefMapOfMonitor";
+					ret = "rvmonitorrt.map.RVMTagRefMapOfMonitor";
 				} else {
-					ret = "rvmonitorrt.map.MOPMultiTagRefMapOfMonitor";
+					ret = "rvmonitorrt.map.RVMMultiTagRefMapOfMonitor";
 				}
 			} else {
 				if (parasiticRefTree.generalProperties.size() == 0) {
-					ret = "rvmonitorrt.map.MOPBasicRefMapOfAll";
+					ret = "rvmonitorrt.map.RVMBasicRefMapOfAll";
 				} else if (parasiticRefTree.generalProperties.size() == 1) {
-					ret = "rvmonitorrt.map.MOPTagRefMapOfAll";
+					ret = "rvmonitorrt.map.RVMTagRefMapOfAll";
 				} else {
-					ret = "rvmonitorrt.map.MOPMultiTagRefMapOfAll";
+					ret = "rvmonitorrt.map.RVMMultiTagRefMapOfAll";
 				}
 			}
 		} else {
 			if (queryParam.size() == 1) {
 				if (parasiticRefTree.generalProperties.size() == 0) {
-					ret = "rvmonitorrt.map.MOPBasicRefMapOfMonitor";
+					ret = "rvmonitorrt.map.RVMBasicRefMapOfMonitor";
 				} else if (parasiticRefTree.generalProperties.size() == 1) {
-					ret = "rvmonitorrt.map.MOPTagRefMapOfMonitor";
+					ret = "rvmonitorrt.map.RVMTagRefMapOfMonitor";
 				} else {
-					ret = "rvmonitorrt.map.MOPMultiTagRefMapOfMonitor";
+					ret = "rvmonitorrt.map.RVMMultiTagRefMapOfMonitor";
 				}
 			} else {
 				if (parasiticRefTree.generalProperties.size() == 0) {
-					ret = "rvmonitorrt.map.MOPBasicRefMapOfMapSet";
+					ret = "rvmonitorrt.map.RVMBasicRefMapOfMapSet";
 				} else if (parasiticRefTree.generalProperties.size() == 1) {
-					ret = "rvmonitorrt.map.MOPTagRefMapOfMapSet";
+					ret = "rvmonitorrt.map.RVMTagRefMapOfMapSet";
 				} else {
-					ret = "rvmonitorrt.map.MOPMultiTagRefMapOfMapSet";
+					ret = "rvmonitorrt.map.RVMMultiTagRefMapOfMapSet";
 				}
 			}
 		}
@@ -306,12 +306,12 @@ public class FullParamIndexingTree extends IndexingTree {
 				ret += "return ";
 	
 				if (queryParam.size() == 1) {
-					ret += "new rvmonitorrt.map.MOPMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+					ret += "new rvmonitorrt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 				} else {
 					if(isGeneral)
-						ret += "new rvmonitorrt.map.MOPMapOfAll(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+						ret += "new rvmonitorrt.map.RVMMapOfAll(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 					else
-						ret += "new rvmonitorrt.map.MOPMapOfMapSet(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+						ret += "new rvmonitorrt.map.RVMMapOfMapSet(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 				}
 				
 				ret += "}\n";
@@ -320,15 +320,15 @@ public class FullParamIndexingTree extends IndexingTree {
 				if(parasiticRefTree == null){
 					if(isGeneral){
 						if (queryParam.size() == 1) {
-							ret += "static rvmonitorrt.map.MOPAbstractMap " + name + " = new rvmonitorrt.map.MOPMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+							ret += "static rvmonitorrt.map.RVMAbstractMap " + name + " = new rvmonitorrt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 						} else {
-							ret += "static rvmonitorrt.map.MOPAbstractMap " + name + " = new rvmonitorrt.map.MOPMapOfAll(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+							ret += "static rvmonitorrt.map.RVMAbstractMap " + name + " = new rvmonitorrt.map.RVMMapOfAll(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 						}
 					} else {
 						if (queryParam.size() == 1) {
-							ret += "static rvmonitorrt.map.MOPAbstractMap " + name + " = new rvmonitorrt.map.MOPMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+							ret += "static rvmonitorrt.map.RVMAbstractMap " + name + " = new rvmonitorrt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 						} else {
-							ret += "static rvmonitorrt.map.MOPAbstractMap " + name + " = new rvmonitorrt.map.MOPMapOfMapSet(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+							ret += "static rvmonitorrt.map.RVMAbstractMap " + name + " = new rvmonitorrt.map.RVMMapOfMapSet(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 						}
 					}
 				} else {
@@ -358,15 +358,15 @@ public class FullParamIndexingTree extends IndexingTree {
 				if(parasiticRefTree == null){
 					if(isGeneral){
 						if (queryParam.size() == 1) {
-							ret += name + " = new rvmonitorrt.map.MOPMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+							ret += name + " = new rvmonitorrt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 						} else {
-							ret += name + " = new rvmonitorrt.map.MOPMapOfAll(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+							ret += name + " = new rvmonitorrt.map.RVMMapOfAll(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 						}
 					} else {
 						if (queryParam.size() == 1) {
-							ret += name + " = new rvmonitorrt.map.MOPMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+							ret += name + " = new rvmonitorrt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 						} else {
-							ret += name + " = new rvmonitorrt.map.MOPMapOfMapSet(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
+							ret += name + " = new rvmonitorrt.map.RVMMapOfMapSet(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 						}
 					}
 				} else {

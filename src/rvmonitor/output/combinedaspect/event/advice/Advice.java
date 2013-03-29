@@ -2,12 +2,12 @@ package rvmonitor.output.combinedaspect.event.advice;
 
 import rvmonitor.RVMException;
 import rvmonitor.Main;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.*;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,34 +15,34 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Advice {
-	public MOPStatManager statManager;
+	public RVMonitorStatManager statManager;
 	public ActivatorManager activatorsManager;
 
-	MOPVariable inlineFuncName;
-	MOPParameters inlineParameters;
+	RVMVariable inlineFuncName;
+	RVMParameters inlineParameters;
 
-	MOPVariable pointcutName;
-	MOPParameters parameters;
+	RVMVariable pointcutName;
+	RVMParameters parameters;
 
 	boolean hasThisJoinPoint;
 	public boolean beCounted = false;
-	public MOPParameters threadVars = new MOPParameters();
+	public RVMParameters threadVars = new RVMParameters();
 	GlobalLock globalLock;
 	boolean isSync;
 
 	LinkedList<EventDefinition> events = new LinkedList<EventDefinition>();
-	HashSet<JavaMOPSpec> specsForActivation = new HashSet<JavaMOPSpec>();
-	HashSet<JavaMOPSpec> specsForChecking = new HashSet<JavaMOPSpec>();
+	HashSet<RVMonitorSpec> specsForActivation = new HashSet<RVMonitorSpec>();
+	HashSet<RVMonitorSpec> specsForChecking = new HashSet<RVMonitorSpec>();
 	
 	HashMap<EventDefinition, AdviceBody> advices = new HashMap<EventDefinition, AdviceBody>();
 
-	public Advice(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
+	public Advice(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
-		this.pointcutName = new MOPVariable(event.getId() + "Event");
-		this.inlineFuncName = new MOPVariable("MOPInline" + mopSpec.getName() + "_" + event.getUniqueId());
+		this.pointcutName = new RVMVariable(event.getId() + "Event");
+		this.inlineFuncName = new RVMVariable("RVMInline" + mopSpec.getName() + "_" + event.getUniqueId());
 		this.parameters = event.getParametersWithoutThreadVar();
-		this.inlineParameters = event.getMOPParametersWithoutThreadVar();
+		this.inlineParameters = event.getRVMParametersWithoutThreadVar();
 
 		if (event.getThreadVar() != null && event.getThreadVar().length() != 0) {
 			if (event.getParameters().getParam(event.getThreadVar()) == null)
@@ -75,11 +75,11 @@ public class Advice {
 		return pointcutName.getVarName();
 	}
 	
-	public boolean addEvent(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
+	public boolean addEvent(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 
 		// Parameter Conflict Check
-		for(MOPParameter param : event.getParametersWithoutThreadVar()){
-			MOPParameter param2 = parameters.getParam(param.getName());
+		for(RVMParameter param : event.getParametersWithoutThreadVar()){
+			RVMParameter param2 = parameters.getParam(param.getName());
 			
 			if(param2 == null)
 				continue;
@@ -135,11 +135,11 @@ public class Advice {
 				}
 			}
 		} else {
-			for (MOPParameter threadVar : threadVars) {
+			for (RVMParameter threadVar : threadVars) {
 				ret += "Thread " + threadVar.getName() + " = Thread.currentThread();\n";
 			}
 
-			for(JavaMOPSpec spec : specsForActivation){
+			for(RVMonitorSpec spec : specsForActivation){
 				ret += activatorsManager.getActivator(spec) + " = true;\n";
 			}
 
@@ -177,11 +177,11 @@ public class Advice {
 				}
 
 				if (Main.statistics) {
-					MOPStatistics stat = this.statManager.getStat(advice.mopSpec);
+					RVMonitorStatistics stat = this.statManager.getStat(advice.mopSpec);
 					
 					ret += stat.eventInc(event.getId());
 	
-					for (MOPParameter param : event.getMOPParametersOnSpec()) {
+					for (RVMParameter param : event.getRVMParametersOnSpec()) {
 						ret += stat.paramInc(param);
 					}
 	

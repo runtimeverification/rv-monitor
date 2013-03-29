@@ -6,7 +6,7 @@ package rvmonitor.output.monitor;
 import rvmonitor.RVMException;
 import rvmonitor.output.*;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class JavaLibMonitor extends BaseMonitor {
 	
 	PropertyAndHandlers prop;
 
-	public JavaLibMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost)
+	public JavaLibMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost)
 			throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		
@@ -26,7 +26,7 @@ public class JavaLibMonitor extends BaseMonitor {
 		
 		this.prop = mopSpec.getPropertiesAndHandlers().get(0);
 		this.basemon = new BaseMonitor(name, mopSpec, coenableSet, isOutermost);
-		this.monitorName = new MOPVariable(mopSpec.getName() + "JavaLibMonitor");
+		this.monitorName = new RVMVariable(mopSpec.getName() + "JavaLibMonitor");
 	}
 
 	// Create the event-handling methods, but do not have them accept
@@ -38,16 +38,16 @@ public class JavaLibMonitor extends BaseMonitor {
 		PropMonitor propMonitor = propMonitors.get(prop);
 		
 		int idnum = event.getIdNum();
-		MOPJavaCode condition = new MOPJavaCode(event.getCondition(), monitorName);
-		MOPJavaCode eventMonitoringCode = new MOPJavaCode(prop, prop.getEventMonitoringCode(event.getId()), monitorName);
-		MOPJavaCode monitoringBody = new MOPJavaCode(prop, prop.getLogicProperty("monitoring body"), monitorName);
-		HashMap<String, MOPJavaCode> categoryConditions = new HashMap<String, MOPJavaCode>();
-		MOPJavaCode eventAction = null;
+		RVMJavaCode condition = new RVMJavaCode(event.getCondition(), monitorName);
+		RVMJavaCode eventMonitoringCode = new RVMJavaCode(prop, prop.getEventMonitoringCode(event.getId()), monitorName);
+		RVMJavaCode monitoringBody = new RVMJavaCode(prop, prop.getLogicProperty("monitoring body"), monitorName);
+		HashMap<String, RVMJavaCode> categoryConditions = new HashMap<String, RVMJavaCode>();
+		RVMJavaCode eventAction = null;
 
 		for (String handlerName : prop.getHandlers().keySet()) {
 			String conditionStr = prop.getLogicProperty(handlerName + " condition");
 			if (conditionStr != null) {
-				categoryConditions.put(handlerName, new MOPJavaCodeNoNewLine(conditionStr, monitorName));
+				categoryConditions.put(handlerName, new RVMJavaCodeNoNewLine(conditionStr, monitorName));
 			}
 		}
 
@@ -63,7 +63,7 @@ public class JavaLibMonitor extends BaseMonitor {
 			eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 			eventActionStr = eventActionStr.replaceAll("__SKIP", skipEvent + " = true");
 
-			eventAction = new MOPJavaCode(eventActionStr);
+			eventAction = new RVMJavaCode(eventActionStr);
 		}
 
 		// The parameter is omitted so as to be able to implement a more
@@ -81,7 +81,7 @@ public class JavaLibMonitor extends BaseMonitor {
 		}
 
 		if (monitorInfo != null)
-			ret += monitorInfo.union(event.getMOPParametersOnSpec());
+			ret += monitorInfo.union(event.getRVMParametersOnSpec());
 
 		ret += propMonitor.localDeclaration;
 
@@ -90,7 +90,7 @@ public class JavaLibMonitor extends BaseMonitor {
 		ret += monitoringBody;
 
 		String categoryCode = "";
-		for (Entry<String, MOPJavaCode> entry : categoryConditions.entrySet()) {
+		for (Entry<String, RVMJavaCode> entry : categoryConditions.entrySet()) {
 			categoryCode += propMonitor.categoryVars.get(entry.getKey()) + " = " + entry.getValue() + ";\n";
 		}
 
@@ -120,7 +120,7 @@ public class JavaLibMonitor extends BaseMonitor {
 		ret += "class " + monitorName;
 		if (isOutermost)
 			ret += " extends " + basemon.monitorName;
-		ret += " implements JavaLibInterface, rvmonitorrt.MOPObject {\n";
+		ret += " implements JavaLibInterface, rvmonitorrt.RVMObject {\n";
 
 		// category condition
 		for (String category : propMonitor.categoryVars.keySet()) {

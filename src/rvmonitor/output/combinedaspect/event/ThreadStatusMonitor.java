@@ -1,12 +1,10 @@
 package rvmonitor.output.combinedaspect.event;
 
-import java.util.HashMap;
 import java.util.List;
 
-import rvmonitor.output.MOPVariable;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.output.RVMVariable;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
-import rvmonitor.parser.ast.stmt.BlockStmt;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 
 /**
@@ -17,16 +15,16 @@ import rvmonitor.output.combinedaspect.CombinedAspect;
 public class ThreadStatusMonitor extends EndThread{
 	
 	private final static String eventName = "ThreadMonitor";
-	private MOPVariable monitorName;
+	private RVMVariable monitorName;
 	
 	private boolean hasDeadlockHandler = false;
 	
-	public ThreadStatusMonitor(JavaMOPSpec mopSpec, CombinedAspect combinedAspect) {
+	public ThreadStatusMonitor(RVMonitorSpec mopSpec, CombinedAspect combinedAspect) {
 		this.monitorClass = combinedAspect.monitors.get(mopSpec);
 		this.monitorName = monitorClass.getOutermostName();
-		this.runnableMap = new MOPVariable(mopSpec.getName() + "_" + eventName + "_ThreadToRunnable");
-		this.mainThread = new MOPVariable(mopSpec.getName() + "_" + eventName + "_MainThread");
-		this.threadSet = new MOPVariable(mopSpec.getName() + "_" + eventName + "_ThreadSet");
+		this.runnableMap = new RVMVariable(mopSpec.getName() + "_" + eventName + "_ThreadToRunnable");
+		this.mainThread = new RVMVariable(mopSpec.getName() + "_" + eventName + "_MainThread");
+		this.threadSet = new RVMVariable(mopSpec.getName() + "_" + eventName + "_ThreadSet");
 		this.globalLock = combinedAspect.lockManager.getLock();
 		
 		List<PropertyAndHandlers> props = mopSpec.getPropertiesAndHandlers();
@@ -69,7 +67,7 @@ public class ThreadStatusMonitor extends EndThread{
 		
 		//Start deadlock detection thread here
 		if (this.hasDeadlockHandler) {
-			ret += "rvmonitorrt.MOPDeadlockDetector.startDeadlockDetectionThread(" + this.threadSet
+			ret += "rvmonitorrt.RVMDeadlockDetector.startDeadlockDetectionThread(" + this.threadSet
 				+ ", " + this.mainThread + ", " + this.globalLock.getName() + ", new " + this.monitorName + "." + this.monitorName + "DeadlockCallback()" +");\n";
 		}
 		
@@ -96,7 +94,7 @@ public class ThreadStatusMonitor extends EndThread{
 	@Override
 	public String printAdviceForEndThread() {
 		String ret = "";
-		MOPVariable threadVar = new MOPVariable("t");
+		RVMVariable threadVar = new RVMVariable("t");
 
 		ret += "after (Thread " + threadVar + "): ( execution(void Thread+.run()) && target(" + threadVar + ") )";
 		ret += " && " + commonPointcut + "() {\n";
@@ -116,7 +114,7 @@ public class ThreadStatusMonitor extends EndThread{
 	@Override
 	public String printAdviceForEndRunnable() {
 		String ret = "";
-		MOPVariable runnableVar = new MOPVariable("r");
+		RVMVariable runnableVar = new RVMVariable("r");
 
 		ret += "after (Runnable " + runnableVar + "): ( execution(void Runnable+.run()) && !execution(void Thread+.run()) && target(" + runnableVar + ") )";
 		ret += " && " + commonPointcut + "() {\n";

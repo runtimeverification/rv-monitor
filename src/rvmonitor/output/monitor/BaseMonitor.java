@@ -12,58 +12,58 @@ import java.util.*;
 import java.util.Map.Entry;
 
 class PropMonitor {
-	MOPJavaCode cloneCode;
-	MOPJavaCode localDeclaration;
-	MOPJavaCode stateDeclaration;
-	MOPJavaCode resetCode;
-	MOPJavaCode hashcodeCode;
-	MOPJavaCode equalsCode;
-	MOPJavaCode initilization;
+	RVMJavaCode cloneCode;
+	RVMJavaCode localDeclaration;
+	RVMJavaCode stateDeclaration;
+	RVMJavaCode resetCode;
+	RVMJavaCode hashcodeCode;
+	RVMJavaCode equalsCode;
+	RVMJavaCode initilization;
 	
-	MOPVariable hashcodeMethod = null;
+	RVMVariable hashcodeMethod = null;
 
-	HashMap<String, MOPVariable> categoryVars = new HashMap<String, MOPVariable>();
+	HashMap<String, RVMVariable> categoryVars = new HashMap<String, RVMVariable>();
 	HashMap<String, HandlerMethod> handlerMethods = new HashMap<String, HandlerMethod>();
-	HashMap<String, MOPVariable> eventMethods = new HashMap<String, MOPVariable>();
+	HashMap<String, RVMVariable> eventMethods = new HashMap<String, RVMVariable>();
 }
 
 public class BaseMonitor extends Monitor {
 	// fields
-	MOPVariable loc = new MOPVariable("MOP_loc");
-	MOPVariable staticsig = new MOPVariable("MOP_staticsig");
-	MOPVariable lastevent = new MOPVariable("MOP_lastevent");
-	public static MOPVariable skipEvent = new MOPVariable("skipEvent");
-	MOPVariable conditionFail = new MOPVariable("MOP_conditionFail");
-	MOPVariable thisJoinPoint = new MOPVariable("thisJoinPoint");
+	RVMVariable loc = new RVMVariable("RVM_loc");
+	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
+	RVMVariable lastevent = new RVMVariable("RVM_lastevent");
+	public static RVMVariable skipEvent = new RVMVariable("skipEvent");
+	RVMVariable conditionFail = new RVMVariable("RVM_conditionFail");
+	RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 
 	// methods
-	MOPVariable reset = new MOPVariable("reset");
+	RVMVariable reset = new RVMVariable("reset");
 
 	// info about spec
 	List<PropertyAndHandlers> props;
 	List<EventDefinition> events;
-	MOPParameters specParam;
+	RVMParameters specParam;
 	UserJavaCode monitorDeclaration;
 	String systemAspectName;
 	boolean existCondition = false;
 	boolean existSkip = false;
-	HashMap<MOPParameter, MOPVariable> varsToSave;
+	HashMap<RVMParameter, RVMVariable> varsToSave;
 
 	HashMap<PropertyAndHandlers, PropMonitor> propMonitors = new HashMap<PropertyAndHandlers, PropMonitor>();
 
-	public BaseMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+	public BaseMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		this.initialize(name, mopSpec, coenableSet, isOutermost, "");
 	}
 	
-	public BaseMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) throws RVMException {
+	public BaseMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		this.initialize(name, mopSpec, coenableSet, isOutermost, monitorNameSuffix);
 	}
 	
-	public void initialize(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) {
+	public void initialize(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) {
 		this.isDefined = true;
-		this.monitorName = new MOPVariable(mopSpec.getName() + monitorNameSuffix + "Monitor");
+		this.monitorName = new RVMVariable(mopSpec.getName() + monitorNameSuffix + "Monitor");
 		this.systemAspectName = name + "SystemAspect";
 		this.events = mopSpec.getEvents();
 		this.props = mopSpec.getPropertiesAndHandlers();
@@ -81,19 +81,19 @@ public class BaseMonitor extends Monitor {
 			HashSet<String> cloneLocal = new HashSet<String>();
 			cloneLocal.add("ret");
 			
-			propMonitor.cloneCode = new MOPJavaCode(prop, prop.getLogicProperty("clone"), monitorName, cloneLocal);
-			propMonitor.localDeclaration = new MOPJavaCode(prop, prop.getLogicProperty("local declaration"), monitorName);
-			propMonitor.stateDeclaration = new MOPJavaCode(prop, prop.getLogicProperty("state declaration"), monitorName);
-			propMonitor.resetCode = new MOPJavaCode(prop, prop.getLogicProperty("reset"), monitorName);
-			propMonitor.hashcodeCode = new MOPJavaCode(prop, prop.getLogicProperty("hashcode"), monitorName);
-			propMonitor.equalsCode = new MOPJavaCode(prop, prop.getLogicProperty("equals"), monitorName);
-			propMonitor.initilization = new MOPJavaCode(prop, prop.getLogicProperty("initialization"), monitorName);
+			propMonitor.cloneCode = new RVMJavaCode(prop, prop.getLogicProperty("clone"), monitorName, cloneLocal);
+			propMonitor.localDeclaration = new RVMJavaCode(prop, prop.getLogicProperty("local declaration"), monitorName);
+			propMonitor.stateDeclaration = new RVMJavaCode(prop, prop.getLogicProperty("state declaration"), monitorName);
+			propMonitor.resetCode = new RVMJavaCode(prop, prop.getLogicProperty("reset"), monitorName);
+			propMonitor.hashcodeCode = new RVMJavaCode(prop, prop.getLogicProperty("hashcode"), monitorName);
+			propMonitor.equalsCode = new RVMJavaCode(prop, prop.getLogicProperty("equals"), monitorName);
+			propMonitor.initilization = new RVMJavaCode(prop, prop.getLogicProperty("initialization"), monitorName);
 
 			HashMap<String, BlockStmt> handlerBodies = prop.getHandlers();
 			for (String category : prop.getHandlers().keySet()) {
 				if (category.equals("deadlock"))
 					continue;
-				MOPVariable categoryVar = new MOPVariable("Prop_" + prop.getPropertyId() + "_Category_" + category);
+				RVMVariable categoryVar = new RVMVariable("Prop_" + prop.getPropertyId() + "_Category_" + category);
 				propMonitor.categoryVars.put(category, categoryVar);
 
 				BlockStmt handlerBody = handlerBodies.get(category);
@@ -104,7 +104,7 @@ public class BaseMonitor extends Monitor {
 				}
 			}
 			for(EventDefinition event : events){
-				MOPVariable eventMethod = new MOPVariable("Prop_" + prop.getPropertyId() + "_event_" + event.getId());
+				RVMVariable eventMethod = new RVMVariable("Prop_" + prop.getPropertyId() + "_event_" + event.getId());
 				
 				propMonitor.eventMethods.put(event.getId(), eventMethod);
 			}			
@@ -112,9 +112,9 @@ public class BaseMonitor extends Monitor {
 			propMonitors.put(prop, propMonitor);
 		}
 
-		varsToSave = new HashMap<MOPParameter, MOPVariable>();
-		for (MOPParameter p : mopSpec.getVarsToSave()) {
-			varsToSave.put(p, new MOPVariable("Ref_" + p.getName()));
+		varsToSave = new HashMap<RVMParameter, RVMVariable>();
+		for (RVMParameter p : mopSpec.getVarsToSave()) {
+			varsToSave.put(p, new RVMVariable("Ref_" + p.getName()));
 		}
 
 		if (this.isDefined && mopSpec.isGeneral()) {
@@ -152,7 +152,7 @@ public class BaseMonitor extends Monitor {
 			monitorTermination.setRefTrees(refTrees);
 	}
 
-	public MOPVariable getOutermostName() {
+	public RVMVariable getOutermostName() {
 		return monitorName;
 	}
 
@@ -163,8 +163,8 @@ public class BaseMonitor extends Monitor {
 		return ret;
 	}
 
-	public Set<MOPVariable> getCategoryVars() {
-		HashSet<MOPVariable> ret = new HashSet<MOPVariable>();
+	public Set<RVMVariable> getCategoryVars() {
+		HashSet<RVMVariable> ret = new HashSet<RVMVariable>();
 
 		for (PropertyAndHandlers prop : props) {
 			ret.addAll(propMonitors.get(prop).categoryVars.values());
@@ -179,13 +179,13 @@ public class BaseMonitor extends Monitor {
 		PropMonitor propMonitor = propMonitors.get(prop);
 		
 		int idnum = event.getIdNum();
-		MOPJavaCode condition = new MOPJavaCode(event.getCondition(), monitorName);
-		MOPJavaCode eventMonitoringCode = new MOPJavaCode(prop, prop.getEventMonitoringCode(event.getId()), monitorName);
-		MOPJavaCode aftereventMonitoringCode = new MOPJavaCode(prop, prop.getAfterEventMonitoringCode(event.getId()), monitorName);
-		MOPJavaCode monitoringBody = new MOPJavaCode(prop, prop.getLogicProperty("monitoring body"), monitorName);
-		MOPJavaCode stackManage = new MOPJavaCode(prop, prop.getLogicProperty("stack manage"), monitorName);
-		HashMap<String, MOPJavaCode> categoryConditions = new HashMap<String, MOPJavaCode>();
-		MOPJavaCode eventAction = null;
+		RVMJavaCode condition = new RVMJavaCode(event.getCondition(), monitorName);
+		RVMJavaCode eventMonitoringCode = new RVMJavaCode(prop, prop.getEventMonitoringCode(event.getId()), monitorName);
+		RVMJavaCode aftereventMonitoringCode = new RVMJavaCode(prop, prop.getAfterEventMonitoringCode(event.getId()), monitorName);
+		RVMJavaCode monitoringBody = new RVMJavaCode(prop, prop.getLogicProperty("monitoring body"), monitorName);
+		RVMJavaCode stackManage = new RVMJavaCode(prop, prop.getLogicProperty("stack manage"), monitorName);
+		HashMap<String, RVMJavaCode> categoryConditions = new HashMap<String, RVMJavaCode>();
+		RVMJavaCode eventAction = null;
 
 		for (String handlerName : prop.getHandlers().keySet()) {
 			if (handlerName.equals("deadlock"))
@@ -198,7 +198,7 @@ public class BaseMonitor extends Monitor {
 			}
 
 			if (conditionStr != null) {
-				categoryConditions.put(handlerName, new MOPJavaCodeNoNewLine(prop, conditionStr, monitorName));
+				categoryConditions.put(handlerName, new RVMJavaCodeNoNewLine(prop, conditionStr, monitorName));
 			}
 		}
 
@@ -217,11 +217,11 @@ public class BaseMonitor extends Monitor {
 				eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 				eventActionStr = eventActionStr.replaceAll("__SKIP", "this." + skipEvent + " = true");
 	
-				eventAction = new MOPJavaCode(eventActionStr);
+				eventAction = new RVMJavaCode(eventActionStr);
 			}
 		}
 
-		ret += "final void " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+		ret += "final void " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";
@@ -234,9 +234,9 @@ public class BaseMonitor extends Monitor {
 
 
 		if (prop == props.get(props.size() - 1) && eventAction != null) {
-			for (MOPParameter p : event.getUsedParametersIn(specParam)) {
-				if (!event.getMOPParametersOnSpec().contains(p)) {
-					MOPVariable v = this.varsToSave.get(p);
+			for (RVMParameter p : event.getUsedParametersIn(specParam)) {
+				if (!event.getRVMParametersOnSpec().contains(p)) {
+					RVMVariable v = this.varsToSave.get(p);
 
 					ret += p.getType() + " " + p.getName() + " = null;\n";
 					ret += "if(" + v + " != null){\n";
@@ -248,9 +248,9 @@ public class BaseMonitor extends Monitor {
 			ret += eventAction;
 		}
 
-		for (MOPParameter p : varsToSave.keySet()) {
-			if (event.getMOPParametersOnSpec().contains(p)) {
-				MOPVariable v = varsToSave.get(p);
+		for (RVMParameter p : varsToSave.keySet()) {
+			if (event.getRVMParametersOnSpec().contains(p)) {
+				RVMVariable v = varsToSave.get(p);
 
 				ret += "if(" + v + " == null){\n";
 				ret += v + " = new WeakReference(" + p.getName() + ");\n";
@@ -263,13 +263,13 @@ public class BaseMonitor extends Monitor {
 		}
 
 		if (monitorInfo != null)
-			ret += monitorInfo.union(event.getMOPParametersOnSpec());
+			ret += monitorInfo.union(event.getRVMParametersOnSpec());
 
 		ret += propMonitors.get(prop).localDeclaration;
 
 		if (prop.getVersionedStack()) {
-			MOPVariable global_depth = new MOPVariable("global_depth");
-			MOPVariable version = new MOPVariable("version");
+			RVMVariable global_depth = new RVMVariable("global_depth");
+			RVMVariable version = new RVMVariable("version");
 
 			ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
 			ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
@@ -282,7 +282,7 @@ public class BaseMonitor extends Monitor {
 		ret += monitoringBody;
 
 		String categoryCode = "";
-		for (Entry<String, MOPJavaCode> entry : categoryConditions.entrySet()) {
+		for (Entry<String, RVMJavaCode> entry : categoryConditions.entrySet()) {
 			categoryCode += propMonitors.get(prop).categoryVars.get(entry.getKey()) + " = " + entry.getValue() + ";\n";
 		}
 
@@ -304,7 +304,7 @@ public class BaseMonitor extends Monitor {
 		return this.printEventMethod(prop, event, "");
 	}
 	
-	public String Monitoring(MOPVariable monitorVar, EventDefinition event, MOPVariable loc, MOPVariable staticsig, GlobalLock lock, String aspectName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock lock, String aspectName, boolean inMonitorSet) {
 		String ret = "";
 
 //		if (has__LOC) {
@@ -332,7 +332,7 @@ public class BaseMonitor extends Monitor {
 			
 			ret += this.beforeEventMethod(monitorVar, prop, event, lock, aspectName, inMonitorSet);
 			ret += monitorVar + "." + propMonitor.eventMethods.get(event.getId()) + "(";
-			ret += event.getMOPParameters().parameterString();
+			ret += event.getRVMParameters().parameterString();
 			ret += ");\n";
 			ret += this.afterEventMethod(monitorVar, prop, event, lock, aspectName);
 
@@ -347,13 +347,13 @@ public class BaseMonitor extends Monitor {
 					continue;
 				HandlerMethod handlerMethod = propMonitor.handlerMethods.get(category);
 
-				final MOPVariable mopVariable = propMonitor.categoryVars.get(category);
-				ret += BaseMonitor.getNiceVariable(mopVariable)
-						+ " |= " + monitorVar + "." + mopVariable + ";\n";
-				ret += "if(" +  monitorVar + "." + mopVariable  + ") {\n";
+				final RVMVariable rvmVariable = propMonitor.categoryVars.get(category);
+				ret += BaseMonitor.getNiceVariable(rvmVariable)
+						+ " |= " + monitorVar + "." + rvmVariable + ";\n";
+				ret += "if(" +  monitorVar + "." + rvmVariable + ") {\n";
 
 				ret += monitorVar + "." + handlerMethod.getMethodName() + "(";
-				ret += event.getMOPParametersOnSpec().parameterStringIn(specParam);
+				ret += event.getRVMParametersOnSpec().parameterStringIn(specParam);
 				ret += ");\n";
 
 				ret += "}\n";
@@ -376,11 +376,11 @@ public class BaseMonitor extends Monitor {
 		return ret;
 	}
 	
-	public String afterEventMethod(MOPVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String aspectName) {
+	public String afterEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String aspectName) {
 		return "";
 	}
 
-	public String beforeEventMethod(MOPVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String aspectName, boolean inMonitorSet) {
+	public String beforeEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String aspectName, boolean inMonitorSet) {
 		return "";
 	}
 
@@ -393,8 +393,8 @@ public class BaseMonitor extends Monitor {
 
 		ret += "class " + monitorName;
 		if (isOutermost)
-			ret += " extends rvmonitorrt.MOPMonitor";
-		ret += " implements Cloneable, rvmonitorrt.MOPObject {\n";
+			ret += " extends rvmonitorrt.RVMMonitor";
+		ret += " implements Cloneable, rvmonitorrt.RVMObject {\n";
 		
 		if (isOutermost && varInOutermostMonitor != null)
 			ret += varInOutermostMonitor;
@@ -429,7 +429,7 @@ public class BaseMonitor extends Monitor {
 			ret += "JoinPoint " + thisJoinPoint + " = null;\n";
 
 		// references for saved parameters
-		for (MOPVariable v : varsToSave.values()) {
+		for (RVMVariable v : varsToSave.values()) {
 			ret += "WeakReference " + v + " = null;\n";
 		}
 
@@ -459,8 +459,8 @@ public class BaseMonitor extends Monitor {
 		ret += monitorName + " () {\n";
 		for(PropertyAndHandlers prop : props){
 			if (prop.getVersionedStack()) {
-				MOPVariable global_depth = new MOPVariable("global_depth");
-				MOPVariable version = new MOPVariable("version");
+				RVMVariable global_depth = new RVMVariable("global_depth");
+				RVMVariable version = new RVMVariable("version");
 	
 				ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
 				ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
@@ -500,8 +500,8 @@ public class BaseMonitor extends Monitor {
 			ret += monitorInfo.initConnected();
 		for(PropertyAndHandlers prop : props){
 			if (prop.getVersionedStack()) {
-				MOPVariable global_depth = new MOPVariable("global_depth");
-				MOPVariable version = new MOPVariable("version");
+				RVMVariable global_depth = new RVMVariable("global_depth");
+				RVMVariable version = new RVMVariable("version");
 	
 				ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
 				ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
@@ -530,7 +530,7 @@ public class BaseMonitor extends Monitor {
 				if (!propMonitor.hashcodeCode.isEmpty()) {
 					newHashCode = true;
 					
-					propMonitor.hashcodeMethod = new MOPVariable("Prop_" + prop.getPropertyId() + "_hashCode");
+					propMonitor.hashcodeMethod = new RVMVariable("Prop_" + prop.getPropertyId() + "_hashCode");
 					
 					ret += "final int " + propMonitor.hashcodeMethod + "() {\n";
 					ret += propMonitor.hashcodeCode;
@@ -614,10 +614,10 @@ public class BaseMonitor extends Monitor {
 		return "";
 	}
 
-	static Map<MOPVariable,MOPVariable> niceVars =
-			new HashMap<MOPVariable, MOPVariable>();
-	public static MOPVariable getNiceVariable(MOPVariable var) {
-		MOPVariable result = niceVars.get(var);
+	static Map<RVMVariable,RVMVariable> niceVars =
+			new HashMap<RVMVariable, RVMVariable>();
+	public static RVMVariable getNiceVariable(RVMVariable var) {
+		RVMVariable result = niceVars.get(var);
 		if (result != null) return result;
 		String v = var.getVarName();
 		if (v.contains("_Category_")) {
@@ -635,7 +635,7 @@ public class BaseMonitor extends Monitor {
 						parts[0].substring(1);
 			}
 		}
-		result = new MOPVariable(v);
+		result = new RVMVariable(v);
 		niceVars.put(var, result);
 		return  result;
 	}

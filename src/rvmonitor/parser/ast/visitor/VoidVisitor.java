@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2008 Feng Chen.
  * 
- * This file is part of JavaMOP parser.
+ * This file is part of RV Monitor parser.
  *
- * JavaMOP is free software: you can redistribute it and/or modify
+ * RV Monitor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * JavaMOP is distributed in the hope that it will be useful,
+ * RV Monitor is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with JavaMOP.  If not, see <http://www.gnu.org/licenses/>.
+ * along with RV Monitor.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package rvmonitor.parser.ast.visitor;
@@ -97,7 +97,7 @@ import rvmonitor.parser.ast.type.PrimitiveType;
 import rvmonitor.parser.ast.type.ReferenceType;
 import rvmonitor.parser.ast.type.VoidType;
 import rvmonitor.parser.ast.type.WildcardType;
-import rvmonitor.parser.ast.MOPSpecFile;
+import rvmonitor.parser.ast.RVMSpecFile;
 import rvmonitor.parser.ast.mopspec.*;
 import rvmonitor.parser.ast.aspectj.*;;
 
@@ -108,13 +108,13 @@ public interface VoidVisitor<A> {
 
     public void visit(Node n, A arg);
     
-    //- JavaMOP components
+    //- RV Monitor components
     
-    public void visit(MOPSpecFile f, A arg);
+    public void visit(RVMSpecFile f, A arg);
     
-    public void visit(JavaMOPSpec s, A arg);
+    public void visit(RVMonitorSpec s, A arg);
     
-    public void visit(MOPParameter p, A arg);
+    public void visit(RVMParameter p, A arg);
     
     public void visit(EventDefinition e, A arg);
     

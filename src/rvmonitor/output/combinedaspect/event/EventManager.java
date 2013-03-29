@@ -8,7 +8,7 @@ import rvmonitor.output.combinedaspect.event.advice.Advice;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,18 +22,18 @@ public class EventManager {
 	public ArrayList<StartThread> startThreadEvents = new ArrayList<StartThread>();
 	public EndProgram endProgramEvent = null;
 
-	public HashMap<JavaMOPSpec, MonitorSet> monitorSets;
-	public HashMap<JavaMOPSpec, SuffixMonitor> monitors;
-	public HashMap<JavaMOPSpec, EnableSet> enableSets;
+	public HashMap<RVMonitorSpec, MonitorSet> monitorSets;
+	public HashMap<RVMonitorSpec, SuffixMonitor> monitors;
+	public HashMap<RVMonitorSpec, EnableSet> enableSets;
 	
-	public EventManager(String name, List<JavaMOPSpec> specs, CombinedAspect combinedAspect) throws RVMException {
+	public EventManager(String name, List<RVMonitorSpec> specs, CombinedAspect combinedAspect) throws RVMException {
 		this.monitorSets = combinedAspect.monitorSets;
 		this.monitors = combinedAspect.monitors;
 		this.enableSets = combinedAspect.enableSets;
 
 		this.endProgramEvent = new EndProgram(name);
 
-		for (JavaMOPSpec spec : specs) {
+		for (RVMonitorSpec spec : specs) {
 			if (spec.isEnforce()) {
 				endThreadEvents.add(new ThreadStatusMonitor(spec, combinedAspect));
 			}

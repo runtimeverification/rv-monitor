@@ -36,13 +36,13 @@ public interface GenericVisitor<R, A> {
 
 	public R visit(Node n, A arg);
 
-	// - JavaMOP components
+	// - RV Monitor components
 
-	public R visit(MOPSpecFile f, A arg);
+	public R visit(RVMSpecFile f, A arg);
 
-	public R visit(JavaMOPSpec s, A arg);
+	public R visit(RVMonitorSpec s, A arg);
 
-	public R visit(MOPParameter p, A arg);
+	public R visit(RVMParameter p, A arg);
 
 	public R visit(EventDefinition e, A arg);
 

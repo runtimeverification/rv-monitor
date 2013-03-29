@@ -6,9 +6,9 @@
  */
 package rvmonitor.util;
 
-import java.io.*;
-
 import rvmonitor.RVMException;
+
+import java.io.*;
 
 /**
  * @author fengchen
@@ -254,7 +254,7 @@ public class Tool {
 		return (sepIndex != -1 ? path.substring(0, sepIndex) : path);
 	}
 	
-	public static boolean isJavaMOPInJarFile(){
+	public static boolean isRVMonitorInJarFile(){
 		try {
 			Class<?> mainClass = Class.forName("rvmonitor.Main");
 			ClassLoader loader = mainClass.getClassLoader();

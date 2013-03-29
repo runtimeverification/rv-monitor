@@ -1,7 +1,7 @@
 package rvmonitor.output;
 
 import rvmonitor.parser.ast.ImportDeclaration;
-import rvmonitor.parser.ast.MOPSpecFile;
+import rvmonitor.parser.ast.RVMSpecFile;
 
 import java.util.ArrayList;
 
@@ -9,10 +9,10 @@ public class Imports {
 	ArrayList<String> imports;
 	String[] required = {"java.util.concurrent.*", "java.util.concurrent.locks.*", "java.util.*", "rvmonitorrt.*", "java.lang.ref.*"};
 
-	public Imports(MOPSpecFile mopSpecFile) {
+	public Imports(RVMSpecFile rvmSpecFile) {
 		imports = new ArrayList<String>();
 
-		for (ImportDeclaration imp : mopSpecFile.getImports()) {
+		for (ImportDeclaration imp : rvmSpecFile.getImports()) {
 			String n = "";
 			if (imp.isStatic())
 				n += "static ";

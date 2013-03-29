@@ -376,16 +376,16 @@ DONE:
     StringBuilder sb = new StringBuilder();
     sb.append(symToNum.toString());
     sb.append("\n\n");
-    sb.append("static MOPPMATransitionImpl [][] pma = {");
+    sb.append("static RVMPMATransitionImpl [][] pma = {");
     for(State state : keySet()){
       sb.append("{");
       HashMap<Symbol, ActionState> transition = get(state);
       for(Symbol symbol : transition.keySet()){
         ActionState astate = transition.get(symbol);
         State s = astate.getState();
-        sb.append("new MOPPMATransitionImpl(");
+        sb.append("new RVMPMATransitionImpl(");
         sb.append(astate.getAction());
-        sb.append(", new MOPPMAStateImpl(");
+        sb.append(", new RVMPMAStateImpl(");
         sb.append(s.getNumber());
         if(s.getMatch() != null){
           s.getMatch().getRhs().getImpl(sb, symToNum);

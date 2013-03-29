@@ -2,22 +2,22 @@ package rvmonitor.output.combinedaspect.indexingtree.reftree;
 
 import java.util.ArrayList;
 
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 public class RefTree {
-	MOPVariable name;
+	RVMVariable name;
 
 	public String type;
 
-	public ArrayList<JavaMOPSpec> properties = new ArrayList<JavaMOPSpec>();
-	public ArrayList<JavaMOPSpec> generalProperties = new ArrayList<JavaMOPSpec>();
+	public ArrayList<RVMonitorSpec> properties = new ArrayList<RVMonitorSpec>();
+	public ArrayList<RVMonitorSpec> generalProperties = new ArrayList<RVMonitorSpec>();
 	
 	public IndexingTree hostIndexingTree = null;
 
-	public RefTree(String aspectName, MOPParameter param) {
+	public RefTree(String aspectName, RVMParameter param) {
 		this.type = param.getType().toString();
 
 		String typeStr = type;
@@ -37,10 +37,10 @@ public class RefTree {
 				typeStr += dim;
 		}
 
-		this.name = new MOPVariable(aspectName + "_" + typeStr + "_RefMap");
+		this.name = new RVMVariable(aspectName + "_" + typeStr + "_RefMap");
 	}
 
-	public void addProperty(JavaMOPSpec spec) {
+	public void addProperty(RVMonitorSpec spec) {
 		properties.add(spec);
 		if(spec.isGeneral())
 			generalProperties.add(spec);
@@ -50,9 +50,9 @@ public class RefTree {
 		hostIndexingTree = indexingTree;
 	}
 
-	public String get(MOPVariable tempRef, MOPParameter p) {
+	public String get(RVMVariable tempRef, RVMParameter p) {
 		String ret = "";
-		MOPVariable name;
+		RVMVariable name;
 		
 		if(hostIndexingTree == null)
 			name = this.name;
@@ -74,9 +74,9 @@ public class RefTree {
 		return ret;
 	}
 
-	public String getRefNonCreative(MOPVariable tempRef, MOPParameter p) {
+	public String getRefNonCreative(RVMVariable tempRef, RVMParameter p) {
 		String ret = "";
-		MOPVariable name;
+		RVMVariable name;
 		
 		if(hostIndexingTree == null)
 			name = this.name;
@@ -102,7 +102,7 @@ public class RefTree {
 		return generalProperties.size() != 0;
 	}
 
-	public int getTagNumber(JavaMOPSpec spec) {
+	public int getTagNumber(RVMonitorSpec spec) {
 		if (generalProperties.size() <= 1)
 			return -1;
 		else
@@ -113,11 +113,11 @@ public class RefTree {
 		String ret = "";
 
 		if (generalProperties.size() == 0)
-			ret = "rvmonitorrt.ref.MOPWeakReference";
+			ret = "rvmonitorrt.ref.RVMWeakReference";
 		else if (generalProperties.size() == 1)
-			ret = "rvmonitorrt.ref.MOPTagWeakReference";
+			ret = "rvmonitorrt.ref.RVMTagWeakReference";
 		else
-			ret = "rvmonitorrt.ref.MOPMultiTagWeakReference";
+			ret = "rvmonitorrt.ref.RVMMultiTagWeakReference";
 
 		return ret;
 	}
@@ -127,11 +127,11 @@ public class RefTree {
 		
 		if(hostIndexingTree == null){
 			if (generalProperties.size() == 0)
-				ret = "rvmonitorrt.map.MOPBasicRefMap";
+				ret = "rvmonitorrt.map.RVMBasicRefMap";
 			else if (generalProperties.size() == 1)
-				ret = "rvmonitorrt.map.MOPTagRefMap";
+				ret = "rvmonitorrt.map.RVMTagRefMap";
 			else
-				ret = "rvmonitorrt.map.MOPMultiTagRefMap";
+				ret = "rvmonitorrt.map.RVMMultiTagRefMap";
 		} else {
 			ret = hostIndexingTree.getRefTreeType();
 		}
@@ -139,14 +139,14 @@ public class RefTree {
 		return ret;
 	}
 	
-	public MOPVariable getName() {
+	public RVMVariable getName() {
 		return name;
 	}
 
 	public String toString() {
 		String ret = "";
 
-		ret += "static rvmonitorrt.map.MOPRefMap ";
+		ret += "static rvmonitorrt.map.RVMRefMap ";
 		ret += name;
 		ret += " = ";
 		if(hostIndexingTree == null){

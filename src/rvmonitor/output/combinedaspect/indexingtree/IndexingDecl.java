@@ -1,8 +1,5 @@
 package rvmonitor.output.combinedaspect.indexingtree;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import rvmonitor.RVMException;
 import rvmonitor.output.EnableSet;
 import rvmonitor.output.combinedaspect.indexingtree.centralized.CentralizedIndexingTree;
@@ -10,50 +7,47 @@ import rvmonitor.output.combinedaspect.indexingtree.decentralized.DecentralizedI
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameterPair;
-import rvmonitor.parser.ast.mopspec.MOPParameterPairSet;
-import rvmonitor.parser.ast.mopspec.MOPParameterSet;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class IndexingDecl {
-	JavaMOPSpec mopSpec;
-	MOPParameters specParam;
-	HashMap<MOPParameters, IndexingTree> indexingTrees = new HashMap<MOPParameters, IndexingTree>();
-	HashMap<MOPParameterPair, IndexingTree> indexingTreesForCopy = new HashMap<MOPParameterPair, IndexingTree>();
+	RVMonitorSpec mopSpec;
+	RVMParameters specParam;
+	HashMap<RVMParameters, IndexingTree> indexingTrees = new HashMap<RVMParameters, IndexingTree>();
+	HashMap<RVMonitorParameterPair, IndexingTree> indexingTreesForCopy = new HashMap<RVMonitorParameterPair, IndexingTree>();
 
-	HashMap<EventDefinition, ArrayList<MOPParameterPair>> mapEventToCopyParams = new HashMap<EventDefinition, ArrayList<MOPParameterPair>>();
+	HashMap<EventDefinition, ArrayList<RVMonitorParameterPair>> mapEventToCopyParams = new HashMap<EventDefinition, ArrayList<RVMonitorParameterPair>>();
 
 	HashMap<String, RefTree> refTrees;
 
 	MonitorSet monitorSet;
 	SuffixMonitor monitor;
 
-	public MOPParameters endObjectParameters = new MOPParameters();
+	public RVMParameters endObjectParameters = new RVMParameters();
 
-	public IndexingDecl(JavaMOPSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, HashMap<String, RefTree> refTrees) throws RVMException {
+	public IndexingDecl(RVMonitorSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, HashMap<String, RefTree> refTrees) throws RVMException {
 		this.mopSpec = mopSpec;
 		this.specParam = mopSpec.getParameters();
 		this.refTrees = refTrees;
 
-		MOPParameterSet indexingParameterSet = new MOPParameterSet();
-		MOPParameterPairSet indexingRestrictedParameterSet = new MOPParameterPairSet();
+		RVMParameterSet indexingParameterSet = new RVMParameterSet();
+		RVMParameterPairSet indexingRestrictedParameterSet = new RVMParameterPairSet();
 
 		for (EventDefinition event : mopSpec.getEvents()) {
-			if (event.isEndObject() && event.getMOPParameters().size() != 0)
-				endObjectParameters.addAll(event.getMOPParameters());
+			if (event.isEndObject() && event.getRVMParameters().size() != 0)
+				endObjectParameters.addAll(event.getRVMParameters());
 		}
 
 		for (EventDefinition event : mopSpec.getEvents()) {
-			MOPParameters param = event.getMOPParametersOnSpec();
+			RVMParameters param = event.getRVMParametersOnSpec();
 
 			indexingParameterSet.add(param);
 
 			if (event.isEndObject()) {
-				MOPParameter endParam = param.getParam(event.getEndObjectVar());
-				MOPParameters endParams = new MOPParameters();
+				RVMParameter endParam = param.getParam(event.getEndObjectVar());
+				RVMParameters endParams = new RVMParameters();
 				if (endParam != null) {
 					endParams.add(endParam);
 				}
@@ -63,24 +57,24 @@ public class IndexingDecl {
 
 		if(mopSpec.isGeneral()){
 			for (EventDefinition event : mopSpec.getEvents()) {
-				ArrayList<MOPParameterPair> pairs = new ArrayList<MOPParameterPair>();
+				ArrayList<RVMonitorParameterPair> pairs = new ArrayList<RVMonitorParameterPair>();
 	
-				MOPParameters param = event.getMOPParametersOnSpec();
-				MOPParameterSet enable = enableSet.getEnable(event.getId());
+				RVMParameters param = event.getRVMParametersOnSpec();
+				RVMParameterSet enable = enableSet.getEnable(event.getId());
 	
-				for (MOPParameters enableEntity : enable) {
+				for (RVMParameters enableEntity : enable) {
 					if (enableEntity.size() == 0 && !mopSpec.hasNoParamEvent()) {
 						continue;
 					}
 	
-					MOPParameters unionOfEnableEntityAndParam = MOPParameters.unionSet(enableEntity, param);
+					RVMParameters unionOfEnableEntityAndParam = RVMParameters.unionSet(enableEntity, param);
 					unionOfEnableEntityAndParam = specParam.sortParam(unionOfEnableEntityAndParam);
 	
 					if (!enableEntity.contains(param)) {
-						MOPParameters intersectionOfEnableEntityAndParam = MOPParameters.intersectionSet(enableEntity, param);
+						RVMParameters intersectionOfEnableEntityAndParam = RVMParameters.intersectionSet(enableEntity, param);
 						intersectionOfEnableEntityAndParam = specParam.sortParam(intersectionOfEnableEntityAndParam);
 	
-						MOPParameterPair paramPair = new MOPParameterPair(intersectionOfEnableEntityAndParam, enableEntity);
+						RVMonitorParameterPair paramPair = new RVMonitorParameterPair(intersectionOfEnableEntityAndParam, enableEntity);
 						if (!param.contains(enableEntity)) {
 							indexingRestrictedParameterSet.add(paramPair);
 							indexingParameterSet.add(unionOfEnableEntityAndParam);
@@ -98,7 +92,7 @@ public class IndexingDecl {
 		}
 
 		if (mopSpec.isCentralized()) {
-			for (MOPParameters param : indexingParameterSet) {
+			for (RVMParameters param : indexingParameterSet) {
 				if (param.size() == 1 && this.endObjectParameters.getParam(param.get(0).getName()) != null) {
 					IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
 							mopSpec.isPerThread(), mopSpec.isGeneral());
@@ -111,7 +105,7 @@ public class IndexingDecl {
 			}
 			
 			if (mopSpec.isGeneral()) {
-				for (MOPParameterPair paramPair : indexingRestrictedParameterSet) {
+				for (RVMonitorParameterPair paramPair : indexingRestrictedParameterSet) {
 					indexingTreesForCopy.put(paramPair, CentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), paramPair.getParam1(), paramPair.getParam2(), specParam,
 							monitorSet, monitor, refTrees, mopSpec.isPerThread(), mopSpec.isGeneral()));
 				}
@@ -124,14 +118,14 @@ public class IndexingDecl {
 
 			/* TODO: Decentralized RefTree which does not require any mapping. */
 			
-			for (MOPParameters param : indexingParameterSet) {
+			for (RVMParameters param : indexingParameterSet) {
 				IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
 						mopSpec.isPerThread(), mopSpec.isGeneral());
 
 				indexingTrees.put(param, indexingTree);
 			}
 			if (mopSpec.isGeneral()) {
-				for (MOPParameterPair paramPair : indexingRestrictedParameterSet) {
+				for (RVMonitorParameterPair paramPair : indexingRestrictedParameterSet) {
 					IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), paramPair.getParam1(), paramPair.getParam2(), specParam,
 							monitorSet, monitor, refTrees, mopSpec.isPerThread(), mopSpec.isGeneral());
 
@@ -142,15 +136,15 @@ public class IndexingDecl {
 
 	}
 
-	public HashMap<MOPParameters, IndexingTree> getIndexingTrees() {
+	public HashMap<RVMParameters, IndexingTree> getIndexingTrees() {
 		return indexingTrees;
 	}
 
-	public HashMap<MOPParameterPair, IndexingTree> getIndexingTreesForCopy() {
+	public HashMap<RVMonitorParameterPair, IndexingTree> getIndexingTreesForCopy() {
 		return indexingTreesForCopy;
 	}
 
-	public ArrayList<MOPParameterPair> getCopyParamForEvent(EventDefinition e) {
+	public ArrayList<RVMonitorParameterPair> getCopyParamForEvent(EventDefinition e) {
 		return mapEventToCopyParams.get(e);
 	}
 
@@ -160,7 +154,7 @@ public class IndexingDecl {
 
 		for (IndexingTree indexingTree : indexingTrees.values()) {
 			if (indexingTree.parentTree == null) {
-				MOPParameters sortedParam = specParam.sortParam(indexingTree.queryParam);
+				RVMParameters sortedParam = specParam.sortParam(indexingTree.queryParam);
 
 				treeSearch: for (IndexingTree indexingTree2 : indexingTrees.values()) {
 					if (indexingTree == indexingTree2)
@@ -169,7 +163,7 @@ public class IndexingDecl {
 					if (!indexingTree2.queryParam.contains(indexingTree.queryParam))
 						continue;
 
-					MOPParameters sortedParam2 = specParam.sortParam(indexingTree2.queryParam);
+					RVMParameters sortedParam2 = specParam.sortParam(indexingTree2.queryParam);
 
 					for (int i = 0; i < sortedParam.size(); i++) {
 						if (!sortedParam.get(i).equals(sortedParam2.get(i)))
@@ -208,14 +202,14 @@ public class IndexingDecl {
 		if(mopSpec.isGeneral())
 			return;
 		
-		for (MOPParameters param : indexingTrees.keySet()) {
+		for (RVMParameters param : indexingTrees.keySet()) {
 			if (param.size() == 1 && this.endObjectParameters.getParam(param.get(0).getName()) != null)
 				continue;
 		
 			IndexingTree indexingTree = indexingTrees.get(param);
 			
 			if (indexingTree.parentTree == null && param.size() == 1) {
-				MOPParameter p = param.get(0);
+				RVMParameter p = param.get(0);
 				RefTree refTree = refTrees.get(p.getType().toString());
 				
 				if (refTree.generalProperties.size() == 0 && refTree.hostIndexingTree == null) {

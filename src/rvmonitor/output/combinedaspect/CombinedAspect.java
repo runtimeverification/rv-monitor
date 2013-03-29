@@ -3,7 +3,7 @@ package rvmonitor.output.combinedaspect;
 import rvmonitor.RVMException;
 import rvmonitor.Main;
 import rvmonitor.output.EnableSet;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.event.EventManager;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingDecl;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
@@ -13,7 +13,7 @@ import rvmonitor.output.monitor.BaseMonitor;
 import rvmonitor.output.monitor.Monitor;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.MOPSpecFile;
+import rvmonitor.parser.ast.RVMSpecFile;
 import rvmonitor.parser.ast.mopspec.*;
 
 import java.util.HashMap;
@@ -23,16 +23,16 @@ import java.util.Set;
 
 public class CombinedAspect {
 	String name;
-	public HashMap<JavaMOPSpec, MonitorSet> monitorSets;
-	public HashMap<JavaMOPSpec, SuffixMonitor> monitors;
-	public HashMap<JavaMOPSpec, EnableSet> enableSets;
-	public HashMap<JavaMOPSpec, HashSet<MOPParameter>> setOfParametersForDisable;
+	public HashMap<RVMonitorSpec, MonitorSet> monitorSets;
+	public HashMap<RVMonitorSpec, SuffixMonitor> monitors;
+	public HashMap<RVMonitorSpec, EnableSet> enableSets;
+	public HashMap<RVMonitorSpec, HashSet<RVMParameter>> setOfParametersForDisable;
 
-	MOPVariable mapManager;
+	RVMVariable mapManager;
 	boolean versionedStack;
 
-	List<JavaMOPSpec> specs;
-	public MOPStatManager statManager;
+	List<RVMonitorSpec> specs;
+	public RVMonitorStatManager statManager;
 	public LockManager lockManager;
 	public TimestampManager timestampManager;
 	public ActivatorManager activatorsManager;
@@ -41,49 +41,49 @@ public class CombinedAspect {
 
 	boolean has__ACTIVITY = false;
 
-	public CombinedAspect(String name, MOPSpecFile mopSpecFile, HashMap<JavaMOPSpec, MonitorSet> monitorSets, HashMap<JavaMOPSpec, SuffixMonitor> monitors,
-			HashMap<JavaMOPSpec, EnableSet> enableSets, boolean versionedStack) throws RVMException {
+	public CombinedAspect(String name, RVMSpecFile rvmSpecFile, HashMap<RVMonitorSpec, MonitorSet> monitorSets, HashMap<RVMonitorSpec, SuffixMonitor> monitors,
+			HashMap<RVMonitorSpec, EnableSet> enableSets, boolean versionedStack) throws RVMException {
 		this.name = name + "RuntimeMonitor";
 		this.monitorSets = monitorSets;
 		this.monitors = monitors;
 		this.enableSets = enableSets;
 		this.versionedStack = versionedStack;
 
-		this.specs = mopSpecFile.getSpecs();
-		for (JavaMOPSpec spec : specs) {
+		this.specs = rvmSpecFile.getSpecs();
+		for (RVMonitorSpec spec : specs) {
 			if (spec.has__ACTIVITY()) has__ACTIVITY = true;
 		}
-		this.statManager = new MOPStatManager(name, this.specs);
+		this.statManager = new RVMonitorStatManager(name, this.specs);
 		this.lockManager = new LockManager(name, this.specs);
 		this.timestampManager = new TimestampManager(name, this.specs);
 		this.activatorsManager = new ActivatorManager(name, this.specs);
 		this.indexingTreeManager = new IndexingTreeManager(name, this.specs, this.monitorSets, this.monitors, this.enableSets);
 
-		collectDisableParameters(mopSpecFile.getSpecs());
+		collectDisableParameters(rvmSpecFile.getSpecs());
 
 		this.eventManager = new EventManager(name, this.specs, this);
 
-		this.mapManager = new MOPVariable(name + "MapManager");
+		this.mapManager = new RVMVariable(name + "MapManager");
 	}
 	
-	public void collectDisableParameters(List<JavaMOPSpec> specs){
-		this.setOfParametersForDisable = new HashMap<JavaMOPSpec, HashSet<MOPParameter>>();
-		for(JavaMOPSpec spec : specs){
-			HashSet<MOPParameter> parametersForDisable = new HashSet<MOPParameter>();
+	public void collectDisableParameters(List<RVMonitorSpec> specs){
+		this.setOfParametersForDisable = new HashMap<RVMonitorSpec, HashSet<RVMParameter>>();
+		for(RVMonitorSpec spec : specs){
+			HashSet<RVMParameter> parametersForDisable = new HashSet<RVMParameter>();
 			
 			for(EventDefinition event : spec.getEvents()){
-				MOPParameters eventParams = event.getMOPParametersOnSpec();
-				MOPParameterSet enable = enableSets.get(spec).getEnable(event.getId());
+				RVMParameters eventParams = event.getRVMParametersOnSpec();
+				RVMParameterSet enable = enableSets.get(spec).getEnable(event.getId());
 				
-				for (MOPParameters enableEntity : enable) {
+				for (RVMParameters enableEntity : enable) {
 					if (enableEntity.size() == 0 && !spec.hasNoParamEvent())
 						continue;
 					if (enableEntity.contains(eventParams))
 						continue;
 					
-					MOPParameters unionOfEnableEntityAndParam = MOPParameters.unionSet(enableEntity, eventParams);
+					RVMParameters unionOfEnableEntityAndParam = RVMParameters.unionSet(enableEntity, eventParams);
 					
-					for (MOPParameter p : unionOfEnableEntityAndParam){
+					for (RVMParameter p : unionOfEnableEntityAndParam){
 						if(!enableEntity.contains(p)){
 							parametersForDisable.add(p);
 						}
@@ -104,11 +104,11 @@ public class CombinedAspect {
 		
 		HashMap<String, RefTree> refTrees = indexingTreeManager.refTrees;
 		
-		for(JavaMOPSpec spec : specs){
+		for(RVMonitorSpec spec : specs){
 			IndexingDecl indexDecl = indexingTreeManager.getIndexingDecl(spec);
 			
 			for(IndexingTree indexTree : indexDecl.getIndexingTrees().values()){
-				MOPParameters param = indexTree.queryParam;
+				RVMParameters param = indexTree.queryParam;
 				
 				if(param.size() == 0)
 					continue;
@@ -127,7 +127,7 @@ public class CombinedAspect {
 	public String initCache(){
 		String ret = "";
 		
-		for(JavaMOPSpec spec : specs){
+		for(RVMonitorSpec spec : specs){
 			IndexingDecl decl = indexingTreeManager.getIndexingDecl(spec);
 		
 			for(IndexingTree tree : decl.getIndexingTrees().values()){
@@ -144,8 +144,8 @@ public class CombinedAspect {
 
 	public String categoryVarsDecl() {
 		boolean skipEvent = false;
-		Set<MOPVariable> categoryVars = new HashSet<MOPVariable>();
-		for (JavaMOPSpec mopSpec : this.specs) {
+		Set<RVMVariable> categoryVars = new HashSet<RVMVariable>();
+		for (RVMonitorSpec mopSpec : this.specs) {
 			if (mopSpec.has__SKIP()) {
 				skipEvent = true;
 			}
@@ -155,7 +155,7 @@ public class CombinedAspect {
 			categoryVars.addAll(monitorClass.getCategoryVars());
 		}
 		String ret = "";
-		for (MOPVariable variable : categoryVars) {
+		for (RVMVariable variable : categoryVars) {
 			ret += "public static boolean " +
 					BaseMonitor.getNiceVariable(variable) + " = " +
 					"false;\n";
@@ -173,11 +173,11 @@ public class CombinedAspect {
 
 		ret += this.statManager.statClass();
 		
-		ret += "public class " + this.name + " implements rvmonitorrt.MOPObject {\n";
+		ret += "public class " + this.name + " implements rvmonitorrt.RVMObject {\n";
 
 		ret += categoryVarsDecl();
 
-		ret += "private static rvmonitorrt.map.MOPMapManager " + mapManager + ";\n";
+		ret += "private static rvmonitorrt.map.RVMMapManager " + mapManager + ";\n";
 
 		ret += this.statManager.fieldDecl2();
 
@@ -186,7 +186,7 @@ public class CombinedAspect {
 
 		ret += this.eventManager.printConstructor();
 		
-		ret += mapManager + " = " + "new rvmonitorrt.map.MOPMapManager();\n";
+		ret += mapManager + " = " + "new rvmonitorrt.map.RVMMapManager();\n";
 		ret += mapManager + ".start();\n";
 
 		ret += this.statManager.constructor();

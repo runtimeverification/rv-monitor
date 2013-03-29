@@ -3,24 +3,24 @@ package rvmonitor.output.combinedaspect.event;
 import java.util.ArrayList;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.event.advice.AdviceBody;
 import rvmonitor.output.combinedaspect.event.advice.GeneralAdviceBody;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 public class EndProgram {
-	MOPVariable hookName = null;
+	RVMVariable hookName = null;
 
 	ArrayList<EndThread> endThreadEvents = new ArrayList<EndThread>();
 	ArrayList<AdviceBody> eventBodies = new ArrayList<AdviceBody>();
 
 	public EndProgram(String name) {
-		this.hookName = new MOPVariable(name + "_DummyHookThread");
+		this.hookName = new RVMVariable(name + "_DummyHookThread");
 	}
 
-	public void addEndProgramEvent(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
+	public void addEndProgramEvent(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isEndProgram())
 			throw new RVMException("EndProgram should be defined only for an endProgram pointcut.");
 

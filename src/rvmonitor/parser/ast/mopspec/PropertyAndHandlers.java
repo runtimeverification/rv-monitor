@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import rvmonitor.logicpluginshells.LogicPluginShellResult;
 import rvmonitor.parser.ast.Node;
 import rvmonitor.parser.ast.stmt.BlockStmt;
-import rvmonitor.parser.ast.visitor.CollectMOPVarVisitor;
+import rvmonitor.parser.ast.visitor.CollectRVMVarVisitor;
 import rvmonitor.parser.ast.visitor.GenericVisitor;
 import rvmonitor.parser.ast.visitor.VoidVisitor;
 
@@ -16,11 +16,11 @@ public class PropertyAndHandlers extends Node {
 	
 	Property property;
 	HashMap<String, BlockStmt> handlers;
-	HashMap<String, MOPParameters> usedParameters = new HashMap<String, MOPParameters>();
+	HashMap<String, RVMParameters> usedParameters = new HashMap<String, RVMParameters>();
 
 	//things that should be defined afterward
-	int propertyId; //will be defined in JavaMOPSpec
-	Properties logicResult; //will be defined by MOPProcessor
+	int propertyId; //will be defined in RVMonitorSpec
+	Properties logicResult; //will be defined by RVMProcessor
 	
 	HashMap<String, String> eventMonitoringCodes = new HashMap<String, String>();
 	HashMap<String, String> aftereventMonitoringCodes = new HashMap<String, String>();
@@ -49,8 +49,8 @@ public class PropertyAndHandlers extends Node {
 		return handlers;
 	}
 	
-	public MOPParameters getUsedParametersIn(String category, MOPParameters specParam){
-		MOPParameters ret;
+	public RVMParameters getUsedParametersIn(String category, RVMParameters specParam){
+		RVMParameters ret;
 		
 		//if cached, return it.
 		if((ret = usedParameters.get(category)) != null)
@@ -58,7 +58,7 @@ public class PropertyAndHandlers extends Node {
 		
 		BlockStmt handler = handlers.get(category);
 		
-		ret = handler.accept(new CollectMOPVarVisitor(), specParam);
+		ret = handler.accept(new CollectRVMVarVisitor(), specParam);
 		
 		usedParameters.put(category, ret);
 		

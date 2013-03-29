@@ -1,0 +1,14 @@
+package rvmonitorrt.map.hashentry;
+
+import rvmonitorrt.ref.RVMWeakReference;
+
+public class RVMHashRefEntry {
+	public RVMHashRefEntry next;
+	public RVMWeakReference key;
+
+	public RVMHashRefEntry(RVMHashRefEntry next, RVMWeakReference keyref) {
+		this.next = next;
+		this.key = keyref;
+	}
+
+}

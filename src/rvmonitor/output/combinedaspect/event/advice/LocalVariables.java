@@ -3,13 +3,13 @@ package rvmonitor.output.combinedaspect.event.advice;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 public class LocalVariables {
 	HashMap<String, RefTree> refTrees;
@@ -20,7 +20,7 @@ public class LocalVariables {
 	HashMap<String, Variable> tempRefs = new HashMap<String, Variable>();
 
 	
-	public LocalVariables(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect){
+	public LocalVariables(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect){
 		this.refTrees = combinedAspect.indexingTreeManager.refTrees;
 		
 		SuffixMonitor monitorClass = combinedAspect.monitors.get(mopSpec);
@@ -30,33 +30,33 @@ public class LocalVariables {
 		// default variables
 		addVar("boolean", "cacheHit", "true");
 		addVar("Object", "obj");
-		addVar("rvmonitorrt.map.MOPMap", "tempMap");
+		addVar("rvmonitorrt.map.RVMMap", "tempMap");
 		
 		addVar(monitorName,"mainMonitor", "null");
 		addVar(monitorName,"origMonitor", "null");
 		addVar(monitorName,"lastMonitor", "null");
 		addVar(monitorName,"monitor", "null");
 
-		addVar("rvmonitorrt.map.MOPMap", "mainMap", "null");
-		addVar("rvmonitorrt.map.MOPMap", "origMap", "null");
-		addVar("rvmonitorrt.map.MOPMap", "lastMap", "null");
+		addVar("rvmonitorrt.map.RVMMap", "mainMap", "null");
+		addVar("rvmonitorrt.map.RVMMap", "origMap", "null");
+		addVar("rvmonitorrt.map.RVMMap", "lastMap", "null");
 		
 		addVar(monitorSetName,"mainSet", "null");
 		addVar(monitorSetName,"origSet", "null");
 		addVar(monitorSetName,"lastSet", "null");
 		addVar(monitorSetName,"monitors", "null");
 		
-		for (MOPParameter p : mopSpec.getParameters()) {
+		for (RVMParameter p : mopSpec.getParameters()) {
 			addTempRef(p.getName(), getRefTree(p).getResultType(), "TempRef_" + p.getName());
 		}
 	}
 	
-	public RefTree getRefTree(MOPParameter p) {
+	public RefTree getRefTree(RVMParameter p) {
 		return refTrees.get(p.getType().toString());
 	}
 	
 	public void addVar(String type, String mopVarName){
-		MOPVariable mopVar = new MOPVariable(mopVarName);
+		RVMVariable mopVar = new RVMVariable(mopVarName);
 		
 		if(varMap.get(mopVarName) == null){
 			Variable var = new Variable(type, mopVar); 
@@ -67,7 +67,7 @@ public class LocalVariables {
 	}
 	
 	public void addVar(String type, String mopVarName, String init){
-		MOPVariable mopVar = new MOPVariable(mopVarName);
+		RVMVariable mopVar = new RVMVariable(mopVarName);
 		
 		if(varMap.get(mopVarName) == null){
 			Variable var = new Variable(type, mopVar, init); 
@@ -79,7 +79,7 @@ public class LocalVariables {
 
 	
 	public void addTempRef(String param, String type, String tempRefName){
-		MOPVariable tempRef = new MOPVariable(tempRefName);
+		RVMVariable tempRef = new RVMVariable(tempRefName);
 		
 		if(tempRefs.get(param.toString()) == null){
 			Variable var = new Variable(type, tempRef); 
@@ -95,7 +95,7 @@ public class LocalVariables {
 		}
 	}
 	
-	public MOPVariable get(String name){
+	public RVMVariable get(String name){
 		Variable var = varMap.get(name);
 		
 		if(var == null)
@@ -106,11 +106,11 @@ public class LocalVariables {
 		return var.var;
 	}
 	
-	public MOPVariable getTempRef(MOPParameter p){
+	public RVMVariable getTempRef(RVMParameter p){
 		return getTempRef(p.getName());
 	}
 	
-	public MOPVariable getTempRef(String paramName){
+	public RVMVariable getTempRef(String paramName){
 		Variable var = tempRefs.get(paramName);
 		
 		if(var == null)
@@ -140,16 +140,16 @@ public class LocalVariables {
 	
 	class Variable {
 		String type;
-		MOPVariable var;
+		RVMVariable var;
 		boolean used = false;
 		String init = null;
 		
-		Variable(String type, MOPVariable var){
+		Variable(String type, RVMVariable var){
 			this.type = type;
 			this.var = var;
 		}
 		
-		Variable(String type, MOPVariable var, String init){
+		Variable(String type, RVMVariable var, String init){
 			this.type = type;
 			this.var = var;
 			this.init = init;

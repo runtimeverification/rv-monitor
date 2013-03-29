@@ -1,13 +1,13 @@
 package rvmonitor.output;
 
-import rvmonitor.parser.ast.MOPSpecFile;
+import rvmonitor.parser.ast.RVMSpecFile;
 
 public class Package {
 	String packageString;
 
-	public Package(MOPSpecFile mopSpecFile) {
-		if (mopSpecFile.getPakage() != null)
-			packageString = mopSpecFile.getPakage().toString();
+	public Package(RVMSpecFile rvmSpecFile) {
+		if (rvmSpecFile.getPakage() != null)
+			packageString = rvmSpecFile.getPakage().toString();
 		else
 			packageString = "";
 		packageString = packageString.trim();

@@ -3,7 +3,7 @@ package rvmonitor.output.combinedaspect.event;
 import java.util.HashMap;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.output.combinedaspect.event.advice.AdviceBody;
@@ -13,26 +13,26 @@ import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public class StartThread {
-	JavaMOPSpec mopSpec;
+	RVMonitorSpec mopSpec;
 	EventDefinition event;
 	MonitorSet monitorSet;
 	SuffixMonitor monitorClass;
 	IndexingDecl indexingDecl;
-	HashMap<MOPParameters, IndexingTree> indexingTrees;
+	HashMap<RVMParameters, IndexingTree> indexingTrees;
 	GlobalLock globalLock;
 
 	AdviceBody eventBody;
 
-	MOPVariable runnableMap;
-	MOPVariable mainThread;
+	RVMVariable runnableMap;
+	RVMVariable mainThread;
 
-	MOPVariable commonPointcut = new MOPVariable("MOP_CommonPointCut");
+	RVMVariable commonPointcut = new RVMVariable("RVM_CommonPointCut");
 
-	public StartThread(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
+	public StartThread(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isStartThread())
 			throw new RVMException("StartThread should be defined only for an startThread pointcut.");
 
@@ -43,8 +43,8 @@ public class StartThread {
 		this.indexingDecl = combinedAspect.indexingTreeManager.getIndexingDecl(mopSpec);
 		this.indexingTrees = indexingDecl.getIndexingTrees();
 		this.globalLock = combinedAspect.lockManager.getLock();
-		this.runnableMap = new MOPVariable(mopSpec.getName() + "_" + event.getId() + "_ThreadToRunnable");
-		this.mainThread = new MOPVariable(mopSpec.getName() + "_" + event.getId() + "_MainThread");
+		this.runnableMap = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_ThreadToRunnable");
+		this.mainThread = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_MainThread");
 
 		this.eventBody = new GeneralAdviceBody(mopSpec, event, combinedAspect);
 	}
@@ -77,7 +77,7 @@ public class StartThread {
 
 	public String printAdviceForStartThread() {
 		String ret = "";
-		MOPVariable threadVar = new MOPVariable("t");
+		RVMVariable threadVar = new RVMVariable("t");
 
 		ret += "before (Thread " + threadVar + "): ( execution(void Thread+.run()) && target(" + threadVar + ") )";
 		ret += " && " + commonPointcut + "() {\n";
@@ -97,7 +97,7 @@ public class StartThread {
 
 	public String printAdviceForStartRunnable() {
 		String ret = "";
-		MOPVariable runnableVar = new MOPVariable("r");
+		RVMVariable runnableVar = new RVMVariable("r");
 
 		ret += "before (Runnable " + runnableVar + "): ( execution(void Runnable+.run()) && !execution(void Thread+.run()) && target(" + runnableVar + ") )";
 		ret += " && " + commonPointcut + "() {\n";

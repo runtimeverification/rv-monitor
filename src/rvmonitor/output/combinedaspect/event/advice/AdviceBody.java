@@ -1,42 +1,42 @@
 package rvmonitor.output.combinedaspect.event.advice;
 
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
-import rvmonitor.output.combinedaspect.MOPStatistics;
+import rvmonitor.output.combinedaspect.RVMonitorStatistics;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingDecl;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 import java.util.HashMap;
 
 public abstract class AdviceBody {
-	JavaMOPSpec mopSpec;
+	RVMonitorSpec mopSpec;
 	public EventDefinition event;
 	public MonitorSet monitorSet;
 	public SuffixMonitor monitorClass;
-	public MOPVariable monitorName;
-	public HashMap<MOPParameters, IndexingTree> indexingTrees;
+	public RVMVariable monitorName;
+	public HashMap<RVMParameters, IndexingTree> indexingTrees;
 	public IndexingDecl indexingDecl;
 	public HashMap<String, RefTree> refTrees;
 	
-	public MOPStatistics stat;
+	public RVMonitorStatistics stat;
 	
 	public boolean isGeneral;
-	MOPParameters eventParams;
+	RVMParameters eventParams;
 
 	public boolean isFullParam;
 	CombinedAspect aspect;
 	
-	public AdviceBody(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) {
+	public AdviceBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) {
 		this.mopSpec = mopSpec;
 		this.aspect = combinedAspect;
 		this.event = event;
-		this.eventParams = event.getMOPParametersOnSpec();
+		this.eventParams = event.getRVMParametersOnSpec();
 		this.monitorSet = combinedAspect.monitorSets.get(mopSpec);
 		this.monitorClass = combinedAspect.monitors.get(mopSpec);
 		this.monitorClass.setAspectName(combinedAspect.getAspectName());

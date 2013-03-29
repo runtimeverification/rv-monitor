@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2008 Feng Chen.
  * 
- * This file is part of JavaMOP parser.
+ * This file is part of RV Monitor parser.
  *
- * JavaMOP is free software: you can redistribute it and/or modify
+ * RV Monitor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * JavaMOP is distributed in the hope that it will be useful,
+ * RV Monitor is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with JavaMOP.  If not, see <http://www.gnu.org/licenses/>.
+ * along with RV Monitor.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package rvmonitor.parser.ast.visitor;
@@ -177,11 +177,11 @@ public class DumpVisitor implements VoidVisitor<Object> {
 		}
 	}
 
-	protected void printSpecParameters(MOPParameters args, Object arg) {
+	protected void printSpecParameters(RVMParameters args, Object arg) {
 		printer.print("(");
 		if (args != null) {
-			for (Iterator<MOPParameter> i = args.iterator(); i.hasNext();) {
-				MOPParameter t = i.next();
+			for (Iterator<RVMParameter> i = args.iterator(); i.hasNext();) {
+				RVMParameter t = i.next();
 				t.accept(this, arg);
 				if (i.hasNext()) {
 					printer.print(", ");
@@ -195,9 +195,9 @@ public class DumpVisitor implements VoidVisitor<Object> {
 		throw new IllegalStateException(n.getClass().getName());
 	}
 
-	/* visit functions for JavaMOP components */
+	/* visit functions for RV Monitor components */
 
-	public void visit(MOPSpecFile f, Object arg) {
+	public void visit(RVMSpecFile f, Object arg) {
 		if (f.getPakage() != null)
 			f.getPakage().accept(this, arg);
 		if (f.getImports() != null) {
@@ -207,7 +207,7 @@ public class DumpVisitor implements VoidVisitor<Object> {
 			printer.printLn();
 		}
 		if (f.getSpecs() != null) {
-			for (JavaMOPSpec i : f.getSpecs()) {
+			for (RVMonitorSpec i : f.getSpecs()) {
 				i.accept(this, arg);
 				printer.printLn();
 			}
@@ -215,7 +215,7 @@ public class DumpVisitor implements VoidVisitor<Object> {
 
 	}
 
-	public void visit(JavaMOPSpec s, Object arg) {
+	public void visit(RVMonitorSpec s, Object arg) {
 		printSpecModifiers(s.getModifiers());
 		printer.print(s.getName());
 		printSpecParameters(s.getParameters(), arg);
@@ -247,7 +247,7 @@ public class DumpVisitor implements VoidVisitor<Object> {
 		printer.printLn("}");
 	}
 
-	public void visit(MOPParameter p, Object arg) {
+	public void visit(RVMParameter p, Object arg) {
 		p.getType().accept(this, arg);
 		printer.print(" " + p.getName());
 	}

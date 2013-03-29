@@ -3,34 +3,34 @@ package rvmonitor.output.combinedaspect.indexingtree.centralized;
 import java.util.HashMap;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public class NoParamIndexingTree extends IndexingTree {
-	public MOPVariable globalNode;
+	public RVMVariable globalNode;
 
-	public NoParamIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
+	public NoParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
 			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (anycontent) {
 			if (fullParam.size() == 0) {
-				this.name = new MOPVariable(aspectName + "_Monitor");
+				this.name = new RVMVariable(aspectName + "_Monitor");
 			} else {
-				this.name = new MOPVariable(aspectName + "_Set");
+				this.name = new RVMVariable(aspectName + "_Set");
 				if (isGeneral)
-					this.globalNode = new MOPVariable(aspectName + "_Monitor");
+					this.globalNode = new RVMVariable(aspectName + "_Monitor");
 			}
 		} else {
 			if (contentParam.size() == 0) {
-				this.name = new MOPVariable(aspectName + "_Monitor");
+				this.name = new RVMVariable(aspectName + "_Monitor");
 			} else {
-				this.name = new MOPVariable(aspectName + "__To__" + contentParam.parameterStringUnderscore() + "_Set");
+				this.name = new RVMVariable(aspectName + "__To__" + contentParam.parameterStringUnderscore() + "_Set");
 			}
 		}
 	}
@@ -39,7 +39,7 @@ public class NoParamIndexingTree extends IndexingTree {
 		String ret = "";
 
 		if (isFullParam || globalNode != null) {
-			MOPVariable monitor = localVars.get(monitorStr);
+			RVMVariable monitor = localVars.get(monitorStr);
 
 			if (isFullParam) {
 				ret += monitor + " = " + retrieveTree() + ";\n";
@@ -55,7 +55,7 @@ public class NoParamIndexingTree extends IndexingTree {
 		String ret = "";
 
 		if (!isFullParam) {
-			MOPVariable lastSet = localVars.get(lastSetStr);
+			RVMVariable lastSet = localVars.get(lastSetStr);
 
 			ret += lastSet + " = " + retrieveTree() + ";\n";
 		}
@@ -67,15 +67,15 @@ public class NoParamIndexingTree extends IndexingTree {
 		String ret = "";
 
 		if (isFullParam) {
-			MOPVariable monitor = localVars.get(monitorStr);
+			RVMVariable monitor = localVars.get(monitorStr);
 
 			ret += monitor + " = " + retrieveTree() + ";\n";
 		} else {
-			MOPVariable lastSet = localVars.get(lastSetStr);
+			RVMVariable lastSet = localVars.get(lastSetStr);
 
 			ret += lastSet + " = " + retrieveTree() + ";\n";
 			if (globalNode != null) {
-				MOPVariable monitor = localVars.get(monitorStr);
+				RVMVariable monitor = localVars.get(monitorStr);
 
 				ret += monitor + " = " + retrieveGlobalMonitor() + ";\n";
 			}
@@ -88,7 +88,7 @@ public class NoParamIndexingTree extends IndexingTree {
 		String ret = "";
 
 		if (isFullParam || globalNode != null) {
-			MOPVariable monitor = localVars.get(monitorStr);
+			RVMVariable monitor = localVars.get(monitorStr);
 
 			if (isFullParam) {
 				ret += retrieveTree() + " = " + monitor + ";\n";
@@ -105,7 +105,7 @@ public class NoParamIndexingTree extends IndexingTree {
 		String ret = "";
 
 		if (!isFullParam) {
-			MOPVariable lastSet = localVars.get(lastSetStr);
+			RVMVariable lastSet = localVars.get(lastSetStr);
 
 			ret += retrieveTree() + " = " + lastSet + ";\n";
 		}
@@ -115,7 +115,7 @@ public class NoParamIndexingTree extends IndexingTree {
 
 	public String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr) {
 		String ret = "";
-		MOPVariable monitor = localVars.get(monitorStr);
+		RVMVariable monitor = localVars.get(monitorStr);
 
 		if (isFullParam) {
 			ret += retrieveTree() + " = " + monitor + ";\n";

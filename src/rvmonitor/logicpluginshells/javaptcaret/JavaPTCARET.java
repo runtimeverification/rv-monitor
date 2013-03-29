@@ -61,7 +61,7 @@ public class JavaPTCARET extends LogicPluginShell {
 
 		// I think the framework should take care of it.
 		if (beta_size > 0) {
-			stateDecl += "rvmonitorrt.MOPVersionedBooleanArrayStack $stack$;\n";
+			stateDecl += "rvmonitorrt.RVMVersionedBooleanArrayStack $stack$;\n";
 			stateDecl += "int $current_depth$ = 0;\n";
 			stateDecl += "int $start_depth$ = 0;\n";
 		}
@@ -79,7 +79,7 @@ public class JavaPTCARET extends LogicPluginShell {
 		if (beta_size > 0) {
 			reset += "$current_depth$ = $global_depth$[0];\n";
 			reset += "$start_depth$ = $global_depth$[0];\n";
-			reset += "$stack$ = new rvmonitorrt.MOPVersionedBooleanArrayStack();\n";
+			reset += "$stack$ = new rvmonitorrt.RVMVersionedBooleanArrayStack();\n";
 			reset += "$stack$.push($beta$, $version$[$current_depth$]);\n";
 		}
 		result.put("reset", reset);
@@ -92,7 +92,7 @@ public class JavaPTCARET extends LogicPluginShell {
 			stackManage += "$beta$ = new boolean[" + beta_size + "];\n";
 			stackManage += "$current_depth$ = $global_depth$[0];\n";
 			stackManage += "$start_depth$ = $global_depth$[0];\n";
-			stackManage += "$stack$ = new rvmonitorrt.MOPVersionedBooleanArrayStack();\n";
+			stackManage += "$stack$ = new rvmonitorrt.RVMVersionedBooleanArrayStack();\n";
 			stackManage += "$stack$.push($beta$, $version$[$current_depth$]);\n";
 			stackManage += "}\n";
 			stackManage += "\n";

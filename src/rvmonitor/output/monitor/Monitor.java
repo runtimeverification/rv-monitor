@@ -1,15 +1,15 @@
 package rvmonitor.output.monitor;
 
 import rvmonitor.RVMException;
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.OptimizedCoenableSet;
 import rvmonitor.output.Util;
 import rvmonitor.output.combinedaspect.GlobalLock;
-import rvmonitor.output.combinedaspect.MOPStatistics;
+import rvmonitor.output.combinedaspect.RVMonitorStatistics;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 import rvmonitor.parser.ast.stmt.BlockStmt;
 
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 public abstract class Monitor {
-	MOPVariable monitorName;
+	RVMVariable monitorName;
 
 	boolean isDefined;
 	boolean isOutermost;
@@ -40,15 +40,15 @@ public abstract class Monitor {
 	MonitorTermination monitorTermination = null;
 	MonitorInfo monitorInfo = null;
 
-	MOPStatistics stat;
+	RVMonitorStatistics stat;
 
 	VarInOutermostMonitor varInOutermostMonitor = null;
 
-	HashMap<String, MOPVariable> mopRefs = new HashMap<String, MOPVariable>();
+	HashMap<String, RVMVariable> mopRefs = new HashMap<String, RVMVariable>();
 
 	HashMap<String, RefTree> refTrees;
 
-	public Monitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+	public Monitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		this.isOutermost = isOutermost;
 
 		this.has__LOC = mopSpec.has__LOC();
@@ -68,23 +68,23 @@ public abstract class Monitor {
 
 		this.coenableSet = coenableSet;
 
-		this.stat = new MOPStatistics(name, mopSpec);
+		this.stat = new RVMonitorStatistics(name, mopSpec);
 
 		this.defaultMessage += name + " has been violated on line \" + "
 				+ "__LOC" +" + \". Documentation for this property can be found at "
 				+ Util.packageAndNameToUrl(mopSpec.getPackage(), name) + "\"";
 
-		for (MOPParameter p : mopSpec.getParameters()) {
-			mopRefs.put(p.getName(), new MOPVariable("MOPRef_" + p.getName()));
+		for (RVMParameter p : mopSpec.getParameters()) {
+			mopRefs.put(p.getName(), new RVMVariable("RVMRef_" + p.getName()));
 		}
 
 	}
 
-	public MOPVariable getMOPRef(MOPParameter p){
+	public RVMVariable getRVMonitorRef(RVMParameter p){
 		return mopRefs.get(p.getName());
 	}
 
-	MOPVariable activity = new MOPVariable("MOP_activity");
+	RVMVariable activity = new RVMVariable("RVM_activity");
 	String activityCode() {
 		String ret = "";
 		ret += "static android.app.Activity " + activity + ";\n";
@@ -100,19 +100,19 @@ public abstract class Monitor {
 		return has__ACTIVITY;
 	}
 
-	public MOPVariable getActivityName() {
+	public RVMVariable getActivityName() {
 		return activity;
 	}
 
 	public abstract void setRefTrees(HashMap<String, RefTree> refTrees);
 
-	public abstract MOPVariable getOutermostName();
+	public abstract RVMVariable getOutermostName();
 
 	public abstract Set<String> getNames();
 
-	public abstract Set<MOPVariable> getCategoryVars();
+	public abstract Set<RVMVariable> getCategoryVars();
 
-	public abstract String Monitoring(MOPVariable monitorVar, EventDefinition event, MOPVariable loc, MOPVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet);
+	public abstract String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet);
 
 	public abstract MonitorInfo getMonitorInfo();
 

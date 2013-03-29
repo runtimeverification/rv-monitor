@@ -1,21 +1,21 @@
 package rvmonitor.output.monitor;
 
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 import java.util.List;
 
 public class VarInOutermostMonitor {
-	MOPParameters parameters;
+	RVMParameters parameters;
 	List<EventDefinition> events;
 
 	boolean isGeneral = false;
 	
-	MOPVariable tau = new MOPVariable("tau");
+	RVMVariable tau = new RVMVariable("tau");
 
-	public VarInOutermostMonitor(String name, JavaMOPSpec mopSpec, List<EventDefinition> events){
+	public VarInOutermostMonitor(String name, RVMonitorSpec mopSpec, List<EventDefinition> events){
 		this.parameters = mopSpec.getParameters();
 		this.events = events;
 		this.isGeneral = mopSpec.isGeneral();

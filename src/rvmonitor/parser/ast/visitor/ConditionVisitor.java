@@ -16,17 +16,17 @@ public class ConditionVisitor implements GenericVisitor<String, Object> {
 		return null;
 	}
 
-	// - JavaMOP components
+	// - RV Monitor components
 
-	public String visit(MOPSpecFile f, Object arg) {
+	public String visit(RVMSpecFile f, Object arg) {
 		return null;
 	}
 
-	public String visit(JavaMOPSpec s, Object arg) {
+	public String visit(RVMonitorSpec s, Object arg) {
 		return null;
 	}
 
-	public String visit(MOPParameter p, Object arg) {
+	public String visit(RVMParameter p, Object arg) {
 		return null;
 	}
 

@@ -1,13 +1,13 @@
 package rvmonitor;
 
+import rvmonitor.parser.RVMonitorExtender;
+import rvmonitor.parser.ast.RVMSpecFile;
+import rvmonitor.parser.astex.RVMSpecFileExt;
+import rvmonitor.parser.main_parser.RVMonitorParser;
+import rvmonitor.util.Tool;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
-
-import rvmonitor.parser.JavaMOPExtender;
-import rvmonitor.parser.ast.MOPSpecFile;
-import rvmonitor.parser.astex.MOPSpecFileExt;
-import rvmonitor.parser.main_parser.JavaMOPParser;
-import rvmonitor.util.Tool;
 
 public class SpecExtractor {
 
@@ -51,17 +51,17 @@ public class SpecExtractor {
 		}
 	}
 
-	static public MOPSpecFile parse(String input) throws RVMException {
-		MOPSpecFile mopSpecFile;
+	static public RVMSpecFile parse(String input) throws RVMException {
+		RVMSpecFile rvmSpecFile;
 		try {
-			MOPSpecFileExt mopSpecFileExt = JavaMOPParser.parse(new ByteArrayInputStream(input.getBytes()));
-			mopSpecFile = JavaMOPExtender.translateMopSpecFile(mopSpecFileExt);
+			RVMSpecFileExt rvmSpecFileExt = RVMonitorParser.parse(new ByteArrayInputStream(input.getBytes()));
+			rvmSpecFile = RVMonitorExtender.translateMopSpecFile(rvmSpecFileExt);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RVMException("Error when parsing a specification file:\n" + e.getMessage());
 		}
 
-		return mopSpecFile;
+		return rvmSpecFile;
 	}
 
 }

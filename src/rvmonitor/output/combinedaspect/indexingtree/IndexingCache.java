@@ -2,64 +2,64 @@ package rvmonitor.output.combinedaspect.indexingtree;
 
 import java.util.HashMap;
 
-import rvmonitor.output.MOPVariable;
+import rvmonitor.output.RVMVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public class IndexingCache {
-	MOPParameters param;
+	RVMParameters param;
 	boolean perthread = false;
 	boolean isGeneral = false;
 	SuffixMonitor monitor;
 
 	public boolean hasSet = false;
 	public boolean hasNode = false;
-	MOPVariable setType;
-	MOPVariable set;
+	RVMVariable setType;
+	RVMVariable set;
 
-	MOPVariable nodeType;
-	MOPVariable node;
+	RVMVariable nodeType;
+	RVMVariable node;
 
-	HashMap<String, MOPVariable> keys = new HashMap<String, MOPVariable>();
+	HashMap<String, RVMVariable> keys = new HashMap<String, RVMVariable>();
 	HashMap<String, RefTree> refTrees;
 
-	public IndexingCache(MOPVariable name, MOPParameters param, MOPParameters fullParam, SuffixMonitor monitor, MonitorSet monitorSet, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
+	public IndexingCache(RVMVariable name, RVMParameters param, RVMParameters fullParam, SuffixMonitor monitor, MonitorSet monitorSet, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
 		this.param = param;
 		this.perthread = perthread;
 		this.monitor = monitor;
 		this.isGeneral = isGeneral;
 
 		for (int i = 0; i < param.size(); i++) {
-			this.keys.put(param.get(i).getName(), new MOPVariable(name + "_cachekey_" + fullParam.getIdnum(param.get(i))));
+			this.keys.put(param.get(i).getName(), new RVMVariable(name + "_cachekey_" + fullParam.getIdnum(param.get(i))));
 		}
 
 		this.hasSet = !fullParam.equals(param);
 		this.hasNode = !hasSet || isGeneral;
 		
 		this.setType = monitorSet.getName();
-		this.set = new MOPVariable(name + "_cacheset");
+		this.set = new RVMVariable(name + "_cacheset");
 		this.nodeType = monitor.getOutermostName();
-		this.node = new MOPVariable(name + "_cachenode");
+		this.node = new RVMVariable(name + "_cachenode");
 		this.refTrees = refTrees;
 	}
 
-	public String getKeyType(MOPParameter p) {
+	public String getKeyType(RVMParameter p) {
 		return refTrees.get(p.getType().toString()).getResultType();
 	}
 
-	public String getTreeType(MOPParameter p) {
+	public String getTreeType(RVMParameter p) {
 		return refTrees.get(p.getType().toString()).getType();
 	}
 
-	public MOPVariable getKey(MOPParameter p) {
+	public RVMVariable getKey(RVMParameter p) {
 		return keys.get(p.getName());
 	}
 
-	public MOPVariable getKey(int i) {
+	public RVMVariable getKey(int i) {
 		return keys.get(param.get(i).getName());
 	}
 
@@ -83,8 +83,8 @@ public class IndexingCache {
 	public String getCacheKeys(LocalVariables localVars) {
 		String ret = "";
 
-		for (MOPParameter p : param) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+		for (RVMParameter p : param) {
+			RVMVariable tempRef = localVars.getTempRef(p);
 
 			ret += tempRef + " = ";
 
@@ -98,7 +98,7 @@ public class IndexingCache {
 		return ret;
 	}
 
-	public String getCacheSet(MOPVariable obj) {
+	public String getCacheSet(RVMVariable obj) {
 		String ret = "";
 
 		if (!hasSet)
@@ -113,7 +113,7 @@ public class IndexingCache {
 		return ret;
 	}
 
-	public String getCacheNode(MOPVariable obj) {
+	public String getCacheNode(RVMVariable obj) {
 		String ret = "";
 
 		if (perthread) {
@@ -128,8 +128,8 @@ public class IndexingCache {
 	public String setCacheKeys(LocalVariables localVars) {
 		String ret = "";
 
-		for (MOPParameter p : param) {
-			MOPVariable tempRef = localVars.getTempRef(p);
+		for (RVMParameter p : param) {
+			RVMVariable tempRef = localVars.getTempRef(p);
 
 			if (perthread) {
 				ret += getKey(p) + ".set(" + tempRef + ");\n";
@@ -141,7 +141,7 @@ public class IndexingCache {
 		return ret;
 	}
 
-	public String setCacheSet(MOPVariable obj) {
+	public String setCacheSet(RVMVariable obj) {
 		String ret = "";
 
 		if (!hasSet)
@@ -156,7 +156,7 @@ public class IndexingCache {
 		return ret;
 	}
 
-	public String setCacheNode(MOPVariable obj) {
+	public String setCacheNode(RVMVariable obj) {
 		String ret = "";
 
 		if(!hasNode)
@@ -179,8 +179,8 @@ public class IndexingCache {
 		String ret = "";
 
 		if (perthread) {
-			for (MOPParameter p : param) {
-				MOPVariable key = keys.get(p.getName());
+			for (RVMParameter p : param) {
+				RVMVariable key = keys.get(p.getName());
 
 				ret += "static final ThreadLocal " + key + " = new ThreadLocal() {\n";
 				ret += "protected " + getKeyType(p) + " initialValue(){\n";
@@ -205,8 +205,8 @@ public class IndexingCache {
 				ret += "};\n";
 			}
 		} else {
-			for (MOPParameter p : param) {
-				MOPVariable key = keys.get(p.getName());
+			for (RVMParameter p : param) {
+				RVMVariable key = keys.get(p.getName());
 				ret += "static " + getKeyType(p) + " " + key + " = " + getTreeType(p) + ".NULRef;\n";
 			}
 			if (hasSet) {
@@ -224,8 +224,8 @@ public class IndexingCache {
 		String ret = "";
 
 		if (perthread) {
-			for (MOPParameter p : param) {
-				MOPVariable key = keys.get(p.getName());
+			for (RVMParameter p : param) {
+				RVMVariable key = keys.get(p.getName());
 
 				ret += key + " = new ThreadLocal() {\n";
 				ret += "protected " + getKeyType(p) + " initialValue(){\n";
@@ -250,8 +250,8 @@ public class IndexingCache {
 				ret += "};\n";
 			}
 		} else {
-			for (MOPParameter p : param) {
-				MOPVariable key = keys.get(p.getName());
+			for (RVMParameter p : param) {
+				RVMVariable key = keys.get(p.getName());
 				ret += key + " = " + getTreeType(p) + ".NULRef;\n";
 			}
 			if (hasSet) {

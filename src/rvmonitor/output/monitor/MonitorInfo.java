@@ -1,27 +1,27 @@
 package rvmonitor.output.monitor;
 
-import rvmonitor.output.MOPVariable;
-import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
-import rvmonitor.parser.ast.mopspec.MOPParameters;
+import rvmonitor.output.RVMVariable;
+import rvmonitor.parser.ast.mopspec.RVMParameter;
+import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
+import rvmonitor.parser.ast.mopspec.RVMParameters;
 
 public class MonitorInfo {
-	MOPParameters parameters;
-	MOPVariable monitorInfo = new MOPVariable("monitorInfo");
+	RVMParameters parameters;
+	RVMVariable monitorInfo = new RVMVariable("monitorInfo");
 
 	boolean isFullBinding;
 	boolean isConnected;
 
-	public MonitorInfo(JavaMOPSpec mopSpec) {
+	public MonitorInfo(RVMonitorSpec mopSpec) {
 		this.parameters = mopSpec.getParameters();
 		this.isFullBinding = mopSpec.isFullBinding();
 		this.isConnected = mopSpec.isConnected();
 	}
 
-	public String newInfo(MOPVariable monitorVar, MOPParameters vars) {
+	public String newInfo(RVMVariable monitorVar, RVMParameters vars) {
 		String ret = "";
 
-		ret += monitorVar + "." + monitorInfo + " = " + "new rvmonitorrt.MOPMonitorInfo();\n";
+		ret += monitorVar + "." + monitorInfo + " = " + "new rvmonitorrt.RVMMonitorInfo();\n";
 
 		if (isFullBinding) {
 			if (vars.size() == parameters.size())
@@ -34,7 +34,7 @@ public class MonitorInfo {
 			ret += monitorVar + "." + monitorInfo + ".connected" + " = " + "new int[" + parameters.size() + "];\n";
 
 			for (int i = 0; i < parameters.size(); i++) {
-				MOPParameter p = parameters.get(i);
+				RVMParameter p = parameters.get(i);
 				if (vars.contains(p))
 					ret += monitorVar + "." + monitorInfo + ".connected" + "[" + i + "] = -1;\n";
 				else
@@ -60,30 +60,30 @@ public class MonitorInfo {
 		return ret;
 	}
 
-	public String copy(MOPVariable monitorVar) {
+	public String copy(RVMVariable monitorVar) {
 		String ret = "";
 
-		ret += monitorVar + "." + monitorInfo + " = " + "(rvmonitorrt.MOPMonitorInfo)" + "this." + monitorInfo + ".clone();\n";
+		ret += monitorVar + "." + monitorInfo + " = " + "(rvmonitorrt.RVMMonitorInfo)" + "this." + monitorInfo + ".clone();\n";
 
 		return ret;
 	}
 
-	public String copy(MOPVariable targetVar, MOPVariable origVar) {
+	public String copy(RVMVariable targetVar, RVMVariable origVar) {
 		return copy(targetVar.toString(), origVar.toString());
 	}
 
 	public String copy(String targetVar, String origVar) {
 		String ret = "";
 
-		ret += targetVar + "." + monitorInfo + " = " + "(rvmonitorrt.MOPMonitorInfo)" + origVar + "." + monitorInfo + ".clone();\n";
+		ret += targetVar + "." + monitorInfo + " = " + "(rvmonitorrt.RVMMonitorInfo)" + origVar + "." + monitorInfo + ".clone();\n";
 
 		return ret;
 	}
 
-	public String expand(MOPVariable monitorVar, SuffixMonitor suffixMonitor, MOPParameters vars) {
+	public String expand(RVMVariable monitorVar, SuffixMonitor suffixMonitor, RVMParameters vars) {
 		String ret = "";
-		MOPVariable monitor = new MOPVariable("monitor");
-		MOPVariable monitorList = new MOPVariable("monitorList");
+		RVMVariable monitor = new RVMVariable("monitor");
+		RVMVariable monitorList = new RVMVariable("monitorList");
 
 		boolean isFullParam = vars.size() == parameters.size();
 
@@ -91,7 +91,7 @@ public class MonitorInfo {
 			ret += monitorVar + "." + monitorInfo + ".isFullParam" + " = " + isFullParam + ";\n";
 		if (isConnected) {
 			for (int i = 0; i < parameters.size(); i++) {
-				MOPParameter p = parameters.get(i);
+				RVMParameter p = parameters.get(i);
 				if (vars.contains(p)) {
 					ret += monitorVar + "." + monitorInfo + ".connected" + "[" + i + "]" + " = ";
 					ret += "(" + monitorVar + "." + monitorInfo + ".connected" + "[" + i + "]" + " == " + "-2" + ")" + "?";
@@ -110,7 +110,7 @@ public class MonitorInfo {
 				ret += monitor + "." + monitorInfo + ".isFullParam" + " = " + isFullParam + ";\n";
 			if (isConnected) {
 				for (int i = 0; i < parameters.size(); i++) {
-					MOPParameter p = parameters.get(i);
+					RVMParameter p = parameters.get(i);
 					if (vars.contains(p)) {
 						ret += monitor + "." + monitorInfo + ".connected" + "[" + i + "]" + " = ";
 						ret += "(" + monitor + "." + monitorInfo + ".connected" + "[" + i + "]" + " == " + "-2" + ")" + "?";
@@ -127,23 +127,23 @@ public class MonitorInfo {
 		return ret;
 	}
 
-	MOPVariable MOPNum1 = new MOPVariable("MOPNum1");
-	MOPVariable MOPNum2 = new MOPVariable("MOPNum2");
-	MOPVariable MOPNum3 = new MOPVariable("MOPNum3");
-	MOPVariable MOPNumTemp = new MOPVariable("MOPNumTemp");
+	RVMVariable RVMNum1 = new RVMVariable("RVMNum1");
+	RVMVariable RVMNum2 = new RVMVariable("RVMNum2");
+	RVMVariable RVMNum3 = new RVMVariable("RVMNum3");
+	RVMVariable RVMNumTemp = new RVMVariable("RVMNumTemp");
 
-	public String union(MOPParameters params) {
+	public String union(RVMParameters params) {
 		String ret = "";
 		
 		if (isConnected) {
 			if (params.size() > 1) {
-				ret += "int " + MOPNum1 + ";\n";
-				ret += "int " + MOPNum2 + ";\n";
-				ret += "int " + MOPNum3 + ";\n";
-				ret += "int " + MOPNumTemp + ";\n";
+				ret += "int " + RVMNum1 + ";\n";
+				ret += "int " + RVMNum2 + ";\n";
+				ret += "int " + RVMNum3 + ";\n";
+				ret += "int " + RVMNumTemp + ";\n";
 				ret += "\n";
 				
-				MOPParameter p = params.get(0);
+				RVMParameter p = params.get(0);
 				for (int i = 1; i < params.size(); i++)
 					ret += union(p, params.get(i));
 			}
@@ -152,7 +152,7 @@ public class MonitorInfo {
 		return ret;
 	}
 
-	protected String union(MOPParameter p1, MOPParameter p2) {
+	protected String union(RVMParameter p1, RVMParameter p2) {
 		return union(findNum(p1), findNum(p2));
 	}
 
@@ -162,42 +162,42 @@ public class MonitorInfo {
 		if (i1 < 0 || i2 < 0)
 			return ret;
 
-		ret += MOPNum1 + " = " + i1 + ";\n";
-		ret += "while(" + monitorInfo + ".connected[" + MOPNum1 + "]" + " >= 0){\n";
-		ret += MOPNum1 + " = " + monitorInfo + ".connected[" + MOPNum1 + "]" + ";\n";
+		ret += RVMNum1 + " = " + i1 + ";\n";
+		ret += "while(" + monitorInfo + ".connected[" + RVMNum1 + "]" + " >= 0){\n";
+		ret += RVMNum1 + " = " + monitorInfo + ".connected[" + RVMNum1 + "]" + ";\n";
 		ret += "}\n";
 
-		ret += MOPNum3 + " = " + i1 + ";\n";
-		ret += "while(" + monitorInfo + ".connected[" + MOPNum3 + "]" + " >= 0){\n";
-		ret += MOPNumTemp + " = " + MOPNum3 + ";\n";
-		ret += MOPNum3 + " = " + monitorInfo + ".connected[" + MOPNum3 + "]" + ";\n";
-		ret += monitorInfo + ".connected[" + MOPNumTemp + "]" + " = " + MOPNum1 + ";\n";
+		ret += RVMNum3 + " = " + i1 + ";\n";
+		ret += "while(" + monitorInfo + ".connected[" + RVMNum3 + "]" + " >= 0){\n";
+		ret += RVMNumTemp + " = " + RVMNum3 + ";\n";
+		ret += RVMNum3 + " = " + monitorInfo + ".connected[" + RVMNum3 + "]" + ";\n";
+		ret += monitorInfo + ".connected[" + RVMNumTemp + "]" + " = " + RVMNum1 + ";\n";
 		ret += "}\n";
 		
-		ret += MOPNum2 + " = " + i2 + ";\n";
-		ret += "while(" + monitorInfo + ".connected[" + MOPNum2 + "]" + " >= 0){\n";
-		ret += MOPNum2 + " = " + monitorInfo + ".connected[" + MOPNum2 + "]" + ";\n";
+		ret += RVMNum2 + " = " + i2 + ";\n";
+		ret += "while(" + monitorInfo + ".connected[" + RVMNum2 + "]" + " >= 0){\n";
+		ret += RVMNum2 + " = " + monitorInfo + ".connected[" + RVMNum2 + "]" + ";\n";
 		ret += "}\n";
 
-		ret += MOPNum3 + " = " + i2 + ";\n";
-		ret += "while(" + monitorInfo + ".connected[" + MOPNum3 + "]" + " >= 0){\n";
-		ret += MOPNumTemp + " = " + MOPNum3 + ";\n";
-		ret += MOPNum3 + " = " + monitorInfo + ".connected[" + MOPNum3 + "]" + ";\n";
-		ret += monitorInfo + ".connected[" + MOPNumTemp + "]" + " = " + MOPNum2 + ";\n";
+		ret += RVMNum3 + " = " + i2 + ";\n";
+		ret += "while(" + monitorInfo + ".connected[" + RVMNum3 + "]" + " >= 0){\n";
+		ret += RVMNumTemp + " = " + RVMNum3 + ";\n";
+		ret += RVMNum3 + " = " + monitorInfo + ".connected[" + RVMNum3 + "]" + ";\n";
+		ret += monitorInfo + ".connected[" + RVMNumTemp + "]" + " = " + RVMNum2 + ";\n";
 		ret += "}\n";
 
-		ret += "if(" + MOPNum1 + " < " + MOPNum2 + "){\n";
-		ret += monitorInfo + ".connected[" + MOPNum2 + "]" + " = " + MOPNum1 + ";\n";
-		ret += "} else if (" + MOPNum1 + " > " + MOPNum2 + "){\n";
-		ret += monitorInfo + ".connected[" + MOPNum1 + "]" + " = " + MOPNum2 + ";\n";
+		ret += "if(" + RVMNum1 + " < " + RVMNum2 + "){\n";
+		ret += monitorInfo + ".connected[" + RVMNum2 + "]" + " = " + RVMNum1 + ";\n";
+		ret += "} else if (" + RVMNum1 + " > " + RVMNum2 + "){\n";
+		ret += monitorInfo + ".connected[" + RVMNum1 + "]" + " = " + RVMNum2 + ";\n";
 		ret += "}\n";
 		
 		return ret;
 	}
 
-	protected int findNum(MOPParameter p) {
+	protected int findNum(RVMParameter p) {
 		for (int i = 0; i < parameters.size(); i++) {
-			MOPParameter param = parameters.get(i);
+			RVMParameter param = parameters.get(i);
 
 			if (param.getName().equals(p.getName()))
 				return i;
@@ -207,8 +207,8 @@ public class MonitorInfo {
 
 	public String computeCategory(String statements) {
 		String ret = "";
-		MOPVariable MOPFlag = new MOPVariable("MOPFlag");
-		MOPVariable i = new MOPVariable("i");
+		RVMVariable RVMFlag = new RVMVariable("RVMFlag");
+		RVMVariable i = new RVMVariable("i");
 		
 		if (statements == null || statements.length() == 0)
 			return ret;
@@ -218,15 +218,15 @@ public class MonitorInfo {
 		}
 
 		if (isConnected){
-			ret += "boolean " + MOPFlag + " = false;\n";
+			ret += "boolean " + RVMFlag + " = false;\n";
 			
 			ret += "for(int " + i + " = 0; " + i + " < " + parameters.size() + "; " + i + "++){\n";
 			ret += "if(" + monitorInfo + ".connected[" + i + "] == -1){\n";
-			ret += MOPFlag + " = true;\n";
+			ret += RVMFlag + " = true;\n";
 			ret += "}\n";
 			ret += "}\n";
 			
-			ret += "if(" + "!" + MOPFlag + "){\n";
+			ret += "if(" + "!" + RVMFlag + "){\n";
 		}
 		
 		ret += statements;
@@ -247,7 +247,7 @@ public class MonitorInfo {
 	public String monitorDecl() {
 		String ret = "";
 
-		ret += "rvmonitorrt.MOPMonitorInfo " + monitorInfo + ";\n";
+		ret += "rvmonitorrt.RVMMonitorInfo " + monitorInfo + ";\n";
 
 		return ret;
 	}

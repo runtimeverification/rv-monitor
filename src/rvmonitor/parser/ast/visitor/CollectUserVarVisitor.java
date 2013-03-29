@@ -17,17 +17,17 @@ public class CollectUserVarVisitor implements GenericVisitor<List<String>, Objec
 		return null;
 	}
 
-	// - JavaMOP components
+	// - RV Monitor components
 
-	public List<String> visit(MOPSpecFile f, Object arg) {
+	public List<String> visit(RVMSpecFile f, Object arg) {
 		return null;
 	}
 
-	public List<String> visit(JavaMOPSpec s, Object arg) {
+	public List<String> visit(RVMonitorSpec s, Object arg) {
 		return null;
 	}
 
-	public List<String> visit(MOPParameter p, Object arg) {
+	public List<String> visit(RVMParameter p, Object arg) {
 		return null;
 	}
 

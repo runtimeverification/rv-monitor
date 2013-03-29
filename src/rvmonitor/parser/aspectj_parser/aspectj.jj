@@ -192,7 +192,7 @@ TOKEN :
 | < WHILE : "while" >
 }
 
-/* RESERVED WORDS AND LITERALS for AspectJ and JavaMOP */
+/* RESERVED WORDS AND LITERALS for AspectJ and JavaRVM */
 TOKEN :
 {
   < EVENT : "event" >

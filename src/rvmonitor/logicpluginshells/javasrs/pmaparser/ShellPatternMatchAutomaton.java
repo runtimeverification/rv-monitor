@@ -81,16 +81,16 @@ public class ShellPatternMatchAutomaton extends LinkedHashMap<State, HashMap<Sym
     StringBuilder sb = new StringBuilder();
     //sb.append(symToNum.toString());
     sb.append("\n\n");
-    sb.append("static MOPPMATransitionImpl [][] $pma$ = {\n");
+    sb.append("static RVMPMATransitionImpl [][] $pma$ = {\n");
     for(State state : keySet()){
       sb.append("{\n");
       HashMap<Symbol, ActionState> transition = get(state);
       for(Symbol symbol : transition.keySet()){
         ActionState astate = transition.get(symbol);
         State s = astate.getState();
-        sb.append("new MOPPMATransitionImpl(");
+        sb.append("new RVMPMATransitionImpl(");
         sb.append(astate.getAction());
-        sb.append(", new MOPPMAStateImpl(");
+        sb.append(", new RVMPMAStateImpl(");
         sb.append(s.getNumber());
         if(s.getMatch() != null){
           s.getMatch().getRhs().getImpl(sb, symToNum);
