@@ -45,8 +45,10 @@ public class MOPErrorChecker {
 		
 		for(EventDefinition event : mopSpec.getEvents()){
 			if(nameToParam.get(event.getId()) != null){
-				if(!event.getMOPParametersOnSpec().equals(nameToParam.get(event.getId())))
-					throw new MOPException("Events with the same name should have the same parameters when projected to the specification parameters.");
+				if(event.getMOPParametersOnSpec().equals(nameToParam.get(event.getId()))){
+					String prettyname = mopSpec.getName() + "." + event.getId();
+					throw new MOPException("An event that has the same name and signature has been already defined: " + prettyname);
+				}
 			} else {
 				nameToParam.put(event.getId(), event.getMOPParametersOnSpec());
 			}

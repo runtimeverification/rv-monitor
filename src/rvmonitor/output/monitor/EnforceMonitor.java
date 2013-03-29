@@ -89,8 +89,7 @@ public class EnforceMonitor extends BaseMonitor {
 		
 		String ret = "";
 		PropMonitor propMonitor = propMonitors.get(prop);
-		String uniqueId = event.getUniqueId();
-		String methodName = propMonitor.eventMethods.get(uniqueId).toString();
+		String methodName = propMonitor.eventMethods.get(event.getId()).toString();
 		ArrayList<String> blockedThreads = event.getThreadBlockedVar();
 		ret += "try {\n";
 		if (event.getCondition() != null && event.getCondition().length() != 0) {

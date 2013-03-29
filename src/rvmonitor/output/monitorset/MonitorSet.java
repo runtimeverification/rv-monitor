@@ -99,7 +99,7 @@ public class MonitorSet {
 			ret += monitorSetVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
-		ret += monitorSetVar + ".event_" + event.getUniqueId() + "(";
+		ret += monitorSetVar + ".event_" + event.getId() + "(";
 		ret += event.getMOPParameters().parameterString();
 		ret += ");\n";
 
@@ -277,7 +277,7 @@ public class MonitorSet {
 
 
 		for (EventDefinition event : this.events) {
-			String eventName = event.getUniqueId();
+			String eventName = event.getId();
 			MOPParameters parameters = event.getMOPParameters();
 
 			ret += "\n";

@@ -78,7 +78,6 @@ public class RawMonitor extends Monitor{
 	public String doEvent(EventDefinition event){
 		String ret = "";
 
-		String uniqueId = event.getUniqueId();
 		int idnum = event.getIdNum();
 		MOPJavaCode condition = new MOPJavaCode(event.getCondition(), monitorName);
 		MOPJavaCode eventAction = null;
@@ -99,7 +98,7 @@ public class RawMonitor extends Monitor{
 			eventAction = new MOPJavaCode(eventActionStr);
 		}
 
-			ret += "final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+			ret += "final void event_" + event.getId() + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
 
 		if ( has__SKIP)
 			ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
@@ -147,7 +146,7 @@ public class RawMonitor extends Monitor{
 			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
-		ret += monitorVar + ".event_" + event.getUniqueId() + "(";
+		ret += monitorVar + ".event_" + event.getId() + "(";
 		ret += event.getMOPParameters().parameterString();
 		ret += ");\n";
 		
