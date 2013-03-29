@@ -1,6 +1,6 @@
 package rvmonitor.output.combinedaspect.event.advice;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.GlobalLock;
@@ -42,7 +42,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	String aspectName;
 
 	// assumes: mopSpec.getParameters().size() != 0
-	public GeneralAdviceBody(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
+	public GeneralAdviceBody(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		super(mopSpec, event, combinedAspect);
 
 		this.isFullBinding = mopSpec.isFullBinding();
@@ -170,7 +170,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String retrieveIndexingTree()  throws MOPException {
+	public String retrieveIndexingTree()  throws RVMException {
 		String ret = "";
 
 		if (isUsingMonitor()) {
@@ -191,7 +191,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String copyStateFromList(MOPParameterPair paramPair, IndexingTree indexingTreeForCopy)  throws MOPException {
+	public String copyStateFromList(MOPParameterPair paramPair, IndexingTree indexingTreeForCopy)  throws RVMException {
 		String ret = "";
 
 		IndexingTree targetIndexingTree = null;
@@ -342,7 +342,7 @@ public class GeneralAdviceBody extends AdviceBody {
 		return ret;
 	}
 
-	public String copyStateFromMonitor(MOPParameterPair paramPair, IndexingTree indexingTreeForCopy) throws MOPException {
+	public String copyStateFromMonitor(MOPParameterPair paramPair, IndexingTree indexingTreeForCopy) throws RVMException {
 		String ret = "";
 
 		MOPParameters fromParams = paramPair.getParam2();
@@ -428,7 +428,7 @@ public class GeneralAdviceBody extends AdviceBody {
 		return ret;
 	}
 
-	public String copyState() throws MOPException {
+	public String copyState() throws RVMException {
 		String ret = "";
 		
 		if(!isGeneral)
@@ -497,7 +497,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String addToCurrentTree() throws MOPException {
+	public String addToCurrentTree() throws RVMException {
 		String ret = "";
 
 		if (!event.isStartEvent())
@@ -545,7 +545,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String addToAllCompatibleTrees() throws MOPException {
+	public String addToAllCompatibleTrees() throws RVMException {
 		String ret = "";
 
 		for (MOPParameters param : indexingTrees.keySet()) {
@@ -575,7 +575,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String createNewMonitor(boolean doWrap) throws MOPException {
+	public String createNewMonitor(boolean doWrap) throws RVMException {
 		String ret = "";
 
 		if (!event.isStartEvent())
@@ -675,7 +675,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String handleNoMonitor() throws MOPException {
+	public String handleNoMonitor() throws RVMException {
 		String ret = "";
 
 		String copyState = copyState();
@@ -720,7 +720,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	}
 
 	// opt done
-	public String handleCacheMiss() throws MOPException {
+	public String handleCacheMiss() throws RVMException {
 		String ret = "";
 
 		ret += retrieveIndexingTree();
@@ -829,7 +829,7 @@ public class GeneralAdviceBody extends AdviceBody {
 
 		try{
 			handleCacheMiss = handleCacheMiss();
-		} catch (MOPException e){
+		} catch (RVMException e){
 			ret += "*** Error under GeneralAdviceBody ***\n";
 			ret += e.getMessage();
 			return ret;

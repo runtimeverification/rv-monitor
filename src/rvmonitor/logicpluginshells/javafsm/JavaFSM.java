@@ -3,7 +3,7 @@ package rvmonitor.logicpluginshells.javafsm;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.parser.logicrepositorysyntax.*;
 import rvmonitor.logicpluginshells.LogicPluginShell;
 import rvmonitor.logicpluginshells.LogicPluginShellResult;
@@ -18,7 +18,7 @@ public class JavaFSM extends LogicPluginShell {
 
 	ArrayList<String> allEvents;
 
-	private ArrayList<String> getEvents(String eventStr) throws MOPException {
+	private ArrayList<String> getEvents(String eventStr) throws RVMException {
 		ArrayList<String> events = new ArrayList<String>();
 
 		for (String event : eventStr.trim().split(" ")) {
@@ -29,7 +29,7 @@ public class JavaFSM extends LogicPluginShell {
 		return events;
 	}
 
-	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws MOPException {
+	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
 		Properties result = new Properties();
 
 		String monitor = logicOutput.getProperty().getFormula();
@@ -39,11 +39,11 @@ public class JavaFSM extends LogicPluginShell {
 			fsmInput = FSMParser.parse(new ByteArrayInputStream(monitor.getBytes()));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new MOPException("FSM to Java Plugin cannot parse FSM formula");
+			throw new RVMException("FSM to Java Plugin cannot parse FSM formula");
 		}
 
 		if (fsmInput == null)
-			throw new MOPException("FSM to Java Plugin cannot parse FSM formula");
+			throw new RVMException("FSM to Java Plugin cannot parse FSM formula");
 
 		HasDefaultVisitor hasDefaultVisitor = new HasDefaultVisitor();
 		boolean[] hasDefault = fsmInput.accept(hasDefaultVisitor, null);
@@ -97,7 +97,7 @@ public class JavaFSM extends LogicPluginShell {
 				for(FSMTransition t : state.getTransitions()){
 					if(t.isDefaultFlag()){
 						if(StateNum.get(t.getStateName()) == null)
-							throw new MOPException("Incorrect Monitor");
+							throw new RVMException("Incorrect Monitor");
 						
 						default_transition = StateNum.get(t.getStateName());
 					}
@@ -163,9 +163,9 @@ public class JavaFSM extends LogicPluginShell {
 		return result;
 	}
 
-	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws MOPException {
+	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws RVMException {
 		if (logicOutputXML.getProperty().getLogic().toLowerCase().compareTo(monitorType.toLowerCase()) != 0)
-			throw new MOPException("Wrong type of monitor is given to FSM Monitor.");
+			throw new RVMException("Wrong type of monitor is given to FSM Monitor.");
 		allEvents = getEvents(events);
 
 		LogicPluginShellResult logicShellResult = new LogicPluginShellResult();

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.MOPNameSpace;
 import rvmonitor.parser.ast.PackageDeclaration;
 import rvmonitor.parser.ast.body.BodyDeclaration;
@@ -56,12 +56,12 @@ public class JavaMOPSpecExt extends ExtNode {
 		// set variables in each event
 		try {
 			setVarsInEvents();
-		} catch (MOPException e) {
+		} catch (RVMException e) {
 			throw new rvmonitor.parser.main_parser.ParseException(e.getMessage());
 		}
 	}
 
-	public void setVarsInEvents() throws MOPException {
+	public void setVarsInEvents() throws RVMException {
 		int numStartEvent = 0;
 		HashSet<String> duplicatedEventNames = new HashSet<String>();
 		for (EventDefinitionExt event : this.events) {

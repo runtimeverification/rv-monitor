@@ -3,7 +3,7 @@ package rvmonitor.output.combinedaspect.indexingtree;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
@@ -76,21 +76,21 @@ public abstract class IndexingTree {
 	 * lookupNode, lookupSet, lookupNodeAndSet retrieve data from indexing tree
 	 * They can use the following local variables if necessary: obj, m, and tempRef_*. 
 	 */
-	public abstract String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws MOPException;
+	public abstract String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException;
 
-	public abstract String lookupSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws MOPException;
+	public abstract String lookupSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException;
 
-	public abstract String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws MOPException;
+	public abstract String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException;
 
-	public abstract String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws MOPException;
+	public abstract String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws RVMException;
 
-	public abstract String attachSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws MOPException;
+	public abstract String attachSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws RVMException;
 
-	public String addMonitor(LocalVariables localVars, String monitorStr) throws MOPException {
+	public String addMonitor(LocalVariables localVars, String monitorStr) throws RVMException {
 		return addMonitor(localVars, monitorStr, "tempMap", "monitors");
 	}
 
-	public abstract String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr) throws MOPException;
+	public abstract String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr) throws RVMException;
 
 	public abstract String retrieveTree();
 

@@ -1,6 +1,6 @@
 package rvmonitor.output.combinedaspect.event.advice;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.Main;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.*;
@@ -36,7 +36,7 @@ public class Advice {
 	
 	HashMap<EventDefinition, AdviceBody> advices = new HashMap<EventDefinition, AdviceBody>();
 
-	public Advice(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
+	public Advice(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
 		this.pointcutName = new MOPVariable(event.getId() + "Event");
@@ -46,7 +46,7 @@ public class Advice {
 
 		if (event.getThreadVar() != null && event.getThreadVar().length() != 0) {
 			if (event.getParameters().getParam(event.getThreadVar()) == null)
-				throw new MOPException("thread variable is not included in the event definition.");
+				throw new RVMException("thread variable is not included in the event definition.");
 
 			this.threadVars.add(event.getParameters().getParam(event.getThreadVar()));
 		}
@@ -75,7 +75,7 @@ public class Advice {
 		return pointcutName.getVarName();
 	}
 	
-	public boolean addEvent(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
+	public boolean addEvent(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 
 		// Parameter Conflict Check
 		for(MOPParameter param : event.getParametersWithoutThreadVar()){
@@ -93,7 +93,7 @@ public class Advice {
 
 		if (event.getThreadVar() != null && event.getThreadVar().length() != 0) {
 			if (event.getParameters().getParam(event.getThreadVar()) == null)
-				throw new MOPException("thread variable is not included in the event definition.");
+				throw new RVMException("thread variable is not included in the event definition.");
 
 			this.threadVars.add(event.getParameters().getParam(event.getThreadVar()));
 		}

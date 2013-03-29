@@ -8,7 +8,7 @@ package rvmonitor.util;
 
 import java.io.*;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 
 /**
  * @author fengchen
@@ -196,7 +196,7 @@ public class Tool {
     	else
     		return "";
     }
-    public static String getImports(String str) throws MOPException {
+    public static String getImports(String str) throws RVMException {
     	BufferedReader reader = new BufferedReader(new StringReader(str));
     	String result = "";
     	try{
@@ -209,7 +209,7 @@ public class Tool {
 	   			aLine = reader.readLine();
 	   		}
     	} catch (IOException e){
-    		throw new MOPException(e);
+    		throw new RVMException(e);
     	}
     	return result;
     }

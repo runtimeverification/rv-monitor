@@ -3,7 +3,7 @@ package rvmonitor.output.combinedaspect.indexingtree;
 import java.util.HashMap;
 import java.util.List;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.EnableSet;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
@@ -18,7 +18,7 @@ public class IndexingTreeManager {
 	public HashMap<String, RefTree> refTrees = new HashMap<String, RefTree>();
 
 	public IndexingTreeManager(String name, List<JavaMOPSpec> specs, HashMap<JavaMOPSpec, MonitorSet> monitorSets, HashMap<JavaMOPSpec, SuffixMonitor> monitors,
-			HashMap<JavaMOPSpec, EnableSet> enableSets) throws MOPException {
+			HashMap<JavaMOPSpec, EnableSet> enableSets) throws RVMException {
 		getRefTrees(name, specs);
 		
 		for (JavaMOPSpec spec : specs) {
@@ -30,7 +30,7 @@ public class IndexingTreeManager {
 		}
 	}
 	
-	protected void getRefTrees(String name, List<JavaMOPSpec> specs) throws MOPException {
+	protected void getRefTrees(String name, List<JavaMOPSpec> specs) throws RVMException {
 		for (JavaMOPSpec spec : specs){
 			for(MOPParameter param : spec.getParameters()){
 				RefTree refTree = refTrees.get(param.getType().toString());

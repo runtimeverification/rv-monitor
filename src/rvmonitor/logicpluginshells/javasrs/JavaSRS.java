@@ -3,7 +3,7 @@ package rvmonitor.logicpluginshells.javasrs;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.parser.logicrepositorysyntax.*;
 import rvmonitor.logicpluginshells.LogicPluginShell;
 import rvmonitor.logicpluginshells.LogicPluginShellResult;
@@ -17,7 +17,7 @@ public class JavaSRS extends LogicPluginShell {
 
 	ArrayList<String> allEvents;
 
-	private ArrayList<String> getEvents(String eventStr) throws MOPException {
+	private ArrayList<String> getEvents(String eventStr) throws RVMException {
 		ArrayList<String> events = new ArrayList<String>();
 
 		for (String event : eventStr.trim().split(" ")) {
@@ -28,7 +28,7 @@ public class JavaSRS extends LogicPluginShell {
 		return events;
 	}
 
-	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws MOPException {
+	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
 		Properties result = new Properties();
     
     ShellPatternMatchAutomaton pmaInput;
@@ -39,7 +39,7 @@ public class JavaSRS extends LogicPluginShell {
     }
     catch (Exception e) {
       System.out.println(e.getMessage());
-      throw new MOPException("SRS to Java Plugin cannot parse SRS formula");
+      throw new RVMException("SRS to Java Plugin cannot parse SRS formula");
     }
     
 		List<String> monitoredEvents;
@@ -93,9 +93,9 @@ public class JavaSRS extends LogicPluginShell {
 		return result;
 	}
 
-	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws MOPException {
+	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws RVMException {
 		if (logicOutputXML.getProperty().getLogic().toLowerCase().compareTo(monitorType.toLowerCase()) != 0)
-			throw new MOPException("Wrong type of monitor is given to SRS Monitor.");
+			throw new RVMException("Wrong type of monitor is given to SRS Monitor.");
 		allEvents = getEvents(events);
 		LogicPluginShellResult logicShellResult = new LogicPluginShellResult();
 		logicShellResult.startEvents = allEvents;

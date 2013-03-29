@@ -3,7 +3,7 @@ package rvmonitor.logicpluginshells.javacfg;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.parser.logicrepositorysyntax.*;
 import rvmonitor.logicpluginshells.LogicPluginShell;
 import rvmonitor.logicpluginshells.LogicPluginShellResult;
@@ -17,7 +17,7 @@ public class JavaCFG extends LogicPluginShell {
 
 	ArrayList<String> allEvents;
 
-	private ArrayList<String> getEvents(String eventStr) throws MOPException {
+	private ArrayList<String> getEvents(String eventStr) throws RVMException {
 		ArrayList<String> events = new ArrayList<String>();
 
 		for (String event : eventStr.trim().split(" ")) {
@@ -28,7 +28,7 @@ public class JavaCFG extends LogicPluginShell {
 		return events;
 	}
 
-	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws MOPException {
+	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
 		Properties result = new Properties();
 
 		String monitor = logicOutput.getProperty().getFormula();
@@ -38,11 +38,11 @@ public class JavaCFG extends LogicPluginShell {
 			g = CFGParser.parse(new ByteArrayInputStream(monitor.getBytes())).getCFG();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new MOPException("CFG to Java Plugin cannot parse CFG formula");
+			throw new RVMException("CFG to Java Plugin cannot parse CFG formula");
 		}
 
 		if (g == null)
-			throw new MOPException("CFG to Java Plugin cannot parse CFG formula");
+			throw new RVMException("CFG to Java Plugin cannot parse CFG formula");
 		g.simplify();
 
 		List<String> monitoredEvents;
@@ -70,7 +70,7 @@ public class JavaCFG extends LogicPluginShell {
 		LR lr = new LR(g, tmap);
 
 		if (!(tmap.keySet().containsAll(g.terminals())))
-			throw new MOPException("Terminals in CFG differ from declared events");
+			throw new RVMException("Terminals in CFG differ from declared events");
 
 		result.put("monitored events", monitoredEventsStr);
 
@@ -113,9 +113,9 @@ public class JavaCFG extends LogicPluginShell {
 		return result;
 	}
 
-	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws MOPException {
+	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws RVMException {
 		if (logicOutputXML.getProperty().getLogic().toLowerCase().compareTo(monitorType.toLowerCase()) != 0)
-			throw new MOPException("Wrong type of monitor is given to CFG Monitor.");
+			throw new RVMException("Wrong type of monitor is given to CFG Monitor.");
 		allEvents = getEvents(events);
 
 		LogicPluginShellResult logicShellResult = new LogicPluginShellResult();

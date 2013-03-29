@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect.indexingtree.decentralized;
 
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
@@ -12,10 +12,10 @@ import rvmonitor.parser.ast.mopspec.MOPParameters;
 public class DecentralizedIndexingTree {
 
 	static public IndexingTree defineIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet,
-			SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws MOPException {
+			SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 
 		if (perthread)
-			throw new MOPException("decentralized perthread specification is not supported");
+			throw new RVMException("decentralized perthread specification is not supported");
 
 		if (queryParam.size() == 0)
 			return new NoParamIndexingTree(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);

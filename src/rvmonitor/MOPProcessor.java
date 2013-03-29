@@ -31,7 +31,7 @@ public class MOPProcessor {
 		this.name = name;
 	}
 
-	private void registerUserVar(JavaMOPSpec mopSpec) throws MOPException {
+	private void registerUserVar(JavaMOPSpec mopSpec) throws RVMException {
 		for (EventDefinition event : mopSpec.getEvents()) {
 			MOPNameSpace.addUserVariable(event.getId());
 			for(MOPParameter param : event.getMOPParameters()){
@@ -50,7 +50,7 @@ public class MOPProcessor {
 		}
 	}
 
-	public String process(MOPSpecFile mopSpecFile) throws MOPException {
+	public String process(MOPSpecFile mopSpecFile) throws RVMException {
 		String result;
 
 		// register all user variables to MOPNameSpace to avoid conflicts

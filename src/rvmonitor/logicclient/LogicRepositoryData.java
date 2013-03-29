@@ -9,7 +9,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.parser.logicrepositorysyntax.*;
 
 public class LogicRepositoryData {
@@ -18,23 +18,23 @@ public class LogicRepositoryData {
 	private ByteArrayOutputStream outputStreamData = null;
 	private ByteArrayInputStream inputStreamData = null;
 	
-	public LogicRepositoryData(LogicRepositoryType xmlData) throws MOPException{
+	public LogicRepositoryData(LogicRepositoryType xmlData) throws RVMException {
 		this.xmlData = xmlData;
 	}
 	
-	public LogicRepositoryData(ByteArrayOutputStream outputStreamData) throws MOPException{
+	public LogicRepositoryData(ByteArrayOutputStream outputStreamData) throws RVMException {
 		this.outputStreamData = outputStreamData;
 	}
 
-	public LogicRepositoryData(ByteArrayInputStream inputStreamData) throws MOPException{
+	public LogicRepositoryData(ByteArrayInputStream inputStreamData) throws RVMException {
 		this.inputStreamData = inputStreamData;
 	}
 
-	public LogicRepositoryData(InputStream inputStreamData) throws MOPException{
+	public LogicRepositoryData(InputStream inputStreamData) throws RVMException {
 		this.xmlData = transInputStreamToXML(inputStreamData);
 	}
 	
-	public LogicRepositoryType getXML() throws MOPException{
+	public LogicRepositoryType getXML() throws RVMException {
 		if(xmlData != null)
 			return xmlData;
 		if(outputStreamData != null){
@@ -45,10 +45,10 @@ public class LogicRepositoryData {
 			xmlData = transInputStreamToXML(inputStreamData);
 			return xmlData;
 		}
-		throw new MOPException("Logic Repository Data Error");
+		throw new RVMException("Logic Repository Data Error");
 	}
 	
-	public ByteArrayOutputStream getOutputStream() throws MOPException{
+	public ByteArrayOutputStream getOutputStream() throws RVMException {
 		if(outputStreamData != null){
 			return outputStreamData;
 		}
@@ -61,10 +61,10 @@ public class LogicRepositoryData {
 			outputStreamData = transXMLToOutputStream(xmlData);
 			return outputStreamData;
 		}
-		throw new MOPException("Logic Repository Data Error");
+		throw new RVMException("Logic Repository Data Error");
 	}
 	
-	public ByteArrayInputStream getInputStream() throws MOPException{
+	public ByteArrayInputStream getInputStream() throws RVMException {
 		if(inputStreamData != null){
 			inputStreamData.reset();
 			return inputStreamData;
@@ -80,7 +80,7 @@ public class LogicRepositoryData {
 			inputStreamData.reset();
 			return inputStreamData;
 		}
-		throw new MOPException("Logic Repository Data Error");
+		throw new RVMException("Logic Repository Data Error");
 	}
 	
 	public void updateXML(){
@@ -88,7 +88,7 @@ public class LogicRepositoryData {
 		inputStreamData = null;
 	}
 	
-	public ByteArrayOutputStream transXMLToOutputStream(LogicRepositoryType xmlData) throws MOPException {
+	public ByteArrayOutputStream transXMLToOutputStream(LogicRepositoryType xmlData) throws RVMException {
 		JAXBContext logicData;
 		ByteArrayOutputStream outputStream;
 		try {
@@ -102,24 +102,24 @@ public class LogicRepositoryData {
 			marshaller.marshal(logicData2, os);
 			outputStream = os;
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 
 		return outputStream;
 	}
 
-	public ByteArrayInputStream transXMLToInputStream(LogicRepositoryType xmlData) throws MOPException {
+	public ByteArrayInputStream transXMLToInputStream(LogicRepositoryType xmlData) throws RVMException {
 		ByteArrayOutputStream os = transXMLToOutputStream(xmlData); 
 		return new ByteArrayInputStream(os.toByteArray());
 	}
 
-	public LogicRepositoryType transOutputStreamToXML(ByteArrayOutputStream outputStream) throws MOPException {
+	public LogicRepositoryType transOutputStreamToXML(ByteArrayOutputStream outputStream) throws RVMException {
 		ByteArrayInputStream parserInput = new ByteArrayInputStream(outputStream.toByteArray());
 
 		return transInputStreamToXML(parserInput);
 	}
 
-	public LogicRepositoryType transInputStreamToXML(InputStream inputStream) throws MOPException {
+	public LogicRepositoryType transInputStreamToXML(InputStream inputStream) throws RVMException {
 		LogicRepositoryType xmlData;
 		InputStream parserInput = inputStream;
 
@@ -129,7 +129,7 @@ public class LogicRepositoryData {
 			Unmarshaller unmarshaller = logicRequest.createUnmarshaller();			
 			xmlData = ((JAXBElement<LogicRepositoryType>) unmarshaller.unmarshal(parserInput)).getValue();
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 
 		return xmlData;

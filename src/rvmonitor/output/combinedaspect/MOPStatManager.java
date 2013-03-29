@@ -1,6 +1,6 @@
 package rvmonitor.output.combinedaspect;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.Main;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
@@ -16,7 +16,7 @@ public class MOPStatManager {
 	MOPVariable statClass;
 	MOPVariable statObject;
 	
-	public MOPStatManager(String name, List<JavaMOPSpec> specs) throws MOPException {
+	public MOPStatManager(String name, List<JavaMOPSpec> specs) throws RVMException {
 		for (JavaMOPSpec spec : specs) {
 			stats.put(spec, new MOPStatistics(name, spec));
 		}

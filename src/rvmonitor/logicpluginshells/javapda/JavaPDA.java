@@ -3,7 +3,7 @@ package rvmonitor.logicpluginshells.javapda;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.logicpluginshells.LogicPluginShell;
 import rvmonitor.logicpluginshells.LogicPluginShellResult;
 import rvmonitor.logicpluginshells.javapda.ast.PDA;
@@ -17,7 +17,7 @@ public class JavaPDA  extends LogicPluginShell {
 	}
 
 	ArrayList<String> allEvents;
-	private ArrayList<String> getEvents(String eventStr) throws MOPException {
+	private ArrayList<String> getEvents(String eventStr) throws RVMException {
 		ArrayList<String> events = new ArrayList<String>();
 
 		for (String event : eventStr.trim().split(" ")) {
@@ -28,7 +28,7 @@ public class JavaPDA  extends LogicPluginShell {
 		return events;
 	}
 
-	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws MOPException {
+	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
 		Properties result = new Properties();
 		String monitor = logicOutput.getProperty().getFormula();
 
@@ -37,7 +37,7 @@ public class JavaPDA  extends LogicPluginShell {
 			code = PDAParser.parse(monitor);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new MOPException("PTCaRet to Java Plugin cannot parse PTCaRet formula");
+			throw new RVMException("PTCaRet to Java Plugin cannot parse PTCaRet formula");
 		}
 
 		
@@ -61,9 +61,9 @@ public class JavaPDA  extends LogicPluginShell {
 		return result;
 	}
 	
-	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws MOPException {
+	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws RVMException {
 		if (logicOutputXML.getProperty().getLogic().toLowerCase().compareTo(monitorType.toLowerCase()) != 0)
-			throw new MOPException("Wrong type of monitor is given to PTCaRet Monitor.");
+			throw new RVMException("Wrong type of monitor is given to PTCaRet Monitor.");
 		allEvents = getEvents(events);
 
 		LogicPluginShellResult logicShellResult = new LogicPluginShellResult();

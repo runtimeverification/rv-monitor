@@ -55,7 +55,7 @@ public class Main {
 
 	public static boolean scalable = false;
 
-	static private File getTargetDir(ArrayList<File> specFiles) throws MOPException{
+	static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
 		if(Main.outputDir != null){
 			return outputDir;
 		}
@@ -95,7 +95,7 @@ public class Main {
 	 * @param location
 	 *            an absolute path for result file
 	 */
-	public static void processJavaFile(File file, String location) throws MOPException {
+	public static void processJavaFile(File file, String location) throws RVMException {
 		MOPNameSpace.init();
 		String specStr = SpecExtractor.process(file);
 		MOPSpecFile spec =  SpecExtractor.parse(specStr);
@@ -117,7 +117,7 @@ public class Main {
 	 * @param location
 	 *            an absolute path for result file
 	 */
-	public static void processSpecFile(File file, String location) throws MOPException {
+	public static void processSpecFile(File file, String location) throws RVMException {
 		MOPNameSpace.init();
 		String specStr = SpecExtractor.process(file);
 		MOPSpecFile spec =  SpecExtractor.parse(specStr);
@@ -133,7 +133,7 @@ public class Main {
 		}
 	}
 	
-	public static void processMultipleFiles(ArrayList<File> specFiles) throws MOPException {
+	public static void processMultipleFiles(ArrayList<File> specFiles) throws RVMException {
 		String aspectName;
 
 		if(outputDir == null){
@@ -175,22 +175,22 @@ public class Main {
 		writeCombinedAspectFile(output, aspectName);
 	}
 
-	protected static void writeJavaFile(String javaContent, String location) throws MOPException {
+	protected static void writeJavaFile(String javaContent, String location) throws RVMException {
 		if ((javaContent == null) || (javaContent.length() == 0))
-			throw new MOPException("Nothing to write as a java file");
+			throw new RVMException("Nothing to write as a java file");
 		if (!Tool.isJavaFile(location))
-			throw new MOPException(location + "should be a Java file!");
+			throw new RVMException(location + "should be a Java file!");
 
 		try {
 			FileWriter f = new FileWriter(location);
 			f.write(javaContent);
 			f.close();
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 	}
 	
-	protected static void writeCombinedAspectFile(String aspectContent, String aspectName) throws MOPException {
+	protected static void writeCombinedAspectFile(String aspectContent, String aspectName) throws RVMException {
 		if (aspectContent == null || aspectContent.length() == 0)
 			return;
 
@@ -199,12 +199,12 @@ public class Main {
 			f.write(aspectContent);
 			f.close();
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 		System.out.println(" " + aspectName + "RuntimeMonitor.java is generated");
 	}
 
-	protected static void writeAspectFile(String aspectContent, String location) throws MOPException {
+	protected static void writeAspectFile(String aspectContent, String location) throws RVMException {
 		if (aspectContent == null || aspectContent.length() == 0)
 			return;
 
@@ -214,12 +214,12 @@ public class Main {
 			f.write(aspectContent);
 			f.close();
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 		System.out.println(" " + Tool.getFileName(location) + "RuntimeMonitor.java is generated");
 	}
 
-	protected static void writeJavaLibFile(String javaLibContent, String location) throws MOPException {
+	protected static void writeJavaLibFile(String javaLibContent, String location) throws RVMException {
 		if (javaLibContent == null || javaLibContent.length() == 0)
 			return;
 
@@ -229,13 +229,13 @@ public class Main {
 			f.write(javaLibContent);
 			f.close();
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 		System.out.println(" " + Tool.getFileName(location) + "JavaLibMonitor.java is generated");
 	}
 
 	// PM
-	protected static void writePluginOutputFile(String pluginOutput, String location) throws MOPException {
+	protected static void writePluginOutputFile(String pluginOutput, String location) throws RVMException {
 		int i = location.lastIndexOf(File.separator);
 
 		try {
@@ -243,7 +243,7 @@ public class Main {
 			f.write(pluginOutput);
 			f.close();
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 		System.out.println(" " + Tool.getFileName(location) + "PluginOutput.txt is generated");
 	}
@@ -255,7 +255,7 @@ public class Main {
 		return path;
 	}
 
-	public static ArrayList<File> collectFiles(String[] files, String path) throws MOPException {
+	public static ArrayList<File> collectFiles(String[] files, String path) throws RVMException {
 		ArrayList<File> ret = new ArrayList<File>();
 
 		for (String file : files) {
@@ -263,7 +263,7 @@ public class Main {
 			File f = new File(fPath);
 
 			if (!f.exists()) {
-				throw new MOPException("[Error] Target file, " + file + ", doesn't exsit!");
+				throw new RVMException("[Error] Target file, " + file + ", doesn't exsit!");
 			} else if (f.isDirectory()) {
 				ret.addAll(collectFiles(f.list(new JavaFileFilter()), f.getAbsolutePath()));
 				ret.addAll(collectFiles(f.list(new MOPFileFilter()), f.getAbsolutePath()));
@@ -273,14 +273,14 @@ public class Main {
 				} else if (Tool.isJavaFile(file)) {
 					ret.add(f);
 				} else
-					throw new MOPException("Unrecognized file type! The JavaMOP specification file should have .mop as the extension.");
+					throw new RVMException("Unrecognized file type! The JavaMOP specification file should have .mop as the extension.");
 			}
 		}
 
 		return ret;
 	}
 
-	public static void process(String[] files, String path) throws MOPException {
+	public static void process(String[] files, String path) throws RVMException {
 		ArrayList<File> specFiles = collectFiles(files, path);
 		
 		if(Main.aspectname != null && files.length > 1){
@@ -304,9 +304,9 @@ public class Main {
 		}
 	}
 
-	public static void process(String arg) throws MOPException {
+	public static void process(String arg) throws RVMException {
 		if(outputDir != null && !outputDir.exists())
-			throw new MOPException("The output directory, " + outputDir.getPath() + " does not exist.");
+			throw new RVMException("The output directory, " + outputDir.getPath() + " does not exist.");
 		
 		process(arg.split(";"), "");
 	}

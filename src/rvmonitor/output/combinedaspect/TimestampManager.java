@@ -1,6 +1,6 @@
 package rvmonitor.output.combinedaspect;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 
@@ -11,7 +11,7 @@ public class TimestampManager {
 
 	HashMap<JavaMOPSpec, MOPVariable> timestamps = new HashMap<JavaMOPSpec, MOPVariable>();
 
-	public TimestampManager(String name, List<JavaMOPSpec> specs) throws MOPException {
+	public TimestampManager(String name, List<JavaMOPSpec> specs) throws RVMException {
 		for (JavaMOPSpec spec : specs) {
 			if (spec.isGeneral())
 				timestamps.put(spec, new MOPVariable(spec.getName() + "_timestamp"));

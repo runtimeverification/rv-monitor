@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect.event;
 
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.GlobalLock;
@@ -36,9 +36,9 @@ public class EndObject {
 	
 	MOPVariable endObjectSupportType;
 
-	public EndObject(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
+	public EndObject(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isEndObject())
-			throw new MOPException("EndObject should be defined only for endObject pointcut.");
+			throw new RVMException("EndObject should be defined only for endObject pointcut.");
 
 		this.mopSpec = mopSpec;
 		this.event = event;
@@ -51,7 +51,7 @@ public class EndObject {
 		this.endObjectType = event.getEndObjectType();
 		this.endObjectVar = event.getEndObjectVar();
 		if (this.endObjectVar == null || this.endObjectVar.length() == 0)
-			throw new MOPException("The variable for an endObject pointcut is not defined.");
+			throw new RVMException("The variable for an endObject pointcut is not defined.");
 		this.endObjectSupportType = new MOPVariable(endObjectType.toString() + "MOPFinalized"); 
 		
 		this.isStart = event.isStartEvent();

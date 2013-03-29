@@ -1,6 +1,6 @@
 package rvmonitor.output.monitor;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.OptimizedCoenableSet;
 import rvmonitor.output.Util;
@@ -48,7 +48,7 @@ public abstract class Monitor {
 
 	HashMap<String, RefTree> refTrees;
 
-	public Monitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws MOPException {
+	public Monitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		this.isOutermost = isOutermost;
 
 		this.has__LOC = mopSpec.has__LOC();

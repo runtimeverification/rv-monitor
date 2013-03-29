@@ -3,7 +3,7 @@
 
 package rvmonitor.output.monitor;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.*;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
@@ -18,11 +18,11 @@ public class JavaLibMonitor extends BaseMonitor {
 	PropertyAndHandlers prop;
 
 	public JavaLibMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost)
-			throws MOPException {
+			throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		
 		if(mopSpec.getPropertiesAndHandlers().size() != 1)
-			throw new MOPException("JavaLibMonitor does not support multiple properties in one specification");
+			throw new RVMException("JavaLibMonitor does not support multiple properties in one specification");
 		
 		this.prop = mopSpec.getPropertiesAndHandlers().get(0);
 		this.basemon = new BaseMonitor(name, mopSpec, coenableSet, isOutermost);

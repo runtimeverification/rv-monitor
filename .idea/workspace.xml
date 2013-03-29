@@ -16,17 +16,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="856a59a6-8b49-4115-8449-5adb0b5511d9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitortestsuite/Main.java" afterPath="$PROJECT_DIR$/src/rvmonitortestsuite/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/CFG/SafeFile/SafeFile_1/SafeFile_1.java" afterPath="$PROJECT_DIR$/examples/CFG/SafeFile/SafeFile_1/SafeFile_1.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/MOPException.java" afterPath="$PROJECT_DIR$/src/rvmonitor/RVMException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/Advice.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/Advice.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/AspectJCode.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/AspectJCode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/CentralizedIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/CentralizedIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/CombinedAspect.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/CombinedAspect.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/DecentralizedIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/DecentralizedIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndObject.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndProgram.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndProgram.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndThread.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndThread.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/EnforceMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/EnforceMonitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EventManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EventManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/FullParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/FullParamIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/FullParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/FullParamIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/GeneralAdviceBody.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/GeneralAdviceBody.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingDecl.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingDecl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingTreeManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingTreeManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javacfg/JavaCFG.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javacfg/JavaCFG.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javafsm/JavaFSM.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javafsm/JavaFSM.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/JavaLibCode.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/JavaLibCode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/JavaLibMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/JavaLibMonitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/JavaMOPExtender.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/JavaMOPExtender.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/JavaMOPSpec.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/JavaMOPSpec.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/mopspec/JavaMOPSpecExt.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/mopspec/JavaMOPSpecExt.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javapda/JavaPDA.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javapda/JavaPDA.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javapo/JavaPO.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javapo/JavaPO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javaptcaret/JavaPTCARET.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javaptcaret/JavaPTCARET.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javasrs/JavaSRS.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javasrs/JavaSRS.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/LockManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/LockManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/LogicPluginShell.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/LogicPluginShell.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/LogicPluginShellFactory.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/LogicPluginShellFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicclient/LogicRepositoryConnector.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicclient/LogicRepositoryConnector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicclient/LogicRepositoryData.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicclient/LogicRepositoryData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/MOPErrorChecker.java" afterPath="$PROJECT_DIR$/src/rvmonitor/MOPErrorChecker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/MOPNameSpace.java" afterPath="$PROJECT_DIR$/src/rvmonitor/MOPNameSpace.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/MOPProcessor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/MOPProcessor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/MOPStatManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/MOPStatManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/Main.java" afterPath="$PROJECT_DIR$/src/rvmonitor/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/Monitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/Monitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/NoParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/NoParamIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/NoParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/NoParamIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/OneFullParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/OneFullParamIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/OnePartialParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/OnePartialParamIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/PartialParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/PartialParamIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/PartialParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/PartialParamIndexingTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/SpecCombiner.java" afterPath="$PROJECT_DIR$/src/rvmonitor/SpecCombiner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/SpecExtractor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/SpecExtractor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/StartThread.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/StartThread.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/TimestampManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/TimestampManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/util/Tool.java" afterPath="$PROJECT_DIR$/src/rvmonitor/util/Tool.java" />
     </list>
     <ignored path="rv-monitor.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364389268595" ignored="false" />
     <file path="/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362639851417" ignored="false" />
     <file path="/fragment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364475099568" ignored="false" />
-    <file path="/a.dummy" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364497587603" ignored="false" />
+    <file path="/a.dummy" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364546692180" ignored="false" />
     <file path="/*.regexp" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362684110001" ignored="false" />
     <file path="/HasNextRuntimeMonitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362648070079" ignored="false" />
     <file path="/HasNext_1.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362774664337" ignored="false" />
@@ -204,6 +253,7 @@
     <file path="/ProgramCompileFunctor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364497181419" ignored="false" />
     <file path="/TestingFunctor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364488480159" ignored="false" />
     <file path="/SafeFile_1.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364502346522" ignored="false" />
+    <file path="/MOPException.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364546811063" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +269,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="394" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
+      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="393" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -233,7 +283,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="205" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
+      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="204" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -309,7 +359,7 @@
       <file leaf-file-name="BaseMonitor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="180" column="0" selection-start="6441" selection-end="6441" vertical-scroll-proportion="0.0">
+            <state line="179" column="0" selection-start="6426" selection-end="6426" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -320,17 +370,29 @@
       <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="357" column="30" selection-start="11368" selection-end="11368" vertical-scroll-proportion="0.0">
+            <state line="359" column="30" selection-start="11415" selection-end="11415" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UnsafeMapIterator.mop" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/UnsafeMapIterator.mop">
+      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/rvmonitor/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="265" column="33" selection-start="8146" selection-end="8146" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RVMException.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/rvmonitor/RVMException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="16" selection-start="370" selection-end="370" vertical-scroll-proportion="0.33834586">
+              <folding>
+                <marker date="1364546841000" expanded="true" signature="501:549" placeholder="{...}" />
+                <marker date="1364546841000" expanded="true" signature="582:600" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -387,7 +449,7 @@
       <file leaf-file-name="TestCaseSpec.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestCaseSpec.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="63" selection-start="631" selection-end="631" vertical-scroll-proportion="0.0">
+            <state line="23" column="63" selection-start="719" selection-end="719" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -411,8 +473,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/CombinedAspect.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/GeneralAdviceBody.java" />
         <option value="$PROJECT_DIR$/examples/MOPSyntax/AroundAdvice/CheatedSlotMachine_1/mop/CheatedSlotMachineRuntimeMonitor.java" />
@@ -427,6 +487,8 @@
         <option value="$PROJECT_DIR$/src/rvmonitortestsuite/TestingFunctor.java" />
         <option value="$PROJECT_DIR$/examples/CFG/SafeFile/SafeFile_1/SafeFile_1.java" />
         <option value="$PROJECT_DIR$/src/rvmonitortestsuite/Main.java" />
+        <option value="$PROJECT_DIR$/src/rvmonitor/MOPException.java" />
+        <option value="$PROJECT_DIR$/src/rvmonitor/RVMException.java" />
       </list>
     </option>
   </component>
@@ -1286,24 +1348,24 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="991" height="797" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32716927" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32716927" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997155" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32770744" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38835979" sideWeight="0.36842105" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38835979" sideWeight="0.29302987" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38835979" sideWeight="0.29445234" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.67140824" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1382,7 +1444,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="0" selection-start="6441" selection-end="6441" vertical-scroll-proportion="0.0">
+        <state line="179" column="0" selection-start="6426" selection-end="6426" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1391,7 +1453,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestCaseSpec.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="63" selection-start="631" selection-end="631" vertical-scroll-proportion="0.0">
+        <state line="23" column="63" selection-start="719" selection-end="719" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1465,15 +1527,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="357" column="30" selection-start="11368" selection-end="11368" vertical-scroll-proportion="0.0">
+        <state line="359" column="30" selection-start="11415" selection-end="11415" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/UnsafeMapIterator.mop">
+    <entry file="file://$PROJECT_DIR$/src/rvmonitor/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="265" column="33" selection-start="8146" selection-end="8146" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rvmonitor/RVMException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="16" selection-start="370" selection-end="370" vertical-scroll-proportion="0.33834586">
+          <folding>
+            <marker date="1364546841000" expanded="true" signature="501:549" placeholder="{...}" />
+            <marker date="1364546841000" expanded="true" signature="582:600" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect.event;
 
 import java.util.ArrayList;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.event.advice.AdviceBody;
@@ -20,9 +20,9 @@ public class EndProgram {
 		this.hookName = new MOPVariable(name + "_DummyHookThread");
 	}
 
-	public void addEndProgramEvent(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
+	public void addEndProgramEvent(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isEndProgram())
-			throw new MOPException("EndProgram should be defined only for an endProgram pointcut.");
+			throw new RVMException("EndProgram should be defined only for an endProgram pointcut.");
 
 		this.eventBodies.add(new GeneralAdviceBody(mopSpec, event, combinedAspect));
 	}

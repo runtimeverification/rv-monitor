@@ -27,18 +27,18 @@ public class MOPNameSpace {
 		mapVars = new HashMap<String, String>();
 	}
 
-	static public void addUserVariable(String varName) throws MOPException {
+	static public void addUserVariable(String varName) throws RVMException {
 		if (used)
-			throw new MOPException("Cannot update MOPNameSpace after once used");
+			throw new RVMException("Cannot update MOPNameSpace after once used");
 
 		if(keywords.contains(varName))
-			throw new MOPException(varName + " is reserved in JavaMOP/AspectJ. Please rename it.");
+			throw new RVMException(varName + " is reserved in JavaMOP/AspectJ. Please rename it.");
 
 		if(!userVariables.contains(varName))
 			userVariables.add(varName);
 	}
 
-	static public void addUserVariables(Collection<String> varNames) throws MOPException {
+	static public void addUserVariables(Collection<String> varNames) throws RVMException {
 		for (String varName : varNames)
 			addUserVariable(varName);
 	}

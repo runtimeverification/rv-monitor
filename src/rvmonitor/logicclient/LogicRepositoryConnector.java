@@ -14,7 +14,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import rvmonitor.Configuration;
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.Main;
 import rvmonitor.parser.ast.mopspec.Formula;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
@@ -28,9 +28,9 @@ public class LogicRepositoryConnector {
 	public static String serverName = "local";
 	public static boolean verbose = false;
 
-	public static LogicRepositoryType process(JavaMOPSpec mopSpec, PropertyAndHandlers prop) throws MOPException {
+	public static LogicRepositoryType process(JavaMOPSpec mopSpec, PropertyAndHandlers prop) throws RVMException {
 		if (mopSpec == null || prop == null)
-			throw new MOPException("No annotation specified");
+			throw new RVMException("No annotation specified");
 
 		String formula = "";
 		String categories = "";
@@ -66,7 +66,7 @@ public class LogicRepositoryConnector {
 		} catch (Exception e) {
 			if (Main.debug)
 				e.printStackTrace();
-			throw new MOPException("Logic Engine Error: " + e.getMessage());
+			throw new RVMException("Logic Engine Error: " + e.getMessage());
 		}
 
 		if (logicOutputXML.getProperty() == null) {
@@ -77,9 +77,9 @@ public class LogicRepositoryConnector {
 						errStr += "\n";
 					errStr += errMsg.trim();
 				}
-				throw new MOPException(errStr);
+				throw new RVMException(errStr);
 			} else {
-				throw new MOPException("Wrong Logic Repository Output");
+				throw new RVMException("Wrong Logic Repository Output");
 			}
 		}
 
@@ -149,7 +149,7 @@ public class LogicRepositoryConnector {
 
 			if (LogicRepositoryConnector.serverName.compareTo("default") == 0) {
 				if(Configuration.getServerAddr() == null)
-					throw new MOPException("remote server address configuration file not found");
+					throw new RVMException("remote server address configuration file not found");
 				
 				url = new URL(Configuration.getServerAddr());
 			} else
@@ -194,7 +194,7 @@ public class LogicRepositoryConnector {
 		return logicOutput_OutputStream;
 	}
 
-	static public ByteArrayOutputStream executeProgram(String[] cmdarray, String path, ByteArrayInputStream input) throws MOPException {
+	static public ByteArrayOutputStream executeProgram(String[] cmdarray, String path, ByteArrayInputStream input) throws RVMException {
 		Process child;
 		String output = "";
 		try {
@@ -230,9 +230,9 @@ public class LogicRepositoryConnector {
 		} catch (Exception e) {
 			System.out.println(e);
 			if (cmdarray.length > 0)
-				throw new MOPException("Cannot execute the program: " + cmdarray[0]);
+				throw new RVMException("Cannot execute the program: " + cmdarray[0]);
 			else
-				throw new MOPException("Cannot execute the program: ");
+				throw new RVMException("Cannot execute the program: ");
 		}
 	}
 

@@ -1,6 +1,6 @@
 package rvmonitor.output.monitor;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.OptimizedCoenableSet;
 import rvmonitor.output.combinedaspect.GlobalLock;
@@ -28,7 +28,7 @@ public class SuffixMonitor extends Monitor {
 	boolean existSkip = false;
 	String aspectName;
 	
-	public SuffixMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws MOPException {
+	public SuffixMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 
 		this.isDefined = mopSpec.isSuffixMatching();
@@ -51,7 +51,7 @@ public class SuffixMonitor extends Monitor {
 						totalHandlers--;
 					// We only allow one handler (except deadlock handler) when enforcing a property
 					if (totalHandlers > 1)
-						throw new MOPException("Only one handler (except deadlock handler) is allowed when enforcing a property");
+						throw new RVMException("Only one handler (except deadlock handler) is allowed when enforcing a property");
 				}
 
 			}
@@ -92,7 +92,7 @@ public class SuffixMonitor extends Monitor {
 						totalHandlers--;
 					// We only allow one handler (except deadlock handler) when enforcing a property
 					if (totalHandlers > 1)
-						throw new MOPException("Only one handler (except deadlock handler) is allowed when enforcing a property");
+						throw new RVMException("Only one handler (except deadlock handler) is allowed when enforcing a property");
 				}
 			}
 			else

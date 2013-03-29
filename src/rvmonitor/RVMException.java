@@ -12,12 +12,12 @@ package rvmonitor;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class MOPException extends Exception {
+public class RVMException extends Exception {
 	private static final long serialVersionUID = 2145299315023315212L;
-	public MOPException(Exception e){
+	public RVMException(Exception e){
 		super("MOP Expection:" + e.getMessage());
 	}
-	public MOPException(String str){
+	public RVMException(String str){
 		super(str);
 	}
 }

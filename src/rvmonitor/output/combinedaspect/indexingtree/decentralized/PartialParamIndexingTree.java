@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect.indexingtree.decentralized;
 
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingCache;
@@ -21,14 +21,14 @@ public class PartialParamIndexingTree extends IndexingTree {
 	final static int NODEANDSET = 2;
 
 	public PartialParamIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
-			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws MOPException {
+			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (isFullParam)
-			throw new MOPException("PartialParamIndexingTree can be created only when queryParam does not equal to fullParam.");
+			throw new RVMException("PartialParamIndexingTree can be created only when queryParam does not equal to fullParam.");
 
 		if (queryParam.size() <= 1)
-			throw new MOPException("PartialParamIndexingTree should contain at least two parameter.");
+			throw new RVMException("PartialParamIndexingTree should contain at least two parameter.");
 
 		if (anycontent) {
 			this.name = new MOPVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "_Map");
@@ -37,9 +37,9 @@ public class PartialParamIndexingTree extends IndexingTree {
 			//this.cache = new LocalityIndexingCache(this.name, this.queryParam, this.fullParam, this.monitorClass, this.monitorSet, refTrees, perthread, isGeneral);
 		} else {
 			if (!contentParam.contains(queryParam))
-				throw new MOPException("[Internal] contentParam should contain queryParam");
+				throw new RVMException("[Internal] contentParam should contain queryParam");
 			if (contentParam.size() <= queryParam.size())
-				throw new MOPException("[Internal] contentParam should be larger than queryParam");
+				throw new RVMException("[Internal] contentParam should be larger than queryParam");
 
 			this.name = new MOPVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
 		}
@@ -51,7 +51,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return queryParam.get(queryParam.size() - 1);
 	}
 
-	protected String lookupIntermediateCreative(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i, int target) throws MOPException {
+	protected String lookupIntermediateCreative(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i, int target) throws RVMException {
 		String ret = "";
 
 		MOPVariable obj = localVars.get("obj");
@@ -85,7 +85,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	protected String lookupIntermediateNonCreative(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i, int target) throws MOPException {
+	protected String lookupIntermediateNonCreative(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i, int target) throws RVMException {
 		String ret = "";
 
 		MOPVariable obj = localVars.get("obj");
@@ -127,7 +127,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws MOPException {
+	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException {
 		String ret = "";
 
 		MOPVariable monitor = localVars.get(monitorStr);
@@ -180,7 +180,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws MOPException {
+	public String lookupSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException {
 		String ret = "";
 
 		MOPVariable lastMap = localVars.get(lastMapStr);
@@ -215,7 +215,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	protected String lookupNodeAndSetLast(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i, boolean creative)  throws MOPException {
+	protected String lookupNodeAndSetLast(LocalVariables localVars, MOPVariable monitor, MOPVariable lastMap, MOPVariable lastSet, int i, boolean creative)  throws RVMException {
 		String ret = "";
 
 		MOPParameter p = queryParam.get(i);
@@ -234,7 +234,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative)  throws MOPException {
+	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative)  throws RVMException {
 		String ret = "";
 
 		MOPVariable monitor = localVars.get(monitorStr);
@@ -270,7 +270,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws MOPException {
+	public String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws RVMException {
 		String ret = "";
 
 		MOPVariable monitor = localVars.get(monitorStr);
@@ -291,7 +291,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String attachSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws MOPException {
+	public String attachSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws RVMException {
 		String ret = "";
 
 		MOPVariable lastSet = localVars.get(lastSetStr);
@@ -309,7 +309,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr) throws MOPException {
+	public String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr) throws RVMException {
 		String ret = "";
 
 		MOPVariable obj = localVars.get("obj");
@@ -376,7 +376,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return firstKey.getName() + "." + name.toString();
 	}
 	
-	protected String createTree() throws MOPException {
+	protected String createTree() throws RVMException {
 		String ret = "";
 		
 		ret += "if (" + retrieveTree() + " == null) {\n";
@@ -386,11 +386,11 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	protected String createNewMap(int paramIndex) throws MOPException {
+	protected String createNewMap(int paramIndex) throws RVMException {
 		String ret = "";
 
 		if(paramIndex < 1)
-			throw new MOPException("The first parameter cannot use getMapType(int).");
+			throw new RVMException("The first parameter cannot use getMapType(int).");
 		
 		if(isGeneral){
 			if (paramIndex == queryParam.size() - 1) {

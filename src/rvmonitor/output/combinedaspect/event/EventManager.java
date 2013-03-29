@@ -1,6 +1,6 @@
 package rvmonitor.output.combinedaspect.event;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.Main;
 import rvmonitor.output.EnableSet;
 import rvmonitor.output.combinedaspect.CombinedAspect;
@@ -26,7 +26,7 @@ public class EventManager {
 	public HashMap<JavaMOPSpec, SuffixMonitor> monitors;
 	public HashMap<JavaMOPSpec, EnableSet> enableSets;
 	
-	public EventManager(String name, List<JavaMOPSpec> specs, CombinedAspect combinedAspect) throws MOPException {
+	public EventManager(String name, List<JavaMOPSpec> specs, CombinedAspect combinedAspect) throws RVMException {
 		this.monitorSets = combinedAspect.monitorSets;
 		this.monitors = combinedAspect.monitors;
 		this.enableSets = combinedAspect.enableSets;

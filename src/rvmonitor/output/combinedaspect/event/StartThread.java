@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect.event;
 
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.GlobalLock;
@@ -32,9 +32,9 @@ public class StartThread {
 
 	MOPVariable commonPointcut = new MOPVariable("MOP_CommonPointCut");
 
-	public StartThread(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
+	public StartThread(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isStartThread())
-			throw new MOPException("StartThread should be defined only for an startThread pointcut.");
+			throw new RVMException("StartThread should be defined only for an startThread pointcut.");
 
 		this.mopSpec = mopSpec;
 		this.event = event;

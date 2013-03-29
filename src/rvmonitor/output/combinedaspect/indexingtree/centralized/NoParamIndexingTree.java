@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect.indexingtree.centralized;
 
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingTree;
@@ -15,7 +15,7 @@ public class NoParamIndexingTree extends IndexingTree {
 	public MOPVariable globalNode;
 
 	public NoParamIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
-			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws MOPException {
+			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (anycontent) {

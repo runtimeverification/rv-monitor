@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect.indexingtree.centralized;
 
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingCache;
@@ -20,22 +20,22 @@ public class PartialParamIndexingTree extends IndexingTree {
 	final static int NODEANDSET = 2;
 
 	public PartialParamIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
-			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws MOPException {
+			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (isFullParam)
-			throw new MOPException("PartialParamIndexingTree can be created only when queryParam does not equal to fullParam.");
+			throw new RVMException("PartialParamIndexingTree can be created only when queryParam does not equal to fullParam.");
 
 		if (queryParam.size() == 0)
-			throw new MOPException("PartialParamIndexingTree should contain at least one parameter.");
+			throw new RVMException("PartialParamIndexingTree should contain at least one parameter.");
 
 		if (anycontent) {
 			this.name = new MOPVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "_Map");
 		} else {
 			if (!contentParam.contains(queryParam))
-				throw new MOPException("[Internal] contentParam should contain queryParam");
+				throw new RVMException("[Internal] contentParam should contain queryParam");
 			if (contentParam.size() <= queryParam.size())
-				throw new MOPException("[Internal] contentParam should be larger than queryParam");
+				throw new RVMException("[Internal] contentParam should be larger than queryParam");
 
 			this.name = new MOPVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
 		}

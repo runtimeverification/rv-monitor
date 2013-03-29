@@ -1,6 +1,6 @@
 package rvmonitor.output.combinedaspect;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.Main;
 import rvmonitor.output.EnableSet;
 import rvmonitor.output.MOPVariable;
@@ -42,7 +42,7 @@ public class CombinedAspect {
 	boolean has__ACTIVITY = false;
 
 	public CombinedAspect(String name, MOPSpecFile mopSpecFile, HashMap<JavaMOPSpec, MonitorSet> monitorSets, HashMap<JavaMOPSpec, SuffixMonitor> monitors,
-			HashMap<JavaMOPSpec, EnableSet> enableSets, boolean versionedStack) throws MOPException {
+			HashMap<JavaMOPSpec, EnableSet> enableSets, boolean versionedStack) throws RVMException {
 		this.name = name + "RuntimeMonitor";
 		this.monitorSets = monitorSets;
 		this.monitors = monitors;

@@ -3,8 +3,7 @@ package rvmonitor.output.combinedaspect.indexingtree;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
-import rvmonitor.Main;
+import rvmonitor.RVMException;
 import rvmonitor.output.EnableSet;
 import rvmonitor.output.combinedaspect.indexingtree.centralized.CentralizedIndexingTree;
 import rvmonitor.output.combinedaspect.indexingtree.decentralized.DecentralizedIndexingTree;
@@ -34,7 +33,7 @@ public class IndexingDecl {
 
 	public MOPParameters endObjectParameters = new MOPParameters();
 
-	public IndexingDecl(JavaMOPSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, HashMap<String, RefTree> refTrees) throws MOPException {
+	public IndexingDecl(JavaMOPSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, HashMap<String, RefTree> refTrees) throws RVMException {
 		this.mopSpec = mopSpec;
 		this.specParam = mopSpec.getParameters();
 		this.refTrees = refTrees;

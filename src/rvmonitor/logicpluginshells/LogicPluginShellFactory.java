@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.URL;
 
 import rvmonitor.Main;
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.parser.logicrepositorysyntax.*;
 
 public class LogicPluginShellFactory {
@@ -36,7 +36,7 @@ public class LogicPluginShellFactory {
 		return null;
 	}
 
-	static private ArrayList<Class<?>> getClassesFromJar(ClassLoader loader, String packageName) throws MOPException {
+	static private ArrayList<Class<?>> getClassesFromJar(ClassLoader loader, String packageName) throws RVMException {
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		packageName = packageName.replaceAll("\\.", "/");
 
@@ -73,14 +73,14 @@ public class LogicPluginShellFactory {
 		return classes;
 	}
 
-	static private ArrayList<Class<?>> getClasses(ClassLoader loader, String packageName) throws MOPException {
+	static private ArrayList<Class<?>> getClasses(ClassLoader loader, String packageName) throws RVMException {
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		String path = packageName.replace('.', '/');
 		Enumeration<URL> resources;
 		try {
 			resources = loader.getResources(path);
 		} catch (Exception e) {
-			throw new MOPException("cannot load codeplugins");
+			throw new RVMException("cannot load codeplugins");
 		}
 
 		if (resources != null) {
@@ -94,7 +94,7 @@ public class LogicPluginShellFactory {
 						try {
 							classes.addAll(getFromDirectory(new File(filePath), packageName));
 						} catch (Exception e) {
-							throw new MOPException("cannot load codeplugins");
+							throw new RVMException("cannot load codeplugins");
 						}
 					}
 				}
@@ -142,7 +142,7 @@ public class LogicPluginShellFactory {
 		return (sepIndex != -1 ? path.substring(0, sepIndex) : path);
 	}
 
-	static public LogicPluginShellResult process(LogicRepositoryType logicOutput, String events) throws MOPException {
+	static public LogicPluginShellResult process(LogicRepositoryType logicOutput, String events) throws RVMException {
 		LogicPluginShell logicShellPlugin = findLogicShellPlugin("rvmonitor.logicpluginshells", logicOutput.getProperty().getLogic());
 		if (logicShellPlugin != null) {
 			LogicPluginShellResult result = logicShellPlugin.process(logicOutput, events);

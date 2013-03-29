@@ -3,7 +3,7 @@
 
 package rvmonitor.output;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.monitor.SuffixMonitor;
 import rvmonitor.output.monitorset.MonitorSet;
 import rvmonitor.parser.ast.MOPSpecFile;
@@ -20,7 +20,7 @@ public class JavaLibCode {
 	HashMap<JavaMOPSpec, EnableSet> enableSets = new HashMap<JavaMOPSpec, EnableSet>();
 	HashMap<JavaMOPSpec, CoEnableSet> coenableSets = new HashMap<JavaMOPSpec, CoEnableSet>();
 
-	public JavaLibCode(String name, MOPSpecFile mopSpecFile) throws MOPException {
+	public JavaLibCode(String name, MOPSpecFile mopSpecFile) throws RVMException {
 		packageDecl = new Package(mopSpecFile);
 		imports = new Imports(mopSpecFile);
 

@@ -1,10 +1,9 @@
 package rvmonitor.logicpluginshells.javaptcaret;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Properties;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.logicpluginshells.LogicPluginShell;
 import rvmonitor.logicpluginshells.LogicPluginShellResult;
 import rvmonitor.logicpluginshells.javaptcaret.ast.PseudoCode;
@@ -25,7 +24,7 @@ public class JavaPTCARET extends LogicPluginShell {
 
 	ArrayList<String> allEvents;
 
-	private ArrayList<String> getEvents(String eventStr) throws MOPException {
+	private ArrayList<String> getEvents(String eventStr) throws RVMException {
 		ArrayList<String> events = new ArrayList<String>();
 
 		for (String event : eventStr.trim().split(" ")) {
@@ -36,7 +35,7 @@ public class JavaPTCARET extends LogicPluginShell {
 		return events;
 	}
 
-	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws MOPException {
+	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
 		Properties result = new Properties();
 
 		String monitor = logicOutput.getProperty().getFormula();
@@ -46,11 +45,11 @@ public class JavaPTCARET extends LogicPluginShell {
 			code = PTCARET_PseudoCode_Parser.parse(monitor);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new MOPException("PTCaRet to Java Plugin cannot parse PTCaRet formula");
+			throw new RVMException("PTCaRet to Java Plugin cannot parse PTCaRet formula");
 		}
 
 		if (code == null)
-			throw new MOPException("PTCaRet to Java Plugin cannot parse PTCaRet formula");
+			throw new RVMException("PTCaRet to Java Plugin cannot parse PTCaRet formula");
 
 		/*
 		 * State Declaration in Monitor and Monitor Set
@@ -182,9 +181,9 @@ public class JavaPTCARET extends LogicPluginShell {
 		return result;
 	}
 
-	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws MOPException {
+	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws RVMException {
 		if (logicOutputXML.getProperty().getLogic().toLowerCase().compareTo(monitorType.toLowerCase()) != 0)
-			throw new MOPException("Wrong type of monitor is given to PTCaRet Monitor.");
+			throw new RVMException("Wrong type of monitor is given to PTCaRet Monitor.");
 		allEvents = getEvents(events);
 
 		LogicPluginShellResult logicShellResult = new LogicPluginShellResult();

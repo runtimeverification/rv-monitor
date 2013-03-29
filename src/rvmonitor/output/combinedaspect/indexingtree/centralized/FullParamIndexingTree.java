@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect.indexingtree.centralized;
 
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.combinedaspect.event.advice.LocalVariables;
 import rvmonitor.output.combinedaspect.indexingtree.IndexingCache;
@@ -16,20 +16,20 @@ import rvmonitor.parser.ast.mopspec.MOPParameters;
 public class FullParamIndexingTree extends IndexingTree {
 
 	public FullParamIndexingTree(String aspectName, MOPParameters queryParam, MOPParameters contentParam, MOPParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
-			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws MOPException {
+			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (!isFullParam)
-			throw new MOPException("FullParamIndexingTree can be created only when queryParam equals to fullParam.");
+			throw new RVMException("FullParamIndexingTree can be created only when queryParam equals to fullParam.");
 
 		if (queryParam.size() == 0)
-			throw new MOPException("FullParamIndexingTree should contain at least one parameter.");
+			throw new RVMException("FullParamIndexingTree should contain at least one parameter.");
 
 		if (anycontent) {
 			this.name = new MOPVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "_Map");
 		} else {
 			if (!contentParam.contains(queryParam))
-				throw new MOPException("[Internal] contentParam should contain queryParam");
+				throw new RVMException("[Internal] contentParam should contain queryParam");
 
 			this.name = new MOPVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
 		}

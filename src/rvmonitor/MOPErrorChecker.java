@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class MOPErrorChecker {
 
-	public static void verify(JavaMOPSpec mopSpec) throws MOPException {
+	public static void verify(JavaMOPSpec mopSpec) throws RVMException {
 		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
 			verifyHandlers(prop);
 		}
@@ -32,22 +32,22 @@ public class MOPErrorChecker {
 		
 	}
 
-	public static void verifyHandlers(PropertyAndHandlers prop) throws MOPException {
+	public static void verifyHandlers(PropertyAndHandlers prop) throws RVMException {
 		for (String handlerName : prop.getHandlers().keySet()) {
 			if (prop.getLogicProperty(handlerName + " condition") == null) {
-				throw new MOPException(handlerName + " is not a supported state in this logic, " + prop.getProperty().getType() + ".");
+				throw new RVMException(handlerName + " is not a supported state in this logic, " + prop.getProperty().getType() + ".");
 			}
 		}
 	}
 
-	public static void verifySameEventName(JavaMOPSpec mopSpec) throws MOPException {
+	public static void verifySameEventName(JavaMOPSpec mopSpec) throws RVMException {
 		HashMap<String, MOPParameters> nameToParam = new HashMap<String, MOPParameters>();
 		
 		for(EventDefinition event : mopSpec.getEvents()){
 			if(nameToParam.get(event.getId()) != null){
 				if(event.getMOPParametersOnSpec().equals(nameToParam.get(event.getId()))){
 					String prettyname = mopSpec.getName() + "." + event.getId();
-					throw new MOPException("An event that has the same name and signature has been already defined: " + prettyname);
+					throw new RVMException("An event that has the same name and signature has been already defined: " + prettyname);
 				}
 			} else {
 				nameToParam.put(event.getId(), event.getMOPParametersOnSpec());
@@ -55,33 +55,33 @@ public class MOPErrorChecker {
 		}
 	}
 	
-	public static void verifyUniqueEndProgram(JavaMOPSpec mopSpec) throws MOPException {
+	public static void verifyUniqueEndProgram(JavaMOPSpec mopSpec) throws RVMException {
 		boolean found = false;
 		
 		for(EventDefinition event : mopSpec.getEvents()){
 			if(event.isEndProgram()){
 				if(found)
-					throw new MOPException("There can be only one endProgram event");
+					throw new RVMException("There can be only one endProgram event");
 				else
 					found = true;
 			}
 		}
 	}
 	
-	public static void verifyGeneralParametric(JavaMOPSpec mopSpec) throws MOPException {
+	public static void verifyGeneralParametric(JavaMOPSpec mopSpec) throws RVMException {
 		if(mopSpec.isGeneral() && mopSpec.getParameters().size() == 0)
-			throw new MOPException("[Internal Error] It cannot use general parameteric algorithm when there is no parameter");
+			throw new RVMException("[Internal Error] It cannot use general parameteric algorithm when there is no parameter");
 	}
 	
-	public static void verifyEndProgramParam(EventDefinition event) throws MOPException {
+	public static void verifyEndProgramParam(EventDefinition event) throws RVMException {
 		if(event.isEndProgram() && event.getParameters().size() >0)
-			throw new MOPException("A endProgram pointcut cannot have any parameter.");
+			throw new RVMException("A endProgram pointcut cannot have any parameter.");
 	}
 
-	public static void verifyEndThreadParam(EventDefinition event) throws MOPException {
+	public static void verifyEndThreadParam(EventDefinition event) throws RVMException {
 		if(event.isEndThread())
 			if(event.getParametersWithoutThreadVar().size() >0)
-			throw new MOPException("A endThread pointcut cannot have any parameter except one from thread pointcut.");
+			throw new RVMException("A endThread pointcut cannot have any parameter except one from thread pointcut.");
 	}
 
 }

@@ -1,6 +1,6 @@
 package rvmonitor.output;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.combinedaspect.CombinedAspect;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
 import rvmonitor.output.monitor.SuffixMonitor;
@@ -25,7 +25,7 @@ public class AspectJCode {
 	boolean versionedStack = false;
 	SystemAspect systemAspect;
 	
-	public AspectJCode(String name, MOPSpecFile mopSpecFile) throws MOPException {
+	public AspectJCode(String name, MOPSpecFile mopSpecFile) throws RVMException {
 		this.name = name;
 		packageDecl = new Package(mopSpecFile);
 		imports = new Imports(mopSpecFile);

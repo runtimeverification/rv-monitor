@@ -1,6 +1,6 @@
 package rvmonitor.parser;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.parser.ast.MOPSpecFile;
 import rvmonitor.parser.ast.body.BodyDeclaration;
 import rvmonitor.parser.ast.mopspec.*;
@@ -27,7 +27,7 @@ class SpecContext {
 }
 
 public class JavaMOPExtender {
-	public static MOPSpecFile translateMopSpecFile(MOPSpecFileExt currentFile) throws MOPException {
+	public static MOPSpecFile translateMopSpecFile(MOPSpecFileExt currentFile) throws RVMException {
 		HashMap<String, MOPSpecFileExt> depFiles = new HashMap<String, MOPSpecFileExt>();
 
 		// retrieve all extended parent specification files
@@ -53,7 +53,7 @@ public class JavaMOPExtender {
 	}
 
 	protected static JavaMOPSpec translateJavaMopSpec(JavaMOPSpecExt spec, MOPSpecFileExt currentFile, HashMap<String, MOPSpecFileExt> depFiles)
-			throws MOPException {
+			throws RVMException {
 		List<BodyDeclaration> declarations;
 		List<EventDefinition> events;
 		List<PropertyAndHandlers> props = new ArrayList<PropertyAndHandlers>();
@@ -72,7 +72,7 @@ public class JavaMOPExtender {
 				nonImpAbsEventsStr += event.getId();
 			}
 
-			throw new MOPException("The following abstract events are not implemented: " + nonImpAbsEventsStr);
+			throw new RVMException("The following abstract events are not implemented: " + nonImpAbsEventsStr);
 		}
 
 		// collect and translate event definitions
@@ -86,13 +86,13 @@ public class JavaMOPExtender {
 			ret = new JavaMOPSpec(currentFile.getPakage(), spec.getBeginLine(), spec.getBeginColumn(), spec.getModifiers(), spec.getName(), spec.getParameters().toList(),
 					spec.getInMethod(), declarations, events, props);
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 
 		return ret;
 	}
 
-	private static List<EventDefinition> collectAndTranslateEvents(SpecContext context) throws MOPException {
+	private static List<EventDefinition> collectAndTranslateEvents(SpecContext context) throws RVMException {
 		List<EventDefinition> ret = new ArrayList<EventDefinition>();
 
 		if (context.spec.hasExtend()) {
@@ -117,7 +117,7 @@ public class JavaMOPExtender {
 		return ret;
 	}
 
-	private static List<PropertyAndHandlers> collectAndTranslateProps(SpecContext context) throws MOPException {
+	private static List<PropertyAndHandlers> collectAndTranslateProps(SpecContext context) throws RVMException {
 		List<PropertyAndHandlers> ret = new ArrayList<PropertyAndHandlers>();
 
 		// collect props
@@ -145,7 +145,7 @@ public class JavaMOPExtender {
 		return ret;
 	}
 
-	private static HashMap<PropertyExt, HashMap<String, HandlerExt>> collectProps(SpecContext context) throws MOPException {
+	private static HashMap<PropertyExt, HashMap<String, HandlerExt>> collectProps(SpecContext context) throws RVMException {
 		HashMap<PropertyExt, HashMap<String, HandlerExt>> ret = new HashMap<PropertyExt, HashMap<String, HandlerExt>>();
 
 		// collect properties and handlers from parents first
@@ -171,7 +171,7 @@ public class JavaMOPExtender {
 			PropertyExt prop = pnh.getProperty();
 			if (prop != null) {
 				if (propNames.contains(prop.getName())){
-					throw new MOPException("Duplicated Property Name");
+					throw new RVMException("Duplicated Property Name");
 				}
 
 				propNames.add(prop.getName());
@@ -192,7 +192,7 @@ public class JavaMOPExtender {
 
 				Pair<PropertyAndHandlersExt, SpecContext> propExtPair = getReferencedProp(r, context);
 				if (propExtPair == null)
-					throw new MOPException("cannot find the associated property for a handler.");
+					throw new RVMException("cannot find the associated property for a handler.");
 
 				PropertyAndHandlersExt pnh2 = propExtPair.left;
 
@@ -204,13 +204,13 @@ public class JavaMOPExtender {
 		return ret;
 	}
 
-	protected static EventDefinition translateEvent(EventDefinitionExt event, SpecContext context) throws MOPException {
+	protected static EventDefinition translateEvent(EventDefinitionExt event, SpecContext context) throws RVMException {
 		EventDefinition ret;
 		try {
 			ret = new EventDefinition(event.getBeginLine(), event.getBeginColumn(), event.getId(), event
 					.getParameters().toList(), event.getBlock(),  event.isStartEvent());
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 		return ret;
 	}
@@ -226,7 +226,7 @@ public class JavaMOPExtender {
 		return numProps;
 	}
 
-	private static MOPParameters getParametersFromStringList(List<String> list, MOPParameters parameters) throws MOPException {
+	private static MOPParameters getParametersFromStringList(List<String> list, MOPParameters parameters) throws RVMException {
 		MOPParameters ret = new MOPParameters();
 
 		for (String paramName : list) {
@@ -234,12 +234,12 @@ public class JavaMOPExtender {
 			if (param != null)
 				ret.add(param);
 			else
-				throw new MOPException("An event pointcut is using unknown parameter.");
+				throw new RVMException("An event pointcut is using unknown parameter.");
 		}
 		return ret;
 	}
 
-	private static HashMap<String, MOPSpecFileExt> retrieveParentFiles(JavaMOPSpecExt spec, MOPSpecFileExt currentFile) throws MOPException {
+	private static HashMap<String, MOPSpecFileExt> retrieveParentFiles(JavaMOPSpecExt spec, MOPSpecFileExt currentFile) throws RVMException {
 		HashMap<String, MOPSpecFileExt> ret = new HashMap<String, MOPSpecFileExt>();
 
 		// if the spec has no parent, nothing to do.
@@ -254,16 +254,16 @@ public class JavaMOPExtender {
 			File parentFile = new File(extSpec.getName() + Tool.getSpecFileDotExt());
 			MOPSpecFileExt parentSpecFile;
 			if (!parentFile.exists())
-				throw new MOPException("cannot find the specification: " + extSpec.getName() + ".");
+				throw new RVMException("cannot find the specification: " + extSpec.getName() + ".");
 			try {
 				parentSpecFile = JavaMOPParser.parse(parentFile);
 			} catch (Exception e) {
-				throw new MOPException("Error when parsing a specification file:\n" + e.getMessage());
+				throw new RVMException("Error when parsing a specification file:\n" + e.getMessage());
 			}
 			if (parentSpecFile.getSpec(extSpec.getName()) == null)
-				throw new MOPException("cannot find the specification: " + extSpec.getName() + ".");
+				throw new RVMException("cannot find the specification: " + extSpec.getName() + ".");
 			if (!parentSpecFile.getSpec(extSpec.getName()).isPublic())
-				throw new MOPException("the specification " + extSpec.getName() + " is not public.");
+				throw new RVMException("the specification " + extSpec.getName() + " is not public.");
 
 			ret.put(extSpec.getName(), parentSpecFile);
 
@@ -285,7 +285,7 @@ public class JavaMOPExtender {
 	}
 
 	private static Pair<JavaMOPSpecExt, MOPSpecFileExt> findJavaMOPSpec(String name, MOPSpecFileExt currentFile,
-			HashMap<String, MOPSpecFileExt> depFiles) throws MOPException {
+			HashMap<String, MOPSpecFileExt> depFiles) throws RVMException {
 		JavaMOPSpecExt parentSpec = findJavaMOPSpec(name, currentFile);
 
 		if (parentSpec != null)
@@ -299,11 +299,11 @@ public class JavaMOPExtender {
 				return new Pair<JavaMOPSpecExt, MOPSpecFileExt>(parentSpec, specFile);
 		}
 
-		throw new MOPException("cannot find a parent specification: " + name);
+		throw new RVMException("cannot find a parent specification: " + name);
 	}
 
 	private static List<BodyDeclaration> collectDeclarations(JavaMOPSpecExt spec, MOPSpecFileExt currentFile, HashMap<String, MOPSpecFileExt> depFiles)
-			throws MOPException {
+			throws RVMException {
 		List<BodyDeclaration> ret;
 
 		if (!spec.hasExtend())
@@ -328,7 +328,7 @@ public class JavaMOPExtender {
 	}
 
 	private static List<EventDefinitionExt> collectNonImpAbstractEvents(JavaMOPSpecExt spec, MOPSpecFileExt currentFile,
-			HashMap<String, MOPSpecFileExt> depFiles) throws MOPException {
+			HashMap<String, MOPSpecFileExt> depFiles) throws RVMException {
 		List<EventDefinitionExt> ret = new ArrayList<EventDefinitionExt>();
 
 		if (!spec.hasExtend())
@@ -362,7 +362,7 @@ public class JavaMOPExtender {
 	}
 
 	private static Pair<EventDefinitionExt, SpecContext> getReferencedEvent(ReferenceSpec ref, String pos, MOPParameters params, SpecContext context)
-			throws MOPException {
+			throws RVMException {
 		// search in the same spec
 
 		if (!context.spec.hasExtend())
@@ -386,13 +386,13 @@ public class JavaMOPExtender {
 		return null;
 	}
 
-	private static Pair<PropertyAndHandlersExt, SpecContext> getReferencedProp(ReferenceSpec ref, SpecContext context) throws MOPException {
+	private static Pair<PropertyAndHandlersExt, SpecContext> getReferencedProp(ReferenceSpec ref, SpecContext context) throws RVMException {
 		// search in the same spec
 		if (ref.getSpecName() == null || ref.getSpecName().equals(context.spec.getName())) {
 			if (ref.getReferenceElement() == null) {
 				// when there are more than one property in the file, throw an exception
 				if (numProperties(context.spec) != 1)
-					throw new MOPException("Cannot find a referenced property");
+					throw new RVMException("Cannot find a referenced property");
 
 				// the first non null property is the one
 				for (PropertyAndHandlersExt pnh : context.spec.getPropertiesAndHandlers()) {
@@ -430,12 +430,12 @@ public class JavaMOPExtender {
 		return null;
 	}
 
-	private static Set<String> collectAllPropNames(Set<PropertyExt> props) throws MOPException {
+	private static Set<String> collectAllPropNames(Set<PropertyExt> props) throws RVMException {
 		Set<String> ret = new HashSet<String>();
 
 		for (PropertyExt prop : props) {
 			if (ret.contains(prop.getName()))
-				throw new MOPException("Duplicated Property Name");
+				throw new RVMException("Duplicated Property Name");
 
 			ret.add(prop.getName());
 		}
@@ -443,13 +443,13 @@ public class JavaMOPExtender {
 		return ret;
 	}
 
-	private static void checkDuplicatePropNames(Set<PropertyExt> props1, Set<PropertyExt> props2) throws MOPException {
+	private static void checkDuplicatePropNames(Set<PropertyExt> props1, Set<PropertyExt> props2) throws RVMException {
 		Set<String> names1 = collectAllPropNames(props1);
 		Set<String> names2 = collectAllPropNames(props2);
 
 		for (String s : names2) {
 			if (names1.contains(s)) {
-				throw new MOPException("Duplicate Property Names");
+				throw new RVMException("Duplicate Property Names");
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 package rvmonitor.output.monitor;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.*;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.output.combinedaspect.indexingtree.reftree.RefTree;
@@ -27,7 +27,7 @@ public class RawMonitor extends Monitor{
 	
 	UserJavaCode monitorDeclaration;
 
-	public RawMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws MOPException {
+	public RawMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		
 		this.isDefined = true;

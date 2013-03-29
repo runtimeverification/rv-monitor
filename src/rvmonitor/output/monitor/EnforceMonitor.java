@@ -3,13 +3,12 @@ package rvmonitor.output.monitor;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.output.OptimizedCoenableSet;
 import rvmonitor.output.combinedaspect.GlobalLock;
 import rvmonitor.parser.ast.mopspec.EventDefinition;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
-import rvmonitor.parser.ast.mopspec.MOPParameter;
 import rvmonitor.parser.ast.mopspec.PropertyAndHandlers;
 import rvmonitor.parser.ast.stmt.BlockStmt;
 
@@ -28,7 +27,7 @@ public class EnforceMonitor extends BaseMonitor {
 	
 	public EnforceMonitor(String name, JavaMOPSpec mopSpec,
 			OptimizedCoenableSet coenableSet, boolean isOutermost)
-			throws MOPException {
+			throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost, "Enforcement");
 		for (PropertyAndHandlers prop : props) {
 			HashMap<String, BlockStmt> handlerBodies = prop.getHandlers();

@@ -11,17 +11,17 @@ import rvmonitor.util.Tool;
 
 public class SpecExtractor {
 
-	static private String convertFileToString(String path) throws MOPException {
+	static private String convertFileToString(String path) throws RVMException {
 		String content;
 		try {
 			content = Tool.convertFileToString(path);
 		} catch (Exception e) {
-			throw new MOPException(e.getMessage());
+			throw new RVMException(e.getMessage());
 		}
 		return content;
 	}
 
-	static private String getAnnotations(String input) throws MOPException {
+	static private String getAnnotations(String input) throws RVMException {
 		String content = "";
 
 		int start = input.indexOf("/*@", 0), end;
@@ -32,14 +32,14 @@ public class SpecExtractor {
 			if (end > -1)
 				content += input.substring(start + 3, end); // 4 means /*@ + a space
 			else
-				throw new MOPException("annotation block didn't end");
+				throw new RVMException("annotation block didn't end");
 
 			start = input.indexOf("/*@", start + 1);
 		}
 		return content;
 	}
 
-	static public String process(File file) throws MOPException {
+	static public String process(File file) throws RVMException {
 		if (Tool.isSpecFile(file.getName())) {
 			return convertFileToString(file.getAbsolutePath());
 		} else if (Tool.isJavaFile(file.getName())) {
@@ -51,14 +51,14 @@ public class SpecExtractor {
 		}
 	}
 
-	static public MOPSpecFile parse(String input) throws MOPException {
+	static public MOPSpecFile parse(String input) throws RVMException {
 		MOPSpecFile mopSpecFile;
 		try {
 			MOPSpecFileExt mopSpecFileExt = JavaMOPParser.parse(new ByteArrayInputStream(input.getBytes()));
 			mopSpecFile = JavaMOPExtender.translateMopSpecFile(mopSpecFileExt);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new MOPException("Error when parsing a specification file:\n" + e.getMessage());
+			throw new RVMException("Error when parsing a specification file:\n" + e.getMessage());
 		}
 
 		return mopSpecFile;

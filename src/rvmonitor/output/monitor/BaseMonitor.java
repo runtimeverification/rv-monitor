@@ -1,6 +1,6 @@
 package rvmonitor.output.monitor;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.Main;
 import rvmonitor.output.*;
 import rvmonitor.output.combinedaspect.GlobalLock;
@@ -51,12 +51,12 @@ public class BaseMonitor extends Monitor {
 
 	HashMap<PropertyAndHandlers, PropMonitor> propMonitors = new HashMap<PropertyAndHandlers, PropMonitor>();
 
-	public BaseMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws MOPException {
+	public BaseMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		this.initialize(name, mopSpec, coenableSet, isOutermost, "");
 	}
 	
-	public BaseMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) throws MOPException {
+	public BaseMonitor(String name, JavaMOPSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		this.initialize(name, mopSpec, coenableSet, isOutermost, monitorNameSuffix);
 	}

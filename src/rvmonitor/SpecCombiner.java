@@ -10,7 +10,7 @@ import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 
 public class SpecCombiner {
 
-	static public MOPSpecFile process(ArrayList<MOPSpecFile> specFiles) throws MOPException{
+	static public MOPSpecFile process(ArrayList<MOPSpecFile> specFiles) throws RVMException {
 		PackageDeclaration pakage = null;
 		List<ImportDeclaration> imports = new ArrayList<ImportDeclaration>();
 		List<JavaMOPSpec> specList = new ArrayList<JavaMOPSpec>();
@@ -22,7 +22,7 @@ public class SpecCombiner {
 				pakage = pakage2;
 			else {
 				if(!pakage2.getName().getName().equals(pakage.getName().getName()))
-					throw new MOPException("Specifications need to be in the same package to be combined.");
+					throw new RVMException("Specifications need to be in the same package to be combined.");
 			}
 			
 			//imports

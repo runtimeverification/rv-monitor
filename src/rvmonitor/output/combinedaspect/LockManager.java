@@ -2,7 +2,7 @@ package rvmonitor.output.combinedaspect;
 
 import java.util.List;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.output.MOPVariable;
 import rvmonitor.parser.ast.mopspec.JavaMOPSpec;
 
@@ -12,7 +12,7 @@ public class LockManager {
 	
 	GlobalLock lock;
 
-	public LockManager(String name, List<JavaMOPSpec> specs) throws MOPException {
+	public LockManager(String name, List<JavaMOPSpec> specs) throws RVMException {
 //		for (JavaMOPSpec spec : specs) {
 //			if (spec.isSync())
 //				locks.put(spec, new GlobalLock(new MOPVariable(spec.getName() + "_MOPLock")));

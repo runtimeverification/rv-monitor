@@ -1,6 +1,6 @@
 package rvmonitor.parser.ast.mopspec;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.MOPNameSpace;
 import rvmonitor.parser.ast.Node;
 import rvmonitor.parser.ast.PackageDeclaration;
@@ -57,7 +57,7 @@ public class JavaMOPSpec extends Node implements Comparable<JavaMOPSpec>{
 		// set variables in each event
 		try {
 			setVarsInEvents();
-		} catch (MOPException e) {
+		} catch (RVMException e) {
 			throw new rvmonitor.parser.main_parser.ParseException(e.getMessage());
 		}
 
@@ -93,7 +93,7 @@ public class JavaMOPSpec extends Node implements Comparable<JavaMOPSpec>{
 		}
 	}
 
-	public void setVarsInEvents() throws MOPException {
+	public void setVarsInEvents() throws RVMException {
 		int numStartEvent = 0;
 		HashSet<String> duplicatedEventNames = new HashSet<String>();
 		for (EventDefinition event : this.events) {

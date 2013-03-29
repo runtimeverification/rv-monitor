@@ -13,9 +13,9 @@ public abstract class LogicPluginShell {
 	public LogicPluginShell() {
 	}
 
-	public LogicPluginShellResult process(LogicRepositoryType logicOutput, String events) throws MOPException {
+	public LogicPluginShellResult process(LogicRepositoryType logicOutput, String events) throws RVMException {
 
-		throw new MOPException("Non-recognizable Monitor Type");
+		throw new RVMException("Non-recognizable Monitor Type");
 	}
 
 	public Properties addEnableSets(Properties properties, LogicRepositoryType logicOutputXML) {

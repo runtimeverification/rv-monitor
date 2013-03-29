@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Properties;
 
-import rvmonitor.MOPException;
+import rvmonitor.RVMException;
 import rvmonitor.logicpluginshells.LogicPluginShell;
 import rvmonitor.logicpluginshells.LogicPluginShellResult;
 import rvmonitor.parser.logicrepositorysyntax.LogicRepositoryType;
@@ -17,7 +17,7 @@ public class JavaPO extends LogicPluginShell {
 
 	ArrayList<String> allEvents;
 
-	private ArrayList<String> getEvents(String eventStr) throws MOPException {
+	private ArrayList<String> getEvents(String eventStr) throws RVMException {
 		ArrayList<String> events = new ArrayList<String>();
 
 		for (String event : eventStr.trim().split(" ")) {
@@ -28,7 +28,7 @@ public class JavaPO extends LogicPluginShell {
 		return events;
 	}
 
-	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws MOPException {
+	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
 		Properties result = new Properties();
 
 		String monitor = logicOutput.getProperty().getFormula();
@@ -38,7 +38,7 @@ public class JavaPO extends LogicPluginShell {
 			partialOrders = POParser.parse(monitor);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new MOPException("PO to Java Plugin cannot parse PO formula");
+			throw new RVMException("PO to Java Plugin cannot parse PO formula");
 		}
 
 		/*
@@ -172,9 +172,9 @@ public class JavaPO extends LogicPluginShell {
 		return result;
 	}
 
-	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws MOPException {
+	public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws RVMException {
 		if (logicOutputXML.getProperty().getLogic().toLowerCase().compareTo(monitorType.toLowerCase()) != 0)
-			throw new MOPException("Wrong type of monitor is given to PO Monitor.");
+			throw new RVMException("Wrong type of monitor is given to PO Monitor.");
 		allEvents = getEvents(events);
 
 		LogicPluginShellResult logicShellResult = new LogicPluginShellResult();
