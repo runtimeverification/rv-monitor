@@ -251,7 +251,7 @@ public class JavaMOPExtender {
 			if (findJavaMOPSpec(extSpec.getName(), currentFile) != null)
 				continue;
 
-			File parentFile = new File(extSpec.getName() + Tool.getSpecFileExt());
+			File parentFile = new File(extSpec.getName() + Tool.getSpecFileDotExt());
 			MOPSpecFileExt parentSpecFile;
 			if (!parentFile.exists())
 				throw new MOPException("cannot find the specification: " + extSpec.getName() + ".");

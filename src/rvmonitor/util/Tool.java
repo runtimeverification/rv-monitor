@@ -16,8 +16,12 @@ import rvmonitor.MOPException;
  * A set of tool functions
  */
 public class Tool {
+	public static String getSpecFileDotExt() {
+		return "." + getSpecFileExt();
+	}
+	
 	public static String getSpecFileExt() {
-		return ".rvm";
+		return "rvm";
 	}
 	
 	public static boolean isJavaFile(String path){
@@ -25,7 +29,7 @@ public class Tool {
 	}
 
 	public static boolean isSpecFile(String path){
-		return path.endsWith(getSpecFileExt());
+		return path.endsWith(getSpecFileDotExt());
 	}
 	
 	public static boolean isListFile(String path){

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import rvmonitor.util.Tool;
+
 public class TestCase {
 	String basepath;
 	String path;
@@ -41,7 +43,7 @@ public class TestCase {
 	}
 
 	private ArrayList<String> collectSpecFiles(File directory){
-		return collectFiles(directory, "mop");
+		return collectFiles(directory, Tool.getSpecFileExt());
 	}
 
 	private ArrayList<String> collectFiles(File directory, String ext){

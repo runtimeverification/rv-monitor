@@ -28,7 +28,7 @@ public class Main {
 	public static String jarFilePath = null;
 
 	public static String getName(String path) {
-		if (path.endsWith(Tool.getSpecFileExt())) {
+		if (path.endsWith(Tool.getSpecFileDotExt())) {
 			return path.substring(0, path.length() - 4);
 		} else if (path.endsWith(".java")) {
 			return path.substring(0, path.length() - 5);

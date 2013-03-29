@@ -44,7 +44,7 @@ public class TestCaseDir {
 		
 		for (File file : directory.listFiles()) {
 			if (!file.isDirectory()) {
-				if (file.getName().endsWith(Tool.getSpecFileExt())) {
+				if (file.getName().endsWith(Tool.getSpecFileDotExt())) {
 					String name = file.getName();
 					ret.add(name);
 				}
