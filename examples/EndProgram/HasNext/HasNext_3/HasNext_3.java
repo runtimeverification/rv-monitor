@@ -14,6 +14,7 @@ public class HasNext_3 {
 				   int sum = next + (Integer)it.next();
                        System.out.println("sum = " + sum);
                }
+		mop.HasNextRuntimeMonitor.endProgEvent();
        }
 }
 

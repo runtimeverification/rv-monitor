@@ -272,9 +272,9 @@ public class Main {
 			String title3;
 
 			// Phase 1
-			title1 = "*** Phase 1                               ***";
-			title2 = "*** Compiling JavaMOP specifications      ***";
-			title3 = "*** into AspectJ monitors (using rvmonitor) ***";
+			title1 = "*** Phase 1                                 ***";
+			title2 = "*** Compiling MOP specifications            ***";
+			title3 = "*** into runtime monitors (using rvmonitor) ***";
 			System.out.println(repeatChar('*', title1.length()));
 			System.out.println(title1);
 			System.out.println(title2);
@@ -328,8 +328,8 @@ public class Main {
 			 * }
 			 */
 
-			// Phase 4
-			title1 = "*** Phase 4                                  ***";
+			// Phase 3
+			title1 = "*** Phase 3                                  ***";
 			title2 = "*** Testing the resulting monitored programs ***";
 			System.out.println(repeatChar('*', title1.length()));
 			System.out.println(title1);

@@ -73,6 +73,7 @@ public class SafeFile_1{
 
 	public static void main(String[] args){
 		mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
+		mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
 		sub1();
 		mop.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
 		mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
@@ -81,7 +82,7 @@ public class SafeFile_1{
 		mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
 		sub3();
 		mop.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
-
+		mop.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
 	}
 
 }

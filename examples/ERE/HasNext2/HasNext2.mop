@@ -20,7 +20,7 @@ suffix HasNext(Iterator i) {
        ere : next next
 
        @match {
-          System.err.println(
+          System.out.println(
             "@:" + __LOC + " ! hasNext not called before next");
           __RESET;
        }

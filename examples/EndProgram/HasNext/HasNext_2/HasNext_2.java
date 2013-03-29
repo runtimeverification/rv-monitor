@@ -21,6 +21,7 @@ public class HasNext_2 {
 		mop.HasNextRuntimeMonitor.hasnextEvent(i);
 
 		System.out.println("sum: " + sum);
+		mop.HasNextRuntimeMonitor.endProgEvent();
 	}
 }
 
