@@ -3,6 +3,8 @@ package rvmonitortestsuite;
 import java.io.*;
 import java.util.*;
 
+import rvmonitor.util.Tool;
+
 public class Main {
 	static boolean Debug = false;
 
@@ -26,7 +28,7 @@ public class Main {
 	public static String jarFilePath = null;
 
 	public static String getName(String path) {
-		if (path.endsWith(".mop")) {
+		if (path.endsWith(Tool.getSpecFileDotExt())) {
 			return path.substring(0, path.length() - 4);
 		} else if (path.endsWith(".java")) {
 			return path.substring(0, path.length() - 5);

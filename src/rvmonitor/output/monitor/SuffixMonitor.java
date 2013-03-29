@@ -147,7 +147,6 @@ public class SuffixMonitor extends Monitor {
 	public String doEvent(EventDefinition event) {
 		String ret = "";
 
-		String uniqueId = event.getUniqueId();
 		int idnum = event.getIdNum();
 
 		MOPVariable monitor = new MOPVariable("monitor");
@@ -158,7 +157,7 @@ public class SuffixMonitor extends Monitor {
 
 		categoryVars.addAll(innerMonitor.getCategoryVars());
 
-		ret += "final void event_" + uniqueId + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+		ret += "final void event_" + event.getId() + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
 
 
 		for (MOPVariable var : getCategoryVars()) {
@@ -229,7 +228,7 @@ public class SuffixMonitor extends Monitor {
 			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
-		ret += monitorVar + ".event_" + event.getUniqueId() + "(";
+		ret += monitorVar + ".event_" + event.getId() + "(";
 		ret += event.getMOPParameters().parameterString();
 		ret += ");\n";
 

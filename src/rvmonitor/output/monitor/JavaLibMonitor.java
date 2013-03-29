@@ -37,7 +37,6 @@ public class JavaLibMonitor extends BaseMonitor {
 
 		PropMonitor propMonitor = propMonitors.get(prop);
 		
-		String uniqueId = event.getUniqueId();
 		int idnum = event.getIdNum();
 		MOPJavaCode condition = new MOPJavaCode(event.getCondition(), monitorName);
 		MOPJavaCode eventMonitoringCode = new MOPJavaCode(prop, prop.getEventMonitoringCode(event.getId()), monitorName);
@@ -69,7 +68,7 @@ public class JavaLibMonitor extends BaseMonitor {
 
 		// The parameter is omitted so as to be able to implement a more
 		// general interface
-		ret += "final void event_" + uniqueId + "(" + ") {\n";
+		ret += "final void event_" + event.getId() + "(" + ") {\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";

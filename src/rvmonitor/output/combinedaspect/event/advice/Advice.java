@@ -39,7 +39,7 @@ public class Advice {
 	public Advice(JavaMOPSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws MOPException {
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
-		this.pointcutName = new MOPVariable(event.getUniqueId() + "Event");
+		this.pointcutName = new MOPVariable(event.getId() + "Event");
 		this.inlineFuncName = new MOPVariable("MOPInline" + mopSpec.getName() + "_" + event.getUniqueId());
 		this.parameters = event.getParametersWithoutThreadVar();
 		this.inlineParameters = event.getMOPParametersWithoutThreadVar();

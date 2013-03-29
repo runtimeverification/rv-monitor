@@ -104,9 +104,9 @@ public class BaseMonitor extends Monitor {
 				}
 			}
 			for(EventDefinition event : events){
-				MOPVariable eventMethod = new MOPVariable("Prop_" + prop.getPropertyId() + "_event_" + event.getUniqueId());
+				MOPVariable eventMethod = new MOPVariable("Prop_" + prop.getPropertyId() + "_event_" + event.getId());
 				
-				propMonitor.eventMethods.put(event.getUniqueId(), eventMethod);
+				propMonitor.eventMethods.put(event.getId(), eventMethod);
 			}			
 
 			propMonitors.put(prop, propMonitor);
@@ -178,7 +178,6 @@ public class BaseMonitor extends Monitor {
 
 		PropMonitor propMonitor = propMonitors.get(prop);
 		
-		String uniqueId = event.getUniqueId();
 		int idnum = event.getIdNum();
 		MOPJavaCode condition = new MOPJavaCode(event.getCondition(), monitorName);
 		MOPJavaCode eventMonitoringCode = new MOPJavaCode(prop, prop.getEventMonitoringCode(event.getId()), monitorName);
@@ -222,7 +221,7 @@ public class BaseMonitor extends Monitor {
 			}
 		}
 
-		ret += "final void " + methodNamePrefix + propMonitor.eventMethods.get(uniqueId) + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
+		ret += "final void " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getMOPParameters().parameterDeclString() + ") {\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";
@@ -332,7 +331,7 @@ public class BaseMonitor extends Monitor {
 			PropMonitor propMonitor = propMonitors.get(prop);
 			
 			ret += this.beforeEventMethod(monitorVar, prop, event, lock, aspectName, inMonitorSet);
-			ret += monitorVar + "." + propMonitor.eventMethods.get(event.getUniqueId()) + "(";
+			ret += monitorVar + "." + propMonitor.eventMethods.get(event.getId()) + "(";
 			ret += event.getMOPParameters().parameterString();
 			ret += ");\n";
 			ret += this.afterEventMethod(monitorVar, prop, event, lock, aspectName);
