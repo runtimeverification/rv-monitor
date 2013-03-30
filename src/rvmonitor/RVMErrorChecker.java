@@ -45,12 +45,12 @@ public class RVMErrorChecker {
 		
 		for(EventDefinition event : mopSpec.getEvents()){
 			if(nameToParam.get(event.getId()) != null){
-				if(event.getRVMParametersOnSpec().equals(nameToParam.get(event.getId()))){
+				if(event.getParameters().equals(nameToParam.get(event.getId()))){
 					String prettyname = mopSpec.getName() + "." + event.getId();
 					throw new RVMException("An event that has the same name and signature has been already defined: " + prettyname);
 				}
 			} else {
-				nameToParam.put(event.getId(), event.getRVMParametersOnSpec());
+				nameToParam.put(event.getId(), event.getParameters());
 			}
 		}
 	}

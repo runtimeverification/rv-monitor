@@ -1,1 +1,1 @@
-Events with the same name should have the same parameters when projected to the specification parameters.
+An event that has the same name and signature has been already defined: UnsafeIterator.create
