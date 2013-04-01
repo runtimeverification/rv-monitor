@@ -18,7 +18,7 @@ HasNext(Iterator i) {
 	ere : (hasnext hasnext* next)*
 
 	@fail {
-	  System.err.println(
+	  System.out.println(
              "! hasNext() has not been called"
            + " before calling next() for an" 
            + " iterator");

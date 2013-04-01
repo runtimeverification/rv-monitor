@@ -1,2 +1,2 @@
+@:HasNext2_1.main(HasNext2_1.java:17) ! hasNext not called before next
 sum: 3
-@:HasNext2_1.java:15 ! hasNext not called before next
