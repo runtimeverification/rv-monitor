@@ -39,7 +39,8 @@ public class ThreadStatusMonitor extends EndThread{
 		String ret = "";
 
 		ret += "static HashMap<Thread, Runnable> " + runnableMap + " = new HashMap<Thread, Runnable>();\n";
-		ret += "static Thread " + mainThread + " = null;\n";
+		// We actually don't need mainThread in deadlock detection
+		//ret += "static Thread " + mainThread + " = null;\n";
 		ret += "static HashSet<Thread> " + threadSet + " = new HashSet<Thread>();\n";
 		return ret;
 	}
@@ -194,10 +195,13 @@ public class ThreadStatusMonitor extends EndThread{
 		String ret = "";
 		ret += printDataStructures();
 		ret += "\n";
-		ret += printContainsBlockedThread();
-		ret += "\n";
-		ret += printContainsThread();
-		ret += "\n";
+		
+		// Do we need those helper methods?
+//		ret += printContainsBlockedThread();
+//		ret += "\n";
+//		ret += printContainsThread();
+//		ret += "\n";
+		
 		ret += printAdviceForThreadWithRunnable();
 		ret += "\n";
 		ret += printAdviceForEndThread();

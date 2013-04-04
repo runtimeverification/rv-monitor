@@ -2,6 +2,7 @@ package rvmonitorrt;
 
 import java.lang.Thread.State;
 import java.util.HashSet;
+import java.util.concurrent.locks.*;
 
 /**
  * 
@@ -10,7 +11,7 @@ import java.util.HashSet;
  * */
 public class RVMDeadlockDetector {
 	
-	private static RVMCallBack callback;
+	private static MOPCallBack callback;
 
 	/**
 	 * 
@@ -24,7 +25,7 @@ public class RVMDeadlockDetector {
 	 *            Lock object used when accessing the set of all running threads
 	 * 
 	 * */
-	public static void startDeadlockDetectionThread(HashSet<Thread> allThreads, Thread mainThread, Object lock, RVMCallBack monitorCallback) {
+	public static void startDeadlockDetectionThread(HashSet<Thread> allThreads, Thread mainThread, ReentrantLock lock, MOPCallBack monitorCallback) {
 		RVMDeadlockDetector.callback = monitorCallback;
 		Thread deadlockDetectionThread = new Thread(new DeadlockDetector(allThreads, mainThread, lock));
 		deadlockDetectionThread.start();
@@ -35,13 +36,17 @@ public class RVMDeadlockDetector {
 
 		private HashSet<Thread> allThreads = new HashSet<Thread>();
 		private Thread mainThread;
-		private Object lock;
+		private ReentrantLock lock;
 
 		public DeadlockDetector(HashSet<Thread> threads, Thread main,
-				Object lockObj) {
+				ReentrantLock lockObj) {
+			this.lock = lockObj;
+			while (!this.lock.tryLock()) {
+				Thread.yield();
+			}
 			this.allThreads = threads;
 			this.mainThread = main;
-			this.lock = lockObj;
+			this.lock.unlock();	
 		}
 
 		@Override
@@ -53,27 +58,35 @@ public class RVMDeadlockDetector {
 					e.printStackTrace();
 				}
 				boolean deadlock = true;
-				synchronized (lock) {
-					for (Thread t : this.allThreads) {
-						if (t.getState() != State.WAITING && t.getState() != State.BLOCKED) {
-							deadlock = false;
-							break;
-						}
+				while (!this.lock.tryLock()) {
+					Thread.yield();
+				}
+				for (Thread t : this.allThreads) {
+					if (t.getState() != State.WAITING
+							&& t.getState() != State.BLOCKED) {
+						deadlock = false;
+						break;
 					}
 				}
+				this.lock.unlock();
 				if (deadlock && this.allThreads.size() != 0) {
 					RVMDeadlockDetector.callback.apply();
 					break;
 				}
-
 			}
 		}
 		
 		private boolean allThreadsTerminated() {
-			for (Thread t : allThreads) {
-				if (t.getState() != State.TERMINATED)
-					return false;
+			while (!this.lock.tryLock()) {
+				Thread.yield();
 			}
+			for (Thread t : allThreads) {
+				if (t.getState() != State.TERMINATED) {
+					this.lock.unlock();
+					return false;
+				}
+			}
+			this.lock.unlock();
 			return true;
 		}
 
