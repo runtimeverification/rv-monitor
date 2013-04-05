@@ -38,8 +38,8 @@ public class ThreadStatusMonitor extends EndThread{
 	public String printDataStructures() {
 		String ret = "";
 
-		ret += "static HashMap<Thread, Runnable> " + runnableMap + " = new HashMap<Thread, Runnable>();\n";
-		// We actually don't need mainThread in deadlock detection
+		// We don't need those data structures for deadlock detection.
+		//ret += "static HashMap<Thread, Runnable> " + runnableMap + " = new HashMap<Thread, Runnable>();\n";
 		//ret += "static Thread " + mainThread + " = null;\n";
 		ret += "static HashSet<Thread> " + threadSet + " = new HashSet<Thread>();\n";
 		return ret;
@@ -176,14 +176,31 @@ public class ThreadStatusMonitor extends EndThread{
 	public String printAdviceForNewThread() {
 		String ret = "";
 		
-		ret += "after (Thread t): ";
-		ret += "(";
-		ret += "call(void Thread+.start()) && target(t))";
-		ret += " && " + commonPointcut + "() {\n";
+//		ret += "after (Thread t): ";
+//		ret += "(";
+//		ret += "call(void Thread+.start()) && target(t))";
+//		ret += " && " + commonPointcut + "() {\n";
+		
+		ret += "public static void startDeadlockDetection() { \n";
 		ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
 		ret += "Thread.yield();\n";
 		ret += "}\n";
-		ret += threadSet + ".add(t);\n";
+		ret += threadSet + ".add(Thread.currentThread());\n";
+		//Start deadlock detection thread here
+		if (this.hasDeadlockHandler) {
+			ret += "if (!rvmonitorrt.RVMDeadlockDetector.startedDeadlockDetection) {\n";
+			ret += "rvmonitorrt.RVMDeadlockDetector.startDeadlockDetectionThread("
+					+ this.threadSet
+					+ ", "
+					+ this.globalLock.getName()
+					+ ", new "
+					+ this.monitorName
+					+ "."
+					+ this.monitorName
+					+ "DeadlockCallback()" + ");\n";
+			ret += "rvmonitorrt.RVMDeadlockDetector.startedDeadlockDetection = true;\n";
+			ret += "}\n";
+		}
 		ret += globalLock.getName() + "_cond.signalAll();\n";
 		ret += globalLock.getName() + ".unlock();\n";
 		ret += "}\n";
@@ -202,16 +219,16 @@ public class ThreadStatusMonitor extends EndThread{
 //		ret += printContainsThread();
 //		ret += "\n";
 		
-		ret += printAdviceForThreadWithRunnable();
-		ret += "\n";
-		ret += printAdviceForEndThread();
-		ret += "\n";
-		ret += printAdviceForEndRunnable();
-		ret += "\n";
-		ret += printAdviceForMainEnd();
-		ret += "\n";
+//		ret += printAdviceForThreadWithRunnable();
+//		ret += "\n";
+//		ret += printAdviceForEndThread();
+//		ret += "\n";
+//		ret += printAdviceForEndRunnable();
+//		ret += "\n";
+//		ret += printAdviceForMainEnd();
+//		ret += "\n";
 		ret += printAdviceForNewThread();
-
+		ret += "\n";
 		return ret;
 	}
 	

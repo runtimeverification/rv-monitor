@@ -12,6 +12,8 @@ import java.util.concurrent.locks.*;
 public class RVMDeadlockDetector {
 	
 	private static MOPCallBack callback;
+	
+	public static boolean startedDeadlockDetection = false;
 
 	/**
 	 * 
@@ -19,15 +21,13 @@ public class RVMDeadlockDetector {
 	 * 
 	 * @param allThreads
 	 *            The set of all running threads
-	 * @param mainThread
-	 *            Main thread of the program
 	 * @param lock
 	 *            Lock object used when accessing the set of all running threads
 	 * 
 	 * */
-	public static void startDeadlockDetectionThread(HashSet<Thread> allThreads, Thread mainThread, ReentrantLock lock, MOPCallBack monitorCallback) {
+	public static void startDeadlockDetectionThread(HashSet<Thread> allThreads, ReentrantLock lock, MOPCallBack monitorCallback) {
 		RVMDeadlockDetector.callback = monitorCallback;
-		Thread deadlockDetectionThread = new Thread(new DeadlockDetector(allThreads, mainThread, lock));
+		Thread deadlockDetectionThread = new Thread(new DeadlockDetector(allThreads, lock));
 		deadlockDetectionThread.start();
 		
 	}
@@ -35,17 +35,14 @@ public class RVMDeadlockDetector {
 	static class DeadlockDetector implements Runnable {
 
 		private HashSet<Thread> allThreads = new HashSet<Thread>();
-		private Thread mainThread;
 		private ReentrantLock lock;
 
-		public DeadlockDetector(HashSet<Thread> threads, Thread main,
-				ReentrantLock lockObj) {
+		public DeadlockDetector(HashSet<Thread> threads, ReentrantLock lockObj) {
 			this.lock = lockObj;
 			while (!this.lock.tryLock()) {
 				Thread.yield();
 			}
 			this.allThreads = threads;
-			this.mainThread = main;
 			this.lock.unlock();	
 		}
 
@@ -61,12 +58,20 @@ public class RVMDeadlockDetector {
 				while (!this.lock.tryLock()) {
 					Thread.yield();
 				}
+				boolean needCleanup = false;
 				for (Thread t : this.allThreads) {
+					if (t.getState() == State.TERMINATED) {
+						needCleanup = true;
+						continue;
+					}
 					if (t.getState() != State.WAITING
 							&& t.getState() != State.BLOCKED) {
 						deadlock = false;
 						break;
 					}
+				}
+				if (needCleanup) {
+					cleanup();
 				}
 				this.lock.unlock();
 				if (deadlock && this.allThreads.size() != 0) {
@@ -88,6 +93,21 @@ public class RVMDeadlockDetector {
 			}
 			this.lock.unlock();
 			return true;
+		}
+		
+		/**
+		 * 
+		 * 	Remove all terminated threads.
+		 * 
+		 * */
+		private void cleanup() {
+			HashSet<Thread> newThreads = new HashSet<Thread>();
+			for (Thread t : this.allThreads) {
+				if (t.getState() != State.TERMINATED) {
+					newThreads.add(t);
+				}
+			}
+			this.allThreads = newThreads;
 		}
 
 	}
