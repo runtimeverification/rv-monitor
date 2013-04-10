@@ -15,7 +15,7 @@ import rvmonitor.parser.ast.stmt.BlockStmt;
 /***
  * 
  * Wrapper monitor class for enforcing properties
- *
+ * 
  */
 public class EnforceMonitor extends BaseMonitor {
 
@@ -23,8 +23,7 @@ public class EnforceMonitor extends BaseMonitor {
 	 * Deadlock handler code for enforcement monitor
 	 * */
 	private BlockStmt deadlockHandler = null;
-	
-	
+
 	public EnforceMonitor(String name, RVMonitorSpec mopSpec,
 			OptimizedCoenableSet coenableSet, boolean isOutermost)
 			throws RVMException {
@@ -33,13 +32,13 @@ public class EnforceMonitor extends BaseMonitor {
 			HashMap<String, BlockStmt> handlerBodies = prop.getHandlers();
 			BlockStmt handlerBody = handlerBodies.get("deadlock");
 			if (handlerBody != null) {
-				//For now we assume there's only one deadlock handler.
+				// For now we assume there's only one deadlock handler.
 				this.deadlockHandler = handlerBody;
 				break;
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * Print callback class declaration
@@ -48,7 +47,7 @@ public class EnforceMonitor extends BaseMonitor {
 	@Override
 	public String printExtraDeclMethods() {
 		String ret = "";
-		
+
 		// Callback class declaration
 		ret += "static public class " + this.monitorName
 				+ "DeadlockCallback implements rvmonitorrt.RVMCallBack { \n";
@@ -61,15 +60,16 @@ public class EnforceMonitor extends BaseMonitor {
 		ret += "}\n\n";
 		return ret;
 	}
-	
+
 	/**
 	 * 
 	 * notify all the other waiting threads after an event was executed
 	 * 
 	 * */
 	@Override
-	public String afterEventMethod(RVMVariable monitor, PropertyAndHandlers prop,
-			EventDefinition event, GlobalLock lock, String aspectName) {
+	public String afterEventMethod(RVMVariable monitor,
+			PropertyAndHandlers prop, EventDefinition event, GlobalLock lock,
+			String aspectName) {
 		String ret = "";
 		if (lock != null) {
 			ret += lock.getName() + "_cond.signalAll();\n";
@@ -79,78 +79,74 @@ public class EnforceMonitor extends BaseMonitor {
 
 	/**
 	 * 
-	 * Clone the main monitor, and check whether executing current event on the cloned monitor will incur failure or not
+	 * Clone the main monitor, and check whether executing current event on the
+	 * cloned monitor will incur failure or not
 	 * 
 	 * */
 	@Override
-	public String beforeEventMethod(RVMVariable monitor, PropertyAndHandlers prop,
-			EventDefinition event, GlobalLock lock, String aspectName, boolean inMonitorSet) {
-		
+	public String beforeEventMethod(RVMVariable monitor,
+			PropertyAndHandlers prop, EventDefinition event, GlobalLock lock,
+			String aspectName, boolean inMonitorSet) {
+
 		String ret = "";
 		PropMonitor propMonitor = propMonitors.get(prop);
-		String methodName = propMonitor.eventMethods.get(event.getId()).toString();
+		String methodName = propMonitor.eventMethods.get(event.getId())
+				.toString();
 		ArrayList<String> blockedThreads = event.getThreadBlockedVar();
 		ret += "try {\n";
-		if (event.getCondition() != null && event.getCondition().length() != 0) {
-			ret += "boolean cloned_monitor_condition_fail = false;\n";
-		}
 
 		ret += "do {\n";
 		RVMVariable clonedMonitor = new RVMVariable("clonedMonitor");
-		ret += this.monitorName + " " + clonedMonitor + " = (" + this.monitorName +")" + monitor + ".clone();\n";
-		
-		RVMVariable enforceCategory = (RVMVariable)propMonitor.categoryVars.values().toArray()[0];
-		ret += clonedMonitor + "." + methodName + "(" + event.getRVMParameters().parameterInvokeString() + ");\n";
-		
-		
-		// Check if the condition fails, if it does, then return directly.
-		if (event.getCondition() != null && event.getCondition().length() != 0) {
-			ret += "if (" + clonedMonitor + "." + this.conditionFail + ") {\n";
-			ret += "cloned_monitor_condition_fail = true;\n";
-			ret += "break;\n";
-			ret += "}\n";
-		}
+		ret += this.monitorName + " " + clonedMonitor + " = ("
+				+ this.monitorName + ")" + monitor + ".clone();\n";
+
+		RVMVariable enforceCategory = (RVMVariable) propMonitor.categoryVars
+				.values().toArray()[0];
+		ret += "boolean cloned_monitor_condition_fail = " + clonedMonitor + "."
+				+ methodName + "("
+				+ event.getRVMParameters().parameterInvokeString() + ");\n";
+
+		ret += "if (!cloned_monitor_condition_fail) {\n";
+		ret += "break;\n";
+		ret += "}\n";
 
 		ret += "if (!" + clonedMonitor + "." + enforceCategory + ") {\n";
 		if (lock != null)
 			ret += lock.getName() + "_cond.await();\n";
 		ret += "}\n";
 		ret += "else {\n";
-		ret += "break;\n";	
+		ret += "break;\n";
 		ret += "}\n";
 		ret += "} while (true);\n\n";
-		
-		// If there is blocking event point cut, wait for the thread to be blocked
+
+		// If there is blocking event point cut, wait for the thread to be
+		// blocked
 
 		if (blockedThreads != null) {
-			
-			if (event.getCondition() != null && event.getCondition().length() != 0) {
-				ret += "if (!cloned_monitor_condition_fail){\n";
-			}
-
+			ret += "if (!cloned_monitor_condition_fail){\n";
 			for (String var : blockedThreads) {
-				
+
 				if (!(var.startsWith("\"") && var.endsWith("\"")))
 					var = monitor + "." + var;
-				ret += "while (!" + aspectName + ".containsBlockedThread(" + var + ")) {\n";
-				ret += "if (!" + aspectName + ".containsThread(" + var + ")) {\n";
+				ret += "while (!" + aspectName + ".containsBlockedThread("
+						+ var + ")) {\n";
+				ret += "if (!" + aspectName + ".containsThread(" + var
+						+ ")) {\n";
 				if (lock != null)
 					ret += lock.getName() + "_cond.await();\n";
 				ret += "}\n";
 				if (lock != null)
-					ret += lock.getName() + "_cond.await(50L, TimeUnit.MILLISECONDS);\n";
+					ret += lock.getName()
+							+ "_cond.await(50L, TimeUnit.MILLISECONDS);\n";
 				ret += "}\n";
 			}
-			
-			if (event.getCondition() != null && event.getCondition().length() != 0) {
-				ret += "}\n";
-			}
+			ret += "}\n";
 		}
 
 		ret += "} catch (Exception e) {\n";
 		ret += "e.printStackTrace();\n";
 		ret += "}\n";
-		return  ret;
+		return ret;
 	}
-	
+
 }

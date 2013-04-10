@@ -12,12 +12,14 @@ import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 
 public class EndProgram {
 	RVMVariable hookName = null;
+	String className;
 
 	ArrayList<EndThread> endThreadEvents = new ArrayList<EndThread>();
 	ArrayList<AdviceBody> eventBodies = new ArrayList<AdviceBody>();
 
 	public EndProgram(String name) {
 		this.hookName = new RVMVariable(name + "_DummyHookThread");
+		this.className = name + "RuntimeMonitor";
 	}
 
 	public void addEndProgramEvent(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
@@ -37,7 +39,7 @@ public class EndProgram {
 		if(eventBodies.size() == 0 && endThreadEvents.size() == 0)
 			return ret;
 
-		ret += "Runtime.getRuntime().addShutdownHook(new " + hookName + "());\n";
+		ret += "Runtime.getRuntime().addShutdownHook( (new " + className + "())" + ".new " + hookName + "());\n";
 
 		return ret;
 	}

@@ -206,6 +206,7 @@ public class BaseMonitor extends Monitor {
 			if (event.getAction() != null && event.getAction().getStmts() != null && event.getAction().getStmts().size() != 0) {
 				String eventActionStr = event.getAction().toString();
 	
+				eventActionStr = eventActionStr.replaceAll("return;", "return true;");
 				eventActionStr = eventActionStr.replaceAll("__RESET", "this.reset()");
 				eventActionStr = eventActionStr.replaceAll("__DEFAULT_MESSAGE", defaultMessage);
         //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
@@ -221,8 +222,11 @@ public class BaseMonitor extends Monitor {
 			}
 		}
 
-		ret += "final void " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
+		// Add return value to events, so we know whether it's because of the condition failure or not
+		ret += "final boolean " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
 
+		
+		// Maybe we don't need that in RV monitor because condition is always empty?
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";
 
@@ -293,7 +297,7 @@ public class BaseMonitor extends Monitor {
 
 		ret += aftereventMonitoringCode;
 
-
+		ret += "return true;\n";
 		ret += "}\n";
 
 		return ret;

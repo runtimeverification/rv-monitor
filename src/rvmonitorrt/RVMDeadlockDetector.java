@@ -11,7 +11,7 @@ import java.util.concurrent.locks.*;
  * */
 public class RVMDeadlockDetector {
 	
-	private static MOPCallBack callback;
+	private static RVMCallBack callback;
 	
 	public static boolean startedDeadlockDetection = false;
 
@@ -25,7 +25,7 @@ public class RVMDeadlockDetector {
 	 *            Lock object used when accessing the set of all running threads
 	 * 
 	 * */
-	public static void startDeadlockDetectionThread(HashSet<Thread> allThreads, ReentrantLock lock, MOPCallBack monitorCallback) {
+	public static void startDeadlockDetectionThread(HashSet<Thread> allThreads, ReentrantLock lock, RVMCallBack monitorCallback) {
 		RVMDeadlockDetector.callback = monitorCallback;
 		Thread deadlockDetectionThread = new Thread(new DeadlockDetector(allThreads, lock));
 		deadlockDetectionThread.start();
