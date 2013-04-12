@@ -139,7 +139,7 @@ public class MonitorSet {
 			ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
 
 		if (hasThisJoinPoint)
-			ret += "JoinPoint " + this.thisJoinPoint + " = null;\n";
+			ret += "org.aspectj.lang.JoinPoint " + this.thisJoinPoint + " = null;\n";
 
 		for (RVMVariable var : this.monitor.getCategoryVars()) {
 			ret += "boolean " + BaseMonitor.getNiceVariable(var) + ";\n";

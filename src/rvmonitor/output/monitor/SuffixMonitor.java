@@ -285,7 +285,7 @@ public class SuffixMonitor extends Monitor {
 			if (this.has__STATICSIG)
 				ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 			if (this.hasThisJoinPoint)
-				ret += "JoinPoint " + thisJoinPoint + " = null;\n";
+				ret += "org.aspectj.lang.JoinPoint " + thisJoinPoint + " = null;\n";
 			if (existSkip)
 				ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
 

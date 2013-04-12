@@ -85,7 +85,7 @@ public class RawMonitor extends Monitor{
 		if (event.getAction() != null && event.getAction().getStmts() != null && event.getAction().getStmts().size() != 0) {
 			String eventActionStr = event.getAction().toString();
 
-			eventActionStr = eventActionStr.replaceAll("return;", "return true;");
+//			eventActionStr = eventActionStr.replaceAll("return;", "return true;");
 			eventActionStr = eventActionStr.replaceAll("__RESET", "this.reset()");
  			eventActionStr = eventActionStr.replaceAll("__DEFAULT_MESSAGE", defaultMessage);
       //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
@@ -195,7 +195,7 @@ public class RawMonitor extends Monitor{
 			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 
 		if (this.hasThisJoinPoint)
-			ret += "JoinPoint " + thisJoinPoint + " = null;\n";
+			ret += "org.aspectj.lang.JoinPoint " + thisJoinPoint + " = null;\n";
 		
 		// events
 		for (EventDefinition event : this.events) {

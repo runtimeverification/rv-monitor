@@ -74,6 +74,8 @@ public class BaseMonitor extends Monitor {
 			varInOutermostMonitor = new VarInOutermostMonitor(name, mopSpec, mopSpec.getEvents());
 			monitorTermination = new MonitorTermination(name, mopSpec, mopSpec.getEvents(), coenableSet);
 		}
+		
+		String prefix = Main.merge ? this.monitorName + "_" : "";
 
 		for (PropertyAndHandlers prop : props) {
 			PropMonitor propMonitor = new PropMonitor();
@@ -93,7 +95,7 @@ public class BaseMonitor extends Monitor {
 			for (String category : prop.getHandlers().keySet()) {
 				if (category.equals("deadlock"))
 					continue;
-				RVMVariable categoryVar = new RVMVariable("Prop_" + prop.getPropertyId() + "_Category_" + category);
+				RVMVariable categoryVar = new RVMVariable(prefix + "Prop_" + prop.getPropertyId() + "_Category_" + category);
 				propMonitor.categoryVars.put(category, categoryVar);
 
 				BlockStmt handlerBody = handlerBodies.get(category);
@@ -430,7 +432,7 @@ public class BaseMonitor extends Monitor {
 		if (this.has__STATICSIG)
 			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 		if (this.hasThisJoinPoint)
-			ret += "JoinPoint " + thisJoinPoint + " = null;\n";
+			ret += "org.aspectj.lang.JoinPoint " + thisJoinPoint + " = null;\n";
 
 		// references for saved parameters
 		for (RVMVariable v : varsToSave.values()) {
@@ -639,6 +641,7 @@ public class BaseMonitor extends Monitor {
 						parts[0].substring(1);
 			}
 		}
+
 		result = new RVMVariable(v);
 		niceVars.put(var, result);
 		return  result;

@@ -39,7 +39,8 @@ public class Advice {
 	public Advice(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
-		this.pointcutName = new RVMVariable(event.getId() + "Event");
+		String prefix = Main.merge ? mopSpec.getName() + "_" : "";
+		this.pointcutName = new RVMVariable(prefix + event.getId() + "Event");
 		this.inlineFuncName = new RVMVariable("RVMInline" + mopSpec.getName() + "_" + event.getUniqueId());
 		this.parameters = event.getParametersWithoutThreadVar();
 		this.inlineParameters = event.getRVMParametersWithoutThreadVar();
