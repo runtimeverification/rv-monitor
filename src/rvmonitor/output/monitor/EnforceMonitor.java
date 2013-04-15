@@ -88,6 +88,11 @@ public class EnforceMonitor extends BaseMonitor {
 			PropertyAndHandlers prop, EventDefinition event, GlobalLock lock,
 			String aspectName, boolean inMonitorSet) {
 
+		// If it is a blocking event, then it cannot be enforced.
+		if (event.isBlockingEvent()) {
+			return "";
+		}
+		
 		String ret = "";
 		PropMonitor propMonitor = propMonitors.get(prop);
 		String methodName = propMonitor.eventMethods.get(event.getId())
@@ -121,27 +126,29 @@ public class EnforceMonitor extends BaseMonitor {
 
 		// If there is blocking event point cut, wait for the thread to be
 		// blocked
+		
+		// we don't need that in rv-monitor because we have separate blockingEvent
 
-		if (blockedThreads != null) {
-			ret += "if (!cloned_monitor_condition_fail){\n";
-			for (String var : blockedThreads) {
-
-				if (!(var.startsWith("\"") && var.endsWith("\"")))
-					var = monitor + "." + var;
-				ret += "while (!" + aspectName + ".containsBlockedThread("
-						+ var + ")) {\n";
-				ret += "if (!" + aspectName + ".containsThread(" + var
-						+ ")) {\n";
-				if (lock != null)
-					ret += lock.getName() + "_cond.await();\n";
-				ret += "}\n";
-				if (lock != null)
-					ret += lock.getName()
-							+ "_cond.await(50L, TimeUnit.MILLISECONDS);\n";
-				ret += "}\n";
-			}
-			ret += "}\n";
-		}
+//		if (blockedThreads != null) {
+//			ret += "if (!cloned_monitor_condition_fail){\n";
+//			for (String var : blockedThreads) {
+//
+//				if (!(var.startsWith("\"") && var.endsWith("\"")))
+//					var = monitor + "." + var;
+//				ret += "while (!" + aspectName + ".containsBlockedThread("
+//						+ var + ")) {\n";
+//				ret += "if (!" + aspectName + ".containsThread(" + var
+//						+ ")) {\n";
+//				if (lock != null)
+//					ret += lock.getName() + "_cond.await();\n";
+//				ret += "}\n";
+//				if (lock != null)
+//					ret += lock.getName()
+//							+ "_cond.await(50L, TimeUnit.MILLISECONDS);\n";
+//				ret += "}\n";
+//			}
+//			ret += "}\n";
+//		}
 
 		ret += "} catch (Exception e) {\n";
 		ret += "e.printStackTrace();\n";
