@@ -9,10 +9,12 @@ import rvmonitor.parser.ast.mopspec.RVMParameter;
 import rvmonitor.parser.ast.mopspec.RVMonitorSpec;
 import rvmonitor.parser.ast.mopspec.RVMParameters;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Advice {
 	public RVMonitorStatManager statManager;
@@ -22,6 +24,7 @@ public class Advice {
 	RVMParameters inlineParameters;
 
 	RVMVariable pointcutName;
+	RVMVariable blockingMethodName;
 	RVMParameters parameters;
 
 	boolean hasThisJoinPoint;
@@ -40,6 +43,9 @@ public class Advice {
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
 		this.pointcutName = new RVMVariable(event.getId() + "Event");
+		if (event.isBlockingEvent()) {
+			this.blockingMethodName = new RVMVariable(event.getId() + "BlockingEvent");
+		}
 		this.inlineFuncName = new RVMVariable("RVMInline" + mopSpec.getName() + "_" + event.getUniqueId());
 		this.parameters = event.getParametersWithoutThreadVar();
 		this.inlineParameters = event.getRVMParametersWithoutThreadVar();
@@ -236,8 +242,61 @@ public class Advice {
 			ret += "}\n";
 		}
 
-
-		ret += "public static void " + pointcutName;
+		if (this.blockingMethodName != null) {
+			ret += "public static void " + blockingMethodName;
+			ret += "(";
+			ret += parameters.parameterDeclString();
+			ret += ")";
+			ret += " {\n";
+			
+			
+//			BlockingEventThread b = new BlockingEventThread() {
+//				public void execEvent() {
+//					blocked();
+//				}
+//				
+//			};
+			
+			// Copy parameters to final variables
+			List<String> finalParameters = new ArrayList<String>();
+			for (RVMParameter p : parameters) {
+				ret += "final " + p.getType() + " " + p.getName() + "_final = " + p.getName() + ";\n";
+				finalParameters.add(p.getName() + "_final");
+			}
+			String threadName = this.blockingMethodName + "_thread";
+			String eventName = this.pointcutName.toString().substring(0, this.pointcutName.toString().length() - 5);
+			ret += "rvmonitorrt.concurrent.BlockingEventThread " + threadName + " = new rvmonitorrt.concurrent.BlockingEventThread(\"" + eventName + "\") {\n";
+			
+			ret += "public void execEvent() {\n";
+			
+			// Call the real event method
+			ret += pointcutName + "(";
+			
+			String finalParameter = "";
+			for (String p : finalParameters) {
+				finalParameter += ", " + p;
+			}
+			if (finalParameter.length() != 0) {
+				finalParameter = finalParameter.substring(2);
+			}
+			ret += finalParameter;
+			ret += ");\n";
+			
+			ret += " }\n";
+			ret += " };\n";
+			
+			// Start the blocking event method thread
+			ret += threadName + ".start();\n";
+			ret += " }\n";
+			ret += "\n";
+		}
+		
+		if (this.blockingMethodName != null) {
+			ret += "private static void " + pointcutName;
+		}
+		else {
+			ret += "public static void " + pointcutName;
+		}
 		ret += "(";
 		ret += parameters.parameterDeclString();
 		ret += ")";

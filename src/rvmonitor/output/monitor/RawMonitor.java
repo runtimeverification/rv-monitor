@@ -99,14 +99,14 @@ public class RawMonitor extends Monitor{
 			eventAction = new RVMJavaCode(eventActionStr);
 		}
 
-			ret += "final void event_" + event.getId() + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
+			ret += "final boolean event_" + event.getId() + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
 
 		if ( has__SKIP)
 			ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";
-			ret += "return;\n";
+			ret += "return false;\n";
 			ret += "}\n";
 		}
 
@@ -117,6 +117,7 @@ public class RawMonitor extends Monitor{
 		if(eventAction != null)
 			ret += eventAction;
 
+		ret += "return true;\n";
 		ret += "}\n";
 
 		return ret;

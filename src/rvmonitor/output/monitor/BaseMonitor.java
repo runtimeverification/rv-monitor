@@ -225,18 +225,6 @@ public class BaseMonitor extends Monitor {
 		// Add return value to events, so we know whether it's because of the condition failure or not
 		ret += "final boolean " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
 
-		
-		// Maybe we don't need that in RV monitor because condition is always empty?
-		if (!condition.isEmpty()) {
-			ret += "if (!(" + condition + ")) {\n";
-
-			ret += conditionFail + " = true;\n";
-
-			ret += "return;\n";
-			ret += "}\n";
-		}
-
-
 		if (prop == props.get(props.size() - 1) && eventAction != null) {
 			for (RVMParameter p : event.getUsedParametersIn(specParam)) {
 				if (!event.getRVMParametersOnSpec().contains(p)) {
@@ -305,7 +293,7 @@ public class BaseMonitor extends Monitor {
 	
 	
 	public String printEventMethod(PropertyAndHandlers prop, EventDefinition event) {
-		return this.printEventMethod(prop, event, "");
+		return this.printEventMethod(prop, event, "");	
 	}
 	
 	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock lock, String aspectName, boolean inMonitorSet) {

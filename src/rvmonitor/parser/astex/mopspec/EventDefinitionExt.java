@@ -28,6 +28,8 @@ public class EventDefinitionExt extends ExtNode {
 
 	// will be modified by RVMonitorSpec when creation events are not specified
 	boolean startEvent = false;
+	
+	boolean blockingEvent = false;
 
 	String condition;
 	String threadVar;
@@ -62,7 +64,12 @@ EventDefinitionExt Event()
 	{ return new EventDefinitionExt(line, column, name, parameters, block, startEvent); }
 }
  */
-	public EventDefinitionExt(int line, int column, String id, List<RVMParameter> parameters, BlockStmt block, boolean startEvent)
+	/**
+	 * 
+	 * A new constructor for blocking event
+	 * 
+	 * */
+	public EventDefinitionExt(int line, int column, String id, List<RVMParameter> parameters, BlockStmt block, boolean startEvent, boolean isBlockingEvent)
 			throws rvmonitor.parser.main_parser.ParseException {
 		super(line, column);
 		this.id = id;
@@ -71,6 +78,7 @@ EventDefinitionExt Event()
 		this.startEvent = startEvent;
 		this.rvmParameters = new RVMParameters();
 		this.rvmParameters.addAll(this.parameters);
+		this.blockingEvent = isBlockingEvent;
 	}
 
 
@@ -218,6 +226,10 @@ EventDefinitionExt Event()
 		return this.startEvent;
 	}
 
+	public boolean isBlockingEvent() {
+		return this.blockingEvent;
+	}
+	
 	public boolean isEndProgram() {
 		return this.endProgram;
 	}

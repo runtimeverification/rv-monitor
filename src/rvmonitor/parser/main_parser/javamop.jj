@@ -324,6 +324,7 @@ TOKEN :
 TOKEN :
 {
 	<EVENT: "event">
+|	<BLOCKINGEVENT: "blockingEvent">
 | 	<CREATION: "creation">
 |	<UNSYNC: "unsynchronized">
 |	<DECENT: "decentralized">
@@ -1392,16 +1393,22 @@ EventDefinitionExt Event():
 	int line = -1;
 	int column = 0;
 	boolean startEvent = false;
+        boolean blockingEvent = false;
 }
 {
   ["creation" {startEvent = true;}]
+  (
   "event" {line = token.beginLine; column = token.beginColumn;}
+  |
+  "blockingEvent"  {line = token.beginLine; column = token.beginColumn; blockingEvent = true;}
+  )
   (<IDENTIFIER> | "get" | "set")  { name = token.image; }
   parameters = AdviceParameters()
   ( block = Block() | ";" )
 
-	{ return new EventDefinitionExt(line, column, name, parameters, block, startEvent); }
+	{ return new EventDefinitionExt(line, column, name, parameters, block, startEvent, blockingEvent); }
 }
+
 
 /*
 EventDefinitionExt Event():

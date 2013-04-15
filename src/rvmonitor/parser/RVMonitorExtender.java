@@ -208,7 +208,7 @@ public class RVMonitorExtender {
 		EventDefinition ret;
 		try {
 			ret = new EventDefinition(event.getBeginLine(), event.getBeginColumn(), event.getId(), event
-					.getParameters().toList(), event.getBlock(),  event.isStartEvent());
+					.getParameters().toList(), event.getBlock(), event.isStartEvent(), event.isBlockingEvent());
 		} catch (Exception e) {
 			throw new RVMException(e.getMessage());
 		}

@@ -26,6 +26,8 @@ public class EventDefinition extends Node {
 
 	// will be modified by RVMonitorSpec when creation events are not specified
 	boolean startEvent = false;
+	
+	boolean blockingEvent = false;
 
 	String condition;
 	String threadVar;
@@ -45,13 +47,14 @@ public class EventDefinition extends Node {
 	String uniqueId = null; // will be defined in RVMonitorSpec
 	RVMParameters rvmParametersOnSpec; // will be defined in RVMonitorSpec
 
-	public EventDefinition(int beginLine, int beginColumn, String id, List<RVMParameter> rvmParameters, BlockStmt block, boolean startEvent) {
+	public EventDefinition(int beginLine, int beginColumn, String id, List<RVMParameter> rvmParameters, BlockStmt block, boolean startEvent, boolean blockingEvent) {
 		super(beginLine, beginColumn);
 		this.id=id;
 		this.parameters = new RVMParameters(rvmParameters);
 		this.rvmParameters = new RVMParameters(rvmParameters);
 		this.block = block;
 		this.startEvent = startEvent;
+		this.blockingEvent = blockingEvent;
 	}
 
 	private PointCut parsePointCut(String input) throws rvmonitor.parser.main_parser.ParseException {
@@ -309,6 +312,10 @@ public class EventDefinition extends Node {
 	
 	public boolean isStartEvent() {
 		return this.startEvent;
+	}
+	
+	public boolean isBlockingEvent() {
+		return this.blockingEvent;
 	}
 
 	public boolean isEndProgram() {
