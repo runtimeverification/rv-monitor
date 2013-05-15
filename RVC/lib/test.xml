@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mop>
+	<Client>Web</Client>
+	<Events>hasnext next</Events>
+	<Property>
+		<Logic>fsm</Logic>
+		<Formula>
+  start [
+    next -> unsafe
+    hasnext -> safe
+  ]
+  safe [
+    next -> start
+    hasnext -> safe 
+  ]
+  unsafe [
+    next -> unsafe
+    hasnext -> safe
+  ]
+  alias match = unsafe
+		</Formula>
+	</Property>
+	<Categories>unsafe</Categories>
+</mop>
+

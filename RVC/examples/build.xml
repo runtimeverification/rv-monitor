@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<project name="cmongen" default="jar" basedir=".">
+  <property name="name" value="cmongen" />
+  <property name="build" value="build" />
+  <property name="lib" value="lib" />
+  <property name="src" value="src" />
+  <property name="plugins" value="lib/plugins" />
+
+  <target name="init">
+    <mkdir dir="${build}" />
+    <mkdir dir="${lib}" />
+    <mkdir dir="${plugins}" />
+   </target>
+ 
+
+  <target name="clean">
+     <delete verbose="true">
+        <fileset dir="${build}" />
+     </delete>
+     <delete verbose="true">
+        <fileset dir="${lib}" />
+     </delete>
+  </target>
+
+  <target name="compile" depends="init">
+     <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" />
+  </target>
+
+  <target name="jar" depends="compile">
+     <jar destfile="${lib}/${name}.jar" basedir="${build}">
+        <include name="${name}/*" />
+        <include name="${name}/cmongensyntax/**" />
+        <include name="${name}/plugins/*.class" />
+        <include name="${name}/shells/**" />
+     </jar>
+
+     <jar destfile="${plugins}/ERE.jar" basedir="${build}" includes="${name}/plugins/ere/**" />
+     <jar destfile="${plugins}/FSM.jar" basedir="${build}" includes="${name}/plugins/fsm/**" />
+  </target>
+</project>

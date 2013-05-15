@@ -1,0 +1,156 @@
+options {
+ STATIC = false;
+}
+
+PARSER_BEGIN(FSMParser)
+package cmongen.plugins.fsm;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.io.*;
+
+public class FSMParser {
+  public static FSMParser parse(String input) {
+    Reader reader = new StringReader(input);
+	 FSMParser fsmParser = new FSMParser(reader);	
+	 
+	 fsmParser.states = new ArrayList<String>();
+    fsmParser.aliases = new HashMap<String, HashSet<String>>();
+    fsmParser.stateMap = new HashMap<String, ArrayList<Transition>>();
+
+    try{
+      fsmParser.Start();
+    }
+	 catch(ParseException e){
+      System.err.println(e.getMessage());
+	 }
+	 catch(TokenMgrError e){
+      System.err.println(e.getMessage());
+	 }
+	 return fsmParser;
+  }
+
+  private String startState;
+  private ArrayList<String> states;
+  private HashMap<String, HashSet<String>> aliases;
+  private HashMap<String, ArrayList<Transition>> stateMap;
+
+  public String getStartState(){
+    return startState;
+  }
+
+  public ArrayList<String> getStates(){
+	  return states;
+  }
+  
+  public HashMap<String, HashSet<String>> getAliases (){
+	  return aliases;
+  }
+  
+  public HashMap<String, ArrayList<Transition>> getStateMap() {
+	  return stateMap;
+  }
+}
+PARSER_END(FSMParser)
+
+SKIP : {
+ 	<WHITESPACE: [" ","\t","\r","\n"]>
+}
+TOKEN : {
+     <ARROW : "->">
+	| <LBRACE : "[">
+	| <RBRACE : "]">
+	| <EQUAL : "=" >
+	| <COMMA : "," >
+	| <ALIAS : "alias">
+	| <FAIL : "fail">
+	| <DEF : "default">
+	| <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_")*> 
+	| <DIGIT : ["0"-"9"]>
+	| <LETTER : ["a"-"z","A"-"Z"]>
+}
+
+void Start() : {}
+{ 
+  startState = State()
+  ( LOOKAHEAD(2)
+    State()
+  )*
+  (Alias())*
+}
+
+String State() : {
+  Token stateToken;
+  ArrayList<Transition> transitions = null;
+}
+{ 
+  stateToken = <ID>
+  {
+	 states.add(stateToken.image);
+  }
+  "[" [ transitions = Transitions() ] "]" 
+  {
+    if(transitions == null) {
+      stateMap.put(stateToken.image, new ArrayList<Transition>());
+	 } else {
+      stateMap.put(stateToken.image, transitions);
+	 }
+	 return stateToken.image;
+  }
+}
+
+ArrayList<Transition> Transitions() : {
+  Token eventToken;
+  Token destinationToken;
+  ArrayList<Transition> retval;
+}
+{
+	{
+     retval = new ArrayList<Transition>();
+	}
+  (
+      eventToken = <ID> "->" destinationToken = <ID> [ "," ]
+      {
+        retval.add(new Transition(eventToken.image, destinationToken.image));
+      }
+	 |
+      "default"  destinationToken = <ID> [ "," ]
+		{
+        retval.add(new Transition(null, destinationToken.image));
+      }
+  )+
+  {
+    return retval;
+  }
+}
+
+void Alias() : {
+  Token aliasToken;
+  HashSet<String> aliasedStates = null;
+}
+{
+  <ALIAS> aliasToken = <ID> "=" aliasedStates = StateList() 
+  {
+    aliases.put(aliasToken.image, aliasedStates);
+  }
+}
+
+HashSet<String> StateList() :{
+  Token stateToken;
+  HashSet<String> stateList = new HashSet<String>();
+}
+{
+  ( 
+      stateToken = <ID> { stateList.add(stateToken.image); }
+	 | "fail" { stateList.add("fail");}
+  )
+  (
+    [","] ( 
+	        stateToken = <ID> { stateList.add(stateToken.image); }
+	      | "fail" { stateList.add("fail");}
+		  )
+  )*
+  {return stateList; }
+}
+

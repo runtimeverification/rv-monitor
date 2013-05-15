@@ -1,0 +1,8 @@
+To use:
+
+java -cp lib/plugins/ERE.jar:lib/plugins/FSM.jar:lib/cmongen.jar cmongen.Main < examples/fsm.xml
+
+java -cp lib/plugins/ERE.jar:lib/plugins/FSM.jar:lib/cmongen.jar cmongen.Main < examples/ere.xml
+
+The produced code is a viable C file.  Simply call __CMOP_SpecName_monitor with the proper event constant.
+Int category flags will be set as appropriate.
