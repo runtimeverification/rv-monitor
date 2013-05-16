@@ -3,14 +3,28 @@ options {
 }
 
 PARSER_BEGIN(RVCParser)
-package RVCParser.parser;
+package RVC.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.io.*;
 
 public class RVCParser {
+
+  public static void main(String[] args){
+     Scanner sc = new Scanner(System.in);
+     StringBuilder buf = new StringBuilder();
+     while(sc.hasNextLine()) buf.append(sc.nextLine());
+     RVCParser rvcParser = parse(buf.toString()); 
+     System.out.println(rvcParser.specName + "\n==========");
+     System.out.println(rvcParser.events + "\n==========" );
+     System.out.println(rvcParser.formalism  + "\n==========");
+     System.out.println(rvcParser.formula  + "\n==========");
+     System.out.println(rvcParser.handlers  + "\n==========");
+  }
+
   public static RVCParser parse(String input) {
     Reader reader = new StringReader(input);
 	  RVCParser rvcParser = new RVCParser(reader);	
@@ -53,92 +67,66 @@ public class RVCParser {
   public String getFormula () {
 	  return formula;
   }
-
-  //stolen from rv-monitor parser.  This is rather
-  //ugly and should be refactored
   private String parseFormula () throws ParseException {
-	StringBuffer buf = new StringBuffer();
-    	buf.append(jj_nt);
-    	
-    	StringBuffer last_id = new StringBuffer();
-    	try {
+		
+    StringBuilder buf = new StringBuilder();
+
+    try {
    			char next = jj_input_stream.readChar();
-    		while (true){
-    			if (next == '@'){
-    				if (last_id.length() != 0){
-    					buf.append(last_id);
-    				}
- 			    	jj_input_stream.backup(1);
-			    	jj_nt = token_source.getNextToken();
-			    	break;
-    			}
-    			if (next == '}'){
-    				int residueSize = 0;
-    				boolean EOFSeen = false;
-    				boolean endFormula = true;
-    				while(!EOFSeen && endFormula){
-    					try{
-	    					jj_input_stream.readChar();
-	    					jj_input_stream.backup(1);
-	    				} catch (java.io.IOException e1){
-	    					EOFSeen = true;
-	    				}
-	    				if(!EOFSeen){
-	    					char tempNext = jj_input_stream.readChar();
-	    					residueSize++;
-	    					if(tempNext != ' ' &&
-	    						tempNext != '\n' &&
-	    						tempNext != '\r' &&
-	    						tempNext != '\t' &&
-	    						tempNext != '\f'){
-	    						endFormula = false;
-	    						break;
-	    					}
-	    				}
-    				}
-    				jj_input_stream.backup(residueSize);
-    				if(endFormula){
-	    				if (last_id.length() != 0){
-	    					buf.append(last_id);
-	    				}
-	 			    	jj_input_stream.backup(1);
-				    	jj_nt = token_source.getNextToken();
-				    	break;
-				    } else {
-				    	//it will go to else part below.
-				    }
-    			}
-    			if (next == ':'){
-    				jj_input_stream.backup(last_id.length());
-    				jj_nt = token_source.getNextToken();
-    				break;
-    			}
-    			
-    			if ( (next >= '0' && next <= '9') || (next >= 'a' && next <= 'z') || (next >= 'A' && next <= 'Z')){
-    				last_id.append(next);
-    			} else {
-    				if (last_id.length() != 0){
-    					buf.append(last_id);
-    					last_id = new StringBuffer();
-    				}
-		    		buf.append(next);			
-    			}
-    			 
-    			next = jj_input_stream.readChar();
-    		}
-    	} catch (Exception e) {
+        while (true){
+          if(next == '@'){
+            jj_input_stream.backup(1);
+            break;
+          }
+          buf.append(next);
+          next = jj_input_stream.readChar();
+        }
+    } catch (Exception e) {
     		if(e instanceof ParseException)
 				throw (ParseException)e;
     		Token t = new Token();
     		t.beginLine = jj_input_stream.getBeginLine();
     		t.beginColumn = jj_input_stream.getBeginColumn();    		
-    		throw new ParseException("wrong formula");
-    	}
-    	return buf.toString().trim();    	
+    		throw new ParseException("formula");
     }
+    return buf.toString().trim();
+  }
 
   private String parseCodeBlock () throws ParseException {
-    return "";
+    StringBuilder buf = new StringBuilder();
+
+    try {
+   			char next = jj_input_stream.readChar();
+    		int nesting = 0;
+        while (true){
+          if(next == '{'){
+            ++nesting;
+            buf.append(next);
+          }
+          else if(next == '}'){
+            --nesting;
+            if(nesting != -1){
+              buf.append(next);
+            }
+            else {
+              jj_input_stream.backup(1);
+              break;
+            } 
+          }
+          else {
+            buf.append(next);
+          }
+          next = jj_input_stream.readChar();
+        }
+    } catch (Exception e) {
+    		if(e instanceof ParseException)
+				throw (ParseException)e;
+    		Token t = new Token();
+    		t.beginLine = jj_input_stream.getBeginLine();
+    		t.beginColumn = jj_input_stream.getBeginColumn();    		
+    		throw new ParseException("bad code block");
+    }
+    return buf.toString().trim();
   }
 }
 PARSER_END(RVCParser)
@@ -194,5 +182,5 @@ void Handler() : {
   token = <ID> "{"
     { code = parseCodeBlock(); }  
   "}"
-  { events.put(token.image,code); }
+  { handlers.put(token.image,code); }
 }
