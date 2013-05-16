@@ -54,23 +54,88 @@ public class RVCParser {
 	  return formula;
   }
 
+  //stolen from rv-monitor parser.  This is rather
+  //ugly and should be refactored
   private String parseFormula () throws ParseException {
-    StringBuffer buf = new StringBuffer();
-    buf.append(jj_nt);
-    StringBuffer last_id = new StringBuffer();
-    try{
-
-    }  
-    catch (Exception e) {
-    	if(e instanceof ParseException)
-			throw (ParseException)e;
-    	Token t = new Token();
-    	t.beginLine = jj_input_stream.getBeginLine();
-    	t.beginColumn = jj_input_stream.getBeginColumn();    		
-    	throw new ParseException("bad formula");
+	StringBuffer buf = new StringBuffer();
+    	buf.append(jj_nt);
+    	
+    	StringBuffer last_id = new StringBuffer();
+    	try {
+   			char next = jj_input_stream.readChar();
+    		while (true){
+    			if (next == '@'){
+    				if (last_id.length() != 0){
+    					buf.append(last_id);
+    				}
+ 			    	jj_input_stream.backup(1);
+			    	jj_nt = token_source.getNextToken();
+			    	break;
+    			}
+    			if (next == '}'){
+    				int residueSize = 0;
+    				boolean EOFSeen = false;
+    				boolean endFormula = true;
+    				while(!EOFSeen && endFormula){
+    					try{
+	    					jj_input_stream.readChar();
+	    					jj_input_stream.backup(1);
+	    				} catch (java.io.IOException e1){
+	    					EOFSeen = true;
+	    				}
+	    				if(!EOFSeen){
+	    					char tempNext = jj_input_stream.readChar();
+	    					residueSize++;
+	    					if(tempNext != ' ' &&
+	    						tempNext != '\n' &&
+	    						tempNext != '\r' &&
+	    						tempNext != '\t' &&
+	    						tempNext != '\f'){
+	    						endFormula = false;
+	    						break;
+	    					}
+	    				}
+    				}
+    				jj_input_stream.backup(residueSize);
+    				if(endFormula){
+	    				if (last_id.length() != 0){
+	    					buf.append(last_id);
+	    				}
+	 			    	jj_input_stream.backup(1);
+				    	jj_nt = token_source.getNextToken();
+				    	break;
+				    } else {
+				    	//it will go to else part below.
+				    }
+    			}
+    			if (next == ':'){
+    				jj_input_stream.backup(last_id.length());
+    				jj_nt = token_source.getNextToken();
+    				break;
+    			}
+    			
+    			if ( (next >= '0' && next <= '9') || (next >= 'a' && next <= 'z') || (next >= 'A' && next <= 'Z')){
+    				last_id.append(next);
+    			} else {
+    				if (last_id.length() != 0){
+    					buf.append(last_id);
+    					last_id = new StringBuffer();
+    				}
+		    		buf.append(next);			
+    			}
+    			 
+    			next = jj_input_stream.readChar();
+    		}
+    	} catch (Exception e) {
+    		if(e instanceof ParseException)
+				throw (ParseException)e;
+    		Token t = new Token();
+    		t.beginLine = jj_input_stream.getBeginLine();
+    		t.beginColumn = jj_input_stream.getBeginColumn();    		
+    		throw new ParseException("wrong formula");
+    	}
+    	return buf.toString().trim();    	
     }
-    return "";
-  }
 
   private String parseCodeBlock () throws ParseException {
     return "";
