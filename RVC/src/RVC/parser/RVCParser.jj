@@ -1,0 +1,119 @@
+options {
+ STATIC = false;
+}
+
+PARSER_BEGIN(RVCParser)
+package RVCParser.parser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.io.*;
+
+public class RVCParser {
+  public static RVCParser parse(String input) {
+    Reader reader = new StringReader(input);
+	  RVCParser rvcParser = new RVCParser(reader);	
+	 
+	  rvcParser.events = new HashMap<String, String>();
+	  rvcParser.handlers = new HashMap<String, String>();
+
+    try{
+      rvcParser.Start();
+    }
+	 catch(ParseException e){
+      System.err.println(e.getMessage());
+	 }
+	 catch(TokenMgrError e){
+      System.err.println(e.getMessage());
+	 }
+	 return rvcParser;
+  }
+
+  private String specName;
+  //Domain is event name, range is body
+  private HashMap<String, String> events;
+  //Domain is category, range is body
+  private HashMap<String, String> handlers;
+  private String formalism;
+  private String formula;
+  
+  public HashMap<String, String> getEvents (){
+	  return events;
+  }
+  
+  public HashMap<String, String> getHandlers () {
+	  return handlers;
+  }
+
+  public String getFormalism () {
+	  return formalism;
+  }
+
+  public String getFormula () {
+	  return formula;
+  }
+
+  private String parseFormula () {
+    return "";
+  }
+
+  private String parseCodeBlock () {
+    return "";
+  }
+}
+PARSER_END(RVCParser)
+
+SKIP : {
+ 	<WHITESPACE: [" ","\t","\r","\n"]>
+}
+TOKEN : {
+    <LBRACE : "{">
+	| <RBRACE : "}">
+	| <AT : "@">
+	| <EVENT : "event">
+	| <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_")*> 
+	| <DIGIT : ["0"-"9"]>
+	| <LETTER : ["a"-"z","A"-"Z"]>
+}
+
+void Start() : {
+  Token formalismToken;
+  Token specNameToken;
+}
+{ 
+  spaceNameRoken = <ID> {specName = specNameToken.image;}
+  "{"
+    (Event())+
+    formalismToken = <ID>
+    {formalism = formalismToken.image; }
+        ":" 
+    { formula = parseFormula(); }
+    (Handler())+ 
+  "}"
+  <EOF>
+}
+
+void Event() : {
+  Token token;
+  String code;
+} 
+{
+  "event"
+  token = <ID> "{"
+    { code = parseCodeBlock(); }
+  "}"
+  { events.put(token.image,code); }
+}
+
+void Handler() : {
+  Token token;
+  String code;
+} 
+{
+  "@"
+  token = <ID> "{"
+    { code = parseCodeBlock(); }  
+  "}"
+  { events.put(token.image,code); }
+}
