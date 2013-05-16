@@ -19,7 +19,9 @@ public class RVCParser {
      while(sc.hasNextLine()) buf.append(sc.nextLine());
      RVCParser rvcParser = parse(buf.toString()); 
      System.out.println(rvcParser.specName + "\n==========");
+     System.out.println(rvcParser.declarations + "\n==========");
      System.out.println(rvcParser.events + "\n==========" );
+     System.out.println(rvcParser.parameters + "\n==========" );
      System.out.println(rvcParser.formalism  + "\n==========");
      System.out.println(rvcParser.formula  + "\n==========");
      System.out.println(rvcParser.handlers  + "\n==========");
@@ -30,6 +32,7 @@ public class RVCParser {
 	  RVCParser rvcParser = new RVCParser(reader);	
 	 
 	  rvcParser.events = new HashMap<String, String>();
+    rvcParser.parameters = new HashMap<String, String>();
 	  rvcParser.handlers = new HashMap<String, String>();
 
     try{
@@ -47,17 +50,28 @@ public class RVCParser {
   private String specName;
   //Domain is event name, range is body
   private HashMap<String, String> events;
+  //Domain is event name, range is parameter list
+  private HashMap<String, String> parameters;
   //Domain is category, range is body
   private HashMap<String, String> handlers;
   private String formalism;
   private String formula;
+  private String declarations;
   
   public HashMap<String, String> getEvents (){
 	  return events;
   }
   
+  public HashMap<String, String> getParameters () {
+	  return parameters;
+  }
+
   public HashMap<String, String> getHandlers () {
 	  return handlers;
+  }
+
+  public String getDeclarations() {
+    return declarations;
   }
 
   public String getFormalism () {
@@ -67,6 +81,7 @@ public class RVCParser {
   public String getFormula () {
 	  return formula;
   }
+
   private String parseFormula () throws ParseException {
 		
     StringBuilder buf = new StringBuilder();
@@ -84,10 +99,7 @@ public class RVCParser {
     } catch (Exception e) {
     		if(e instanceof ParseException)
 				throw (ParseException)e;
-    		Token t = new Token();
-    		t.beginLine = jj_input_stream.getBeginLine();
-    		t.beginColumn = jj_input_stream.getBeginColumn();    		
-    		throw new ParseException("formula");
+    		throw new ParseException("bad formula");
     }
     return buf.toString().trim();
   }
@@ -119,15 +131,62 @@ public class RVCParser {
           next = jj_input_stream.readChar();
         }
     } catch (Exception e) {
-    		if(e instanceof ParseException)
-				throw (ParseException)e;
-    		Token t = new Token();
-    		t.beginLine = jj_input_stream.getBeginLine();
-    		t.beginColumn = jj_input_stream.getBeginColumn();    		
+    		if(e instanceof ParseException){
+				   throw (ParseException)e;
+        }
     		throw new ParseException("bad code block");
     }
     return buf.toString().trim();
   }
+
+  //this is a very ugly hack
+  private String parseDeclarations () throws ParseException {
+    StringBuilder buf = new StringBuilder();
+    StringBuilder eventBuilder = new StringBuilder();
+
+    //if reading = 0 we haven't seen 'e'.  If it is 4 we grab the next
+    //4 characters to see if we've made the word "event" 
+    try {
+        int reading = 0;
+   			char next = jj_input_stream.readChar();
+        
+        while (true){
+          if(reading == 0){
+            if(eventBuilder.length() == 5){
+              if(eventBuilder.toString().equals("event")){
+                System.out.println("equals");
+                jj_input_stream.backup(6); 
+                break;
+              }
+              else {
+                buf.append(eventBuilder);
+                eventBuilder = new StringBuilder();
+              }
+            }
+            if(next == 'e'){
+              reading = 4;        
+              eventBuilder.append('e');
+            }
+            else {
+              buf.append(next);
+            }
+          }
+          else { //reading != 0 
+            --reading;
+            eventBuilder.append(next); 
+          }
+          next = jj_input_stream.readChar();
+        }
+
+            //next = jj_input_stream.readChar();
+    } catch (Exception e) {
+    		if(e instanceof ParseException)
+				throw (ParseException)e;
+    		throw new ParseException("bad declarations");
+    }
+    return buf.toString().trim();
+  }
+
 }
 PARSER_END(RVCParser)
 
@@ -137,6 +196,9 @@ SKIP : {
 TOKEN : {
     <LBRACE : "{">
 	| <RBRACE : "}">
+	| <LPAREN : "(">
+	| <RPAREN : ")">
+	| <COMMA  : ",">
 	| <AT : "@">
 	| <EVENT : "event">
 	| <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_")*> 
@@ -151,6 +213,7 @@ void Start() : {
 { 
   specNameToken = <ID> {specName = specNameToken.image;}
   "{"
+    { declarations = parseDeclarations(); }
     (Event())+
     formalismToken = <ID>
     {formalism = formalismToken.image; }
@@ -163,14 +226,36 @@ void Start() : {
 
 void Event() : {
   Token token;
+  String paras;
   String code;
 } 
 {
   "event"
-  token = <ID> "{"
+  token = <ID> paras = Parameters() { parameters.put(token.image,paras); } "{"
     { code = parseCodeBlock(); }
   "}"
   { events.put(token.image,code); }
+}
+
+String Parameters() : {
+  Token token;
+  StringBuilder buf = new StringBuilder("(");
+  String p;
+}
+{
+  "("
+   [ p = Parameter() {buf.append(p);} ( "," p = Parameter() {buf.append(", " + p);} )*]
+   ")"
+   {buf.append(")"); return buf.toString().trim();}
+}
+
+String Parameter() : {
+  Token token;
+  StringBuilder buf = new StringBuilder();
+}
+{
+  (token = <ID> {buf.append(token.image + " ");} )+
+  {return buf.toString().trim();}
 }
 
 void Handler() : {
