@@ -54,11 +54,25 @@ public class RVCParser {
 	  return formula;
   }
 
-  private String parseFormula () {
+  private String parseFormula () throws ParseException {
+    StringBuffer buf = new StringBuffer();
+    buf.append(jj_nt);
+    StringBuffer last_id = new StringBuffer();
+    try{
+
+    }  
+    catch (Exception e) {
+    	if(e instanceof ParseException)
+			throw (ParseException)e;
+    	Token t = new Token();
+    	t.beginLine = jj_input_stream.getBeginLine();
+    	t.beginColumn = jj_input_stream.getBeginColumn();    		
+    	throw new ParseException("bad formula");
+    }
     return "";
   }
 
-  private String parseCodeBlock () {
+  private String parseCodeBlock () throws ParseException {
     return "";
   }
 }
@@ -82,7 +96,7 @@ void Start() : {
   Token specNameToken;
 }
 { 
-  spaceNameRoken = <ID> {specName = specNameToken.image;}
+  specNameToken = <ID> {specName = specNameToken.image;}
   "{"
     (Event())+
     formalismToken = <ID>
