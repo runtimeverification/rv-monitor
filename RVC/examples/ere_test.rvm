@@ -18,12 +18,19 @@ Foo {
     b += z + f;
   }
 
-  ere : bar+
-        car+
+  ere : bar+ car+
 
   @ match {
     if(1){
       printf("match\n");
+    }
+    printf("a=%d\n", a);
+    printf("b=%d\n", b);
+  }
+
+  @ fail {
+    if(1){
+      printf("fail\n");
     }
     printf("a=%d\n", a);
     printf("b=%d\n", b);

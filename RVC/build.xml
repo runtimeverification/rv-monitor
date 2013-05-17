@@ -1,36 +1,67 @@
-<project name="RVC" default="dist" basedir=".">
-    <description>
-        RVC build file
-    </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="build"/>
+<?xml version="1.0"?>
+<project name="RVC" default="jar" basedir=".">
+  <property name="name" value="RVC" />
+  <property name="build" value="build" />
+  <property name="lib" value="lib" />
+  <property name="src" value="src" />
+  <property environment="env" />
+  <property name="plugins" value="lib/plugins" />
+  <property name="scala.home" value="${env.SCALA_HOME}" />
+  <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
+  <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
+
+
+    <path id="scala.classpath">
+                <pathelement location="${scala-compiler.jar}" />
+                <pathelement location="${scala-library.jar}" />
+                <pathelement location="build" />
+        </path>
+
+        
+        <taskdef resource="scala/tools/ant/antlib.xml">
+                <classpath refid="scala.classpath" />
+        </taskdef>
 
   <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
+    <mkdir dir="${build}" />
+    <mkdir dir="${lib}" />
+    <mkdir dir="${plugins}" />
+   </target>
+ 
+
+  <target name="clean">
+     <delete verbose="true">
+        <fileset dir="${build}" />
+     </delete>
+     <delete verbose="true">
+        <fileset dir="${lib}" />
+     </delete>
   </target>
 
-  <target name="compile" depends="init"
-        description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}"/>
+  <target name="compile" depends="init">
+     <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" >
+      <exclude name="**/PTLTLPlugin.java" />
+     </javac>
+      <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false">
+                        <include name="**/*.scala" />
+      </scalac> 
+      <!-- ugly hack -->
+      <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false">
+          <include name="**/PTLTLPlugin.java" />
+      </javac>
   </target>
 
-  <target name="dist" depends="compile"
-        description="generate the distribution" >
-    <!-- Create the distribution directory -->
-    <mkdir dir="lib"/>
+  <target name="jar" depends="compile">
+     <jar destfile="${lib}/${name}.jar" basedir="${build}">
+        <include name="${name}/*" />
+        <include name="${name}/RVCsyntax/**" />
+        <include name="${name}/plugins/*.class" />
+        <include name="${name}/shells/**" />
+     </jar>
 
-    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="lib/RVC.jar" basedir="${build}"/>
-  </target>
-
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
+     <jar destfile="${plugins}/ERE.jar" basedir="${build}" includes="${name}/plugins/ere/**" />
+     <jar destfile="${plugins}/FSM.jar" basedir="${build}" includes="${name}/plugins/fsm/**" />
+     <jar destfile="${plugins}/LTL.jar" basedir="${build}" includes="${name}/plugins/ltl/**" />
+     <jar destfile="${plugins}/PTLTL.jar" basedir="${build}" includes="${name}/plugins/ptltl/**" />
   </target>
 </project>

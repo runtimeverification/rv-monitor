@@ -1,0 +1,23 @@
+import RVC.plugins.ptltl._
+import RVC.plugins.ptltl.main._
+import RVC._ // ~/FSL/projects/MOP/trunk/lib/RVC.jar
+import RVC.LogicException._
+import RVC.Main._
+import RVC.parser.RVCsyntax._
+import RVC.plugins._
+
+package RVC.plugins.ptltl {
+  class PTLTLPlugin extends LogicPlugin {
+
+    def process(logicInputXML: LogicRepositoryType) : LogicRepositoryType = {
+      val logicStr = logicInputXML.getProperty.getFormula.trim
+
+      var ret = logicInputXML
+      ret.getProperty.setLogic("fsm")
+      ret.getProperty.setFormula(PTLTL.mkFSM(logicStr))
+
+      ret
+    }
+
+  }
+}
