@@ -15,8 +15,13 @@ import RVC.shells.fsm.*;
 
 import RVC.RVCsyntax.*;
 
+import RVC.parser.RVCParser;
+
+
 import java.io.File;
 import java.io.ByteArrayOutputStream;
+
+import java.util.Scanner;
 
 public class Main {
   public static boolean isJarFile = false;
@@ -52,16 +57,49 @@ public class Main {
       }
 
       // Parse Input
-      CMonGenData cmgDataIn = new CMonGenData(System.in);
-      CMonGenType logicXML = cmgDataIn.getXML();
-
+      Scanner sc = new Scanner(System.in);
+      StringBuilder buf = new StringBuilder();
+      while(sc.hasNextLine()) buf.append(sc.nextLine());
+      RVCParser rvcParser = RVCParser.parse(buf.toString()); 
+      
       // Get Logic Name and Client Name
-      String logicName = null;
-      if (logicXML.getProperty() != null)
-        logicName = logicXML.getProperty().getLogic().toLowerCase();
+      String logicName = rvcParser.getFormalism();
       if (logicName == null || logicName.length() == 0) {
         throw new LogicException("no logic names");
       }
+
+      CMonGenType cmgXMLIn = new CMonGenType();
+      PropertyType logicProperty = new PropertyType();
+      
+      cmgXMLIn.setSpecName(rvcParser.getSpecName());
+
+      logicProperty.setFormula(rvcParser.getFormula());
+      logicProperty.setLogic(logicName);
+
+      cmgXMLIn.setClient("CMonGen");
+      StringBuilder events = new StringBuilder();
+      for(String event : rvcParser.getEvents().keySet()){
+        events.append(event);
+        events.append(" ");
+      }
+      cmgXMLIn.setEvents(events.toString().trim());
+
+
+      StringBuilder categories = new StringBuilder();
+      for(String category : rvcParser.getHandlers().keySet()){
+        categories.append(category);
+        categories.append(" ");
+      }
+      cmgXMLIn.setCategories(categories.toString().trim());
+
+      PropertyType prop = new PropertyType();
+      prop.setLogic(rvcParser.getFormalism());
+      prop.setFormula(rvcParser.getFormula());
+
+      cmgXMLIn.setProperty(prop);
+
+
+      CMonGenData cmgDataIn = new CMonGenData(cmgXMLIn);
 
       // Find a logic plugin and apply it
       ByteArrayOutputStream logicPluginResultStream 
@@ -82,11 +120,29 @@ public class Main {
       } 
       CFSM cfsm = new CFSM(); 
       ShellResult sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents()); 
+      System.out.println(rvcParser.getIncludes());
       System.out.println(sr.properties.get("state declaration"));
+      System.out.println(rvcParser.getDeclarations());
       System.out.println(sr.properties.get("monitored events"));
       System.out.println(sr.properties.get("categories"));
       System.out.println(sr.properties.get("reset"));
       System.out.println(sr.properties.get("monitoring body"));
+      String rvcPrefix = (String) sr.properties.get("rvcPrefix");
+      String specName = (String) sr.properties.get("specName");
+      String constSpecName = (String) sr.properties.get("constSpecName");
+      for(String eventName : rvcParser.getEvents().keySet()){
+        System.out.println("void");
+        System.out.println(rvcPrefix + specName + eventName + rvcParser.getParameters().get(eventName));
+        System.out.println("{");
+        System.out.println(rvcParser.getEvents().get(eventName) + "\n"); 
+        System.out.println(rvcPrefix + specName + "monitor(" + rvcPrefix + constSpecName + eventName.toUpperCase() + ");"); 
+        for(String category : rvcParser.getHandlers().keySet()){
+          System.out.println("if(" + rvcPrefix + specName + category + ")\n{");
+          System.out.println(rvcParser.getHandlers().get(category));
+          System.out.println("}");
+        }
+        System.out.println("}\n");
+      }
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println(e);

@@ -34,7 +34,11 @@ public class CFSM extends Shell {
 
     String monitor = logicOutput.getProperty().getFormula();
     String specName = logicOutput.getSpecName() + "_";
-    String constSpecName = specName.toUpperCase() + "_";    
+    String constSpecName = specName.toUpperCase();    
+
+    result.put("rvcPrefix", rvcPrefix);
+    result.put("specName", specName);
+    result.put("constSpecName", constSpecName);
 
     FSMInput fsmInput = null;
     try {
@@ -61,7 +65,7 @@ public class CFSM extends Shell {
     for(String event: monitoredEvents){
       EventNum.put(event, new Integer(countEvent));
       
-      monitoredEventsStr += "const int " + rvcPrefix + constSpecName + event.toUpperCase() 
+      monitoredEventsStr += "static const int " + rvcPrefix + constSpecName + event.toUpperCase() 
                          + " = " + countEvent + ";\n";
       
       ++countEvent;
@@ -121,16 +125,16 @@ public class CFSM extends Shell {
     for(String category : logicOutput.getCategories().split("\\s+")){
       cats.add(category); 
     }
-    String catString = null;
+    String catString = "";
     //add fail if necessary
     if(cats.contains("fail")){
-      catString = "int " + rvcPrefix + specName + "_fail = 0;\n"; 
-      monitoringbodyStr += "  " + rvcPrefix + specName + "_fail = state == -1;\n"; 
+      catString = "int " + rvcPrefix + specName + "fail = 0;\n"; 
+      monitoringbodyStr += "  " + rvcPrefix + specName + "fail = state == -1;\n"; 
     }
 
     for(String stateName : StateNum.keySet()){ 
       if(!cats.contains(stateName)) continue;
-      String catName = rvcPrefix + specName + "_" + stateName;
+      String catName = rvcPrefix + specName + stateName;
       monitoringbodyStr += "  " + catName + " = state == " + StateNum.get(stateName) + ";\n";  
       catString += "int " + catName + " = 0;\n"; 
     }
@@ -149,7 +153,7 @@ public class CFSM extends Shell {
             conditionStr += " || state == " + StateNum.get(state);
           }
         }
-        String catName = rvcPrefix + specName + "_" + stateName;
+        String catName = rvcPrefix + specName + stateName;
         monitoringbodyStr += "  " + catName + " = " + conditionStr + ";\n";  
         catString += "int " + catName + " = 0;\n"; 
       }
@@ -157,6 +161,10 @@ public class CFSM extends Shell {
    
     monitoringbodyStr += "}\n\n"; 
     result.put("monitoring body", monitoringbodyStr);
+    //TODO: fixme
+    if(catString.equals("")){
+      throw new RuntimeException("Invalid handlers specified.  Make sure your logic supports your specified handlers");
+    }
     result.put("categories", catString);
     return result;
   }

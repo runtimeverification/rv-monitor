@@ -40,6 +40,7 @@ public class LogicPluginFactory {
 
   static public LogicPlugin findLogicPluginFromJar(String jarPath, String logicName) {
     String pluginName = logicName.toLowerCase() + "plugin";
+    //System.out.println("++++" + pluginName);
     ArrayList<Class<?>> logicPlugins = null;
     try {
       /* this should return only subclasses of LogicPlugins */
@@ -233,6 +234,7 @@ public class LogicPluginFactory {
         }
       }
       plugin = findLogicPluginFromJar(logicJarPath, logicName);
+
 
       if (plugin != null)
         ret = plugin.process(cMonGenData.getInputStream());

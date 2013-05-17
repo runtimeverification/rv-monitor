@@ -47,6 +47,7 @@ public class RVCParser {
 	 return rvcParser;
   }
 
+  private String includes = "";
   private String specName;
   //Domain is event name, range is body
   private HashMap<String, String> events;
@@ -57,7 +58,15 @@ public class RVCParser {
   private String formalism;
   private String formula;
   private String declarations;
-  
+ 
+  public String getIncludes(){
+    return includes;
+  }
+
+  public String getSpecName(){
+    return specName;
+  }
+ 
   public HashMap<String, String> getEvents (){
 	  return events;
   }
@@ -154,7 +163,6 @@ public class RVCParser {
           if(reading == 0){
             if(eventBuilder.length() == 5){
               if(eventBuilder.toString().equals("event")){
-                System.out.println("equals");
                 jj_input_stream.backup(6); 
                 break;
               }
@@ -200,8 +208,11 @@ TOKEN : {
 	| <RPAREN : ")">
 	| <COMMA  : ",">
 	| <AT : "@">
+  | <INCLUDE: "#include">
+  | <LT: "<">
+  | <GT: ">">
 	| <EVENT : "event">
-	| <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_")*> 
+	| <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_"|".")*> 
 	| <DIGIT : ["0"-"9"]>
 	| <LETTER : ["a"-"z","A"-"Z"]>
 }
@@ -209,8 +220,10 @@ TOKEN : {
 void Start() : {
   Token formalismToken;
   Token specNameToken;
+  Token includeToken;
 }
 { 
+  ("#include" "<" includeToken = <ID> ">" {includes += "#include <" + includeToken.image + ">\n";})*
   specNameToken = <ID> {specName = specNameToken.image;}
   "{"
     { declarations = parseDeclarations(); }
