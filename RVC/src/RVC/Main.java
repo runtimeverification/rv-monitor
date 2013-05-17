@@ -19,6 +19,9 @@ import RVC.parser.RVCParser;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
 
 import java.util.Scanner;
@@ -48,7 +51,13 @@ public class Main {
        }
    
       basePath = cmgPath;
-  
+    
+      if(args.length < 1){
+        System.err.println("usage is:  RVC <spec_file>\n  Please specify a spec file");
+        System.exit(1);
+      }
+
+
       String logicPluginDirPath = polishPath(readLogicPluginDir(basePath));
       File dirLogicPlugin = new File(logicPluginDirPath);
       if(!dirLogicPlugin.exists()){
@@ -57,7 +66,8 @@ public class Main {
       }
 
       // Parse Input
-      Scanner sc = new Scanner(System.in);
+      FileInputStream fio = new FileInputStream(new File(args[0]));
+      Scanner sc = new Scanner(fio);
       StringBuilder buf = new StringBuilder();
       while(sc.hasNextLine()) buf.append(sc.nextLine());
       RVCParser rvcParser = RVCParser.parse(buf.toString()); 
@@ -120,32 +130,51 @@ public class Main {
       } 
       CFSM cfsm = new CFSM(); 
       ShellResult sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents()); 
-      System.out.println(rvcParser.getIncludes());
-      System.out.println(sr.properties.get("state declaration"));
-      System.out.println(rvcParser.getDeclarations());
-      System.out.println(sr.properties.get("monitored events"));
-      System.out.println(sr.properties.get("categories"));
-      System.out.println(sr.properties.get("reset"));
-      System.out.println(sr.properties.get("monitoring body"));
+
       String rvcPrefix = (String) sr.properties.get("rvcPrefix");
       String specName = (String) sr.properties.get("specName");
       String constSpecName = (String) sr.properties.get("constSpecName");
+
+      String cFile = rvcPrefix + specName + "Monitor.c";
+      String hFile = rvcPrefix + specName + "Monitor.h";
+      String hDef = rvcPrefix + constSpecName + "MONITOR_H";
+
+      FileOutputStream cfos = new FileOutputStream(new File(cFile));
+      PrintStream cos = new PrintStream(cfos);
+      FileOutputStream hfos = new FileOutputStream(new File(hFile));
+      PrintStream hos = new PrintStream(hfos);
+      
+      hos.println("#ifndef " + hDef);
+      hos.println("#define " + hDef);
+
+      cos.println(rvcParser.getIncludes());
+      cos.println(sr.properties.get("state declaration"));
+      cos.println(rvcParser.getDeclarations());
+      cos.println(sr.properties.get("monitored events"));
+      cos.println(sr.properties.get("categories"));
+      cos.println(sr.properties.get("reset"));
+      cos.println(sr.properties.get("monitoring body"));
       for(String eventName : rvcParser.getEvents().keySet()){
-        System.out.println("void");
-        System.out.println(rvcPrefix + specName + eventName + rvcParser.getParameters().get(eventName));
-        System.out.println("{");
-        System.out.println(rvcParser.getEvents().get(eventName) + "\n"); 
-        System.out.println(rvcPrefix + specName + "monitor(" + rvcPrefix + constSpecName + eventName.toUpperCase() + ");"); 
+        hos.println("void");
+        cos.println("void");
+        String funcDecl = rvcPrefix + specName + eventName + rvcParser.getParameters().get(eventName);
+        hos.println(funcDecl + ";");
+        cos.println(funcDecl);
+        cos.println("{");
+        cos.println(rvcParser.getEvents().get(eventName) + "\n"); 
+        cos.println(rvcPrefix + specName + "monitor(" + rvcPrefix + constSpecName + eventName.toUpperCase() + ");"); 
         for(String category : rvcParser.getHandlers().keySet()){
-          System.out.println("if(" + rvcPrefix + specName + category + ")\n{");
-          System.out.println(rvcParser.getHandlers().get(category));
-          System.out.println("}");
+          cos.println("if(" + rvcPrefix + specName + category + ")\n{");
+          cos.println(rvcParser.getHandlers().get(category));
+          cos.println("}");
         }
-        System.out.println("}\n");
+        cos.println("}\n");
       }
+      hos.println("#endif");
+      System.out.println(hFile + " and " + cFile + " have been generated.");
     } catch (Exception e) {
       e.printStackTrace();
-      System.out.println(e);
+      //System.out.println(e);
     }
   }
 
