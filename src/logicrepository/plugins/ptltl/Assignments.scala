@@ -1,4 +1,4 @@
-import scala.Math._
+import scala.math._
 import logicrepository.plugins.ptltl._
 import logicrepository.plugins.ptltl.AssignmentHelpers._
 

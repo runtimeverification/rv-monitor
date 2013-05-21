@@ -12,8 +12,7 @@
         <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
 
         <path id="scala.classpath">
-                <pathelement location="${scala-compiler.jar}" />
-                <pathelement location="${scala-library.jar}" />
+               <fileset dir="${env.SCALA_HOME}/lib/"> <include name="*.jar" /> </fileset>
                 <pathelement location="build" />
         </path>
 
