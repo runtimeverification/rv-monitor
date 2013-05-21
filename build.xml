@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<project name="rvmonitor" default="jar" basedir=".">
+<project name="rvmonitor" default="build" basedir=".">
         <property name="bin" value="bin" />
         <property name="build" value="build" />
         <property name="lib" value="lib" />
         <property name="plugins" value="lib/plugins" />
+        <property name="RVC" value="RVC" />
         <property name="src" value="src" />
         <property environment="env" />
         <property name="scala.home" value="${env.SCALA_HOME}" />
@@ -31,7 +32,7 @@
                 <mkdir dir="${lib}" />
         </target>
 
-        <target name="clean">
+        <target name="clean" depends="rvc-clean">
                 <delete verbose="true">
                         <fileset dir="${build}" />
                 </delete>
@@ -86,6 +87,16 @@
                 <jar destfile="${plugins}/PO.jar" basedir="${build}" includes="${lr}/plugins/po/**" />
         </target>
 
+        <target name="rvc">
+          <ant antfile="build.xml" dir="${RVC}" />
+        </target>
+        
+        <target name="rvc-clean">
+          <ant antfile="build.xml" dir="${RVC}" target="clean" />
+        </target>
+
+        <target name="build" depends="jar, rvc"/>
+       
         <!---   
         <target name="jar" depends="rvmonitor, test, plugins, logicrepository" />
         -->

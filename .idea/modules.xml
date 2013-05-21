@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/examples/CFG/SafeFile/SafeFile_1/CFG_SafeFile_1.iml" filepath="$PROJECT_DIR$/examples/CFG/SafeFile/SafeFile_1/CFG_SafeFile_1.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/ERE/HasNext2/HasNext2_1/ERE_HasNext2_1.iml" filepath="$PROJECT_DIR$/examples/ERE/HasNext2/HasNext2_1/ERE_HasNext2_1.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/ERE/HasNext/HasNext_1/ERE_HasNext_1.iml" filepath="$PROJECT_DIR$/examples/ERE/HasNext/HasNext_1/ERE_HasNext_1.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/ERE/SafeFileWriter/SafeFileWriter_1/ERE_SafeFileWriter_1.iml" filepath="$PROJECT_DIR$/examples/ERE/SafeFileWriter/SafeFileWriter_1/ERE_SafeFileWriter_1.iml" />

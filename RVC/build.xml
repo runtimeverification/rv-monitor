@@ -55,6 +55,7 @@
      <jar destfile="${lib}/${name}.jar" basedir="${build}">
         <include name="${name}/*" />
         <include name="${name}/RVCsyntax/**" />
+        <include name="${name}/parser/**" />
         <include name="${name}/plugins/*.class" />
         <include name="${name}/shells/**" />
      </jar>

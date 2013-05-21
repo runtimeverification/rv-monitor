@@ -10,5 +10,7 @@ SRC_ROOT=`dirname "$SRC_ROOT"`
 # Move up into the actual source root directory
 SRC_ROOT="$SRC_ROOT/../"
 
-java -cp "$SRC_ROOT/lib/RVC.jar":"$SRC_ROOT/lib/scala-library.jar":"$SRC_ROOT/lib/plugins/ERE.jar":"$SRC_ROOT/lib/plugins/LTL.jar":"$SRC_ROOT/lib/plugins/PTLTL.jar":"$SRC_ROOT/lib/plugins/FSM.jar" RVC.Main $@
+PLUGINS_CLASSPATH="$SRC_ROOT/lib/scala-library.jar":"$SRC_ROOT/lib/plugins/ERE.jar":"$SRC_ROOT/lib/plugins/LTL.jar":"$SRC_ROOT/lib/plugins/PTLTL.jar":"$SRC_ROOT/lib/plugins/FSM.jar"
+
+java -cp "$SRC_ROOT/lib/RVC.jar":$PLUGINS_CLASSPATH RVC.Main "$@"
 
