@@ -45,9 +45,10 @@
                         <include name="**/*.scala" />
       </scalac> 
       <!-- ugly hack -->
-      <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false">
+      <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false" classpathref="scala.classpath">
           <include name="**/PTLTLPlugin.java" />
       </javac>
+                <copy file="${scala-library.jar}" todir="${lib}" />
   </target>
 
   <target name="jar" depends="compile">

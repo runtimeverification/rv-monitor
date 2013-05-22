@@ -12,7 +12,7 @@
         <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
 
         <path id="scala.classpath">
-               <fileset dir="${env.SCALA_HOME}/lib/"> <include name="*.jar" /> </fileset>
+               <fileset dir="${scala.home}/lib/"> <include name="*.jar" /> </fileset>
                 <pathelement location="build" />
         </path>
 
@@ -39,7 +39,8 @@
                         <fileset dir="${lib}">
                                 <include name="${rvmonitor}.jar" />
                                 <include name="${lr}.jar" />
-                                <include name="${test}.jr" />
+                                <include name="${test}.jar" />
+                                <include name="scala-library.jar" />
                         </fileset>
                 </delete>
         </target>
@@ -52,7 +53,7 @@
                         <include name="**/*.scala" />
                 </scalac> 
                 <!-- ugly hack -->
-                <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false">
+                <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false"  classpathref="scala.classpath">
                         <include name="**/PTLTLPlugin.java" />
                 </javac>
 
@@ -63,6 +64,7 @@
                                 <include name="**/*.properties" />
                         </fileset>
                 </copy>
+                <copy file="${scala-library.jar}" todir="${lib}" />
         </target>
 
         <target name="jar" depends="compile">
