@@ -24,9 +24,19 @@ package logicrepository.plugins.ptltl {
     private def mkref : String =
       "b[" + index.toString + "]"      
   }
+  
+  class Output(override val expression: Formula)
+       extends Assignment(Int.MaxValue, expression, Neither) 
 
-  case class Output(override val expression: Formula)
-       extends Assignment(Int.MaxValue, expression, Neither)
+  object Output {
+	   def unapply(o: Output) : Option[Formula] = {	
+		return Some(o.expression);
+	   }
+	   
+	   def apply(expression: Formula) : Output = {
+		 return new Output(expression);
+	   }
+	}
 
 
   // Must only contain types provided by booleanformula and the above Reference type
@@ -40,7 +50,6 @@ package logicrepository.plugins.ptltl {
     def this(es: List[Event], as: List[Assignment]) = {
       this(es)
       as.map( x => this.add(x))
-      this
     }
 
   

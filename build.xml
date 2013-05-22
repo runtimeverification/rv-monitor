@@ -48,7 +48,7 @@
                 <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false">
                         <exclude name="**/PTLTLPlugin.java" />
                 </javac>
-                <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false">
+                <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false" addparams="-language:implicitConversions">
                         <include name="**/*.scala" />
                 </scalac> 
                 <!-- ugly hack -->

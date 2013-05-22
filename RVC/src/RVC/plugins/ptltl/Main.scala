@@ -1,7 +1,7 @@
 // PTLTL plugin
 
 import scala.util.parsing.combinator._
-import scala.Math._
+import scala.math._
 import RVC.plugins.ptltl._
 import RVC.plugins.ptltl.AssignmentHelpers._
 import RVC.plugins.ptltl.FSMHelpers._
