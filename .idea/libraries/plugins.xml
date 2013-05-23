@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="plugins">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/RVC/lib/plugins/ERE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/RVC/lib/plugins/FSM.jar!/" />
+      <root url="jar://$PROJECT_DIR$/RVC/lib/plugins/PTLTL.jar!/" />
+      <root url="jar://$PROJECT_DIR$/RVC/lib/plugins/LTL.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

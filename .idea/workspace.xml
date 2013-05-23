@@ -15,107 +15,7 @@
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Monitored" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="856a59a6-8b49-4115-8449-5adb0b5511d9" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/CMonGenData.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/LogicRepositoryData.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/LogicException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/LogicException.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/RVCsyntax/CMonGenType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/LogicPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/LogicPlugin.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/LogicPluginFactory.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/LogicPluginFactory.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Concat.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Concat.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/ERE.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/ERE.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREParser.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParser.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREParser.jj" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParser.jj" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREParserConstants.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParserConstants.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREParserTokenManager.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParserTokenManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREPlugin.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREType.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Empty.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Empty.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Epsilon.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Epsilon.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/FSM.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/FSM.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Kleene.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Kleene.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Negation.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Negation.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Or.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Or.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/ParseException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/ParseException.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/SimpleCharStream.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/SimpleCharStream.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Symbol.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Symbol.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Token.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Token.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/TokenMgrError.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/TokenMgrError.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMEnables.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMEnables.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMParser.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMParser.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMParser.jj" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMParser.jj" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMParserConstants.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMParserConstants.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMParserTokenManager.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMParserTokenManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMPlugin.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/ParseException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/ParseException.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/SimpleCharStream.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/SimpleCharStream.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/Token.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/Token.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/TokenMgrError.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/TokenMgrError.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/Transition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/Transition.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/AAutomaton.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/AAutomaton.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/ATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/ATransition.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/ATuple.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/ATuple.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/And.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/And.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Atom.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Atom.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/BA.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/BA.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/BAState.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/BAState.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/BATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/BATransition.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DFA.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DFA.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DFAState.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DFAState.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DFATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DFATransition.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DualNext.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DualNext.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DualPreviously.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DualPreviously.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DualSince.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DualSince.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DualUntil.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DualUntil.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/END.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/END.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/False.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/False.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/GBA.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/GBA.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/GBAState.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/GBAState.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/GBATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/GBATransition.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/IFF.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/IFF.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Implication.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Implication.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLFormula.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLFormula.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLParser.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParser.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLParser.jj" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParser.jj" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLParserConstants.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParserConstants.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLParserTokenManager.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParserTokenManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLPlugin.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLType.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/NFA.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/NFA.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/NFATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/NFATransition.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Negation.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Negation.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Next.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Next.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Numbering.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Numbering.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Or.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Or.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/ParseException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/ParseException.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Previously.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Previously.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/SetOperations.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/SetOperations.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/SimpleCharStream.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/SimpleCharStream.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Since.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Since.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Tarjan.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Tarjan.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Test.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Test.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Token.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Token.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/TokenMgrError.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/TokenMgrError.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/True.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/True.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Until.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Until.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/XOr.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/XOr.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/Assignments.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Assignments.scala" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/Booleanformula.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Booleanformula.scala" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/Listwrapper.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Listwrapper.scala" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/Main.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Main.scala" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/PTLTLPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/PTLTLPlugin.sca" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/PtltlFSM.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PtltlFSM.scala" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/ptltl.maude" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/ptltl.maude" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/shells/fsm/CFSM.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/shells/fsm/CFSM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/Main.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/RVCsyntax/ObjectFactory.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/RVCsyntax/ObjectFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/shells/Shell.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/shells/Shell.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ant.xml" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/build.xml" afterPath="$PROJECT_DIR$/RVC/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="856a59a6-8b49-4115-8449-5adb0b5511d9" name="Default" comment="" />
     <ignored path="rv-monitor.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369290756985" ignored="false" />
@@ -238,7 +138,7 @@
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/ConfigurationStructure.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/checks/CheckConfigurationCells.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/ConfigurationStructureMap.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveContextAbstraction.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveContextAbstraction.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369296384576" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveFresh.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddPredicates.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveListOfK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
@@ -486,6 +386,7 @@
     <file path="$PROJECT_DIR$/../../k/tests/tools/Testing/src/org/kframework/tests/Test.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367389934604" ignored="false" />
     <file path="/PTLTLPlugin.sca" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293164739" ignored="false" />
     <file path="/LogicRepositoryType.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293917794" ignored="false" />
+    <file path="$PROJECT_DIR$/RVC/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369296302762" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1695,8 +1596,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="797" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="22" width="1440" height="797" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
