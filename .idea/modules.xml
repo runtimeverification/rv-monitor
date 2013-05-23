@@ -2,41 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/examples/ERE/HasNext2/HasNext2_1/ERE_HasNext2_1.iml" filepath="$PROJECT_DIR$/examples/ERE/HasNext2/HasNext2_1/ERE_HasNext2_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/ERE/HasNext/HasNext_1/ERE_HasNext_1.iml" filepath="$PROJECT_DIR$/examples/ERE/HasNext/HasNext_1/ERE_HasNext_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/ERE/SafeFileWriter/SafeFileWriter_1/ERE_SafeFileWriter_1.iml" filepath="$PROJECT_DIR$/examples/ERE/SafeFileWriter/SafeFileWriter_1/ERE_SafeFileWriter_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/ERE/UnsafeIterator/UnsafeIterator_1/ERE_UnsafeIterator_1.iml" filepath="$PROJECT_DIR$/examples/ERE/UnsafeIterator/UnsafeIterator_1/ERE_UnsafeIterator_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/FSM/HasNext2/HasNext2_1/FSM_HasNext2_1.iml" filepath="$PROJECT_DIR$/examples/FSM/HasNext2/HasNext2_1/FSM_HasNext2_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/FSM/HasNext2/HasNext2_2/FSM_HasNext2_2.iml" filepath="$PROJECT_DIR$/examples/FSM/HasNext2/HasNext2_2/FSM_HasNext2_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/FSM/HasNext2/HasNext2_3/FSM_HasNext2_3.iml" filepath="$PROJECT_DIR$/examples/FSM/HasNext2/HasNext2_3/FSM_HasNext2_3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/FSM/HasNext/HasNext_1/FSM_HasNext_1.iml" filepath="$PROJECT_DIR$/examples/FSM/HasNext/HasNext_1/FSM_HasNext_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/FSM/HasNext/HasNext_2/FSM_HasNext_2.iml" filepath="$PROJECT_DIR$/examples/FSM/HasNext/HasNext_2/FSM_HasNext_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/HasNext/HasNext_1/LTL_HasNext_1.iml" filepath="$PROJECT_DIR$/examples/LTL/HasNext/HasNext_1/LTL_HasNext_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/HasNext/HasNext_2/LTL_HasNext_2.iml" filepath="$PROJECT_DIR$/examples/LTL/HasNext/HasNext_2/LTL_HasNext_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/HasNext/HasNext_3/LTL_HasNext_3.iml" filepath="$PROJECT_DIR$/examples/LTL/HasNext/HasNext_3/LTL_HasNext_3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/SafeEnum/SafeEnum_1/LTL_SafeEnum_1.iml" filepath="$PROJECT_DIR$/examples/LTL/SafeEnum/SafeEnum_1/LTL_SafeEnum_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/SafeEnum/SafeEnum_2/LTL_SafeEnum_2.iml" filepath="$PROJECT_DIR$/examples/LTL/SafeEnum/SafeEnum_2/LTL_SafeEnum_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/SafeFileWriter/SafeFileWriter_1/LTL_SafeFileWriter_1.iml" filepath="$PROJECT_DIR$/examples/LTL/SafeFileWriter/SafeFileWriter_1/LTL_SafeFileWriter_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/SafeFileWriter/SafeFileWriter_2/LTL_SafeFileWriter_2.iml" filepath="$PROJECT_DIR$/examples/LTL/SafeFileWriter/SafeFileWriter_2/LTL_SafeFileWriter_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/SafeIterator/SafeIterator_1/LTL_SafeIterator_1.iml" filepath="$PROJECT_DIR$/examples/LTL/SafeIterator/SafeIterator_1/LTL_SafeIterator_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/SafeIterator/SafeIterator_2/LTL_SafeIterator_2.iml" filepath="$PROJECT_DIR$/examples/LTL/SafeIterator/SafeIterator_2/LTL_SafeIterator_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/SafeMapIterator/SafeMapIterator_1/LTL_SafeMapIterator_1.iml" filepath="$PROJECT_DIR$/examples/LTL/SafeMapIterator/SafeMapIterator_1/LTL_SafeMapIterator_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/LTL/SafeMapIterator/SafeMapIterator_2/LTL_SafeMapIterator_2.iml" filepath="$PROJECT_DIR$/examples/LTL/SafeMapIterator/SafeMapIterator_2/LTL_SafeMapIterator_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/AroundAdvice/CheatedSlotMachine_1/MOPSyntax_AroundAdvice_CheatedSlotMachine_1.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/AroundAdvice/CheatedSlotMachine_1/MOPSyntax_AroundAdvice_CheatedSlotMachine_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/Creation2/Creation_1/MOPSyntax_Creation2_1.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/Creation2/Creation_1/MOPSyntax_Creation2_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/Creation2/Creation_2/MOPSyntax_Creation2_2.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/Creation2/Creation_2/MOPSyntax_Creation2_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/Creation2/Creation_3/MOPSyntax_Creation2_3.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/Creation2/Creation_3/MOPSyntax_Creation2_3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/Creation/Creation_1/MOPSyntax_Creation_1.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/Creation/Creation_1/MOPSyntax_Creation_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/Creation/Creation_2/MOPSyntax_Creation_2.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/Creation/Creation_2/MOPSyntax_Creation_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/Creation/Creation_3/MOPSyntax_Creation_3.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/Creation/Creation_3/MOPSyntax_Creation_3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/ExtendedEventParameters/HasNext_1/MOPSyntax_EEP_HasNext_1.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/ExtendedEventParameters/HasNext_1/MOPSyntax_EEP_HasNext_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/ExtendedEventParameters/HasNext_2/MOPSyntax_EEP_HasNext_2.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/ExtendedEventParameters/HasNext_2/MOPSyntax_EEP_HasNext_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/ExtendedEventParameters/HasNext_3/MOPSyntax_EEP_HasNext_3.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/ExtendedEventParameters/HasNext_3/MOPSyntax_EEP_HasNext_3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/PerThread/HasNext_1/MOPSyntax_PT_HasNext_1.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/PerThread/HasNext_1/MOPSyntax_PT_HasNext_1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/PerThread/HasNext_2/MOPSyntax_PT_HasNext_2.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/PerThread/HasNext_2/MOPSyntax_PT_HasNext_2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/MOPSyntax/PerThread/HasNext_3/MOPSyntax_PT_HasNext_3.iml" filepath="$PROJECT_DIR$/examples/MOPSyntax/PerThread/HasNext_3/MOPSyntax_PT_HasNext_3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/Monitored/Monitored.iml" filepath="$PROJECT_DIR$/examples/Monitored/Monitored.iml" />
-      <module fileurl="file://$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/Regression_UnsafeMapIterator.iml" filepath="$PROJECT_DIR$/examples/Regression/UnsafeMapIterator/Regression_UnsafeMapIterator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RVC/RVC.iml" filepath="$PROJECT_DIR$/RVC/RVC.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/rv-monitor.iml" filepath="$PROJECT_DIR$/src/rv-monitor.iml" />
     </modules>
   </component>

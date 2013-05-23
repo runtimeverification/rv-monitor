@@ -8,6 +8,8 @@
 
 package RVC.RVCsyntax;
 
+import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
@@ -57,20 +59,20 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CMonGenType }
+     * Create an instance of {@link logicrepository.parser.logicrepositorysyntax.LogicRepositoryType }
      * 
      */
-    public CMonGenType createCMonGenType() {
-        return new CMonGenType();
+    public LogicRepositoryType createCMonGenType() {
+        return new LogicRepositoryType();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link CMonGenType }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link logicrepository.parser.logicrepositorysyntax.LogicRepositoryType }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "", name = "mop")
-    public JAXBElement<CMonGenType> createMop(CMonGenType value) {
-        return new JAXBElement<CMonGenType>(_Mop_QNAME, CMonGenType.class, null, value);
+    public JAXBElement<LogicRepositoryType> createMop(LogicRepositoryType value) {
+        return new JAXBElement<LogicRepositoryType>(_Mop_QNAME, LogicRepositoryType.class, null, value);
     }
 
 }

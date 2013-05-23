@@ -16,15 +16,111 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="856a59a6-8b49-4115-8449-5adb0b5511d9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/Monitored/Monitored.iml" afterPath="$PROJECT_DIR$/examples/Monitored/Monitored.iml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/CMonGenData.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/LogicRepositoryData.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/LogicException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/LogicException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/RVCsyntax/CMonGenType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/LogicPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/LogicPlugin.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/LogicPluginFactory.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/LogicPluginFactory.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Concat.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Concat.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/ERE.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/ERE.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREParser.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParser.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREParser.jj" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParser.jj" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREParserConstants.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParserConstants.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREParserTokenManager.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParserTokenManager.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREPlugin.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/EREType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREType.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Empty.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Empty.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Epsilon.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Epsilon.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/FSM.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/FSM.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Kleene.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Kleene.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Negation.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Negation.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Or.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Or.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/ParseException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/ParseException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/SimpleCharStream.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/SimpleCharStream.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Symbol.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Symbol.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/Token.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/Token.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ere/TokenMgrError.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/TokenMgrError.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMEnables.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMEnables.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMParser.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMParser.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMParser.jj" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMParser.jj" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMParserConstants.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMParserConstants.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMParserTokenManager.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMParserTokenManager.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/FSMPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMPlugin.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/ParseException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/ParseException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/SimpleCharStream.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/SimpleCharStream.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/Token.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/Token.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/TokenMgrError.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/TokenMgrError.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/fsm/Transition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/Transition.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/AAutomaton.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/AAutomaton.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/ATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/ATransition.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/ATuple.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/ATuple.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/And.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/And.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Atom.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Atom.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/BA.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/BA.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/BAState.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/BAState.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/BATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/BATransition.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DFA.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DFA.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DFAState.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DFAState.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DFATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DFATransition.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DualNext.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DualNext.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DualPreviously.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DualPreviously.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DualSince.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DualSince.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/DualUntil.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/DualUntil.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/END.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/END.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/False.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/False.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/GBA.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/GBA.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/GBAState.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/GBAState.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/GBATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/GBATransition.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/IFF.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/IFF.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Implication.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Implication.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLFormula.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLFormula.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLParser.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParser.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLParser.jj" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParser.jj" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLParserConstants.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParserConstants.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLParserTokenManager.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParserTokenManager.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLPlugin.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/LTLType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLType.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/NFA.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/NFA.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/NFATransition.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/NFATransition.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Negation.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Negation.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Next.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Next.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Numbering.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Numbering.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Or.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Or.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/ParseException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/ParseException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Previously.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Previously.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/SetOperations.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/SetOperations.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/SimpleCharStream.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/SimpleCharStream.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Since.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Since.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Tarjan.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Tarjan.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Test.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Test.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Token.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Token.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/TokenMgrError.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/TokenMgrError.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/True.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/True.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/Until.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/Until.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ltl/XOr.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/XOr.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/Assignments.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Assignments.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/Booleanformula.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Booleanformula.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/Listwrapper.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Listwrapper.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/Main.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Main.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/PTLTLPlugin.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/PTLTLPlugin.sca" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/PtltlFSM.scala" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PtltlFSM.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/RVC/src/RVC/plugins/ptltl/ptltl.maude" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/ptltl.maude" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/shells/fsm/CFSM.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/shells/fsm/CFSM.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/Main.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/RVCsyntax/ObjectFactory.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/RVCsyntax/ObjectFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/shells/Shell.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/shells/Shell.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ant.xml" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/build.xml" afterPath="$PROJECT_DIR$/RVC/build.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rv-monitor.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367217488444" ignored="false" />
+    <file path="/Dummy.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369290756985" ignored="false" />
     <file path="/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362639851417" ignored="false" />
-    <file path="/fragment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367310331476" ignored="false" />
+    <file path="/fragment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293461794" ignored="false" />
     <file path="/a.dummy" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366888810187" ignored="false" />
     <file path="/*.regexp" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362684110001" ignored="false" />
     <file path="/HasNextRuntimeMonitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362648070079" ignored="false" />
@@ -388,6 +484,8 @@
     <file path="$PROJECT_DIR$/../../k/dist/bin/kompile" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367388044365" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/tests/config.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367388193617" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/tests/tools/Testing/src/org/kframework/tests/Test.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367389934604" ignored="false" />
+    <file path="/PTLTLPlugin.sca" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293164739" ignored="false" />
+    <file path="/LogicRepositoryType.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293917794" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -403,38 +501,6 @@
   </component>
   <component name="DebuggerManager">
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="387" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="210" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -471,6 +537,38 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="387" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="210" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -480,91 +578,95 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="StatisticsType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitor/parser/logicrepositorysyntax/StatisticsType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="29" selection-start="1987" selection-end="1987" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProgramCompileFunctor.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ProgramCompileFunctor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="40" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.72115386">
+            <state line="95" column="40" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestCase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestCase.java">
+      <file leaf-file-name="LogicRepositoryData.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/LogicRepositoryData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="65" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0">
+            <state line="13" column="13" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestingFunctor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestingFunctor.java">
+      <file leaf-file-name="FSMPlugin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="16" selection-start="2459" selection-end="2459" vertical-scroll-proportion="0.0">
+            <state line="10" column="13" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RVMonitorStatistics.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/RVMonitorStatistics.java">
+      <file leaf-file-name="LTLPlugin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="31" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
+            <state line="10" column="13" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RVMSLIntIterator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMSLIntIterator.java">
+      <file leaf-file-name="PTLTLPlugin.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="52" selection-start="292" selection-end="292" vertical-scroll-proportion="0.0">
+            <state line="5" column="13" selection-start="161" selection-end="161" vertical-scroll-proportion="0.1146789">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LogicRepositoryType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="13" selection-start="2147" selection-end="2147" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mop.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/mop.java">
+      <file leaf-file-name="LogicRepositoryType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="13" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0">
+            <state line="55" column="13" selection-start="2183" selection-end="2183" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RVMIntSpliceList.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMIntSpliceList.java">
+      <file leaf-file-name="EREPlugin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="351" column="23" selection-start="8568" selection-end="8568" vertical-scroll-proportion="0.0">
+            <state line="9" column="16" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PtltlFSM.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PtltlFSM.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RVMLogging.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMLogging.java">
+      <file leaf-file-name="PTLTLPlugin.sca" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="41" selection-start="241" selection-end="241" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="logicrepository.xsd" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="32" selection-start="1193" selection-end="1193" vertical-scroll-proportion="0.0">
+            <state line="8" column="20" selection-start="293" selection-end="293" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -588,10 +690,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/HandlerMethod.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/Monitor.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/MonitorTermination.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitorset/MonitorSet.java" />
@@ -604,13 +702,17 @@
         <option value="$PROJECT_DIR$/src/rvmonitorrt/MOPIntSpliceList.java" />
         <option value="$PROJECT_DIR$/src/rvmonitorrt/RVMIntSpliceList.java" />
         <option value="$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java" />
+        <option value="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca" />
+        <option value="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/CMonGenType.java" />
+        <option value="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java" />
+        <option value="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREPlugin.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="78" />
+    <option name="y" value="22" />
     <option name="width" value="1440" />
-    <option name="height" value="665" />
+    <option name="height" value="797" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -625,8 +727,14 @@
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
+  <component name="ProjectStructureProblems">
+    <ignored-problems>
+      <problem id="unused-library(library:project:libs)" />
+      <problem id="unused-library(library:project:rvmonitorrt)" />
+    </ignored-problems>
+  </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="PackagesPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -638,7 +746,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -653,27 +761,132 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="RVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVCsyntax" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="logicrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="logicrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="logicrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parser.logicrepositorysyntax" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="138" />
-    <property name="project.structure.proportion" value="0.15" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="140" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="139" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="139" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../k" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/RVC" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="149" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="939" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="937" />
@@ -695,12 +908,15 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="dynamic.classpath" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="logicrepository" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Test">
@@ -736,19 +952,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -774,6 +977,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1479,31 +1695,31 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="78" width="1440" height="665" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1440" height="797" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32624114" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997155" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32770744" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21807748" sideWeight="0.7162872" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21807748" sideWeight="0.71631205" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21807748" sideWeight="0.28371277" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21807748" sideWeight="0.28368795" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.67140824" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.33001423" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32716927" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32770744" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1573,103 +1789,119 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/Monitor.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Assignments.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="44" selection-start="2566" selection-end="2566" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/MonitorTermination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="51" selection-start="1349" selection-end="1349" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="45" selection-start="604" selection-end="604" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="45" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitorset/MonitorSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="45" selection-start="972" selection-end="972" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/parser/aspectj_parser/aspectj.jj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="194" column="51" selection-start="3860" selection-end="3860" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/parser/logicrepositorysyntax/StatisticsType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="29" selection-start="1987" selection-end="1987" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMLogging.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Booleanformula.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="41" selection-start="241" selection-end="241" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestCase.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Listwrapper.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="65" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestingFunctor.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Main.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="16" selection-start="2459" selection-end="2459" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/RVMonitorStatistics.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/ptltl.maude">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="31" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMSLIntIterator.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PtltlFSM.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="52" selection-start="292" selection-end="292" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/mop.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMIntSpliceList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="351" column="23" selection-start="8568" selection-end="8568" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="32" selection-start="1193" selection-end="1193" vertical-scroll-proportion="0.0">
+        <state line="8" column="20" selection-start="293" selection-end="293" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="40" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.72115386">
+        <state line="95" column="40" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="13" selection-start="2147" selection-end="2147" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="13" selection-start="2183" selection-end="2183" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="16" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="77" selection-end="77" vertical-scroll-proportion="0.06880734">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/LogicRepositoryData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="13" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="13" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="13" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="13" selection-start="161" selection-end="161" vertical-scroll-proportion="0.1146789">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

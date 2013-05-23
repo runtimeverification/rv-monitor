@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import RVC.RVCsyntax.*;
+import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 
 public abstract class Shell {
 	public String monitorType = "Error";
@@ -12,12 +12,12 @@ public abstract class Shell {
 	public Shell() {
 	}
 
-	public ShellResult process(CMonGenType logicOutput, String events) throws Exception {
+	public ShellResult process(LogicRepositoryType logicOutput, String events) throws Exception {
 
 		throw new Exception("Non-recognizable Monitor Type");
 	}
 
-	public Properties addEnableSets(Properties properties, CMonGenType logicOutputXML) {
+	public Properties addEnableSets(Properties properties, LogicRepositoryType logicOutputXML) {
 		String enableSetsStr = logicOutputXML.getEnableSets();
 		
 		Pattern p = Pattern.compile("\\s*//\\s*\\w+(\\s*\\w*)*\\s*\\n");

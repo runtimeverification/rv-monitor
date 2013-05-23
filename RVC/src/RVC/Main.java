@@ -9,7 +9,10 @@
 
 package RVC;
 
-import RVC.plugins.*;
+import logicrepository.LogicRepositoryData;
+import logicrepository.LogicException;
+import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import logicrepository.plugins.*;
 import RVC.shells.*;
 import RVC.shells.fsm.*;
 
@@ -78,7 +81,7 @@ public class Main {
         throw new LogicException("no logic names");
       }
 
-      CMonGenType cmgXMLIn = new CMonGenType();
+      LogicRepositoryType cmgXMLIn = new LogicRepositoryType();
       PropertyType logicProperty = new PropertyType();
       
       cmgXMLIn.setSpecName(rvcParser.getSpecName());
@@ -109,13 +112,13 @@ public class Main {
       cmgXMLIn.setProperty(prop);
 
 
-      CMonGenData cmgDataIn = new CMonGenData(cmgXMLIn);
+      LogicRepositoryData cmgDataIn = new LogicRepositoryData(cmgXMLIn);
 
       // Find a logic plugin and apply it
       ByteArrayOutputStream logicPluginResultStream 
         = LogicPluginFactory.process(logicPluginDirPath, logicName, cmgDataIn);
       
-      CMonGenData cmgDataOut = new CMonGenData(logicPluginResultStream);
+      LogicRepositoryData cmgDataOut = new LogicRepositoryData(logicPluginResultStream);
 
       // Error check
       if (logicPluginResultStream == null || logicPluginResultStream.size() == 0) {
@@ -124,7 +127,7 @@ public class Main {
       
       // Outputting
        
-      CMonGenType logicOutputXML = cmgDataOut.getXML();
+      LogicRepositoryType logicOutputXML = cmgDataOut.getXML();
       if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") != 0){
         throw new Exception("Only finite logics are currently supported");
       } 

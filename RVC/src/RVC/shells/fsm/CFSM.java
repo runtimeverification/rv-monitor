@@ -3,11 +3,11 @@ package RVC.shells.fsm;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import RVC.RVCsyntax.*;
 import RVC.shells.Shell;
 import RVC.shells.ShellResult;
 import RVC.shells.fsm.fsmparser.*;
 import RVC.shells.fsm.fsmparser.ast.*;
+import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 
 public class CFSM extends Shell {
   public CFSM() {
@@ -28,7 +28,7 @@ public class CFSM extends Shell {
     return events;
   }
 
-  private Properties getMonitorCode(CMonGenType logicOutput) throws Exception {
+  private Properties getMonitorCode(LogicRepositoryType logicOutput) throws Exception {
     String rvcPrefix = "__RVC_";
     Properties result = new Properties();
 
@@ -169,7 +169,7 @@ public class CFSM extends Shell {
     return result;
   }
 
-  public ShellResult process(CMonGenType logicOutputXML, String events) throws Exception {
+  public ShellResult process(LogicRepositoryType logicOutputXML, String events) throws Exception {
     if (logicOutputXML.getProperty().getLogic().toLowerCase().compareTo(monitorType.toLowerCase()) != 0)
       throw new Exception("Wrong type of monitor is given to FSM Monitor.");
     allEvents = getEvents(events);

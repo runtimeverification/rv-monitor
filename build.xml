@@ -1,104 +1,97 @@
 <?xml version="1.0"?>
 <project name="rvmonitor" default="build" basedir=".">
-        <property name="bin" value="bin" />
-        <property name="build" value="build" />
-        <property name="lib" value="lib" />
-        <property name="plugins" value="lib/plugins" />
-        <property name="RVC" value="RVC" />
-        <property name="src" value="src" />
-        <property environment="env" />
-        <property name="scala.home" value="${env.SCALA_HOME}" />
-        <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
-        <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
+  <property name="RVC" value="RVC" />
+  <property name="build" value="build" />
+  <property name="lib" value="lib" />
+  <property name="src" value="src" />
+  <property environment="env" />
+  <property name="plugins" value="lib/plugins" />
+  <property name="scala.home" value="${env.SCALA_HOME}" />
+  <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
+  <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
 
-        <path id="scala.classpath">
-               <fileset dir="${scala.home}/lib/"> <include name="*.jar" /> </fileset>
-                <pathelement location="build" />
-        </path>
+  <path id="scala.classpath">
+    <fileset dir="${scala.home}/lib/"> <include name="*.jar" /> </fileset>
+    <pathelement location="build" />
+  </path>
 
-        <taskdef resource="scala/tools/ant/antlib.xml">
-                <classpath refid="scala.classpath" />
-        </taskdef>
+  <taskdef resource="scala/tools/ant/antlib.xml">
+    <classpath refid="scala.classpath" />
+  </taskdef>
 
-        <!-- redefined these if you change the directory names -->
-        <property name="rvmonitor" value="rvmonitor" />
-        <property name="lr" value="logicrepository" />
-        <property name="test" value="rvmonitortestsuite" />
-        <property name="rvmonitorrt" value="rvmonitorrt" />
+  <!-- redefined these if you change the directory names -->
+  <property name="name" value="rvmonitor" />
+  <property name="lr" value="logicrepository" />
+  <property name="test" value="rvmonitortestsuite" />
+  <property name="rvmonitorrt" value="rvmonitorrt" />
 
-        <target name="init">
-                <mkdir dir="${build}" />
-                <mkdir dir="${lib}" />
-        </target>
+  <target name="init">
+    <mkdir dir="${build}" />
+    <mkdir dir="${lib}" />
+  </target>
 
-        <target name="clean" depends="rvc-clean">
-                <delete verbose="true">
-                        <fileset dir="${build}" />
-                </delete>
-                <delete verbose="true">
-                        <fileset dir="${lib}">
-                                <include name="${rvmonitor}.jar" />
-                                <include name="${lr}.jar" />
-                                <include name="${test}.jar" />
-                                <include name="scala-library.jar" />
-                        </fileset>
-                </delete>
-        </target>
+  <target name="clean" depends="rvc-clean">
+    <delete verbose="true">
+      <fileset dir="${build}" />
+    </delete>
+    <delete verbose="true">
+      <fileset dir="${lib}">
+        <include name="*.jar" />
+      </fileset>
+      <fileset dir="${lib}/plugins" />
+    </delete>
+  </target>
 
-        <target name="compile" depends="init">
-                <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false">
-                        <exclude name="**/PTLTLPlugin.java" />
-                </javac>
-                <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false">
-                        <include name="**/*.scala" />
-                </scalac> 
-                <!-- ugly hack -->
-                <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false"  classpathref="scala.classpath">
-                        <include name="**/PTLTLPlugin.java" />
-                </javac>
+  <target name="compile" depends="init">
+    <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false">
+      <exclude name="**/PTLTLPlugin.java" />
+    </javac>
+    <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false">
+      <include name="**/*.scala" />
+    </scalac> 
+    <!-- ugly hack -->
+    <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false" classpathref="scala.classpath">
+      <include name="**/PTLTLPlugin.java" />
+    </javac>
 
-                <!-- copy the schemas and property files to the build dir -->
-                <copy todir="${build}">
-                        <fileset dir="${src}">
-                                <include name="**/*.xml" />
-                                <include name="**/*.properties" />
-                        </fileset>
-                </copy>
-                <copy file="${scala-library.jar}" todir="${lib}" />
-        </target>
+    <!-- copy the schemas and property files to the build dir -->
+    <copy todir="${build}">
+      <fileset dir="${src}">
+        <include name="**/*.xml" />
+        <include name="**/*.properties" />
+      </fileset>
+    </copy>
+    <copy file="${scala-library.jar}" todir="${lib}" />
+  </target>
 
-        <target name="jar" depends="compile">
-                <jar destfile="${lib}/${rvmonitor}.jar" basedir="${build}" includes="${rvmonitor}/**" />
-                <jar destfile="${lib}/${rvmonitorrt}.jar" basedir="${build}" includes="${rvmonitorrt}/**" />
-                <jar destfile="${lib}/${lr}.jar" basedir="${build}">
-                        <include name="${lr}/*" />
-                        <include name="${lr}/parser/**" />
-                        <include name="${lr}/plugins/*.class" />
-                </jar>
-                <jar destfile="${lib}/${test}.jar" basedir="${build}" includes="${test}/**" />
+  <target name="jar" depends="compile">
+    <jar destfile="${lib}/${name}.jar" basedir="${build}" includes="${name}/**" />
+    <jar destfile="${lib}/${lr}.jar" basedir="${build}">
+      <include name="${lr}/*" />
+      <include name="${lr}/parser/**" />
+      <include name="${lr}/plugins/*.class" />
+    </jar>
+    <jar destfile="${lib}/${rvmonitorrt}.jar" basedir="${build}" includes="${rvmonitorrt}/**" />
+    <jar destfile="${lib}/${test}.jar" basedir="${build}" includes="${test}/**" />
 
-                <jar destfile="${plugins}/CFG.jar" basedir="${build}" includes="${lr}/plugins/cfg/**" />
-                <jar destfile="${plugins}/ERE.jar" basedir="${build}" includes="${lr}/plugins/ere/**" />
-                <jar destfile="${plugins}/FSM.jar" basedir="${build}" includes="${lr}/plugins/fsm/**" />
-                <jar destfile="${plugins}/LTL.jar" basedir="${build}" includes="${lr}/plugins/ltl/**" />
-                <jar destfile="${plugins}/PTLTL.jar" basedir="${build}" includes="${lr}/plugins/ptltl/**" />
-                <jar destfile="${plugins}/PTCARET.jar" basedir="${build}" includes="${lr}/plugins/ptcaret/**" />
-                <jar destfile="${plugins}/PDA.jar" basedir="${build}" includes="${lr}/plugins/pda/**" />
-                <jar destfile="${plugins}/SRS.jar" basedir="${build}" includes="${lr}/plugins/srs/**" />
-                <jar destfile="${plugins}/PO.jar" basedir="${build}" includes="${lr}/plugins/po/**" />
-        </target>
+    <jar destfile="${plugins}/CFG.jar" basedir="${build}" includes="${lr}/plugins/cfg/**" />
+    <jar destfile="${plugins}/ERE.jar" basedir="${build}" includes="${lr}/plugins/ere/**" />
+    <jar destfile="${plugins}/FSM.jar" basedir="${build}" includes="${lr}/plugins/fsm/**" />
+    <jar destfile="${plugins}/LTL.jar" basedir="${build}" includes="${lr}/plugins/ltl/**" />
+    <jar destfile="${plugins}/PTLTL.jar" basedir="${build}" includes="${lr}/plugins/ptltl/**" />
+    <jar destfile="${plugins}/PTCARET.jar" basedir="${build}" includes="${lr}/plugins/ptcaret/**" />
+    <jar destfile="${plugins}/PDA.jar" basedir="${build}" includes="${lr}/plugins/pda/**" />
+    <jar destfile="${plugins}/SRS.jar" basedir="${build}" includes="${lr}/plugins/srs/**" />
+    <jar destfile="${plugins}/PO.jar" basedir="${build}" includes="${lr}/plugins/po/**" />
+  </target>
 
-        <target name="rvc">
-          <ant antfile="build.xml" dir="${RVC}" />
-        </target>
-        
-        <target name="rvc-clean">
-          <ant antfile="build.xml" dir="${RVC}" target="clean" />
-        </target>
+  <target name="rvc">
+    <ant antfile="build.xml" dir="${RVC}" />
+  </target>
 
-        <target name="build" depends="jar, rvc"/>
-       
-        <!---   
-        <target name="jar" depends="rvmonitor, test, plugins, logicrepository" />
-        -->
+  <target name="rvc-clean">
+    <ant antfile="build.xml" dir="${RVC}" target="clean" />
+  </target>
+
+  <target name="build" depends="jar, rvc"/>
 </project>
