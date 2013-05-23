@@ -1,0 +1,21 @@
+SeatBelt {
+  event seatBeltRemoved(){}
+
+  event seatBeltAttached() {}
+
+  fsm : unsafe [
+             seatBeltAttached -> safe
+           ]
+        safe [
+             seatBeltRemoved -> unsafe
+        ]
+
+  @safe {
+      //set max speed to user input
+  }
+
+  @unsafe {
+      //set max speed to 10 mph
+  }
+
+}

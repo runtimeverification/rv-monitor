@@ -4,7 +4,7 @@ options {
 }
 
 PARSER_BEGIN(EREParser)
-package LogicRepository.plugins.ere;
+package logicrepository.plugins.ere;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +12,11 @@ import java.util.HashSet;
 import java.io.*;
 
 public class EREParser {
+
+  public static void main(String[] args){
+    parse(args[0]);
+  }
+
   public static EREParser parse(String input) {
      Reader reader = new StringReader(input);
      EREParser ereParser = new EREParser(reader);   
@@ -48,9 +53,10 @@ TOKEN : {
     | <OR  : "|" >
     | <STAR  : "*" >
     | <PLUS  : "+" >
-	 | <EPSILON : "epsilon" >
-	 | <EMPTY : "empty" >
-	 | <SYMBOL : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_")*>
+  	| <EPSILON : "epsilon" >
+    | <CARET : "^" >
+	  | <EMPTY : "empty" >
+	  | <SYMBOL : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_")*>
     | <DIGIT : ["0"-"9"]>
     | <LETTER : ["a"-"z","A"-"Z"]>
 }
@@ -121,6 +127,7 @@ ERE Cat() : {
 ERE Unary() : {
   ERE sub;
   Token name;
+  Token num;
   Symbol s;
   Epsilon ep;
   Empty em;
@@ -128,9 +135,11 @@ ERE Unary() : {
 {
     "~" sub = Unary() {return Negation.get(sub);}
   | name = <SYMBOL>  {s = Symbol.get(name.image);}
-                     [ ("+" {return Concat.get(s, Kleene.get(s));} 
-                     | "*"  {return Kleene.get(s);}) ] 
-                            {return s;} 
+                     [ ("+"                     {return Concat.get(s, Kleene.get(s));} 
+                       | "*"                    {return Kleene.get(s);}) 
+                       | "^" num = <DIGIT>      {return Repeat.get(s, new Integer(num.image));}
+                     ] 
+                    {return s;} 
   |  "(" sub = Ere() ")" [ ("+" {return Concat.get(sub, Kleene.get(sub));} 
                           | "*" {return Kleene.get(sub);}) ] 
 								        {return sub;}
