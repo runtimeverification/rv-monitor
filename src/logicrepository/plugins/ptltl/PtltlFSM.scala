@@ -1,4 +1,4 @@
-import language.implicitConversions
+//import language.implicitConversions
 
 import logicrepository.plugins.ptltl._
 import logicrepository.plugins.ptltl.FSMHelpers._

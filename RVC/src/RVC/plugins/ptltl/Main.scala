@@ -1,6 +1,6 @@
 // PTLTL plugin
 
-import language.implicitConversions
+//import language.implicitConversions
 
 import scala.util.parsing.combinator._
 import scala.math._

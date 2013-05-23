@@ -1,4 +1,4 @@
-import language.implicitConversions
+//import language.implicitConversions
 
 import RVC.plugins.ptltl._
 import RVC.plugins.ptltl.FSMHelpers._
