@@ -15,229 +15,13 @@
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Monitored" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="856a59a6-8b49-4115-8449-5adb0b5511d9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/CollectRVMVarVisitor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/hashentry/RVMHashAllEntry.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/hashentry/RVMHashDualEntry.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/hashentry/RVMHashEntry.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/hashentry/RVMHashRefEntry.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMap.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMObject.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMPMATransitionImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/RVMParameterPairSet.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMRefMap.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMSLIntIterator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitorrt/ref/RVMTagWeakReference.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/output/RVMVariable.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitor/output/MOPVariable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/MOPParameterPairSet.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/CollectMOPVarVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPObject.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPPMATransitionImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPSLIntIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMap.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPRefMap.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/hashentry/MOPHashAllEntry.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/hashentry/MOPHashDualEntry.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/hashentry/MOPHashEntry.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/hashentry/MOPHashRefEntry.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/ref/MOPTagWeakReference.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/MOPBooleanSimplifier.java" afterPath="$PROJECT_DIR$/src/rvmonitor/RVMBooleanSimplifier.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/MOPErrorChecker.java" afterPath="$PROJECT_DIR$/src/rvmonitor/RVMErrorChecker.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/MOPNameSpace.java" afterPath="$PROJECT_DIR$/src/rvmonitor/RVMNameSpace.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/MOPProcessor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/RVMProcessor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/output/MOPJavaCode.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/RVMJavaCode.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/output/MOPJavaCodeNoNewLine.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/RVMJavaCodeNoNewLine.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/MOPStatManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/RVMonitorStatManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/MOPStatistics.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/RVMonitorStatistics.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/JavaMOPExtender.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/RVMonitorExtender.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/MOPSpecFile.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/RVMSpecFile.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/JavaMOPSpec.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/RVMonitorSpec.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/MOPParameter.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/RVMParameter.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/MOPParameterPair.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/RVMonitorParameterPair.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/MOPParameterSet.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/RVMParameterSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/MOPParameters.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/RVMParameters.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/MOPSpecFileExt.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/RVMSpecFileExt.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/mopspec/JavaMOPSpecExt.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/mopspec/RVMonitorSpecExt.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/main_parser/JavaMOPParser.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/main_parser/RVMonitorParser.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/main_parser/JavaMOPParserConstants.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/main_parser/RVMonitorParserConstants.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/main_parser/JavaMOPParserTokenManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/main_parser/RVMonitorParserTokenManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/util/MOPBooleanSimplifier.java" afterPath="$PROJECT_DIR$/src/rvmonitor/util/RVMBooleanSimplifier.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitor/util/MOPStack.java" afterPath="$PROJECT_DIR$/src/rvmonitor/util/RVMonitorStack.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPCallBack.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMCallBack.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPDeadlockDetector.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMDeadlockDetector.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPIntSpliceList.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMIntSpliceList.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPLogging.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMLogging.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPLoggingAll.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMLoggingAll.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPLoggingCritical.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMLoggingCritical.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPLoggingNone.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMLoggingNone.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPLoggingWarning.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMLoggingWarning.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMMonitor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPMonitorInfo.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMMonitorInfo.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPPMAStateImpl.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMPMAStateImpl.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPStack.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMStack.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPStat.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMStat.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPThreadScheduler.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMThreadScheduler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPTimer.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMTimer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPUnionFind.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMUnionFind.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/MOPVersionedBooleanArrayStack.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/RVMVersionedBooleanArrayStack.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/concurrent/MOPLock.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/concurrent/RVMLock.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/concurrent/MOPNameStone.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/concurrent/RVMNameStone.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPAbstractMap.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMAbstractMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPAbstractMapDuo.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMAbstractMapDuo.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPAbstractMapSolo.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMAbstractMapSolo.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPBasicRefMap.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMBasicRefMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPBasicRefMapOfAll.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMBasicRefMapOfAll.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPBasicRefMapOfMap.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMBasicRefMapOfMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPBasicRefMapOfMapSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMBasicRefMapOfMapSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPBasicRefMapOfMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMBasicRefMapOfMonitor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPBasicRefMapOfSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMBasicRefMapOfSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPBasicRefMapOfSetMon.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMBasicRefMapOfSetMon.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPCleanable.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMCleanable.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMapCleaner.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMapCleaner.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMapManager.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMapManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMapOfAll.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMapOfAll.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMapOfMap.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMapOfMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMapOfMapSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMapOfMapSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMapOfMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMapOfMonitor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMapOfSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMapOfSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMapOfSetMon.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMapOfSetMon.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMultiTagRefMap.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMultiTagRefMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMultiTagRefMapOfAll.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMultiTagRefMapOfAll.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMultiTagRefMapOfMap.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMultiTagRefMapOfMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMultiTagRefMapOfMapSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMultiTagRefMapOfMapSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMultiTagRefMapOfMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMultiTagRefMapOfMonitor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMultiTagRefMapOfSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMultiTagRefMapOfSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPMultiTagRefMapOfSetMon.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMMultiTagRefMapOfSetMon.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPTagRefMap.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMTagRefMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPTagRefMapOfAll.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMTagRefMapOfAll.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPTagRefMapOfMap.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMTagRefMapOfMap.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPTagRefMapOfMapSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMTagRefMapOfMapSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPTagRefMapOfMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMTagRefMapOfMonitor.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPTagRefMapOfSet.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMTagRefMapOfSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/map/MOPTagRefMapOfSetMon.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/map/RVMTagRefMapOfSetMon.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/ref/MOPMultiTagWeakReference.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/ref/RVMMultiTagWeakReference.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/ref/MOPWeakReference.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/ref/RVMWeakReference.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitorrt/test/MOPLockTest.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/test/RVMLockTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/rvmonitortestsuite/JavaMOPCompileFunctor.java" afterPath="$PROJECT_DIR$/src/rvmonitortestsuite/RVMonitorCompileFunctor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/ActivatorManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/ActivatorManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/Advice.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/Advice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/AdviceBody.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/AdviceBody.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/AspectJCode.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/AspectJCode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/cfg/cfgutil/CFG.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/cfg/cfgutil/CFG.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javacfg/cfgutil/CFG.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javacfg/cfgutil/CFG.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/CentralizedIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/CentralizedIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/CheckThisJoinPointVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/CheckThisJoinPointVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/CoEnableSet.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/CoEnableSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/CollectUserVarVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/CollectUserVarVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/CombinedAspect.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/CombinedAspect.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/ConditionVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/ConditionVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/CountCondVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/CountCondVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/DecentralizedIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/DecentralizedIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/DumpVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/DumpVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/visitor/DumpVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/visitor/DumpVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/EnableSet.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/EnableSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndObject.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/EndObjectTypeVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/EndObjectTypeVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/EndObjectVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/EndObjectVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndProgram.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndProgram.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/EndProgramVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/EndProgramVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndThread.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EndThread.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/EndThreadVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/EndThreadVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/EnforceMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/EnforceMonitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/EventDefinition.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/EventDefinition.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/mopspec/EventDefinitionExt.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/mopspec/EventDefinitionExt.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EventManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/EventManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/FullParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/FullParamIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/FullParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/FullParamIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/GeneralAdviceBody.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/GeneralAdviceBody.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/GenericVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/GenericVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/visitor/GenericVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/visitor/GenericVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/GlobalLock.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/GlobalLock.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/HandlerMethod.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/HandlerMethod.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/Imports.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/Imports.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingCache.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingCache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingDecl.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingDecl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingTreeManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/IndexingTreeManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/JavaLibCode.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/JavaLibCode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/JavaLibMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/JavaLibMonitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javaptcaret/JavaPTCARET.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javaptcaret/JavaPTCARET.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javasrs/JavaSRS.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javasrs/JavaSRS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/LocalVariables.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/advice/LocalVariables.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/LocalityIndexingCache.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/LocalityIndexingCache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/LockManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/LockManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicclient/LogicRepositoryConnector.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicclient/LogicRepositoryConnector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/Main.java" afterPath="$PROJECT_DIR$/src/logicrepository/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/Main.java" afterPath="$PROJECT_DIR$/src/rvmonitor/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/Main.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitortestsuite/Main.java" afterPath="$PROJECT_DIR$/src/rvmonitortestsuite/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/Monitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/Monitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/MonitorInfo.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/MonitorInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitorset/MonitorSet.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitorset/MonitorSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/MonitorTermination.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/MonitorTermination.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/NoParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/NoParamIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/NoParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/NoParamIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/OneFullParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/OneFullParamIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/OnePartialParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/OnePartialParamIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/OptimizedCoenableSet.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/OptimizedCoenableSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/Package.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/Package.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/PartialParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/centralized/PartialParamIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/PartialParamIndexingTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/decentralized/PartialParamIndexingTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/srs/PatternMatchAutomaton.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/srs/PatternMatchAutomaton.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java" afterPath="$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/PropertyAndHandlers.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/mopspec/PropertyAndHandlers.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/mopspec/PropertyAndHandlersExt.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/mopspec/PropertyAndHandlersExt.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/RVMException.java" afterPath="$PROJECT_DIR$/src/rvmonitor/RVMException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/reftree/RefTree.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/indexingtree/reftree/RefTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveConditionVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveConditionVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveCountCondVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveCountCondVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveEndObjectVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveEndObjectVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveEndProgramVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveEndProgramVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveEndThreadVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveEndThreadVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemovePointCutVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemovePointCutVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveThreadBlockedVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveThreadBlockedVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveThreadNameVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveThreadNameVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveThreadVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/RemoveThreadVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/visitor/RenameVariableVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/visitor/RenameVariableVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javasrs/pmaparser/ShellPatternMatchAutomaton.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javasrs/pmaparser/ShellPatternMatchAutomaton.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/SpecCombiner.java" afterPath="$PROJECT_DIR$/src/rvmonitor/SpecCombiner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/SpecExtractor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/SpecExtractor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/StartThread.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/StartThread.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/StartThreadVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/StartThreadVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/StatisticsType.java" afterPath="$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/StatisticsType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/logicrepositorysyntax/StatisticsType.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/logicrepositorysyntax/StatisticsType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/SystemAspect.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/SystemAspect.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitorrt/Test.java" afterPath="$PROJECT_DIR$/src/rvmonitorrt/Test.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitortestsuite/TestCase.java" afterPath="$PROJECT_DIR$/src/rvmonitortestsuite/TestCase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitortestsuite/TestingFunctor.java" afterPath="$PROJECT_DIR$/src/rvmonitortestsuite/TestingFunctor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/ThreadBlockedVarVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/ThreadBlockedVarVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/ThreadNameVarVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/ThreadNameVarVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/ThreadStatusMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/event/ThreadStatusMonitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/ThreadVarVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/ThreadVarVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/TimestampManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/TimestampManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/util/Tool.java" afterPath="$PROJECT_DIR$/src/rvmonitor/util/Tool.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/output/monitor/VarInOutermostMonitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/output/monitor/VarInOutermostMonitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javafsm/fsmparser/ast/VoidVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javafsm/fsmparser/ast/VoidVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/VoidVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/ast/visitor/VoidVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/astex/visitor/VoidVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/astex/visitor/VoidVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/aspectj_parser/aspectj.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/aspectj_parser/aspectj.jj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javafsm/fsmparser/fsm.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/javafsm/fsmparser/fsm.jj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/parser/main_parser/javamop.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/parser/main_parser/javamop.jj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/schemas/logicrepository.xsd" afterPath="$PROJECT_DIR$/src/logicrepository/schemas/logicrepository.xsd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd" afterPath="$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="856a59a6-8b49-4115-8449-5adb0b5511d9" name="Default" comment="" />
     <ignored path="rv-monitor.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364389268595" ignored="false" />
+    <file path="/Dummy.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369290756985" ignored="false" />
     <file path="/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362639851417" ignored="false" />
-    <file path="/fragment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364553307653" ignored="false" />
-    <file path="/a.dummy" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364575755729" ignored="false" />
+    <file path="/fragment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293461794" ignored="false" />
+    <file path="/a.dummy" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366888810187" ignored="false" />
     <file path="/*.regexp" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362684110001" ignored="false" />
     <file path="/HasNextRuntimeMonitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362648070079" ignored="false" />
     <file path="/HasNext_1.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362774664337" ignored="false" />
@@ -264,33 +48,33 @@
     <file path="/Creation_1.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362772352690" ignored="false" />
     <file path="/Creation_2.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362772518099" ignored="false" />
     <file path="/Creation_3.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362772669765" ignored="false" />
-    <file path="/MetaK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362776835363" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/MetaK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364559785620" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/SortCells.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363385569624" ignored="false" />
-    <file path="/SortCells.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363385564968" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/ConfigurationCleaner.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
+    <file path="/MetaK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367265857873" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/MetaK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367309791118" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/SortCells.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367310498412" ignored="false" />
+    <file path="/SortCells.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367310493003" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/ConfigurationCleaner.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365424107629" ignored="false" />
     <file path="/ConfigurationCleaner.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363033379279" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/BasicBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364559785618" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/maude/MaudeFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364844741194" ignored="false" />
-    <file path="/MaudeFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363070910851" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Cell.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Constant.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364559785619" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/ASTNode.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364559785619" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/ConcretizeSyntax.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/Main.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/BasicBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367309919796" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/maude/MaudeFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="/MaudeFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366035270088" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Cell.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723048" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Constant.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/ASTNode.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/ConcretizeSyntax.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/Main.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367308110634" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/main/KompileBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/main/KompileFrontEnd.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/MaudeKRun.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946649" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/loader/DefinitionHelper.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/maude/MaudeBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/FreshCondToFreshVar.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363272185535" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/main/KompileFrontEnd.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/MaudeKRun.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367306199082" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/loader/DefinitionHelper.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367308503509" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/maude/MaudeBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/FreshCondToFreshVar.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="/FreshCondToFreshVar.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363271597341" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/KApp.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Variable.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/KApp.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Variable.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveFreshMOS.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363271835102" ignored="false" />
     <file path="/ResolveFreshMOS.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363283137845" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveFreshVarMOS.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363283138156" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/SymbolicBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveFreshVarMOS.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/SymbolicBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367309056205" ignored="false" />
     <file path="/BasicBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363377026040" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/checks/CheckVariables.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="/CheckVariables.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363288399497" ignored="false" />
@@ -304,13 +88,13 @@
     <file path="$PROJECT_DIR$/examples/Monitored/bin/proguard.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363359828676" ignored="false" />
     <file path="/SetOnPreparedListenerMonitorAspect.aj" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363360483672" ignored="false" />
     <file path="$PROJECT_DIR$/examples/Monitored/gen/com/example/myapp/R.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363362422965" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/RuleCompilerSteps.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636932745" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/RuleCompilerSteps.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367223163877" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/ResolveConfigurationAbstraction.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/DefinitionLoader.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/ConfigurationStructureVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/Poset.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/ProgramLoader.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddEmptyLists.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/DefinitionLoader.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367390119675" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/ConfigurationStructureVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364927297105" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/Poset.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/ProgramLoader.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367387512761" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddEmptyLists.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
     <file path="/RuleCompilerSteps.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363385870548" ignored="false" />
     <file path="/ResolveConfigurationAbstraction.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363376502065" ignored="false" />
     <file path="/ConfigurationStructureVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363376545356" ignored="false" />
@@ -319,94 +103,94 @@
     <file path="/MaudeBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363377531084" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/generator/DefinitionSDF.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946649" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/PriorityBlock.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/PriorityBlockExtended.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/PriorityBlockExtended.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/PriorityExtended.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/PriorityExtendedAssoc.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Production.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/PriorityExtendedAssoc.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Production.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/ProductionItem.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Rewrite.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Rewrite.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Rule.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Sentence.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Sort.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Sort.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365424107629" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Attributes.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Syntax.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008406" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Term.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Term.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/Backend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/TermCons.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/TermCons.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/BackendFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Terminal.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/UserList.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Collection.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Collection.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Definition.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Import.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/AddEval.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/FlattenModules.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Module.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/AddEval.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/FlattenModules.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Module.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723048" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/Stopwatch.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/ListTerminator.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/StringUtil.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/ListTerminator.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/StringUtil.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367270595194" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Lexical.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/main/HKCDOptionsParser.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Restrictions.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/K.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/K.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/CompilerSteps.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/checks/CheckRewrite.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/ConfigurationStructure.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/checks/CheckConfigurationCells.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/utils/ConfigurationStructureMap.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveContextAbstraction.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveFresh.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddPredicates.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveListOfK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveContextAbstraction.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369296384576" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveFresh.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddPredicates.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveListOfK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveOpenCells.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddSymbolicK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008407" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveSyntaxPredicates.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddSymbolicK.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveSyntaxPredicates.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/checks/CheckListOfKDeprecation.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/unparser/UnparserFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/AddPathCondition.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/loader/Constants.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/unparser/UnparserFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/AddPathCondition.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/loader/Constants.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/loader/Subsort.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/maude/MaudeBuiltinsFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/maude/MaudeBuiltinsFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/maude/MaudeContextExtractor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/AddConditionToConfig.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/AddConditionToConfig.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/maude/MaudeRuleExtractor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/ConstantsReplaceTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/LineariseTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/ReplaceConstants.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRunState.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRunResult.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRunDebugger.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRunApiDebugger.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/BasicVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRun.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/ConstantsReplaceTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/LineariseTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/ReplaceConstants.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRunState.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRunResult.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRunDebugger.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRunApiDebugger.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364927297105" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/BasicVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/KRun.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305891307" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/concrete/disambiguate/CollectVariablesVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/CopyOnWriteTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/CopyOnWriteTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/Transformable.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/Transformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/Transformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/Visitable.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/Visitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/generator/Definition2SDF.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008408" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/Visitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/generator/Definition2SDF.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367387749017" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/generator/DefinitionSDFVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008409" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/generator/SDFHelper.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008409" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/Transition.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008409" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/SearchResults.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946649" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/matchers/Matcher.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008409" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/Transition.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/SearchResults.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/matchers/Matcher.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/api/SearchResult.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379008409" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/sharing/AutomaticModuleImportsTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363379452787" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363380221485" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/main/KastFrontEnd.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/main/KastFrontEnd.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="/JavaSymbolicBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363380350358" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/java/symbolic/JavaSymbolicBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364559785620" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/java/symbolic/JavaSymbolicBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365424107628" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/runner/KRunner.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/exceptions/TransformerException.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/exceptions/TransformerException.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367387512761" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/ioserver/main/MainServer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/errorsystem/KExceptionManager.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/tasks/MaudeTask.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/file/FileUtil.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/file/FileUtil.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/concrete/KParser.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/file/KPaths.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/general/GlobalSettings.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363381611138" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/FlattenSyntax.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1363636946648" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/general/GlobalSettings.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/FlattenSyntax.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
     <file path="$PROJECT_DIR$/../../k/dist/include/latex/k.sty" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364390372831" ignored="false" />
     <file path="/k.sty" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364390332094" ignored="false" />
     <file path="/UnsafeMapIterator.mop" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364453783001" ignored="false" />
@@ -416,7 +200,7 @@
     <file path="/TestingFunctor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364488480159" ignored="false" />
     <file path="/SafeFile_1.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364502346522" ignored="false" />
     <file path="/MOPException.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364546811063" ignored="false" />
-    <file path="/Main.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364547594366" ignored="false" />
+    <file path="/Main.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366608470391" ignored="false" />
     <file path="/MOPBooleanSimplifier.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364547339777" ignored="false" />
     <file path="/MOPErrorChecker.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364547377097" ignored="false" />
     <file path="/StatisticsType.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364575333319" ignored="false" />
@@ -442,8 +226,8 @@
     <file path="/MOPHashRefEntry.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364553847986" ignored="false" />
     <file path="/MOPLockTest.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364553870338" ignored="false" />
     <file path="/JavaMOPParser.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364556141441" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/buildjar.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364559785618" ignored="false" />
-    <file path="$PROJECT_DIR$/../../k/javasources/KTool/buildjava.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364559785619" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/buildjar.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/buildjava.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723048" ignored="false" />
     <file path="/JavaMOPParserConstants.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364560733986" ignored="false" />
     <file path="/SpecExtractor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364573884056" ignored="false" />
     <file path="/JavaMOPSpecExt.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364561252083" ignored="false" />
@@ -489,7 +273,120 @@
     <file path="/RVMBooleanSimplifier.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364575457594" ignored="false" />
     <file path="/MonitorInfo.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364575401055" ignored="false" />
     <file path="/EventDefinition.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364575259527" ignored="false" />
-    <file path="/EventDefinitionExt.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364575430527" ignored="false" />
+    <file path="/EventDefinitionExt.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366270921896" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/BinaryLoader.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364927297105" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/loader/JavaClassesFactory.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/gui/diff/Diff.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364927297105" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/gui/Controller/RunKRunCommand.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364983476472" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/loader/UpdateAssocVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/BasicTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/VariableReplaceTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/CommandlineOptions.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/RunProcess.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddSemanticEquality.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/checks/CheckSyntaxDecl.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/sharing/CellLabelCollector.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816355" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/RemoveBrackets.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/FlattenDisambiguationFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/FileUtil.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/ResolveInputStreamCell.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/ResolveSymbolicInputStream.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/CheckSmtlibVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/BasicHookWorker.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/TagUserRules.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/ConditionTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/CollapseAndBoolTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364982816356" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/java/symbolic/JavaSymbolicKRun.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367308368455" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/krun/Error.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/java/symbolic/SymbolicRewriter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1364985295687" ignored="false" />
+    <file path="/DefinitionHelper.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367308496595" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/KSort.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365424107629" ignored="false" />
+    <file path="/KSort.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365162835078" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/dist/examples/kool/untyped/kool-untyped-kompiled/def/Integration.sdf" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365163691743" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/concrete/disambiguate/TypeSystemFilter2.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365163962791" ignored="false" />
+    <file path="/TypeSystemFilter2.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365163925591" ignored="false" />
+    <file path="/Sort.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365164850457" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/dist/examples/kool/untyped/.k/krun/maudeoutput.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365165180516" ignored="false" />
+    <file path="$PROJECT_DIR$/../../Radical/src/ro/uaic/info/fmse/traian/Main.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366612734983" ignored="false" />
+    <file path="/Production.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365423696286" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Bracket.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/BasicTransformerPropagator.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/TermComment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Ambiguity.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365424107629" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/BackendTerm.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Cast.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723048" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/java/symbolic/AbstractVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365430812590" ignored="false" />
+    <file path="/AbstractVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365430703537" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/dist/examples/simple/untyped/simple-untyped-kompiled/pgm.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1365504409933" ignored="false" />
+    <file path="$PROJECT_DIR$/../javamop/src/javamop/parser/astex/mopspec/EventDefinitionExt.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366281321386" ignored="false" />
+    <file path="/CollectTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366876311566" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/taglets/CollectTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878205319" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/taglets/DescriptionCloseTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366871821618" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/util/FinishUp.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878696773" ignored="false" />
+    <file path="/FinishUp.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366872096364" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/taglets/DescriptionOpenTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878281535" ignored="false" />
+    <file path="/DescriptionOpenTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878260225" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/taglets/NewCloseTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878283770" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/taglets/NewOpenTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878293628" ignored="false" />
+    <file path="/NewOpenTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366872176025" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/taglets/PropertyCloseTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366872190021" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/taglets/PropertyOpenTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878319160" ignored="false" />
+    <file path="/PropertyOpenTaglet.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366872204614" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/src/edu/uiuc/cs/fsl/propertydocs/util/CreatePropertyFile.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366890300639" ignored="false" />
+    <file path="/CreatePropertyFile.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366890217969" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/bin/propertydocs.pl" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366927840507" ignored="false" />
+    <file path="/propertydocs.pl" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878495883" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/test/Collection.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366878642278" ignored="false" />
+    <file path="$PROJECT_DIR$/../property-db/property-doc/resources/js/balloon.config.js" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366887605461" ignored="false" />
+    <file path="/balloon.config.js" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366887603476" ignored="false" />
+    <file path="/a.html" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366930404383" ignored="false" />
+    <file path="/a.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366930406399" ignored="false" />
+    <file path="/a.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1366930479204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/dist/examples/simple/untyped/simple-untyped-kompiled/def/Integration.sdf" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367266937610" ignored="false" />
+    <file path="/StringUtil.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367270367298" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/MapItem.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddKCell.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddK2SMTLib.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/unparser/KastFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/unparser/AddBracketsFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveBlockingInput.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddSuperheatRules.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723045" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddKLabelConstant.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveHybrid.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/CollectionItem.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/visitors/HookedTransformer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveBinder.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Bag.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/XmlLoader.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Empty.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723046" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/main/Main.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddSupercoolDefinition.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveFunctions.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/main/KompileOptionsParser.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddKLabelToString.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/ResolveBuiltins.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/DesugarStreams.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/StrictnessToContexts.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/KLabel.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/compile/transformers/AddHeatingConditions.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/loader/CollectPrioritiesVisitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723047" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/KInjectedLabel.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723048" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/kil/Freezer.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367305723048" ignored="false" />
+    <file path="/JavaSymbolicKRun.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367308280224" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/symbolic/rl/RLBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367310043490" ignored="false" />
+    <file path="/RLBackend.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367310041200" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/backend/latex/LatexFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367358506219" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/dist/include/modules/uris.k" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367389999545" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/generator/ParseRulesFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367387866773" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/concrete/disambiguate/TypeInferenceSupremumFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367390060809" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/utils/ResourceExtractor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367387512761" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/javasources/KTool/src/org/kframework/parser/generator/ParseConfigsFilter.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367387801757" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/dist/bin/kompile" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367388044365" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/tests/config.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367388193617" ignored="false" />
+    <file path="$PROJECT_DIR$/../../k/tests/tools/Testing/src/org/kframework/tests/Test.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367389934604" ignored="false" />
+    <file path="/PTLTLPlugin.sca" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293164739" ignored="false" />
+    <file path="/LogicRepositoryType.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293917794" ignored="false" />
+    <file path="$PROJECT_DIR$/RVC/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369296302762" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -504,50 +401,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="393" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="204" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java" line="24" class="rvmonitortestsuite.ProgramCompileFunctor" package="rvmonitortestsuite">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -555,6 +409,7 @@
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
         <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
@@ -571,6 +426,7 @@
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
         <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
@@ -582,7 +438,38 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="387" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" line="210" class="rvmonitor.output.monitor.BaseMonitor" package="rvmonitor.output.monitor">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -592,91 +479,95 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="StatisticsType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitor/parser/logicrepositorysyntax/StatisticsType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="29" selection-start="1987" selection-end="1987" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="logicrepository.xsd" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="32" selection-start="1193" selection-end="1193" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RVMLogging.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMLogging.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="41" selection-start="241" selection-end="241" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProgramCompileFunctor.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ProgramCompileFunctor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="0" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.24881516">
+            <state line="95" column="40" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestCase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestCase.java">
+      <file leaf-file-name="LogicRepositoryData.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/LogicRepositoryData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="65" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0">
+            <state line="13" column="13" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestingFunctor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestingFunctor.java">
+      <file leaf-file-name="FSMPlugin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="16" selection-start="2459" selection-end="2459" vertical-scroll-proportion="0.0">
+            <state line="10" column="13" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RVMonitorStatistics.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/RVMonitorStatistics.java">
+      <file leaf-file-name="LTLPlugin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="31" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
+            <state line="10" column="13" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RVMSLIntIterator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMSLIntIterator.java">
+      <file leaf-file-name="PTLTLPlugin.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="52" selection-start="292" selection-end="292" vertical-scroll-proportion="0.0">
+            <state line="5" column="13" selection-start="161" selection-end="161" vertical-scroll-proportion="0.1146789">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LogicRepositoryType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="13" selection-start="2147" selection-end="2147" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mop.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/mop.java">
+      <file leaf-file-name="LogicRepositoryType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="13" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0">
+            <state line="55" column="13" selection-start="2183" selection-end="2183" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RVMIntSpliceList.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMIntSpliceList.java">
+      <file leaf-file-name="EREPlugin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="351" column="23" selection-start="8568" selection-end="8568" vertical-scroll-proportion="0.0">
+            <state line="9" column="16" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PtltlFSM.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PtltlFSM.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PTLTLPlugin.sca" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="20" selection-start="293" selection-end="293" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -700,10 +591,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/BaseMonitor.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/HandlerMethod.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/Monitor.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/MonitorTermination.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java" />
         <option value="$PROJECT_DIR$/src/rvmonitor/output/monitorset/MonitorSet.java" />
@@ -716,6 +603,10 @@
         <option value="$PROJECT_DIR$/src/rvmonitorrt/MOPIntSpliceList.java" />
         <option value="$PROJECT_DIR$/src/rvmonitorrt/RVMIntSpliceList.java" />
         <option value="$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java" />
+        <option value="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca" />
+        <option value="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/CMonGenType.java" />
+        <option value="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java" />
+        <option value="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREPlugin.java" />
       </list>
     </option>
   </component>
@@ -737,8 +628,14 @@
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
+  <component name="ProjectStructureProblems">
+    <ignored-problems>
+      <problem id="unused-library(library:project:libs)" />
+      <problem id="unused-library(library:project:rvmonitorrt)" />
+    </ignored-problems>
+  </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="PackagesPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -750,6 +647,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -764,42 +662,132 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rv-monitor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rvmonitortestsuite" />
+              <option name="myItemId" value="RVC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVCsyntax" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="logicrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="logicrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RVC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="logicrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parser.logicrepositorysyntax" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="138" />
-    <property name="project.structure.proportion" value="0.15" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="140" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="139" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="139" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/examples/ERE/SafeSyncCollection/SafeSyncCollection_1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/RVC" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="149" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="939" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="937" />
@@ -821,12 +809,15 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="dynamic.classpath" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="logicrepository" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Test">
@@ -845,6 +836,7 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
       <option name="WIPE_USER_DATA" value="false" />
       <option name="DISABLE_BOOT_ANIMATION" value="false" />
@@ -859,19 +851,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -899,6 +878,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -942,6 +934,7 @@
       <option name="DEPLOY" value="true" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
       <option name="WIPE_USER_DATA" value="false" />
       <option name="DISABLE_BOOT_ANIMATION" value="false" />
@@ -957,6 +950,7 @@
       <option name="DEPLOY" value="true" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
       <option name="WIPE_USER_DATA" value="false" />
       <option name="DISABLE_BOOT_ANIMATION" value="false" />
@@ -1575,7 +1569,7 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false">
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
     <option name="USER" value="" />
     <option name="PASSWORD" value="" />
     <option name="mySSHConnectionTimeout" value="30000" />
@@ -1585,7 +1579,6 @@
     <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
     <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
     <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="DETECT_NESTED_COPIES" value="true" />
     <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
     <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
@@ -1603,30 +1596,31 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="797" extended-state="6" />
+    <frame x="0" y="22" width="1440" height="797" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32716927" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32624114" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997155" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32770744" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18651363" sideWeight="0.36842105" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21807748" sideWeight="0.71631205" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18651363" sideWeight="0.29445234" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21807748" sideWeight="0.28368795" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.67140824" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.33001423" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32770744" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1657,7 +1651,7 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
-    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
     <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
     <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
@@ -1667,6 +1661,10 @@
     <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
     <option name="LIMIT_HISTORY" value="true" />
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
     <option name="LAST_COMMIT_MESSAGE" />
@@ -1680,6 +1678,7 @@
     <option name="ACTIVE_VCS_NAME" />
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
   </component>
@@ -1691,115 +1690,119 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/Monitor.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Assignments.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="44" selection-start="2566" selection-end="2566" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/MonitorTermination.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Booleanformula.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="51" selection-start="1349" selection-end="1349" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/RawMonitor.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Listwrapper.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="45" selection-start="604" selection-end="604" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitor/SuffixMonitor.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/Main.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="45" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/monitorset/MonitorSet.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/ptltl.maude">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="45" selection-start="972" selection-end="972" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/parser/aspectj_parser/aspectj.jj">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PtltlFSM.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="194" column="51" selection-start="3860" selection-end="3860" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/parser/logicrepositorysyntax/StatisticsType.java">
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="29" selection-start="1987" selection-end="1987" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="32" selection-start="1193" selection-end="1193" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMLogging.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="41" selection-start="241" selection-end="241" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestCase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="65" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/TestingFunctor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="16" selection-start="2459" selection-end="2459" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitor/output/combinedaspect/RVMonitorStatistics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="31" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMSLIntIterator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="52" selection-start="292" selection-end="292" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/mop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rvmonitorrt/RVMIntSpliceList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="351" column="23" selection-start="8568" selection-end="8568" vertical-scroll-proportion="0.0">
+        <state line="8" column="20" selection-start="293" selection-end="293" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="0" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.24881516">
+        <state line="95" column="40" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="13" selection-start="2147" selection-end="2147" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="13" selection-start="2183" selection-end="2183" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="16" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="77" selection-end="77" vertical-scroll-proportion="0.06880734">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/LogicRepositoryData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="13" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="13" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="13" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="13" selection-start="161" selection-end="161" vertical-scroll-proportion="0.1146789">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

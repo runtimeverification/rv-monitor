@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="RVC" default="jar" basedir=".">
-  <property name="name" value="RVC" />
+
   <property name="build" value="build" />
   <property name="lib" value="lib" />
   <property name="src" value="src" />
@@ -10,58 +10,74 @@
   <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
   <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
 
+  <path id="scala.classpath">
+    <fileset dir="${scala.home}/lib/"> <include name="*.jar" /> </fileset>
+    <pathelement location="build" />
+  </path>
 
-    <path id="scala.classpath">
-                <pathelement location="${scala-compiler.jar}" />
-                <pathelement location="${scala-library.jar}" />
-                <pathelement location="build" />
-        </path>
+  <taskdef resource="scala/tools/ant/antlib.xml">
+    <classpath refid="scala.classpath" />
+  </taskdef>
 
-        
-        <taskdef resource="scala/tools/ant/antlib.xml">
-                <classpath refid="scala.classpath" />
-        </taskdef>
+  <!-- redefined these if you change the directory names -->
+  <property name="name" value="RVC" />
+  <property name="lr" value="logicrepository" />
+
+
 
   <target name="init">
     <mkdir dir="${build}" />
     <mkdir dir="${lib}" />
-    <mkdir dir="${plugins}" />
-   </target>
- 
+  </target>
 
   <target name="clean">
-     <delete verbose="true">
-        <fileset dir="${build}" />
-     </delete>
-     <delete verbose="true">
-        <fileset dir="${lib}" />
-     </delete>
+    <delete verbose="true">
+      <fileset dir="${build}" />
+    </delete>
+    <delete verbose="true">
+      <fileset dir="${lib}">
+        <include name="*.jar" />
+      </fileset>
+      <fileset dir="${lib}/plugins" />
+    </delete>
   </target>
 
   <target name="compile" depends="init">
-     <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" >
+    <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" >
       <exclude name="**/PTLTLPlugin.java" />
-     </javac>
-      <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false">
-                        <include name="**/*.scala" />
-      </scalac> 
-      <!-- ugly hack -->
-      <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false">
-          <include name="**/PTLTLPlugin.java" />
-      </javac>
+    </javac>
+    <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false">
+      <include name="**/*.scala" />
+    </scalac> 
+    <!-- ugly hack -->
+    <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false" classpathref="scala.classpath">
+      <include name="**/PTLTLPlugin.java" />
+    </javac>
+    <copy file="${scala-library.jar}" todir="${lib}" />
   </target>
 
   <target name="jar" depends="compile">
-     <jar destfile="${lib}/${name}.jar" basedir="${build}">
-        <include name="${name}/*" />
-        <include name="${name}/RVCsyntax/**" />
-        <include name="${name}/plugins/*.class" />
-        <include name="${name}/shells/**" />
-     </jar>
+    <jar destfile="${lib}/${name}.jar" basedir="${build}" includes="${name}/**" />
+    <jar destfile="${lib}/${lr}.jar" basedir="${build}">
+      <include name="${lr}/*" />
+      <include name="${lr}/parser/**" />
+      <include name="${lr}/plugins/*.class" />
+    </jar>
 
-     <jar destfile="${plugins}/ERE.jar" basedir="${build}" includes="${name}/plugins/ere/**" />
-     <jar destfile="${plugins}/FSM.jar" basedir="${build}" includes="${name}/plugins/fsm/**" />
-     <jar destfile="${plugins}/LTL.jar" basedir="${build}" includes="${name}/plugins/ltl/**" />
-     <jar destfile="${plugins}/PTLTL.jar" basedir="${build}" includes="${name}/plugins/ptltl/**" />
+
+    <jar destfile="${plugins}/ERE.jar" basedir="${build}" includes="${lr}/plugins/ere/**" />
+    <jar destfile="${plugins}/FSM.jar" basedir="${build}" includes="${lr}/plugins/fsm/**" />
+    <jar destfile="${plugins}/LTL.jar" basedir="${build}" includes="${lr}/plugins/ltl/**" />
+    <jar destfile="${plugins}/PTLTL.jar" basedir="${build}" includes="${lr}/plugins/ptltl/**" />
   </target>
+
+
+
+
+
+
+
+
+
+  <target name="build" depends="jar"/>
 </project>
