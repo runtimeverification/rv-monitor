@@ -2,8 +2,6 @@
 package logicrepository.plugins.ere;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.io.*;
 
 public class EREParser implements EREParserConstants {

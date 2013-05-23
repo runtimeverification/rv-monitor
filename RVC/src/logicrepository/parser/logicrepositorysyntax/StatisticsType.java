@@ -6,7 +6,7 @@
 //
 
 
-package RVC.RVCsyntax;
+package logicrepository.parser.logicrepositorysyntax;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="TotalMOPCount" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="TotalRVMCount" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="CurrentClient" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="ClientCount" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="CurrentLogic" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StatisticsType", propOrder = {
-    "totalMOPCount",
+    "totalRVMCount",
     "currentClient",
     "clientCount",
     "currentLogic",
@@ -51,8 +51,8 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class StatisticsType {
 
-    @XmlElement(name = "TotalMOPCount")
-    protected int totalMOPCount;
+    @XmlElement(name = "TotalRVMCount")
+    protected int totalRVMCount;
     @XmlElement(name = "CurrentClient", required = true)
     protected String currentClient;
     @XmlElement(name = "ClientCount")
@@ -67,19 +67,19 @@ public class StatisticsType {
     protected String totalExecutionTime;
 
     /**
-     * Gets the value of the totalMOPCount property.
+     * Gets the value of the totalRVMCount property.
      * 
      */
-    public int getTotalMOPCount() {
-        return totalMOPCount;
+    public int getTotalRVMCount() {
+        return totalRVMCount;
     }
 
     /**
-     * Sets the value of the totalMOPCount property.
+     * Sets the value of the totalRVMCount property.
      * 
      */
-    public void setTotalMOPCount(int value) {
-        this.totalMOPCount = value;
+    public void setTotalRVMCount(int value) {
+        this.totalRVMCount = value;
     }
 
     /**

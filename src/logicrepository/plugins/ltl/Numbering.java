@@ -1,7 +1,6 @@
 package logicrepository.plugins.ltl;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.LinkedHashSet;
 
 public class Numbering<Key> extends HashMap<Key, Integer>{

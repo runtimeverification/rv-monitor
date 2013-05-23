@@ -1,7 +1,6 @@
 package logicrepository.plugins.ere;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 //class representing a symbol in an ERE
 public class Negation extends ERE {

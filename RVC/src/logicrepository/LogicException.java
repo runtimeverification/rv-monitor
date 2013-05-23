@@ -1,15 +1,5 @@
 package logicrepository;
 
-import java.io.ByteArrayOutputStream;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
-import RVC.RVCsyntax.*;
-import java.util.*;
-
 public class LogicException extends Exception {
   private static final long serialVersionUID = -1L;
 

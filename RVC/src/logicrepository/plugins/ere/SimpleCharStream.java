@@ -9,7 +9,7 @@ package logicrepository.plugins.ere;
 
 public class SimpleCharStream
 {
-/** Whether is static. */
+/** Whether parser is static. */
   public static final boolean staticFlag = false;
   int bufsize;
   int available;

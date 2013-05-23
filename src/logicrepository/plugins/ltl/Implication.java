@@ -1,6 +1,5 @@
 package logicrepository.plugins.ltl;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 //class representing an Implication node in an LTL formula

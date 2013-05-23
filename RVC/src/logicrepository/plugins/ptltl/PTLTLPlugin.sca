@@ -1,12 +1,12 @@
-import logicplugins.plugins.ptltl._
-import logicplugins.plugins.ptltl.main._
-import logicplugins._ // ~/FSL/projects/MOP/trunk/lib/RVC.jar
-import logicplugins.LogicException._
-import logicplugins.Main._
-import logicplugins.parser.RVCsyntax._
-import logicplugins.plugins._
+import logicrepository.plugins.ptltl._
+import logicrepository.plugins.ptltl.main._
+import logicrepository._ // ~/FSL/projects/MOP/trunk/lib/logicrepository.jar
+import logicrepository.LogicException._
+import logicrepository.Main._
+import logicrepository.parser.logicrepositorysyntax._
+import logicrepository.plugins._
 
-package logicplugins.plugins.ptltl {
+package logicrepository.plugins.ptltl {
   class PTLTLPlugin extends LogicPlugin {
 
     def process(logicInputXML: LogicRepositoryType) : LogicRepositoryType = {

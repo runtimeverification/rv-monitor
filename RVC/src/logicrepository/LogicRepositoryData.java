@@ -10,6 +10,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import logicrepository.parser.logicrepositorysyntax.ObjectFactory;
 
 public class LogicRepositoryData {
 
@@ -91,9 +92,9 @@ public class LogicRepositoryData {
     JAXBContext logicData;
     ByteArrayOutputStream outputStream;
     try {
-      logicData = JAXBContext.newInstance("RVC.RVCsyntax");
+      logicData = JAXBContext.newInstance("logicrepository.parser.logicrepositorysyntax");
       Marshaller marshaller = logicData.createMarshaller();
-      RVC.RVCsyntax.ObjectFactory factory = new RVC.RVCsyntax.ObjectFactory();
+      ObjectFactory factory = new ObjectFactory();
       JAXBElement<LogicRepositoryType> logicData2 = factory.createMop(xmlData);
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -125,7 +126,7 @@ public class LogicRepositoryData {
 
     JAXBContext logicRequest;
     try {
-      logicRequest = JAXBContext.newInstance("RVC.RVCsyntax");
+      logicRequest = JAXBContext.newInstance("logicrepository.parser.logicrepositorysyntax");
       Unmarshaller unmarshaller = logicRequest.createUnmarshaller();
       xmlData = ((JAXBElement<LogicRepositoryType>) unmarshaller.unmarshal(parserInput)).getValue();
     } catch (Exception e) {

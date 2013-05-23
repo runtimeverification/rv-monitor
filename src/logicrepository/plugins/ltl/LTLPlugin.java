@@ -1,12 +1,12 @@
 package logicrepository.plugins.ltl;
 
-import java.io.*;
-import java.util.*;
 import logicrepository.LogicException;
 import logicrepository.LogicRepositoryData;
-import logicrepository.Main;
-import logicrepository.parser.logicrepositorysyntax.*;
-import logicrepository.plugins.*;
+import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import logicrepository.plugins.LogicPlugin;
+
+import java.io.ByteArrayOutputStream;
+import java.util.HashSet;
 
 public class LTLPlugin extends LogicPlugin {
   

@@ -4,7 +4,7 @@ options {
 }
 
 PARSER_BEGIN(EREParser)
-package LogicRepository.plugins.ere;
+package logicrepository.plugins.ere;
 
 import java.util.ArrayList;
 import java.util.HashMap;

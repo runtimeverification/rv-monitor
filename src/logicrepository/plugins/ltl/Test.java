@@ -1,9 +1,5 @@
 package logicrepository.plugins.ltl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-
 public class Test{
   public static void main(String[] args){
     //can add extra atoms by creating them
