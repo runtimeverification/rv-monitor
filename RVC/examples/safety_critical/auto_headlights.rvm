@@ -1,0 +1,21 @@
+AutoHeadlights{
+
+  event auto  () {}
+ 
+  event manual() {}
+
+  event start () {}
+
+  event stop  () {}
+
+  event off   () {}
+
+  event on    () {}
+  
+  ptltl: (not manual S auto) and (not stop S start) and (not off S on)   
+
+  @violation {
+    printf("Automatically turning on lights\n");
+    //lights();
+  }
+}
