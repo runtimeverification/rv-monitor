@@ -1,6 +1,5 @@
 package logicrepository.plugins.ltl;
 
-import java.io.PrintStream;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
 

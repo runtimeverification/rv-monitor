@@ -1,11 +1,9 @@
 package logicrepository.plugins.ltl;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.LinkedHashSet;
-import java.lang.ref.WeakReference;
 
 //abstract class for the internal representation of our 
 //LTL formulas

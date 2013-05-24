@@ -1,7 +1,6 @@
 package logicrepository.plugins.ltl;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 
 public class DFATransition
   extends LinkedHashMap<Atom, DFAState> {

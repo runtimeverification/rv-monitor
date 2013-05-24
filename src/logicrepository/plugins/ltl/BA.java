@@ -2,9 +2,7 @@ package logicrepository.plugins.ltl;
 
 import java.util.LinkedHashSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Iterator;
 
 public class BA {
   public LinkedHashSet<BAState> Q;

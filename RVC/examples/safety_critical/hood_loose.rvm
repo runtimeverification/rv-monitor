@@ -1,0 +1,11 @@
+HoodLoose {
+  event hoodLoose() {}
+
+  ere : hoodLoose
+
+  @match {
+    //warn user
+    //bring car slowly to a stop
+  }
+
+}

@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+SixSteps {
+
+  event complete(){}
+
+  event step() {}
+
+  ere : step^7
+
+  @match {
+    printf("too many steps!\n");
+  }
+
+  @fail {
+    __RESET;
+  }
+}

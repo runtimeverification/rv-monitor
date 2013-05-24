@@ -12,11 +12,10 @@ package RVC;
 import logicrepository.LogicRepositoryData;
 import logicrepository.LogicException;
 import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import logicrepository.parser.logicrepositorysyntax.PropertyType;
 import logicrepository.plugins.*;
-import RVC.shells.*;
-import RVC.shells.fsm.*;
-
-import RVC.RVCsyntax.*;
+import RVC.logicpluginshells.*;
+import RVC.logicpluginshells.c.fsm.*;
 
 import RVC.parser.RVCParser;
 
@@ -156,6 +155,9 @@ public class Main {
       cos.println(sr.properties.get("monitored events"));
       cos.println(sr.properties.get("categories"));
       cos.println(sr.properties.get("reset"));
+      hos.println("void");
+      String resetName = rvcPrefix + specName + "reset";
+      hos.println(resetName + "(void);"); 
       cos.println(sr.properties.get("monitoring body"));
       for(String eventName : rvcParser.getEvents().keySet()){
         hos.println("void");
@@ -168,7 +170,7 @@ public class Main {
         cos.println(rvcPrefix + specName + "monitor(" + rvcPrefix + constSpecName + eventName.toUpperCase() + ");"); 
         for(String category : rvcParser.getHandlers().keySet()){
           cos.println("if(" + rvcPrefix + specName + category + ")\n{");
-          cos.println(rvcParser.getHandlers().get(category));
+          cos.println(rvcParser.getHandlers().get(category).replaceAll("__RESET", resetName + "()"));
           cos.println("}");
         }
         cos.println("}\n");

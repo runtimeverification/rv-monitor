@@ -7,6 +7,11 @@ import java.util.HashSet;
 import java.io.*;
 
 public class EREParser implements EREParserConstants {
+
+  public static void main(String[] args){
+    parse(args[0]);
+  }
+
   public static EREParser parse(String input) {
      Reader reader = new StringReader(input);
      EREParser ereParser = new EREParser(reader);
@@ -122,6 +127,7 @@ public class EREParser implements EREParserConstants {
   final public ERE Unary() throws ParseException {
   ERE sub;
   Token name;
+  Token num;
   Symbol s;
   Epsilon ep;
   Empty em;
@@ -137,26 +143,41 @@ public class EREParser implements EREParserConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case STAR:
       case PLUS:
+      case CARET:
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case PLUS:
-          jj_consume_token(PLUS);
-                             {if (true) return Concat.get(s, Kleene.get(s));}
-          break;
         case STAR:
-          jj_consume_token(STAR);
-                             {if (true) return Kleene.get(s);}
+        case PLUS:
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case PLUS:
+            jj_consume_token(PLUS);
+                                                 {if (true) return Concat.get(s, Kleene.get(s));}
+            break;
+          case STAR:
+            jj_consume_token(STAR);
+                                                 {if (true) return Kleene.get(s);}
+            break;
+          default:
+            jj_la1[3] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+          break;
+        case CARET:
+          jj_consume_token(CARET);
+          num = jj_consume_token(DIGIT);
+                                                 {if (true) return Repeat.get(s, new Integer(num.image));}
           break;
         default:
-          jj_la1[3] = jj_gen;
+          jj_la1[4] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[4] = jj_gen;
+        jj_la1[5] = jj_gen;
         ;
       }
-                             {if (true) return s;}
+                     {if (true) return s;}
       break;
     case LPAREN:
       jj_consume_token(LPAREN);
@@ -175,13 +196,13 @@ public class EREParser implements EREParserConstants {
                                  {if (true) return Kleene.get(sub);}
           break;
         default:
-          jj_la1[5] = jj_gen;
+          jj_la1[6] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[6] = jj_gen;
+        jj_la1[7] = jj_gen;
         ;
       }
                                                                          {if (true) return sub;}
@@ -202,13 +223,13 @@ public class EREParser implements EREParserConstants {
                              {if (true) return Kleene.get(ep);}
           break;
         default:
-          jj_la1[7] = jj_gen;
+          jj_la1[8] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[9] = jj_gen;
         ;
       }
                              {if (true) return ep;}
@@ -229,19 +250,19 @@ public class EREParser implements EREParserConstants {
                              {if (true) return Kleene.get(em);}
           break;
         default:
-          jj_la1[9] = jj_gen;
+          jj_la1[10] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[11] = jj_gen;
         ;
       }
                              {if (true) return em;}
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -257,13 +278,13 @@ public class EREParser implements EREParserConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[12];
+  final private int[] jj_la1 = new int[13];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x40,0x20,0xe14,0x180,0x180,0x180,0x180,0x180,0x180,0x180,0x180,0xe14,};
+      jj_la1_0 = new int[] {0x40,0x20,0x1a14,0x180,0x580,0x580,0x180,0x180,0x180,0x180,0x180,0x180,0x1a14,};
    }
 
   /** Constructor with InputStream. */
@@ -277,7 +298,7 @@ public class EREParser implements EREParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -291,7 +312,7 @@ public class EREParser implements EREParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -301,7 +322,7 @@ public class EREParser implements EREParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -311,7 +332,7 @@ public class EREParser implements EREParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -320,7 +341,7 @@ public class EREParser implements EREParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -329,7 +350,7 @@ public class EREParser implements EREParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -380,12 +401,12 @@ public class EREParser implements EREParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[14];
+    boolean[] la1tokens = new boolean[15];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 13; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -394,7 +415,7 @@ public class EREParser implements EREParserConstants {
         }
       }
     }
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < 15; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

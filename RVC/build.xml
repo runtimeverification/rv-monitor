@@ -44,8 +44,12 @@
 
   <target name="compile" depends="init">
     <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" >
-      <exclude name="**/PTLTLPlugin.java" />
-    </javac>
+		<classpath>
+			<pathelement location="../lib/logicrepository.jar" />
+		</classpath>
+		<exclude name="**/PTLTLPlugin.java" />
+
+	  </javac>
     <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false">
       <include name="**/*.scala" />
     </scalac> 
@@ -58,17 +62,6 @@
 
   <target name="jar" depends="compile">
     <jar destfile="${lib}/${name}.jar" basedir="${build}" includes="${name}/**" />
-    <jar destfile="${lib}/${lr}.jar" basedir="${build}">
-      <include name="${lr}/*" />
-      <include name="${lr}/parser/**" />
-      <include name="${lr}/plugins/*.class" />
-    </jar>
-
-
-    <jar destfile="${plugins}/ERE.jar" basedir="${build}" includes="${lr}/plugins/ere/**" />
-    <jar destfile="${plugins}/FSM.jar" basedir="${build}" includes="${lr}/plugins/fsm/**" />
-    <jar destfile="${plugins}/LTL.jar" basedir="${build}" includes="${lr}/plugins/ltl/**" />
-    <jar destfile="${plugins}/PTLTL.jar" basedir="${build}" includes="${lr}/plugins/ptltl/**" />
   </target>
 
 

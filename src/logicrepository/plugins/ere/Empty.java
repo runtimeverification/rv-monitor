@@ -1,7 +1,5 @@
 package logicrepository.plugins.ere;
 
-import java.util.HashMap;
-
 //class representing a symbol in an ERE
 public class Empty extends ERE {
 //  public String name;

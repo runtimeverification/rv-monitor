@@ -9,7 +9,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Rv-monitor-deps" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Rv-runtime" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="repository" level="project" />
   </component>
 </module>
 

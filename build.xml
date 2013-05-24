@@ -86,11 +86,11 @@
   </target>
 
   <target name="rvc">
-    <ant antfile="build.xml" dir="${RVC}" />
+    <ant antfile="build.xml" dir="${RVC}" inheritAll="false" />
   </target>
 
   <target name="rvc-clean">
-    <ant antfile="build.xml" dir="${RVC}" target="clean" />
+    <ant antfile="build.xml" dir="${RVC}" target="clean" inheritAll="false" />
   </target>
 
   <target name="build" depends="jar, rvc"/>

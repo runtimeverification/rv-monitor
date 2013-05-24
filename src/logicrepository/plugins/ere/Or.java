@@ -1,7 +1,6 @@
 package logicrepository.plugins.ere;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Collections;
 
 //class representing or in an ERE
