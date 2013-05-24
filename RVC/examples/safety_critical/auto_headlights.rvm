@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 AutoHeadlights{
 
   event auto  () {}
@@ -12,9 +14,9 @@ AutoHeadlights{
 
   event on    () {}
   
-  ptltl: (not manual S auto) and (not stop S start) and (not off S on)   
+  ptltl: (not on S off) and (not manual S auto) and (not stop S start)  
 
-  @violation {
+  @validation {
     printf("Automatically turning on lights\n");
     //lights();
   }
