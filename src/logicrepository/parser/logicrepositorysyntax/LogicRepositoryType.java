@@ -43,6 +43,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LogicRepositoryType", propOrder = {
+        "specName",
         "client",
         "events",
         "property",
@@ -54,6 +55,8 @@ import java.util.List;
 })
 public class LogicRepositoryType {
 
+    @XmlElement(name = "SpecName")
+    protected String specName;
     @XmlElement(name = "Client")
     protected String client;
     @XmlElement(name = "Events")
@@ -70,6 +73,26 @@ public class LogicRepositoryType {
     protected String enableSets;
     @XmlElement(name = "Statistics")
     protected StatisticsType statistics;
+
+    /**
+     * Gets the value of the specName property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getSpecName() {
+        return specName;
+    }
+
+    /**
+     * Sets the value of the specName property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setSpecName(String value) {
+        this.specName = value;
+    }
 
     /**
      * Gets the value of the client property.

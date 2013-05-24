@@ -14,8 +14,8 @@ import logicrepository.LogicException;
 import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import logicrepository.parser.logicrepositorysyntax.PropertyType;
 import logicrepository.plugins.*;
-import RVC.shells.*;
-import RVC.shells.fsm.*;
+import RVC.logicpluginshells.*;
+import RVC.logicpluginshells.c.fsm.*;
 
 import RVC.parser.RVCParser;
 

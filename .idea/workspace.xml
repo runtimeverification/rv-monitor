@@ -16,70 +16,346 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="856a59a6-8b49-4115-8449-5adb0b5511d9" name="Default" comment="">
-      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\RVCsyntax\MonitorType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/MonitorType.java" />
-      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\RVCsyntax\ObjectFactory.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/ObjectFactory.java" />
-      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\RVCsyntax\PropertyType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/PropertyType.java" />
-      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\RVCsyntax\StatisticsType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/StatisticsType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/And.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/And.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Atom.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Atom.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/BA.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/BA.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Concat.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Concat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DFA.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DFA.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DFATransition.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DFATransition.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DualNext.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DualNext.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DualPreviously.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DualPreviously.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DualSince.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DualSince.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DualUntil.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/DualUntil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParser.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/EREParser.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/EREParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParser.jj" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParser.jj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParserConstants.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParserConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParserTokenManager.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREParserTokenManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/EREParserTokenManager.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/EREParserTokenManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Empty.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Empty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Epsilon.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Epsilon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/FSM.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/FSM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/False.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/False.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/IFF.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/IFF.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Implication.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Implication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Kleene.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Kleene.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/LTLFormula.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/LTLFormula.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/LTLParser.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/LTLParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParser.jj" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLParser.jj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/LTLParserTokenManager.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/LTLParserTokenManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/LTLPlugin.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/LTLPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/LogicException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/LogicException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/LogicRepositoryData.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/LogicRepositoryData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/ActType.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Category.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/visitor/GenericVisitor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/visitor/GenericVisitor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/ParseException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/parser/ParseException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/Token.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/parser/Token.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/TokenMgrError.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/parser/TokenMgrError.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/visitor/VoidVisitor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/visitor/VoidVisitor.java" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\.idea\libraries\Rv_runtime.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\.idea\libraries\plugins.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\LogicException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\LogicRepositoryData.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\parser\logicrepositorysyntax\LogicRepositoryType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\parser\logicrepositorysyntax\MonitorType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\parser\logicrepositorysyntax\ObjectFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\parser\logicrepositorysyntax\PropertyType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\parser\logicrepositorysyntax\StatisticsType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\LogicPlugin.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\LogicPluginFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\Concat.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\ERE.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\EREParser.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\EREParser.jj" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\EREParserConstants.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\EREParserTokenManager.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\EREPlugin.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\EREType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\Empty.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\Epsilon.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\FSM.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\Kleene.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\Negation.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\Or.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\ParseException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\SimpleCharStream.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\Symbol.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\Token.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ere\TokenMgrError.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\FSMEnables.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\FSMPlugin.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\FSMParser.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\FSMParser.jj" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\FSMParserConstants.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\FSMParserTokenManager.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\ParseException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\SimpleCharStream.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\Token.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\TokenMgrError.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser\ast\Transition.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\AAutomaton.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\ATransition.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\ATuple.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\And.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Atom.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\BA.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\BAState.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\BATransition.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\DFA.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\DFAState.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\DFATransition.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\DualNext.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\DualPreviously.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\DualSince.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\DualUntil.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\END.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\False.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\GBA.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\GBAState.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\GBATransition.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\IFF.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Implication.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\LTLFormula.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\LTLParser.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\LTLParser.jj" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\LTLParserConstants.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\LTLParserTokenManager.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\LTLPlugin.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\LTLType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\NFA.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\NFATransition.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Negation.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Next.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Numbering.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Or.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\ParseException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Previously.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\SetOperations.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\SimpleCharStream.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Since.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Tarjan.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Test.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Token.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\TokenMgrError.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\True.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\Until.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ltl\XOr.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ptltl\Assignments.scala" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ptltl\Booleanformula.scala" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ptltl\Listwrapper.scala" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ptltl\Main.scala" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ptltl\PTLTLPlugin.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ptltl\PTLTLPlugin.sca" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ptltl\PtltlFSM.scala" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\ptltl\ptltl.maude" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\ActType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Category.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\ParseException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\Token.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\TokenMgrError.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\visitor\GenericVisitor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\visitor\VoidVisitor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\parser\ParseException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\parser\Token.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\parser\TokenMgrError.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\visitor\GenericVisitor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\visitor\VoidVisitor.java" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\StreamGobbler.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/util/StreamGobbler.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\Shell.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/Shell.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\ShellResult.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/ShellResult.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\.CFSM.java.swp" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/.CFSM.java.swp" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\CFSM.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/CFSM.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\FSMParser.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/FSMParser.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\FSMParserConstants.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/FSMParserConstants.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\FSMParserTokenManager.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/FSMParserTokenManager.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\JavaCharStream.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/JavaCharStream.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ParseException.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ParseException.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\Token.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/Token.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\TokenMgrError.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/TokenMgrError.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\CollectEventVisitor.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/CollectEventVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\DumpVisitor.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/DumpVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\FSMAlias.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/FSMAlias.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\FSMInput.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/FSMInput.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\FSMItem.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/FSMItem.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\FSMTransition.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/FSMTransition.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\GenericVisitor.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/GenericVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\HasDefaultVisitor.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/HasDefaultVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\Node.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/Node.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\SourcePrinter.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/SourcePrinter.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\ast\VoidVisitor.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/ast/VoidVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\RVC\shells\fsm\fsmparser\fsm.jj" afterPath="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/fsmparser/fsm.jj" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\JavaCFG.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/JavaCFG.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Accept.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Accept.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\CFG.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/CFG.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\CFGParser.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/CFGParser.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\CFGParserConstants.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/CFGParserConstants.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\CFGParserTokenManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/CFGParserTokenManager.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Cursor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Cursor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\DeepCopy.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/DeepCopy.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\EOF.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/EOF.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Epsilon.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Epsilon.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\GLRGen.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/GLRGen.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\GLRGenTest.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/GLRGenTest.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\GLRParser.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/GLRParser.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\IntStack.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/IntStack.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\LR.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/LR.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\LRAction.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/LRAction.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\LRPair.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/LRPair.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Makefile" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Makefile" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\NonTerminal.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/NonTerminal.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\ParseException.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/ParseException.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Production.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Production.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Reduce.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Reduce.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Shift.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Shift.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\SimpleCharStream.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/SimpleCharStream.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Symbol.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Symbol.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Terminal.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Terminal.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Token.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Token.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\TokenMgrError.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/TokenMgrError.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\Util.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/Util.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\body.txt" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/body.txt" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\cfg.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/cfg.jj" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\test.sh" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/test.sh" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\0\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/0/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\0\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/0/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\0\2.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/0/2.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\0\2.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/0/2.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\0\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/0/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\2.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/2.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\2.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/2.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\3.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/3.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\3.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/3.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\4.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/4.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\4.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/4.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\1\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/1/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\2\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/2/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\2\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/2/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\2\2.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/2/2.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\2\2.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/2/2.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\2\3.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/2/3.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\2\3.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/2/3.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\2\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/2/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\3\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/3/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\3\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/3/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\3\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/3/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\ambig\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/ambig/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\ambig\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/ambig/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\ambig\2.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/ambig/2.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\ambig\2.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/ambig/2.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\ambig\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/ambig/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\guar\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/guar/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\guar\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/guar/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\guar\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/guar/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\lessambig\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/lessambig/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\lessambig\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/lessambig/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\lessambig\2.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/lessambig/2.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\lessambig\2.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/lessambig/2.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\lessambig\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/lessambig/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\safeIter\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/safeIter/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\safeIter\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/safeIter/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\safeIter\2.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/safeIter/2.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\safeIter\2.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/safeIter/2.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\safeIter\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/safeIter/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\sheep\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/sheep/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\sheep\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/sheep/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\sheep\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/sheep/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\unsafeIter\1.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/unsafeIter/1.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\unsafeIter\1.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/unsafeIter/1.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\unsafeIter\2.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/unsafeIter/2.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\unsafeIter\2.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/unsafeIter/2.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\unsafeIter\3.in" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/unsafeIter/3.in" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\unsafeIter\3.out" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/unsafeIter/3.out" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javacfg\cfgutil\tests\unsafeIter\cfg" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/cfg/cfgutil/tests/unsafeIter/cfg" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\JavaFSM.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/JavaFSM.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\FSMParser.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/FSMParser.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\FSMParserConstants.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/FSMParserConstants.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\FSMParserTokenManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/FSMParserTokenManager.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\JavaCharStream.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/JavaCharStream.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ParseException.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ParseException.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\Token.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/Token.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\TokenMgrError.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/TokenMgrError.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\CollectEventVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/CollectEventVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\DumpVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/DumpVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\FSMAlias.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/FSMAlias.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\FSMInput.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/FSMInput.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\FSMItem.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/FSMItem.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\FSMTransition.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/FSMTransition.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\GenericVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/GenericVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\HasDefaultVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/HasDefaultVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\Node.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/Node.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\SourcePrinter.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/SourcePrinter.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\ast\VoidVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/ast/VoidVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javafsm\fsmparser\fsm.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/fsmparser/fsm.jj" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\JavaPDA.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/JavaPDA.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\ast\DefaultEvent.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/ast/DefaultEvent.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\ast\Event.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/ast/Event.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\ast\PDA.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/ast/PDA.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\ast\StackSymbol.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/ast/StackSymbol.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\ast\State.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/ast/State.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\PDAParser.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/PDAParser.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\PDAParser.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/PDAParser.jj" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\PDAParserConstants.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/PDAParserConstants.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\PDAParserTokenManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/PDAParserTokenManager.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\SimpleCharStream.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/SimpleCharStream.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\eg1.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/eg1.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\eg1Constants.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/eg1Constants.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\parser\eg1TokenManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/parser/eg1TokenManager.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapda\visitor\DumpVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/pda/visitor/DumpVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\ANDCondition.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/ANDCondition.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\BlockCondition.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/BlockCondition.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\BlockPartialOrder.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/BlockPartialOrder.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\Condition.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/Condition.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\ConditionToExp.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/ConditionToExp.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\JavaPO.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/JavaPO.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\NotCondition.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/NotCondition.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\ORCondition.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/ORCondition.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\POParser.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/POParser.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\POParser.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/POParser.jj" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\POParserConstants.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/POParserConstants.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\POParserTokenManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/POParserTokenManager.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\ParseException.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/ParseException.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\PartialOrder.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/PartialOrder.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\PartialOrders.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/PartialOrders.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\SimpleCharStream.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/SimpleCharStream.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\SimpleCondition.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/SimpleCondition.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\SimplePartialOrder.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/SimplePartialOrder.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\Snippet.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/Snippet.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\Token.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/Token.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javapo\TokenMgrError.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/po/TokenMgrError.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\JavaPTCARET.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/JavaPTCARET.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_Assignment.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_Assignment.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_Assignments.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_Assignments.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_BinExpr.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_BinExpr.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_EventExpr.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_EventExpr.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_Expr.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_Expr.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_FalseExpr.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_FalseExpr.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_Node.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_Node.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_NotExpr.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_NotExpr.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_Output.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_Output.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_TrueExpr.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_TrueExpr.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\ast\PseudoCode_VarExpr.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/ast/PseudoCode_VarExpr.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\parser\PTCARETParser.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/parser/PTCARETParser.jj" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\parser\PTCARET_PseudoCode_Parser.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/parser/PTCARET_PseudoCode_Parser.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\parser\PTCARET_PseudoCode_ParserConstants.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/parser/PTCARET_PseudoCode_ParserConstants.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\parser\PTCARET_PseudoCode_ParserTokenManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/parser/PTCARET_PseudoCode_ParserTokenManager.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\parser\SimpleCharStream.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/parser/SimpleCharStream.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\test\Test.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/test/Test.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\visitor\DumpVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/visitor/DumpVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\visitor\EvalVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/visitor/EvalVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\visitor\JavaCodeGenVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/visitor/JavaCodeGenVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\visitor\MaxAlphaVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/visitor/MaxAlphaVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javaptcaret\visitor\MaxBetaVisitor.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/ptcaret/visitor/MaxBetaVisitor.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\JavaSRS.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/JavaSRS.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\AbstractSequence.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/AbstractSequence.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\Fail.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/Fail.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\PMAParser.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/PMAParser.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\PMAParserConstants.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/PMAParserConstants.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\PMAParserTokenManager.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/PMAParserTokenManager.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\ParseException.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/ParseException.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\Rule.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/Rule.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\Sequence.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/Sequence.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\ShellPatternMatchAutomaton.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/ShellPatternMatchAutomaton.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\SimpleCharStream.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/SimpleCharStream.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\Succeed.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/Succeed.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\Symbol.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/Symbol.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\Token.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/Token.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\TokenMgrError.java" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/TokenMgrError.java" />
+      <change type="MOVED" beforePath="C:\Users\Traian\Documents\rv\rv-monitor\src\rvmonitor\logicpluginshells\javasrs\pmaparser\pma.jj" afterPath="$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/srs/pmaparser/pma.jj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/fsm/parser/FSMParserTokenManager.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/fsm/parser/FSMParserTokenManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java" afterPath="$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/RVC/Main.java" afterPath="$PROJECT_DIR$/RVC/src/RVC/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Negation.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Negation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Negation.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Negation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Next.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Next.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Numbering.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Numbering.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Or.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Or.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Or.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Or.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.sca" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/ParseException.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/ParseException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Previously.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Previously.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/SetOperations.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/SetOperations.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/SimpleCharStream.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/SimpleCharStream.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Since.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Since.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Symbol.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ere/Symbol.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Tarjan.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Tarjan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Test.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Test.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/TokenMgrError.java" afterPath="$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/TokenMgrError.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/True.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/True.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Until.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/Until.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/XOr.java" afterPath="$PROJECT_DIR$/src/logicrepository/plugins/ltl/XOr.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/ObjectFactory.java" afterPath="$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/ObjectFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/bin/RVC.bat" afterPath="$PROJECT_DIR$/RVC/bin/RVC.bat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RVC/RVC.iml" afterPath="$PROJECT_DIR$/RVC/RVC.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd" afterPath="$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rv-monitor.iml" afterPath="$PROJECT_DIR$/src/rv-monitor.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rv-monitor.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369298476536" ignored="false" />
     <file path="/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362639851417" ignored="false" />
-    <file path="/fragment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293461794" ignored="false" />
+    <file path="/fragment.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369311670491" ignored="false" />
     <file path="/a.dummy" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369302392627" ignored="false" />
     <file path="/*.regexp" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362684110001" ignored="false" />
     <file path="/HasNextRuntimeMonitor.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1362648070079" ignored="false" />
@@ -445,7 +721,8 @@
     <file path="$PROJECT_DIR$/../../k/tests/tools/Testing/src/org/kframework/tests/Test.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1367389934604" ignored="false" />
     <file path="/PTLTLPlugin.sca" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293164739" ignored="false" />
     <file path="/LogicRepositoryType.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369293917794" ignored="false" />
-    <file path="$PROJECT_DIR$/RVC/build.xml" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369296302762" ignored="false" />
+    <file path="/logicrepository.xsd" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369307813645" ignored="false" />
+    <file path="/LogicPluginFactory.java" changelist="856a59a6-8b49-4115-8449-5adb0b5511d9" time="1369315547500" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -538,96 +815,91 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PTLTLPlugin.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.java">
+      <file leaf-file-name="CFSM.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/CFSM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="584" selection-end="584" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LogicRepositoryType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="13" selection-start="2180" selection-end="2180" vertical-scroll-proportion="0.0">
+            <state line="35" column="34" selection-start="1022" selection-end="1022" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MonitorType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/MonitorType.java">
+      <file leaf-file-name="logicrepository.xsd" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="593" selection-end="593" vertical-scroll-proportion="0.0">
+            <state line="6" column="34" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectFactory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/ObjectFactory.java">
+      <file leaf-file-name="LogicPluginShellResult.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/rvmonitor/logicpluginshells/LogicPluginShellResult.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="13" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.0">
+            <state line="4" column="13" selection-start="72" selection-end="72" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MonitorType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/MonitorType.java">
+      <file leaf-file-name="LogicPluginShell.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/rvmonitor/logicpluginshells/LogicPluginShell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="19" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.0">
+            <state line="9" column="22" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LogicRepositoryType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
+      <file leaf-file-name="Shell.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/Shell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="14" selection-start="2824" selection-end="2824" vertical-scroll-proportion="0.0">
+            <state line="8" column="22" selection-start="213" selection-end="213" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectFactory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/ObjectFactory.java">
+      <file leaf-file-name="LogicPluginFactory.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/LogicPluginFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="209" column="44" selection-start="5921" selection-end="5921" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="32" column="60" selection-start="799" selection-end="814" vertical-scroll-proportion="0.38">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RVC/src/RVC/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="85" column="15" selection-start="2842" selection-end="2842" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FSMParser.jj" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/fsm/parser/FSMParser.jj">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#2466#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StatisticsType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/StatisticsType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="8" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LogicException.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/LogicException.java">
+      <file leaf-file-name="JavaFSM.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/JavaFSM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LogicRepositoryData.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/LogicRepositoryData.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="49" selection-start="3158" selection-end="3158" vertical-scroll-proportion="0.42699724">
+            <state line="65" column="4" selection-start="1914" selection-end="1914" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -651,9 +923,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/rvmonitor/parser/logicrepositorysyntax/StatisticsType.java" />
-        <option value="$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd" />
-        <option value="$PROJECT_DIR$/src/rvmonitorrt/RVMLogging.java" />
         <option value="$PROJECT_DIR$/src/rvmonitortestsuite/TestCase.java" />
         <option value="$PROJECT_DIR$/src/rvmonitortestsuite/TestingFunctor.java" />
         <option value="$PROJECT_DIR$/src/rvmonitorrt/MOPIntSpliceList.java" />
@@ -667,6 +936,9 @@
         <option value="$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/StatisticsType.java" />
         <option value="$PROJECT_DIR$/RVC/src/logicrepository/LogicException.java" />
         <option value="$PROJECT_DIR$/RVC/src/logicrepository/LogicRepositoryData.java" />
+        <option value="$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd" />
+        <option value="$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/Shell.java" />
+        <option value="$PROJECT_DIR$/src/logicrepository/plugins/LogicPluginFactory.java" />
       </list>
     </option>
   </component>
@@ -761,38 +1033,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="RVC" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="logicrepository" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rv-monitor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RVC" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="logicrepository" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="parser.logicrepositorysyntax" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rv-monitor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="rv-monitor" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
@@ -808,6 +1048,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="logicrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rv-monitor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="logicrepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -816,7 +1074,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="138" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="140" />
@@ -826,7 +1084,7 @@
     <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/parser" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="149" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="939" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="937" />
@@ -855,8 +1113,15 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Traian\Documents\rv\rv-monitor\RVC\src\logicrepository\plugins\fsm\parser" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="logicrepository" />
+      <recent name="RVC.utils" />
+      <recent name="RVC" />
+      <recent name="RVC.logicpluginshells.c" />
+      <recent name="rvmonitor.logicpluginshells.java" />
+      <recent name="logicrepository.plugins.fsm.parser.ast" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Test">
@@ -1649,10 +1914,10 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2204301" sideWeight="0.48355263" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2204301" sideWeight="0.48355263" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2204301" sideWeight="0.19078948" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2204301" sideWeight="0.6743421" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.67140824" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1729,119 +1994,79 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/rvmonitortestsuite/ProgramCompileFunctor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="40" selection-start="3143" selection-end="3143" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/ere/EREPlugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="16" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ere/EREPlugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="77" selection-end="77" vertical-scroll-proportion="0.06880734">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/logicrepository/LogicRepositoryData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/fsm/FSMPlugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="13" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ltl/LTLPlugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="13" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/plugins/ptltl/PTLTLPlugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="584" selection-end="584" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="13" selection-start="2180" selection-end="2180" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/MonitorType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="593" selection-end="593" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/ObjectFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="13" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/logicrepository/parser/logicrepositorysyntax/MonitorType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="19" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/LogicRepositoryType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="14" selection-start="2824" selection-end="2824" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/ObjectFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/rv-monitor.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#2466#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/parser/logicrepositorysyntax/StatisticsType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="8" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/LogicException.java">
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/fsm/parser/FSMParser.jj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RVC/src/logicrepository/LogicRepositoryData.java">
+    <entry file="file://$PROJECT_DIR$/src/rvmonitor/logicpluginshells/java/fsm/JavaFSM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="49" selection-start="3158" selection-end="3158" vertical-scroll-proportion="0.42699724">
+        <state line="65" column="4" selection-start="1914" selection-end="1914" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/RVC/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="85" column="15" selection-start="2842" selection-end="2842" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/c/fsm/CFSM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="34" selection-start="1022" selection-end="1022" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rvmonitor/schemas/logicrepository.xsd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="34" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rvmonitor/logicpluginshells/LogicPluginShellResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="13" selection-start="72" selection-end="72" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rvmonitor/logicpluginshells/LogicPluginShell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="22" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RVC/src/RVC/logicpluginshells/Shell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="22" selection-start="213" selection-end="213" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/plugins/LogicPluginFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="209" column="44" selection-start="5921" selection-end="5921" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logicrepository/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="60" selection-start="799" selection-end="814" vertical-scroll-proportion="0.38">
           <folding />
         </state>
       </provider>
@@ -1863,7 +2088,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>Android</last-edited>
+          <last-edited>No facets are configured</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1886,7 +2111,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.6</last-edited>
+          <last-edited>1.7</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1898,12 +2123,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>rv-monitor</last-edited>
+          <last-edited>RVC</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -1923,7 +2147,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>rvmonitorrt</last-edited>
+          <last-edited>repository</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
