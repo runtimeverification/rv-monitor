@@ -1,7 +1,6 @@
 package logicrepository.plugins.ltl;
 
 import java.util.LinkedHashSet;
-import java.util.Iterator;
 import java.lang.Math;
 
 public class SetOperations {

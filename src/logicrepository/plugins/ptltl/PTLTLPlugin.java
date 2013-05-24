@@ -1,10 +1,6 @@
 package logicrepository.plugins.ptltl;
 
-import logicrepository.plugins.ptltl.*;
-import logicrepository.*; // ~/FSL/projects/MOP/trunk/lib/logicrepository.jar;
-import logicrepository.LogicException.*;
-import logicrepository.Main.*;
-import logicrepository.parser.logicrepositorysyntax.*;
+import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import logicrepository.plugins.*;
 
 public class PTLTLPlugin extends LogicPlugin {

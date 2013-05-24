@@ -2,9 +2,13 @@
 
 set SRC_ROOT=%~dp0..
 
-set PLUGINS=%SRC_ROOT%\lib\plugins
-set CP=%SRC_ROOT%\lib\RVC.jar;%SRC_ROOT%\lib\logicrepository.jar;%SRC_ROOT%\lib\scala-library.jar
+set RV_ROOT=%SRC_ROOT%\..
+
+set PLUGINS=%RV_ROOT%\lib\plugins
+set CP=%SRC_ROOT%\lib\RVC.jar;%RV_ROOT%\lib\logicrepository.jar;%SRC_ROOT%\lib\scala-library.jar
 for /f %%a IN ('dir /b /s "%PLUGINS%\*.jar"') do call :concat %%a
+
+set LOGICPLUGINPATH=%PLUGINS%
 
 java -cp "%CP%" RVC.Main %*
 goto :eof

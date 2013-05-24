@@ -1,6 +1,5 @@
 package logicrepository.plugins.ere;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.io.PrintStream;
 import java.util.LinkedHashSet;

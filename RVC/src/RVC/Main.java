@@ -12,11 +12,10 @@ package RVC;
 import logicrepository.LogicRepositoryData;
 import logicrepository.LogicException;
 import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import logicrepository.parser.logicrepositorysyntax.PropertyType;
 import logicrepository.plugins.*;
-import RVC.shells.*;
-import RVC.shells.fsm.*;
-
-import RVC.RVCsyntax.*;
+import RVC.logicpluginshells.*;
+import RVC.logicpluginshells.c.fsm.*;
 
 import RVC.parser.RVCParser;
 

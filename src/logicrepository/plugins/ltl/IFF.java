@@ -1,6 +1,5 @@
 package logicrepository.plugins.ltl;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 //class representing an IFF node in an LTL formula

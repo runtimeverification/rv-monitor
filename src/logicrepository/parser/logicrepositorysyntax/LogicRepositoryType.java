@@ -8,19 +8,20 @@
 
 package logicrepository.parser.logicrepositorysyntax;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for LogicRepositoryType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="LogicRepositoryType">
  *   &lt;complexContent>
@@ -39,22 +40,23 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LogicRepositoryType", propOrder = {
-    "client",
-    "events",
-    "property",
-    "categories",
-    "creationEvents",
-    "message",
-    "enableSets",
-    "statistics"
+        "specName",
+        "client",
+        "events",
+        "property",
+        "categories",
+        "creationEvents",
+        "message",
+        "enableSets",
+        "statistics"
 })
 public class LogicRepositoryType {
 
+    @XmlElement(name = "SpecName")
+    protected String specName;
     @XmlElement(name = "Client")
     protected String client;
     @XmlElement(name = "Events")
@@ -73,12 +75,30 @@ public class LogicRepositoryType {
     protected StatisticsType statistics;
 
     /**
+     * Gets the value of the specName property.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
+    public String getSpecName() {
+        return specName;
+    }
+
+    /**
+     * Sets the value of the specName property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setSpecName(String value) {
+        this.specName = value;
+    }
+
+    /**
      * Gets the value of the client property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getClient() {
         return client;
@@ -86,11 +106,9 @@ public class LogicRepositoryType {
 
     /**
      * Sets the value of the client property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setClient(String value) {
         this.client = value;
@@ -98,11 +116,9 @@ public class LogicRepositoryType {
 
     /**
      * Gets the value of the events property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getEvents() {
         return events;
@@ -110,11 +126,9 @@ public class LogicRepositoryType {
 
     /**
      * Sets the value of the events property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setEvents(String value) {
         this.events = value;
@@ -122,11 +136,9 @@ public class LogicRepositoryType {
 
     /**
      * Gets the value of the property property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link PropertyType }
-     *     
+     *
+     * @return possible object is
+     *         {@link PropertyType }
      */
     public PropertyType getProperty() {
         return property;
@@ -134,11 +146,9 @@ public class LogicRepositoryType {
 
     /**
      * Sets the value of the property property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link PropertyType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link PropertyType }
      */
     public void setProperty(PropertyType value) {
         this.property = value;
@@ -146,11 +156,9 @@ public class LogicRepositoryType {
 
     /**
      * Gets the value of the categories property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getCategories() {
         return categories;
@@ -158,11 +166,9 @@ public class LogicRepositoryType {
 
     /**
      * Sets the value of the categories property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCategories(String value) {
         this.categories = value;
@@ -170,11 +176,9 @@ public class LogicRepositoryType {
 
     /**
      * Gets the value of the creationEvents property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getCreationEvents() {
         return creationEvents;
@@ -182,11 +186,9 @@ public class LogicRepositoryType {
 
     /**
      * Sets the value of the creationEvents property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCreationEvents(String value) {
         this.creationEvents = value;
@@ -194,25 +196,23 @@ public class LogicRepositoryType {
 
     /**
      * Gets the value of the message property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the message property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getMessage().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
      */
     public List<String> getMessage() {
         if (message == null) {
@@ -223,11 +223,9 @@ public class LogicRepositoryType {
 
     /**
      * Gets the value of the enableSets property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     *         {@link String }
      */
     public String getEnableSets() {
         return enableSets;
@@ -235,11 +233,9 @@ public class LogicRepositoryType {
 
     /**
      * Sets the value of the enableSets property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setEnableSets(String value) {
         this.enableSets = value;
@@ -247,11 +243,9 @@ public class LogicRepositoryType {
 
     /**
      * Gets the value of the statistics property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link StatisticsType }
-     *     
+     *
+     * @return possible object is
+     *         {@link StatisticsType }
      */
     public StatisticsType getStatistics() {
         return statistics;
@@ -259,11 +253,9 @@ public class LogicRepositoryType {
 
     /**
      * Sets the value of the statistics property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link StatisticsType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link StatisticsType }
      */
     public void setStatistics(StatisticsType value) {
         this.statistics = value;
