@@ -29,13 +29,15 @@ public interface EREParserConstants {
   /** RegularExpression Id. */
   int EPSILON = 9;
   /** RegularExpression Id. */
-  int EMPTY = 10;
+  int CARET = 10;
   /** RegularExpression Id. */
-  int SYMBOL = 11;
+  int EMPTY = 11;
   /** RegularExpression Id. */
-  int DIGIT = 12;
+  int SYMBOL = 12;
   /** RegularExpression Id. */
-  int LETTER = 13;
+  int DIGIT = 13;
+  /** RegularExpression Id. */
+  int LETTER = 14;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -52,6 +54,7 @@ public interface EREParserConstants {
     "\"*\"",
     "\"+\"",
     "\"epsilon\"",
+    "\"^\"",
     "\"empty\"",
     "<SYMBOL>",
     "<DIGIT>",

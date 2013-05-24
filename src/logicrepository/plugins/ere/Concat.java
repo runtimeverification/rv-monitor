@@ -47,12 +47,12 @@ public class Concat extends ERE {
 
   public ERE derive(Symbol s){
     ERE left = children.get(0);
-	 ERE right = children.get(1);
+  	ERE right = children.get(1);
     if(left.containsEpsilon()){
       ArrayList<ERE> orChildren = new ArrayList<ERE>(2);
       orChildren.add(Concat.get(left.derive(s), right.copy()));
-		orChildren.add(right.derive(s));
-		return Or.get(orChildren);
+	  	orChildren.add(right.derive(s));
+		  return Or.get(orChildren);
 	 }
     return Concat.get(left.derive(s), right.copy());
   }

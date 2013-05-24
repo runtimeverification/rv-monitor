@@ -1,0 +1,11 @@
+DoorAjar {
+  event doorClose() {}
+  event doorOpen() {}
+  event startEngine() {}
+  
+  ptltl : startEngine => (*) doorClose
+
+  @violation {
+    //skip startEngine
+  }
+}
