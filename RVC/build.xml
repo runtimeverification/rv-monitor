@@ -22,6 +22,7 @@
   <!-- redefined these if you change the directory names -->
   <property name="name" value="RVC" />
   <property name="lr" value="logicrepository" />
+  <property name="prefix" value="com.runtimeverification.rvmonitor" />
 
 
 
@@ -47,16 +48,7 @@
 		<classpath>
 			<pathelement location="../lib/logicrepository.jar" />
 		</classpath>
-		<exclude name="**/PTLTLPlugin.java" />
-
-	  </javac>
-    <scalac srcdir="${src}" destdir="${build}" classpathref="scala.classpath" deprecation="yes" force="false">
-      <include name="**/*.scala" />
-    </scalac> 
-    <!-- ugly hack -->
-    <javac srcdir="${src}" destdir="${build}" debug="off" optimize="on" includeantruntime="false" classpathref="scala.classpath">
-      <include name="**/PTLTLPlugin.java" />
-    </javac>
+		</javac>
     <copy file="${scala-library.jar}" todir="${lib}" />
   </target>
 

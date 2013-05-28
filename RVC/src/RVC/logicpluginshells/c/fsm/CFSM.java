@@ -7,7 +7,7 @@ import RVC.logicpluginshells.Shell;
 import RVC.logicpluginshells.ShellResult;
 import RVC.logicpluginshells.c.fsm.fsmparser.*;
 import RVC.logicpluginshells.c.fsm.fsmparser.ast.*;
-import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 
 public class CFSM extends Shell {
   public CFSM() {

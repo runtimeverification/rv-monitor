@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 
 public abstract class Shell {
 	public String monitorType = "Error";

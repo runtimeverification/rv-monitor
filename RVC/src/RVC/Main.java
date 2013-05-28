@@ -9,11 +9,11 @@
 
 package RVC;
 
-import logicrepository.LogicRepositoryData;
-import logicrepository.LogicException;
-import logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
-import logicrepository.parser.logicrepositorysyntax.PropertyType;
-import logicrepository.plugins.*;
+import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
+import com.runtimeverification.rvmonitor.logicrepository.LogicException;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.PropertyType;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.*;
 import RVC.logicpluginshells.*;
 import RVC.logicpluginshells.c.fsm.*;
 
