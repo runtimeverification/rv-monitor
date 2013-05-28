@@ -2,9 +2,9 @@
 
 SixSteps {
 
-  event complete(){}
+  event complete(void){}
 
-  event step() {}
+  event step(void){}
 
   ere : step^7
 
