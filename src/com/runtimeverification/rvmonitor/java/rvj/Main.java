@@ -328,7 +328,7 @@ public class Main {
 		System.out.println("    -remote\t\t\t  use default remote logic engine");
 		System.out.println("\t\t\t\t  " + Configuration.getServerAddr());
 		System.out.println("\t\t\t\t  (You can change the default address");
-		System.out.println("\t\t\t\t   in com.runtimeverification.rvmonitor.java.rvj/config/remote_server_addr.properties)");
+		System.out.println("\t\t\t\t   in com/runtimeverification/rvmonitor/java/rvj/config/remote_server_addr.properties)");
 		System.out.println("    -remote:<server address>\t  use remote logic engine");
 		System.out.println();
 

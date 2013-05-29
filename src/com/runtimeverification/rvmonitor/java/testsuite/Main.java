@@ -132,7 +132,7 @@ public class Main {
 		System.out.println();
 
 		System.out.println("    -a <aspectj compiler path>\t  select the path of aspectj compiler");
-		System.out.println("    -m <com.runtimeverification.rvmonitor.java.rvj dir path>\t  select the com.runtimeverification.rvj.rvj directory");
+		System.out.println("    -m <com.runtimeverification.rvmonitor.java.rvj dir path>\t  select the com.runtimeverification.rvmonitor.rvj directory");
 		System.out.println();
 	}
 
