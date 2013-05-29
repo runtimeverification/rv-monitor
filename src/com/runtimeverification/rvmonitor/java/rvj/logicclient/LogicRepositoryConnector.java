@@ -92,7 +92,7 @@ public class LogicRepositoryConnector {
 
 		ByteArrayOutputStream logicOutput_OutputStream;
 		if (LogicRepositoryConnector.serverName.compareTo("local") == 0) {
-            System.out.println(System.getProperty("java.class.path"));
+//            System.out.println(System.getProperty("java.class.path"));
 			Class<?> logicClass = Class.forName("com.runtimeverification.rvmonitor.logicrepository.Main");
 			ClassLoader loader = logicClass.getClassLoader();
 			String logicClassPath = loader.getResource("com/runtimeverification/rvmonitor/logicrepository/Main.class").toString();
@@ -101,26 +101,26 @@ public class LogicRepositoryConnector {
 			String logicJarFilePath = "";
 			String logicPackageFilePath = "";
 
-            System.out.println("LogicClassPath: " + logicClassPath);
+//            System.out.println("LogicClassPath: " + logicClassPath);
 			if (logicClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/logicrepository/Main.class") && logicClassPath.startsWith("jar:")) {
 				isLogicRepositoryInJar = true;
 
 				logicJarFilePath = logicClassPath.substring("jar:file:".length(), logicClassPath.length() - "!/com/runtimeverification/rvmonitor/logicrepository/Main.class".length());
 				logicJarFilePath = Tool.polishPath(logicJarFilePath);
-                System.out.println("LogicJarPath: " + logicJarFilePath);
+//                System.out.println("LogicJarPath: " + logicJarFilePath);
 			} else {
 				logicPackageFilePath = logicClassPath.substring("file:".length(), logicClassPath.length() - "/Main.class".length());
 				logicPackageFilePath = Tool.polishPath(logicPackageFilePath);
 			}
 
 			String logicPluginFarFilePath = new File(logicJarFilePath).getParent() + File.separator + "plugins" + File.separator + "*";
-            System.out.println("LogicPluginPath: " + logicPluginFarFilePath);
+//            System.out.println("LogicPluginPath: " + logicPluginFarFilePath);
 
 			if (isLogicRepositoryInJar) {
 				String mysqlConnectorPath = new File(Main.jarFilePath).getParent() + "/lib/mysql-connector-java-3.0.9-stable-bin.jar";
-                System.out.println("MysqlConPath: " + mysqlConnectorPath);
+//                System.out.println("MysqlConPath: " + mysqlConnectorPath);
 				String executePath = new File(logicJarFilePath).getParent();
-                System.out.println("ExecutePath: " + executePath);
+//                System.out.println("ExecutePath: " + executePath);
 
 				String[] cmdarray = {
 						"java",
@@ -196,7 +196,7 @@ public class LogicRepositoryConnector {
 	static public ByteArrayOutputStream executeProgram(String[] cmdarray, String path, ByteArrayInputStream input) throws RVMException {
 		Process child;
 		String output = "";
-        System.out.println("Execute options: \n\n\n" + cmdarray.toString() + "\n" + path + "\n\n");
+//        System.out.println("Execute options: \n\n\n" + cmdarray.toString() + "\n" + path + "\n\n");
 		try {
 			child = Runtime.getRuntime().exec(cmdarray, null, new File(path));
 			OutputStream out = child.getOutputStream();

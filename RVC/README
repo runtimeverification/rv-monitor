@@ -1,6 +1,0 @@
-To use:
-
-java -cp lib/plugins/ERE.jar:lib/plugins/FSM.jar:lib/rvc.jar com.runtimeverification.rvmonitor.c.rvc.Main < examples/fsm.xml
-
-java -cp lib/plugins/ERE.jar:lib/plugins/FSM.jar:lib/rvc.jar com.runtimeverification.rvmonitor.c.rvc.Main < examples/ere.xml
-

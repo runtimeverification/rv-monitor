@@ -21,7 +21,7 @@
 
   <!-- redefined these if you change the directory names -->
   <property name="prefix" value="com/runtimeverification/rvmonitor" />
-  <property name="name" value="rvj" />
+  <property name="name" value="rvmonitor" />
   <property name="lr" value="logicrepository" />
   <property name="test" value="testsuite" />
   <property name="rvmonitorrt" value="rt" />
@@ -31,7 +31,7 @@
     <mkdir dir="${lib}" />
   </target>
 
-  <target name="clean" depends="rvc-clean">
+  <target name="clean">
     <delete verbose="true">
       <fileset dir="${build}" />
     </delete>
@@ -66,7 +66,10 @@
   </target>
 
   <target name="jar" depends="compile">
-    <jar destfile="${lib}/${name}.jar" basedir="${build}" includes="${prefix}/java/${name}/**" />
+    <jar destfile="${lib}/${name}.jar" basedir="${build}">
+      <include name="${prefix}/java/rvj/**" />
+      <include name="${prefix}/c/rvc/**" />
+    </jar>
     <jar destfile="${lib}/${lr}.jar" basedir="${build}">
       <include name="${prefix}/${lr}/*" />
       <include name="${prefix}/${lr}/parser/**" />
@@ -86,13 +89,5 @@
     <jar destfile="${plugins}/PO.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/po/**" />
   </target>
 
-  <target name="rvc">
-    <ant antfile="build.xml" dir="${RVC}" inheritAll="false" />
-  </target>
-
-  <target name="rvc-clean">
-    <ant antfile="build.xml" dir="${RVC}" target="clean" inheritAll="false" />
-  </target>
-
-  <target name="build" depends="jar, rvc"/>
+  <target name="build" depends="jar"/>
 </project>

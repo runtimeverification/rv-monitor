@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RVC/RVC.iml" filepath="$PROJECT_DIR$/RVC/RVC.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/rv-monitor.iml" filepath="$PROJECT_DIR$/src/rv-monitor.iml" />
     </modules>
   </component>
