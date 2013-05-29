@@ -29,11 +29,11 @@ options {
 }
 
 PARSER_BEGIN(FSMParser)
-package rvmonitor.logicpluginshells.javafsm.fsmparser;
+package com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.java.fsm.fsmparser;
 
 import java.io.*;
 import java.util.*;
-import rvmonitor.logicpluginshells.javafsm.fsmparser.ast.*;
+import com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.java.fsm.fsmparser.ast.*;
 
 
 public final class FSMParser {

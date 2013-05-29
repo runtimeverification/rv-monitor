@@ -8,10 +8,10 @@ options
 }
 
 PARSER_BEGIN(PDAParser)
-package rvmonitor.logicpluginshells.javapda.parser;
+package com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.java.pda.parser;
 import java.util.*;
 import java.io.*;
-import rvmonitor.logicpluginshells.javapda.ast.*;
+import com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.java.pda.ast.*;
 
 public class PDAParser
 {

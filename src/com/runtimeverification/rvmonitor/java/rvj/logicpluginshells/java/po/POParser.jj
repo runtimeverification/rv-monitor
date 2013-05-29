@@ -7,7 +7,7 @@ options
 }
 
 PARSER_BEGIN(POParser)
-package rvmonitor.logicpluginshells.javapo;
+package com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.java.po;
 import java.util.*;
 import java.io.*;
 

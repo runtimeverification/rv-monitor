@@ -4,7 +4,7 @@ options {
 }
 
 PARSER_BEGIN(PMAParser)
-  package rvmonitor.logicpluginshells.javasrs.pmaparser;
+  package com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.java.srs.pmaparser;
 
   import java.util.ArrayList;
   import java.util.HashMap;

@@ -15,5 +15,5 @@ LOGICPLUGINPATH="$RV_ROOT/lib/plugins"
 
 PLUGINS_CLASSPATH="$RV_ROOT/lib/logicrepository.jar":"$SRC_ROOT/lib/scala-library.jar":"$LOGICPLUGINPATH/ERE.jar":"$LOGICPLUGINPATH/LTL.jar":"$LOGICPLUGINPATH/PTLTL.jar":"$LOGICPLUGINPATH/FSM.jar"
 
-java -cp "$SRC_ROOT/lib/RVC.jar":$PLUGINS_CLASSPATH RVC.Main "$@"
+java -cp "$SRC_ROOT/lib/rvc.jar":$PLUGINS_CLASSPATH com.runtimeverification.rvmonitor.c.rvc.Main "$@"
 
