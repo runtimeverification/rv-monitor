@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.testsuite;
 
-import com.runtimeverification.rvmonitor.java.rvj.util.Tool;
+import com.runtimeverification.rvmonitor.util.Tool;
 
 public class TestCaseSpec {
 	TestCase testcase;

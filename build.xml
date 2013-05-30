@@ -69,6 +69,8 @@
     <jar destfile="${lib}/${name}.jar" basedir="${build}">
       <include name="${prefix}/java/rvj/**" />
       <include name="${prefix}/c/rvc/**" />
+      <include name="${prefix}/util/**" />
+      <include name="${prefix}/logicpluginshells/**" />
     </jar>
     <jar destfile="${lib}/${lr}.jar" basedir="${build}">
       <include name="${prefix}/${lr}/*" />

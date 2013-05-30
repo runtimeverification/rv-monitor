@@ -3,7 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameterSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
-import com.runtimeverification.rvmonitor.java.rvj.util.RVMBooleanSimplifier;
+import com.runtimeverification.rvmonitor.util.RVMBooleanSimplifier;
 
 public class OptimizedCoenableSet extends CoEnableSet{
 	RVMParameterSet parameterGroups = new RVMParameterSet();

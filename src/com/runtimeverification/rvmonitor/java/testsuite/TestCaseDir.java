@@ -3,7 +3,7 @@ package com.runtimeverification.rvmonitor.java.testsuite;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.runtimeverification.rvmonitor.java.rvj.util.Tool;
+import com.runtimeverification.rvmonitor.util.Tool;
 
 public class TestCaseDir {
 	String basepath;

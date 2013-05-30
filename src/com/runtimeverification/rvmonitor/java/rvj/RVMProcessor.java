@@ -6,8 +6,8 @@
 package com.runtimeverification.rvmonitor.java.rvj;
 
 import com.runtimeverification.rvmonitor.java.rvj.logicclient.LogicRepositoryConnector;
-import com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.LogicPluginShellFactory;
-import com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.LogicPluginShellResult;
+import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellFactory;
+import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.java.rvj.output.AspectJCode;
 import com.runtimeverification.rvmonitor.java.rvj.output.JavaLibCode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
@@ -18,7 +18,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.CollectUserVarVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.LogicRepositoryType;
-import com.runtimeverification.rvmonitor.java.rvj.util.Tool;
+import com.runtimeverification.rvmonitor.util.Tool;
 
 import java.util.List;
 

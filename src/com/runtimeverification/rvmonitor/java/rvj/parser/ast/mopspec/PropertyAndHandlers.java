@@ -5,7 +5,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.runtimeverification.rvmonitor.java.rvj.logicpluginshells.LogicPluginShellResult;
+import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.CollectRVMVarVisitor;
@@ -93,7 +93,7 @@ public class PropertyAndHandlers extends Node {
 			eventName = matcher.group();
 			eventName = eventName.replaceAll("(\\!)?(\\#)?\\s*(\\w+):\\{\\n", "$1$2$3");
 
-			int k = com.runtimeverification.rvmonitor.java.rvj.util.Tool.findBlockEnd(eventStr, matcher.end());
+			int k = com.runtimeverification.rvmonitor.util.Tool.findBlockEnd(eventStr, matcher.end());
 
 			String eventActionTemp = eventStr.substring(matcher.end(), k);
 			String[] eventActionTemp2 = eventActionTemp.split("\n");

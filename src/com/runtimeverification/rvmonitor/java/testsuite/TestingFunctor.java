@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.testsuite;
 
-import com.runtimeverification.rvmonitor.java.rvj.util.StreamGobbler;
+import com.runtimeverification.rvmonitor.util.StreamGobbler;
 
 import java.io.File;
 import java.io.FileReader;

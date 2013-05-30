@@ -8,8 +8,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAnd
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.PropertyType;
-import com.runtimeverification.rvmonitor.java.rvj.util.StreamGobbler;
-import com.runtimeverification.rvmonitor.java.rvj.util.Tool;
+import com.runtimeverification.rvmonitor.util.StreamGobbler;
+import com.runtimeverification.rvmonitor.util.Tool;
 
 import java.io.*;
 import java.net.HttpURLConnection;

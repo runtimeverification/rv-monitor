@@ -8,8 +8,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.RVMonitorParser;
-import com.runtimeverification.rvmonitor.java.rvj.util.Pair;
-import com.runtimeverification.rvmonitor.java.rvj.util.Tool;
+import com.runtimeverification.rvmonitor.util.Pair;
+import com.runtimeverification.rvmonitor.util.Tool;
 
 import java.io.File;
 import java.util.*;
