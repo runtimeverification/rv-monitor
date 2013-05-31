@@ -41,7 +41,7 @@ public class Main {
       String cmgPath = null;
       if (mainClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class") && mainClassPath.startsWith("jar:")) {
         cmgPath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
-                   - "rvc.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
+                   - "rvmonitor.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
         cmgPath = polishPath(cmgPath);
         isJarFile = true;
         jarFilePath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
