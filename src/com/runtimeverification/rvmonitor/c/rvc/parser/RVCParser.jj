@@ -1,0 +1,284 @@
+options {
+ STATIC = false;
+}
+
+PARSER_BEGIN(RVCParser)
+package com.runtimeverification.rvmonitor.c.rvc.parser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.io.*;
+
+public class RVCParser {
+
+  public static void main(String[] args){
+     Scanner sc = new Scanner(System.in);
+     StringBuilder buf = new StringBuilder();
+     while(sc.hasNextLine()) buf.append(sc.nextLine());
+     RVCParser rvcParser = parse(buf.toString()); 
+     System.out.println(rvcParser.specName + "\n==========");
+     System.out.println(rvcParser.declarations + "\n==========");
+     System.out.println(rvcParser.events + "\n==========" );
+     System.out.println(rvcParser.parameters + "\n==========" );
+     System.out.println(rvcParser.formalism  + "\n==========");
+     System.out.println(rvcParser.formula  + "\n==========");
+     System.out.println(rvcParser.handlers  + "\n==========");
+  }
+
+  public static RVCParser parse(String input) {
+    Reader reader = new StringReader(input);
+	  RVCParser rvcParser = new RVCParser(reader);	
+	 
+	  rvcParser.events = new HashMap<String, String>();
+    rvcParser.parameters = new HashMap<String, String>();
+	  rvcParser.handlers = new HashMap<String, String>();
+
+    try{
+      rvcParser.Start();
+    }
+	 catch(ParseException e){
+      System.err.println(e.getMessage());
+	 }
+	 catch(TokenMgrError e){
+      System.err.println(e.getMessage());
+	 }
+	 return rvcParser;
+  }
+
+  private String includes = "";
+  private String specName;
+  //Domain is event name, range is body
+  private HashMap<String, String> events;
+  //Domain is event name, range is parameter list
+  private HashMap<String, String> parameters;
+  //Domain is category, range is body
+  private HashMap<String, String> handlers;
+  private String formalism;
+  private String formula;
+  private String declarations;
+ 
+  public String getIncludes(){
+    return includes;
+  }
+
+  public String getSpecName(){
+    return specName;
+  }
+ 
+  public HashMap<String, String> getEvents (){
+	  return events;
+  }
+  
+  public HashMap<String, String> getParameters () {
+	  return parameters;
+  }
+
+  public HashMap<String, String> getHandlers () {
+	  return handlers;
+  }
+
+  public String getDeclarations() {
+    return declarations;
+  }
+
+  public String getFormalism () {
+	  return formalism;
+  }
+
+  public String getFormula () {
+	  return formula;
+  }
+
+  private String parseFormula () throws ParseException {
+		
+    StringBuilder buf = new StringBuilder();
+
+    try {
+   			char next = jj_input_stream.readChar();
+        while (true){
+          if(next == '@'){
+            jj_input_stream.backup(1);
+            break;
+          }
+          buf.append(next);
+          next = jj_input_stream.readChar();
+        }
+    } catch (Exception e) {
+    		if(e instanceof ParseException)
+				throw (ParseException)e;
+    		throw new ParseException("bad formula");
+    }
+    return buf.toString().trim();
+  }
+
+  private String parseCodeBlock () throws ParseException {
+    StringBuilder buf = new StringBuilder();
+
+    try {
+   			char next = jj_input_stream.readChar();
+    		int nesting = 0;
+        while (true){
+          if(next == '{'){
+            ++nesting;
+            buf.append(next);
+          }
+          else if(next == '}'){
+            --nesting;
+            if(nesting != -1){
+              buf.append(next);
+            }
+            else {
+              jj_input_stream.backup(1);
+              break;
+            } 
+          }
+          else {
+            buf.append(next);
+          }
+          next = jj_input_stream.readChar();
+        }
+    } catch (Exception e) {
+    		if(e instanceof ParseException){
+				   throw (ParseException)e;
+        }
+    		throw new ParseException("bad code block");
+    }
+    return buf.toString().trim();
+  }
+
+  //this is a very ugly hack
+  private String parseDeclarations () throws ParseException {
+    StringBuilder buf = new StringBuilder();
+    StringBuilder eventBuilder = new StringBuilder();
+
+    //if reading = 0 we haven't seen 'e'.  If it is 4 we grab the next
+    //4 characters to see if we've made the word "event" 
+    try {
+        int reading = 0;
+   			char next = jj_input_stream.readChar();
+        
+        while (true){
+          if(reading == 0){
+            if(eventBuilder.length() == 5){
+              if(eventBuilder.toString().equals("event")){
+                jj_input_stream.backup(6); 
+                break;
+              }
+              else {
+                buf.append(eventBuilder);
+                eventBuilder = new StringBuilder();
+              }
+            }
+            if(next == 'e'){
+              reading = 4;        
+              eventBuilder.append('e');
+            }
+            else {
+              buf.append(next);
+            }
+          }
+          else { //reading != 0 
+            --reading;
+            eventBuilder.append(next); 
+          }
+          next = jj_input_stream.readChar();
+        }
+
+            //next = jj_input_stream.readChar();
+    } catch (Exception e) {
+    		if(e instanceof ParseException)
+				throw (ParseException)e;
+    		throw new ParseException("bad declarations");
+    }
+    return buf.toString().trim();
+  }
+
+}
+PARSER_END(RVCParser)
+
+SKIP : {
+ 	<WHITESPACE: [" ","\t","\r","\n"]>
+}
+TOKEN : {
+    <LBRACE : "{">
+	| <RBRACE : "}">
+	| <LPAREN : "(">
+	| <RPAREN : ")">
+	| <COMMA  : ",">
+	| <AT : "@">
+  | <INCLUDE: "#include">
+  | <LT: "<">
+  | <GT: ">">
+	| <EVENT : "event">
+	| <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_"|".")*> 
+	| <DIGIT : ["0"-"9"]>
+	| <LETTER : ["a"-"z","A"-"Z"]>
+}
+
+void Start() : {
+  Token formalismToken;
+  Token specNameToken;
+  Token includeToken;
+}
+{ 
+  ("#include" "<" includeToken = <ID> ">" {includes += "#include <" + includeToken.image + ">\n";})*
+  specNameToken = <ID> {specName = specNameToken.image;}
+  "{"
+    { declarations = parseDeclarations(); }
+    (Event())+
+    formalismToken = <ID>
+    {formalism = formalismToken.image; }
+        ":" 
+    { formula = parseFormula(); }
+    (Handler())+ 
+  "}"
+  <EOF>
+}
+
+void Event() : {
+  Token token;
+  String paras;
+  String code;
+} 
+{
+  "event"
+  token = <ID> paras = Parameters() { parameters.put(token.image,paras); } "{"
+    { code = parseCodeBlock(); }
+  "}"
+  { events.put(token.image,code); }
+}
+
+String Parameters() : {
+  Token token;
+  StringBuilder buf = new StringBuilder("(");
+  String p;
+}
+{
+  "("
+   [ p = Parameter() {buf.append(p);} ( "," p = Parameter() {buf.append(", " + p);} )*]
+   ")"
+   {buf.append(")"); return buf.toString().trim();}
+}
+
+String Parameter() : {
+  Token token;
+  StringBuilder buf = new StringBuilder();
+}
+{
+  (token = <ID> {buf.append(token.image + " ");} )+
+  {return buf.toString().trim();}
+}
+
+void Handler() : {
+  Token token;
+  String code;
+} 
+{
+  "@"
+  token = <ID> "{"
+    { code = parseCodeBlock(); }  
+  "}"
+  { handlers.put(token.image,code); }
+}

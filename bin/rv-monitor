@@ -10,15 +10,17 @@ SRC_ROOT=`dirname "$SRC_ROOT"`
 # Move up into the actual source root directory
 SRC_ROOT="$SRC_ROOT/../"
 
+MAINCLASS=com.runtimeverification.rvmonitor.java.rvj.Main
+
 if [ "$1" = "-c" ];
 then 
   shift 1;      
+  MAINCLASS=com.runtimeverification.rvmonitor.c.rvc.Main
   "$SRC_ROOT/RVC/bin/RVC" "$@"
-  exit $?
 fi
 
 PLUGINS_CLASSPATH="$SRC_ROOT/lib/logicrepository.jar":"$SRC_ROOT/lib/scala-library.jar":"$SRC_ROOT/lib/plugins/ERE.jar":"$SRC_ROOT/lib/plugins/LTL.jar":"$SRC_ROOT/lib/plugins/PTLTL.jar":"$SRC_ROOT/lib/plugins/FSM.jar":"$SRC_ROOT/lib/plugins/CFG.jar"
 
-java -cp "$SRC_ROOT/lib/rvmonitor.jar":$PLUGINS_CLASSPATH:"$SRC_ROOT/lib/mysql-connector-java-3.0.9-stable-bin.jar" rvmonitor.Main $@
+java -cp "$SRC_ROOT/lib/rvmonitor.jar":$PLUGINS_CLASSPATH:"$SRC_ROOT/lib/mysql-connector-java-3.0.9-stable-bin.jar" $MAINCLASS $@
 
 
