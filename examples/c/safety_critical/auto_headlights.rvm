@@ -2,17 +2,17 @@
 
 AutoHeadlights{
 
-  event auto  () {}
+  event auto  () { printf("auto\n"); }
  
-  event manual() {}
+  event manual() { printf("manual\n"); }
 
-  event start () {}
+  event start () { printf("start\n"); }
 
-  event stop  () {}
+  event stop  () { printf("stop\n"); }
 
-  event off   () {}
+  event off   () { printf("off\n"); }
 
-  event on    () {}
+  event on    () { printf("on\n"); }
   
   ptltl: (not on S off) and (not manual S auto) and (not stop S start)  
 
