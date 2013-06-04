@@ -29,6 +29,25 @@
   <target name="init">
     <mkdir dir="${build}" />
     <mkdir dir="${lib}" />
+    <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/logicpluginshells/c/fsm/parser/fsm.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/logicpluginshells/c/fsm/parser/fsm.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/parser/RVCParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/java/rvj/parser/aspectj_parser/aspectj.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/javamop.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/cfg/parser/cfg.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/fsm/fsmparser/fsm.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/pda/parser/PDAParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/po/POParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/ptcaret/parser/PTCARETParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/srs/pmaparser/pma.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/cfg/cfgutil/cfg.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ere/EREParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/fsm/parser/FSMParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ltl/LTLParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/pda/parser/PDAParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/po/POParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ptcaret/parser/PTCARETParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/srs/srs.jj" javacchome="lib/external" />
   </target>
 
   <target name="clean">

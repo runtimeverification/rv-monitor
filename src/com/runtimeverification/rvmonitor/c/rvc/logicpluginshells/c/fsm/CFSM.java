@@ -3,13 +3,14 @@ package com.runtimeverification.rvmonitor.c.rvc.logicpluginshells.c.fsm;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import com.runtimeverification.rvmonitor.c.rvc.logicpluginshells.Shell;
-import com.runtimeverification.rvmonitor.c.rvc.logicpluginshells.ShellResult;
-import com.runtimeverification.rvmonitor.c.rvc.logicpluginshells.c.fsm.fsmparser.*;
-import com.runtimeverification.rvmonitor.c.rvc.logicpluginshells.c.fsm.fsmparser.ast.*;
+import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
+import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
+import com.runtimeverification.rvmonitor.c.rvc.logicpluginshells.c.fsm.parser.*;
+import com.runtimeverification.rvmonitor.c.rvc.logicpluginshells.c.fsm.ast.*;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import com.runtimeverification.rvmonitor.util.RVMException;
 
-public class CFSM extends Shell {
+public class CFSM extends LogicPluginShell {
   public CFSM() {
     super();
     monitorType = "FSM";
@@ -17,7 +18,7 @@ public class CFSM extends Shell {
 
   ArrayList<String> allEvents;
 
-  private ArrayList<String> getEvents(String eventStr) throws Exception {
+  private ArrayList<String> getEvents(String eventStr) {
     ArrayList<String> events = new ArrayList<String>();
 
     for (String event : eventStr.trim().split(" ")) {
@@ -28,7 +29,7 @@ public class CFSM extends Shell {
     return events;
   }
 
-  private Properties getMonitorCode(LogicRepositoryType logicOutput) throws Exception {
+  private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
     String rvcPrefix = "__RVC_";
     Properties result = new Properties();
 
@@ -45,11 +46,11 @@ public class CFSM extends Shell {
       fsmInput = FSMParser.parse(new ByteArrayInputStream(monitor.getBytes()));
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      throw new Exception("FSM to C Shell cannot parse FSM formula");
+      throw new RVMException("FSM to C LogicPluginShell cannot parse FSM formula");
     }
 
     if (fsmInput == null)
-      throw new Exception("FSM to C Shell cannot parse FSM formula");
+      throw new RVMException("FSM to C LogicPluginShell cannot parse FSM formula");
 
     HasDefaultVisitor hasDefaultVisitor = new HasDefaultVisitor();
     boolean[] hasDefault = fsmInput.accept(hasDefaultVisitor, null);
@@ -101,7 +102,7 @@ public class CFSM extends Shell {
           for(FSMTransition t : i.getTransitions()){
             if(t.isDefaultFlag() && !doneDefault){
               if(StateNum.get(t.getStateName()) == null)
-                throw new Exception("Incorrect Monitor");
+                throw new RVMException("Incorrect Monitor");
                 
               monitoringbodyStr += "   default : state = " + StateNum.get(t.getStateName()) + "; break;\n";
               doneDefault = true;
@@ -169,12 +170,13 @@ public class CFSM extends Shell {
     return result;
   }
 
-  public ShellResult process(LogicRepositoryType logicOutputXML, String events) throws Exception {
+  @Override
+  public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws RVMException {
     if (logicOutputXML.getProperty().getLogic().toLowerCase().compareTo(monitorType.toLowerCase()) != 0)
-      throw new Exception("Wrong type of monitor is given to FSM Monitor.");
+      throw new RVMException("Wrong type of monitor is given to FSM Monitor.");
     allEvents = getEvents(events);
 
-    ShellResult logicShellResult = new ShellResult();
+    LogicPluginShellResult logicShellResult = new LogicPluginShellResult();
     logicShellResult.startEvents = getEvents(logicOutputXML.getCreationEvents());
     //logicShellResult.startEvents = allEvents;
     logicShellResult.properties = getMonitorCode(logicOutputXML);

@@ -9,6 +9,7 @@ package com.runtimeverification.rvmonitor.java.rvj;
 
 import com.runtimeverification.rvmonitor.java.rvj.logicclient.LogicRepositoryConnector;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Tool;
 
 import java.io.File;

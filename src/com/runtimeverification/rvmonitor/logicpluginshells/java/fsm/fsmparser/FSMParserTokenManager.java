@@ -2,7 +2,7 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.java.fsm.fsmparser;
 import java.io.*;
 import java.util.*;
-import com.runtimeverification.rvmonitor.logicpluginshells.java.fsm.fsmparser.ast.*;
+import com.runtimeverification.rvmonitor.logicpluginshells.java.fsm.ast.*;
 
 /** Token Manager. */
 public class FSMParserTokenManager implements FSMParserConstants

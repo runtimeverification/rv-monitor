@@ -16,16 +16,16 @@ options
 }
 
 PARSER_BEGIN(AspectJParser)
-package rvmonitor.parser.aspectj_parser;
+package com.runtimeverification.rvmonitor.java.rvj.parser.aspectj_parser;
 import java.io.*;
 import java.util.*;
-import rvmonitor.parser.ast.*;
-import rvmonitor.parser.ast.aspectj.*;
-import rvmonitor.parser.ast.body.*;
-import rvmonitor.parser.ast.expr.*;
-import rvmonitor.parser.ast.stmt.*;
-import rvmonitor.parser.ast.type.*;
-import rvmonitor.parser.astex.aspectj.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.*;
 
 public class AspectJParser
 {
@@ -4917,9 +4917,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.PUBLIC, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.PUBLIC, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -4928,9 +4928,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.STATIC, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.STATIC, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -4939,9 +4939,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.PROTECTED, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.PROTECTED, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -4950,9 +4950,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.PRIVATE, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.PRIVATE, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -4961,9 +4961,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.FINAL, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.FINAL, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -4972,9 +4972,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.ABSTRACT, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.ABSTRACT, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -4983,9 +4983,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.SYNCHRONIZED, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.SYNCHRONIZED, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -4994,9 +4994,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.NATIVE, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.NATIVE, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -5005,9 +5005,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.TRANSIENT, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.TRANSIENT, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -5016,9 +5016,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.VOLATILE, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.VOLATILE, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }
@@ -5027,9 +5027,9 @@ Modifier Modifiers() :
       {
         try
         {
-          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.STRICTFP, new rvmonitor.parser.main_parser.Token(token));
+          modifiers = ModifierSet.addModifier(modifiers, ModifierSet.STRICTFP, new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token(token));
         }
-        catch (rvmonitor.parser.main_parser.ParseException e)
+        catch (com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException e)
         {
           throw new ParseException(token, e.getMessage());
         }

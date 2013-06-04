@@ -3,7 +3,7 @@ package com.runtimeverification.rvmonitor.logicpluginshells.java.ptcaret;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.logicpluginshells.java.ptcaret.ast.PseudoCode;
@@ -14,7 +14,7 @@ import com.runtimeverification.rvmonitor.logicpluginshells.java.ptcaret.visitor.
 import com.runtimeverification.rvmonitor.logicpluginshells.java.ptcaret.visitor.JavaCodeGenVisitor;
 import com.runtimeverification.rvmonitor.logicpluginshells.java.ptcaret.visitor.MaxAlphaVisitor;
 import com.runtimeverification.rvmonitor.logicpluginshells.java.ptcaret.visitor.MaxBetaVisitor;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.LogicRepositoryType;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 
 public class JavaPTCARET extends LogicPluginShell {
 	public JavaPTCARET() {

@@ -3,11 +3,11 @@ package com.runtimeverification.rvmonitor.logicpluginshells.java.cfg;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.*;
+import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
-import com.runtimeverification.rvmonitor.logicpluginshells.java.cfg.cfgutil.*;
+import com.runtimeverification.rvmonitor.logicpluginshells.java.cfg.parser.*;
 
 public class JavaCFG extends LogicPluginShell {
 	public JavaCFG() {

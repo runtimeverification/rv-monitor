@@ -1,5 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj;
 
+import com.runtimeverification.rvmonitor.util.RVMException;
+
 import java.util.*;
 
 public class RVMNameSpace {

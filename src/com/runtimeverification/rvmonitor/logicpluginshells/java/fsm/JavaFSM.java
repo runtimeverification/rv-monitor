@@ -3,12 +3,13 @@ package com.runtimeverification.rvmonitor.logicpluginshells.java.fsm;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.*;
+import com.runtimeverification.rvmonitor.logicpluginshells.java.fsm.visitor.HasDefaultVisitor;
+import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.logicpluginshells.java.fsm.fsmparser.*;
-import com.runtimeverification.rvmonitor.logicpluginshells.java.fsm.fsmparser.ast.*;
+import com.runtimeverification.rvmonitor.logicpluginshells.java.fsm.ast.*;
 
 public class JavaFSM extends LogicPluginShell {
 	public JavaFSM() {

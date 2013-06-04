@@ -3,12 +3,12 @@ package com.runtimeverification.rvmonitor.logicpluginshells.java.pda;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.logicpluginshells.java.pda.ast.PDA;
 import com.runtimeverification.rvmonitor.logicpluginshells.java.pda.parser.PDAParser;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.LogicRepositoryType;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 
 public class JavaPDA  extends LogicPluginShell {
 	public JavaPDA() {

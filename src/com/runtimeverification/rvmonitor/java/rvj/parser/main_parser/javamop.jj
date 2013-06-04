@@ -20,19 +20,19 @@ options {
 }
 
 PARSER_BEGIN(RVMonitorParser)
-package rvmonitor.parser.main_parser;
+package com.runtimeverification.rvmonitor.java.rvj.parser.main_parser;
 
 import java.io.*;
 import java.util.*;
-import rvmonitor.parser.ast.*;
-import rvmonitor.parser.ast.body.*;
-import rvmonitor.parser.ast.expr.*;
-import rvmonitor.parser.ast.stmt.*;
-import rvmonitor.parser.ast.type.*;
-import rvmonitor.parser.ast.mopspec.*;
-import rvmonitor.parser.ast.aspectj.*;
-import rvmonitor.parser.astex.*;
-import rvmonitor.parser.astex.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 
 /**
  * Grammar to parse Java version 1.5
@@ -1285,21 +1285,21 @@ int SpecModifier():
 }
 {
 	(
-	"unsynchronized" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.UNSYNC, token); }
+	"unsynchronized" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.UNSYNC, token); }
 	|
-	"decentralized" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.DECENTRL, token); }
+	"decentralized" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.DECENTRL, token); }
 	|
-	"perthread" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.PERTHREAD, token); }
+	"perthread" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.PERTHREAD, token); }
 	|
-	"suffix" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.SUFFIX, token); }
+	"suffix" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.SUFFIX, token); }
 	|
-	"full-binding" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.FULLBINDING, token); }
+	"full-binding" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.FULLBINDING, token); }
         |
-	"avoid" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.AVOID, token); }
+	"avoid" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.AVOID, token); }
 	|
-        "enforce" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.ENFORCE, token); }
+        "enforce" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.ENFORCE, token); }
 	|
-	"connected" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.CONNECTED, token); }
+	"connected" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, SpecModifierSet.CONNECTED, token); }
 	)* 
 	{return modifiers;}
 }
@@ -1607,27 +1607,27 @@ Modifier Modifiers():
  (
   LOOKAHEAD(2)
   (
-   "public" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.PUBLIC, token); }
+   "public" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.PUBLIC, token); }
   |
-   "static" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.STATIC, token); }
+   "static" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.STATIC, token); }
   |
-   "protected" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.PROTECTED, token); }
+   "protected" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.PROTECTED, token); }
   |
-   "private" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.PRIVATE, token); }
+   "private" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.PRIVATE, token); }
   |
-   "final" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.FINAL, token); }
+   "final" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.FINAL, token); }
   |
-   "abstract" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.ABSTRACT, token); }
+   "abstract" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.ABSTRACT, token); }
   |
-   "synchronized" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.SYNCHRONIZED, token); }
+   "synchronized" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.SYNCHRONIZED, token); }
   |
-   "native" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.NATIVE, token); }
+   "native" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.NATIVE, token); }
   |
-   "transient" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.TRANSIENT, token); }
+   "transient" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.TRANSIENT, token); }
   |
-   "volatile" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.VOLATILE, token); }
+   "volatile" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.VOLATILE, token); }
   |
-   "strictfp" { modifiers = rvmonitor.parser.ast.body.ModifierSet.addModifier(modifiers, rvmonitor.parser.ast.body.ModifierSet.STRICTFP, token); }
+   "strictfp" { modifiers = com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.addModifier(modifiers, com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet.STRICTFP, token); }
   |
    ann = Annotation() { annotations = add(annotations, ann); }
   )
