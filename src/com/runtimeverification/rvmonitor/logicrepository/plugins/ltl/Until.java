@@ -7,7 +7,7 @@ import java.util.HashMap;
 //class representing an Until node in an LTL formula
 public class Until extends LTLFormula {
 
-  Until(LTLFormula leftChild, LTLFormula rightChild){
+  public Until(LTLFormula leftChild, LTLFormula rightChild){
     children = new ArrayList<LTLFormula>(2);
     children.add(leftChild);
     children.add(rightChild);

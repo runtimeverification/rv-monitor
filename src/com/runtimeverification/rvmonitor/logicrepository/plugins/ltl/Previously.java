@@ -7,7 +7,7 @@ import java.util.HashMap;
 //class representing an Previously node in an LTL formula
 public class Previously extends LTLFormula {
 
-  Previously(LTLFormula child){
+  public Previously(LTLFormula child){
     children = new ArrayList<LTLFormula>(1);
     children.add(child);
   }

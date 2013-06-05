@@ -6,6 +6,7 @@ import com.runtimeverification.rvmonitor.logicrepository.LogicException;
 import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.*;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.srs.parser.SRSParser;
 
 public class SRSPlugin extends LogicPlugin {
 	

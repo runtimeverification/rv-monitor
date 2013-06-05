@@ -2,7 +2,7 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.test;
 
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.Code;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.ast.PTCARET_Formula;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.PTCARET_Parser;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.PTCARETParser;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.ParseException;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.visitor.CodeGenVisitor;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.visitor.NumberingVisitor;
@@ -18,7 +18,7 @@ public class Test {
 		PTCARET_Formula ptCaRetformula;
 		
 		try {
-			ptCaRetformula = PTCARET_Parser.parse(logicStr);
+			ptCaRetformula = PTCARETParser.parse(logicStr);
 			System.out.println(ptCaRetformula);
 			
 			ptCaRetformula = ptCaRetformula.accept(new SimplifyVisitor(), null);

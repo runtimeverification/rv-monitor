@@ -6,6 +6,8 @@ import com.runtimeverification.rvmonitor.logicrepository.LogicException;
 import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.LogicPlugin;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.po.parser.POParser;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.po.parser.ParseException;
 
 public class POPlugin extends LogicPlugin {
 

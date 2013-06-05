@@ -7,7 +7,7 @@ import java.util.HashMap;
 //class representing an DualSince node in an LTL formula
 public class DualSince extends LTLFormula {
 
-  DualSince(LTLFormula leftChild, LTLFormula rightChild){
+  public DualSince(LTLFormula leftChild, LTLFormula rightChild){
     children = new ArrayList<LTLFormula>(2);
     children.add(leftChild);
     children.add(rightChild);

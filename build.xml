@@ -29,24 +29,22 @@
   <target name="init">
     <mkdir dir="${build}" />
     <mkdir dir="${lib}" />
-    <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/logicpluginshells/c/fsm/parser/fsm.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/logicpluginshells/c/fsm/parser/fsm.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/parser/RVCParser.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/javamop.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/cfg/parser/cfg.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/fsm/fsmparser/fsm.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/pda/parser/PDAParser.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/po/POParser.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/ptcaret/parser/PTCARETParser.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/srs/pmaparser/pma.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/cfg/cfgutil/cfg.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ere/EREParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/RVMonitorParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/cfg/parser/CFGParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/fsm/parser/FSMParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/pda/parser/PDAParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/po/parser/POParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/ptcaret/parser/PTCARETParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/srs/pma/parser/PMAParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/cfg/parser/CFGParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ere/parser/EREParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/fsm/parser/FSMParser.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ltl/LTLParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ltl/parser/LTLParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/pda/parser/PDAParser.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/po/POParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/po/parser/POParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ptcaret/parser/PTCARETParser.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/srs/srs.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/srs/parser/SRSParser.jj" javacchome="lib/external" />
   </target>
 
   <target name="clean">
@@ -60,16 +58,6 @@
       <fileset dir="${lib}/plugins" />
     </delete>
     <delete verbose="true">
-       <fileset dir="src/com/runtimeverification/rvmonitor/c/rvc/logicpluginshells/c/fsm/parser">
-		<include name="FSMParser.java" />
-		<include name="FSMParserConstants.java" />
-		<include name="FSMParserTokenManager.java" />
-		<include name="Token.java" />
-		<include name="TokenMgrError.java" />
-		<include name="JavaCharStream.java" />
-		<include name="SimpleCharStream.java" />
-		<include name="ParseException.java" />
-	</fileset>
        <fileset dir="src/com/runtimeverification/rvmonitor/c/rvc/parser">
 		<include name="RVCParser.java" />
 		<include name="RVCParserConstants.java" />
@@ -89,7 +77,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/cfg/parser">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/cfg/parser">
 		<include name="CFGParser.java" />
 		<include name="CFGParserConstants.java" />
 		<include name="CFGParserTokenManager.java" />
@@ -99,7 +87,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/fsm/fsmparser">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/fsm/parser">
 		<include name="FSMParser.java" />
 		<include name="FSMParserConstants.java" />
 		<include name="FSMParserTokenManager.java" />
@@ -109,7 +97,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/pda/parser">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/pda/parser">
 		<include name="PDAParser.java" />
 		<include name="PDAParserConstants.java" />
 		<include name="PDAParserTokenManager.java" />
@@ -119,7 +107,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/po">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/po/parser">
 		<include name="POParser.java" />
 		<include name="POParserConstants.java" />
 		<include name="POParserTokenManager.java" />
@@ -129,17 +117,17 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/ptcaret/parser">
-		<include name="PTCARET_PseudoCode_Parser.java" />
-		<include name="PTCARET_PseudoCode_ParserConstants.java" />
-		<include name="PTCARET_PseudoCode_ParserTokenManager.java" />
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/ptcaret/parser">
+		<include name="PTCARETParser.java" />
+		<include name="PTCARETParserConstants.java" />
+		<include name="PTCARETParserTokenManager.java" />
 		<include name="Token.java" />
 		<include name="TokenMgrError.java" />
 		<include name="JavaCharStream.java" />
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/srs/pmaparser">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/srs/pma/parser">
 		<include name="PMAParser.java" />
 		<include name="PMAParserConstants.java" />
 		<include name="PMAParserTokenManager.java" />
@@ -149,7 +137,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/cfg/cfgutil">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/cfg/parser">
 		<include name="CFGParser.java" />
 		<include name="CFGParserConstants.java" />
 		<include name="CFGParserTokenManager.java" />
@@ -159,7 +147,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ere">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ere/parser">
 		<include name="EREParser.java" />
 		<include name="EREParserConstants.java" />
 		<include name="EREParserTokenManager.java" />
@@ -179,7 +167,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ltl">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ltl/parser">
 		<include name="LTLParser.java" />
 		<include name="LTLParserConstants.java" />
 		<include name="LTLParserTokenManager.java" />
@@ -199,7 +187,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/po">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/po/parser">
 		<include name="POParser.java" />
 		<include name="POParserConstants.java" />
 		<include name="POParserTokenManager.java" />
@@ -210,16 +198,16 @@
 		<include name="ParseException.java" />
 	</fileset>
        <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ptcaret/parser">
-		<include name="PTCARET_Parser.java" />
-		<include name="PTCARET_ParserConstants.java" />
-		<include name="PTCARET_ParserTokenManager.java" />
+		<include name="PTCARETParser.java" />
+		<include name="PTCARETParserConstants.java" />
+		<include name="PTCARETParserTokenManager.java" />
 		<include name="Token.java" />
 		<include name="TokenMgrError.java" />
 		<include name="JavaCharStream.java" />
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/srs">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/srs/parser">
 		<include name="SRSParser.java" />
 		<include name="SRSParserConstants.java" />
 		<include name="SRSParserTokenManager.java" />

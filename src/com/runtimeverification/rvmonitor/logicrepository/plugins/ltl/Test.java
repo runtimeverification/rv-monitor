@@ -1,5 +1,7 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ltl;
 
+import com.runtimeverification.rvmonitor.logicrepository.plugins.ltl.parser.LTLParser;
+
 public class Test{
   public static void main(String[] args){
     //can add extra atoms by creating them

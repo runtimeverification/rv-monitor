@@ -9,13 +9,13 @@
 
 package com.runtimeverification.rvmonitor.c.rvc;
 
+import com.runtimeverification.rvmonitor.logicpluginshells.fsm.CFSM;
 import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
 import com.runtimeverification.rvmonitor.logicrepository.LogicException;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.PropertyType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.*;
 import com.runtimeverification.rvmonitor.logicpluginshells.*;
-import com.runtimeverification.rvmonitor.c.rvc.logicpluginshells.c.fsm.*;
 
 import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 
@@ -130,7 +130,7 @@ public class Main {
       if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") != 0){
         throw new Exception("Only finite logics are currently supported");
       } 
-      CFSM cfsm = new CFSM(); 
+      CFSM cfsm = new CFSM();
       LogicPluginShellResult sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents());
 
       String rvcPrefix = (String) sr.properties.get("rvcPrefix");

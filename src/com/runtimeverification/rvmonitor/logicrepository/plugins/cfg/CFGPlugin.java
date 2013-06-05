@@ -5,7 +5,8 @@ import java.io.ByteArrayInputStream;
 import com.runtimeverification.rvmonitor.logicrepository.LogicException;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.*;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.cfgutil.*;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.parser.CFGParser;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util.*;
 
 public class CFGPlugin extends LogicPlugin {
 

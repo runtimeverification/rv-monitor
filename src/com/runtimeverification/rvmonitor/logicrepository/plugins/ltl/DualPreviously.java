@@ -7,7 +7,7 @@ import java.util.HashMap;
 //class representing an DualPreviously node in an LTL formula
 public class DualPreviously extends LTLFormula {
 
-  DualPreviously(LTLFormula child){
+  public DualPreviously(LTLFormula child){
     children = new ArrayList<LTLFormula>(1);
     children.add(child);
   }
