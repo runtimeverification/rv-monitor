@@ -4,7 +4,7 @@ options {
 }
 
 PARSER_BEGIN(SRSParser)
-  package logicrepository.plugins.srs;
+  package com.runtimeverification.rvmonitor.logicrepository.plugins.srs;
 
   import java.util.ArrayList;
   import java.util.HashMap;

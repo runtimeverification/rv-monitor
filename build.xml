@@ -32,7 +32,6 @@
     <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/logicpluginshells/c/fsm/parser/fsm.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/logicpluginshells/c/fsm/parser/fsm.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/c/rvc/parser/RVCParser.jj" javacchome="lib/external" />
-    <javacc target="src/com/runtimeverification/rvmonitor/java/rvj/parser/aspectj_parser/aspectj.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/javamop.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/cfg/parser/cfg.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/java/fsm/fsmparser/fsm.jj" javacchome="lib/external" />
@@ -51,15 +50,187 @@
   </target>
 
   <target name="clean">
-    <delete verbose="true">
+    <delete verbose="false">
       <fileset dir="${build}" />
     </delete>
-    <delete verbose="true">
+    <delete verbose="false">
       <fileset dir="${lib}">
         <include name="*.jar" />
       </fileset>
       <fileset dir="${lib}/plugins" />
     </delete>
+    <delete verbose="true">
+       <fileset dir="src/com/runtimeverification/rvmonitor/c/rvc/logicpluginshells/c/fsm/parser">
+		<include name="FSMParser.java" />
+		<include name="FSMParserConstants.java" />
+		<include name="FSMParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/c/rvc/parser">
+		<include name="RVCParser.java" />
+		<include name="RVCParserConstants.java" />
+		<include name="RVCParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser">
+		<include name="RVMonitorParser.java" />
+		<include name="RVMonitorParserConstants.java" />
+		<include name="RVMonitorParserTokenManager.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/cfg/parser">
+		<include name="CFGParser.java" />
+		<include name="CFGParserConstants.java" />
+		<include name="CFGParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/fsm/fsmparser">
+		<include name="FSMParser.java" />
+		<include name="FSMParserConstants.java" />
+		<include name="FSMParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/pda/parser">
+		<include name="PDAParser.java" />
+		<include name="PDAParserConstants.java" />
+		<include name="PDAParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/po">
+		<include name="POParser.java" />
+		<include name="POParserConstants.java" />
+		<include name="POParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/ptcaret/parser">
+		<include name="PTCARET_PseudoCode_Parser.java" />
+		<include name="PTCARET_PseudoCode_ParserConstants.java" />
+		<include name="PTCARET_PseudoCode_ParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/java/srs/pmaparser">
+		<include name="PMAParser.java" />
+		<include name="PMAParserConstants.java" />
+		<include name="PMAParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/cfg/cfgutil">
+		<include name="CFGParser.java" />
+		<include name="CFGParserConstants.java" />
+		<include name="CFGParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ere">
+		<include name="EREParser.java" />
+		<include name="EREParserConstants.java" />
+		<include name="EREParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/fsm/parser">
+		<include name="FSMParser.java" />
+		<include name="FSMParserConstants.java" />
+		<include name="FSMParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ltl">
+		<include name="LTLParser.java" />
+		<include name="LTLParserConstants.java" />
+		<include name="LTLParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/pda/parser">
+		<include name="PDAParser.java" />
+		<include name="PDAParserConstants.java" />
+		<include name="PDAParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/po">
+		<include name="POParser.java" />
+		<include name="POParserConstants.java" />
+		<include name="POParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ptcaret/parser">
+		<include name="PTCARET_Parser.java" />
+		<include name="PTCARET_ParserConstants.java" />
+		<include name="PTCARET_ParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/srs">
+		<include name="SRSParser.java" />
+		<include name="SRSParserConstants.java" />
+		<include name="SRSParserTokenManager.java" />
+		<include name="Token.java" />
+		<include name="TokenMgrError.java" />
+		<include name="JavaCharStream.java" />
+		<include name="SimpleCharStream.java" />
+		<include name="ParseException.java" />
+	</fileset>
+    </delete>
+ 
   </target>
 
   <target name="compile" depends="init">

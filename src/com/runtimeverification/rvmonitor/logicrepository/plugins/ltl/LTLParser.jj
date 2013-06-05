@@ -4,7 +4,7 @@ options {
 }
 
 PARSER_BEGIN(LTLParser)
-package logicrepository.plugins.ltl;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.ltl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

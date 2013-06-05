@@ -4,7 +4,7 @@ options {
 }
 
 PARSER_BEGIN(CFGParser)
-   package logicrepository.plugins.cfg.cfgutil;
+   package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.cfgutil;
 
    import java.util.ArrayList;
    import java.util.HashMap;
