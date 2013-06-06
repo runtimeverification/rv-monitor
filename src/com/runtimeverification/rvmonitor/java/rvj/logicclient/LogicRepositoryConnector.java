@@ -130,7 +130,18 @@ public class LogicRepositoryConnector {
 
 				logicOutput_OutputStream = executeProgram(cmdarray, executePath, logicInput_InputStream);
 			} else {
-				String executePath = new File(logicPackageFilePath).getParent();
+				// The following didn't work at least under Windows.
+				// String executePath = new File(logicPackageFilePath).getParent();
+				String executePath = null;
+				{
+					File logic = new File(logicPackageFilePath);
+					File rvmonitor = logic.getParentFile();
+					File runtimeverification = rvmonitor.getParentFile();
+					File com = runtimeverification.getParentFile();
+					File root = com.getParentFile();
+					executePath = root.getAbsolutePath();
+				}
+				
 				String mysqlConnectorPath = executePath + File.separator + "lib" + File.separator + "mysql-connector-java-3.0.9-stable-bin.jar";
 				String scalaPath = executePath + File.separator + "lib" + File.separator + "scala-library.jar";
 
