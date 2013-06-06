@@ -9,8 +9,9 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 
 public abstract class LogicPluginShell {
 	public String monitorType = "Error";
+    public String outputLanguage = "Error";
 
-	public LogicPluginShell() {
+    public LogicPluginShell() {
 	}
 
 	public LogicPluginShellResult process(LogicRepositoryType logicOutput, String events) throws RVMException {

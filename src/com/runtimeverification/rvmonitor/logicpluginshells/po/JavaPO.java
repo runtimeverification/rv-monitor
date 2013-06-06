@@ -14,6 +14,7 @@ public class JavaPO extends LogicPluginShell {
 	public JavaPO() {
 		super();
 		monitorType = "PO";
+        outputLanguage = "java";
 	}
 
 	ArrayList<String> allEvents;

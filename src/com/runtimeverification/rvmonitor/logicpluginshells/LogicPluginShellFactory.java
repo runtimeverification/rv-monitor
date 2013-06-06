@@ -12,7 +12,7 @@ import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorys
 
 public class LogicPluginShellFactory {
 
-	static public LogicPluginShell findLogicShellPlugin(String packageName, String monitorType) {
+	static public LogicPluginShell findLogicShellPlugin(String packageName, String monitorType, String outputLanguage) {
 		ArrayList<Class<?>> logicPlugins = null;
 		try {
 			/* it should return only subclasses of LogicShellPlugin */
@@ -26,7 +26,8 @@ public class LogicPluginShellFactory {
 			if (logicPlugins != null) {
 				for (Class<?> c : logicPlugins) {
 					LogicPluginShell logicShellPlugin = (LogicPluginShell) c.getConstructor(pluginParamClass).newInstance();
-					if (logicShellPlugin.monitorType.toLowerCase().compareTo(monitorType.toLowerCase()) == 0) {
+					if (logicShellPlugin.monitorType.toLowerCase().compareTo(monitorType.toLowerCase()) == 0
+                            && logicShellPlugin.outputLanguage.toLowerCase().compareTo(outputLanguage.toLowerCase()) == 0) {
 						return logicShellPlugin;
 					}
 				}
@@ -142,8 +143,8 @@ public class LogicPluginShellFactory {
 		return (sepIndex != -1 ? path.substring(0, sepIndex) : path);
 	}
 
-	static public LogicPluginShellResult process(LogicRepositoryType logicOutput, String events) throws RVMException {
-		LogicPluginShell logicShellPlugin = findLogicShellPlugin("com.runtimeverification.rvmonitor.logicpluginshells", logicOutput.getProperty().getLogic());
+	static public LogicPluginShellResult process(LogicRepositoryType logicOutput, String events, String outputLanguage) throws RVMException {
+		LogicPluginShell logicShellPlugin = findLogicShellPlugin("com.runtimeverification.rvmonitor.logicpluginshells", logicOutput.getProperty().getLogic(), outputLanguage);
 		if (logicShellPlugin != null) {
 			LogicPluginShellResult result = logicShellPlugin.process(logicOutput, events);
 			//Support deadlock detection since deadlock is not a state.

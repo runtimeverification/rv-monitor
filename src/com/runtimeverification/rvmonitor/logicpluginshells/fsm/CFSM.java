@@ -15,6 +15,7 @@ public class CFSM extends LogicPluginShell {
   public CFSM() {
     super();
     monitorType = "FSM";
+    outputLanguage = "C";
   }
 
   ArrayList<String> allEvents;

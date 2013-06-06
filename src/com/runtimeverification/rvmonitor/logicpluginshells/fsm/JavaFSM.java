@@ -15,6 +15,7 @@ public class JavaFSM extends LogicPluginShell {
 	public JavaFSM() {
 		super();
 		monitorType = "FSM";
+        outputLanguage = "java";
 	}
 
 	ArrayList<String> allEvents;

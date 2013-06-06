@@ -14,6 +14,7 @@ public class JavaPDA  extends LogicPluginShell {
 	public JavaPDA() {
 		super();
 		monitorType = "PDA";
+        outputLanguage = "java";
 	}
 
 	ArrayList<String> allEvents;

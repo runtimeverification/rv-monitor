@@ -17,6 +17,7 @@ public class JavaCFG extends LogicPluginShell {
 	public JavaCFG() {
 		super();
 		monitorType = "cfg";
+        outputLanguage = "java";
 	}
 
 	ArrayList<String> allEvents;

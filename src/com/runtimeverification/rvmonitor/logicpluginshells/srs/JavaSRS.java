@@ -14,6 +14,7 @@ public class JavaSRS extends LogicPluginShell {
 	public JavaSRS() {
 		super();
 		monitorType = "SRS";
+        outputLanguage = "java";
 	}
 
 	ArrayList<String> allEvents;

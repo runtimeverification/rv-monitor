@@ -21,6 +21,7 @@ public class JavaPTCARET extends LogicPluginShell {
 	public JavaPTCARET() {
 		super();
 		monitorType = "PTCARET PSEUDO-CODE";
+        outputLanguage = "java";
 	}
 
 	ArrayList<String> allEvents;
