@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //class representing an Implication node in an LTL formula
 public class Implication extends LTLFormula {
 
-  Implication(LTLFormula leftChild, LTLFormula rightChild){
+  public Implication(LTLFormula leftChild, LTLFormula rightChild){
     children = new ArrayList<LTLFormula>(2);
     children.add(leftChild);
     children.add(rightChild);

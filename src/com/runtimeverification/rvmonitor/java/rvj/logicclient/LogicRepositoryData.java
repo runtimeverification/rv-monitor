@@ -9,8 +9,8 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.*;
+import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 
 public class LogicRepositoryData {
 
@@ -92,9 +92,9 @@ public class LogicRepositoryData {
 		JAXBContext logicData;
 		ByteArrayOutputStream outputStream;
 		try {
-			logicData = JAXBContext.newInstance("com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax");
+			logicData = JAXBContext.newInstance("com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax");
 			Marshaller marshaller = logicData.createMarshaller();
-			com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.ObjectFactory factory = new com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.ObjectFactory();
+			ObjectFactory factory = new ObjectFactory();
 			JAXBElement<LogicRepositoryType> logicData2 = factory.createMop(xmlData);
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -125,7 +125,7 @@ public class LogicRepositoryData {
 
 		JAXBContext logicRequest;
 		try {
-			logicRequest = JAXBContext.newInstance("com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax");
+			logicRequest = JAXBContext.newInstance("com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax");
 			Unmarshaller unmarshaller = logicRequest.createUnmarshaller();			
 			xmlData = ((JAXBElement<LogicRepositoryType>) unmarshaller.unmarshal(parserInput)).getValue();
 		} catch (Exception e) {

@@ -6,7 +6,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.ast.PTC
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.ast.PTCARET_Id;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.ast.PTCARET_True;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.ast.PTCARET_UnaryFormula;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.PTCARET_Parser;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.PTCARETParser;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.ParseException;
 
 public class SimplifyVisitor implements GenericVisitor<PTCARET_Formula, Object> {
@@ -33,10 +33,10 @@ public class SimplifyVisitor implements GenericVisitor<PTCARET_Formula, Object> 
 				if (sub instanceof PTCARET_UnaryFormula && ((PTCARET_UnaryFormula) sub).getOp() == PTCARET_UnaryFormula.Operator.not) {
 					ret = ((PTCARET_UnaryFormula) sub).getFormula();
 				} else if (sub instanceof PTCARET_BinaryFormula && ((PTCARET_BinaryFormula) sub).getOp() == PTCARET_BinaryFormula.Operator.and) {
-					ret = PTCARET_Parser.parse("!(" + ((PTCARET_BinaryFormula) sub).getLeft() + ") || !(" + ((PTCARET_BinaryFormula) sub).getRight() + ")");
+					ret = PTCARETParser.parse("!(" + ((PTCARET_BinaryFormula) sub).getLeft() + ") || !(" + ((PTCARET_BinaryFormula) sub).getRight() + ")");
 					ret = ret.accept(this, arg);
 				} else if (sub instanceof PTCARET_BinaryFormula && ((PTCARET_BinaryFormula) sub).getOp() == PTCARET_BinaryFormula.Operator.or) {
-					ret = PTCARET_Parser.parse("!(" + ((PTCARET_BinaryFormula) sub).getLeft() + ") && !(" + ((PTCARET_BinaryFormula) sub).getRight() + ")");
+					ret = PTCARETParser.parse("!(" + ((PTCARET_BinaryFormula) sub).getLeft() + ") && !(" + ((PTCARET_BinaryFormula) sub).getRight() + ")");
 					ret = ret.accept(this, arg);
 				} else
 					ret = new PTCARET_UnaryFormula(sub, n.getOp());
@@ -45,51 +45,51 @@ public class SimplifyVisitor implements GenericVisitor<PTCARET_Formula, Object> 
 				ret = new PTCARET_UnaryFormula(sub, n.getOp());
 				break;
 			case eventually:
-				ret = PTCARET_Parser.parse("true S (" + sub + ")");
+				ret = PTCARETParser.parse("true S (" + sub + ")");
 				break;
 			case always:
-				ret = PTCARET_Parser.parse("!<*>(!(" + sub + "))");
+				ret = PTCARETParser.parse("!<*>(!(" + sub + "))");
 				ret = ret.accept(this, arg);
 				break;
 			case ab_prev:
 				ret = new PTCARET_UnaryFormula(sub, n.getOp());
 				break;
 			case ab_eventually:
-				ret = PTCARET_Parser.parse("true Sa (" + sub + ")");
+				ret = PTCARETParser.parse("true Sa (" + sub + ")");
 				break;
 			case ab_always:
-				ret = PTCARET_Parser.parse("!<*a>(!(" + sub + "))");
+				ret = PTCARETParser.parse("!<*a>(!(" + sub + "))");
 				ret = ret.accept(this, arg);
 				break;
 			case at_begin:
-				ret = PTCARET_Parser.parse("(begin -> (" + sub + ")) /\\ (!begin -> ((*)(begin -> (" + sub + "))) Sa begin)");
+				ret = PTCARETParser.parse("(begin -> (" + sub + ")) /\\ (!begin -> ((*)(begin -> (" + sub + "))) Sa begin)");
 				break;
 			case at_call:
-				ret = PTCARET_Parser.parse("@b (*)(" + sub + ")");
+				ret = PTCARETParser.parse("@b (*)(" + sub + ")");
 				ret = ret.accept(this, arg);
 				break;
 			case always_at_begin:
-				ret = PTCARET_Parser.parse("!<*s@b>!(" + sub + ")");
+				ret = PTCARETParser.parse("!<*s@b>!(" + sub + ")");
 				ret = ret.accept(this, arg);
 				break;
 			case always_at_call:
-				ret = PTCARET_Parser.parse("!<*s@c>!(" + sub + ")");
+				ret = PTCARETParser.parse("!<*s@c>!(" + sub + ")");
 				ret = ret.accept(this, arg);
 				break;
 			case always_at_begincall:
-				ret = PTCARET_Parser.parse("!<*s@bc>!(" + sub + ")");
+				ret = PTCARETParser.parse("!<*s@bc>!(" + sub + ")");
 				ret = ret.accept(this, arg);
 				break;
 			case eventually_at_begin:
-				ret = PTCARET_Parser.parse("true Ss@b (" + sub + ")");
+				ret = PTCARETParser.parse("true Ss@b (" + sub + ")");
 				ret = ret.accept(this, arg);
 				break;
 			case eventually_at_call:
-				ret = PTCARET_Parser.parse("true Ss@c (" + sub + ")");
+				ret = PTCARETParser.parse("true Ss@c (" + sub + ")");
 				ret = ret.accept(this, arg);
 				break;
 			case eventually_at_begincall:
-				ret = PTCARET_Parser.parse("true Ss@bc (" + sub + ")");
+				ret = PTCARETParser.parse("true Ss@bc (" + sub + ")");
 				ret = ret.accept(this, arg);
 				break;
 			}
@@ -108,11 +108,11 @@ public class SimplifyVisitor implements GenericVisitor<PTCARET_Formula, Object> 
 		try {
 			switch (n.getOp()) {
 			case iff:
-				ret = PTCARET_Parser.parse("((" + left + ") && (" + right + ")) || (" + "!(" + left + ") && " + "!(" + right + "))");
+				ret = PTCARETParser.parse("((" + left + ") && (" + right + ")) || (" + "!(" + left + ") && " + "!(" + right + "))");
 				ret = ret.accept(this, arg);
 				break;
 			case implies:
-				ret = PTCARET_Parser.parse("!(" + left + ") || (" + right + ")");
+				ret = PTCARETParser.parse("!(" + left + ") || (" + right + ")");
 				ret = ret.accept(this, arg);
 				break;
 			case or:
@@ -133,15 +133,15 @@ public class SimplifyVisitor implements GenericVisitor<PTCARET_Formula, Object> 
 					ret = new PTCARET_BinaryFormula(left, right, PTCARET_BinaryFormula.Operator.and);
 				break;
 			case since_at_b:
-				ret = PTCARET_Parser.parse("(begin -> (" + left + ")) Sa (begin /\\ (" + right + "))");
+				ret = PTCARETParser.parse("(begin -> (" + left + ")) Sa (begin /\\ (" + right + "))");
 				ret = ret.accept(this, arg);
 				break;
 			case since_at_c:
-				ret = PTCARET_Parser.parse("(call -> (" + left + ")) Sa (begin /\\ (*)(" + right + "))");
+				ret = PTCARETParser.parse("(call -> (" + left + ")) Sa (begin /\\ (*)(" + right + "))");
 				ret = ret.accept(this, arg);
 				break;
 			case since_at_bc:
-				ret = PTCARET_Parser.parse("((begin || call) -> (" + left + ")) Sa ((begin || call) /\\ (" + right + "))");
+				ret = PTCARETParser.parse("((begin || call) -> (" + left + ")) Sa ((begin || call) /\\ (" + right + "))");
 				ret = ret.accept(this, arg);
 				break;
 			case ab_since:

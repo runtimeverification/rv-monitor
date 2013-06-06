@@ -8,7 +8,7 @@ import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.LogicPlugin;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.ast.PTCARET_Formula;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.PTCARET_Parser;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.PTCARETParser;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.parser.ParseException;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.visitor.CodeGenVisitor;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.visitor.NumberingVisitor;
@@ -24,7 +24,7 @@ public class PTCARETPlugin extends LogicPlugin {
 		PTCARET_Formula ptCaRetformula;
 		try {
 			String logicStr = logicInputXML.getProperty().getFormula().trim();
-			ptCaRetformula = PTCARET_Parser.parse(logicStr);
+			ptCaRetformula = PTCARETParser.parse(logicStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			throw new LogicException(e.getMessage());

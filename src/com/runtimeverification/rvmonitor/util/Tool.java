@@ -6,8 +6,6 @@
  */
 package com.runtimeverification.rvmonitor.util;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
-
 import java.io.*;
 
 /**

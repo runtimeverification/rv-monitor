@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 //class representing a negation node in an LTL formula
 public class Negation extends LTLFormula {
 
-  Negation(LTLFormula child){
+  public Negation(LTLFormula child){
     children = new ArrayList<LTLFormula>(1);
     children.add(child);
   }

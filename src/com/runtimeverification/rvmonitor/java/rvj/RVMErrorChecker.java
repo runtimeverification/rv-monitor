@@ -4,6 +4,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefini
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.util.RVMException;
 
 import java.util.HashMap;
 

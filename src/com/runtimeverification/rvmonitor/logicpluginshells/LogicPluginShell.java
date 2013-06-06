@@ -4,8 +4,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.runtimeverification.rvmonitor.java.rvj.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.*;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
+import com.runtimeverification.rvmonitor.util.RVMException;
 
 public abstract class LogicPluginShell {
 	public String monitorType = "Error";

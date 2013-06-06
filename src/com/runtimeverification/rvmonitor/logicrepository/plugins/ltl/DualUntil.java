@@ -7,7 +7,7 @@ import java.util.HashMap;
 //class representing an DualUntil node in an LTL formula
 public class DualUntil extends LTLFormula {
 
-  DualUntil(LTLFormula leftChild, LTLFormula rightChild){
+  public DualUntil(LTLFormula leftChild, LTLFormula rightChild){
     children = new ArrayList<LTLFormula>(2);
     children.add(leftChild);
     children.add(rightChild);

@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.centralized.CentralizedIndexingTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.decentralized.DecentralizedIndexingTree;

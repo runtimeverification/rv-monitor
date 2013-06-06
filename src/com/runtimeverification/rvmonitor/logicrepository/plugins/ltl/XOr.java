@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //class representing an XOr node in an LTL formula
 public class XOr extends LTLFormula {
 
-  XOr(ArrayList<LTLFormula> children){
+  public XOr(ArrayList<LTLFormula> children){
     assert children != null && children.size() >= 2 
         : "XOr requires at least two children!";
     this.children = children;

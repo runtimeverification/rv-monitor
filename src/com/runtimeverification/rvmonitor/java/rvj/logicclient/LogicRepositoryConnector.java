@@ -2,12 +2,12 @@ package com.runtimeverification.rvmonitor.java.rvj.logicclient;
 
 import com.runtimeverification.rvmonitor.java.rvj.Configuration;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.Formula;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.LogicRepositoryType;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.PropertyType;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.PropertyType;
 import com.runtimeverification.rvmonitor.util.StreamGobbler;
 import com.runtimeverification.rvmonitor.util.Tool;
 

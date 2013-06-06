@@ -3,14 +3,14 @@ options {
 }
 
 PARSER_BEGIN(FSMParser)
-package logicrepository.plugins.fsm.parser;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.io.*;
-import logicrepository.LogicException;
-import logicrepository.plugins.fsm.parser.ast.*;
+import com.runtimeverification.rvmonitor.logicrepository.LogicException;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.*;
 
 public class FSMParser {
   public static FSMParser parse(String input) {

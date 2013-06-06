@@ -2,7 +2,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event;
 
 import java.util.HashMap;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;

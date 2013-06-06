@@ -8,7 +8,7 @@ import java.util.HashMap;
 //class representing an And node in an LTL formula
 public class And extends LTLFormula {
 
-  And(ArrayList<LTLFormula> children){
+  public And(ArrayList<LTLFormula> children){
     assert children != null && children.size() >= 2 
         : "And requires at least two children!";
     this.children = children;

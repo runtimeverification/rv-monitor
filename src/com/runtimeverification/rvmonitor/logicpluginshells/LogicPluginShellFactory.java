@@ -7,8 +7,8 @@ import java.io.*;
 import java.net.URL;
 
 import com.runtimeverification.rvmonitor.java.rvj.Main;
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
-import com.runtimeverification.rvmonitor.java.rvj.parser.logicrepositorysyntax.*;
+import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 
 public class LogicPluginShellFactory {
 

@@ -4,6 +4,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.RVMonitorExtender;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.RVMonitorParser;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Tool;
 
 import java.io.ByteArrayInputStream;

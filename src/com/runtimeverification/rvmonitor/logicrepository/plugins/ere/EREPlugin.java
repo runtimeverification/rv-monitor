@@ -4,6 +4,7 @@ import com.runtimeverification.rvmonitor.logicrepository.LogicException;
 import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.LogicPlugin;
+import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.parser.EREParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

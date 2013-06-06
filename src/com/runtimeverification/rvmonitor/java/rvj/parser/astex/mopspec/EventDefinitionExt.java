@@ -111,35 +111,7 @@ EventDefinitionExt Event()
 
 	}
 
-	private PointCut parsePointCutAsRaw(String input) throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
-		// create a token for exceptions
-		com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token t = new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.Token();
-		t.beginLine = super.getBeginLine();
-		t.beginColumn = super.getBeginColumn();
-
-		PointCut originalPointCut;
-		PointCut resultPointCut;
-		purePointCutStr = "";
-		threadVar = "";
-		condition = "";
-
-		try {
-			originalPointCut = com.runtimeverification.rvmonitor.java.rvj.parser.aspectj_parser.AspectJParser.parse(new ByteArrayInputStream(input.getBytes()));
-		} catch (com.runtimeverification.rvmonitor.java.rvj.parser.aspectj_parser.ParseException e) {
-			throw new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException("The following error encountered when parsing the pointcut in the event definition: " + e.getMessage());
-		}
-
-		resultPointCut = originalPointCut;
-
-		if (resultPointCut == null)
-			throw new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException("endObject() pointcut should appear at the root level in a conjuction form");
-
-		purePointCutStr = resultPointCut.toString();
-
-		return resultPointCut;
-	}
-
-	public String getId() {
+    public String getId() {
 		return id;
 	}
 

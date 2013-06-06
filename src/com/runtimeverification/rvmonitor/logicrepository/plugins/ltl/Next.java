@@ -7,7 +7,7 @@ import java.util.HashMap;
 //class representing an Next node in an LTL formula
 public class Next extends LTLFormula {
 
-  Next(LTLFormula child){
+  public Next(LTLFormula child){
     children = new ArrayList<LTLFormula>(1);
     children.add(child);
   }

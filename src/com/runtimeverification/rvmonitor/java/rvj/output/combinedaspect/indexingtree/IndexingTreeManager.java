@@ -3,7 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexin
 import java.util.HashMap;
 import java.util.List;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;

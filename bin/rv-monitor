@@ -16,7 +16,6 @@ if [ "$1" = "-c" ];
 then 
   shift 1;      
   MAINCLASS=com.runtimeverification.rvmonitor.c.rvc.Main
-  "$SRC_ROOT/RVC/bin/RVC" "$@"
 fi
 
 PLUGINS_CLASSPATH="$SRC_ROOT/lib/logicrepository.jar":"$SRC_ROOT/lib/scala-library.jar":"$SRC_ROOT/lib/plugins/ERE.jar":"$SRC_ROOT/lib/plugins/LTL.jar":"$SRC_ROOT/lib/plugins/PTLTL.jar":"$SRC_ROOT/lib/plugins/FSM.jar":"$SRC_ROOT/lib/plugins/CFG.jar"

@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 
-import com.runtimeverification.rvmonitor.java.rvj.RVMException;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.OptimizedCoenableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
