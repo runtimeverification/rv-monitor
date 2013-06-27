@@ -64,12 +64,7 @@ public class RefTree {
 		else
 			name = hostIndexingTree.getName();
 		
-		if (generalProperties.size() == 0)
-			ret += tempRef + " = " + name + ".getRef(" + p.getName();
-		else if (generalProperties.size() == 1)
-			ret += tempRef + " = " + name + ".getTagRef(" + p.getName();
-		else
-			ret += tempRef + " = " + name + ".getMultiTagRef(" + p.getName();
+		ret += tempRef + " = " + name + ".findOrCreateWeakRef(" + p.getName();
 		
 		if(this.useJoinPointId && properties.size() > 1)
 			ret += ", thisJoinPoint.getStaticPart().getId()";
@@ -88,12 +83,7 @@ public class RefTree {
 		else
 			name = hostIndexingTree.getName();
 
-		if (generalProperties.size() == 0)
-			ret += tempRef + " = " + name + ".getRefNonCreative(" + p.getName();
-		else if (generalProperties.size() == 1)
-			ret += tempRef + " = " + name + ".getTagRefNonCreative(" + p.getName();
-		else
-			ret += tempRef + " = " + name + ".getMultiTagRefNonCreative(" + p.getName();
+		ret += tempRef + " = " + name + ".findWeakRef(" + p.getName();
 
 		if(this.useJoinPointId && properties.size() > 1)
 			ret += ", thisJoinPoint.getStaticPart().getId()";
@@ -117,12 +107,14 @@ public class RefTree {
 	public String getResultType() {
 		String ret = "";
 
+		ret += "Cached";
 		if (generalProperties.size() == 0)
-			ret = "com.runtimeverification.rvmonitor.java.rt.ref.RVMWeakReference";
+			ret += "";
 		else if (generalProperties.size() == 1)
-			ret = "com.runtimeverification.rvmonitor.java.rt.ref.RVMTagWeakReference";
+			ret += "Tag";
 		else
-			ret = "com.runtimeverification.rvmonitor.java.rt.ref.RVMMultiTagWeakReference";
+			ret += "MultiTag";
+		ret += "WeakReference";
 
 		return ret;
 	}
@@ -130,14 +122,15 @@ public class RefTree {
 	public String getType() {
 		String ret = "";
 		
-		if(hostIndexingTree == null){
+		if (hostIndexingTree == null) {
 			if (generalProperties.size() == 0)
-				ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMBasicRefMap";
+				ret = "com.runtimeverification.rvmonitor.java.rt.table.BasicRefMap";
 			else if (generalProperties.size() == 1)
-				ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMTagRefMap";
+				ret = "com.runtimeverification.rvmonitor.java.rt.table.TagRefMap";
 			else
-				ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMMultiTagRefMap";
-		} else {
+				ret = "com.runtimeverification.rvmonitor.java.rt.table.MultiTagRefMap";
+		}
+		else {
 			ret = hostIndexingTree.getRefTreeType();
 		}
 
@@ -151,9 +144,7 @@ public class RefTree {
 	public String toString() {
 		String ret = "";
 
-		ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMRefMap ";
-		ret += name;
-		ret += " = ";
+		ret += "static " + this.getType() + " " + name + " = ";	
 		if(hostIndexingTree == null){
 			if(generalProperties.size() > 1)
 				ret += "new " + getType() + "(" + generalProperties.size() + ");\n";

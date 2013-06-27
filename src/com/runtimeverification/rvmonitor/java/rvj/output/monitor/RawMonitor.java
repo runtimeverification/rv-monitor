@@ -168,7 +168,7 @@ public class RawMonitor extends Monitor{
 	
 		ret += "class " + monitorName;
 		if (isOutermost)
-			ret += " extends com.runtimeverification.rvmonitor.java.rt.RVMMonitor";
+			ret += " extends com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitor";	
 		ret += " implements Cloneable, com.runtimeverification.rvmonitor.java.rt.RVMObject {\n";
 	
 		if(varInOutermostMonitor != null)

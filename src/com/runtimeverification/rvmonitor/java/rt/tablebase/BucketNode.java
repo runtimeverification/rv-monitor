@@ -4,7 +4,7 @@ import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 
 public class BucketNode<TWeakRef extends CachedWeakReference, TValue> {
 	private final TWeakRef key;
-	private final TValue value;
+	private TValue value;
 	private BucketNode<TWeakRef, TValue> next;
 	
 	public TWeakRef getKey() {
@@ -19,6 +19,10 @@ public class BucketNode<TWeakRef extends CachedWeakReference, TValue> {
 		return this.value;
 	}
 	
+	public void setValue(TValue value) {
+		this.value = value;
+	}
+	
 	public BucketNode<TWeakRef, TValue> getNext() {
 		return this.next;
 	}
@@ -31,6 +35,23 @@ public class BucketNode<TWeakRef extends CachedWeakReference, TValue> {
 		this.key = key;
 		this.next = next;
 		this.value = value;
+	}
+	
+	@Override
+	public String toString() {
+		String r = "";
+		if (this.key != null) {
+			r += "<";
+			r += this.key;
+			r += ":";
+			r += this.value;
+			r += ">";
+			if (this.next != null) {
+				r += " -> ";
+				r += this.next.toString();
+			}
+		}
+		return r;
 	}
 }
 
@@ -78,5 +99,10 @@ class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeV
 		TValue val = node.getValue();
 		if (val != null)
 			val.terminate(treeid);
+	}
+	
+	@Override
+	public String toString() {
+		return this.head == null ? "<empty>" : this.head.toString();
 	}
 }

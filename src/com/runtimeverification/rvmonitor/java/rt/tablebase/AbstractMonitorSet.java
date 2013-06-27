@@ -30,6 +30,24 @@ public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements I
 		this.elements[this.size++] = e;
 	}
 	
+	public final TMonitor get(int index) {
+		return this.elements[index];
+	}
+	
+	public final void set(int index, TMonitor monitor) {
+		this.elements[index] = monitor;
+	}
+	
+	public final int getSize() {
+		return this.size;
+	}
+	
+	public final void eraseRange(int from) {
+		for (int i = from; i < this.size; ++i)
+			this.elements[i] = null;
+		this.size = from;
+	}
+	
 	private void ensureCapacity() {
 		int oldCapacity = this.elements.length;
 		
@@ -39,9 +57,8 @@ public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements I
 		if (this.size + 1 > oldCapacity) {
 			TMonitor[] oldData = this.elements;
 			int newCapacity = (oldCapacity * 3) / 2 + 1;
-			if (newCapacity < this.size + 1){
+			if (newCapacity < this.size + 1)
 				newCapacity = this.size + 1;
-			}
 			this.elements = Arrays.copyOf(oldData, newCapacity);
 		}
 	}
@@ -55,9 +72,15 @@ public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements I
 				numAlive++;
 			}
 		}
+		
+		this.eraseRange(numAlive);
+	}
 
-		for(int i = numAlive; i < this.size; ++i)
-			this.elements[i] = null;
-		this.size = numAlive;
+	@Override
+	public String toString() {
+		String r = this.getClass().getSimpleName();
+		r += "#";
+		r += String.format("%03x", this.hashCode() & 0xFFF);
+		return r;
 	}
 }

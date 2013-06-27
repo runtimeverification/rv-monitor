@@ -1,11 +1,11 @@
 package com.runtimeverification.rvmonitor.java.rt.table;
 
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
-import com.runtimeverification.rvmonitor.java.rt.tablebase.IIndexingTree;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.IMonitorSet;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.ISetOperation;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IndexingTree1;
 
-abstract class AbstractMapOfSet<TWeakRef extends CachedWeakReference, TSet extends IIndexingTree> extends IndexingTree1<TWeakRef, TSet> implements ISetOperation<TWeakRef, TSet> {
+abstract class AbstractMapOfSet<TWeakRef extends CachedWeakReference, TSet extends IMonitorSet> extends IndexingTree1<TWeakRef, TSet> implements ISetOperation<TWeakRef, TSet> {
 	protected AbstractMapOfSet(int treeid) {
 		super(treeid);
 	}
@@ -21,7 +21,7 @@ abstract class AbstractMapOfSet<TWeakRef extends CachedWeakReference, TSet exten
 	}
 }
 
-public class MapOfSet<TSet extends IIndexingTree> extends AbstractMapOfSet<CachedWeakReference, TSet> {
+public class MapOfSet<TSet extends IMonitorSet> extends AbstractMapOfSet<CachedWeakReference, TSet> {
 	public MapOfSet(int treeid) {
 		super(treeid);
 	}

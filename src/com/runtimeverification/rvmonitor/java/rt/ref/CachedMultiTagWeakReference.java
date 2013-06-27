@@ -4,7 +4,7 @@ public class CachedMultiTagWeakReference extends CachedWeakReference {
   	private final long[] disabled;
 	private final long[] tau;
 	
-	public long isDiabled(int index) {
+	public long getDisabled(int index) {
 		return this.disabled[index];
 	}
 	

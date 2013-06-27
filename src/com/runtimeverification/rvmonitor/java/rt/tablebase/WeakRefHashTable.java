@@ -103,30 +103,36 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 	protected final BucketNode<TWeakRef, TValue> getNode(TWeakRef key) {
 		Bucket<TWeakRef, TValue> bucket = this.getBucket(key);
 		for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
-			if (key == node.getKey())
+			TWeakRef wref = node.getKey();
+			if (key == wref)
 				return node;
 		}
 		return null;
 	}
 	
-	protected final void putNodeUnconditional(TWeakRef key, TValue value) {
-		Bucket<TWeakRef, TValue> bucket = this.getBucket(key);
-
-		bucket.add(key, value);
-		this.cleaner.onElementAdded(this, this.buckets.size());
-	}
-	
-	protected final void putNodeAdditive(TWeakRef key, TValue value, int valueflag) {
+	private final void putNodeInternal(TWeakRef key, TValue value, boolean additive, int valueflag) {
 		Bucket<TWeakRef, TValue> bucket = this.getBucket(key);
 		for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
-			if (key == node.getKey()) {
-				this.valueTrait.set(node.getValue(), value, valueflag);
+			TWeakRef wref = node.getKey();
+			if (key == wref) {
+				if (additive)
+					this.valueTrait.set(node.getValue(), value, valueflag);
+				else
+					node.setValue(value);
 				return;
 			}
 		}
 
 		bucket.add(key, value);
-		this.cleaner.onElementAdded(this, this.buckets.size());
+		this.cleaner.onElementAdded(this, this.buckets.size());		
+	}
+	
+	protected final void putNodeUnconditional(TWeakRef key, TValue value) {
+		this.putNodeInternal(key, value, false, 0);
+	}
+	
+	protected final void putNodeAdditive(TWeakRef key, TValue value, int valueflag) {
+		this.putNodeInternal(key, value, true, valueflag);
 	}
 	
 	protected final TWeakRef findOrCreateWeakRefInternal(Object key, boolean create) {
@@ -137,7 +143,8 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 		int hashval = System.identityHashCode(key);
 		Bucket<TWeakRef, TValue> bucket = this.getBucket(hashval);
 		for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
-			if (key == node.getKey()) {
+			TWeakRef wref = node.getKey();
+			if (key == wref.get()) {
 				this.cacheWeakRef.set(key, node);
 				return node.getKey();
 			}
@@ -219,6 +226,22 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 	protected void terminateValues(int treeid) {
 		for (Bucket<TWeakRef, TValue> bucket : this.buckets)
 			bucket.terminateValues(treeid);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder r = new StringBuilder();
+		int i = 0;
+		for (Bucket<TWeakRef, TValue> bucket : this.buckets) {
+			r.append("[");
+			r.append(i);
+			r.append("] ");
+			r.append(bucket.toString());
+			r.append("\n");
+			
+			++i;
+		}
+		return r.toString();
 	}
 }
 

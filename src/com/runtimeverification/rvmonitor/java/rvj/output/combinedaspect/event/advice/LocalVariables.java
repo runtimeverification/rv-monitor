@@ -3,8 +3,11 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.a
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.RVMTypedVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree.IndexingTreeInterface;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree.IndexingTreeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
@@ -18,7 +21,12 @@ public class LocalVariables {
 
 	HashMap<String, Variable> varMap = new HashMap<String, Variable>();
 	HashMap<String, Variable> tempRefs = new HashMap<String, Variable>();
-
+	
+	private final ArrayList<RVMTypedVariable> varTempMaps = new ArrayList<RVMTypedVariable>();
+	private final ArrayList<RVMTypedVariable> varObjs = new ArrayList<RVMTypedVariable>();
+	private final HashMap<String, RVMTypedVariable> varMaps = new HashMap<String, RVMTypedVariable>();
+	private final HashMap<String, RVMTypedVariable> varUniqueIdMaps = new HashMap<String, RVMTypedVariable>();
+	
 	
 	public LocalVariables(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect){
 		this.refTrees = combinedAspect.indexingTreeManager.refTrees;
@@ -29,17 +37,22 @@ public class LocalVariables {
 		
 		// default variables
 		addVar("boolean", "cacheHit", "true");
-		addVar("Object", "obj");
-		addVar("com.runtimeverification.rvmonitor.java.rt.map.RVMMap", "tempMap");
 		
 		addVar(monitorName,"mainMonitor", "null");
 		addVar(monitorName,"origMonitor", "null");
 		addVar(monitorName,"lastMonitor", "null");
 		addVar(monitorName,"monitor", "null");
 
-		addVar("com.runtimeverification.rvmonitor.java.rt.map.RVMMap", "mainMap", "null");
-		addVar("com.runtimeverification.rvmonitor.java.rt.map.RVMMap", "origMap", "null");
-		addVar("com.runtimeverification.rvmonitor.java.rt.map.RVMMap", "lastMap", "null");
+		// The following variables were removed in favor of uses of ephemeral variables.
+		// These old variables are bad, because they don't have types and, consequently,
+		// cause the generated code to down-cast, which not only may do unnecessary operation
+		// but also prevent type-checking. If someone touches this code or others, please take
+		// types into consideration, please...
+//		addVar("Object", "obj");
+//		addVar("com.runtimeverification.rvmonitor.java.rt.map.RVMMap", "tempMap");
+//		addVar("com.runtimeverification.rvmonitor.java.rt.map.RVMMap", "mainMap", "null");
+//		addVar("com.runtimeverification.rvmonitor.java.rt.map.RVMMap", "origMap", "null");
+//		addVar("com.runtimeverification.rvmonitor.java.rt.map.RVMMap", "lastMap", "null");
 		
 		addVar(monitorSetName,"mainSet", "null");
 		addVar(monitorSetName,"origSet", "null");
@@ -118,6 +131,80 @@ public class LocalVariables {
 		
 		var.used = true;
 		return var.var;
+	}
+	
+	public RVMTypedVariable createTempMap(IndexingTreeType type) {
+		int newid = this.varTempMaps.size() + 1;
+		String name = "tempMap" + newid;
+		
+		RVMTypedVariable created = RVMTypedVariable.fromIndexingTree(name, type);
+		this.varTempMaps.add(created);
+		return created;
+	}
+	
+	public RVMTypedVariable getTempMap() {
+		int index = this.varTempMaps.size() - 1;
+		return this.varTempMaps.get(index);
+	}
+	
+	public RVMTypedVariable createObj(RVMTypedVariable tempMap, IndexingTreeInterface itf) {
+		int newid = this.varObjs.size() + 1;
+		String name = "obj" + newid;
+		
+		IndexingTreeType nestedtype = tempMap.getType().getPart(itf);
+		RVMTypedVariable created = RVMTypedVariable.fromIndexingTree(name, nestedtype);
+		this.varObjs.add(created);
+		return created;
+	}
+	
+	private boolean isUniqueMapNameRequired(String name) {
+		boolean createUnique = false;
+		
+		if (name.equals("origMap"))
+			createUnique = true;
+		else if (name.equals("lastMap"))
+			createUnique = true;
+		
+		return createUnique;
+	}
+	
+	public RVMTypedVariable.Pair createOrFindMap(String name, IndexingTreeType type) {
+		boolean createUnique = this.isUniqueMapNameRequired(name);
+		
+		RVMTypedVariable var = null;
+		boolean created = false;
+
+		if (createUnique) {
+			RVMTypedVariable lastvar = this.varUniqueIdMaps.get(name);
+			int lastsuffix = 0;
+			if (lastvar != null)
+				lastsuffix = Integer.parseInt(lastvar.getName().substring(name.length()));
+			int id = lastsuffix + 1;
+			
+			String uniquename = name + id;
+			var = RVMTypedVariable.fromIndexingTree(uniquename, type);
+			this.varUniqueIdMaps.put(name, var);
+			created = true;
+		}
+		else {
+			var = this.varMaps.get(name);
+			if (var == null) {
+				var = RVMTypedVariable.fromIndexingTree(name, type);
+				this.varMaps.put(name, var);
+				created = true;
+			}
+		}
+	
+		return new RVMTypedVariable.Pair(var, created);
+	}
+	
+	public RVMTypedVariable getMap(String name) {
+		boolean createUnique = this.isUniqueMapNameRequired(name);
+		
+		if (createUnique)
+			return this.varUniqueIdMaps.get(name);
+		else
+			return this.varMaps.get(name);
 	}
 	
 	public String varDecl(){

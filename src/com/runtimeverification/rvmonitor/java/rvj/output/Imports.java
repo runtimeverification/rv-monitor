@@ -7,7 +7,11 @@ import java.util.ArrayList;
 
 public class Imports {
 	ArrayList<String> imports;
-	String[] required = {"java.util.concurrent.*", "java.util.concurrent.locks.*", "java.util.*", "com.runtimeverification.rvmonitor.java.rt.*", "java.lang.ref.*"};
+	String[] required = {"java.util.concurrent.*", "java.util.concurrent.locks.*", "java.util.*", "java.lang.ref.*",
+		"com.runtimeverification.rvmonitor.java.rt.*",
+		"com.runtimeverification.rvmonitor.java.rt.ref.*",
+		"com.runtimeverification.rvmonitor.java.rt.table.*",
+	};
 
 	public Imports(RVMSpecFile rvmSpecFile) {
 		imports = new ArrayList<String>();

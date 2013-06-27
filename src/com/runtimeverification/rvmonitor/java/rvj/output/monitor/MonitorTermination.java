@@ -73,7 +73,8 @@ public class MonitorTermination {
 		}
 		ret += "\n";
 
-		ret += "public final void endObject(int idnum){\n";
+		ret += "@Override\n";
+		ret += "protected final void terminateInternal(int idnum){\n";
 
 		ret += "switch(idnum){\n";
 		for (int i = 0; i < parameters.size(); i++) {

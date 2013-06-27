@@ -225,18 +225,18 @@ public class GeneralAdviceBody extends AdviceBody {
 		}
 
 		ret += "int " + numAlive + " = 0;\n";
-		ret += "for(int " + i + " = 0; " + i + " < " + origSet + ".size; " + i + "++) {\n";
+		ret += "for(int " + i + " = 0; " + i + " < " + origSet + ".getSize(); " + i + "++) {\n";
 		{
-			ret += origMonitor + " = " + origSet + ".elementData[" + i + "];\n";
+			ret += origMonitor + " = " + origSet + ".get(" + i + ");\n";
 			for (RVMParameter p : newParam)
 				ret += p.getType() + " " + p.getName() + " = " + "(" + p.getType() + ")" + origMonitor + "." + monitorClass.getRVMonitorRef(p) + ".get();\n";
 
-			ret += "if (!" + origMonitor + ".RVM_terminated";
+			ret += "if (!" + origMonitor + ".isTerminated()";
 			for (RVMParameter p : newParam)
 				ret += " && " + p.getName() + " != null";
 			ret += ") {\n";
 			{
-				ret += origSet + ".elementData[" + numAlive + "] = " + origMonitor + ";\n";
+				ret += origSet + ".set(" + numAlive + ", " + origMonitor + ");\n";
 				ret += numAlive + "++;\n";
 				ret += "\n";
 
@@ -288,12 +288,12 @@ public class GeneralAdviceBody extends AdviceBody {
 									continue;
 
 								if (tagNumber == -1) {
-									ret += "if (" + tempRef + "." + "tau == -1){\n";
-									ret += tempRef + "." + "tau = " + origMonitor + ".tau" + ";\n";
+									ret += "if (" + tempRef + "." + "getTau() == -1){\n";
+									ret += tempRef + "." + "setTau(" + origMonitor + ".tau" + ");\n";
 									ret += "}\n";
 								} else {
-									ret += "if (" + tempRef + "." + "tau[" + tagNumber + "] == -1){\n";
-									ret += tempRef + "." + "tau[" + tagNumber + "] = " + origMonitor + ".tau" + ";\n";
+									ret += "if (" + tempRef + "." + "getTau(" + tagNumber + ") == -1){\n";
+									ret += tempRef + "." + "setTau(" + tagNumber + ", " + origMonitor + ".tau)" + ";\n";
 									ret += "}\n";
 								}
 							}
@@ -332,13 +332,7 @@ public class GeneralAdviceBody extends AdviceBody {
 			ret += "}\n";
 		}
 		ret += "}\n\n";
-		ret += "for(int " + i + " = " + numAlive + "; " + i + " < " + origSet + ".size; " + i + "++) {\n";
-		{
-			ret += origSet + ".elementData[" + i + "] = null;\n";
-		}
-		ret += "}\n";
-		ret += origSet + ".size = " + numAlive + ";\n";
-
+		ret += origSet + ".eraseRange(" + numAlive + ");\n";
 		return ret;
 	}
 
@@ -386,12 +380,12 @@ public class GeneralAdviceBody extends AdviceBody {
 						continue;
 
 					if (tagNumber == -1) {
-						ret += "if (" + tempRef + "." + "tau == -1){\n";
-						ret += tempRef + "." + "tau = " + origMonitor + ".tau" + ";\n";
+						ret += "if (" + tempRef + "." + "getTau() == -1){\n";
+						ret += tempRef + "." + "setTau(" + origMonitor + ".tau" + ");\n";
 						ret += "}\n";
 					} else {
-						ret += "if (" + tempRef + "." + "tau[" + tagNumber + "] == -1){\n";
-						ret += tempRef + "." + "tau[" + tagNumber + "] = " + origMonitor + ".tau" + ";\n";
+						ret += "if (" + tempRef + "." + "getTau(" + tagNumber + ") == -1){\n";
+						ret += tempRef + "." + "setTau(" + tagNumber + ", " + origMonitor + ".tau" + ");\n";
 						ret += "}\n";
 					}
 				}
@@ -529,12 +523,12 @@ public class GeneralAdviceBody extends AdviceBody {
 				continue;
 
 			if (tagNumber == -1) {
-				ret += "if (" + tempRef + "." + "tau == -1){\n";
-				ret += tempRef + "." + "tau = " + timestamp + ";\n";
+				ret += "if (" + tempRef + "." + "getTau() == -1){\n";
+				ret += tempRef + "." + "setTau(" + timestamp + ");\n";
 				ret += "}\n";
 			} else {
-				ret += "if (" + tempRef + "." + "tau[" + tagNumber + "] == -1){\n";
-				ret += tempRef + "." + "tau[" + tagNumber + "] = " + timestamp + ";\n";
+				ret += "if (" + tempRef + "." + "getTau(" + tagNumber + ") == -1){\n";
+				ret += tempRef + "." + "setTau(" + tagNumber + ", " + timestamp + ");\n";
 				ret += "}\n";
 			}
 		}
@@ -601,9 +595,8 @@ public class GeneralAdviceBody extends AdviceBody {
 
 		return ret;
 	}
-
-	// opt done
-	public String getTempRefDisable(RVMParameter p) {
+	
+	private String generateDisablePropertyAccessCode(RVMParameter p, boolean issetting, String rhs) {
 		String ret = "";
 
 		RefTree refTree = getRefTree(p);
@@ -614,15 +607,36 @@ public class GeneralAdviceBody extends AdviceBody {
 			RVMVariable tempRef = localVars.getTempRef(p);
 
 			int tagNumber = refTree.getTagNumber(mopSpec);
-
-			if (tagNumber == -1) {
-				ret += tempRef + "." + "disable";
-			} else {
-				ret += tempRef + "." + "disable[" + tagNumber + "]";
+			
+			ret += tempRef;
+			ret += ".";
+			if (issetting)
+				ret += "setDisabled(";
+			else
+				ret += "getDisabled(";
+			
+			if (tagNumber != -1)
+				ret += tagNumber;
+			
+			if (issetting) {
+				if (tagNumber != -1)
+					ret += ", ";
+				ret += rhs;
 			}
+			
+			ret += ")";
 		}
 
 		return ret;
+	}
+
+	// opt done
+	public String getTempRefDisable(RVMParameter p) {
+		return this.generateDisablePropertyAccessCode(p, false, null);
+	}
+	
+	public String setTempRefDisable(RVMParameter p, String rhs) {
+		return this.generateDisablePropertyAccessCode(p, true, rhs);
 	}
 	
 	public String getTempRefTau(RVMParameter p) {
@@ -638,9 +652,9 @@ public class GeneralAdviceBody extends AdviceBody {
 			int tagNumber = refTree.getTagNumber(mopSpec);
 
 			if (tagNumber == -1) {
-				ret += tempRef + "." + "tau";
+				ret += tempRef + "." + "getTau()";
 			} else {
-				ret += tempRef + "." + "tau[" + tagNumber + "]";
+				ret += tempRef + "." + "getTau(" + tagNumber + ")";
 			}
 		}
 
@@ -662,7 +676,7 @@ public class GeneralAdviceBody extends AdviceBody {
 				if (!refTree.isTagging())
 					continue;
 
-				ret += getTempRefDisable(p) + " = " + timestamp + ";\n";
+				ret += setTempRefDisable(p, timestamp.getVarName()) + ";\n";
 			}
 		}
 
@@ -764,7 +778,7 @@ public class GeneralAdviceBody extends AdviceBody {
 			
 			for (RVMParameter p : this.eventParams) {
 				RVMVariable tempRef = localVars.getTempRef(p);
-				cacheResultCondition += " && " + tempRef + " != " + getRefTree(p).getType() + ".NULRef";
+				cacheResultCondition += " && " + tempRef + " != null";
 			}
 		}
 

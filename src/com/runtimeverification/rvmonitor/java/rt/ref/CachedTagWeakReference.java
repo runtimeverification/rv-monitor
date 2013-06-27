@@ -5,7 +5,7 @@ public class CachedTagWeakReference extends CachedWeakReference {
   	private long disabled = -1;
 	private long tau = -1;
 	
-	public long isDiabled() {
+	public long getDisabled() {
 		return this.disabled;
 	}
 	

@@ -14,4 +14,16 @@ public class CachedWeakReference extends WeakReference<Object> {
 	public int hashCode() {
 		return this.hashval;
 	}
+	
+	@Override
+	public String toString() {
+		Object ref = this.get();
+		if (ref == null)
+			return "nil";
+		
+		String r = ref.getClass().getSimpleName();
+		r += "#";
+		r += String.format("%03x", this.hashval & 0xFFF);
+		return r;
+	}
 }

@@ -1,10 +1,10 @@
 package com.runtimeverification.rvmonitor.java.rt.table;
 
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedMultiTagWeakReference;
-import com.runtimeverification.rvmonitor.java.rt.tablebase.IIndexingTree;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.IMonitor;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IWeakRefTableOperation;
 
-public class MultiTagRefMapOfMonitor<TLeaf extends IIndexingTree> extends AbstractMapOfMonitor<CachedMultiTagWeakReference, TLeaf> implements IWeakRefTableOperation<CachedMultiTagWeakReference> {
+public class MultiTagRefMapOfMonitor<TLeaf extends IMonitor> extends AbstractMapOfMonitor<CachedMultiTagWeakReference, TLeaf> implements IWeakRefTableOperation<CachedMultiTagWeakReference> {
 	private final int taglen;
 	
 	public MultiTagRefMapOfMonitor(int treeid) {

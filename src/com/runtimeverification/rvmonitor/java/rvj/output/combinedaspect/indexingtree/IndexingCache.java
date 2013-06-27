@@ -71,8 +71,10 @@ public class IndexingCache {
 				ret += " && ";
 			}
 			if (perthread) {
-				ret += param.get(i).getName() + " == " + "((" + getKeyType(param.get(i)) + ")" + getKey(i) + ".get()).get()";
+				ret += getKey(i) + ".get() != null && ";
+				ret += param.get(i).getName() + " == " + getKey(i) + ".get().get()";
 			} else {
+				ret += getKey(i) + " != null && ";
 				ret += param.get(i).getName() + " == " + getKey(i) + ".get()";
 			}
 		}
@@ -89,7 +91,7 @@ public class IndexingCache {
 			ret += tempRef + " = ";
 
 			if (perthread) {
-				ret += "(" + getKeyType(p) + ")" + getKey(p) + ".get();\n";
+				ret += getKey(p) + ".get();\n";
 			} else {
 				ret += getKey(p) + ";\n";
 			}
@@ -105,7 +107,7 @@ public class IndexingCache {
 			return ret;
 
 		if (perthread) {
-			ret += obj + " = " + "(" + setType + ")" + set + ".get();\n";
+			ret += obj + " = " + set + ".get();\n";
 		} else {
 			ret += obj + " = " + set + ";\n";
 		}
@@ -117,7 +119,7 @@ public class IndexingCache {
 		String ret = "";
 
 		if (perthread) {
-			ret += obj + " = " + "(" + nodeType + ")" + node + ".get();\n";
+			ret += obj + " = " + node + ".get();\n";
 		} else {
 			ret += obj + " = " + node + ";\n";
 		}
@@ -182,15 +184,15 @@ public class IndexingCache {
 			for (RVMParameter p : param) {
 				RVMVariable key = keys.get(p.getName());
 
-				ret += "static final ThreadLocal " + key + " = new ThreadLocal() {\n";
+				ret += "static final ThreadLocal<"+ getKeyType(p) + "> " + key + " = new ThreadLocal<" + getKeyType(p) + ">() {\n";
 				ret += "protected " + getKeyType(p) + " initialValue(){\n";
-				ret += "return " + getTreeType(p) + ".NULRef;\n";
+				ret += "return null;\n";
 				ret += "}\n";
 				ret += "};\n";
 			}
 			
 			if (hasSet) {
-				ret += "static final ThreadLocal " + set + " = new ThreadLocal() {\n";
+				ret += "static final ThreadLocal<" + setType + "> " + set + " = new ThreadLocal<" + setType + ">() {\n";
 				ret += "protected " + setType + " initialValue(){\n";
 				ret += "return null;\n";
 				ret += "}\n";
@@ -198,7 +200,7 @@ public class IndexingCache {
 			}
 
 			if (hasNode) {
-				ret += "static final ThreadLocal " + node + " = new ThreadLocal() {\n";
+				ret += "static final ThreadLocal<"+ nodeType + "> " + node + " = new ThreadLocal<" + nodeType + ">() {\n";
 				ret += "protected " + nodeType + " initialValue(){\n";
 				ret += "return null;\n";
 				ret += "}\n";
@@ -207,7 +209,7 @@ public class IndexingCache {
 		} else {
 			for (RVMParameter p : param) {
 				RVMVariable key = keys.get(p.getName());
-				ret += "static " + getKeyType(p) + " " + key + " = " + getTreeType(p) + ".NULRef;\n";
+				ret += "static " + getKeyType(p) + " " + key + " = null;\n";
 			}
 			if (hasSet) {
 				ret += "static " + setType + " " + set + " = null;\n";

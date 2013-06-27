@@ -1,10 +1,10 @@
 package com.runtimeverification.rvmonitor.java.rt.table;
 
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
-import com.runtimeverification.rvmonitor.java.rt.tablebase.IIndexingTree;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.IMonitor;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IWeakRefTableOperation;
 
-public class BasicRefMapOfMonitor<TLeaf extends IIndexingTree> extends AbstractMapOfMonitor<CachedWeakReference, TLeaf> implements IWeakRefTableOperation<CachedWeakReference> {
+public class BasicRefMapOfMonitor<TLeaf extends IMonitor> extends AbstractMapOfMonitor<CachedWeakReference, TLeaf> implements IWeakRefTableOperation<CachedWeakReference> {
 	public BasicRefMapOfMonitor(int treeid) {
 		super(treeid);
 	}

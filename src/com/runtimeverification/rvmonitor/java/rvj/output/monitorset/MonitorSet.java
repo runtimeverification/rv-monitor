@@ -126,9 +126,7 @@ public class MonitorSet {
 		RVMVariable i = new RVMVariable("i");
 		// elementData and size are safe since they will be accessed by the prefix "this.".
 
-		ret += "class " + setName + " extends com.runtimeverification.rvmonitor.java.rt.RVMSet {\n";
-		ret += "protected " + monitorName + "[] elementData;\n";
-//		ret += "int size;\n";
+		ret += "class " + setName + " extends com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitorSet<" + monitorName + "> {\n";
 
 //		if (has__LOC)
 //			ret += "String " + loc + " = null;\n";
@@ -150,131 +148,8 @@ public class MonitorSet {
 
 		ret += setName + "(){\n";
 		ret += "this.size = 0;\n";
-		ret += "this.elementData = new " + monitorName + "[4];\n";
+		ret += "this.elements = new " + monitorName + "[4];\n";
 		ret += "}\n";
-		ret += "\n";
-
-		ret += "public final int size(){\n";
-		ret += "while(size > 0 && elementData[size-1].RVM_terminated) {\n";
-		ret += "elementData[--size] = null;\n";
-		ret += "}\n";
-		ret += "return size;\n";
-		ret += "}\n";
-		ret += "\n";
-
-		ret += "public final boolean add(RVMMonitor e){\n";
-		ret += "ensureCapacity();\n";
-		ret += "elementData[size++] = (" + monitorName + ")e;\n";
-		ret += "return true;\n";
-		ret += "}\n";
-		ret += "\n";
-
-		ret += "public final void endObject(int idnum){\n";
-		ret += "int numAlive = 0;\n";
-		ret += "for(int i = 0; i < size; i++){\n";
-		ret += monitorName + " monitor = elementData[i];\n";
-		ret += "if(!monitor.RVM_terminated){\n";
-		ret += "monitor.endObject(idnum);\n";
-		ret += "}\n";
-		ret += "if(!monitor.RVM_terminated){\n";
-		ret += "elementData[numAlive++] = monitor;\n";
-		ret += "}\n";
-		ret += "}\n";
-		ret += "for(int i = numAlive; i < size; i++){\n";
-		ret += "elementData[i] = null;\n";
-		ret += "}\n";
-		ret += "size = numAlive;\n";
-		ret += "}\n";
-		ret += "\n";
-
-		ret += "public final boolean alive(){\n";
-		ret += "for(int i = 0; i < size; i++){\n";
-		ret += "RVMMonitor monitor = elementData[i];\n";
-		ret += "if(!monitor.RVM_terminated){\n";
-		ret += "return true;\n";
-		ret += "}\n";
-		ret += "}\n";
-		ret += "return false;\n";
-		ret += "}\n";
-		ret += "\n";
-
-		ret += "public final void endObjectAndClean(int idnum){\n";
-		ret += "int size = this.size;\n";
-		ret += "this.size = 0;\n";
-		ret += "for(int i = size - 1; i >= 0; i--){\n";
-		ret += "RVMMonitor monitor = elementData[i];\n";
-		ret += "if(monitor != null && !monitor.RVM_terminated){\n";
-		ret += "monitor.endObject(idnum);\n";
-		ret += "}\n";
-		ret += "elementData[i] = null;\n";
-		ret += "}\n";
-		ret += "elementData = null;\n";
-		ret += "}\n";
-		ret += "\n";
-
-		ret += "public final void ensureCapacity() {\n";
-		ret += "int oldCapacity = elementData.length;\n";
-		ret += "if (size + 1 > oldCapacity) {\n";
-		ret += "cleanup();\n";
-		ret += "}\n";
-		ret += "if (size + 1 > oldCapacity) {\n";
-		ret += monitorName + "[] oldData = elementData;\n";
-		ret += "int newCapacity = (oldCapacity * 3) / 2 + 1;\n";
-		ret += "if (newCapacity < size + 1){\n";
-		ret += "newCapacity = size + 1;\n";
-		ret += "}\n";
-		ret += "elementData = Arrays.copyOf(oldData, newCapacity);\n";
-		ret += "}\n";
-		ret += "}\n";
-		ret += "\n";
-
-//		ret += "final void cleanup() {\n";
-//		ret += "int num_terminated_monitors = 0 ;\n";
-//		ret += "for(int i = 0; i + num_terminated_monitors < size; i ++){\n";
-//		ret += monitorName + " monitor = ";
-//		ret += "(" + monitorName + ")elementData[i + num_terminated_monitors];\n";
-//		ret += "if(monitor.RVM_terminated){\n";
-//		ret += "if(i + num_terminated_monitors + 1 < size){\n";
-//		ret += "do{\n";
-//		ret += "monitor = (" + monitorName + ")elementData[i + (++num_terminated_monitors)];\n";
-//		ret += "} while(monitor.RVM_terminated && i + num_terminated_monitors + 1 < size);\n";
-//		ret += "if(monitor.RVM_terminated){\n";
-//		ret += "num_terminated_monitors++;\n";
-//		ret += "break;\n";
-//		ret += "}\n";
-//		ret += "} else {\n";
-//		ret += "num_terminated_monitors++;\n";
-//		ret += "break;\n";
-//		ret += "}\n";
-//		ret += "}\n";
-//		ret += "if(num_terminated_monitors != 0){\n";
-//		ret += "elementData[i] = monitor;\n";
-//		ret += "}\n";
-//		ret += "}\n";
-//		ret += "if(num_terminated_monitors != 0){\n";
-//		ret += "size -= num_terminated_monitors;\n";
-//		ret += "for(int i = size; i < size + num_terminated_monitors ; i++){\n";
-//		ret += "elementData[i] = null;\n";
-//		ret += "}\n";
-//		ret += "}\n";
-//		ret += "}\n";
-
-		ret += "final void cleanup() {\n";
-		ret += "int numAlive = 0 ;\n";
-		ret += "for(int i = 0; i < size; i++){\n";
-		ret += monitorName + " monitor = ";
-		ret += "(" + monitorName + ")elementData[i];\n";
-		ret += "if(!monitor.RVM_terminated){\n";
-		ret += "elementData[numAlive] = monitor;\n";
-		ret += "numAlive++;\n";
-		ret += "}\n";
-		ret += "}\n";
-		ret += "for(int i = numAlive; i < size; i++){\n";
-		ret += "elementData[i] = null;\n";
-		ret += "}\n";
-		ret += "size = numAlive;\n";
-		ret += "}\n";
-
 
 		for (EventDefinition event : this.events) {
 			String eventName = event.getId();
@@ -294,9 +169,9 @@ public class MonitorSet {
 
 			ret += "int " + numAlive + " = 0 ;\n";
 			ret += "for(int " + i + " = 0; " + i + " < this.size; " + i + "++){\n";
-			ret += monitorName + " " + monitor + " = (" + monitorName + ")this.elementData[" + i + "];\n";
-			ret += "if(!" + monitor + ".RVM_terminated){\n";
-			ret += "elementData[" + numAlive + "] = " + monitor + ";\n";
+			ret += monitorName + " " + monitor + " = this.elements[" + i + "];\n";
+			ret += "if(!" + monitor + ".isTerminated()){\n";
+			ret += "elements[" + numAlive + "] = " + monitor + ";\n";
 			ret += numAlive + "++;\n";
 			ret += "\n";
 			ret += this.monitor.Monitoring(monitor, event, loc, staticsig, this.monitorLock, this.monitor.getAspectName(), true);
@@ -304,7 +179,7 @@ public class MonitorSet {
 			ret += "}\n";
 
 			ret += "for(int " + i + " = " + numAlive + "; " + i + " < this.size; " + i + "++){\n";
-			ret += "this.elementData[" + i + "] = null;\n";
+			ret += "this.elements[" + i + "] = null;\n";
 			ret += "}\n";
 			ret += "size = numAlive;\n";
 			ret += "}\n";

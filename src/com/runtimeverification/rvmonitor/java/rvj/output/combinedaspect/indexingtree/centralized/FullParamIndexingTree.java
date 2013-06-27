@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexin
 import java.util.HashMap;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.output.RVMTypedVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.LocalVariables;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingCache;
@@ -44,64 +45,64 @@ public class FullParamIndexingTree extends IndexingTree {
 		return queryParam.get(queryParam.size() - 1);
 	}
 
-	protected String lookupIntermediateCreative(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i) {
+	protected String lookupIntermediateCreative(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i) {
 		String ret = "";
 
-		RVMVariable obj = localVars.get("obj");
-		RVMVariable tempMap = localVars.get("tempMap");
+		RVMTypedVariable tempMap = localVars.getTempMap();
+		RVMTypedVariable obj = localVars.createObj(tempMap, IndexingTreeInterface.Map);
 
 		RVMParameter p = queryParam.get(i);
 		RVMVariable tempRef = localVars.getTempRef(p);
 
-		ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
 		RVMParameter nextP = queryParam.get(i + 1);
 
 		ret += "if (" + obj + " == null) {\n";
 
-		if (i == queryParam.size() - 2){
-			ret += obj + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor(" + fullParam.getIdnum(nextP) + ");\n";
-		} else {
-			if(isGeneral){
-				ret += obj + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfAll(" + fullParam.getIdnum(nextP) + ");\n";
-			} else {
-				ret += obj + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMapSet(" + fullParam.getIdnum(nextP) + ");\n";
-			}
-		}
+		ret += obj + " = new " + obj.getType() + "(" + fullParam.getIdnum(nextP) + ");\n";
 		
 		ret += tempMap + ".putMap(" + tempRef + ", " + obj + ");\n";
 		ret += "}\n";
 
 		if (i == queryParam.size() - 2) {
-			ret += lastMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
-			ret += lookupNodeLast(localVars, monitor, lastMap, lastSet, i + 1, true);
+			RVMTypedVariable.Pair pair = localVars.createOrFindMap(lastMapStr, obj.getType());
+			if (pair.isCreated())
+				ret += pair.getVariable().getType() + " ";	
+			ret += pair.getVariable() + " = " + obj + ";\n";	
+			ret += lookupNodeLast(localVars, monitor, lastMapStr, lastSet, i + 1, true);
 		} else {
-			ret += tempMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
-			ret += lookupIntermediateCreative(localVars, monitor, lastMap, lastSet, i + 1);
+			RVMTypedVariable var = localVars.createTempMap(obj.getType());
+			ret += var.getType() + " " + var.getName() + " = " + obj + ";\n";
+			ret += lookupIntermediateCreative(localVars, monitor, lastMapStr, lastSet, i + 1);
 		}
 
 		return ret;
 	}
 	
-	protected String lookupIntermediateNonCreative(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i) {
+	protected String lookupIntermediateNonCreative(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i) {
 		String ret = "";
 
-		RVMVariable obj = localVars.get("obj");
-		RVMVariable tempMap = localVars.get("tempMap");
+		RVMTypedVariable tempMap = localVars.getTempMap();
+		RVMTypedVariable obj = localVars.createObj(tempMap, IndexingTreeInterface.Map);
 
 		RVMParameter p = queryParam.get(i);
 		RVMVariable tempRef = localVars.getTempRef(p);
 
-		ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
 		ret += "if (" + obj + " != null) {\n";
 
 		if (i == queryParam.size() - 2) {
-			ret += lastMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
-			ret += lookupNodeLast(localVars, monitor, lastMap, lastSet, i + 1, false);
+			RVMTypedVariable.Pair pair = localVars.createOrFindMap(lastMapStr, obj.getType());
+			if (pair.isCreated())
+				ret += pair.getVariable().getType() + " ";	
+			ret += pair.getVariable() + " = " + obj + ";\n";			
+			ret += lookupNodeLast(localVars, monitor, lastMapStr, lastSet, i + 1, false);
 		} else {
-			ret += tempMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
-			ret += lookupIntermediateNonCreative(localVars, monitor, lastMap, lastSet, i + 1);
+			RVMTypedVariable var = localVars.createTempMap(obj.getType());
+			ret += var.getType() + " " + var.getName() + " = " + obj + ";\n";
+			ret += lookupIntermediateNonCreative(localVars, monitor, lastMapStr, lastSet, i + 1);
 		}
 
 		ret += "}\n";
@@ -109,13 +110,14 @@ public class FullParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 	
-	protected String lookupNodeLast(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i, boolean creative) {
+	protected String lookupNodeLast(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i, boolean creative) {
 		String ret = "";
 
 		RVMParameter p = queryParam.get(i);
 		RVMVariable tempRef = localVars.getTempRef(p);
+		RVMTypedVariable lastMap = localVars.getMap(lastMapStr);
 
-		ret += monitor + " = " + "(" + monitorClass.getOutermostName() + ")" + lastMap + ".getNode(" + tempRef + ");\n";
+		ret += monitor + " = " + lastMap + ".getLeaf(" + tempRef + ");\n";
 
 		return ret;
 	}
@@ -124,19 +126,21 @@ public class FullParamIndexingTree extends IndexingTree {
 		String ret = "";
 
 		RVMVariable monitor = localVars.get(monitorStr);
-		RVMVariable lastMap = localVars.get(lastMapStr);
 
 		if (queryParam.size() == 1) {
-			ret += lastMap + " = " + retrieveTree() + ";\n";
-			ret += lookupNodeLast(localVars, monitor, lastMap, null, 0, creative);
+			RVMTypedVariable.Pair pair = localVars.createOrFindMap(lastMapStr, this.getTreeType());
+			if (pair.isCreated())
+				ret += pair.getVariable().getType() + " ";
+			ret += pair.getVariable() + " = " + retrieveTree() + ";\n";
+			ret += lookupNodeLast(localVars, monitor, lastMapStr, null, 0, creative);
 		} else {
-			RVMVariable tempMap = localVars.get("tempMap");
-			ret += tempMap + " = " + retrieveTree() + ";\n";
+			RVMTypedVariable tempMap = localVars.createTempMap(this.getTreeType());
+			ret += tempMap.getType().toString() + " " + tempMap.getName() + " = " + retrieveTree() + ";\n";
 
 			if (creative) {
-				ret += lookupIntermediateCreative(localVars, monitor, lastMap, null, 0);
+				ret += lookupIntermediateCreative(localVars, monitor, lastMapStr, null, 0);
 			} else {
-				ret += lookupIntermediateNonCreative(localVars, monitor, lastMap, null, 0);
+				ret += lookupIntermediateNonCreative(localVars, monitor, lastMapStr, null, 0);
 			}
 		}
 
@@ -159,11 +163,10 @@ public class FullParamIndexingTree extends IndexingTree {
 		RVMVariable tempRef = localVars.getTempRef(getLastParam());
 
 		if (queryParam.size() == 1) {
-			ret += retrieveTree() + ".putNode(" + tempRef + ", " + monitor + ");\n";
+			ret += retrieveTree() + ".putLeaf(" + tempRef + ", " + monitor + ");\n";
 		} else {
-			RVMVariable lastMap = localVars.get(lastMapStr);
-
-			ret += lastMap + ".putNode(" + tempRef + ", " + monitor + ");\n";
+			RVMTypedVariable var = localVars.getMap(lastMapStr);
+			ret += var + ".putLeaf(" + tempRef + ", " + monitor + ");\n";
 		}
 
 		return ret;
@@ -176,49 +179,35 @@ public class FullParamIndexingTree extends IndexingTree {
 	public String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr){
 		String ret = "";
 
-		RVMVariable obj = localVars.get("obj");
-		RVMVariable tempMap = localVars.get(tempMapStr);
+		RVMTypedVariable tempMap = localVars.createTempMap(this.getTreeType());
+
 		RVMVariable monitor = localVars.get(monitorStr);
 
-		ret += tempMap + " = " + retrieveTree() + ";\n";
+		ret += tempMap.getType() + " " + tempMap.getName() + " = " + retrieveTree() + ";\n";
 
 		for (int i = 0; i < queryParam.size() - 1; i++) {
 			RVMParameter p = queryParam.get(i);
 			RVMParameter nextp = queryParam.get(i + 1);
 			RVMVariable tempRef = localVars.getTempRef(p);
 
-			ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+			RVMTypedVariable obj = localVars.createObj(tempMap, IndexingTreeInterface.Map);
+			ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
 			ret += "if (" + obj + " == null) {\n";
 
-			if (i == queryParam.size() - 2) {
-				ret += obj + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor(" + fullParam.getIdnum(nextp) + ");\n";
-			} else {
-				if(isGeneral)
-					ret += obj + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfAll(" + fullParam.getIdnum(nextp) + ");\n";
-				else
-					ret += obj + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMapSet(" + fullParam.getIdnum(nextp) + ");\n";
-			}
-
+			ret += obj + " = new " + obj.getType() + "(" + fullParam.getIdnum(nextp) + ");\n";
 			ret += tempMap + ".putMap(" + tempRef + ", " + obj + ");\n";
 			ret += "}\n";
 
-			ret += tempMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
- 		}
+			tempMap = localVars.createTempMap(obj.getType());
+			ret += tempMap.getType() + " " + tempMap.getName() + " = " + obj.getName() + ";\n";
+		}
 
 		RVMParameter p = getLastParam();
 		RVMVariable tempRef = localVars.getTempRef(p);
 
-		ret += tempMap + ".putNode(" + tempRef + ", " + monitor + ");\n";
+		ret += tempMap + ".putLeaf(" + tempRef + ", " + monitor + ");\n";
 
-//		if(cache != null){
-//			ret += cache.setCacheKeys(localVars);
-//			
-//			if (cache.hasNode){
-//				ret += cache.setCacheNode(monitor);
-//			}
-//		}
-		
 		return ret;
 	}
 
@@ -233,12 +222,7 @@ public class FullParamIndexingTree extends IndexingTree {
 		
 		if (perthread) {
 			String ret = "";
-
-			ret += "(";
-			ret += "(com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)";
 			ret += name + ".get()";
-			ret += ")";
-
 			return ret;
 
 		} else {
@@ -255,43 +239,7 @@ public class FullParamIndexingTree extends IndexingTree {
 		if(parasiticRefTree == null)
 			return ret;
 		
-		if(isGeneral){
-			if (queryParam.size() == 1) {
-				if (parasiticRefTree.generalProperties.size() == 0) {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMBasicRefMapOfMonitor";
-				} else if (parasiticRefTree.generalProperties.size() == 1) {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMTagRefMapOfMonitor";
-				} else {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMMultiTagRefMapOfMonitor";
-				}
-			} else {
-				if (parasiticRefTree.generalProperties.size() == 0) {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMBasicRefMapOfAll";
-				} else if (parasiticRefTree.generalProperties.size() == 1) {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMTagRefMapOfAll";
-				} else {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMMultiTagRefMapOfAll";
-				}
-			}
-		} else {
-			if (queryParam.size() == 1) {
-				if (parasiticRefTree.generalProperties.size() == 0) {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMBasicRefMapOfMonitor";
-				} else if (parasiticRefTree.generalProperties.size() == 1) {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMTagRefMapOfMonitor";
-				} else {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMMultiTagRefMapOfMonitor";
-				}
-			} else {
-				if (parasiticRefTree.generalProperties.size() == 0) {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMBasicRefMapOfMapSet";
-				} else if (parasiticRefTree.generalProperties.size() == 1) {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMTagRefMapOfMapSet";
-				} else {
-					ret = "com.runtimeverification.rvmonitor.java.rt.map.RVMMultiTagRefMapOfMapSet";
-				}
-			}
-		}
+		ret = this.getTreeType().toString();
 		
 		return ret;
 	}
@@ -301,43 +249,19 @@ public class FullParamIndexingTree extends IndexingTree {
 
 		if(parentTree == null){
 			if (perthread) {
-				ret += "static final ThreadLocal " + name + " = new ThreadLocal() {\n";
-				ret += "protected Object initialValue(){\n";
-				ret += "return ";
-	
-				if (queryParam.size() == 1) {
-					ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
-				} else {
-					if(isGeneral)
-						ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfAll(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
-					else
-						ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMapSet(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
-				}
+				String type = this.getTreeType().toString();
+				ret += "static final ThreadLocal<" + type + ">" + name + " = new ThreadLocal<" + type + ">() {\n";
+				ret += "protected " + type + " initialValue(){\n";
+				ret += "return new " + type + "(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
 				
 				ret += "}\n";
 				ret += "};\n";
 			} else {
-				if(parasiticRefTree == null){
-					if(isGeneral){
-						if (queryParam.size() == 1) {
-							ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap " + name + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
-						} else {
-							ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap " + name + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfAll(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
-						}
-					} else {
-						if (queryParam.size() == 1) {
-							ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap " + name + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
-						} else {
-							ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap " + name + " = new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMapSet(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
-						}
-					}
-				} else {
-					if(parasiticRefTree.generalProperties.size() <= 1){
-						ret += "static " + getRefTreeType() + " " + name + " = new " + getRefTreeType() + "(" + fullParam.getIdnum(queryParam.get(0)) + ");\n";
-					} else {
-						ret += "static " + getRefTreeType() + " " + name + " = new " + getRefTreeType() + "(" + fullParam.getIdnum(queryParam.get(0)) + ", " + parasiticRefTree.generalProperties.size() + ");\n";
-					}
-				}
+				String type = this.getTreeType().toString();
+				ret += "static " + type + " " + name + " = new " + type + "(" + fullParam.getIdnum(queryParam.get(0));
+				if (parasiticRefTree != null && parasiticRefTree.generalProperties.size() > 1)
+					ret += ", " + parasiticRefTree.generalProperties.size();
+				ret += ");\n";
 			}
 		}
 		

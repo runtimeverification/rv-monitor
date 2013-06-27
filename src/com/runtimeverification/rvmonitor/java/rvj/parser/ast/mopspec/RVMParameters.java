@@ -31,6 +31,13 @@ public class RVMParameters implements Iterable<RVMParameter> {
 			}
 		}
 	}
+	
+	public RVMParameters tail() {
+		ArrayList<RVMParameter> tailparams = new ArrayList<RVMParameter>();
+		for (int i = 1; i < this.parameters.size(); ++i)
+			tailparams.add(this.parameters.get(i));
+		return new RVMParameters(tailparams);
+	}
 
 	public void add(RVMParameter p) {
 		if (this.getParam(p.getName()) == null) {
