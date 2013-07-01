@@ -159,7 +159,7 @@ LTLFormula UnaryFormula() : {
 }
 {
   "(" subFormula = Formula() ")" {return subFormula;}
-  | "not" subFormula = UnaryFormula() {return new Negation(subFormula);}
+  | ("not" | "!") subFormula = UnaryFormula() {return new Negation(subFormula);}
   | "o"   subFormula = UnaryFormula() {return new Next(subFormula);}
   | "~o"  subFormula = UnaryFormula() {return new DualNext(subFormula);}
   | "(*)" subFormula = UnaryFormula() {return new Previously(subFormula);}
