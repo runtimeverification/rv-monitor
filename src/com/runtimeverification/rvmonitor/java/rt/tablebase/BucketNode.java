@@ -73,20 +73,35 @@ class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeV
 		BucketNode<TWeakRef, TValue> prev = null;
 		for (BucketNode<TWeakRef, TValue> node = this.head; node != null; node = node.getNext()) {
 			if (node.isKeyReclaimed()) {
-				if (prev == null)
-					this.head = node.getNext();
-				else
-					prev.setNext(node.getNext());
+				this.removeNode(prev, node);
+				++removed;
 				
 				if (terminateValue)
 					this.terminateValue(node, treeid);
-	
+			}
+			/*
+			 * The old code, written before being refactored, had another conditional statement
+			 * that would be almost equivalent to the following code. I seriously doubt if this
+			 * is correct because of two reasons. First, there are some inconsistency among many
+			 * indexing trees. Second, when the same indexing tree is accessed for different
+			 * objects, the 'last' value will be modified and, consequently, a totally alive node
+			 * can be eliminated.
+			else if (node.getValue() != null && node.getValue().checkTerminatedWhileCleaningUp()) {
+				this.removeNode(prev, node);
 				++removed;
 			}
+			*/
 			else
 				prev = node;
 		}
 		return removed;
+	}
+	
+	private void removeNode(BucketNode<TWeakRef, TValue> prev, BucketNode<TWeakRef, TValue> node) {
+		if (prev == null)
+			this.head = node.getNext();
+		else
+			prev.setNext(node.getNext());
 	}
 	
 	public final void terminateValues(int treeid) {

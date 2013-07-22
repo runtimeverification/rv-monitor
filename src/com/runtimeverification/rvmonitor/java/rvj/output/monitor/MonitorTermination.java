@@ -59,6 +59,7 @@ public class MonitorTermination {
 	}
 	
 	public String toString(){
+		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
 		int step = 0;
 		String ret = "";
 
@@ -74,7 +75,7 @@ public class MonitorTermination {
 		ret += "\n";
 
 		ret += "@Override\n";
-		ret += "protected final void terminateInternal(int idnum){\n";
+		ret += "protected" + synch + "final void terminateInternal(int idnum) {\n";
 
 		ret += "switch(idnum){\n";
 		for (int i = 0; i < parameters.size(); i++) {

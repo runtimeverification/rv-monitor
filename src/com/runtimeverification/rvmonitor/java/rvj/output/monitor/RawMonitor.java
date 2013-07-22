@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.*;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
@@ -164,6 +165,7 @@ public class RawMonitor extends Monitor{
 	}
 
 	public String toString() {
+		String synch = Main.useFineGrainedLock ? " synchronized " : " ";		
 		String ret = "";
 	
 		ret += "class " + monitorName;
@@ -204,7 +206,7 @@ public class RawMonitor extends Monitor{
 		}
 		
 		//reset
-		ret += "final void reset() {\n";
+		ret += "final" + synch + "void reset() {\n";
 		if (isOutermost) {
 			ret += lastevent + " = -1;\n";
 		}

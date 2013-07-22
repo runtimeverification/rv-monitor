@@ -2,6 +2,7 @@ package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
 import java.util.ArrayList;
 
+import com.runtimeverification.rvmonitor.java.rt.RuntimeOption;
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 
 class WeakRefHashTableCleanerConfig {
@@ -32,7 +33,7 @@ class WeakRefHashTableCleaner {
 	private final WeakRefHashTableCleanerConfig config;
 	
 	private long numElements;
-	private int partialCleanUpCursor = -1;
+	private int partialCleanUpCursor;
 	
 	private long numElementsThreshold;
 	
@@ -46,6 +47,9 @@ class WeakRefHashTableCleaner {
 	
 	private WeakRefHashTableCleaner(WeakRefHashTableCleanerConfig config) {
 		this.config = config;
+		this.numElements = 0;
+		this.partialCleanUpCursor = -1;
+		this.updateThreshold(this.config.DEFAULT_CAPACITY);
 	}
 	
 	public static WeakRefHashTableCleaner forIndexingTree() {
@@ -71,13 +75,16 @@ class WeakRefHashTableCleaner {
 			if (this.numElements >= bucketsize / 2) {
 				int newsize = Math.min(this.config.MAXIMUM_CAPACITY, bucketsize * 2);
 				table.setBucketSize(newsize);
-	
-				this.numElementsThreshold = (long)(newsize * this.config.DEFAULT_LOAD_FACTOR);
+				this.updateThreshold(newsize);
 			}
 		}
 		else if (this.numElements >= this.config.DEFAULT_CLEANUP_THRESHOLD && this.numElements >= bucketsize / 8) {
 			this.partialCleanUpCursor = table.cleanUpUnnecessaryMappings(true, this.config.NUM_PARTIAL_CLEANUP_UNIT, this.partialCleanUpCursor);
 		}
+	}
+	
+	private void updateThreshold(int bucketsize) {
+		this.numElementsThreshold = (long)(bucketsize * this.config.DEFAULT_LOAD_FACTOR);
 	}
 }
  
@@ -97,10 +104,13 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 		this.cleaner = cleaner;
 
 		this.setBucketSize(this.cleaner.getDefaultCapacity());
-		this.cacheWeakRef = new CacheEntry<TWeakRef, TValue>();
+		if (RuntimeOption.isFineGrainedLockEnabled())
+			this.cacheWeakRef = new ThreadLocalCacheEntry<TWeakRef, TValue>();
+		else
+			this.cacheWeakRef = new OrdinaryCacheEntry<TWeakRef, TValue>();
 	}
 	
-	protected final BucketNode<TWeakRef, TValue> getNode(TWeakRef key) {
+	protected synchronized final BucketNode<TWeakRef, TValue> getNode(TWeakRef key) {
 		Bucket<TWeakRef, TValue> bucket = this.getBucket(key);
 		for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
 			TWeakRef wref = node.getKey();
@@ -110,7 +120,7 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 		return null;
 	}
 	
-	private final void putNodeInternal(TWeakRef key, TValue value, boolean additive, int valueflag) {
+	private synchronized final void putNodeInternal(TWeakRef key, TValue value, boolean additive, int valueflag) {
 		Bucket<TWeakRef, TValue> bucket = this.getBucket(key);
 		for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
 			TWeakRef wref = node.getKey();
@@ -141,26 +151,29 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 			return weakref;
 
 		int hashval = System.identityHashCode(key);
-		Bucket<TWeakRef, TValue> bucket = this.getBucket(hashval);
-		for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
-			TWeakRef wref = node.getKey();
-			if (key == wref.get()) {
-				this.cacheWeakRef.set(key, node);
-				return node.getKey();
+		
+		synchronized (this) {
+			Bucket<TWeakRef, TValue> bucket = this.getBucket(hashval);
+			for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
+				TWeakRef wref = node.getKey();
+				if (key == wref.get()) {
+					this.cacheWeakRef.set(key, node);
+					return node.getKey();
+				}
 			}
-		}
+			
+			if (!create) {
+				this.cacheWeakRef.invalidate();
+				return null;
+			}
+			
+			weakref = this.createWeakRef(key, hashval);
+			BucketNode<TWeakRef, TValue> node = bucket.add(weakref, null);
+			this.cleaner.onElementAdded(this, this.buckets.size());
 		
-		if (!create) {
-			this.cacheWeakRef.invalidate();
-			return null;
+			this.cacheWeakRef.set(key, node);
+			return weakref;
 		}
-		
-		weakref = this.createWeakRef(key, hashval);
-		BucketNode<TWeakRef, TValue> node = bucket.add(weakref, null);
-		this.cleaner.onElementAdded(this, this.buckets.size());
-	
-		this.cacheWeakRef.set(key, node);
-		return weakref;
 	}
 	
 	protected abstract TWeakRef createWeakRef(Object key, int hashval);
@@ -182,6 +195,7 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 		return buckets.get(index);
 	}
 	
+	// The caller should synchronize this method.
 	void setBucketSize(int newsize) {
 		ArrayList<Bucket<TWeakRef, TValue>> newbuckets = new ArrayList<Bucket<TWeakRef, TValue>>(newsize);
 		for (int i = 0; i < newsize; ++i)
@@ -199,8 +213,10 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 		this.buckets = newbuckets;
 	}
 	
+	// The caller should synchronize this method.
 	protected abstract int cleanUpUnnecessaryMappingsInBucket(Bucket<TWeakRef, TValue> bucket);
 	
+	// The caller should synchronize this method.
 	int cleanUpUnnecessaryMappings(boolean partial, int limit, int cleancursor) {
 		if (partial) {
 			if (cleancursor < 0)
@@ -223,7 +239,7 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 		}
 	}
 	
-	protected void terminateValues(int treeid) {
+	protected synchronized void terminateValues(int treeid) {
 		for (Bucket<TWeakRef, TValue> bucket : this.buckets)
 			bucket.terminateValues(treeid);
 	}
@@ -245,27 +261,70 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 	}
 }
 
-class CacheEntry<TWeakRef extends CachedWeakReference, TValue> {
+abstract class CacheEntry<TWeakRef extends CachedWeakReference, TValue> {
+	public abstract Object getRef();
+	public abstract TWeakRef getWeakRef(Object key);
+	
+	public abstract void set(Object ref, BucketNode<TWeakRef, TValue> node);
+	public abstract void invalidate();
+	
+	protected CacheEntry() {
+	}
+}
+
+class OrdinaryCacheEntry<TWeakRef extends CachedWeakReference, TValue> extends CacheEntry<TWeakRef, TValue> {
 	private Object ref;
 	private TWeakRef weakref;
 	
+	@Override
 	public Object getRef() {
 		return this.ref;
 	}
 	
+	@Override
 	public TWeakRef getWeakRef(Object key) {
 		if (key == this.ref)
 			return this.weakref;
 		return null;
 	}
 	
+	@Override
 	public void set(Object ref, BucketNode<TWeakRef, TValue> node) {
 		this.ref = ref;
 		this.weakref = node.getKey();
 	}
 	
+	@Override
 	public void invalidate() {
 		this.ref = null;
 		this.weakref = null;
+	}
+}
+
+class ThreadLocalCacheEntry<TWeakRef extends CachedWeakReference, TValue> extends CacheEntry<TWeakRef, TValue> {
+	protected final ThreadLocal<OrdinaryCacheEntry<TWeakRef, TValue>> tls = new ThreadLocal<OrdinaryCacheEntry<TWeakRef, TValue>>() {
+		@Override protected OrdinaryCacheEntry<TWeakRef, TValue> initialValue() {
+			return new OrdinaryCacheEntry<TWeakRef, TValue>();
+		}
+	};
+	
+	@Override
+	public Object getRef() {
+		return this.tls.get().getRef();
+	}
+	
+	@Override
+	public TWeakRef getWeakRef(Object key) {
+		return this.tls.get().getWeakRef(key);
+	}
+	
+	@Override
+	public void set(Object ref, BucketNode<TWeakRef, TValue> node) {
+		this.tls.get().set(ref, node);
+	}
+	
+	@Override
+	public void invalidate() {
+		this.tls.get().invalidate();
 	}
 }

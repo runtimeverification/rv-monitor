@@ -55,6 +55,8 @@ public class Main {
 	public static boolean inline = false;
 
 	public static boolean scalable = false;
+	
+	public static boolean useFineGrainedLock = false;
 
 	static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
 		if(Main.outputDir != null){
@@ -345,6 +347,9 @@ public class Main {
 		System.out.println("    -noopt1\t\t\t  don't use the enable set optimization");
 		System.out.println("    -javalib\t\t\t  generate a java library rather than an AspectJ file");
 		System.out.println();
+		
+		System.out.println("    -finegrainedlock\t\t  use fine-grained lock for internal data structure");
+		System.out.println();
 
 		System.out.println("    -aspect:\"<command line>\"\t  compile the result right after it is generated");
 		System.out.println();
@@ -414,6 +419,8 @@ public class Main {
 				Main.empty_advicebody = true;
 			} else if (args[i].compareTo("-scalable") == 0) {
 				Main.scalable = true;
+			} else if (args[i].compareTo("-finegrainedlock") == 0) {
+				Main.useFineGrainedLock = true;
 			} else {
 				if (files.length() != 0)
 					files += ";";

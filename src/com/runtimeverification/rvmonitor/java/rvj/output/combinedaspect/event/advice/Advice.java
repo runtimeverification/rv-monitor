@@ -146,14 +146,19 @@ public class Advice {
 				ret += "Thread " + threadVar.getName() + " = Thread.currentThread();\n";
 			}
 
-			for(RVMonitorSpec spec : specsForActivation){
-				ret += activatorsManager.getActivator(spec) + " = true;\n";
+			if (Main.useFineGrainedLock) {
+				for (RVMonitorSpec spec : specsForActivation) {
+					ret += this.activatorsManager.setValue(spec, true);
+					ret += ";\n";
+				}				
 			}
-
-			if (isSync) {
-				ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
-				ret += "Thread.yield();\n";
-				ret += "}\n";
+			else {
+				for(RVMonitorSpec spec : specsForActivation){
+					ret += activatorsManager.setValue(spec, true);
+					ret += ";\n";
+				}
+				if (isSync)
+					ret += this.globalLock.getAcquireCode();
 			}
 
 			Iterator<EventDefinition> iter;
@@ -175,7 +180,7 @@ public class Advice {
 						ret += "//" + advice.mopSpec.getName() + "_" + event.getUniqueId() + "\n";
 					}
 
-					ret += "if (" + activatorsManager.getActivator(advice.mopSpec) + ") {\n";
+					ret += "if (" + activatorsManager.getValue(advice.mopSpec) + ") {\n";
 				} else {
 					if(advices.size() > 1){
 						ret += "//" + advice.mopSpec.getName() + "_" + event.getUniqueId() + "\n";
@@ -217,10 +222,10 @@ public class Advice {
 				}
 			}
 
-			if (isSync) {
-				ret += globalLock.getName() + ".unlock();\n";
+			if (!Main.useFineGrainedLock) {
+				if (isSync)
+					ret += this.globalLock.getReleaseCode();
 			}
-
 		}
 		
 		return ret;

@@ -8,7 +8,8 @@ public abstract class AbstractPureWeakRefTable<TWeakRef extends CachedWeakRefere
 	
 	@Override
 	protected int cleanUpUnnecessaryMappingsInBucket(Bucket<TWeakRef, Tuple0> bucket) {
-		return bucket.cleanUpUnnecessaryMappings(false, 0);
+		int removed = bucket.cleanUpUnnecessaryMappings(false, 0);
+		return removed;
 	}
 }
 

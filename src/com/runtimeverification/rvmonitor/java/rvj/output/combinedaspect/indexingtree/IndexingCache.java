@@ -2,6 +2,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexin
 
 import java.util.HashMap;
 
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.LocalVariables;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
@@ -74,8 +75,14 @@ public class IndexingCache {
 				ret += getKey(i) + ".get() != null && ";
 				ret += param.get(i).getName() + " == " + getKey(i) + ".get().get()";
 			} else {
-				ret += getKey(i) + " != null && ";
-				ret += param.get(i).getName() + " == " + getKey(i) + ".get()";
+				if (Main.useFineGrainedLock) {
+					ret += getKey(i) + ".get() != null && ";
+					ret += param.get(i).getName() + " == " + getKey(i) + ".get().get()";
+				}
+				else {
+					ret += getKey(i) + " != null && ";
+					ret += param.get(i).getName() + " == " + getKey(i) + ".get()";				
+				}
 			}
 		}
 
@@ -93,7 +100,10 @@ public class IndexingCache {
 			if (perthread) {
 				ret += getKey(p) + ".get();\n";
 			} else {
-				ret += getKey(p) + ";\n";
+				if (Main.useFineGrainedLock)
+					ret += getKey(p) + ".get();\n";
+				else
+					ret += getKey(p) + ";\n";
 			}
 		}
 
@@ -109,7 +119,10 @@ public class IndexingCache {
 		if (perthread) {
 			ret += obj + " = " + set + ".get();\n";
 		} else {
-			ret += obj + " = " + set + ";\n";
+			if (Main.useFineGrainedLock)
+				ret += obj + " = " + set + ".get();\n";
+			else
+				ret += obj + " = " + set + ";\n";
 		}
 
 		return ret;
@@ -121,7 +134,10 @@ public class IndexingCache {
 		if (perthread) {
 			ret += obj + " = " + node + ".get();\n";
 		} else {
-			ret += obj + " = " + node + ";\n";
+			if (Main.useFineGrainedLock)
+				ret += obj + " = " + node + ".get();\n";
+			else
+				ret += obj + " = " + node + ";\n";
 		}
 
 		return ret;
@@ -136,7 +152,10 @@ public class IndexingCache {
 			if (perthread) {
 				ret += getKey(p) + ".set(" + tempRef + ");\n";
 			} else {
-				ret += getKey(p) + " = " + tempRef + ";\n";
+				if (Main.useFineGrainedLock)
+					ret += getKey(p) + ".set(" + tempRef + ");\n";
+				else
+					ret += getKey(p) + " = " + tempRef + ";\n";
 			}
 		}
 
@@ -152,7 +171,10 @@ public class IndexingCache {
 		if (perthread) {
 			ret += set + ".set(" + obj + ");\n";
 		} else {
-			ret += set + " = " + obj + ";\n";
+			if (Main.useFineGrainedLock)
+				ret += set + ".set(" + obj + ");\n";
+			else
+				ret += set + " = " + obj + ";\n";
 		}
 
 		return ret;
@@ -167,7 +189,10 @@ public class IndexingCache {
 		if (perthread) {
 			ret += node + ".set(" + obj + ");\n";
 		} else {
-			ret += node + " = " + obj + ";\n";
+			if (Main.useFineGrainedLock)
+				ret += node + ".set(" + obj + ");\n";
+			else
+				ret += node + " = " + obj + ";\n";
 		}
 
 		return ret;
@@ -207,18 +232,44 @@ public class IndexingCache {
 				ret += "};\n";
 			}
 		} else {
-			for (RVMParameter p : param) {
-				RVMVariable key = keys.get(p.getName());
-				ret += "static " + getKeyType(p) + " " + key + " = null;\n";
+		// ---	
+			if (Main.useFineGrainedLock) {
+				for (RVMParameter p : param) {
+					String type = getKeyType(p);
+					RVMVariable name = keys.get(p.getName());
+					ret += this.createStaticThreadLocal(type, name, "null");
+				}
+				if (hasSet) {
+					ret += this.createStaticThreadLocal(setType.toString(), set, "null");
+				}
+				if (hasNode) {
+					ret += this.createStaticThreadLocal(nodeType.toString(), node, "null");
+				}
 			}
-			if (hasSet) {
-				ret += "static " + setType + " " + set + " = null;\n";
-			}
-			if (hasNode) {
-				ret += "static " + nodeType + " " + node + " = null;\n";
+			else {
+				for (RVMParameter p : param) {
+					RVMVariable key = keys.get(p.getName());
+					ret += "static " + getKeyType(p) + " " + key + " = null;\n";
+				}
+				if (hasSet) {
+					ret += "static " + setType + " " + set + " = null;\n";
+				}
+				if (hasNode) {
+					ret += "static " + nodeType + " " + node + " = null;\n";
+				}			
 			}
 		}
 
+		return ret;
+	}
+	
+	private String createStaticThreadLocal(String type, RVMVariable name, String initvalue) {
+		String ret = "";
+		ret += "static final ThreadLocal<" + type + "> " + name + " = new ThreadLocal<" + type + ">() {\n";
+		ret += "@Override protected " + type + " initialValue() {\n";
+		ret += "return " + initvalue + ";\n";
+		ret += "}\n";
+		ret += "};\n";
 		return ret;
 	}
 

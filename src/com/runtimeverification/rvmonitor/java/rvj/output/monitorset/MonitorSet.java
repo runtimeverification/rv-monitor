@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.monitorset;
 
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.RVMonitorStatistics;
@@ -118,6 +119,7 @@ public class MonitorSet {
 	}
 
 	public String toString() {
+		String synch = Main.useFineGrainedLock ? " synchronized " : " ";  
 		String ret = "";
 
 		RVMVariable monitor = new RVMVariable("monitor");
@@ -157,7 +159,7 @@ public class MonitorSet {
 
 			ret += "\n";
 
-			ret += "final void event_" + eventName + "(";
+			ret += "final" + synch + "void event_" + eventName + "(";
 			ret += parameters.parameterDeclString();
 			ret += ") {\n";
 

@@ -7,7 +7,7 @@ public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements I
 	protected TMonitor[] elements;
 	
 	@Override
-	public final void terminate(int treeid) {
+	public synchronized final void terminate(int treeid) {
 		for (int i = this.size - 1; i >= 0; --i) {
 			TMonitor monitor = this.elements[i];
 			if (monitor != null && !monitor.isTerminated())
@@ -20,29 +20,29 @@ public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements I
 	}
 	
 	@Override
-	public final boolean checkTerminatedWhileCleaningUp() {
+	public synchronized final boolean checkTerminatedWhileCleaningUp() {
 		this.removeTerminated();
 		return this.size == 0;
 	}
 	
-	public final void add(TMonitor e) {
+	public synchronized final void add(TMonitor e) {
 		this.ensureCapacity();
 		this.elements[this.size++] = e;
 	}
 	
-	public final TMonitor get(int index) {
+	public synchronized final TMonitor get(int index) {
 		return this.elements[index];
 	}
 	
-	public final void set(int index, TMonitor monitor) {
+	public synchronized final void set(int index, TMonitor monitor) {
 		this.elements[index] = monitor;
 	}
 	
-	public final int getSize() {
+	public synchronized final int getSize() {
 		return this.size;
 	}
 	
-	public final void eraseRange(int from) {
+	public synchronized final void eraseRange(int from) {
 		for (int i = from; i < this.size; ++i)
 			this.elements[i] = null;
 		this.size = from;

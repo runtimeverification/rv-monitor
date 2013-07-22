@@ -74,9 +74,11 @@ public class HandlerMethod {
 	}
 
 	public String toString() {
+		String synch = Main.useFineGrainedLock ? "synchronized " : "";
 		String ret = "";
 
 		ret += "final ";
+		ret += synch;
 
 		// if we want a handler to return some value, change it.
 		ret += "void ";

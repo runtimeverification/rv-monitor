@@ -176,6 +176,7 @@ public class BaseMonitor extends Monitor {
 	}
 
 	public String printEventMethod(PropertyAndHandlers prop, EventDefinition event, String methodNamePrefix) {
+		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
 		String ret = "";
 
 		PropMonitor propMonitor = propMonitors.get(prop);
@@ -225,7 +226,7 @@ public class BaseMonitor extends Monitor {
 		}
 
 		// Add return value to events, so we know whether it's because of the condition failure or not
-		ret += "final boolean " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
+		ret += "final" + synch + "boolean " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
 
 		if (prop == props.get(props.size() - 1) && eventAction != null) {
 			for (RVMParameter p : event.getUsedParametersIn(specParam)) {
@@ -383,6 +384,7 @@ public class BaseMonitor extends Monitor {
 	}
 	
 	public String toString() {
+		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
 		String ret = "";
 
 		ret += "class " + monitorName;
@@ -489,7 +491,7 @@ public class BaseMonitor extends Monitor {
 		}
 
 		// reset
-		ret += "final void reset() {\n";
+		ret += "final" + synch + "void reset() {\n";
 		if (monitorInfo != null)
 			ret += monitorInfo.initConnected();
 		for(PropertyAndHandlers prop : props){

@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output;
 
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 
@@ -33,6 +34,8 @@ public class Imports {
 				imports.add(req);
 		}
 		
+		if (Main.useFineGrainedLock)
+			imports.add("java.util.concurrent.atomic.AtomicBoolean");
 	}
 
 	public String toString() {

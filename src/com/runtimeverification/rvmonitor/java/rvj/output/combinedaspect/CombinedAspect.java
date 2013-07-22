@@ -38,6 +38,7 @@ public class CombinedAspect {
 	public ActivatorManager activatorsManager;
 	public IndexingTreeManager indexingTreeManager;
 	public EventManager eventManager;
+	private final OptionManager optionManager;
 
 	boolean has__ACTIVITY = false;
 
@@ -64,6 +65,8 @@ public class CombinedAspect {
 		this.eventManager = new EventManager(name, this.specs, this);
 
 		this.mapManager = new RVMVariable(name + "MapManager");
+		
+		this.optionManager = new OptionManager();
 	}
 	
 	public void collectDisableParameters(List<RVMonitorSpec> specs){
@@ -183,6 +186,8 @@ public class CombinedAspect {
 
 		// constructor
 		ret += "static {\n";
+		
+		ret += this.optionManager.printCode();
 
 		ret += this.eventManager.printConstructor();
 		
@@ -240,6 +245,16 @@ public class CombinedAspect {
 
 		ret += "}\n";
 
+		return ret;
+	}
+}
+
+class OptionManager {
+	public String printCode() {
+		String ret = "";
+		ret += "com.runtimeverification.rvmonitor.java.rt.RuntimeOption.enableFineGrainedLock(";
+		ret += Main.useFineGrainedLock ? "true" : "false";
+		ret += ");\n";
 		return ret;
 	}
 }

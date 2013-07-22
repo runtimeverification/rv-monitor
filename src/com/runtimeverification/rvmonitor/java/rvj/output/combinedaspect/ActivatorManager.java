@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect;
 
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
@@ -21,12 +22,60 @@ public class ActivatorManager {
 	public RVMVariable getActivator(RVMonitorSpec spec) {
 		return activators.get(spec);
 	}
+	
+	private String getValue(RVMVariable var) {
+		StringBuilder s = new StringBuilder();
+		s.append(var);
+		if (Main.useFineGrainedLock)
+			s.append(".get()");
+		return s.toString();
+	}
+
+	public String getValue(RVMonitorSpec spec) {
+		RVMVariable var = this.activators.get(spec);
+		return this.getValue(var);
+	}
+	
+	private String setValue(RVMVariable var, boolean value) {
+		String valuestr = value ? "true" : "false";
+		
+		StringBuilder s = new StringBuilder();
+		s.append(var);
+		if (Main.useFineGrainedLock) {
+			s.append(".set(");
+			s.append(valuestr);
+			s.append(')');
+		}
+		else {
+			s.append(" = ");
+			s.append(valuestr);
+		}
+		return s.toString();
+	}
+	
+	public String setValue(RVMonitorSpec spec, boolean value) {
+		RVMVariable var = this.activators.get(spec);
+		return this.setValue(var, value);
+	}
 
 	public String decl() {
+		boolean isfinal = false;
+		String type = "boolean";
+		String initvalue = "false";
+		
+		if (Main.useFineGrainedLock) {
+			isfinal = true;
+			type = "AtomicBoolean";
+			initvalue = "new AtomicBoolean()";
+		}
+		
 		String ret = "";
 
 		for (RVMVariable activator : activators.values()) {
-			ret += "private static boolean " + activator + " = false;\n";
+			ret += "private static ";
+			if (isfinal)
+				ret += "final ";
+			ret += type + " " + activator + " = " + initvalue + ";\n";
 		}
 
 		if (activators.size() > 0)
@@ -39,7 +88,8 @@ public class ActivatorManager {
 		String ret = "";
 
 		for (RVMVariable activator : activators.values()) {
-			ret += activator + " = false;\n";
+			ret += this.setValue(activator, false);
+			ret += ";\n";
 		}
 
 		if (activators.size() > 0)

@@ -77,11 +77,9 @@ public class EndThread {
 		ret += "(call(Thread+.new(Runnable+,..)) && args(r,..))";
 		ret += "|| (initialization(Thread+.new(ThreadGroup+, Runnable+,..)) && args(ThreadGroup, r,..)))";
 		ret += " && " + commonPointcut + "() {\n";
-		ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
-		ret += "Thread.yield();\n";
-		ret += "}\n";
+		ret += this.globalLock.getAcquireCode();
 		ret += runnableMap + ".put(t, r);\n";
-		ret += globalLock.getName() + ".unlock();\n";
+		ret += this.globalLock.getReleaseCode();
 		ret += "}\n";
 
 		return ret;
@@ -98,14 +96,9 @@ public class EndThread {
 		if (event.getThreadVar() != null && event.getThreadVar().length() != 0) {
 			ret += "Thread " + event.getThreadVar() + " = Thread.currentThread();\n";
 		}
-
-		ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
-		ret += "Thread.yield();\n";
-		ret += "}\n";
-		
+		ret += this.globalLock.getAcquireCode();
 		ret += threadSet + ".remove(Thread.currentThread());\n";
-
-		ret += globalLock.getName() + ".unlock();\n";
+		ret += this.globalLock.getReleaseCode();
 		
 		ret += eventBody;
 		ret += "}\n";
@@ -126,11 +119,10 @@ public class EndThread {
 		if (event.getThreadVar() != null && event.getThreadVar().length() != 0) {
 			ret += "Thread " + event.getThreadVar() + " = Thread.currentThread();\n";
 		}
-		ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
-		ret += "Thread.yield();\n";
-		ret += "}\n";
+		ret += this.globalLock.getAcquireCode();
 		ret += threadSet + ".remove(Thread.currentThread());\n";
-		ret += globalLock.getName() + ".unlock();\n";
+		ret += this.globalLock.getReleaseCode();
+	
 		ret += eventBody;
 		ret += "}\n";
 
@@ -144,9 +136,7 @@ public class EndThread {
 
 		ret += "before (): " + "(execution(void *.main(..)) )";
 		ret += " && " + commonPointcut + "() {\n";
-		ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
-		ret += "Thread.yield();\n";
-		ret += "}\n";
+		ret += this.globalLock.getAcquireCode();
 		ret += "if(" + mainThread + " == null){\n";
 		ret += mainThread + " = Thread.currentThread();\n";
 		ret += threadSet + ".add(Thread.currentThread());\n";
@@ -154,15 +144,13 @@ public class EndThread {
 		ret += "if(" + mainThread + " == Thread.currentThread()){\n";
 		ret += mainCounter + "++;\n";
 		ret += "}\n";
-		ret += globalLock.getName() + ".unlock();\n";
+		ret += this.globalLock.getReleaseCode();
 		ret += "}\n";
 		ret += "\n";
 
 		ret += "after (): " + "(execution(void *.main(..)) )";
 		ret += " && " + commonPointcut + "() {\n";
-		ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
-		ret += "Thread.yield();\n";
-		ret += "}\n";
+		ret += this.globalLock.getAcquireCode();
 		ret += "if(" + mainThread + " == Thread.currentThread()){\n";
 		ret += mainCounter + "--;\n";
 		ret += "if(" + mainCounter + " <= 0){\n";
@@ -174,7 +162,7 @@ public class EndThread {
 		ret += eventBody;
 		ret += "}\n";
 		ret += "}\n";
-		ret += globalLock.getName() + ".unlock();\n";
+		ret += this.globalLock.getReleaseCode();
 		ret += "}\n";
 		ret += "\n";
 
@@ -188,11 +176,9 @@ public class EndThread {
 		ret += "(";
 		ret += "call(void Thread+.start()) && target(t))";
 		ret += " && " + commonPointcut + "() {\n";
-		ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
-		ret += "Thread.yield();\n";
-		ret += "}\n";
+		ret += this.globalLock.getAcquireCode();
 		ret += threadSet + ".add(t);\n";
-		ret += globalLock.getName() + ".unlock();\n";
+		ret += this.globalLock.getReleaseCode();
 		ret += "}\n";
 		
 		return ret;
@@ -201,9 +187,7 @@ public class EndThread {
 	public String printAdviceBodyAtEndProgram(){
 		String ret = "";
 		RVMVariable t = new RVMVariable("t");
-		ret += "while (!" + globalLock.getName() + ".tryLock()) {\n";
-		ret += "Thread.yield();\n";
-		ret += "}\n";
+		ret += this.globalLock.getAcquireCode();
 		if (event.getThreadVar() != null && event.getThreadVar().length() != 0){
 			ret += "for(Thread " + event.getThreadVar() + " : " + threadSet + ") {\n";
 			ret += threadSet + ".remove(" + event.getThreadVar() + ");\n";
@@ -214,7 +198,7 @@ public class EndThread {
 		
 		ret += eventBody;
 		ret += "}\n";
-		ret += globalLock.getName() + ".unlock();\n";
+		ret += this.globalLock.getReleaseCode();
 		
 		return ret;
 	}
