@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.output.RVMTypedVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.LocalVariables;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public abstract class IndexingTree {
@@ -28,7 +30,7 @@ public abstract class IndexingTree {
 	public boolean isFullParam = false;
 	public boolean isGeneral = false;
 	
-	HashMap<String, RefTree> refTrees;
+	protected HashMap<String, RefTree> refTrees;
 	
 	public RefTree parasiticRefTree = null;
 	
@@ -53,7 +55,8 @@ public abstract class IndexingTree {
 		if (queryParam != null && contentParam != null && queryParam.equals(contentParam))
 			isFullParam = true;
 
-		
+		this.refTrees = refTrees;
+
 		this.perthread = perthread;
 		this.isGeneral = isGeneral;
 	}
@@ -76,11 +79,11 @@ public abstract class IndexingTree {
 	 * lookupNode, lookupSet, lookupNodeAndSet retrieve data from indexing tree
 	 * They can use the following local variables if necessary: obj, m, and tempRef_*. 
 	 */
-	public abstract String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException;
+	public abstract String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) throws RVMException;
 
 	public abstract String lookupSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException;
 
-	public abstract String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException;
+	public abstract String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) throws RVMException;
 
 	public abstract String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) throws RVMException;
 
@@ -175,6 +178,77 @@ public abstract class IndexingTree {
 		return type;
 	}
 	
+	protected String getGetAndSetWithStrongRefCode(LocalVariables localVars, RVMTypedVariable map, RVMParameter key, String varSet, String varWeakRef, boolean creative) {
+		RefTree tree = this.refTrees.get(key.getType().getOp());
+		IndexingTreeType nodeType = map.getType();
+		
+		String ret = "";
+		ret += "{\n";
+		{
+			ret += "IBucketNode<" + tree.getResultType();
+			ret += ", ";
+			ret += nodeType.getNodeValueType();
+			ret += "> node = ";
+			ret += map + ".getNodeWithStrongRef(" + key.getName() + ");\n";
+			ret += "if (node == null) {\n";
+			{
+				if (creative) {
+					ret += varSet + " = new " + monitorSet.getName() + "();\n";
+					ret += varWeakRef + " = new " + localVars.getTempRefType(key) + "(" + key.getName() + ");\n";
+					ret += map + ".putSet(" + varWeakRef + ", " + varSet + ");\n";
+				}
+				else {
+					ret += varSet + " = null;\n";
+				}
+			}
+			ret += "}\n";
+			ret += "else {\n";
+			{
+				ret += varSet + " = node.getValue()";
+				ret += nodeType.getNodeValueAccessCode(IndexingTreeInterface.Set);
+				ret += ";\n";
+				ret += varWeakRef + " = node.getKey();\n";
+			}
+			ret += "}\n";			
+		}
+		ret += "}\n";
+		return ret;
+	}
+	
+	protected String getGetWithStrongRefCode(RVMTypedVariable map, RVMParameter key, IndexingTreeInterface itf, String varValue, String varWeakRef, boolean createWeakRef) {
+		RefTree tree = this.refTrees.get(key.getType().getOp());
+		IndexingTreeType nodeType = map.getType();
+		
+		String ret = "";
+		ret += "{\n";
+		{
+			ret += "IBucketNode<" + tree.getResultType();
+			ret += ", ";
+			ret += nodeType.getNodeValueType();
+			ret += "> node = ";
+			ret += map + ".getNodeWithStrongRef(" + key.getName() + ");\n";
+			ret += "if (node == null) {\n";
+			{
+				ret += varValue + " = null;\n";
+				if (createWeakRef)
+					ret += tree.createWeakReferenceConditional(varWeakRef, key);
+			}
+			ret += "}\n";
+			ret += "else {\n";
+			{
+				ret += varValue + " = node.getValue()";
+				ret += nodeType.getNodeValueAccessCode(itf);
+				ret += ";\n";
+				if (varWeakRef != null)
+					ret += varWeakRef + " = node.getKey();\n";
+			}
+			ret += "}\n";
+		}
+		ret += "}\n";
+		
+		return ret;
+	}
+	
 	public static enum IndexingTreeInterface {
 		Map,
 		Set,
@@ -212,6 +286,79 @@ public abstract class IndexingTree {
 				return this.leaf;
 			}
 			return null;
+		}
+		
+		public String getNodeValueType() {
+			ArrayList<IndexingTreeType> enabled = new ArrayList<IndexingTreeType>(3);
+			if (this.map != null)
+				enabled.add(this.map);
+			if (this.set != null)
+				enabled.add(this.set);
+			if (this.leaf != null)
+				enabled.add(this.leaf);
+			
+			if (enabled.size() == 1)
+				return enabled.get(0).toString();
+			
+			String ret = "Tuple" + enabled.size() + "<";
+			for (int i = 0; i < enabled.size(); ++i) {
+				if (i > 0)
+					ret += ", ";
+				ret += enabled.get(i).toString();
+			}
+			ret += ">";
+			return ret;
+		}
+		
+		public String getNodeValueAccessCode(IndexingTreeInterface itf) {
+			// If the map stores multiple values (e.g., MapOfMapSet<TMap, TSet> stores
+			// both a TMap object and a TSet object. To enable the client to access each
+			// field, this method returns the code for accessing the object corresponding to
+			// the given interface.
+			// For example, if itf=Map, this method returns .getValue1(), so that one can get
+			// the TMap object . Similarly, if itf=Set, then it would return .getValue2().
+			// This method also returns an empty string if the map stores a single value
+			// and, therefore, one can directly access the value, without using a table adopter,
+			// such as Tuple2 and Tuple3.
+			
+			boolean m = this.map != null;
+			boolean s = this.set != null;
+			boolean l = this.leaf != null;
+			int count = (m ? 1 : 0) + (s ? 1 : 0) + (l ? 1 : 0);
+			if (count == 1)
+				return "";
+			
+			int index = 0;
+			switch (itf) {
+			case Map: index = 1; break;
+			case Set: index = 2; break;
+			case Leaf: index = 3; break;
+			default: return "";
+			}
+			
+			do {
+				if (m) {
+					if (itf == IndexingTreeInterface.Map)
+						break;
+				}
+				else
+					--index;
+				
+				if (s) {
+					if (itf == IndexingTreeInterface.Set)
+						break;
+				}
+				else
+					--index;
+				
+				if (l) {
+					if (itf == IndexingTreeInterface.Leaf)
+						break;
+				}
+				else
+					--index;
+			} while (false);
+			return ".getValue" + index + "()";
 		}
 		
 		public String inferClassName() {

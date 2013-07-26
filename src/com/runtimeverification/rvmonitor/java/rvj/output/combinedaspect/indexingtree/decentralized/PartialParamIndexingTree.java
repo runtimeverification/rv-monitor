@@ -127,7 +127,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) throws RVMException {
+	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) throws RVMException {
 		String ret = "";
 
 		RVMVariable monitor = localVars.get(monitorStr);
@@ -234,7 +234,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative)  throws RVMException {
+	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType)  throws RVMException {
 		String ret = "";
 
 		RVMVariable monitor = localVars.get(monitorStr);

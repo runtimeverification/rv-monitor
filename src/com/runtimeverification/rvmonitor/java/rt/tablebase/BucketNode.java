@@ -2,11 +2,12 @@ package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 
-public class BucketNode<TWeakRef extends CachedWeakReference, TValue> {
+public class BucketNode<TWeakRef extends CachedWeakReference, TValue> implements IBucketNode<TWeakRef, TValue> {
 	private final TWeakRef key;
 	private TValue value;
 	private BucketNode<TWeakRef, TValue> next;
 	
+	@Override
 	public TWeakRef getKey() {
 		return this.key;
 	}
@@ -15,6 +16,7 @@ public class BucketNode<TWeakRef extends CachedWeakReference, TValue> {
 		return this.key.get() == null;
 	}
 	
+	@Override
 	public TValue getValue() {
 		return this.value;
 	}

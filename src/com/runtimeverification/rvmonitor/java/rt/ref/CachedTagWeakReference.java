@@ -21,6 +21,10 @@ public class CachedTagWeakReference extends CachedWeakReference {
 		this.tau = t;
 	}
 	
+	public CachedTagWeakReference(Object ref) {
+		this(ref, System.identityHashCode(ref));
+	}
+	
 	public CachedTagWeakReference(Object ref, int hashval) {
 		super(ref, hashval);
 	}

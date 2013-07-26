@@ -57,6 +57,7 @@ public class Main {
 	public static boolean scalable = false;
 	
 	public static boolean useFineGrainedLock = false;
+	public static boolean useWeakRefInterning = false;
 
 	static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
 		if(Main.outputDir != null){
@@ -349,6 +350,7 @@ public class Main {
 		System.out.println();
 		
 		System.out.println("    -finegrainedlock\t\t  use fine-grained lock for internal data structure");
+		System.out.println("    -weakrefinterning\t\t  use WeakReference interning in indexing trees");
 		System.out.println();
 
 		System.out.println("    -aspect:\"<command line>\"\t  compile the result right after it is generated");
@@ -421,6 +423,8 @@ public class Main {
 				Main.scalable = true;
 			} else if (args[i].compareTo("-finegrainedlock") == 0) {
 				Main.useFineGrainedLock = true;
+			} else if (args[i].compareTo("-weakrefinterning") == 0) {
+				Main.useWeakRefInterning = true;
 			} else {
 				if (files.length() != 0)
 					files += ";";
