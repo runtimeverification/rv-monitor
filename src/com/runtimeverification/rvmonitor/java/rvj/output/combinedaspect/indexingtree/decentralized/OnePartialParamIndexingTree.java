@@ -35,7 +35,7 @@ public class OnePartialParamIndexingTree extends IndexingTree {
 		return true;
 	}
 
-	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
+	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
 		String ret = "";
 
 		if(oneParamNode != null){
@@ -60,7 +60,7 @@ public class OnePartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
+	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
 		String ret = "";
 		
 		RVMVariable lastSet = localVars.get(lastSetStr);

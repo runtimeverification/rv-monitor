@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
@@ -119,11 +120,16 @@ public class GeneralAdviceBody extends AdviceBody {
 
 		for (RVMParameter p : this.eventParams) {
 			RVMVariable tempRef = localVars.getTempRef(p);
-
-			if((!isGeneral && !event.isStartEvent()) || (isGeneral && !event.isStartEvent() && paramPairsForCopy.size() == 0 && !doDisable))
-				ret += getRefTree(p).getRefNonCreative(tempRef, p);
-			else
-				ret += getRefTree(p).get(tempRef, p);
+			
+			if (Main.useWeakRefInterning) {
+				if((!isGeneral && !event.isStartEvent()) || (isGeneral && !event.isStartEvent() && paramPairsForCopy.size() == 0 && !doDisable))
+					ret += getRefTree(p).getRefNonCreative(tempRef, p);
+				else
+					ret += getRefTree(p).get(tempRef, p);
+			}
+			else {
+				ret += tempRef + " = null;\n";
+			}
 		}
 
 		return ret;
@@ -175,9 +181,9 @@ public class GeneralAdviceBody extends AdviceBody {
 
 		if (isUsingMonitor()) {
 			if (indexingTree.containsSet()) {
-				ret += indexingTree.lookupNodeAndSet(localVars, "mainMonitor", "mainMap", "mainSet", event.isStartEvent());
+				ret += indexingTree.lookupNodeAndSet(localVars, "mainMonitor", "mainMap", "mainSet", event.isStartEvent(), monitorClass.getOutermostName().getVarName());
 			} else {
-				ret += indexingTree.lookupNode(localVars, "mainMonitor", "mainMap", "mainSet", event.isStartEvent());
+				ret += indexingTree.lookupNode(localVars, "mainMonitor", "mainMap", "mainSet", event.isStartEvent(), monitorClass.getOutermostName().getVarName());
 			}
 		} else {
 			if (indexingTree.containsSet()) {
@@ -247,7 +253,7 @@ public class GeneralAdviceBody extends AdviceBody {
 				
 				ret += "\n";
 
-				ret += targetIndexingTree.lookupNode(localVars, "lastMonitor", "lastMap", "lastSet", true);
+				ret += targetIndexingTree.lookupNode(localVars, "lastMonitor", "lastMap", "lastSet", true, monitorClass.getOutermostName().getVarName());
 
 				ret += "if (" + lastMonitor + " == null) {\n";
 				{
@@ -460,7 +466,7 @@ public class GeneralAdviceBody extends AdviceBody {
 				
 				ret += "if (" + mainMonitor + " == null) {\n";
 				{
-					ret += indexingTreeForCopy.lookupNode(localVars, "origMonitor", "origMap", "origSet", false);
+					ret += indexingTreeForCopy.lookupNode(localVars, "origMonitor", "origMap", "origSet", false, monitorClass.getOutermostName().getVarName());
 					ret += "if (" + origMonitor + " != null) {\n";
 					{
 						ret += copyStateFromMonitor(paramPair, indexingTreeForCopy);
@@ -776,9 +782,11 @@ public class GeneralAdviceBody extends AdviceBody {
 //				cacheResultCondition = " && " + cacheResultCondition;
 //			cacheResultCondition = "!" + cacheHit + cacheResultCondition; 
 			
-			for (RVMParameter p : this.eventParams) {
-				RVMVariable tempRef = localVars.getTempRef(p);
-				cacheResultCondition += " && " + tempRef + " != null";
+			if (Main.useWeakRefInterning) {
+				for (RVMParameter p : this.eventParams) {
+					RVMVariable tempRef = localVars.getTempRef(p);
+					cacheResultCondition += " && " + tempRef + " != null";
+				}
 			}
 		}
 

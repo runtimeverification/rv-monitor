@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.TableAdopter.Tuple2;
 
 public abstract class IndexingTree2<TWeakRef extends CachedWeakReference, TValue1 extends IIndexingTreeValue, TValue2 extends IIndexingTreeValue> extends AbstractIndexingTree<TWeakRef, Tuple2<TValue1, TValue2>> {
 	protected IndexingTree2(int treeid) {

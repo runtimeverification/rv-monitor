@@ -88,7 +88,7 @@ class WeakRefHashTableCleaner {
 	}
 }
  
-abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> {
+abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> implements INodeOperation<TWeakRef, TValue> {
 	private final TupleTrait<TValue> valueTrait;
 	private final WeakRefHashTableCleaner cleaner;
 
@@ -116,6 +116,21 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 			TWeakRef wref = node.getKey();
 			if (key == wref)
 				return node;
+		}
+		return null;
+	}
+	
+	@Override
+	public synchronized final IBucketNode<TWeakRef, TValue> getNodeWithStrongRef(Object key) {
+		int hashval = System.identityHashCode(key);
+		
+		synchronized (this) {
+			Bucket<TWeakRef, TValue> bucket = this.getBucket(hashval);
+			for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
+				TWeakRef wref = node.getKey();
+				if (key == wref.get())
+					return node;
+			}
 		}
 		return null;
 	}

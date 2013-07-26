@@ -123,6 +123,10 @@ public class LocalVariables {
 		return getTempRef(p.getName());
 	}
 	
+	public String getTempRefType(RVMParameter p) {
+		return getTempRefType(p.getName());
+	}
+	
 	public RVMVariable getTempRef(String paramName){
 		Variable var = tempRefs.get(paramName);
 		
@@ -133,6 +137,13 @@ public class LocalVariables {
 		return var.var;
 	}
 	
+	public String getTempRefType(String paramName) {
+		Variable var = tempRefs.get(paramName);
+		if (var == null)
+			return null;
+		return var.type;
+	}
+
 	public RVMTypedVariable createTempMap(IndexingTreeType type) {
 		int newid = this.varTempMaps.size() + 1;
 		String name = "tempMap" + newid;

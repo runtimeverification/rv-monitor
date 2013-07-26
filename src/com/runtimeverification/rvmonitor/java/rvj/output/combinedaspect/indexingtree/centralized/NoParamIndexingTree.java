@@ -35,7 +35,7 @@ public class NoParamIndexingTree extends IndexingTree {
 		}
 	}
 
-	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
+	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
 		String ret = "";
 
 		if (isFullParam || globalNode != null) {
@@ -63,7 +63,7 @@ public class NoParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
+	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
 		String ret = "";
 
 		if (isFullParam) {

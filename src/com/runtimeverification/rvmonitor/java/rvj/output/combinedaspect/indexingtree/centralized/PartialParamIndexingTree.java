@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexin
 import java.util.HashMap;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMTypedVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.LocalVariables;
@@ -60,7 +61,10 @@ public class PartialParamIndexingTree extends IndexingTree {
 		RVMParameter p = queryParam.get(i);
 		RVMVariable tempRef = localVars.getTempRef(p);
 
-		ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		if (Main.useWeakRefInterning)
+			ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		else
+			ret += this.getGetMapStrongRefCode(p, tempRef, tempMap, obj);
 
 		RVMParameter nextP = queryParam.get(i + 1);
 
@@ -100,7 +104,10 @@ public class PartialParamIndexingTree extends IndexingTree {
 		RVMParameter p = queryParam.get(i);
 		RVMVariable tempRef = localVars.getTempRef(p);
 
-		ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		if (Main.useWeakRefInterning)
+			ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		else
+			ret += this.getGetMapStrongRefCode(p, tempRef, tempMap, obj);
 
 		ret += "if (" + obj + " != null) {\n";
 
@@ -122,6 +129,18 @@ public class PartialParamIndexingTree extends IndexingTree {
 		}
 
 		ret += "}\n";
+		
+		if (!Main.useWeakRefInterning) {
+			if (i + 1 < queryParam.size()) {
+				RVMParameter q = queryParam.get(i + 1);
+				RVMVariable wrq = localVars.getTempRef(q);
+	
+				RefTree tree = this.refTrees.get(q.getType().getOp());
+				ret += "else {\n";
+				ret += tree.createWeakReferenceConditional(wrq.getVarName(), q);			
+				ret += "}\n";
+			}
+		}
 
 		return ret;
 	}
@@ -137,8 +156,8 @@ public class PartialParamIndexingTree extends IndexingTree {
 
 		return ret;
 	}
-
-	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
+	
+	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
 		String ret = "";
 
 		RVMVariable monitor = localVars.get(monitorStr);
@@ -171,13 +190,37 @@ public class PartialParamIndexingTree extends IndexingTree {
 		RVMVariable tempRef = localVars.getTempRef(p);
 		RVMTypedVariable lastMap = localVars.getMap(lastMapStr);
 
-		ret += lastSet + " = " + lastMap + ".getSet(" + tempRef + ");\n";
-
-		if (creative) {
-			ret += "if (" + lastSet + " == null){\n";
-			ret += lastSet + " = new " + monitorSet.getName() + "();\n";
-			ret += lastMap + ".putSet(" + tempRef + ", " + lastSet + ");\n";
+		if (Main.useWeakRefInterning) {
+			ret += lastSet + " = " + lastMap + ".getSet(" + tempRef + ");\n";
+	
+			if (creative) {
+				ret += "if (" + lastSet + " == null){\n";
+				ret += lastSet + " = new " + monitorSet.getName() + "();\n";
+				ret += lastMap + ".putSet(" + tempRef + ", " + lastSet + ");\n";
+				ret += "}\n";
+			}
+		}
+		else {
+			ret += this.getGetAndSetWithStrongRefCode(localVars, lastMap, p, lastSet.getVarName(), tempRef.getVarName(), creative);
+			/*
+			ret += "{\n";
+			ret += "rvmonitorrt.map.hashentry.EntryPair pair = " + lastMap + ".getSetStrong(" + p.getName() + ");\n";
+			ret += "if (pair == null) {\n";
+			if (creative) {
+				ret += lastSet + " = new " + monitorSet.getName() + "();\n";
+				ret += tempRef + " = new " + localVars.getTempRefType(p) + "(" + p.getName() + ");\n";
+				ret += lastMap + ".putSet(" + tempRef + ", " + lastSet + ");\n";
+			}
+			else {
+				ret += lastSet + " = null;\n";
+			}
 			ret += "}\n";
+			ret += "else {\n";
+			ret += lastSet + " = pair.getValue();\n";
+			ret += tempRef + " = pair.getWeakRef();\n";
+			ret += "}\n";			
+			ret += "}\n";
+			*/
 		}
 
 		return ret;
@@ -216,8 +259,40 @@ public class PartialParamIndexingTree extends IndexingTree {
 		RVMVariable tempRef = localVars.getTempRef(p);
 		RVMTypedVariable lastMap = localVars.getMap(lastMapStr);
 
-		ret += monitor + " = " + lastMap + ".getLeaf(" + tempRef + ");\n";
-		ret += lastSet + " = " + lastMap + ".getSet(" + tempRef + ");\n";
+		if (Main.useWeakRefInterning) {
+			ret += monitor + " = " + lastMap + ".getLeaf(" + tempRef + ");\n";
+			ret += lastSet + " = " + lastMap + ".getSet(" + tempRef + ");\n";
+		}
+		else {
+			ret += this.getGetWithStrongRefCode(lastMap, p, IndexingTreeInterface.Leaf, monitor.getVarName(), tempRef.getVarName(), true);
+			/*
+			RefTree tree = this.refTrees.get(p.getType().getOp());
+			ret += "{\n";
+			ret += "rvmonitorrt.map.hashentry.EntryPair pair = " + lastMap + ".getNodeStrong(" + p.getName() + ");\n";
+			ret += "if (pair == null) {\n";
+			ret += monitor + " = null;\n";
+			ret += tree.createWeakReferenceConditional(tempRef.getVarName(), p);
+			ret += "}\n";
+			ret += "else {\n";
+			ret += monitor + " = pair.getValue();\n";
+			ret += tempRef + " = pair.getWeakRef();\n";
+			ret += "}\n";
+			ret += "}\n";
+			*/
+			
+			this.getGetWithStrongRefCode(lastMap, p, IndexingTreeInterface.Set, lastSet.getVarName(), null, false);
+			/*
+			ret += "{\n";
+			ret += "rvmonitorrt.map.hashentry.EntryPair pair = " + lastMap + ".getSetStrong(" + p.getName() + ");\n";
+			ret += "if (pair == null) {\n";
+			ret += lastSet + " = null;\n";
+			ret += "}\n";
+			ret += "else {\n";
+			ret += lastSet + " = pair.getValue();\n";
+			ret += "}\n";
+			ret += "}\n";
+			*/
+		}
 
 		if (creative) {
 			ret += "if (" + lastSet + " == null){\n";
@@ -229,7 +304,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
+	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
 		String ret = "";
 
 		RVMVariable monitor = localVars.get(monitorStr);
@@ -293,7 +368,35 @@ public class PartialParamIndexingTree extends IndexingTree {
 
 		return ret;
 	}
-
+	
+	private String getGetMapOrSetStrongRefCode(IndexingTreeInterface itf, RVMParameter key, RVMVariable weakref, RVMTypedVariable map, RVMTypedVariable value) {
+		String ret = "";
+		ret += value.getType() + " " + value.getName() + " = null;\n";
+		ret += this.getGetWithStrongRefCode(map, key, itf, value.getName(), weakref.getVarName(), true);
+		return ret;
+		/*
+		RefTree tree = this.refTrees.get(p.getType().getOp());
+		
+		String ret = "";
+		ret += "{\n";
+		ret += "rvmonitorrt.map.hashentry.EntryPair pair = " + tempMap + "." + methodname + "(" + p.getName() + ");\n";
+		ret += "if (pair == null) {\n";
+		ret += obj + " = null;\n";
+		ret += tree.createWeakReferenceConditional(tempRef.getVarName(), p);
+		ret += "}\n";
+		ret += "else {\n";
+		ret += obj + " = pair.getValue();\n";
+		ret += tempRef + " = pair.getWeakRef();\n";
+		ret += "}\n";
+		ret += "}\n";	
+		return ret;
+		*/
+	}
+	
+	private String getGetMapStrongRefCode(RVMParameter p, RVMVariable tempRef, RVMTypedVariable tempMap, RVMTypedVariable obj) {
+		return this.getGetMapOrSetStrongRefCode(IndexingTreeInterface.Map, p, tempRef, tempMap, obj);		
+	}
+	
 	public String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr) {
 		String ret = "";
 
@@ -308,11 +411,18 @@ public class PartialParamIndexingTree extends IndexingTree {
 		RVMVariable tempRef = localVars.getTempRef(p);
 
 		RVMTypedVariable obj = localVars.createObj(tempMap, queryParam.size() == 1 ? IndexingTreeInterface.Set : IndexingTreeInterface.Map);
-		if(queryParam.size() == 1){
-			ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getSet(" + tempRef + ");\n";
+		if (Main.useWeakRefInterning) {
+			if(queryParam.size() == 1){
+				ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getSet(" + tempRef + ");\n";
+			}
+			else {
+				ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+			}
 		}
 		else {
-			ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+//			String methodname = queryParam.size() == 1 ? "getSetStrong" : "getMapStrong";
+			IndexingTreeInterface itf = queryParam.size() == 1 ? IndexingTreeInterface.Set : IndexingTreeInterface.Map;
+			ret += this.getGetMapOrSetStrongRefCode(itf, p, tempRef, tempMap, obj);
 		}
 		
 		for (int i = 1; i < queryParam.size(); i++) {
@@ -334,10 +444,16 @@ public class PartialParamIndexingTree extends IndexingTree {
 		  
 			obj = localVars.createObj(tempMap, i != queryParam.size() - 1 ? IndexingTreeInterface.Map : IndexingTreeInterface.Set);
 
-			if(i != queryParam.size() - 1)
-				ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
-			else
-				ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getSet(" + tempRef + ");\n";
+			if (Main.useWeakRefInterning) {
+				if(i != queryParam.size() - 1)
+					ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+				else
+					ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getSet(" + tempRef + ");\n";
+			}
+			else {
+				IndexingTreeInterface itf = i != queryParam.size() - 1 ? IndexingTreeInterface.Map : IndexingTreeInterface.Set;
+				ret += this.getGetMapOrSetStrongRefCode(itf, p, tempRef, tempMap, obj);
+			}
 		}
 		ret += monitors + " = ";
 		ret += obj + ";\n";

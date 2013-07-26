@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
@@ -78,11 +79,13 @@ public class IndexingTreeManager {
 		}
 		ret += "\n";
 
-		ret += "// Trees for References\n";
-		for (RefTree refTree : refTrees.values()){
-			ret += refTree;
+		if (Main.useWeakRefInterning) {
+			ret += "// Trees for References\n";
+			for (RefTree refTree : refTrees.values()){
+				ret += refTree;
+			}
+			ret += "\n";
 		}
-		ret += "\n";
 
 		return ret;
 	}
