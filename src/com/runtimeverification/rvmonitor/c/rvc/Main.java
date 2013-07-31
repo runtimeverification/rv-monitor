@@ -130,7 +130,7 @@ public class Main {
       if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") != 0){
         throw new Exception("Only finite logics are currently supported");
       } 
-      CFSM cfsm = new CFSM();
+      CFSM cfsm = new CFSM(rvcParser);
       LogicPluginShellResult sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents());
 
       String rvcPrefix = (String) sr.properties.get("rvcPrefix");
@@ -155,26 +155,9 @@ public class Main {
       cos.println(sr.properties.get("monitored events"));
       cos.println(sr.properties.get("categories"));
       cos.println(sr.properties.get("reset"));
-      hos.println("void");
-      String resetName = rvcPrefix + specName + "reset";
-      hos.println(resetName + "(void);"); 
       cos.println(sr.properties.get("monitoring body"));
-      for(String eventName : rvcParser.getEvents().keySet()){
-        hos.println("void");
-        cos.println("void");
-        String funcDecl = rvcPrefix + specName + eventName + rvcParser.getParameters().get(eventName);
-        hos.println(funcDecl + ";");
-        cos.println(funcDecl);
-        cos.println("{");
-        cos.println(rvcParser.getEvents().get(eventName) + "\n"); 
-        cos.println(rvcPrefix + specName + "monitor(" + rvcPrefix + constSpecName + eventName.toUpperCase() + ");"); 
-        for(String category : rvcParser.getHandlers().keySet()){
-          cos.println("if(" + rvcPrefix + specName + category + ")\n{");
-          cos.println(rvcParser.getHandlers().get(category).replaceAll("__RESET", resetName + "()"));
-          cos.println("}");
-        }
-        cos.println("}\n");
-      }
+      cos.println(sr.properties.get("event functions"));
+      hos.println(sr.properties.get("header declarations"));
       hos.println("#endif");
       System.out.println(hFile + " and " + cFile + " have been generated.");
     } catch (Exception e) {

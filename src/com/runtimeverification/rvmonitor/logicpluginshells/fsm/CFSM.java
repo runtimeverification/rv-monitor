@@ -11,11 +11,16 @@ import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.*;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.util.RVMException;
 
+import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
+
 public class CFSM extends LogicPluginShell {
-  public CFSM() {
+  private RVCParser rvcParser;
+
+  public CFSM(RVCParser rvcParser) {
     super();
     monitorType = "FSM";
     outputLanguage = "C";
+    this.rvcParser = rvcParser;
   }
 
   ArrayList<String> allEvents;
@@ -65,15 +70,19 @@ public class CFSM extends LogicPluginShell {
     int countEvent = 1;
     
     String monitoredEventsStr = "";
-    
+
+    Map<String, String> constEventNames = new HashMap(allEvents.size());   
+ 
     for(String event: monitoredEvents){
       EventNum.put(event, new Integer(countEvent));
-      eventArrays.put(event, "static int " + event + "[] = {");
+      String constEventName = rvcPrefix + constSpecName + event.toUpperCase(); 
+      eventArrays.put(event, "static int " + constEventName + "[] = {");
+      constEventNames.put(event, constEventName);     
+ 
+    //  monitoredEventsStr += "static const int " + constEventName
+      //                   + " = " + countEvent + ";\n";
       
-      monitoredEventsStr += "static const int " + rvcPrefix + constSpecName + event.toUpperCase() 
-                         + " = " + countEvent + ";\n";
-      
-      ++countEvent;
+      // ++countEvent;
     }
     
     Map<String, Integer> stateNum = new HashMap<String, Integer>();
@@ -96,7 +105,7 @@ public class CFSM extends LogicPluginShell {
     result.put("reset", "void\n" + rvcPrefix + specName + "reset(void)\n{\n  state = 0;\n }\n");
     //result.put("initialization", "state = 0;\nevent = -1;\n");
     
-    String monitoringbodyStr = "void\n" + rvcPrefix + specName + "monitor(int event)\n{\n";
+    String monitoringbodyString = "" ;//"void\n" + rvcPrefix + specName + "monitor(int event)\n{\n";
     
    
     for(FSMItem i : fsmInput.getItems()){
@@ -127,40 +136,39 @@ public class CFSM extends LogicPluginShell {
        eventArrays.put(event, arrayString + "};\n");
     }
 
-    System.out.println(eventArrays);
-
-    monitoringbodyStr += "  switch(state) {\n";
-    if(fsmInput.getItems() != null){
-      for(FSMItem i : fsmInput.getItems()){
-        boolean doneDefault = false;
-        String stateName = i.getState();
-        monitoringbodyStr += "  case " + stateNum.get(stateName) + ":\n";
-        if(i.getTransitions() != null){
-          monitoringbodyStr += "  switch(event) {\n";
-          for(FSMTransition t : i.getTransitions()){
-            if(t.isDefaultFlag() && !doneDefault){
-              if(stateNum.get(t.getStateName()) == null)
-                throw new RVMException("Incorrect Monitor");
-                
-              monitoringbodyStr += "   default : state = " + stateNum.get(t.getStateName()) + "; break;\n";
-              doneDefault = true;
-            } else{
-              monitoringbodyStr += "    case " + EventNum.get(t.getEventName()) + " : state = " + stateNum.get(t.getStateName()) + "; break;\n";
-            }
-          }
-          if(!doneDefault){
-            monitoringbodyStr += "    default : state = -1; break;\n";
-          }
-          monitoringbodyStr += "  }\n";
-        }
-        monitoringbodyStr += "  break;\n";
-      }
+    for(String eventArray : eventArrays.values()){
+       monitoringbodyString += eventArray;
     }
-    monitoringbodyStr += "  default : state = -1;\n";
-    monitoringbodyStr += "  }\n";
 
-    System.out.println(monitoringbodyStr);
-
+//    monitoringbodyString += "  switch(state) {\n";
+//    if(fsmInput.getItems() != null){
+//      for(FSMItem i : fsmInput.getItems()){
+//        boolean doneDefault = false;
+//        String stateName = i.getState();
+//        monitoringbodyString += "  case " + stateNum.get(stateName) + ":\n";
+//        if(i.getTransitions() != null){
+//          monitoringbodyString += "  switch(event) {\n";
+//          for(FSMTransition t : i.getTransitions()){
+//            if(t.isDefaultFlag() && !doneDefault){
+//              if(stateNum.get(t.getStateName()) == null)
+//                throw new RVMException("Incorrect Monitor");
+//                
+//              monitoringbodyString += "   default : state = " + stateNum.get(t.getStateName()) + "; break;\n";
+//              doneDefault = true;
+//            } else{
+//              monitoringbodyString += "    case " + EventNum.get(t.getEventName()) + " : state = " + stateNum.get(t.getStateName()) + "; break;\n";
+//            }
+//          }
+//          if(!doneDefault){
+//            monitoringbodyString += "    default : state = -1; break;\n";
+//          }
+//          monitoringbodyString += "  }\n";
+//        }
+//        monitoringbodyString += "  break;\n";
+//      }
+//    }
+//    monitoringbodyString += "  default : state = -1;\n";
+//    monitoringbodyString += "  }\n";
 
     result.put("state declaration", stateDecl);
 
@@ -170,16 +178,18 @@ public class CFSM extends LogicPluginShell {
       cats.add(category); 
     }
     String catString = "";
+
+    String condString = "";
     //add fail if necessary
     if(cats.contains("fail")){
       catString = "int " + rvcPrefix + specName + "fail = 0;\n"; 
-      monitoringbodyStr += "  " + rvcPrefix + specName + "fail = state == -1;\n"; 
+      condString += "  " + rvcPrefix + specName + "fail = state == -1;\n"; 
     }
 
     for(String stateName : stateNum.keySet()){ 
       if(!cats.contains(stateName)) continue;
       String catName = rvcPrefix + specName + stateName;
-      monitoringbodyStr += "  " + catName + " = state == " + stateNum.get(stateName) + ";\n";  
+      condString += "  " + catName + " = state == " + stateNum.get(stateName) + ";\n";  
       catString += "int " + catName + " = 0;\n"; 
     }
 
@@ -198,18 +208,49 @@ public class CFSM extends LogicPluginShell {
           }
         }
         String catName = rvcPrefix + specName + stateName;
-        monitoringbodyStr += "  " + catName + " = " + conditionStr + ";\n";  
+        condString += "  " + catName + " = " + conditionStr + ";\n";  
         catString += "int " + catName + " = 0;\n"; 
       }
     }
    
-    monitoringbodyStr += "}\n\n"; 
-    result.put("monitoring body", monitoringbodyStr);
     //TODO: fixme
     if(catString.equals("")){
       throw new RuntimeException("Invalid handlers specified.  Make sure your logic supports your specified handlers");
     }
+
+    StringBuilder headerDecs = new StringBuilder();
+    StringBuilder eventFuncs = new StringBuilder();
+
+    String resetName = rvcPrefix + specName + "reset";
+
+    headerDecs.append("void\n");
+    headerDecs.append(resetName + "(void);\n"); 
+
+
+    for(String eventName : monitoredEvents){
+      headerDecs.append("void\n");
+      eventFuncs.append("void\n");
+      String funcDecl = rvcPrefix + specName + eventName + rvcParser.getParameters().get(eventName);
+      headerDecs.append(funcDecl + ";\n");
+      eventFuncs.append(funcDecl + "\n");
+      eventFuncs.append("{\n");
+      eventFuncs.append(rvcParser.getEvents().get(eventName) + "\n"); 
+      eventFuncs.append("state = " + constEventNames.get(eventName) + "[state];\n"); 
+      eventFuncs.append(condString);
+      for(String category : rvcParser.getHandlers().keySet()){
+        eventFuncs.append("if(" + rvcPrefix + specName + category + ")\n{\n");
+        eventFuncs.append(rvcParser.getHandlers().get(category).replaceAll("__RESET", resetName + "()\n"));
+        eventFuncs.append("}\n");
+      }
+      eventFuncs.append("}\n\n");
+    }
+
+    result.put("header declarations", headerDecs.toString());
+    result.put("event functions", eventFuncs.toString());
+    result.put("monitoring body", monitoringbodyString);
+
     result.put("categories", catString);
+
     return result;
   }
 
