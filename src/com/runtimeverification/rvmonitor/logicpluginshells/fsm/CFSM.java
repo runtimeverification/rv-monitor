@@ -110,7 +110,6 @@ public class CFSM extends LogicPluginShell {
    
     for(FSMItem i : fsmInput.getItems()){
       int num = stateNum.get(i.getState());
-      System.out.println(num);
       Set<String> unseenEvents = new HashSet<String>(monitoredEvents);
       int defaultState = -1;
       for(FSMTransition t : i.getTransitions()){
@@ -127,7 +126,6 @@ public class CFSM extends LogicPluginShell {
       for(String event : unseenEvents){
         String arrayString = eventArrays.get(event);
         eventArrays.put(event, arrayString + defaultState + ",");
-        System.out.println(num+ ":" + event);
       }
     }
 
@@ -139,36 +137,6 @@ public class CFSM extends LogicPluginShell {
     for(String eventArray : eventArrays.values()){
        monitoringbodyString += eventArray;
     }
-
-//    monitoringbodyString += "  switch(state) {\n";
-//    if(fsmInput.getItems() != null){
-//      for(FSMItem i : fsmInput.getItems()){
-//        boolean doneDefault = false;
-//        String stateName = i.getState();
-//        monitoringbodyString += "  case " + stateNum.get(stateName) + ":\n";
-//        if(i.getTransitions() != null){
-//          monitoringbodyString += "  switch(event) {\n";
-//          for(FSMTransition t : i.getTransitions()){
-//            if(t.isDefaultFlag() && !doneDefault){
-//              if(stateNum.get(t.getStateName()) == null)
-//                throw new RVMException("Incorrect Monitor");
-//                
-//              monitoringbodyString += "   default : state = " + stateNum.get(t.getStateName()) + "; break;\n";
-//              doneDefault = true;
-//            } else{
-//              monitoringbodyString += "    case " + EventNum.get(t.getEventName()) + " : state = " + stateNum.get(t.getStateName()) + "; break;\n";
-//            }
-//          }
-//          if(!doneDefault){
-//            monitoringbodyString += "    default : state = -1; break;\n";
-//          }
-//          monitoringbodyString += "  }\n";
-//        }
-//        monitoringbodyString += "  break;\n";
-//      }
-//    }
-//    monitoringbodyString += "  default : state = -1;\n";
-//    monitoringbodyString += "  }\n";
 
     result.put("state declaration", stateDecl);
 

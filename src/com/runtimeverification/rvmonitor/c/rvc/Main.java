@@ -33,29 +33,16 @@ public class Main {
   public static String jarFilePath = null;
   public static String basePath = null;
 
+  private RVCParser rvcParser;
+
   static public void main(String[] args) {
      
     try{
-      ClassLoader loader = Main.class.getClassLoader();
-      String mainClassPath = loader.getResource("com/runtimeverification/rvmonitor/c/rvc/Main.class").toString();
-      String cmgPath = null;
-      if (mainClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class") && mainClassPath.startsWith("jar:")) {
-        cmgPath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
-                   - "rvmonitor.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
-        cmgPath = polishPath(cmgPath);
-        isJarFile = true;
-        jarFilePath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
-                       - "!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
-        jarFilePath = polishPath(jarFilePath);
-       }
-       else {
-         cmgPath = Main.class.getResource(".").getFile();
-       }
    
-      basePath = cmgPath;
+      basePath = getBasePath();
     
       if(args.length < 1){
-        System.err.println("usage is:  RVC <spec_file>\n  Please specify a spec file");
+        System.err.println("usage is:  rv-monitor -c <spec_file>\n  Please specify a spec file");
         System.exit(1);
       }
 
@@ -66,14 +53,9 @@ public class Main {
         throw new LogicException(
       "Unrecoverable error: please place plugins in the default plugins directory:plugins");
       }
+ 
+      RVCParser rvcParser = parseInput(args[0]);
 
-      // Parse Input
-      FileInputStream fio = new FileInputStream(new File(args[0]));
-      Scanner sc = new Scanner(fio);
-      StringBuilder buf = new StringBuilder();
-      while(sc.hasNextLine()) buf.append(sc.nextLine());
-      RVCParser rvcParser = RVCParser.parse(buf.toString()); 
-      
       // Get Logic Name and Client Name
       String logicName = rvcParser.getFormalism();
       if (logicName == null || logicName.length() == 0) {
@@ -166,7 +148,41 @@ public class Main {
     }
   }
 
- // Read Logic Plugin Directory
+ //Finds the base path from which this class was invoked
+ static private String getBasePath(){
+
+      ClassLoader loader = Main.class.getClassLoader();
+      String mainClassPath = loader.getResource("com/runtimeverification/rvmonitor/c/rvc/Main.class").toString();
+      String cmgPath = null;
+      if (mainClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class") && mainClassPath.startsWith("jar:")) {
+        cmgPath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
+                   - "rvmonitor.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
+        cmgPath = polishPath(cmgPath);
+        isJarFile = true;
+        jarFilePath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
+                       - "!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
+        jarFilePath = polishPath(jarFilePath);
+       }
+       else {
+         cmgPath = Main.class.getResource(".").getFile();
+       }
+   return cmgPath;
+ }
+
+ // Parses rv-monitor C input and produces a RVCParser object
+ // from which we can grab important data
+ static private RVCParser parseInput(String fileName) 
+   throws java.io.FileNotFoundException
+ {
+      FileInputStream fio = new FileInputStream(new File(fileName));
+      Scanner sc = new Scanner(fio);
+      StringBuilder buf = new StringBuilder();
+      while(sc.hasNextLine()) buf.append(sc.nextLine());
+      RVCParser ret = RVCParser.parse(buf.toString());
+      return ret; 
+ }
+
+  // Generates the proper name for the logic plugin directory
   static public String readLogicPluginDir(String basePath) {
     String logicPluginDirPath = System.getenv("LOGICPLUGINPATH");
     if (logicPluginDirPath == null || logicPluginDirPath.length() == 0) {
@@ -185,6 +201,5 @@ public class Main {
       path = path.replaceAll("%20", " ");
     return path;
   }
-
 
 }
