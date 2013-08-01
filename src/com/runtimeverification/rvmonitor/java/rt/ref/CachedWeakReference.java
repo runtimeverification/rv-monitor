@@ -5,6 +5,10 @@ import java.lang.ref.WeakReference;
 public class CachedWeakReference extends WeakReference<Object> {
 	private final int hashval;
 	
+	public CachedWeakReference(Object ref) {
+		this(ref, System.identityHashCode(ref));
+	}
+	
 	public CachedWeakReference(Object ref, int hashval) {
 		super(ref);
 		this.hashval = hashval;

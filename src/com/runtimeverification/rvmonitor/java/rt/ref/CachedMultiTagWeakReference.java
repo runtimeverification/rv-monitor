@@ -20,6 +20,10 @@ public class CachedMultiTagWeakReference extends CachedWeakReference {
 		this.tau[index] = t;
 	}
 	
+	public CachedMultiTagWeakReference(Object ref, int taglen) {
+		this(ref, System.identityHashCode(ref), taglen);
+	}
+	
 	public CachedMultiTagWeakReference(Object ref, int hashval, int taglen) {
 		super(ref, hashval);
 		this.disabled = new long[taglen];

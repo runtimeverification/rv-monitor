@@ -2,6 +2,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexin
 
 import java.util.ArrayList;
 
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
@@ -92,6 +93,40 @@ public class RefTree {
 
 		return ret;
 	}
+	
+	private String createWeakReferenceInternal(String weakref, RVMParameter ref, boolean conditional) {
+		String ret = "";
+		RVMVariable name;
+		
+		if(hostIndexingTree == null)
+			name = this.name;
+		else
+			name = hostIndexingTree.getName();
+		
+		String weakreftype = this.getResultType();
+		
+		if (conditional)
+			ret += "if (" + weakref + " == null) {\n";
+		
+		ret += weakref + " = new ";
+		ret += weakreftype;
+		ret += "(";
+		if (generalProperties.size() >= 2) {
+			ret += name;
+			ret += ".getTagLen(),";
+		}
+		ret += ref.getName();
+		ret += ");\n";
+		
+		if (conditional)
+			ret += "}\n";
+		
+		return ret;		
+	}
+
+	public String createWeakReferenceConditional(String weakref, RVMParameter ref) {
+		return this.createWeakReferenceInternal(weakref, ref, true);
+	}
 
 	public boolean isTagging() {
 		return generalProperties.size() != 0;
@@ -108,12 +143,14 @@ public class RefTree {
 		String ret = "";
 
 		ret += "Cached";
-		if (generalProperties.size() == 0)
-			ret += "";
-		else if (generalProperties.size() == 1)
-			ret += "Tag";
-		else
-			ret += "MultiTag";
+		if (Main.useWeakRefInterning) {
+			if (generalProperties.size() == 0)
+				ret += "";
+			else if (generalProperties.size() == 1)
+				ret += "Tag";
+			else
+				ret += "MultiTag";
+		}
 		ret += "WeakReference";
 
 		return ret;
@@ -123,12 +160,17 @@ public class RefTree {
 		String ret = "";
 		
 		if (hostIndexingTree == null) {
-			if (generalProperties.size() == 0)
-				ret = "com.runtimeverification.rvmonitor.java.rt.table.BasicRefMap";
-			else if (generalProperties.size() == 1)
-				ret = "com.runtimeverification.rvmonitor.java.rt.table.TagRefMap";
-			else
-				ret = "com.runtimeverification.rvmonitor.java.rt.table.MultiTagRefMap";
+			if (Main.useWeakRefInterning) {
+				if (generalProperties.size() == 0)
+					ret = "com.runtimeverification.rvmonitor.java.rt.table.BasicRefMap";
+				else if (generalProperties.size() == 1)
+					ret = "com.runtimeverification.rvmonitor.java.rt.table.TagRefMap";
+				else
+					ret = "com.runtimeverification.rvmonitor.java.rt.table.MultiTagRefMap";
+			}
+			else {
+				// RefTree should not be used when weak-reference interning is disabled.
+			}
 		}
 		else {
 			ret = hostIndexingTree.getRefTreeType();

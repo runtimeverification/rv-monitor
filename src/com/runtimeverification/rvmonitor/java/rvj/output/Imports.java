@@ -12,6 +12,9 @@ public class Imports {
 		"com.runtimeverification.rvmonitor.java.rt.*",
 		"com.runtimeverification.rvmonitor.java.rt.ref.*",
 		"com.runtimeverification.rvmonitor.java.rt.table.*",
+		"com.runtimeverification.rvmonitor.java.rt.tablebase.IBucketNode",
+		"com.runtimeverification.rvmonitor.java.rt.tablebase.TableAdopter.Tuple2",
+		"com.runtimeverification.rvmonitor.java.rt.tablebase.TableAdopter.Tuple3",
 	};
 
 	public Imports(RVMSpecFile rvmSpecFile) {

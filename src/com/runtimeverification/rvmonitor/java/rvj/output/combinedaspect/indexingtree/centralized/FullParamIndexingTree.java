@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexin
 import java.util.HashMap;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMTypedVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.LocalVariables;
@@ -44,8 +45,34 @@ public class FullParamIndexingTree extends IndexingTree {
 	public RVMParameter getLastParam(){
 		return queryParam.get(queryParam.size() - 1);
 	}
+	
+	private String getGetMapStrongRefCode(RVMTypedVariable retobj, RVMTypedVariable map, RVMParameter ref, RVMVariable weakref, String weakreftype) {
+		String ret = "";
+		ret += retobj.getType() + " " + retobj.getName() + " = null;\n";
+		boolean createWeakRef = weakreftype != null;
+		ret += this.getGetWithStrongRefCode(map, ref, IndexingTreeInterface.Map, retobj.getName(), weakref.getVarName(), createWeakRef);
+		return ret;
+		/*
+		RefTree tree = this.refTrees.get(ref.getType().getOp());
 
-	protected String lookupIntermediateCreative(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i) {
+		String ret = "";
+		ret += "{\n";
+		ret += "rvmonitorrt.map.hashentry.EntryPair pair = " + map + ".getMapStrong(" + ref.getName() + ");\n";
+		ret += "if (pair == null) {\n";
+		ret += retobj + " = null;\n";
+		if (weakreftype != null)
+			ret += tree.createWeakReferenceConditional(weakref, ref);
+		ret += "}\n";
+		ret += "else {\n";
+		ret += retobj + " = pair.getValue();\n";
+		ret += weakref + " = (" + tree.getResultType() + ")pair.getWeakRef();\n";
+		ret += "}\n";
+		ret += "}\n";
+		return ret;
+		*/
+	}
+
+	protected String lookupIntermediateCreative(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i, String monitorType) {
 		String ret = "";
 
 		RVMTypedVariable tempMap = localVars.getTempMap();
@@ -54,7 +81,10 @@ public class FullParamIndexingTree extends IndexingTree {
 		RVMParameter p = queryParam.get(i);
 		RVMVariable tempRef = localVars.getTempRef(p);
 
-		ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		if (Main.useWeakRefInterning)
+			ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		else
+			ret += getGetMapStrongRefCode(obj, tempMap, p, tempRef, localVars.getTempRefType(p));
 
 		RVMParameter nextP = queryParam.get(i + 1);
 
@@ -70,17 +100,17 @@ public class FullParamIndexingTree extends IndexingTree {
 			if (pair.isCreated())
 				ret += pair.getVariable().getType() + " ";	
 			ret += pair.getVariable() + " = " + obj + ";\n";	
-			ret += lookupNodeLast(localVars, monitor, lastMapStr, lastSet, i + 1, true);
+			ret += lookupNodeLast(localVars, monitor, lastMapStr, lastSet, i + 1, true, monitorType);
 		} else {
 			RVMTypedVariable var = localVars.createTempMap(obj.getType());
 			ret += var.getType() + " " + var.getName() + " = " + obj + ";\n";
-			ret += lookupIntermediateCreative(localVars, monitor, lastMapStr, lastSet, i + 1);
+			ret += lookupIntermediateCreative(localVars, monitor, lastMapStr, lastSet, i + 1, monitorType);
 		}
 
 		return ret;
 	}
 	
-	protected String lookupIntermediateNonCreative(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i) {
+	protected String lookupIntermediateNonCreative(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i, String monitorType) {
 		String ret = "";
 
 		RVMTypedVariable tempMap = localVars.getTempMap();
@@ -89,7 +119,10 @@ public class FullParamIndexingTree extends IndexingTree {
 		RVMParameter p = queryParam.get(i);
 		RVMVariable tempRef = localVars.getTempRef(p);
 
-		ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		if (Main.useWeakRefInterning)
+			ret += obj.getType() + " " + obj.getName() + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+		else
+			ret += this.getGetMapStrongRefCode(obj, tempMap, p, tempRef, null);
 
 		ret += "if (" + obj + " != null) {\n";
 
@@ -98,31 +131,69 @@ public class FullParamIndexingTree extends IndexingTree {
 			if (pair.isCreated())
 				ret += pair.getVariable().getType() + " ";	
 			ret += pair.getVariable() + " = " + obj + ";\n";			
-			ret += lookupNodeLast(localVars, monitor, lastMapStr, lastSet, i + 1, false);
+			ret += lookupNodeLast(localVars, monitor, lastMapStr, lastSet, i + 1, false, monitorType);
 		} else {
 			RVMTypedVariable var = localVars.createTempMap(obj.getType());
 			ret += var.getType() + " " + var.getName() + " = " + obj + ";\n";
-			ret += lookupIntermediateNonCreative(localVars, monitor, lastMapStr, lastSet, i + 1);
+			ret += lookupIntermediateNonCreative(localVars, monitor, lastMapStr, lastSet, i + 1, monitorType);
 		}
 
 		ret += "}\n";
+		
+		if (!Main.useWeakRefInterning) {
+			if (i + 1 < queryParam.size()) {
+				RVMParameter q = queryParam.get(i + 1);
+				RVMVariable wrq = localVars.getTempRef(q);
+	
+				RefTree tree = this.refTrees.get(q.getType().getOp());
+				ret += "else {\n";
+				ret += tree.createWeakReferenceConditional(wrq.getVarName(), q);			
+				ret += "}\n";
+			}
+		}
 
 		return ret;
 	}
+
+	private String getGetNodeStrongRefCode(RVMVariable retmonitor, RVMTypedVariable map, RVMParameter ref, RVMVariable weakref, String weakreftype, String retmonitortype) {
+		boolean createWeakRef = weakreftype != null;
+		return this.getGetWithStrongRefCode(map, ref, IndexingTreeInterface.Leaf, retmonitor.getVarName(), weakref.getVarName(), createWeakRef);
+		/*
+		RefTree tree = this.refTrees.get(ref.getType().getOp());
+
+		String ret = "";
+		ret += "{\n";
+		ret += "rvmonitorrt.map.hashentry.EntryPair pair = " + map + ".getNodeStrong(" + ref.getName() + ");\n";
+		ret += "if (pair == null) {\n";
+		ret += retmonitor + " = null;\n";
+		if (weakreftype != null)
+			ret += tree.createWeakReferenceConditional(weakref, ref);
+		ret += "}\n";
+		ret += "else {\n";
+		ret += retmonitor + " = (" + retmonitortype + ")pair.getValue();\n";
+		ret += weakref + " = (" + tree.getResultType() + ")pair.getWeakRef();\n";
+		ret += "}\n";
+		ret += "}\n";
+		return ret;
+		*/
+	}
 	
-	protected String lookupNodeLast(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i, boolean creative) {
+	protected String lookupNodeLast(LocalVariables localVars, RVMVariable monitor, String lastMapStr, RVMVariable lastSet, int i, boolean creative, String monitorType) {
 		String ret = "";
 
 		RVMParameter p = queryParam.get(i);
 		RVMVariable tempRef = localVars.getTempRef(p);
 		RVMTypedVariable lastMap = localVars.getMap(lastMapStr);
 
-		ret += monitor + " = " + lastMap + ".getLeaf(" + tempRef + ");\n";
+		if (Main.useWeakRefInterning)
+			ret += monitor + " = " + lastMap + ".getLeaf(" + tempRef + ");\n";
+		else
+			ret += getGetNodeStrongRefCode(monitor, lastMap, p, tempRef, localVars.getTempRefType(p), monitorType);
 
 		return ret;
 	}
 	
-	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative){
+	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
 		String ret = "";
 
 		RVMVariable monitor = localVars.get(monitorStr);
@@ -132,15 +203,16 @@ public class FullParamIndexingTree extends IndexingTree {
 			if (pair.isCreated())
 				ret += pair.getVariable().getType() + " ";
 			ret += pair.getVariable() + " = " + retrieveTree() + ";\n";
-			ret += lookupNodeLast(localVars, monitor, lastMapStr, null, 0, creative);
+			ret += lookupNodeLast(localVars, monitor, lastMapStr, null, 0, creative, monitorType);
 		} else {
 			RVMTypedVariable tempMap = localVars.createTempMap(this.getTreeType());
 			ret += tempMap.getType().toString() + " " + tempMap.getName() + " = " + retrieveTree() + ";\n";
 
 			if (creative) {
-				ret += lookupIntermediateCreative(localVars, monitor, lastMapStr, null, 0);
+				ret += lookupIntermediateCreative(localVars, monitor, lastMapStr, null, 0, monitorType);
+
 			} else {
-				ret += lookupIntermediateNonCreative(localVars, monitor, lastMapStr, null, 0);
+				ret += lookupIntermediateNonCreative(localVars, monitor, lastMapStr, null, 0, monitorType);
 			}
 		}
 
@@ -151,8 +223,8 @@ public class FullParamIndexingTree extends IndexingTree {
 		return "";
 	}
 	
-	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative){
-		return lookupNode(localVars, monitorStr, lastMapStr, lastSetStr, creative);
+	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
+		return lookupNode(localVars, monitorStr, lastMapStr, lastSetStr, creative, monitorType);
 	}
 
 	public String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr){

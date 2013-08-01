@@ -27,7 +27,7 @@ public class OneFullParamIndexingTree extends IndexingTree {
 		return false;
 	}
 
-	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
+	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
 		String ret = "";
 
 		RVMVariable monitor = localVars.get(monitorStr);
@@ -44,8 +44,8 @@ public class OneFullParamIndexingTree extends IndexingTree {
 		return ret;
 	}
 
-	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
-		return lookupNode(localVars, monitorStr, lastMapStr, lastSetStr, creative);
+	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) {
+		return lookupNode(localVars, monitorStr, lastMapStr, lastSetStr, creative, monitorType);
 	}
 
 	public String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr) {
