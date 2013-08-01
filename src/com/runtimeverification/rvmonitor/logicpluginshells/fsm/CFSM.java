@@ -59,17 +59,12 @@ public class CFSM extends LogicPluginShell {
     if (fsmInput == null)
       throw new RVMException("FSM to C LogicPluginShell cannot parse FSM formula");
 
-    HasDefaultVisitor hasDefaultVisitor = new HasDefaultVisitor();
-    boolean[] hasDefault = fsmInput.accept(hasDefaultVisitor, null);
-
     List<String> monitoredEvents;
     Map<String, String> eventArrays = new HashMap<String, String>(allEvents.size());
     monitoredEvents = allEvents;
     
     Map<String, Integer> EventNum = new HashMap<String, Integer>();
     int countEvent = 1;
-    
-    String monitoredEventsStr = "";
 
     Map<String, String> constEventNames = new HashMap(allEvents.size());   
  
@@ -78,11 +73,6 @@ public class CFSM extends LogicPluginShell {
       String constEventName = rvcPrefix + constSpecName + event.toUpperCase(); 
       eventArrays.put(event, "static int " + constEventName + "[] = {");
       constEventNames.put(event, constEventName);     
- 
-    //  monitoredEventsStr += "static const int " + constEventName
-      //                   + " = " + countEvent + ";\n";
-      
-      // ++countEvent;
     }
     
     Map<String, Integer> stateNum = new HashMap<String, Integer>();
@@ -96,16 +86,9 @@ public class CFSM extends LogicPluginShell {
       }
     }
     
-    result.put("monitored events", monitoredEventsStr);
-
-   // result.put("state declaration", "static int state = 0;\n");
     
-    String stateDecl = "static int state = 0; \n";
+    result.put("reset", "void\n" + rvcPrefix + specName + "reset(void)\n{\n  __RVC_state = 0;\n }\n");
     
-    result.put("reset", "void\n" + rvcPrefix + specName + "reset(void)\n{\n  state = 0;\n }\n");
-    //result.put("initialization", "state = 0;\nevent = -1;\n");
-    
-    String monitoringbodyString = "" ;//"void\n" + rvcPrefix + specName + "monitor(int event)\n{\n";
     
    
     for(FSMItem i : fsmInput.getItems()){
@@ -134,11 +117,13 @@ public class CFSM extends LogicPluginShell {
        eventArrays.put(event, arrayString + "};\n");
     }
 
+    String monitoringbodyString = "" ;
+
     for(String eventArray : eventArrays.values()){
        monitoringbodyString += eventArray;
     }
 
-    result.put("state declaration", stateDecl);
+    addStateDeclaration(result);
 
     //figure out which categories we actually care about
     HashSet<String> cats = new HashSet();
@@ -151,13 +136,13 @@ public class CFSM extends LogicPluginShell {
     //add fail if necessary
     if(cats.contains("fail")){
       catString = "int " + rvcPrefix + specName + "fail = 0;\n"; 
-      condString += "  " + rvcPrefix + specName + "fail = state == -1;\n"; 
+      condString += "  " + rvcPrefix + specName + "fail = __RVC_state == -1;\n"; 
     }
 
     for(String stateName : stateNum.keySet()){ 
       if(!cats.contains(stateName)) continue;
       String catName = rvcPrefix + specName + stateName;
-      condString += "  " + catName + " = state == " + stateNum.get(stateName) + ";\n";  
+      condString += "  " + catName + " = __RVC_state == " + stateNum.get(stateName) + ";\n";  
       catString += "int " + catName + " = 0;\n"; 
     }
 
@@ -169,10 +154,10 @@ public class CFSM extends LogicPluginShell {
         boolean firstFlag = true;
         for(String state : a.getStates()){
           if(firstFlag){
-            conditionStr += "state == " + stateNum.get(state);
+            conditionStr += "__RVC_state == " + stateNum.get(state);
             firstFlag = false;
           } else{
-            conditionStr += " || state == " + stateNum.get(state);
+            conditionStr += " || __RVC_state == " + stateNum.get(state);
           }
         }
         String catName = rvcPrefix + specName + stateName;
@@ -203,7 +188,7 @@ public class CFSM extends LogicPluginShell {
       eventFuncs.append(funcDecl + "\n");
       eventFuncs.append("{\n");
       eventFuncs.append(rvcParser.getEvents().get(eventName) + "\n"); 
-      eventFuncs.append("state = " + constEventNames.get(eventName) + "[state];\n"); 
+      eventFuncs.append("__RVC_state = " + constEventNames.get(eventName) + "[__RVC_state];\n"); 
       eventFuncs.append(condString);
       for(String category : rvcParser.getHandlers().keySet()){
         eventFuncs.append("if(" + rvcPrefix + specName + category + ")\n{\n");
@@ -221,6 +206,11 @@ public class CFSM extends LogicPluginShell {
 
     return result;
   }
+
+  static private void addStateDeclaration(Properties p){
+    String stateDecl = "static int __RVC_state = 0; \n";
+    p.put("state declaration", stateDecl);
+  }  
 
   @Override
   public LogicPluginShellResult process(LogicRepositoryType logicOutputXML, String events) throws RVMException {

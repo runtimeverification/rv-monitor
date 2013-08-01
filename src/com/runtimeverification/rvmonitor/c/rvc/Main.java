@@ -210,7 +210,6 @@ public class Main {
       cos.println(rvcParser.getIncludes());
       cos.println(sr.properties.get("state declaration"));
       cos.println(rvcParser.getDeclarations());
-      cos.println(sr.properties.get("monitored events"));
       cos.println(sr.properties.get("categories"));
       cos.println(sr.properties.get("reset"));
       cos.println(sr.properties.get("monitoring body"));
