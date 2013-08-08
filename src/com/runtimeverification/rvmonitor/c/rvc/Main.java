@@ -19,12 +19,14 @@ import com.runtimeverification.rvmonitor.logicpluginshells.*;
 
 import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 
+import com.runtimeverification.rvmonitor.util.RVMException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 
 import java.util.Scanner;
 
@@ -33,9 +35,50 @@ public class Main {
   public static String jarFilePath = null;
   public static String basePath = null;
 
+  private static RVCParser rvcParser;
+
   static public void main(String[] args) {
      
     try{
+   
+      basePath = getBasePath();
+    
+      handleArgs(args);
+
+      String logicPluginDirPath = polishPath(readLogicPluginDir(basePath));
+      
+      File dirLogicPlugin = new File(logicPluginDirPath);
+      
+      if(!dirLogicPlugin.exists()){
+        throw new LogicException(
+      "Unrecoverable error: please place plugins in the default plugins directory:plugins");
+      }
+ 
+      rvcParser = parseInput(args[0]);
+
+      //send Spec to logic repository to get the logic result 
+      LogicRepositoryData cmgDataOut = sendToLogicRepository(logicPluginDirPath);
+ 
+      // Outputting the logic result
+      outputCode(cmgDataOut);    
+     
+    } catch (Exception e) {
+      e.printStackTrace();
+      //System.out.println(e);
+    }
+  }
+
+ //put any arg handling code here
+ static private void handleArgs(String[] args){
+   if(args.length < 1){
+     System.err.println("usage is:  rv-monitor -c <spec_file>\n  Please specify a spec file");
+     System.exit(1);
+   }
+ }
+
+ //Finds the base path from which this class was invoked
+ static private String getBasePath(){
+
       ClassLoader loader = Main.class.getClassLoader();
       String mainClassPath = loader.getResource("com/runtimeverification/rvmonitor/c/rvc/Main.class").toString();
       String cmgPath = null;
@@ -51,86 +94,101 @@ public class Main {
        else {
          cmgPath = Main.class.getResource(".").getFile();
        }
-   
-      basePath = cmgPath;
-    
-      if(args.length < 1){
-        System.err.println("usage is:  RVC <spec_file>\n  Please specify a spec file");
-        System.exit(1);
-      }
+   return cmgPath;
+ }
 
-
-      String logicPluginDirPath = polishPath(readLogicPluginDir(basePath));
-      File dirLogicPlugin = new File(logicPluginDirPath);
-      if(!dirLogicPlugin.exists()){
-        throw new LogicException(
-      "Unrecoverable error: please place plugins in the default plugins directory:plugins");
-      }
-
-      // Parse Input
-      FileInputStream fio = new FileInputStream(new File(args[0]));
+ // Parses rv-monitor C input and produces a RVCParser object
+ // from which we can grab important data
+ static private RVCParser parseInput(String fileName) 
+   throws FileNotFoundException
+ {
+      FileInputStream fio = new FileInputStream(new File(fileName));
       Scanner sc = new Scanner(fio);
       StringBuilder buf = new StringBuilder();
       while(sc.hasNextLine()) buf.append(sc.nextLine());
-      RVCParser rvcParser = RVCParser.parse(buf.toString()); 
-      
-      // Get Logic Name and Client Name
-      String logicName = rvcParser.getFormalism();
-      if (logicName == null || logicName.length() == 0) {
-        throw new LogicException("no logic names");
-      }
+      RVCParser ret = RVCParser.parse(buf.toString());
+      return ret; 
+ }
 
-      LogicRepositoryType cmgXMLIn = new LogicRepositoryType();
-      PropertyType logicProperty = new PropertyType();
-      
-      cmgXMLIn.setSpecName(rvcParser.getSpecName());
+  // Generates the proper name for the logic plugin directory
+  static public String readLogicPluginDir(String basePath) {
+    String logicPluginDirPath = System.getenv("LOGICPLUGINPATH");
+    if (logicPluginDirPath == null || logicPluginDirPath.length() == 0) {
+      if (basePath.charAt(basePath.length() - 1) == '/')
+        logicPluginDirPath = basePath + "plugins";
+      else
+        logicPluginDirPath = basePath + "/plugins";
+    }
 
-      logicProperty.setFormula(rvcParser.getFormula());
-      logicProperty.setLogic(logicName);
+    return logicPluginDirPath;
+  }
 
-      cmgXMLIn.setClient("CMonGen");
-      StringBuilder events = new StringBuilder();
-      for(String event : rvcParser.getEvents().keySet()){
-        events.append(event);
-        events.append(" ");
-      }
-      cmgXMLIn.setEvents(events.toString().trim());
+  // Polishing directory path for windows
+  static public String polishPath(String path) {
+    if (path.indexOf("%20") > 0)
+      path = path.replaceAll("%20", " ");
+    return path;
+  }
 
+  //sends spec to logic repository
+  static public LogicRepositoryData sendToLogicRepository(String logicPluginDirPath)
+    throws LogicException {
+    LogicRepositoryType cmgXMLIn = new LogicRepositoryType();
+    PropertyType logicProperty = new PropertyType();
+   
+    // Get Logic Name and Client Name
+    String logicName = rvcParser.getFormalism();
+    if (logicName == null || logicName.length() == 0) {
+      throw new LogicException("no logic names");
+    }
+ 
+    cmgXMLIn.setSpecName(rvcParser.getSpecName());
 
-      StringBuilder categories = new StringBuilder();
-      for(String category : rvcParser.getHandlers().keySet()){
-        categories.append(category);
-        categories.append(" ");
-      }
-      cmgXMLIn.setCategories(categories.toString().trim());
+    logicProperty.setFormula(rvcParser.getFormula());
+    logicProperty.setLogic(logicName);
 
-      PropertyType prop = new PropertyType();
-      prop.setLogic(rvcParser.getFormalism());
-      prop.setFormula(rvcParser.getFormula());
+    cmgXMLIn.setClient("CMonGen");
+    StringBuilder events = new StringBuilder();
+    for(String event : rvcParser.getEvents().keySet()){
+      events.append(event);
+      events.append(" ");
+    }
+    cmgXMLIn.setEvents(events.toString().trim());
 
-      cmgXMLIn.setProperty(prop);
+    StringBuilder categories = new StringBuilder();
+    for(String category : rvcParser.getHandlers().keySet()){
+      categories.append(category);
+      categories.append(" ");
+    }
+    cmgXMLIn.setCategories(categories.toString().trim());
 
+    PropertyType prop = new PropertyType();
+    prop.setLogic(rvcParser.getFormalism());
+    prop.setFormula(rvcParser.getFormula());
 
-      LogicRepositoryData cmgDataIn = new LogicRepositoryData(cmgXMLIn);
+    cmgXMLIn.setProperty(prop);
 
-      // Find a logic plugin and apply it
-      ByteArrayOutputStream logicPluginResultStream 
-        = LogicPluginFactory.process(logicPluginDirPath, logicName, cmgDataIn);
-      
-      LogicRepositoryData cmgDataOut = new LogicRepositoryData(logicPluginResultStream);
+    LogicRepositoryData cmgDataIn = new LogicRepositoryData(cmgXMLIn);
 
-      // Error check
-      if (logicPluginResultStream == null || logicPluginResultStream.size() == 0) {
-        throw new LogicException("Unknown Error from Logic Plugins");
-      }
-      
-      // Outputting
-       
+    // Find a logic plugin and apply it
+    ByteArrayOutputStream logicPluginResultStream 
+      = LogicPluginFactory.process(logicPluginDirPath, logicName, cmgDataIn);
+
+    // Error check
+    if (logicPluginResultStream == null || logicPluginResultStream.size() == 0) {
+      throw new LogicException("Unknown Error from Logic Plugins");
+    }
+    return new LogicRepositoryData(logicPluginResultStream);
+  }
+
+  //Output code for the monitor.  Creates a C and a H file
+  static private void outputCode(LogicRepositoryData cmgDataOut)
+    throws LogicException, RVMException, FileNotFoundException {
       LogicRepositoryType logicOutputXML = cmgDataOut.getXML();
       if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") != 0){
-        throw new Exception("Only finite logics are currently supported");
+        throw new LogicException("Only finite logics are currently supported");
       } 
-      CFSM cfsm = new CFSM();
+      CFSM cfsm = new CFSM(rvcParser);
       LogicPluginShellResult sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents());
 
       String rvcPrefix = (String) sr.properties.get("rvcPrefix");
@@ -152,56 +210,13 @@ public class Main {
       cos.println(rvcParser.getIncludes());
       cos.println(sr.properties.get("state declaration"));
       cos.println(rvcParser.getDeclarations());
-      cos.println(sr.properties.get("monitored events"));
       cos.println(sr.properties.get("categories"));
       cos.println(sr.properties.get("reset"));
-      hos.println("void");
-      String resetName = rvcPrefix + specName + "reset";
-      hos.println(resetName + "(void);"); 
       cos.println(sr.properties.get("monitoring body"));
-      for(String eventName : rvcParser.getEvents().keySet()){
-        hos.println("void");
-        cos.println("void");
-        String funcDecl = rvcPrefix + specName + eventName + rvcParser.getParameters().get(eventName);
-        hos.println(funcDecl + ";");
-        cos.println(funcDecl);
-        cos.println("{");
-        cos.println(rvcParser.getEvents().get(eventName) + "\n"); 
-        cos.println(rvcPrefix + specName + "monitor(" + rvcPrefix + constSpecName + eventName.toUpperCase() + ");"); 
-        for(String category : rvcParser.getHandlers().keySet()){
-          cos.println("if(" + rvcPrefix + specName + category + ")\n{");
-          cos.println(rvcParser.getHandlers().get(category).replaceAll("__RESET", resetName + "()"));
-          cos.println("}");
-        }
-        cos.println("}\n");
-      }
+      cos.println(sr.properties.get("event functions"));
+      hos.println(sr.properties.get("header declarations"));
       hos.println("#endif");
       System.out.println(hFile + " and " + cFile + " have been generated.");
-    } catch (Exception e) {
-      e.printStackTrace();
-      //System.out.println(e);
-    }
   }
-
- // Read Logic Plugin Directory
-  static public String readLogicPluginDir(String basePath) {
-    String logicPluginDirPath = System.getenv("LOGICPLUGINPATH");
-    if (logicPluginDirPath == null || logicPluginDirPath.length() == 0) {
-      if (basePath.charAt(basePath.length() - 1) == '/')
-        logicPluginDirPath = basePath + "plugins";
-      else
-        logicPluginDirPath = basePath + "/plugins";
-    }
-
-    return logicPluginDirPath;
-  }
-
-  // Polishing directory path for windows
-  static public String polishPath(String path) {
-    if (path.indexOf("%20") > 0)
-      path = path.replaceAll("%20", " ");
-    return path;
-  }
-
 
 }

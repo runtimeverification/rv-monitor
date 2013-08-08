@@ -261,11 +261,28 @@ public class GeneralAdviceBody extends AdviceBody {
 					for (RVMParameter p : eventParams) {
 
 						if (!fromParams.contains(p)) {
-							RVMVariable tau = new RVMVariable("tau");
-							String tempRefTau = getTempRefTau(p);
-
-							ret += "if (" + getTempRefDisable(p) + " > " + origMonitor + "." + tau;
-							ret += "|| (" + tempRefTau + " > 0 && " + tempRefTau + " < " + origMonitor + "." + tau + ")) {\n";
+							// disable(theta''), tau(theta'')
+							String disablepp = null, taupp = null;
+							String extracheck = null;
+							
+							if (Main.useWeakRefInterning) {
+								disablepp = getTempRefDisable(p);
+								taupp = getTempRefTau(p);
+							}
+							else {
+								disablepp = lastMonitor.getVarName() + ".disable";
+								taupp = lastMonitor.getVarName() + ".tau";
+								extracheck = lastMonitor + " != null";
+							}
+							
+							ret += "if (";
+							if (extracheck != null)
+								ret += "(" + extracheck + ") && (";
+							ret += disablepp + " > " + origMonitor + ".tau";
+							ret += "|| (" + taupp + " > 0 && " + taupp + " < " + origMonitor + ".tau)";
+							if (extracheck != null)
+								ret += ")";
+							ret += ") {\n";
 							{
 								ret += timeCheck + " = false;\n";
 							}
@@ -293,15 +310,7 @@ public class GeneralAdviceBody extends AdviceBody {
 								if (!refTree.isTagging())
 									continue;
 
-								if (tagNumber == -1) {
-									ret += "if (" + tempRef + "." + "getTau() == -1){\n";
-									ret += tempRef + "." + "setTau(" + origMonitor + ".tau" + ");\n";
-									ret += "}\n";
-								} else {
-									ret += "if (" + tempRef + "." + "getTau(" + tagNumber + ") == -1){\n";
-									ret += tempRef + "." + "setTau(" + tagNumber + ", " + origMonitor + ".tau)" + ";\n";
-									ret += "}\n";
-								}
+								ret += this.getTagInitializationCode(tempRef, tagNumber, origMonitor.getVarName() + ".tau");
 							}
 						}
 
@@ -385,15 +394,7 @@ public class GeneralAdviceBody extends AdviceBody {
 					if (!refTree.isTagging())
 						continue;
 
-					if (tagNumber == -1) {
-						ret += "if (" + tempRef + "." + "getTau() == -1){\n";
-						ret += tempRef + "." + "setTau(" + origMonitor + ".tau" + ");\n";
-						ret += "}\n";
-					} else {
-						ret += "if (" + tempRef + "." + "getTau(" + tagNumber + ") == -1){\n";
-						ret += tempRef + "." + "setTau(" + tagNumber + ", " + origMonitor + ".tau" + ");\n";
-						ret += "}\n";
-					}
+					ret += this.getTagInitializationCode(tempRef, tagNumber, origMonitor.getVarName() + ".tau");
 				}
 			}
 
@@ -507,6 +508,27 @@ public class GeneralAdviceBody extends AdviceBody {
 
 		return ret;
 	}
+	
+	private String getTagInitializationCode(RVMVariable weakref, int tagNumber, String value) {
+		String ret = "";
+
+		if (Main.useWeakRefInterning) {
+			if (tagNumber == -1) {
+				ret += "if (" + weakref + "." + "getTau() == -1){\n";
+				ret += weakref + "." + "setTau(" + value + ");\n";
+				ret += "}\n";
+			} else {
+				ret += "if (" + weakref + "." + "getTau(" + tagNumber + ") == -1){\n";
+				ret += weakref + "." + "setTau(" + tagNumber + ", " + value + ");\n";
+				ret += "}\n";
+			}
+		}
+		else {
+			// Since weak references do not hold tau, nothing needs to be done.
+		}
+
+		return ret;
+	}
 
 	// opt done
 	public String setTau() {
@@ -527,16 +549,8 @@ public class GeneralAdviceBody extends AdviceBody {
 
 			if (!refTree.isTagging())
 				continue;
-
-			if (tagNumber == -1) {
-				ret += "if (" + tempRef + "." + "getTau() == -1){\n";
-				ret += tempRef + "." + "setTau(" + timestamp + ");\n";
-				ret += "}\n";
-			} else {
-				ret += "if (" + tempRef + "." + "getTau(" + tagNumber + ") == -1){\n";
-				ret += tempRef + "." + "setTau(" + tagNumber + ", " + timestamp + ");\n";
-				ret += "}\n";
-			}
+			
+			ret += this.getTagInitializationCode(tempRef, tagNumber, this.timestamp.getVarName());
 		}
 
 		ret += timestamp + "++;\n";
@@ -645,6 +659,13 @@ public class GeneralAdviceBody extends AdviceBody {
 		return this.generateDisablePropertyAccessCode(p, true, rhs);
 	}
 	
+	private String setMonitorDisable(RVMVariable monitor, String rhs) {
+		String ret = "";
+		ret += monitor.getVarName() + ".disable = ";
+		ret += rhs;
+		return ret;
+	}
+	
 	public String getTempRefTau(RVMParameter p) {
 		String ret = "";
 
@@ -669,21 +690,25 @@ public class GeneralAdviceBody extends AdviceBody {
 
 
 	// opt done
-	public String setDisable() {
+	public String setDisable(RVMVariable monitor) {
 		String ret = "";
 
 		if (!isGeneral)
 			return ret;
 
-
-		for (RVMParameter p : eventParams) {
-			if (parametersForDisable.contains(p)) {
-				RefTree refTree = getRefTree(p);
-				if (!refTree.isTagging())
-					continue;
-
-				ret += setTempRefDisable(p, timestamp.getVarName()) + ";\n";
+		if (Main.useWeakRefInterning) {
+			for (RVMParameter p : eventParams) {
+				if (parametersForDisable.contains(p)) {
+					RefTree refTree = getRefTree(p);
+					if (!refTree.isTagging())
+						continue;
+	
+					ret += setTempRefDisable(p, timestamp.getVarName()) + ";\n";
+				}
 			}
+		}
+		else {
+			ret += setMonitorDisable(monitor, timestamp.getVarName()) + ";\n";
 		}
 
 		if (ret.length() > 0) {
@@ -696,14 +721,15 @@ public class GeneralAdviceBody extends AdviceBody {
 
 	// opt done
 	public String handleNoMonitor() throws RVMException {
+		RVMVariable mainMonitor = localVars.get("mainMonitor");
+			
 		String ret = "";
 
 		String copyState = copyState();
 		String createNewMonitor = createNewMonitor(copyState.length() > 0);
-		String setDisable = setDisable();
+		String setDisable = setDisable(mainMonitor);
 
 		if (copyState.length() > 0 || createNewMonitor.length() > 0 || setDisable.length() > 0) {
-			RVMVariable mainMonitor = localVars.get("mainMonitor");
 
 			ret += "if (" + mainMonitor + " == null) {\n";
 			{
