@@ -10,6 +10,7 @@
 package com.runtimeverification.rvmonitor.c.rvc;
 
 import com.runtimeverification.rvmonitor.logicpluginshells.fsm.CFSM;
+import com.runtimeverification.rvmonitor.logicpluginshells.cfg.CCFG;
 import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
 import com.runtimeverification.rvmonitor.logicrepository.LogicException;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
@@ -185,11 +186,20 @@ public class Main {
   static private void outputCode(LogicRepositoryData cmgDataOut)
     throws LogicException, RVMException, FileNotFoundException {
       LogicRepositoryType logicOutputXML = cmgDataOut.getXML();
-      if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") != 0){
-        throw new LogicException("Only finite logics are currently supported");
+
+      LogicPluginShellResult sr;
+      //TODO: make this reflective instead of using a switch over type
+      if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") == 0){
+        CFSM cfsm = new CFSM(rvcParser);
+        sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents());
+      }
+      else if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("cfg") == 0){
+        CCFG ccfg = new CCFG(rvcParser);
+        sr = ccfg.process(logicOutputXML, logicOutputXML.getEvents());
+      }
+      else {
+        throw new LogicException("Only finite logics and CFG are currently supported");
       } 
-      CFSM cfsm = new CFSM(rvcParser);
-      LogicPluginShellResult sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents());
 
       String rvcPrefix = (String) sr.properties.get("rvcPrefix");
       String specName = (String) sr.properties.get("specName");
