@@ -112,8 +112,8 @@ public class CCFG extends LogicPluginShell {
     String catString  = "int " + rvcPrefix + specName + "match = 0;\n"
                       + "int " + rvcPrefix + specName + "fail = 0;\n";
 
-    String condString = rvcPrefix + specName + "match = $cat$ = 0;\n"  
-                      + rvcPrefix + specName + "fail = $cat$ = 0;\n";
+    String condString = rvcPrefix + specName + "match = $cat$ == 0;\n"  
+                      + rvcPrefix + specName + "fail = $cat$ == 2;\n";
 
     result.put("categories", catString);
 
