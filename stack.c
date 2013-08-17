@@ -66,7 +66,7 @@ static void __RV_add(__RV_stacks *stacks, __RV_stack *elem){
   stacks->data[(stacks->current_index)++] = elem;
 }
 
-static void __RV_addi(__RV_stacks *stacks, int i, __RV_stack *elem){
+static void __RV_add_i(__RV_stacks *stacks, int i, __RV_stack *elem){
   stacks->data[i] = elem;
 }
 
