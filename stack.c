@@ -13,6 +13,25 @@ typedef struct stacks{
   __RV_stack **data;
 } __RV_stacks;
 
+static void __RV_delete_RV_stack(__RV_stack *stack){
+  free(stack->data);
+  free(stack);
+}
+
+static void __RV_delete_RV_stacks(__RV_stacks *stacks){
+  free(stacks->data);
+  free(stacks);
+}
+
+static void __RV_delete_all_RV_stacks(__RV_stacks *stacks){
+  int i;
+  for(i = 0; i < stacks->length; ++i){
+    __RV_delete_RV_stack(stacks->data[i]);
+  }
+  free(stacks->data);
+  free(stacks);
+}
+
 static __RV_stack* __RV_new_RV_stack(int size){
   __RV_stack *ret = (__RV_stack *) malloc(sizeof(__RV_stack));
   ret->current_index = 0;
