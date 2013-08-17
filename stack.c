@@ -47,6 +47,10 @@ static void __RV_add(__RV_stacks *stacks, __RV_stack *elem){
   stacks->data[(stacks->current_index)++] = elem;
 }
 
+static __RV_stack *__RV_get(__RV_stacks *stacks, int i){
+  return stacks->data[i];
+}
+
 static int __RV_peek(__RV_stack *stack){
   return stack->data[stack->current_index - 1];
 }
@@ -77,11 +81,19 @@ static void __RV_push(__RV_stack *stack, int elem){
 }
 
 int main(){
-  __RV_stack *stack = __RV_new_RV_stack(10);
-  int i;
-  for(i =0; i < 19; ++i) __RV_push(stack, i);
-  for(i =0; i < 19; ++i) printf("%d\n", __RV_pop(stack));
+  int i,j;
+  __RV_stacks *stacks = __RV_new_RV_stacks(1);
 
-  for(i =0; i < 9; ++i) __RV_push(stack, i + 10);
-  for(i =0; i < 9; ++i) printf("%d\n", __RV_pop(stack));
+  for(i = 0; i < 4; ++i){
+    __RV_add(stacks, __RV_new_RV_stack(1));
+    for(j = 0; j < 20; ++j){
+       __RV_push(__RV_get(stacks, i), i + j);
+    }
+  }
+
+  for(j = 0; j < 20; ++j){
+    for(i = 0; i < 4; ++i){
+      printf("%d\n", __RV_pop(__RV_get(stacks, i))); 
+    }
+  }
 }
