@@ -103,11 +103,11 @@ public class CCFG extends LogicPluginShell {
 
 
 
-    result.put("state declaration", GLRGen.cstate(lr) + "\n" + GLRGen.cintstack);
-    result.put("reset", GLRGen.reset(lr));
-    result.put("initialization", GLRGen.init(lr));
+    result.put("state declaration", GLRGen.cintstack + GLRGen.cstate(lr) + "\n");
+    result.put("reset", GLRGen.creset(lr));
+    result.put("initialization", GLRGen.cinit(lr));
 
-    result.put("monitoring body", GLRGen.body());
+    result.put("monitoring body", GLRGen.cbody());
 
     String catString  = "int " + rvcPrefix + specName + "match = 0;\n"
                       + "int " + rvcPrefix + specName + "fail = 0;\n";
