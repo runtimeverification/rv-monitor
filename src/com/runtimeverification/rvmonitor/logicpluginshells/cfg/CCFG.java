@@ -103,7 +103,7 @@ public class CCFG extends LogicPluginShell {
 
 
 
-    result.put("state declaration", GLRGen.state(lr) + "\n" + GLRGen.intstack);
+    result.put("state declaration", GLRGen.cstate(lr) + "\n" + GLRGen.cintstack);
     result.put("reset", GLRGen.reset(lr));
     result.put("initialization", GLRGen.init(lr));
 

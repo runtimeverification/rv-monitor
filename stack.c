@@ -14,20 +14,29 @@ typedef struct stacks{
 } __RV_stacks;
 
 static void __RV_delete_RV_stack(__RV_stack *stack){
+  if(stack == NULL) return;
   free(stack->data);
   free(stack);
 }
 
 static void __RV_delete_RV_stacks(__RV_stacks *stacks){
+  if(stacks == NULL) return;
   free(stacks->data);
   free(stacks);
 }
 
-static void __RV_delete_all_RV_stacks(__RV_stacks *stacks){
+static void __RV_clear(__RV_stacks *stacks){
+  if(stacks == NULL) return;
   int i;
   for(i = 0; i < stacks->length; ++i){
     __RV_delete_RV_stack(stacks->data[i]);
   }
+  stacks->current_index = 0;
+}
+
+static void __RV_delete_all_RV_stacks(__RV_stacks *stacks){
+  __RV_clear(stacks);
+  if(stacks == NULL) return;
   free(stacks->data);
   free(stacks);
 }
@@ -68,6 +77,12 @@ static void __RV_add(__RV_stacks *stacks, __RV_stack *elem){
 
 static void __RV_add_i(__RV_stacks *stacks, int i, __RV_stack *elem){
   stacks->data[i] = elem;
+}
+
+static __RV_stack *__RV_remove(__RV_stacks *stacks, int i){
+  __RV_stack *ret = stacks->data[i];
+  stacks->data[i] = NULL;
+  return ret;
 }
 
 static __RV_stack *__RV_get(__RV_stacks *stacks, int i){
@@ -119,4 +134,8 @@ int main(){
       printf("%d\n", __RV_pop(__RV_get(stacks, i))); 
     }
   }
+
+  __RV_delete_all_RV_stacks(stacks);
+  stacks = NULL;
+  __RV_clear(stacks);
 }

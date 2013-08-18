@@ -50,11 +50,25 @@ public class GLRGen {
 	}
 
 	public static String init(LR lr) {
-		return "IntStack stack = new IntStack();\nstack.push(-2);\nstack.push(" + Integer.toString(lr.q0) + ");\n$stacks$.add(stack);";
+		return "IntStack stack = new IntStack();\n"
+                   +   "stack.push(-2);\n"
+                   +   "stack.push(" + Integer.toString(lr.q0) + ");\n"
+                   +   "$stacks$.add(stack);";
+	}
+
+	public static String cinit(LR lr) {
+                return "__RV_stack  *stack = __RV_new_RV_stack(10);\n"
+                   +   "__RV_push(stack, -2);\n"
+                   +   "__RV_push(stack, " + lr.q0 + ");\n"
+                   +   "__RV_add($stacks$, stack);\n";                      
 	}
 
 	public static String reset(LR lr) {
 		return "$stacks$.clear();\n" + init(lr);
+	}
+
+	public static String creset(LR lr) {
+		return "__RV_clear($stacks$);\n" + cinit(lr);
 	}
 
 	public static String state(LR lr) {
@@ -62,6 +76,15 @@ public class GLRGen {
 				+ ";\nstatic int[][][][] $at$ = " + lr.atString() + ";\n" + "static boolean[] $acc$ = " + lr.accString() + ";;\n"
 				+ "int $cat$; // ACCEPT = 0, UNKNOWN = 1, FAIL = 2\nint $event$ = -1;";
 	}
+
+        public static String cstate(LR lr) {
+          return "__RV_stacks *$stacks$ = __RV_new_RV_stacks(5);\n"
+              +  lr.cgtString()
+              +  lr.catString()
+              +  lr.caccString()
+              + "int $cat$ //ACCEPT = 0, UNKNOWN = 1, FAIL = 2;\n"
+              + "int $event$ = -1;\n";
+        }
 
 	public static String match() {
 		return "$cat$ == 0";
@@ -83,4 +106,51 @@ public class GLRGen {
 			+ "for(int i = 0; i < len; ++i){\n" + "data[i] = old[i];\n" + "}\n" + "data[curr_index++] = datum;\n" + "}\n" + "}\n" + "public IntStack fclone(){\n"
 			+ "IntStack ret = new IntStack(data.length);\n" + "ret.curr_index = curr_index;\n" + "for(int i = 0; i < curr_index; ++i){\n"
 			+ "ret.data[i] = data[i];\n" + "}\n" + "return ret;\n" + "}\n" + "public void clear(){\n" + "curr_index = 0;\n" + "}\n" + "}\n";
+
+public static String cintstack =
+  "typedef struct stack{\n"
++ "  int current_index;\n"
++ "  int length;\n"
++ "  int *data;\n"
++ "} __RV_stack;\n"
++ "\n"
++ "static __RV_stack* __RV_new_RV_stack(int size){\n"
++ "  __RV_stack *ret = (__RV_stack *) malloc(sizeof(__RV_stack));\n"
++ "  ret->current_index = 0;\n"
++ "  ret->length = size;\n"
++ "  ret->data = (int *) malloc(sizeof(int) * size);\n"
++ "  return ret; \n"
++ "}\n"
++ "\n"
++ "static int __RV_peek(__RV_stack *stack){\n"
++ "  return stack->data[stack->current_index - 1];\n"
++ "}\n"
++ "\n"
++ "static int __RV_pop(__RV_stack *stack){\n"
++ "  return stack->data[--(stack->current_index)];\n"
++ "}\n"
++ "\n"
++ "static void __RV_pop_n(__RV_stack *stack, int n){\n"
++ "  stack->current_index -= n;\n"
++ "}\n"
++ "\n"
++ "static void __RV_push(__RV_stack *stack, int elem){\n"
++ "  if(stack->current_index >= stack->length) {\n"
++ "    int i;\n"
++ "    //free(stack->data);  \n"
++ "    //stack->length <<= 1;\n"
++ "    //stack->data = (int *) malloc(sizeof(int) * stack->length);\n"
++ "    int *tmp = (int *) malloc(sizeof(int) * stack->length * 2);\n"
++ "    for(i = 0; i < stack->length; ++i){\n"
++ "      tmp[i] = stack->data[i];\n"
++ "    } \n"
++ "    stack->length *= 2;\n"
++ "    free(stack->data);\n"
++ "    stack->data = tmp;\n"
++ "  } \n"
++ "  stack->data[(stack->current_index)++] = elem;\n"
++ "}\n";
+
+
+
 }
