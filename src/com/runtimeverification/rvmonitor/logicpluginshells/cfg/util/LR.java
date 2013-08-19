@@ -94,6 +94,14 @@ public class LR implements java.io.Serializable {
       return ret +"}";
    }
 
+   public String caccString() {
+      boolean[] acc = accArray();
+      String ret = "static int __RV_acc[" + acc.length + "] = { ";
+      for (int i = 0; i < acc.length; i++)
+         ret += ((acc[i])?1:0) + ", ";
+      return ret +"};\n";
+   }
+
    public String atString() {
       int[][][][] ata = atArray();
       String ret = "{ ";
@@ -115,8 +123,15 @@ public class LR implements java.io.Serializable {
          }
          ret += " }, ";
       }
-      ret += " };";
+      ret += " };\n";
       return ret;
+   }
+
+   public String catString(){
+     int[][][][] ata = atArray();
+     String ret = "static int __RV_at["+ata.length+"]["
+       + ata[0].length+"]["+ata[0][0].length+"]["+ata[0][0][0].length+"] = ";
+     return ret + atString();
    }
 
    public String gtString() {
@@ -129,8 +144,14 @@ public class LR implements java.io.Serializable {
          }
          ret += " }, ";
       }
-      ret += " };";
+      ret += " };\n";
       return ret;
+   }
+
+   public String cgtString(){
+     String ret = "static int __RV_gt["+gt.length+"]["
+       + gt[0].length+"] = ";
+     return ret + gtString();
    }
 
    // CT p128

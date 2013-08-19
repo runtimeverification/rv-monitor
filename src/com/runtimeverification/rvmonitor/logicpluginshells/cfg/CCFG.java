@@ -84,7 +84,7 @@ public class CCFG extends LogicPluginShell {
 		for (String event : monitoredEvents) {
 			tsmap.put(event, new Integer(tnum));
 
-			monitoredEventsStr += event + ":{\n  $event$ = " + tnum + ";\n}\n\n";
+			monitoredEventsStr += event + ":{\n  __RV_event = " + tnum + ";\n}\n\n";
 
 			tnum++;
 		}
@@ -104,23 +104,28 @@ public class CCFG extends LogicPluginShell {
 
 
     result.put("state declaration", GLRGen.cintstack + GLRGen.cstate(lr) + "\n");
-    result.put("reset", GLRGen.creset(lr));
-    result.put("initialization", GLRGen.cinit(lr));
+    result.put("reset", "void\n __RV_reset(void){\n" 
+                        + GLRGen.creset(lr)
+                        + "}\n"
+                        + "void\n __RV_init(void){\n"
+                        + GLRGen.cinit(lr)
+                        + "}\n"
+                         );
 
     result.put("monitoring body", GLRGen.cbody());
 
     String catString  = "int " + rvcPrefix + specName + "match = 0;\n"
                       + "int " + rvcPrefix + specName + "fail = 0;\n";
 
-    String condString = rvcPrefix + specName + "match = $cat$ == 0;\n"  
-                      + rvcPrefix + specName + "fail = $cat$ == 2;\n";
+    String condString = rvcPrefix + specName + "match = __RV_cat == 0;\n"  
+                      + rvcPrefix + specName + "fail = __RV_cat == 2;\n";
 
     result.put("categories", catString);
 
-	//	result.put("match condition", "$cat$ == 0\n");
-	//	result.put("fail condition", "$cat$ == 2\n");
+	//	result.put("match condition", "__RV_cat == 0\n");
+	//	result.put("fail condition", "__RV_cat == 2\n");
 		
-	//	result.put("nonfail condition", "$cat$ != 2\n");
+	//	result.put("nonfail condition", "__RV_cat != 2\n");
 
 
     StringBuilder headerDecs = new StringBuilder();
@@ -138,7 +143,9 @@ public class CCFG extends LogicPluginShell {
       eventFuncs.append(funcDecl + "\n");
       eventFuncs.append("{\n");
       eventFuncs.append(rvcParser.getEvents().get(eventName) + "\n"); 
-      eventFuncs.append("__RVC_state = " + constEventNames.get(eventName) + "[__RVC_state];\n"); 
+      eventFuncs.append("if(__RV_stacks_inst == NULL){\n");
+      eventFuncs.append("__RV_stacks_inst = __RV_new_RV_stacks(5);\n __RV_init();\n}\n");
+      eventFuncs.append("monitor(" + tsmap.get(eventName) + ");\n"); 
       eventFuncs.append(condString);
       for(String category : rvcParser.getHandlers().keySet()){
         eventFuncs.append("if(" + rvcPrefix + specName + category + ")\n{\n");
