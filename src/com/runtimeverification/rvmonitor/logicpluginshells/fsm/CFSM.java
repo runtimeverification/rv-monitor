@@ -16,6 +16,13 @@ import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 public class CFSM extends LogicPluginShell {
   private RVCParser rvcParser;
 
+  public CFSM() {
+    super();
+    monitorType = "FSM";
+    outputLanguage = "C";
+    this.rvcParser = null;
+  }
+
   public CFSM(RVCParser rvcParser) {
     super();
     monitorType = "FSM";

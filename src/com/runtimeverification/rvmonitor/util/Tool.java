@@ -149,7 +149,11 @@ public class Tool {
 						offset += prefix;
 				}
 			}
-		} catch (Exception e){
+		} 
+                catch (IndexOutOfBoundsException ie){
+                  //only happens where there is format problems
+                }
+                catch (Exception e){
 			System.out.println("weird error!" + e.getMessage() + " at " + aLine + ", " + lineNum);
 			//System.out.println(output);
 			e.printStackTrace();

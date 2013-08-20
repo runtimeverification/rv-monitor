@@ -20,6 +20,13 @@ import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 public class CCFG extends LogicPluginShell {
   private RVCParser rvcParser;
 
+  public CCFG() {
+    super();
+    monitorType = "CFG";
+    outputLanguage = "C";
+    this.rvcParser = null;
+  }
+
   public CCFG(RVCParser rvcParser) {
     super();
     monitorType = "CFG";
@@ -41,6 +48,8 @@ public class CCFG extends LogicPluginShell {
   }
 
   private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
+    System.out.println("running");
+    
     String rvcPrefix = "__RVC_";
     Properties result = new Properties();
 

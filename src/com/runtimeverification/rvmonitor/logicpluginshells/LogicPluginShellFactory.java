@@ -26,6 +26,7 @@ public class LogicPluginShellFactory {
 			if (logicPlugins != null) {
 				for (Class<?> c : logicPlugins) {
 					LogicPluginShell logicShellPlugin = (LogicPluginShell) c.getConstructor(pluginParamClass).newInstance();
+                            
 					if (logicShellPlugin.monitorType.toLowerCase().compareTo(monitorType.toLowerCase()) == 0
                             && logicShellPlugin.outputLanguage.toLowerCase().compareTo(outputLanguage.toLowerCase()) == 0) {
 						return logicShellPlugin;
@@ -33,6 +34,7 @@ public class LogicPluginShellFactory {
 				}
 			}
 		} catch (Exception e) {
+                  e.printStackTrace();
 		}
 		return null;
 	}
