@@ -5,10 +5,10 @@ import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.EventManager;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingDecl;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTreeManager;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.BaseMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.Monitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
@@ -39,8 +39,14 @@ public class CombinedAspect {
 	public IndexingTreeManager indexingTreeManager;
 	public EventManager eventManager;
 	private final OptionManager optionManager;
+	private final InternalBehaviorObservableCodeGenerator internalBehaviorObservableGenerator;
 
 	boolean has__ACTIVITY = false;
+	private boolean isCodeGenerated = false;
+	
+	public InternalBehaviorObservableCodeGenerator getInternalBehaviorObservableGenerator() {
+		return this.internalBehaviorObservableGenerator;
+	}
 
 	public CombinedAspect(String name, RVMSpecFile rvmSpecFile, HashMap<RVMonitorSpec, MonitorSet> monitorSets, HashMap<RVMonitorSpec, SuffixMonitor> monitors,
 			HashMap<RVMonitorSpec, EnableSet> enableSets, boolean versionedStack) throws RVMException {
@@ -49,6 +55,7 @@ public class CombinedAspect {
 		this.monitors = monitors;
 		this.enableSets = enableSets;
 		this.versionedStack = versionedStack;
+		this.internalBehaviorObservableGenerator = new InternalBehaviorObservableCodeGenerator(Main.internalBehaviorObserving);
 
 		this.specs = rvmSpecFile.getSpecs();
 		for (RVMonitorSpec spec : specs) {
@@ -108,10 +115,10 @@ public class CombinedAspect {
 		HashMap<String, RefTree> refTrees = indexingTreeManager.refTrees;
 		
 		for(RVMonitorSpec spec : specs){
-			IndexingDecl indexDecl = indexingTreeManager.getIndexingDecl(spec);
+			IndexingDeclNew indexDecl = indexingTreeManager.getIndexingDecl(spec);
 			
-			for(IndexingTree indexTree : indexDecl.getIndexingTrees().values()){
-				RVMParameters param = indexTree.queryParam;
+			for(IndexingTreeNew indexTree : indexDecl.getIndexingTrees().values()){
+				RVMParameters param = indexTree.getQueryParams();
 				
 				if(param.size() == 0)
 					continue;
@@ -131,11 +138,12 @@ public class CombinedAspect {
 		String ret = "";
 		
 		for(RVMonitorSpec spec : specs){
-			IndexingDecl decl = indexingTreeManager.getIndexingDecl(spec);
+			IndexingDeclNew decl = indexingTreeManager.getIndexingDecl(spec);
 		
-			for(IndexingTree tree : decl.getIndexingTrees().values()){
-				if(tree.cache != null){
-					ret += tree.cache.init();
+			for(IndexingTreeNew tree : decl.getIndexingTrees().values()){
+				if(tree.getCache()!= null){
+					// The following is no longer needed.
+//					ret += tree.getCache().init();
 				}
 			}
 		}
@@ -170,8 +178,17 @@ public class CombinedAspect {
 		return ret;
 	}
 
+	public void generateCode() {
+		if (!this.isCodeGenerated) {
+			this.eventManager.generateCode();
+		}
+	
+		this.isCodeGenerated = true;
+	}
 
 	public String toString() {
+		this.generateCode();
+	
 		String ret = "";
 
 		ret += this.statManager.statClass();
@@ -211,6 +228,8 @@ public class CombinedAspect {
 		ret += this.activatorsManager.decl();
 
 		ret += this.indexingTreeManager.decl();
+		
+		ret += this.generateInternalBehaviorObserverCode();
 
 		ret += this.eventManager.advices();
 
@@ -245,6 +264,28 @@ public class CombinedAspect {
 
 		ret += "}\n";
 
+		return ret;
+	}
+
+	private String generateInternalBehaviorObserverCode() {
+		String ret = "";
+
+		if (!Main.internalBehaviorObserving)
+			return ret;
+	
+		ret += "\n";
+		
+		ret += "private static InternalBehaviorMultiplexer observer = new InternalBehaviorMultiplexer();\n";
+		ret += "public static IObservable<IInternalBehaviorObserver> getObservable() {\n";
+		ret += "return observer;\n";
+		ret += "}\n";
+		ret += "public static void subscribe(IInternalBehaviorObserver o) {\n";
+		ret += "observer.subscribe(o);\n";
+		ret += "}\n";
+		ret += "public static void unsubscribe(IInternalBehaviorObserver o) {\n";
+		ret += "observer.unsubscribe(o);\n";
+		ret += "}\n\n";
+		
 		return ret;
 	}
 }

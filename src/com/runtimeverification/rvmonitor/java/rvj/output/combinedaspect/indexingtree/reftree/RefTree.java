@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
@@ -16,7 +18,7 @@ public class RefTree {
 	public ArrayList<RVMonitorSpec> properties = new ArrayList<RVMonitorSpec>();
 	public ArrayList<RVMonitorSpec> generalProperties = new ArrayList<RVMonitorSpec>();
 	
-	public IndexingTree hostIndexingTree = null;
+	public IndexingTreeNew hostIndexingTree = null;
 	
 	// rv-monitor cannot assume that 'thisJoinPoint' exists, unlike JavaMOP.
 	// The joinpoint ids can be passed from the .aj code but it seems using 1-level
@@ -52,44 +54,59 @@ public class RefTree {
 			generalProperties.add(spec);
 	}
 	
-	public void setHost(IndexingTree indexingTree){
+	public void setHost(IndexingTreeNew indexingTree){
 		hostIndexingTree = indexingTree;
 	}
 
 	public String get(RVMVariable tempRef, RVMParameter p) {
 		String ret = "";
-		RVMVariable name;
-		
-		if(hostIndexingTree == null)
-			name = this.name;
-		else
-			name = hostIndexingTree.getName();
-		
-		ret += tempRef + " = " + name + ".findOrCreateWeakRef(" + p.getName();
-		
-		if(this.useJoinPointId && properties.size() > 1)
-			ret += ", thisJoinPoint.getStaticPart().getId()";
-		
-		ret += ");\n";
-		
+		ret += tempRef + " = ";
+		ret += this.get(p);
+		ret += ";\n";
 		return ret;
 	}
-
-	public String getRefNonCreative(RVMVariable tempRef, RVMParameter p) {
+	
+	public String get(RVMParameter p) {
 		String ret = "";
 		RVMVariable name;
 		
 		if(hostIndexingTree == null)
 			name = this.name;
 		else
-			name = hostIndexingTree.getName();
+			name = new RVMVariable(hostIndexingTree.getName());
+		
+		ret += name + ".findOrCreateWeakRef(" + p.getName();
+		
+		if(this.useJoinPointId && properties.size() > 1)
+			ret += ", thisJoinPoint.getStaticPart().getId()";
+		
+		ret += ")";
+		return ret;
+	}
+	
+	public String getRefNonCreative(RVMVariable tempRef, RVMParameter p) {
+		String ret = "";
+		ret += tempRef + " = ";
+		ret += this.getRefNonCreative(p);
+		ret += ";\n";
+		return ret;
+	}
 
-		ret += tempRef + " = " + name + ".findWeakRef(" + p.getName();
+	public String getRefNonCreative(RVMParameter p) {
+		String ret = "";
+		RVMVariable name;
+		
+		if(hostIndexingTree == null)
+			name = this.name;
+		else
+			name = new RVMVariable(hostIndexingTree.getName());
+
+		ret += name + ".findWeakRef(" + p.getName();
 
 		if(this.useJoinPointId && properties.size() > 1)
 			ret += ", thisJoinPoint.getStaticPart().getId()";
 		
-		ret += ");\n";
+		ret += ")";
 
 		return ret;
 	}
@@ -101,7 +118,7 @@ public class RefTree {
 		if(hostIndexingTree == null)
 			name = this.name;
 		else
-			name = hostIndexingTree.getName();
+			name = new RVMVariable(hostIndexingTree.getName());
 		
 		String weakreftype = this.getResultType();
 		
@@ -155,6 +172,12 @@ public class RefTree {
 
 		return ret;
 	}
+	
+	public CodeType getResultFQType() {
+		String pkgname = "com.runtimeverification.rvmonitor.java.rt.ref";
+		String klass = this.getResultType();
+		return new CodeType(pkgname, klass);
+	}
 
 	public String getType() {
 		String ret = "";
@@ -173,7 +196,9 @@ public class RefTree {
 			}
 		}
 		else {
-			ret = hostIndexingTree.getRefTreeType();
+//			ret = hostIndexingTree.getRefTreeType();
+			ret = hostIndexingTree.getField().getType().toString();
+//			ret = hostIndexingTree.getType().toString();
 		}
 
 		return ret;

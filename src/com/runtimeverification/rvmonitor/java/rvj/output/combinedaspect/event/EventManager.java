@@ -26,6 +26,8 @@ public class EventManager {
 	public HashMap<RVMonitorSpec, SuffixMonitor> monitors;
 	public HashMap<RVMonitorSpec, EnableSet> enableSets;
 	
+	private boolean isCodeGenerated = false;
+	
 	public EventManager(String name, List<RVMonitorSpec> specs, CombinedAspect combinedAspect) throws RVMException {
 		this.monitorSets = combinedAspect.monitorSets;
 		this.monitors = combinedAspect.monitors;
@@ -120,4 +122,12 @@ public class EventManager {
 		return ret;
 	}
 
+	public void generateCode() {
+		if (!this.isCodeGenerated) {
+			for (Advice advice : this.advices)
+				advice.generateCode();
+		}
+	
+		this.isCodeGenerated = true;
+	}
 }

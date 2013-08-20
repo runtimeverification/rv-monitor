@@ -9,9 +9,9 @@ public abstract class IndexingTree3<TWeakRef extends CachedWeakReference, TValue
 	}
 	
 	protected final TValue1 get1(TWeakRef key) {
-		BucketNode<TWeakRef, Tuple3<TValue1, TValue2, TValue3>> node = this.getNode(key);
-		if (node == null) return null;
-		return node.getValue().getValue1();
+		Tuple3<TValue1, TValue2, TValue3> tuple = this.getNode(key);
+		if (tuple == null) return null;
+		return tuple.getValue1();
 	}
 	
 	protected final void put1(TWeakRef key, TValue1 value1) {
@@ -20,9 +20,9 @@ public abstract class IndexingTree3<TWeakRef extends CachedWeakReference, TValue
 	}
 	
 	protected final TValue2 get2(TWeakRef key) {
-		BucketNode<TWeakRef, Tuple3<TValue1, TValue2, TValue3>> node = this.getNode(key);
-		if (node == null) return null;
-		return node.getValue().getValue2();
+		Tuple3<TValue1, TValue2, TValue3> tuple = this.getNode(key);
+		if (tuple == null) return null;
+		return tuple.getValue2();
 	}
 	
 	protected final void put2(TWeakRef key, TValue2 value2) {
@@ -31,9 +31,9 @@ public abstract class IndexingTree3<TWeakRef extends CachedWeakReference, TValue
 	}
 	
 	protected final TValue3 get3(TWeakRef key) {
-		BucketNode<TWeakRef, Tuple3<TValue1, TValue2, TValue3>> node = this.getNode(key);
-		if (node == null) return null;
-		return node.getValue().getValue3();
+		Tuple3<TValue1, TValue2, TValue3> tuple = this.getNode(key);
+		if (tuple == null) return null;
+		return tuple.getValue3();
 	}
 	
 	protected final void put3(TWeakRef key, TValue3 value3) {

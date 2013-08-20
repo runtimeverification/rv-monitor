@@ -7,6 +7,12 @@ import java.io.File;
 
 public class RVMonitorCompileFunctor implements TestCaseFunctor {
 	public FunctorResult apply(TestCase testCase) {
+		String rvmonitorrtLibPath = null;
+		if (Main.isJarFile)
+			rvmonitorrtLibPath = new File(Main.jarFilePath).getParent() + "/rt.jar";
+		else
+			rvmonitorrtLibPath = Main.rvmonitorDir + "/lib/rt.jar";
+
 		FunctorResult ret = new FunctorResult();
 
 		String server;
@@ -22,22 +28,33 @@ public class RVMonitorCompileFunctor implements TestCaseFunctor {
 
 			final String testFilePath = testCase.basepath + File.separator + testCase.path + File.separator;
 			final String testFileName = testFilePath + testCaseSpec.spec_filename;
+			String extrapath = File.pathSeparator + rvmonitorrtLibPath;
 			if (Main.isJarFile) {
 				if (Main.local) {
 					String logicRepositoryPath = new File(Main.jarFilePath).getParent() + File.separator + "logicrepository.jar";
 
-					String[] cmdarray2 = { "java", "-cp", Main.jarFilePath + File.pathSeparator + logicRepositoryPath, "com.runtimeverification.rvmonitor.java.rvj.Main",
+					String[] cmdarray2 = { "java", "-cp", Main.jarFilePath + File.pathSeparator + logicRepositoryPath + extrapath, "com.runtimeverification.rvmonitor.java.rvj.Main",
 							server, "-v", "-debug", testFileName};
 					cmdarray = cmdarray2;
 				} else {
-					String[] cmdarray2 = { "java", "-cp", Main.jarFilePath, "com.runtimeverification.rvmonitor.java.rvj.Main", server, "-v", "-debug",
+					String[] cmdarray2 = { "java", "-cp", Main.jarFilePath + extrapath, "com.runtimeverification.rvmonitor.java.rvj.Main", server, "-v", "-debug",
 							testFileName};
 					cmdarray = cmdarray2;
 				}
 			} else {
-				String[] cmdarray2 = { "java", "-cp", Main.rvmonitorDir, "com.runtimeverification.rvmonitor.java.rvj.Main", server, "-v", "-debug",
+				String[] cmdarray2 = { "java", "-cp", Main.rvmonitorDir + extrapath, "com.runtimeverification.rvmonitor.java.rvj.Main", server, "-v", "-debug",
 						testFileName};
 				cmdarray = cmdarray2;
+			}
+			
+			if (Main.verbose) {
+				String msg = "";
+				msg += "[Spawning] ";
+				for (String c : cmdarray) {
+					msg += c;
+					msg += " ";
+				}
+				System.out.println(msg);
 			}
 
 			try {

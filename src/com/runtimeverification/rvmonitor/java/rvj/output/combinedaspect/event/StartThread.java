@@ -7,9 +7,8 @@ import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.AdviceBody;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.GeneralAdviceBody;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingDecl;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
@@ -21,8 +20,8 @@ public class StartThread {
 	EventDefinition event;
 	MonitorSet monitorSet;
 	SuffixMonitor monitorClass;
-	IndexingDecl indexingDecl;
-	HashMap<RVMParameters, IndexingTree> indexingTrees;
+	IndexingDeclNew indexingDecl;
+	HashMap<RVMParameters, IndexingTreeNew> indexingTrees;
 	GlobalLock globalLock;
 
 	AdviceBody eventBody;
@@ -46,7 +45,7 @@ public class StartThread {
 		this.runnableMap = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_ThreadToRunnable");
 		this.mainThread = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_MainThread");
 
-		this.eventBody = new GeneralAdviceBody(mopSpec, event, combinedAspect);
+		this.eventBody = AdviceBody.createAdviceBody(mopSpec, event, combinedAspect);
 	}
 
 	public String printDataStructures() {

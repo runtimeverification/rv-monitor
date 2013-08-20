@@ -280,7 +280,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 			ret += "}\n";
 			*/
 			
-			this.getGetWithStrongRefCode(lastMap, p, IndexingTreeInterface.Set, lastSet.getVarName(), null, false);
+			ret += this.getGetWithStrongRefCode(lastMap, p, IndexingTreeInterface.Set, lastSet.getVarName(), null, false);
 			/*
 			ret += "{\n";
 			ret += "rvmonitorrt.map.hashentry.EntryPair pair = " + lastMap + ".getSetStrong(" + p.getName() + ");\n";

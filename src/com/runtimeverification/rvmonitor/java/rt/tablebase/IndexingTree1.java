@@ -8,9 +8,7 @@ public abstract class IndexingTree1<TWeakRef extends CachedWeakReference, TValue
 	}
 	
 	protected final TValue get1(TWeakRef key) {
-		BucketNode<TWeakRef, TValue> node = this.getNode(key);
-		if (node == null) return null;
-		return node.getValue();
+		return this.getNode(key);
 	}
 	
 	protected final void put1(TWeakRef key, TValue value) {

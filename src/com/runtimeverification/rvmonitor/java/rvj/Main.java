@@ -8,6 +8,7 @@
 package com.runtimeverification.rvmonitor.java.rvj;
 
 import com.runtimeverification.rvmonitor.java.rvj.logicclient.LogicRepositoryConnector;
+import com.runtimeverification.rvmonitor.java.rvj.output.CodeGenerationOption;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Tool;
@@ -56,8 +57,10 @@ public class Main {
 
 	public static boolean scalable = false;
 	
+	public static boolean internalBehaviorObserving = false;
+	
 	public static boolean useFineGrainedLock = false;
-	public static boolean useWeakRefInterning = false;
+	public static boolean useWeakRefInterning = true;
 
 	static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
 		if(Main.outputDir != null){
@@ -421,6 +424,8 @@ public class Main {
 				Main.empty_advicebody = true;
 			} else if (args[i].compareTo("-scalable") == 0) {
 				Main.scalable = true;
+			} else if (args[i].compareTo("-internalbehavior") == 0) {
+				Main.internalBehaviorObserving = true;
 			} else if (args[i].compareTo("-finegrainedlock") == 0) {
 				Main.useFineGrainedLock = true;
 			} else if (args[i].compareTo("-weakrefinterning") == 0) {
@@ -437,6 +442,8 @@ public class Main {
 			print_help();
 			return;
 		}
+		
+		CodeGenerationOption.initialize();
 		
 		try {
 			process(files);

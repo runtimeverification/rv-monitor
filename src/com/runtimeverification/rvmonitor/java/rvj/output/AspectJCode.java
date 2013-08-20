@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.monitor.MonitorFeatures;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
@@ -24,6 +25,7 @@ public class AspectJCode {
 	HashMap<RVMonitorSpec, CoEnableSet> coenableSets = new HashMap<RVMonitorSpec, CoEnableSet>();
 	boolean versionedStack = false;
 	SystemAspect systemAspect;
+	private boolean isCodeGenerated = false;
 	
 	public AspectJCode(String name, RVMSpecFile rvmSpecFile) throws RVMException {
 		this.name = name;
@@ -70,8 +72,30 @@ public class AspectJCode {
 		if(versionedStack)
 			systemAspect = new SystemAspect(name);
 	}
+	
+	public void generateCode() {
+		if (!this.isCodeGenerated) {
+			this.aspect.generateCode();
+		}
+		
+		this.postprocessMonitorFeatures();
+	
+		this.isCodeGenerated = true;
+	}
+
+	private void postprocessMonitorFeatures() {
+		for (SuffixMonitor monitor : this.monitors.values()) {
+			MonitorFeatures features = monitor.getFeatures();
+			features.onCodeGenerationPass1Completed();
+		}
+	}
 
 	public String toString() {
+		// Some non-trivial and potentially side-effect generating works should be done.
+		// Since toString() is not a very nice place to do such things, I created a
+		// method and let is invoked. I hope such changes are made in many other places.
+		this.generateCode();
+
 		String ret = "";
 
 		ret += packageDecl;

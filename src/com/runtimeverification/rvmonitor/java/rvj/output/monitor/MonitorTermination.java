@@ -58,13 +58,24 @@ public class MonitorTermination {
 		return ret;
 	}
 	
-	public String toString(){
+	public String getCode(MonitorFeatures features) {
 		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
 		int step = 0;
 		String ret = "";
 
-		for (RVMParameter param : parameters) {
-			ret += getRefType(param) + " " + references.get(param) + ";\n";
+		{
+			boolean generalcase = features.isNonFinalWeakRefsInMonitorNeeded();
+			RVMParameters needed = features.getRememberedParameters();
+			for (RVMParameter param : parameters) {
+				if (generalcase || needed.contains(param)) {
+					if (!generalcase)
+						ret += "final ";
+					ret += getRefType(param) + " " + references.get(param) + ";";
+				}
+				else
+					ret += "// " + references.get(param) + " was suppressed to reduce memory overhead";
+				ret += "\n";
+			}
 		}
 		ret += "\n";
 
@@ -163,7 +174,6 @@ public class MonitorTermination {
 			ret += "}\n";
 			ret += "}\n";
 		}
-
 
 		return ret;
 	}

@@ -6,7 +6,6 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.AdviceBody;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.GeneralAdviceBody;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
@@ -26,7 +25,7 @@ public class EndProgram {
 		if (!event.isEndProgram())
 			throw new RVMException("EndProgram should be defined only for an endProgram pointcut.");
 
-		this.eventBodies.add(new GeneralAdviceBody(mopSpec, event, combinedAspect));
+		this.eventBodies.add(AdviceBody.createAdviceBody(mopSpec, event, combinedAspect));
 	}
 
 	public void registerEndThreadEvents(ArrayList<EndThread> endThreadEvents) {

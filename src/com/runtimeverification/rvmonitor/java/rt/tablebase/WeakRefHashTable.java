@@ -88,7 +88,7 @@ class WeakRefHashTableCleaner {
 	}
 }
  
-abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> implements INodeOperation<TWeakRef, TValue> {
+public abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> implements INodeOperation<TWeakRef, TValue> {
 	private final TupleTrait<TValue> valueTrait;
 	private final WeakRefHashTableCleaner cleaner;
 
@@ -110,7 +110,7 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 			this.cacheWeakRef = new OrdinaryCacheEntry<TWeakRef, TValue>();
 	}
 	
-	protected synchronized final BucketNode<TWeakRef, TValue> getNode(TWeakRef key) {
+	protected synchronized final BucketNode<TWeakRef, TValue> findBucketNode(TWeakRef key) {
 		Bucket<TWeakRef, TValue> bucket = this.getBucket(key);
 		for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
 			TWeakRef wref = node.getKey();
@@ -119,17 +119,28 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 		}
 		return null;
 	}
+
+	@Override
+	public synchronized final TValue getNode(TWeakRef key) {
+		BucketNode<TWeakRef, TValue> node = this.findBucketNode(key);
+		if (node == null)
+			return null;
+		return node.getValue();
+	}
 	
 	@Override
-	public synchronized final IBucketNode<TWeakRef, TValue> getNodeWithStrongRef(Object key) {
+	public synchronized final TValue getNodeWithStrongRef(Object key) {
 		int hashval = System.identityHashCode(key);
 		
 		synchronized (this) {
 			Bucket<TWeakRef, TValue> bucket = this.getBucket(hashval);
 			for (BucketNode<TWeakRef, TValue> node = bucket.getHead(); node != null; node = node.getNext()) {
 				TWeakRef wref = node.getKey();
-				if (key == wref.get())
-					return node;
+				if (key == wref.get()) {
+					if (node == null)
+						return null;
+					return node.getValue();
+				}
 			}
 		}
 		return null;
@@ -158,6 +169,11 @@ abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue ext
 	
 	protected final void putNodeAdditive(TWeakRef key, TValue value, int valueflag) {
 		this.putNodeInternal(key, value, true, valueflag);
+	}
+
+	@Override
+	public void putNode(TWeakRef key, TValue value) {
+		this.putNodeInternal(key, value, false, 0);
 	}
 	
 	protected final TWeakRef findOrCreateWeakRefInternal(Object key, boolean create) {

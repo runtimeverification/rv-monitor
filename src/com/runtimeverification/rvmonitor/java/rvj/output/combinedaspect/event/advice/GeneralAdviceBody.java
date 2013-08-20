@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice;
 
+/*
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
@@ -9,6 +10,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.RVMonito
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingCache;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.BaseMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.MonitorInfo;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
@@ -20,10 +22,10 @@ import java.util.HashSet;
 public class GeneralAdviceBody extends AdviceBody {
 	public RVMonitorStatManager statManager;
 	
-	public IndexingTree indexingTree;
+	public IndexingTreeNew indexingTree;
 	public IndexingCache cache = null;
 
-	public HashMap<RVMonitorParameterPair, IndexingTree> indexingTreesForCopy;
+	public HashMap<RVMonitorParameterPair, IndexingTreeNew> indexingTreesForCopy;
 	public ArrayList<RVMonitorParameterPair> paramPairsForCopy;
 
 	RVMVariable timestamp;
@@ -43,7 +45,7 @@ public class GeneralAdviceBody extends AdviceBody {
 	String aspectName;
 
 	// assumes: mopSpec.getParameters().size() != 0
-	public GeneralAdviceBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
+	GeneralAdviceBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		super(mopSpec, event, combinedAspect);
 
 		this.isFullBinding = mopSpec.isFullBinding();
@@ -100,7 +102,6 @@ public class GeneralAdviceBody extends AdviceBody {
 		return false;
 	}
 
-	/***********************/
 
 	// opt done
 	public String refRetrievalFromCache() {
@@ -892,3 +893,5 @@ public class GeneralAdviceBody extends AdviceBody {
 		return ret;
 	}
 }
+
+*/

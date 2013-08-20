@@ -5,7 +5,7 @@ public abstract class AbstractMonitor implements IMonitor {
 	protected int RVM_lastevent = -1;
 	
 	protected abstract void terminateInternal(int treeid);
-	
+
 	@Override
 	public final void terminate(int treeid) {
 		if (!this.RVM_terminated) {

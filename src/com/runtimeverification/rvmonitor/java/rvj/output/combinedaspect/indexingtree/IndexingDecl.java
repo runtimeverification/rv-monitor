@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree;
 
+/*
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.centralized.CentralizedIndexingTree;
@@ -116,7 +117,7 @@ public class IndexingDecl {
 			combineRefTreesIntoIndexingTrees();
 		} else {
 
-			/* TODO: Decentralized RefTree which does not require any mapping. */
+			// TODO: Decentralized RefTree which does not require any mapping. *
 			
 			for (RVMParameters param : indexingParameterSet) {
 				IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
@@ -251,3 +252,5 @@ public class IndexingDecl {
 	
 	
 }
+
+*/

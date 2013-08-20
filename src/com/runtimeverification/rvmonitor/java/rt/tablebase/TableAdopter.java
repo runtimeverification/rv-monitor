@@ -74,6 +74,9 @@ public class TableAdopter {
 			this.value2 = val2;
 		}
 		
+		public Tuple2() {
+		}
+		
 		public Tuple2(T v1, U v2) {
 			this.value1 = v1;
 			this.value2 = v2;
@@ -128,6 +131,9 @@ public class TableAdopter {
 		
 		public final void setValue3(V val3) {
 			this.value3 = val3;
+		}
+		
+		public Tuple3() {
 		}
 		
 		public Tuple3(T v1, U v2, V v3) {

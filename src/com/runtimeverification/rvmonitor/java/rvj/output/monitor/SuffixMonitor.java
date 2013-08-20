@@ -28,6 +28,13 @@ public class SuffixMonitor extends Monitor {
 	boolean existSkip = false;
 	String aspectName;
 	
+	@Override
+	public MonitorFeatures getFeatures() {
+		// The inner monitor thing looks quirky to me, but, to deal with the quirkiness,
+		// it forwards the request.
+		return this.innerMonitor.getFeatures();
+	}
+	
 	public SuffixMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 
@@ -318,7 +325,7 @@ public class SuffixMonitor extends Monitor {
 
 			// endObject and some declarations
 			if (isOutermost && monitorTermination != null) {
-				ret += monitorTermination;
+				ret += monitorTermination.getCode(this.getFeatures());
 			}
 
 			if (monitorInfo != null){

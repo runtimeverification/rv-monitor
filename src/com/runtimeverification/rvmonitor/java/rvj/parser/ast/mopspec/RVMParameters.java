@@ -217,6 +217,10 @@ public class RVMParameters implements Iterable<RVMParameter> {
 	public Iterator<RVMParameter> iterator() {
 		return this.parameters.iterator();
 	}
+	
+	public RVMParameter getLast() {
+		return this.get(this.parameters.size() - 1);
+	}
 
 	public String parameterString() {
 		String ret = "";
@@ -313,5 +317,13 @@ public class RVMParameters implements Iterable<RVMParameter> {
 	public List<RVMParameter> toList(){
 		return parameters;
 	}
-	
+
+	public RVMParameters setDiff(RVMParameters r) {
+		ArrayList<RVMParameter> diff = new ArrayList<RVMParameter>();
+		for (RVMParameter p : this.parameters) {
+			if (!r.contains(p))
+				diff.add(p);
+		}
+		return new RVMParameters(diff);
+	}
 }

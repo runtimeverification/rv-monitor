@@ -7,6 +7,7 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
@@ -14,7 +15,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 
 public class IndexingTreeManager {
 
-	HashMap<RVMonitorSpec, IndexingDecl> trees = new HashMap<RVMonitorSpec, IndexingDecl>();
+	HashMap<RVMonitorSpec, IndexingDeclNew> trees = new HashMap<RVMonitorSpec, IndexingDeclNew>();
 	
 	public HashMap<String, RefTree> refTrees = new HashMap<String, RefTree>();
 
@@ -27,7 +28,7 @@ public class IndexingTreeManager {
 			SuffixMonitor monitor = monitors.get(spec);
 			EnableSet enableSet = enableSets.get(spec);
 
-			trees.put(spec, new IndexingDecl(spec, monitorSet, monitor, enableSet, refTrees));
+			trees.put(spec, new IndexingDeclNew(spec, monitorSet, monitor, enableSet, refTrees));
 		}
 	}
 	
@@ -47,7 +48,7 @@ public class IndexingTreeManager {
 		}
 	}
 	
-	public IndexingDecl getIndexingDecl(RVMonitorSpec spec) {
+	public IndexingDeclNew getIndexingDecl(RVMonitorSpec spec) {
 		return trees.get(spec);
 	}
 
@@ -74,7 +75,7 @@ public class IndexingTreeManager {
 //		System.out.println(count);
 
 		ret += "// Declarations for Indexing Trees \n";
-		for (IndexingDecl indexDecl : trees.values()) {
+		for (IndexingDeclNew indexDecl : trees.values()) {
 			ret += indexDecl;
 		}
 		ret += "\n";
@@ -86,6 +87,14 @@ public class IndexingTreeManager {
 			}
 			ret += "\n";
 		}
+		
+		if (Main.internalBehaviorObserving) {
+			ret += "static {\n";
+			for (IndexingDeclNew indexDecl : trees.values()) {
+				ret += indexDecl.getObservableObjectDescriptionSetCode();
+			}
+			ret += "}\n\n";
+		}
 
 		return ret;
 	}
@@ -96,7 +105,7 @@ public class IndexingTreeManager {
 		if (trees.size() <= 0)
 			return ret;
 
-		for (IndexingDecl indexDecl : trees.values()) {
+		for (IndexingDeclNew indexDecl : trees.values()) {
 			ret += indexDecl.reset();
 		}
 		ret += "\n";

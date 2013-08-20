@@ -1,9 +1,11 @@
 package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
+import com.runtimeverification.rvmonitor.java.rt.observable.IObservableObject;
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 
-abstract class AbstractIndexingTree<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> extends WeakRefHashTable<TWeakRef, TValue> implements IIndexingTree {
+public abstract class AbstractIndexingTree<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> extends WeakRefHashTable<TWeakRef, TValue> implements IIndexingTree, IObservableObject {
 	private final int treeid;
+	private String observableDescription;
 	
 	@Override
 	public int getTreeId() {
@@ -29,5 +31,14 @@ abstract class AbstractIndexingTree<TWeakRef extends CachedWeakReference, TValue
 	protected int cleanUpUnnecessaryMappingsInBucket(Bucket<TWeakRef, TValue> bucket) {
 		int removed = bucket.cleanUpUnnecessaryMappings(true, this.treeid);
 		return removed;
+	}
+	
+	public void setObservableObjectDescription(String desc) {
+		this.observableDescription = desc;
+	}
+	
+	@Override
+	public String getObservableObjectDescription() {
+		return this.observableDescription;
 	}
 }

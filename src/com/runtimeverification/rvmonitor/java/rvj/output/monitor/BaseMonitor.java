@@ -242,6 +242,12 @@ public class BaseMonitor extends Monitor {
 
 			ret += eventAction;
 		}
+		
+		if (Main.internalBehaviorObserving) {
+			ret += "this.trace.add(\"";
+			ret += event.getId();
+			ret += "\");\n";
+		}
 
 		for (RVMParameter p : varsToSave.keySet()) {
 			if (event.getRVMParametersOnSpec().contains(p)) {
@@ -385,12 +391,64 @@ public class BaseMonitor extends Monitor {
 	
 	public String toString() {
 		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
+		MonitorFeatures feature = this.getFeatures();
+		
 		String ret = "";
+		
+		String interfaceName = null;
+		
+		if (feature.isDisableHolderNeeded()) {
+			interfaceName = feature.getInterfaceName(this.monitorName.getVarName());
+			ret += "interface " + interfaceName + " extends IMonitor, IDisableHolder {\n";
+			ret += "}\n\n";
+			
+			String holderName = feature.getDisableHolderName(this.monitorName.getVarName());
+			ret += "class " + holderName + " extends DisableHolder implements " + interfaceName;
+			if (Main.internalBehaviorObserving)
+				ret += ", IObservableObject";
+			ret += " {\n";
+			ret += holderName + "(long tau) {\n";
+			ret += "super(tau);\n";
+			if (Main.internalBehaviorObserving)
+				ret += "this.holderid = ++nextid;\n";
+			ret += "}\n\n";
+			ret += "@Override\n";
+			ret += "public boolean isTerminated() {\n";
+			ret += "return false;\n";
+			ret += "}\n";
+			if (Main.internalBehaviorObserving) {
+				ret += "\n";
+				ret += "private int holderid;\n";
+				ret += "private static int nextid;\n\n";
+				ret += "@Override\n";
+				ret += "public String getObservableObjectDescription() {\n";
+				ret += "StringBuilder s = new StringBuilder();\n";
+				ret += "s.append('#');\n";
+				ret += "s.append(this.holderid);\n";
+				ret += "s.append(\"{t:\");\n";
+				ret += "s.append(this.getTau());\n";
+				ret += "s.append(\",dis:\");\n";
+				ret += "s.append(this.getDisable());\n";
+				ret += "s.append('}');\n";
+				ret += "return s.toString();\n";
+				ret += "}\n";
+			}
+			ret += "}\n\n";
+		}
 
 		ret += "class " + monitorName;
 		if (isOutermost)
 			ret += " extends com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitor";	
-		ret += " implements Cloneable, com.runtimeverification.rvmonitor.java.rt.RVMObject {\n";
+		ret += " implements Cloneable, com.runtimeverification.rvmonitor.java.rt.RVMObject";
+		if (feature.isTimeTrackingNeeded()) {
+			if (feature.isDisableHolderNeeded())
+				ret += ", " + interfaceName;
+			else
+				ret += ", com.runtimeverification.rvmonitor.java.rt.tablebase.IDisableHolder";
+		}
+		if (Main.internalBehaviorObserving)
+			ret += ", IObservableObject";
+		ret += " {\n";
 		
 		if (isOutermost && varInOutermostMonitor != null)
 			ret += varInOutermostMonitor;
@@ -406,6 +464,11 @@ public class BaseMonitor extends Monitor {
 			ret += monitorInfo.copy("ret", "this");
 		for(PropertyAndHandlers prop : props)
 			ret += propMonitors.get(prop).cloneCode;
+		if (Main.internalBehaviorObserving) {
+			ret += "ret.monitorid = ++nextid;\n";
+			ret += "ret.trace = new ArrayList<String>();\n";
+			ret += "ret.trace.addAll(this.trace);\n";
+		}
 		ret += "return ret;\n";
 		ret += "}\n";
 		ret += "catch (CloneNotSupportedException e) {\n";
@@ -452,7 +515,29 @@ public class BaseMonitor extends Monitor {
 		ret += "\n";
 
 		// constructor
-		ret += monitorName + " () {\n";
+		ret += monitorName + "(";
+		{
+			List<String> args = new ArrayList<String>();
+			if (feature.isTimeTrackingNeeded())
+				args.add("long tau");
+			{
+				RVMParameters params;
+				if (feature.isNonFinalWeakRefsInMonitorNeeded())
+					params = this.specParam;
+				else
+					params = feature.getRememberedParameters();
+				for (RVMParameter param : params)
+					args.add(this.monitorTermination.getRefType(param) + " " + this.monitorTermination.references.get(param));
+			}
+			for (int i = 0; i < args.size(); ++i) {
+				if (i > 0)
+					ret += ", ";
+				ret += args.get(i);
+			}
+		}
+		ret += ") {\n";
+		if (feature.isTimeTrackingNeeded())
+			ret += "this.tau = tau;\n";
 		for(PropertyAndHandlers prop : props){
 			if (prop.getVersionedStack()) {
 				RVMVariable global_depth = new RVMVariable("global_depth");
@@ -469,11 +554,36 @@ public class BaseMonitor extends Monitor {
 			ret += propMonitor.initilization;
 			ret += "\n";
 		}
+		for (RVMParameter param : feature.getRememberedParameters()) {
+			RVMVariable var = this.monitorTermination.references.get(param);
+			ret += "this." + var + " = " + var + ";\n";
+		}
 		if (Main.statistics) {
 			ret += stat.incNumMonitor();
 		}
+		if (Main.internalBehaviorObserving) {
+			ret += "this.trace = new ArrayList<String>();\n";
+			ret += "this.monitorid = ++nextid;\n";
+		}
 		ret += "}\n";
 		ret += "\n";
+		
+		if (feature.isTimeTrackingNeeded()) {
+			ret += "private final long tau;\n";
+			ret += "private long disable = -1;\n\n";
+			ret += "@Override\n";
+			ret += "public long getTau() {\n";
+			ret += "return this.tau;\n";
+			ret += "}\n\n";
+			ret += "@Override\n";
+			ret += "public final long getDisable() {\n";
+			ret += "return this.disable;\n";
+			ret += "}\n\n";
+			ret += "@Override\n";
+			ret += "public final void setDisable(long value) {\n";
+			ret += "this.disable = value;\n";
+			ret += "}\n\n";
+		}
 
 		// events
 		for(PropertyAndHandlers prop : props){
@@ -585,18 +695,46 @@ public class BaseMonitor extends Monitor {
 		
 		// endObject and some declarations
 		if (isOutermost) {
-			ret += monitorTermination;
+			ret += monitorTermination.getCode(this.getFeatures());
 		}
 
 		if (monitorInfo != null)
 			ret += monitorInfo.monitorDecl();
+
+		if (Main.internalBehaviorObserving) {
+			ret += "private List<String> trace;\n";
+			ret += "private int monitorid;\n";
+			ret += "private static int nextid;\n";
+			ret += "\n";
+			ret += "@Override\n";
+			ret += "public String getObservableObjectDescription() {\n";
+			ret += "StringBuilder s = new StringBuilder();\n";
+			ret += "s.append('#');\n";
+			ret += "s.append(this.monitorid);\n";
+			if (feature.isTimeTrackingNeeded()) {
+				ret += "s.append(\"{t:\");\n";
+				ret += "s.append(this.tau);\n";
+				ret += "s.append(\",dis:\");\n";
+				ret += "s.append(this.disable);\n";
+				ret += "s.append('}');\n";
+			}
+			ret += "s.append('[');\n";
+			ret += "for (int i = 0; i < this.trace.size(); ++i) {\n";
+			ret += "if (i > 0)\n";
+			ret += "s.append(',');\n";
+			ret += "s.append(this.trace.get(i));\n";
+			ret += "}\n";
+			ret += "s.append(']');\n";
+			ret += "return s.toString();\n";
+			ret += "}\n";
+		}
 
 		ret += "}\n";
 
 		if (has__ACTIVITY) {
 			ret = ret.replaceAll("__ACTIVITY", "this." + activity);
 		}
-
+		
 		return ret;
 	}
 

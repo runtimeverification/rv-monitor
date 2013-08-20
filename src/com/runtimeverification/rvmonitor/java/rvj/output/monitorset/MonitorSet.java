@@ -76,7 +76,8 @@ public class MonitorSet {
 		this.monitorLock = lock;
 		String ret = "";
 
-		ret += "if(" + monitorSetVar + " != null) {\n";
+		// Let's check this at the caller.
+//		ret += "if(" + monitorSetVar + " != null) {\n";
 
 //		if (has__LOC) {
 //			if (loc != null)
@@ -109,7 +110,7 @@ public class MonitorSet {
 					"." + BaseMonitor.getNiceVariable(var) + ";\n";
 		}
 
-		ret += "}\n";
+		// ret += "}\n";
 
 		if (this.hasThisJoinPoint) {
 			ret += monitorSetVar + "." + this.thisJoinPoint + " = null;\n";

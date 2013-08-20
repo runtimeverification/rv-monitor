@@ -38,6 +38,10 @@ public class Advice {
 	HashSet<RVMonitorSpec> specsForChecking = new HashSet<RVMonitorSpec>();
 	
 	HashMap<EventDefinition, AdviceBody> advices = new HashMap<EventDefinition, AdviceBody>();
+	
+	private final InternalBehaviorObservableCodeGenerator internalBehaviorObservableGenerator;
+
+	private boolean isCodeGenerated = false;
 
 	public Advice(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
@@ -65,7 +69,7 @@ public class Advice {
 		this.globalLock = combinedAspect.lockManager.getLock();
 		this.isSync = mopSpec.isSync();
 
-		this.advices.put(event, new GeneralAdviceBody(mopSpec, event, combinedAspect));
+		this.advices.put(event, AdviceBody.createAdviceBody(mopSpec, event, combinedAspect));
 
 		this.events.add(event);
 		if (event.getCountCond() != null && event.getCountCond().length() != 0) {
@@ -76,6 +80,8 @@ public class Advice {
 			specsForActivation.add(mopSpec);
 		else
 			specsForChecking.add(mopSpec);
+		
+		this.internalBehaviorObservableGenerator = combinedAspect.getInternalBehaviorObservableGenerator();
 	}
 
 	public String getPointCutName() {
@@ -106,7 +112,7 @@ public class Advice {
 		}
 
 		// add an advice body.
-		this.advices.put(event, new GeneralAdviceBody(mopSpec, event, combinedAspect));
+		this.advices.put(event, AdviceBody.createAdviceBody(mopSpec, event, combinedAspect));
 		
 		this.events.add(event);
 		if (event.getCountCond() != null && event.getCountCond().length() != 0) {
@@ -173,6 +179,7 @@ public class Advice {
 
 				AdviceBody advice = advices.get(event);
 
+				ret += this.internalBehaviorObservableGenerator.generateEventMethodEnterCode(event);
 				ret += this.statManager.incEvent(advice.mopSpec, event);
 
 				if(specsForChecking.contains(advice.mopSpec)){
@@ -220,6 +227,7 @@ public class Advice {
 						ret += "}\n";
 					}
 				}
+				ret += this.internalBehaviorObservableGenerator.generateEventMethodLeaveCode(event);
 			}
 
 			if (!Main.useFineGrainedLock) {
@@ -323,5 +331,21 @@ public class Advice {
 		ret += "}\n";
 
 		return ret;
+	}
+	
+	public void generateCode() {
+		if (!this.isCodeGenerated) {
+//			this.eventManager.generateCode();
+			Iterator<EventDefinition> iter;
+			iter = this.events.iterator();
+			
+			while (iter.hasNext()) {
+				EventDefinition event = iter.next();
+				AdviceBody advice = advices.get(event);
+				advice.generateCode();
+			}
+		}
+	
+		this.isCodeGenerated = true;
 	}
 }
