@@ -130,9 +130,40 @@ public class LR implements java.io.Serializable {
    public String catString(){
      int[][][][] ata = atArray();
      String ret = "static int __RV_at["+ata.length+"]["
-       + ata[0].length+"]["+ata[0][0].length+"]["+ata[0][0][0].length+"] = ";
-     return ret + atString();
+       +ata[0].length+"]["
+       +ata[0][0].length+"]["
+       +ata[0][0][0].length+"] = ";
+     return ret + catStringAux();
    }
+
+   public String catStringAux() {
+      int[][][][] ata = atArray();
+      String ret = "{ ";
+      for (int i = 0; i < ata.length; i++) {
+         ret += "{ ";
+         for (int j = 0; j < ata[i].length; j++) {
+            ret += "{ ";
+            for (int k = 0; k < ata[i][j].length; k++) {
+               ret += "{ ";
+               if (ata[i][j][k] != null) {
+                  for (int l = 0; l < ata[i][j][k].length; l++) {
+                     ret += Integer.toString(ata[i][j][k][l]);
+                     ret += ", ";
+                  }
+               }
+               else {
+                 ret += "0,";
+               }
+               ret += " }, ";
+            }
+            ret += " }, ";
+         }
+         ret += " }, ";
+      }
+      ret += " };\n";
+      return ret;
+   }
+
 
    public String gtString() {
       String ret = "{ ";

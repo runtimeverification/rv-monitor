@@ -104,7 +104,10 @@ public class CCFG extends LogicPluginShell {
 
 
     result.put("state declaration", GLRGen.cintstack + GLRGen.cstate(lr) + "\n");
-    result.put("reset", "void\n __RV_reset(void){\n" 
+
+
+    String resetName = rvcPrefix + specName + "reset";
+    result.put("reset", "void\n" +resetName + "(void){\n" 
                         + GLRGen.creset(lr)
                         + "}\n"
                         + "void\n __RV_init(void){\n"
@@ -112,7 +115,11 @@ public class CCFG extends LogicPluginShell {
                         + "}\n"
                          );
 
-    result.put("monitoring body", GLRGen.cbody());
+    result.put("monitoring body", 
+               "static void\nmonitor(int event){\n" 
+               + GLRGen.cbody()
+               + "\n}\n"
+               );
 
     String catString  = "int " + rvcPrefix + specName + "match = 0;\n"
                       + "int " + rvcPrefix + specName + "fail = 0;\n";
@@ -131,7 +138,6 @@ public class CCFG extends LogicPluginShell {
     StringBuilder headerDecs = new StringBuilder();
     StringBuilder eventFuncs = new StringBuilder();
 
-    String resetName = rvcPrefix + specName + "reset";
   
     headerDecs.append("void\n");
     headerDecs.append(resetName + "(void);\n");

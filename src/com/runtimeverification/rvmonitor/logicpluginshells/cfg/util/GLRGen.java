@@ -80,7 +80,46 @@ public class GLRGen {
 	}
 
         public static String cbody() {
-          return "";
+		return "if (__RV_cat != 2) {\n"
+                        + "  int i,j;\n" 
+                        + "  event--;\n" 
+                        + "  __RV_cat = 1;\n" 
+                        + "  for (i = __RV_stacks->current_index-1; i >=0; --i) {\n"
+		        + "     __RV_stack *stack = __RV_get(__RV_stacks, i);\n" 
+                        + "     __RV_add_i(__RV_stacks, i, NULL);\n" 
+                        + "     while (stack != NULL) {\n" 
+                        + "     int s = __RV_peek(stack);\n"
+			+ "     if (s >= 0 && sizeof(__RV_at[s][event]) >= 0) {\n" 
+                        + "     /* not in an error state and something to do? */\n"
+		        + "for (int j = 0; j < $at$[s][$event$].length; j++) {\n" 
+                        + "IntStack tstack;\n" 
+                        + "if ($at$[s][$event$].length > 1){\n"
+			+ "tstack = stack.fclone();\n" 
+                        + "} else{\n" 
+                        + "tstack = stack;\n" 
+                        + "}\n" 
+                        + "switch ($at$[s][$event$][j].length) {\n" 
+                        + "case 1:/* Shift */\n"
+			+ "tstack.push($at$[s][$event$][j][0]);\n" 
+                        + "$stacks$.add(tstack);\n" 
+                        + "if ($acc$[$at$[s][$event$][j][0]]) $cat$ = 0;\n" 
+                        + "break;\n"
+			+ "case 2: /* Reduce */\n" 
+                        + "tstack.pop($at$[s][$event$][j][1]);\n" 
+                        + "int $old$ = tstack.peek();\n"
+			+ "tstack.push($gt$[$old$][$at$[s][$event$][j][0]]);\n" 
+                        + "$stacks$.add($i$,tstack);\n" 
+                        + "break;\n" 
+                        + "}\n" 
+                        + "}\n" 
+                        + "}\n"
+			+ "stack = $stacks$.get($i$);\n" 
+                        + "$stacks$.remove($i$);\n" 
+                        + "}\n"
+                        + "}\n" 
+                        + "if ($stacks$.isEmpty())\n" 
+                        + "$cat$ = 2;\n" 
+                        + "}\n";
         }
 
 	public static String init(LR lr) {
@@ -122,8 +161,8 @@ public class GLRGen {
               +  lr.cgtString()
               +  lr.catString()
               +  lr.caccString()
-              + "int __RV_cat; //ACCEPT = 0, UNKNOWN = 1, FAIL = 2\n"
-              + "int __RV_event$ = -1;\n";
+              + "static int __RV_cat; //ACCEPT = 0, UNKNOWN = 1, FAIL = 2\n"
+              + "static int __RV_event$ = -1;\n";
         }
 
 	public static String match() {
@@ -224,9 +263,6 @@ public static String cintstack =
   + "static void __RV_add(__RV_stacks *stacks, __RV_stack *elem){\n"
   + "  if(stacks->current_index >= stacks->length) {\n"
   + "    int i;\n"
-  + "    //free(stack->data);  \n"
-  + "    //stack->length <<= 1;\n"
-  + "    //stack->data = (int *) malloc(sizeof(int) * stack->length);\n"
   + "    __RV_stack **tmp \n"
   + "       = (__RV_stack **) malloc(sizeof(__RV_stack *) * stacks->length * 2);\n"
   + "    for(i = 0; i < stacks->length; ++i){\n"
