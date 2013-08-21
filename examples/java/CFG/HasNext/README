@@ -16,3 +16,22 @@ To run HasNext_2 execute the following commands:
 javac -cp ../../../../lib/rt.jar:. mop/HasNextRuntimeMonitor.java HasNext_2/HasNext_2.java
 
 java -cp ../../../../lib/rt.jar:. HasNext_2.HasNext_2
+
+
+Windows:
+
+To run HasNext_1 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\HasNext.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\HasNextRuntimeMonitor.java HasNext_1\HasNext_1.java
+
+java -cp ..\..\..\..\lib\rt.jar;. HasNext_1.HasNext_1
+
+To run HasNext_2 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\HasNext.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\HasNextRuntimeMonitor.java HasNext_2\HasNext_2.java
+
+java -cp ..\..\..\..\lib\rt.jar;. HasNext_2.HasNext_2
