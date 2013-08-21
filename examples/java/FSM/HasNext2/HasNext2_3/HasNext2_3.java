@@ -1,3 +1,5 @@
+
+package HasNext2_3;
 import java.util.*;
 
 public class HasNext2_3 {
