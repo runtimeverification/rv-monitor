@@ -152,6 +152,7 @@ public class Tool {
 		} 
                 catch (IndexOutOfBoundsException ie){
                   //only happens where there is format problems
+                  return content;
                 }
                 catch (Exception e){
 			System.out.println("weird error!" + e.getMessage() + " at " + aLine + ", " + lineNum);

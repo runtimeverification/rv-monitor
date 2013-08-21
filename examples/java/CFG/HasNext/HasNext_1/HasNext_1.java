@@ -1,3 +1,4 @@
+package HasNext_1;
 
 import java.util.*;
 
@@ -15,7 +16,7 @@ public class HasNext_1 {
 
 		mop.HasNextRuntimeMonitor.nextEvent(i);
 		sum += (Integer)i.next();
-		mop.HasNextRuntimeMonitor.nextEvent(i);
+	        mop.HasNextRuntimeMonitor.nextEvent(i);
 		sum += (Integer)i.next();
 		mop.HasNextRuntimeMonitor.nextEvent(i);
 		sum += (Integer)i.next();
