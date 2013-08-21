@@ -129,10 +129,18 @@ public class LR implements java.io.Serializable {
 
    public String catString(){
      int[][][][] ata = atArray();
-     String ret = "static int __RV_at["+ata.length+"]["
-       +ata[0].length+"]["
-       +ata[0][0].length+"]["
-       +ata[0][0][0].length+"] = ";
+     int l1 = ata.length;
+     int l2 = 0;
+     int l3 = 0;
+     for(int i = 0; i < l1; ++i){
+      l2 = Math.max(l2, ata[i].length); 
+      for(int j = 0; j < ata[i].length; ++j){
+        l3 = Math.max(l3, ata[i][j].length);
+      } 
+     }
+     String ret = "static int __RV_at["+ l1 +"]["
+       +l2+"]["
+       +l3+"][3] = ";
      return ret + catStringAux();
    }
 
@@ -146,6 +154,7 @@ public class LR implements java.io.Serializable {
             for (int k = 0; k < ata[i][j].length; k++) {
                ret += "{ ";
                if (ata[i][j][k] != null) {
+                  ret += Integer.toString(ata[i][j][k].length) + ", ";
                   for (int l = 0; l < ata[i][j][k].length; l++) {
                      ret += Integer.toString(ata[i][j][k][l]);
                      ret += ", ";

@@ -48,7 +48,6 @@ public class CCFG extends LogicPluginShell {
   }
 
   private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
-    System.out.println("running");
     
     String rvcPrefix = "__RVC_";
     Properties result = new Properties();
