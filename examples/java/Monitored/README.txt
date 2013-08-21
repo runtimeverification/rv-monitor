@@ -98,7 +98,8 @@ From the directory this readme is in, rv-monitor can be found as
 
 Which will generate a .java file in the same directory as the mop file.  Make
 sure to copy the .java file to the src directory in the proper package
-path.  Any aj files in the aspect directory will be weaved.  In general, 
+path.  Unfortunately, there is no good way to automate this process.
+Any aj files in the aspect directory will be weaved.  In general, 
 rather than having a file to turn off monitors, we prefer to use selective weaving, 
 for performance reasons.
 

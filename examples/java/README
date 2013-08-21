@@ -1,0 +1,6 @@
+Here are all the examples that use the Java implementation language.
+
+Directories are ordered by logic type, except for Monitored, which is our
+android test bed.
+
+See the READMEs in each individual directory for more information
