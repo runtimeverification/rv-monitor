@@ -6,8 +6,7 @@ HoodLoose {
   ere : hoodLoose
 
   @match {
-    printf("Warning: Your hood is loose\n");
-    //bring car slowly to a stop
+    fprintf(stderr, "Warning: Your hood is loose!\n");
   }
 
 }
