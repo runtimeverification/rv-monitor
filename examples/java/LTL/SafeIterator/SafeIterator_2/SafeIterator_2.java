@@ -1,3 +1,5 @@
+package SafeFileWriter_2;
+
 import java.util.*;
 
 public class SafeIterator_2 {
