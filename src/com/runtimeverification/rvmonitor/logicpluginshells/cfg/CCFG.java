@@ -19,6 +19,7 @@ import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 
 public class CCFG extends LogicPluginShell {
   private RVCParser rvcParser;
+  private boolean parametric;
 
   public CCFG() {
     super();
@@ -27,11 +28,12 @@ public class CCFG extends LogicPluginShell {
     this.rvcParser = null;
   }
 
-  public CCFG(RVCParser rvcParser) {
+  public CCFG(RVCParser rvcParser, boolean parametric) {
     super();
     monitorType = "CFG";
     outputLanguage = "C";
     this.rvcParser = rvcParser;
+    this.parametric = parametric;
   }
 
   ArrayList<String> allEvents;
