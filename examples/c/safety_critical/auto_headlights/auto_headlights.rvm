@@ -18,6 +18,5 @@ AutoHeadlights{
 
   @validation {
     printf("Automatically turning on lights\n");
-    //lights();
   }
 }
