@@ -36,6 +36,8 @@ public class Main {
   public static String jarFilePath = null;
   public static String basePath = null;
 
+  private static boolean parametric = false;
+
   private static RVCParser rvcParser;
 
   static public void main(String[] args) {
@@ -54,8 +56,14 @@ public class Main {
         throw new LogicException(
       "Unrecoverable error: please place plugins in the default plugins directory:plugins");
       }
- 
-      rvcParser = parseInput(args[0]);
+
+      if(args[0].equals("-p")){
+        parametric = true; 
+        rvcParser = parseInput(args[1]);
+      }
+      else {
+        rvcParser = parseInput(args[0]);
+      }
 
       //send Spec to logic repository to get the logic result 
       LogicRepositoryData cmgDataOut = sendToLogicRepository(logicPluginDirPath);
@@ -190,11 +198,11 @@ public class Main {
       LogicPluginShellResult sr;
       //TODO: make this reflective instead of using a switch over type
       if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") == 0){
-        CFSM cfsm = new CFSM(rvcParser);
+        CFSM cfsm = new CFSM(rvcParser, parametric);
         sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents());
       }
       else if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("cfg") == 0){
-        CCFG ccfg = new CCFG(rvcParser);
+        CCFG ccfg = new CCFG(rvcParser, parametric);
         sr = ccfg.process(logicOutputXML, logicOutputXML.getEvents());
       }
       else {
@@ -217,14 +225,19 @@ public class Main {
       hos.println("#ifndef " + hDef);
       hos.println("#define " + hDef);
 
-      cos.println(rvcParser.getIncludes());
-      cos.println(sr.properties.get("state declaration"));
-      cos.println(rvcParser.getDeclarations());
-      cos.println(sr.properties.get("categories"));
-      cos.println(sr.properties.get("reset"));
-      cos.println(sr.properties.get("monitoring body"));
-      cos.println(sr.properties.get("event functions"));
-      hos.println(sr.properties.get("header declarations"));
+      if(parametric){
+
+      }
+      else {
+        cos.println(rvcParser.getIncludes());
+        cos.println(sr.properties.get("state declaration"));
+        cos.println(rvcParser.getDeclarations());
+        cos.println(sr.properties.get("categories"));
+        cos.println(sr.properties.get("reset"));
+        cos.println(sr.properties.get("monitoring body"));
+        cos.println(sr.properties.get("event functions"));
+        hos.println(sr.properties.get("header declarations"));
+      }
       hos.println("#endif");
       System.out.println(hFile + " and " + cFile + " have been generated.");
   }
