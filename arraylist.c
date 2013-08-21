@@ -22,12 +22,22 @@ static void __RV_delete_RV_list(__RV_list *list){
   free(list);
 }
 
-static __RV_list* __RV_new_RV_list(int size){
+static __RV_list *__RV_new_RV_list(int size){
   __RV_list *ret = (__RV_list *) malloc(sizeof(__RV_list));
   ret->current_index = 0;
   ret->length = size;
   ret->data = (__RV_tag_monitor **) malloc(sizeof(__RV_tag_monitor *) * size);
   return ret; 
+}
+
+static __RV_tag_monitor  *__RV_new_RV_tag_monitor(void *key, int state){
+  __RV_monitor *mon = (__RV_monitor *) malloc(sizeof(__RV_monitor));
+  __RV_tag_monitor *ret = (__RV_tag_monitor *) malloc(sizeof(__RV_tag_monitor));
+  
+  mon->state = state;
+  ret->monitor = mon;
+  ret->key = key;
+  return ret;
 }
 
 static void __RV_append(__RV_list *list, __RV_tag_monitor *elem){
@@ -55,3 +65,20 @@ static __RV_monitor *__RV_find(__RV_list *list, void *tag){
   return NULL;
 }
 
+int main(){
+  __RV_list *list = __RV_new_RV_list(3);
+  __RV_tag_monitor *m1 = __RV_new_RV_tag_monitor((void *) 1, 1); 
+  __RV_tag_monitor *m2 = __RV_new_RV_tag_monitor((void *) 2, 2); 
+  __RV_tag_monitor *m3 = __RV_new_RV_tag_monitor((void *) 3, 3); 
+  __RV_tag_monitor *m4 = __RV_new_RV_tag_monitor((void *) 4, 4); 
+ 
+  __RV_append(list, m1);
+  __RV_append(list, m2);
+  __RV_append(list, m3);
+  __RV_append(list, m4);
+
+  printf("%d\n",__RV_find(list, (void *)1)->state);
+  printf("%d\n",__RV_find(list, (void *)2)->state);
+  printf("%d\n",__RV_find(list, (void *)3)->state);
+  printf("%d\n",__RV_find(list, (void *)4)->state);
+}
