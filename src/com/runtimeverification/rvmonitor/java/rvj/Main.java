@@ -57,7 +57,7 @@ public class Main {
 	public static boolean scalable = false;
 	
 	public static boolean useFineGrainedLock = false;
-	public static boolean useWeakRefInterning = false;
+	public static boolean useWeakRefInterning = true;
 
 	static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
 		if(Main.outputDir != null){
