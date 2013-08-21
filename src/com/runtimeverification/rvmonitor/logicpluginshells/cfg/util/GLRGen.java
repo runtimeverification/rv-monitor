@@ -220,7 +220,7 @@ public static String cintstack =
   + "static void __RV_clear(__RV_stacks *stacks){\n"
   + "  if(stacks == NULL) return;\n"
   + "  int i;\n"
-  + "  for(i = 0; i < stacks->length; ++i){\n"
+  + "  for(i = 0; i < stacks->current_index; ++i){\n"
   + "    __RV_delete_RV_stack(stacks->data[i]);\n"
   + "  }\n"
   + "  stacks->current_index = 0;\n"
