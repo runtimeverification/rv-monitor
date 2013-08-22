@@ -13,6 +13,11 @@ import java.io.*;
 
 public class RVCParser {
 
+  class StringPair {
+    String f;
+    String s;
+  }
+
   public static void main(String[] args){
      Scanner sc = new Scanner(System.in);
      StringBuilder buf = new StringBuilder();
@@ -33,6 +38,7 @@ public class RVCParser {
 	 
 	  rvcParser.events = new HashMap<String, String>();
     rvcParser.parameters = new HashMap<String, String>();
+    rvcParser.pparameters = new HashMap<String, String>();
 	  rvcParser.handlers = new HashMap<String, String>();
 
     try{
@@ -53,6 +59,8 @@ public class RVCParser {
   private HashMap<String, String> events;
   //Domain is event name, range is parameter list
   private HashMap<String, String> parameters;
+  //Domain is event name, range is parameter list + key
+  private HashMap<String, String> pparameters;
   //Domain is category, range is body
   private HashMap<String, String> handlers;
   private String formalism;
@@ -73,6 +81,10 @@ public class RVCParser {
   
   public HashMap<String, String> getParameters () {
 	  return parameters;
+  }
+
+  public HashMap<String, String> getPParameters () {
+	  return pparameters;
   }
 
   public HashMap<String, String> getHandlers () {
@@ -239,18 +251,19 @@ void Start() : {
 
 void Event() : {
   Token token;
-  String paras;
+  StringPair paras;
   String code;
 } 
 {
   "event"
-  token = <ID> paras = Parameters() { parameters.put(token.image,paras); } "{"
+  token = <ID> paras = Parameters() { parameters.put(token.image,paras.f); 
+                                      pparameters.put(token.image,paras.s); } "{"
     { code = parseCodeBlock(); }
   "}"
   { events.put(token.image,code); }
 }
 
-String Parameters() : {
+StringPair Parameters() : {
   Token token;
   StringBuilder buf = new StringBuilder("(");
   String p;
@@ -259,7 +272,12 @@ String Parameters() : {
   "("
    [ p = Parameter() {buf.append(p);} ( "," p = Parameter() {buf.append(", " + p);} )*]
    ")"
-   {buf.append(")"); return buf.toString().trim();}
+   {  String f = buf.toString() + ")";
+      String s = buf.toString() + "void *key)";
+      StringPair sp = new StringPair(); //can't declare constructors in jj files???
+      sp.f = f;
+      sp.s = s;
+      return sp;}
 }
 
 String Parameter() : {

@@ -225,19 +225,15 @@ public class Main {
       hos.println("#ifndef " + hDef);
       hos.println("#define " + hDef);
 
-      if(parametric){
+      cos.println(rvcParser.getIncludes());
+      cos.println(sr.properties.get("state declaration"));
+      cos.println(rvcParser.getDeclarations());
+      cos.println(sr.properties.get("categories"));
+      cos.println(sr.properties.get("reset"));
+      cos.println(sr.properties.get("monitoring body"));
+      cos.println(sr.properties.get("event functions"));
+      hos.println(sr.properties.get("header declarations"));
 
-      }
-      else {
-        cos.println(rvcParser.getIncludes());
-        cos.println(sr.properties.get("state declaration"));
-        cos.println(rvcParser.getDeclarations());
-        cos.println(sr.properties.get("categories"));
-        cos.println(sr.properties.get("reset"));
-        cos.println(sr.properties.get("monitoring body"));
-        cos.println(sr.properties.get("event functions"));
-        hos.println(sr.properties.get("header declarations"));
-      }
       hos.println("#endif");
       System.out.println(hFile + " and " + cFile + " have been generated.");
   }
