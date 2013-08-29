@@ -28,6 +28,11 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 public class MonitorFeatures {
 	private final RVMParameters specParams;
 	
+	private boolean stabilized;
+	public boolean isStabilized() {
+		return this.stabilized;
+	}
+	
 	/**
 	 * This field tells whether or not the time tracking feature is needed.
 	 * If it is enabled, 'tau' and 'disable' should be enabled when a monitor
@@ -58,6 +63,8 @@ public class MonitorFeatures {
 	 */
 	private boolean needsNonFinalWeakRefsInMonitor;
 	public boolean isNonFinalWeakRefsInMonitorNeeded() {
+		if (!this.stabilized)
+			throw new IllegalAccessError();
 		return this.needsNonFinalWeakRefsInMonitor;
 	}
 	
@@ -71,6 +78,9 @@ public class MonitorFeatures {
 	 */
 	private Set<RVMParameter> rememberedParameters;
 	public RVMParameters getRememberedParameters() {
+		if (!this.stabilized)
+			throw new IllegalAccessError();
+
 		RVMParameters params = new RVMParameters();
 		for (RVMParameter prm : this.rememberedParameters)
 			params.add(prm);
@@ -104,6 +114,8 @@ public class MonitorFeatures {
 	
 	public MonitorFeatures(RVMParameters specParams) {
 		this.specParams = specParams;
+		
+		this.stabilized = false;
 	
 		this.needsTimeTracking = true;
 		this.rememberedParameters = new HashSet<RVMParameter>();
@@ -122,6 +134,9 @@ public class MonitorFeatures {
 	 * has been invoked.
 	 */
 	public void onCodeGenerationPass1Completed() {
+		// Things are about to be stabilized.
+		this.stabilized = true;
+
 		boolean allcovered = true;
 		RVMParameters needed = this.getRememberedParameters();
 		for (EventMethodBody evt : this.relatedEvents) {

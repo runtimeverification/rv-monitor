@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
-public abstract class CodeMember extends CodeObject {
+public abstract class CodeMember {
 	protected final String name;
 	protected final boolean statik;
 	protected final boolean publik;

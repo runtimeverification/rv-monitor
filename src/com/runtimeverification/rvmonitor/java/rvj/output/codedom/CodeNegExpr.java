@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
 public class CodeNegExpr extends CodeExpr {
@@ -15,5 +16,10 @@ public class CodeNegExpr extends CodeExpr {
 	public void getCode(ICodeFormatter fmt) {
 		fmt.operator("!");
 		this.nested.getCode(fmt);
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		this.nested.accept(visitor);
 	}
 }

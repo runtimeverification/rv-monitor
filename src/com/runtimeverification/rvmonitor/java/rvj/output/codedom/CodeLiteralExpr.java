@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
-import com.runtimeverification.rvmonitor.java.rt.observable.IInternalBehaviorObserver.LookupPurpose;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
@@ -59,5 +59,9 @@ public class CodeLiteralExpr extends CodeExpr {
 	@Override
 	public void getCode(ICodeFormatter fmt) {
 		fmt.literal(this.literal);
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
 	}
 }

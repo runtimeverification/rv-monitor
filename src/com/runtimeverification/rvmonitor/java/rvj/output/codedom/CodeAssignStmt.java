@@ -1,10 +1,15 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
 public class CodeAssignStmt extends CodeStmt {
 	private final CodeExpr lhs;
 	private final CodeExpr rhs;
+	
+	public CodeExpr getLHS() {
+		return this.lhs;
+	}
 	
 	public CodeAssignStmt(CodeExpr lhs, CodeExpr rhs) {
 		this.lhs = lhs;
@@ -30,5 +35,16 @@ public class CodeAssignStmt extends CodeStmt {
 		this.lhs.getCode(fmt);
 		fmt.operator("=");
 		this.rhs.getCode(fmt);
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		// Referring a variable here is different from referring one in other contexts,
+		// in that referring it here is subject to elimination; i.e., the variable should
+		// not cause the visitor to mark it as "referred".
+		// this.lhs.accept(visitor);
+		this.rhs.accept(visitor);
+		
+		visitor.assignVariable(this);
 	}
 }

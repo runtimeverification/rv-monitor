@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
 public class CodeCommentStmt extends CodeStmt {
@@ -24,5 +25,9 @@ public class CodeCommentStmt extends CodeStmt {
 	public void getCode(ICodeFormatter fmt) {
 		for (String line : this.lines)
 			fmt.comment(line);
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
 	}
 }

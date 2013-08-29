@@ -73,7 +73,7 @@ public class IndexingTreeQueryResult {
 		this.params = params;
 		this.access = access;
 		
-		if (params.size() > 1) {
+		if (params.size() > 0) {
 			RVMParameters heads = new RVMParameters();
 			for (int i = 0; i < params.size() - 1; ++i)
 				heads.add(params.get(i));
@@ -159,8 +159,12 @@ public class IndexingTreeQueryResult {
 
 		if (putentry) {
 			RVMParameter lastprm = this.params.getLast();
-			CodeVarRefExpr keyref = new CodeVarRefExpr(weakrefs.getWeakRef(lastprm));
-			stmts.add(GeneratedCodeAPI.generatePutNode(this.secondLastMapRef, keyref, valueref));
+			// Although a map is used in most cases, a single entry data structure
+			// (which can be also thought of as 0-level map) can be used.
+			if (lastprm != null) {
+				CodeVarRefExpr keyref = new CodeVarRefExpr(weakrefs.getWeakRef(lastprm));
+				stmts.add(GeneratedCodeAPI.generatePutNode(this.secondLastMapRef, keyref, valueref));
+			}
 		}
 
 		return stmts;

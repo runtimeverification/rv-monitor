@@ -15,6 +15,9 @@ public class GeneratedCodeAPI {
 	 * @return the generated code
 	 */
 	public static CodeStmtCollection generatePutNode(CodeVarRefExpr mapref, CodeVarRefExpr keyref, CodeVarRefExpr valueref) {
+		if (mapref == null)
+			throw new IllegalArgumentException();
+
 		CodeStmtCollection stmts = new CodeStmtCollection();
 	
 		CodeMethodInvokeExpr invoke = new CodeMethodInvokeExpr(CodeType.foid(), mapref, "putNode", keyref, valueref);

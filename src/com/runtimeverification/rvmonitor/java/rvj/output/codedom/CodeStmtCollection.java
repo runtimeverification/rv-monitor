@@ -3,11 +3,18 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeFormatters;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGenerator;
 
-public class CodeStmtCollection {
+public class CodeStmtCollection implements ICodeGenerator, ICodeVisitable {
 	private final List<CodeStmt> list;
+	
+	public List<CodeStmt> getStmts() {
+		return this.list;
+	}
 	
 	public boolean isSingle() {
 		return this.list.size() == 1;
@@ -44,6 +51,10 @@ public class CodeStmtCollection {
 				this.add(stmt);
 		}
 	}
+
+	public boolean remove(CodeStmt junk) {
+		return this.list.remove(junk);
+	}
 	
 	/**
 	 * Since adding comments is so frequently performed, a shortcut has been created.
@@ -59,11 +70,9 @@ public class CodeStmtCollection {
 		return coll;
 	}
 	
-	/**
-	 * This method flattens the structure if CodeBlockStmt is the only child.
-	 * This method is for pretty-printing.
-	 */
 	public void simplify() {
+		// The following flattens the structure if CodeBlockStmt is the only child.
+		// This is for pretty-printing.
 		if (this.list.size() == 1 && (this.list.get(0) instanceof CodeBlockStmt)) {
 			CodeBlockStmt block = (CodeBlockStmt)this.list.get(0);
 			block.getBody().simplify();
@@ -73,12 +82,21 @@ public class CodeStmtCollection {
 		}
 	}
 	
+	@Override
 	public void getCode(ICodeFormatter fmt) {
 		for (CodeStmt stmt : this.list) {
 			stmt.getCode(fmt);
 			if (!stmt.isBlock())
 				fmt.endOfStatement();
 		}
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		for (CodeStmt stmt : this.list)
+			stmt.accept(visitor);
+
+		visitor.visit(this);
 	}
 	
 	@Override

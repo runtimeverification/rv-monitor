@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
 public class CodePrePostfixExpr extends CodeExpr {
@@ -13,6 +14,13 @@ public class CodePrePostfixExpr extends CodeExpr {
 		this.ref = ref;
 		this.prefix = prefix;
 		this.plus = plus;
+		
+		this.validate();
+	}
+	
+	private void validate() {
+		if (this.ref == null)
+			throw new IllegalArgumentException();
 	}
 	
 	public static CodePrePostfixExpr prefix(CodeExpr ref, boolean plus) {
@@ -34,5 +42,10 @@ public class CodePrePostfixExpr extends CodeExpr {
 	
 		if (!this.prefix)
 			fmt.operator(op);
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		this.ref.accept(visitor);
 	}
 }

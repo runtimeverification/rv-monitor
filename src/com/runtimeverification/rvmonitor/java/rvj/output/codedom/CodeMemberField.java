@@ -1,9 +1,10 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGenerator;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
-public class CodeMemberField extends CodeMember {
+public class CodeMemberField extends CodeMember implements ICodeGenerator {
 	private final CodeType type;
 	private final CodeExpr init;
 	

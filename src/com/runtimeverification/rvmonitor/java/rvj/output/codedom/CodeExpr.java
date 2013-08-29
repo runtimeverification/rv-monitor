@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
@@ -31,5 +32,13 @@ class CodeLegacyExpr extends CodeExpr {
 	@Override
 	public void getCode(ICodeFormatter fmt) {
 		fmt.legacyExpr(this.rawexpr);
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		// Ideally, one can parse the legacy code and mark referred variables.
+		// Given that legacy code should disappear in the future, however, it
+		// seems it's waste of time to implement that. The current implementation
+		// returns as if the legacy code does not refer to any variable.
 	}
 }

@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
 import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
@@ -135,4 +136,9 @@ public class CodeBinOpExpr extends CodeExpr {
 		fmt.operator(")");
 	}
 
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		this.lhs.accept(visitor);
+		this.rhs.accept(visitor);
+	}
 }

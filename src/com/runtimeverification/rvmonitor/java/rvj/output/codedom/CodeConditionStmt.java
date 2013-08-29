@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
 public class CodeConditionStmt extends CodeStmt {
@@ -68,7 +69,7 @@ public class CodeConditionStmt extends CodeStmt {
 	
 	private void getCodeBranch(ICodeFormatter fmt, CodeStmtCollection nested) {
 		boolean needcurlybrace = nested == null || !nested.isSingle();
-		// Since some backend code in the old JavaMOP messes up with
+		// Since some back-end code in the old JavaMOP messes up with
 		// a single statement without curly braces, curly braces are always put.
 		needcurlybrace = true;
 		
@@ -84,5 +85,28 @@ public class CodeConditionStmt extends CodeStmt {
 			fmt.closeBlock();
 		else
 			fmt.pop();
+	}
+
+	@Override	public void accept(ICodeVisitor visitor) {
+		for (Branch branch : this.branches) {
+			branch.condition.accept(visitor);
+			if (branch.stmts != null) {
+				visitor.openScope();
+				branch.stmts.accept(visitor);
+				visitor.closeScope();
+			}
+		}
+
+		if (this.elsebranch != null) {
+			visitor.openScope();
+			this.elsebranch.accept(visitor);
+			visitor.closeScope();
+		}
+		
+		for (Branch branch : this.branches)
+			visitor.visit(branch.stmts);
+
+		if (this.elsebranch != null)
+			visitor.visit(this.elsebranch);
 	}
 }

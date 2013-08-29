@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
@@ -25,5 +26,10 @@ public class CodeCastExpr extends CodeExpr {
 		fmt.type(this.type);
 		fmt.operator(")");
 		this.source.getCode(fmt);
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		this.source.accept(visitor);
 	}
 }

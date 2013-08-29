@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
 public class CodeExprStmt extends CodeStmt {
@@ -24,5 +25,10 @@ public class CodeExprStmt extends CodeStmt {
 	@Override
 	public void getCode(ICodeFormatter fmt) {
 		this.expr.getCode(fmt);
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		this.expr.accept(visitor);
 	}
 }

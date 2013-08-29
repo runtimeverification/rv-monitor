@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
 public class CodeFieldRefExpr extends CodeExpr {
@@ -24,5 +25,11 @@ public class CodeFieldRefExpr extends CodeExpr {
 			fmt.operator(".");
 		}
 		fmt.identifier(this.field.getName());
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		if (this.target != null)
+			this.target.accept(visitor);
 	}
 }

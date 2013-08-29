@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
@@ -19,6 +20,10 @@ public class CodeVarDeclStmt extends CodeStmt {
 		this.var = var;
 		this.init = init;
 	
+		this.validate();
+	}
+	
+	private void validate() {
 		if (this.var == null)
 			throw new IllegalArgumentException();
 	}
@@ -41,5 +46,13 @@ public class CodeVarDeclStmt extends CodeStmt {
 			fmt.operator("=");
 			this.init.getCode(fmt);
 		}
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		if (this.init != null)
+			this.init.accept(visitor);
+		
+		visitor.declareVariable(this);
 	}
 }

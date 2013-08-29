@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 import java.util.Arrays;
 import java.util.List;
 
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
@@ -40,5 +41,13 @@ public class CodeMethodInvokeExpr extends CodeExpr {
 			}
 		}
 		fmt.operator(")");
+	}
+
+	@Override
+	public void accept(ICodeVisitor visitor) {
+		if (this.target != null)
+			this.target.accept(visitor);
+		for (CodeExpr arg : this.arguments)
+			arg.accept(visitor);
 	}
 }

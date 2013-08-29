@@ -31,6 +31,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeStmt;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeStmtCollection;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarDeclStmt;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarRefExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.CodeSimplifier;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeFormatters;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeHelper;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodePair;
@@ -446,7 +447,12 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			this.monitorref = monitorref;
 		}
 		
-		private CodeStmtCollection evaluate() {
+		@Override
+		protected CodeStmtCollection evaluate() {
+			// The code can be generated only after the first pass has completed.
+			if (!this.features.isStabilized())
+				return null;
+
 			CodeStmtCollection stmts = new CodeStmtCollection();
 
 			if (this.features.isNonFinalWeakRefsInMonitorNeeded()) {
@@ -460,12 +466,6 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			}
 
 			return stmts;
-		}
-
-		@Override
-		protected void getLazyCode(ICodeFormatter fmt) {
-			CodeStmtCollection stmts = this.evaluate();
-			stmts.getCode(fmt);
 		}
 	}
 	
@@ -734,7 +734,12 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			return new CodeVarRefExpr(this.createdvar);
 		}
 	
-		private CodeStmtCollection evaluate() {
+		@Override
+		protected CodeStmtCollection evaluate() {
+			// The code can be generated only after the first pass has completed.
+			if (!this.features.isStabilized())
+				return null;
+			
 			CodeStmtCollection stmts = new CodeStmtCollection();
 			
 			List<CodeExpr> args = new ArrayList<CodeExpr>();
@@ -761,12 +766,6 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			stmts.add(decl);
 
 			return stmts;
-		}
-
-		@Override
-		protected void getLazyCode(ICodeFormatter fmt) {
-			CodeStmtCollection stmts = this.evaluate();
-			stmts.getCode(fmt);
 		}
 	}
 	
@@ -1035,7 +1034,16 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	
 		stmts.add(this.generateMonitorTransition(transition));
 	
-		this.generatedCode = stmts;
+		// Due to lazily generated code, the code simplifier cannot be used until
+		// everything is stabilized. To complete code generation, this method
+		// should be (and actually will be) invoked again. To prevent the next call
+		// to this method from skipping code generation, the 'generatedCode' field
+		// is not written at the first time.
+		if (this.getMonitorFeatures().isStabilized()) {
+			CodeSimplifier simplifier = new CodeSimplifier(stmts);
+			simplifier.simplify();
+			this.generatedCode = stmts;
+		}
 	}
 
 	@Override
