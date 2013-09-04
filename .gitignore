@@ -1,6 +1,7 @@
 build/*
 src/com/runtimeverification/rvmonitor/c/rvc/parser/*.java
 src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/*.java
+!src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/Token.java
 src/com/runtimeverification/rvmonitor/logicpluginshells/cfg/parser/*.java
 src/com/runtimeverification/rvmonitor/logicpluginshells/fsm/parser/*.java
 src/com/runtimeverification/rvmonitor/logicpluginshells/pda/parser/*.java
