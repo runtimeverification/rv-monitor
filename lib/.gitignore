@@ -1,6 +1,7 @@
 rvmonitor.jar
-rvmonitorrt.jar
-rvmonitortestsuite.jar
+rt.jar
+testsuite.jar
 logicrepository.jar
+scala-library.jar
 plugins/*
 log/*
