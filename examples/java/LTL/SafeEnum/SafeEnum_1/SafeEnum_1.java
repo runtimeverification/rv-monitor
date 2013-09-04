@@ -1,3 +1,4 @@
+package SafeEnum_1;
 
 import java.util.*;
 

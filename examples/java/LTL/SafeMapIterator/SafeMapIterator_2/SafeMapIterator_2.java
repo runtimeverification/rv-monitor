@@ -1,3 +1,5 @@
+package SafeMapIterator_2;
+
 import java.util.*;
 
  public class SafeMapIterator_2 {

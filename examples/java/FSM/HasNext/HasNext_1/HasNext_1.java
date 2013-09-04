@@ -1,4 +1,5 @@
 
+package HasNext_1;
 import java.util.*;
 
 public class HasNext_1 {

@@ -1,0 +1,33 @@
+Linux:
+To run test_1
+../../../../bin/rv-monitor -c seatbelt.rvm
+
+gcc test_1/seatbelt.c __RVC_SeatBelt_Monitor.c -o seatbelt
+
+./seatbelt
+
+
+To run test_2
+../../../../bin/rv-monitor -c seatbelt.rvm
+
+gcc test_2/seatbelt.c __RVC_SeatBelt_Monitor.c -o seatbelt
+
+./seatbelt
+
+
+
+Windows:
+To run test_1
+../../../../bin/rv-monitor -c seatbelt.rvm
+
+gcc test_1/seatbelt.c __RVC_SeatBelt_Monitor.c -o seatbelt.exe
+
+seatbelt.exe
+
+
+To run test_2
+../../../../bin/rv-monitor -c seatbelt.rvm
+
+gcc test_2/seatbelt.c __RVC_SeatBelt_Monitor.c -o seatbelt.exe
+
+seatbelt.exe

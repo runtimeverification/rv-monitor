@@ -1,3 +1,5 @@
+package SafeSyncCollection_2;
+
 import java.util.*;
 
 public class SafeSyncCollection_2 {

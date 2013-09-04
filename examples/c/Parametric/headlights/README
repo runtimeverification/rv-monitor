@@ -1,0 +1,25 @@
+
+  This property monitors the headlights status of a group of cars.  We make our properties
+  parametric in a void pointer key.  In a more realistic exampe, we would cast the pointer
+  to some car struct to a void pointer for use.
+
+Linux:
+
+To run headlights_1 execute the following commands:
+
+../../../../bin/rv-monitor -c -p mop/headlights.rvm
+
+gcc headlights_1/headlights_1.c __RVC_headlights_Monitor.c -o headlights
+
+./headlights
+
+Windows:
+
+To run headlights_1 execute the following commands:
+
+../../../../bin/rv-monitor -c mop/headlights.rvm
+
+gcc headlights_1/headlights_1.c __RVC_headlights_Monitor.c -o headlights_1.exe
+
+headlights_1.exe
+

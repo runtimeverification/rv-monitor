@@ -1,0 +1,37 @@
+Linux:
+NOTE:  On Cygwin you must replace : with ; in classpaths
+
+To run SafeSyncCollection_1 execute the following commands:
+
+../../../../bin/rv-monitor mop/SafeSyncCollection.rvm
+
+javac -cp ../../../../lib/rt.jar:. mop/SafeSyncCollectionRuntimeMonitor.java SafeSyncCollection_1/SafeSyncCollection_1.java
+
+java -cp ../../../../lib/rt.jar:. SafeSyncCollection_1.SafeSyncCollection_1
+
+To run SafeSyncCollection_2 execute the following commands:
+
+../../../../bin/rv-monitor mop/SafeSyncCollection.rvm
+
+javac -cp ../../../../lib/rt.jar:. mop/SafeSyncCollectionRuntimeMonitor.java SafeSyncCollection_2/SafeSyncCollection_2.java
+
+java -cp ../../../../lib/rt.jar:. SafeSyncCollection_2.SafeSyncCollection_2
+
+
+Windows:
+
+To run SafeSyncCollection_1 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\SafeSyncCollection.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\SafeSyncCollectionRuntimeMonitor.java SafeSyncCollection_1\SafeSyncCollection_1.java
+
+java -cp ..\..\..\..\lib\rt.jar;. SafeSyncCollection_1.SafeSyncCollection_1
+
+To run SafeSyncCollection_2 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\SafeSyncCollection.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\SafeSyncCollectionRuntimeMonitor.java SafeSyncCollection_2\SafeSyncCollection_2.java
+
+java -cp ..\..\..\..\lib\rt.jar;. SafeSyncCollection_2.SafeSyncCollection_2

@@ -1,0 +1,17 @@
+Linux:
+To run test_1
+../../../../bin/rv-monitor -c hood_loose.rvm
+
+gcc test_1/hood_loose.c __RVC_HoodLoose_Monitor.c -o hood_loose
+
+./hood_loose
+
+
+
+Windows:
+To run test_1
+../../../../bin/rv-monitor -c hood_loose.rvm
+
+gcc test_1/hood_loose.c __RVC_HoodLoose_Monitor.c -o hood_loose.exe
+
+hood_loose.exe

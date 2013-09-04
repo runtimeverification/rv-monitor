@@ -1,0 +1,7 @@
+Here are all the examples that use the C implementation language.
+
+The Parametric directory has a parametric property and test.
+The CFG directory shows an example of the CFG logic in C.
+The safety_critical directory has safety critical examples.
+
+See the READMEs in each individual directory for more information

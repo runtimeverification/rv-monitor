@@ -1,3 +1,5 @@
+package SafeSyncMap_1;
+
 import java.util.*;
 
 public class SafeSyncMap_1 {
