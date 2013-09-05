@@ -9,29 +9,36 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFor
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.EventKind;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class IndexingDeclNew {
 	RVMonitorSpec mopSpec;
 	RVMParameters specParam;
-	HashMap<RVMParameters, IndexingTreeNew> indexingTrees = new HashMap<RVMParameters, IndexingTreeNew>();
-	HashMap<RVMonitorParameterPair, IndexingTreeNew> indexingTreesForCopy = new HashMap<RVMonitorParameterPair, IndexingTreeNew>();
+	TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees = new TreeMap<RVMParameters, IndexingTreeInterface>();
+	TreeMap<RVMonitorParameterPair, IndexingTreeInterface> indexingTreesForCopy = new TreeMap<RVMonitorParameterPair, IndexingTreeInterface>();
 
-	HashMap<EventDefinition, ArrayList<RVMonitorParameterPair>> mapEventToCopyParams = new HashMap<EventDefinition, ArrayList<RVMonitorParameterPair>>();
+	TreeMap<EventDefinition, ArrayList<RVMonitorParameterPair>> mapEventToCopyParams = new TreeMap<EventDefinition, ArrayList<RVMonitorParameterPair>>();
 
-	HashMap<String, RefTree> refTrees;
+	TreeMap<String, RefTree> refTrees;
 
 	MonitorSet monitorSet;
 	SuffixMonitor monitor;
 
 	public RVMParameters endObjectParameters = new RVMParameters();
 
-	public IndexingDeclNew(RVMonitorSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, HashMap<String, RefTree> refTrees) throws RVMException {
+	public IndexingDeclNew(RVMonitorSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, TreeMap<String, RefTree> refTrees) throws RVMException {
 		this.mopSpec = mopSpec;
 		this.specParam = mopSpec.getParameters();
 		this.refTrees = refTrees;
@@ -105,9 +112,9 @@ public class IndexingDeclNew {
 					indexingTrees.put(param, indexingTree);
 					*/
 				} else {
-					IndexingTreeNew.EventKind evttype = this.calculateEventType(param);
+					EventKind evttype = this.calculateEventType(param);
 					boolean needsTimeTracking = mopSpec.isGeneral();
-					IndexingTreeNew indexingTree = new IndexingTreeNew(mopSpec.getName(), specParam, param, null, monitorSet, monitor, evttype, needsTimeTracking);
+					IndexingTreeInterface indexingTree = new IndexingTreeInterface(mopSpec.getName(), specParam, param, null, monitorSet, monitor, evttype, needsTimeTracking);
 					/*
 					IndexingTree indexingTree = CentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
 							mopSpec.isPerThread(), mopSpec.isGeneral());
@@ -122,16 +129,16 @@ public class IndexingDeclNew {
 					indexingTreesForCopy.put(paramPair, CentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), paramPair.getParam1(), paramPair.getParam2(), specParam,
 							monitorSet, monitor, refTrees, mopSpec.isPerThread(), mopSpec.isGeneral()));
 							*/
-					IndexingTreeNew.EventKind evttype = IndexingTreeNew.EventKind.AlwaysCreate;
+					EventKind evttype = EventKind.AlwaysCreate;
 					boolean needsTimeTracking = mopSpec.isGeneral();
-					IndexingTreeNew indexingTree = new IndexingTreeNew(mopSpec.getName(), specParam, paramPair.getParam1(), paramPair.getParam2(), monitorSet, monitor, evttype, needsTimeTracking);
+					IndexingTreeInterface indexingTree = new IndexingTreeInterface(mopSpec.getName(), specParam, paramPair.getParam1(), paramPair.getParam2(), monitorSet, monitor, evttype, needsTimeTracking);
 					indexingTreesForCopy.put(paramPair, indexingTree);
 				}
 			}
 
-//			combineCentralIndexingTrees();
+			combineCentralIndexingTrees();
 			
-//			combineRefTreesIntoIndexingTrees();
+			combineRefTreesIntoIndexingTrees();
 		} else {
 			/* TODO: Decentralized RefTree which does not require any mapping.
 			
@@ -154,7 +161,7 @@ public class IndexingDeclNew {
 		}
 	}
 	
-	private IndexingTreeNew.EventKind calculateEventType(RVMParameters treeParams) {
+	private EventKind calculateEventType(RVMParameters treeParams) {
 		int numCreationEvent = 0;
 		int numNonCreationEvent = 0;
 	
@@ -170,18 +177,18 @@ public class IndexingDeclNew {
 		
 		if (numCreationEvent > 0) {
 			if (numNonCreationEvent == 0)
-				return IndexingTreeNew.EventKind.AlwaysCreate;
+				return EventKind.AlwaysCreate;
 			else
-				return IndexingTreeNew.EventKind.MayCreate;
+				return EventKind.MayCreate;
 		}
-		return IndexingTreeNew.EventKind.NeverCreate;
+		return EventKind.NeverCreate;
 	}
 
-	public HashMap<RVMParameters, IndexingTreeNew> getIndexingTrees() {
+	public TreeMap<RVMParameters, IndexingTreeInterface> getIndexingTrees() {
 		return indexingTrees;
 	}
 
-	public HashMap<RVMonitorParameterPair, IndexingTreeNew> getIndexingTreesForCopy() {
+	public TreeMap<RVMonitorParameterPair, IndexingTreeInterface> getIndexingTreesForCopy() {
 		return indexingTreesForCopy;
 	}
 
@@ -189,88 +196,102 @@ public class IndexingDeclNew {
 		return mapEventToCopyParams.get(e);
 	}
 
-	/*
 	protected void combineCentralIndexingTrees() {
 		if (!mopSpec.isCentralized())
 			return;
+	
+		Set<IndexingTreeInterface> candidates = new HashSet<IndexingTreeInterface>();
+		for (IndexingTreeInterface itf : this.indexingTrees.values()) {
+			if (itf.isFullyFledgedTree())
+				candidates.add(itf);
+		}
+		
+		Map<IndexingTreeImplementation, List<IndexingTreeInterface>> impl2itfs = new HashMap<IndexingTreeImplementation, List<IndexingTreeInterface>>();
+		for (IndexingTreeInterface itf : candidates) {
+			List<IndexingTreeInterface> itfs = new ArrayList<IndexingTreeInterface>();
+			itfs.add(itf);
+			impl2itfs.put(itf.getImplementation(), itfs);
+		}
+		
+		Set<IndexingTreeInterface> slaveitfs = new HashSet<IndexingTreeInterface>();
+		for (IndexingTreeInterface itf1 : candidates) {
+			if (slaveitfs.contains(itf1)) continue;
 
-		for (IndexingTreeNew indexingTree : indexingTrees.values()) {
-			if (indexingTree.parentTree == null) {
-				RVMParameters sortedParam = specParam.sortParam(indexingTree.queryParam);
+			for (IndexingTreeInterface itf2 : candidates) {
+				if (itf1 == itf2) continue;
 
-				treeSearch: for (IndexingTreeNew indexingTree2 : indexingTrees.values()) {
-					if (indexingTree == indexingTree2)
-						continue;
+				if (itf2.subsumes(itf1)) {
+					IndexingTreeImplementation impl1 = itf1.getImplementation();
+					IndexingTreeImplementation impl2 = itf2.getImplementation();
+					
+					IndexingTreeImplementation combined = IndexingTreeImplementation.combine(impl2, impl1);
+					
+					List<IndexingTreeInterface> itfs = new ArrayList<IndexingTreeInterface>();
 
-					if (!indexingTree2.queryParam.contains(indexingTree.queryParam))
-						continue;
-
-					RVMParameters sortedParam2 = specParam.sortParam(indexingTree2.queryParam);
-
-					for (int i = 0; i < sortedParam.size(); i++) {
-						if (!sortedParam.get(i).equals(sortedParam2.get(i)))
-							continue treeSearch;
+					for (IndexingTreeInterface i : impl2itfs.get(impl1)) {
+						i.switchImplementation(combined);
+						itfs.add(i);
 					}
+					impl2itfs.remove(impl1);
 
-					// System.out.println(sortedParam + " -> " + sortedParam2);
-
-					IndexingTreeNew host = indexingTree2;
-					while (host.parentTree != null) {
-						host = host.parentTree;
+					for (IndexingTreeInterface i : impl2itfs.get(impl2)) {
+						i.switchImplementation(combined);
+						itfs.add(i);
 					}
-
-					indexingTree.parentTree = host;
-					if (indexingTree.parasiticRefTree != null) {
-						host.parasiticRefTree = indexingTree.parasiticRefTree;
-						host.parasiticRefTree.setHost(host);
-						indexingTree.parasiticRefTree = null;
-					}
-
-					if (indexingTree.childTrees.size() > 0) {
-						host.childTrees.addAll(indexingTree.childTrees);
-						indexingTree.childTrees = new ArrayList<IndexingTree>();
-					}
-
+					impl2itfs.remove(impl2);
+					
+					impl2itfs.put(combined, itfs);
+					slaveitfs.add(itf1);
 					break;
 				}
 			}
 		}
 	}
-	
-	protected void combineRefTreesIntoIndexingTrees(){
-		if(mopSpec.isPerThread())
+
+	private void combineRefTreesIntoIndexingTrees(){
+		if (mopSpec.isPerThread())
 			return;
 		
-		if(mopSpec.isGeneral())
+		// It seems JavaMOP 3.0 only cares about most common cases.
+		if (mopSpec.isGeneral())
 			return;
 		
-		for (RVMParameters param : indexingTrees.keySet()) {
-			if (param.size() == 1 && this.endObjectParameters.getParam(param.get(0).getName()) != null)
+		for (RVMParameters params : this.indexingTrees.keySet()) {
+			if (params.size() == 1 && this.endObjectParameters.getParam(params.get(0).getName()) != null)
 				continue;
 		
-			IndexingTreeNew indexingTree = indexingTrees.get(param);
+			IndexingTreeInterface treeitf = indexingTrees.get(params);
 			
-			if (indexingTree.parentTree == null && param.size() == 1) {
-				RVMParameter p = param.get(0);
+			if (treeitf.isMasterTree() && params.size() == 1) {
+				RVMParameter p = params.get(0);
 				RefTree refTree = refTrees.get(p.getType().toString());
 				
-				if (refTree.generalProperties.size() == 0 && refTree.hostIndexingTree == null) {
-					refTree.setHost(indexingTree);
-					indexingTree.parasiticRefTree = refTree;
+				if (refTree.generalProperties.size() == 0 && refTree.getHost() == null) {
+					refTree.setHost(treeitf);
+					treeitf.embedGWRT(refTree);
 				}
 			}
 		}
 	}
-	*/
 
 	public String toString() {
 		ICodeFormatter fmt = CodeFormatters.getDefault();
 
-		for (IndexingTreeNew indexingTree : indexingTrees.values())
+		for (IndexingTreeInterface indexingTree : indexingTrees.values())
 			indexingTree.getCode(fmt);
+		{
+			Set<IndexingTreeImplementation> impls = this.collectIndexingTreeImplementation(this.indexingTrees.values());
+			for (IndexingTreeImplementation impl : impls)
+				impl.getCode(fmt);
+		}
 
-		for (IndexingTreeNew indexingTree : indexingTreesForCopy.values())
+		for (IndexingTreeInterface indexingTree : indexingTreesForCopy.values())
 			indexingTree.getCode(fmt);
+		{
+			Set<IndexingTreeImplementation> impls = this.collectIndexingTreeImplementation(this.indexingTreesForCopy.values());
+			for (IndexingTreeImplementation impl : impls)
+				impl.getCode(fmt);
+		}
 
 		return fmt.getCode();
 	}
@@ -279,7 +300,7 @@ public class IndexingDeclNew {
 		return "";
 	}
 	
-	private String getDescriptionCode(IndexingTreeNew tree) {
+	private String getDescriptionCode(IndexingTreeImplementation tree) {
 		String ret = "";
 		
 		CodeType type = tree.getCodeType();
@@ -293,14 +314,31 @@ public class IndexingDeclNew {
 		}
 		return ret;
 	}
+	
+	private Set<IndexingTreeImplementation> collectIndexingTreeImplementation(Collection<IndexingTreeInterface> itfs) {
+		Set<IndexingTreeImplementation> set = new HashSet<IndexingTreeImplementation>();
+
+		for (IndexingTreeInterface itf : itfs)
+			set.add(itf.getImplementation());
+
+		return set;
+	}
 
 	public String getObservableObjectDescriptionSetCode() {
 		String ret = "";
-		for (IndexingTreeNew indexingTree : indexingTrees.values())
-			ret += this.getDescriptionCode(indexingTree);
+		
+		{
+			Set<IndexingTreeImplementation> impls = this.collectIndexingTreeImplementation(this.indexingTrees.values());
+			for (IndexingTreeImplementation impl : impls)
+				ret += this.getDescriptionCode(impl);
+		}
 
-		for (IndexingTreeNew indexingTree : indexingTreesForCopy.values())
-			ret += this.getDescriptionCode(indexingTree);
+		{
+			Set<IndexingTreeImplementation> impls = this.collectIndexingTreeImplementation(this.indexingTreesForCopy.values());
+			for (IndexingTreeImplementation impl : impls)
+				ret += this.getDescriptionCode(impl);
+		}
+
 		return ret;
 	}
 }

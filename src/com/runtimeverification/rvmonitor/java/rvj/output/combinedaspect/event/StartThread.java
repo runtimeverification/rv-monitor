@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
@@ -8,7 +9,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.Combined
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.AdviceBody;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
@@ -21,7 +22,7 @@ public class StartThread {
 	MonitorSet monitorSet;
 	SuffixMonitor monitorClass;
 	IndexingDeclNew indexingDecl;
-	HashMap<RVMParameters, IndexingTreeNew> indexingTrees;
+	TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
 	GlobalLock globalLock;
 
 	AdviceBody eventBody;

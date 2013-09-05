@@ -1,7 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.runtimeverification.rvmonitor.java.rvj.output.CodeGenerationOption;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeAssignStmt;
@@ -13,24 +13,26 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberField
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMethodInvokeExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeStmtCollection;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarRefExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeFormatters;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeHelper;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGenerator;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.WeakReferenceVariables;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Entry;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 
 public class IndexingCacheNew implements ICodeGenerator {
-	private final Map<RVMParameter, CodeMemberField> keys;
-	private final IndexingTreeNew.Entry valueEntry;
+	private final TreeMap<RVMParameter, CodeMemberField> keys;
+	private final IndexingTreeImplementation.Entry valueEntry;
 	private final CodeMemberField valueField;
 	
 	public CodeMemberField getValueField() {
 		return this.valueField;
 	}
-
-	private IndexingCacheNew(Map<RVMParameter, CodeMemberField> keys, IndexingTreeNew.Entry valueEntry, CodeMemberField valueField) {
+	
+	private IndexingCacheNew(TreeMap<RVMParameter, CodeMemberField> keys, Entry valueEntry, CodeMemberField valueField) {
 		this.keys = keys;
 		this.valueEntry = valueEntry;
 		this.valueField = valueField;
@@ -46,15 +48,10 @@ public class IndexingCacheNew implements ICodeGenerator {
 		if (this.valueField == null)
 			throw new IllegalArgumentException();
 	}
-	
-	public static IndexingCacheNew fromTree(String treename, IndexingTreeNew.Entry topentry) {
-		if (topentry.getMap() == null)
-			return null;
 
-		IndexingTreeNew.Entry lastentry = null;
-		Map<RVMParameter, CodeMemberField> keys = new HashMap<RVMParameter, CodeMemberField>();
-		for (IndexingTreeNew.Level l = topentry.getMap(); l != null; l = l.getValue().getMap()) {
-			RVMParameter key = l.getKey();
+	public static IndexingCacheNew fromTree(String treename, IndexingTreeInterface itf) {
+		TreeMap<RVMParameter, CodeMemberField> keys = new TreeMap<RVMParameter, CodeMemberField>();
+		for (RVMParameter key : itf.getQueryParams()) {
 			CodeType keytype;
 			if (CodeGenerationOption.isCacheKeyWeakReference())
 				keytype = CodeHelper.RuntimeType.getWeakReference();
@@ -67,13 +64,15 @@ public class IndexingCacheNew implements ICodeGenerator {
 			String fieldname = CodeHelper.VariableName.getIndexingTreeCacheKeyName(treename, key);
 			CodeMemberField field = new CodeMemberField(fieldname, true, false, keytype);
 			keys.put(key, field);
-			
-			lastentry = l.getValue();
 		}
 		
-		if (lastentry == null)
+		if (keys.size() == 0) {
+			// If this indexing tree does not have any keys, a cache is meaningless.
 			return null;
+		}
 		
+		Entry lastentry = itf.lookupEntry(itf.getQueryParams());
+
 		String fieldname = CodeHelper.VariableName.getIndexingTreeCacheValueName(treename);
 		CodeMemberField field = new CodeMemberField(fieldname, true, false, lastentry.getCodeType());
 		
@@ -179,5 +178,12 @@ public class IndexingCacheNew implements ICodeGenerator {
 			field.getCode(fmt);
 		
 		this.valueField.getCode(fmt);
+	}
+	
+	@Override
+	public String toString() {
+		ICodeFormatter fmt = CodeFormatters.getDefault();
+		this.getCode(fmt);
+		return fmt.getCode();
 	}
 }

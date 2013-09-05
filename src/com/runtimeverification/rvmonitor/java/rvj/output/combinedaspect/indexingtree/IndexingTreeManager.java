@@ -2,6 +2,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexin
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
@@ -15,12 +16,12 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 
 public class IndexingTreeManager {
 
-	HashMap<RVMonitorSpec, IndexingDeclNew> trees = new HashMap<RVMonitorSpec, IndexingDeclNew>();
+	TreeMap<RVMonitorSpec, IndexingDeclNew> trees = new TreeMap<RVMonitorSpec, IndexingDeclNew>();
 	
-	public HashMap<String, RefTree> refTrees = new HashMap<String, RefTree>();
+	public TreeMap<String, RefTree> refTrees = new TreeMap<String, RefTree>();
 
-	public IndexingTreeManager(String name, List<RVMonitorSpec> specs, HashMap<RVMonitorSpec, MonitorSet> monitorSets, HashMap<RVMonitorSpec, SuffixMonitor> monitors,
-			HashMap<RVMonitorSpec, EnableSet> enableSets) throws RVMException {
+	public IndexingTreeManager(String name, List<RVMonitorSpec> specs, TreeMap<RVMonitorSpec, MonitorSet> monitorSets, TreeMap<RVMonitorSpec, SuffixMonitor> monitors,
+			TreeMap<RVMonitorSpec, EnableSet> enableSets) throws RVMException {
 		getRefTrees(name, specs);
 		
 		for (RVMonitorSpec spec : specs) {

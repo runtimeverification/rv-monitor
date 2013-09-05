@@ -147,7 +147,7 @@ public class BaseMonitor extends Monitor {
 		}
 	}
 
-	public void setRefTrees(HashMap<String, RefTree> refTrees){
+	public void setRefTrees(TreeMap<String, RefTree> refTrees){
 		this.refTrees = refTrees;
 		
 		if(monitorTermination != null)

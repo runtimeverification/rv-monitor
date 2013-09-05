@@ -11,14 +11,14 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.rvapi.Generated
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.WeakReferenceVariables;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.Access;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.Entry;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.Level;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Access;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Entry;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Level;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class IndexingTreeQueryResult {
-	private final IndexingTreeNew indexingTree;
+	private final IndexingTreeInterface indexingTree;
 	private final WeakReferenceVariables weakrefs;
 	private final RVMParameters params;
 	private final Access access;
@@ -67,7 +67,7 @@ public class IndexingTreeQueryResult {
 		}
 	}
 	
-	public IndexingTreeQueryResult(IndexingTreeNew tree, WeakReferenceVariables weakrefs, RVMParameters params, Access access, String prefix) {
+	public IndexingTreeQueryResult(IndexingTreeInterface tree, WeakReferenceVariables weakrefs, RVMParameters params, Access access, String prefix) {
 		this.indexingTree = tree;
 		this.weakrefs = weakrefs;
 		this.params = params;

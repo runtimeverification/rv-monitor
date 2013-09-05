@@ -31,42 +31,35 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGen
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.WeakReferenceVariables;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
-/**
- * This class represents an indexing tree, which may embed GWRT.
- * 
- * This class is similar to indexingtree.IndexingTree and others, but has been
- * separated in order to generate safer, more readable and more efficient code.
- * I also tried to avoid redundant code that exists in the old classes.
- * 
- * @author Choonghwan Lee <clee83@illinois.edu>
- */
-public class IndexingTreeNew implements ICodeGenerator {
-	private final RVMParameters specParams;
-	private final RVMParameters queryParams;
-	private final RVMParameters contentParams;
+public class IndexingTreeImplementation implements ICodeGenerator {
+	private final IndexingTreeInterface master;
 	private final Entry topEntry;
-	private final CodeMemberField field;
-	private final IndexingCacheNew cache;
-
-	public IndexingCacheNew getCache() {
-		return this.cache;
+	private CodeMemberField field;
+	
+	public IndexingTreeInterface getMasterInterface() {
+		return this.master;
 	}
 	
+	public Entry getTopEntry() {
+		return this.topEntry;
+	}
+
 	public String getName() {
 		return this.field.getName();
 	}
 	
-	public RVMParameters getQueryParams() {
-		return this.queryParams;
-	}
-	
 	public CodeMemberField getField() {
 		return this.field;
+	}
+	
+	public String getPrettyName() {
+		return this.master.getPrettyName();
 	}
 	
 	/**
@@ -80,44 +73,46 @@ public class IndexingTreeNew implements ICodeGenerator {
 	 * @param evttype
 	 * @param timetrack specifies whether time tracking (keeping the 'disable' and 't' fields) is necessary
 	 */
-	public IndexingTreeNew(String aspectName, RVMParameters specParams, RVMParameters queryParams, RVMParameters contentParams, MonitorSet set, SuffixMonitor monitor, EventKind evttype, boolean timetrack) {
-		this.specParams = specParams;
-		this.queryParams = queryParams;
-		this.contentParams = contentParams;
-
+	IndexingTreeImplementation(IndexingTreeInterface master, String aspectName, RVMParameters specParams, RVMParameters queryParams, RVMParameters contentParams, MonitorSet set, SuffixMonitor monitor, EventKind evttype, boolean timetrack) {
+		this.master = master;
+	
 		{
 			CodeType settype = new CodeType(set.getName().toString());
 			CodeType monitortype = new CodeType(monitor.getOutermostName().toString());
 			boolean fullbinding = specParams.equals(queryParams);
 			this.topEntry = Entry.determine(queryParams, settype, monitortype, fullbinding, evttype, timetrack);
 		}
-		
-		String name = aspectName + "_";
-		if (contentParams == null)
-			name += queryParams.parameterStringUnderscore();
-		else
-			name += queryParams.parameterStringUnderscore() + "__To__" + contentParams.parameterStringUnderscore();
-		name += "_Map";
-
-		this.field = this.topEntry.generateField(name, this.specParams, this.queryParams);
-		this.cache = IndexingCacheNew.fromTree(name, this.topEntry);
-	}
 	
-	public static IndexingTreeNew combine(IndexingTreeNew l, IndexingTreeNew r) throws IllegalArgumentException {
-		throw new NotImplementedException();
-	}
-	
-	public String getPrettyName() {
-		String from = this.queryParams.parameterStringUnderscore().replace('_', ',');
-		String to = null;
-		if (this.contentParams != null)
-			to = this.contentParams.parameterStringUnderscore().replace('_', ',');
-		
-		if (to == null)
-			return "<" + from + ">";
-		return "<{" + from + "}:{" + to + "}>";
+		String name = IndexingTreeNameMangler.fieldName(aspectName, queryParams, contentParams);
+		this.field = this.topEntry.generateField(name, specParams, queryParams);
 	}
 
+	private IndexingTreeImplementation(IndexingTreeInterface master, Entry topEntry, String treename) {
+		this.master = master;
+		this.topEntry = topEntry;
+		this.field = this.topEntry.generateField(treename, master.getSpecParams(), master.getQueryParams());
+	}
+
+	static IndexingTreeImplementation combine(IndexingTreeImplementation superimpl, IndexingTreeImplementation subimpl) {
+		Entry combined = Entry.join(superimpl.topEntry, subimpl.topEntry);
+		return new IndexingTreeImplementation(superimpl.master, combined, superimpl.getName());
+	}
+
+	void embedGWRT(RefTree refTree, RVMParameters specParams, RVMParameters queryParams) {
+		// Since storing 'disable' and 't' at weak references turned out to be incorrect,
+		// indexing trees with multiple tags will not be used any longer. Therefore, there
+		// are only two cases: one without GWRT embedding, and the other with GWRT
+		// embedding (which has the BasicRef- prefix).
+		Level embedding = this.topEntry.getMap();
+		if (embedding == null)
+			throw new IllegalArgumentException();
+
+		embedding.embedGWRT();
+		
+		String fieldname = this.getName();
+		this.field = this.topEntry.generateField(fieldname, specParams, queryParams);
+	}
+	
 	/**
 	 * This method creates an empty block and puts the provided body into it, in order to
 	 * avoid potential name clashes.
@@ -129,8 +124,12 @@ public class IndexingTreeNew implements ICodeGenerator {
 		if (body == null)
 			return null;
 	
-//		if (comment != null)
-//			body = new CodeStmtCollection(new CodeCommentStmt(comment), body);
+		if (comment != null) {
+			CodeStmtCollection newbody = new CodeStmtCollection();
+			newbody.comment(comment);
+			newbody.add(body);
+			body = newbody;
+		}
 		
 		CodeBlockStmt block = new CodeBlockStmt(body);
 		return new CodeStmtCollection(block);
@@ -144,31 +143,31 @@ public class IndexingTreeNew implements ICodeGenerator {
 	 * @param weakrefs the list of weak references used to access the node or leaf
 	 * @return pair of the generated code and the reference to the found node or leaf
 	 */
-	public CodeStmtCollection generateFindOrCreateEntryCode(WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
+	CodeStmtCollection generateFindOrCreateEntryCode(RVMParameters queryprms, RVMParameters specprms, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
 		CodeFieldRefExpr root = new CodeFieldRefExpr(this.field);
-		CodeStmtCollection stmts = this.topEntry.generateFindOrCreateCode(this.queryParams, Access.Entry, this.specParams, weakrefs, inserter, root);
+		CodeStmtCollection stmts = this.topEntry.generateFindOrCreateCode(queryprms, Access.Entry, specprms, weakrefs, inserter, root);
 		return this.promoteSeparateBlock(stmts, "FindOrCreateEntry");
 	}
 
-	public CodeStmtCollection generateFindEntryWithStrongRefCode(WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter, boolean suppressLastNullCheck) {
+	CodeStmtCollection generateFindEntryWithStrongRefCode(RVMParameters queryprms, RVMParameters specprms, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter, boolean suppressLastNullCheck) {
 		CodeFieldRefExpr root = new CodeFieldRefExpr(this.field);
-		CodeStmtCollection stmts = this.topEntry.generateFindWithStrongRefCode(this.queryParams, Access.Entry, weakrefs, inserter, root, suppressLastNullCheck);
+		CodeStmtCollection stmts = this.topEntry.generateFindWithStrongRefCode(queryprms, Access.Entry, specprms, weakrefs, inserter, root, suppressLastNullCheck);
 		return this.promoteSeparateBlock(stmts, "FindEntry");
 	}
-	
-	public CodeStmtCollection generateFindOrCreateCode(Access access, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
+
+	CodeStmtCollection generateFindOrCreateCode(RVMParameters queryprms, Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
 		CodeFieldRefExpr root = new CodeFieldRefExpr(this.field);
-		CodeStmtCollection stmts = this.topEntry.generateFindOrCreateCode(this.queryParams, access, this.specParams, weakrefs, inserter, root);
+		CodeStmtCollection stmts = this.topEntry.generateFindOrCreateCode(queryprms, access, specprms, weakrefs, inserter, root);
 		return this.promoteSeparateBlock(stmts, "FindOrCreate");
 	}
 
-	public CodeStmtCollection generateFindCode(Access access, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
+	CodeStmtCollection generateFindCode(RVMParameters queryprms, Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
 		CodeFieldRefExpr root = new CodeFieldRefExpr(this.field);
-		CodeStmtCollection stmts = this.topEntry.generateFindCode(this.queryParams, access, weakrefs, inserter, root);
+		CodeStmtCollection stmts = this.topEntry.generateFindCode(queryprms, access, specprms, weakrefs, inserter, root);
 		return this.promoteSeparateBlock(stmts, "FindCode");
 	}
 
-	public CodeStmtCollection generateInsertMonitorCode(WeakReferenceVariables weakrefs, final CodeVarRefExpr monitorref) {
+	CodeStmtCollection generateInsertMonitorCode(RVMParameters queryprms, RVMParameters specprms, WeakReferenceVariables weakrefs, final CodeVarRefExpr monitorref) {
 		CodeFieldRefExpr root = new CodeFieldRefExpr(this.field);
 		StmtCollectionInserter<CodeExpr> inserter = new StmtCollectionInserter<CodeExpr>() {
 			@Override
@@ -183,7 +182,7 @@ public class IndexingTreeNew implements ICodeGenerator {
 				return stmts;
 			}
 		};
-		CodeStmtCollection stmts = this.topEntry.generateFindOrCreateCode(this.queryParams, Access.Entry, this.specParams, weakrefs, inserter, root);
+		CodeStmtCollection stmts = this.topEntry.generateFindOrCreateCode(queryprms, Access.Entry, specprms, weakrefs, inserter, root);
 		return this.promoteSeparateBlock(stmts, "InsertMonitor");
 	}
 	
@@ -196,7 +195,7 @@ public class IndexingTreeNew implements ICodeGenerator {
 		return this.topEntry.getCodeType();
 	}
 	
-	public Entry lookupEntry(RVMParameters params) {
+	Entry lookupEntry(RVMParameters params) {
 		return this.topEntry.lookupEntry(params);
 	}
 
@@ -243,20 +242,8 @@ public class IndexingTreeNew implements ICodeGenerator {
 	@Override
 	public void getCode(ICodeFormatter fmt) {
 		this.field.getCode(fmt);
-		
-		if (this.cache != null)
-			this.cache.getCode(fmt);
 	}
-	
-	@Override
-	public String toString() {
-		String q = this.queryParams.parameterString();
-		String c = this.contentParams == null ? null : this.contentParams.parameterString();
-		if (c == null)
-			return q;
-		return q + " -> " + c;
-	}
-	
+
 	public static class StmtCollectionInserter<T extends CodeObject> {
 		/**
 		 * Allows the user to insert code at the second last map.
@@ -334,8 +321,15 @@ public class IndexingTreeNew implements ICodeGenerator {
 				throw new IllegalArgumentException();
 			return t;
 		}
-		
-		private Entry(Level map, CodeType set, CodeType monitor, Set<LeafKind> leafflags) {
+	
+		private Entry(Level map, RuntimeMonitorType.MonitorSet set, RuntimeMonitorType.Leaf leaf, Map<LeafKind, RuntimeMonitorType.Leaf> leaftypes) {
+			this.map = map;
+			this.set = set;
+			this.leaf = leaf;
+			this.leafTypes = leaftypes;
+		}
+	
+		private static Entry fromCodeType(Level map, CodeType set, CodeType monitor, Set<LeafKind> leafflags) {
 			RuntimeMonitorType.Leaf leaftype = null;
 			Map<LeafKind, RuntimeMonitorType.Leaf> typemap = new HashMap<LeafKind, RuntimeMonitorType.Leaf>();
 			if (leafflags != null) {
@@ -360,10 +354,9 @@ public class IndexingTreeNew implements ICodeGenerator {
 					leaftype = RuntimeMonitorType.forInterface(monitor);
 			}
 			
-			this.map = map;
-			this.set = RuntimeMonitorType.forMonitorSet(set);
-			this.leaf = leaftype;
-			this.leafTypes = typemap;
+			RuntimeMonitorType.MonitorSet settype = RuntimeMonitorType.forMonitorSet(set);
+			
+			return new Entry(map, settype, leaftype, typemap);
 		}
 		
 		public static Entry determine(RVMParameters params, CodeType set, CodeType leaf, boolean fullbinding, EventKind evttype, boolean timetrack) {
@@ -402,14 +395,14 @@ public class IndexingTreeNew implements ICodeGenerator {
 				}
 
 				if (fullbinding)
-					return new Entry(null, null, leaf, leafflags);
+					return Entry.fromCodeType(null, null, leaf, leafflags);
 				else {
 					// If time tracking is unnecessary, there is no need to have a field for
 					// a DisableHolder, which is merely for time tracking.
 					if (timetrack)
-						return new Entry(null, set, leaf, leafflags);
+						return Entry.fromCodeType(null, set, leaf, leafflags);
 					else
-						return new Entry(null, set, null, null);
+						return Entry.fromCodeType(null, set, null, null);
 				}
 			}
 			else {
@@ -417,7 +410,27 @@ public class IndexingTreeNew implements ICodeGenerator {
 				return new Entry(map, null, null, null);
 			}
 		}
-		
+
+		public static Entry join(Entry entry1, Entry entry2) {
+			boolean s1 = entry1.set != null;
+			boolean s2 = entry2.set != null;
+			boolean l1 = entry1.leaf != null;
+			boolean l2 = entry2.leaf != null;
+			if ((s1 && s2) || (l1 && l2)) {
+				// Although both entries can share the subsequent levels (i.e., both of them
+				// can have non-null 'map' fields), I assume their sets and leaves are disjoint.
+				throw new IllegalArgumentException();
+			}
+
+			RuntimeMonitorType.MonitorSet set = s1 ? entry1.set : entry2.set;
+			RuntimeMonitorType.Leaf leaf = l1 ? entry1.leaf : entry2.leaf;
+			Map<LeafKind, RuntimeMonitorType.Leaf> leaftypes = l1 ? entry1.leafTypes : entry2.leafTypes;
+	
+			Level joinedmap = Level.join(entry1.map, entry2.map);
+
+			return new Entry(joinedmap, set, leaf, leaftypes);
+		}
+
 		public Entry lookupEntry(RVMParameters params) {
 			List<RVMParameter> list = params.toList();
 			return this.lookupEntry(list, 0);
@@ -457,17 +470,17 @@ public class IndexingTreeNew implements ICodeGenerator {
 			return entry;
 		}
 		
-		public CodeType query(IndexingTreeNew.Access access, RVMParameters params) {
+		public CodeType query(Access access, RVMParameters params) {
 			Entry entry = this.lookupEntry(params);
 			return entry.accessEntry(access);
 		}
 		
-		public CodeType query(IndexingTreeNew.Access access, RVMParameter ... params) {
+		public CodeType query(Access access, RVMParameter ... params) {
 			Entry entry = this.lookupEntry(params);
 			return entry.accessEntry(access);
 		}
 		
-		private CodeType accessEntry(IndexingTreeNew.Access access) {
+		private CodeType accessEntry(Access access) {
 			switch (access) {
 			case Entry:
 				return this.getCodeType();
@@ -550,8 +563,13 @@ public class IndexingTreeNew implements ICodeGenerator {
 				if (type instanceof RuntimeMonitorType.Tuple) {
 					RuntimeMonitorType.Tuple tuple = (RuntimeMonitorType.Tuple)type;
 					for (RuntimeMonitorType elem : tuple.getElements()) {
-						// A set in a tuple needs to be instantiated.
-						if (elem instanceof RuntimeMonitorType.MonitorSet) {
+						// A map or set in a tuple needs to be instantiated.
+						if (elem instanceof RuntimeMonitorType.IndexingTree) {
+							CodeExpr id = CodeLiteralExpr.integer(specParams.getIdnum(queryParams.get(0)));
+							CodeExpr createmap = new CodeNewExpr(elem, id);
+							args.add(createmap);
+						}
+						else if (elem instanceof RuntimeMonitorType.MonitorSet) {
 							CodeExpr createset = new CodeNewExpr(elem);
 							args.add(createset);
 						}
@@ -560,7 +578,7 @@ public class IndexingTreeNew implements ICodeGenerator {
 					}
 				}
 				else if (this.getMap() != null) {
-					// A map need an argument, which indicates the tree id.
+					// A map needs an argument, which represents the tree id.
 					args.add(CodeLiteralExpr.integer(specParams.getIdnum(queryParams.get(0))));
 				}
 				init = new CodeNewExpr(type, args);
@@ -579,16 +597,7 @@ public class IndexingTreeNew implements ICodeGenerator {
 		 * @return the pair of the generated code and the reference to either the created variable or the entry
 		 */
 		public CodePair<CodeVarRefExpr> generateFieldGetCode(CodeExpr entryref, Access access, String varnameprefix) {
-			CodeExpr result;
-
-			int index = this.calculateFieldIndex(access);
-			if (index == 0)
-				result = entryref;
-			else {
-				String getter = "getValue" + index;
-				CodeType type = this.accessEntry(access);
-				result = new CodeMethodInvokeExpr(type, entryref, getter);
-			}
+			CodeExpr result = this.generateFieldGetInlinedCode(entryref, access);
 			
 			if (result instanceof CodeVarRefExpr)
 				return new CodePair<CodeVarRefExpr>((CodeVarRefExpr)result);
@@ -603,6 +612,22 @@ public class IndexingTreeNew implements ICodeGenerator {
 			CodeVarDeclStmt decl = new CodeVarDeclStmt(var, result);
 			return new CodePair<CodeVarRefExpr>(decl, new CodeVarRefExpr(var));
 		}
+
+		public CodeExpr generateFieldGetInlinedCode(CodeExpr entryref, Access access) {
+			CodeExpr result;
+
+			int index = this.calculateFieldIndex(access);
+			if (index == 0)
+				result = entryref;
+			else {
+				String getter = "getValue" + index;
+				CodeType type = this.accessEntry(access);
+				result = new CodeMethodInvokeExpr(type, entryref, getter);
+			}
+
+			return result;
+		}
+
 
 		public CodeStmtCollection generateFieldSetCode(CodeExpr entryref, Access access, CodeExpr value) {
 			CodeStmt assign;
@@ -621,15 +646,15 @@ public class IndexingTreeNew implements ICodeGenerator {
 			return new CodeStmtCollection(assign);
 		}
 	
-		private CodeStmtCollection traverseNodeInternal(RVMParameters query, int index, WeakReferenceVariables weakrefs, boolean usestrongref, CodeExpr entryref, IIndexingTreeVisitor<CodeVarRefExpr> visitor) {
+		private CodeStmtCollection traverseNodeInternal(RVMParameters queryprms, int index, RVMParameters specprms, WeakReferenceVariables weakrefs, boolean usestrongref, CodeExpr entryref, IIndexingTreeVisitor<CodeVarRefExpr> visitor) {
 			CodeStmtCollection stmts = new CodeStmtCollection();
-			if (index == query.size())
+			if (index == queryprms.size())
 				stmts.add(visitor.visitLast(this, entryref));
 			else {
-				if (index + 1 == query.size())
+				if (index + 1 == queryprms.size())
 					stmts.add(visitor.visitSecondLast(this, entryref));
 
-				RVMParameter head = query.get(index);
+				RVMParameter head = queryprms.get(index);
 				if (this.map == null)
 					throw new IllegalArgumentException();
 				if (!this.map.key.equals(head))
@@ -639,43 +664,42 @@ public class IndexingTreeNew implements ICodeGenerator {
 
 				CodeVarRefExpr resultref;
 				{
+					CodeExpr mapref = this.generateFieldGetInlinedCode(entryref, Access.Map);
 					CodeMethodInvokeExpr invoke;
 					if (usestrongref) {
-						if (index + 1 == query.size()) {
+						if (index + 1 == queryprms.size()) {
 							CodeType type = child.accessEntry(Access.Entry);
 							CodeVarRefExpr strongref = new CodeVarRefExpr(new CodeVariable(type, head.getName()));
-							invoke = new CodeMethodInvokeExpr(type, entryref, "getNodeWithStrongRef", strongref);
+							invoke = new CodeMethodInvokeExpr(type, mapref, "getNodeWithStrongRef", strongref);
 						}
 						else
 							invoke = null;
 					}
 					else {
-						if (index + 1 == query.size()) {
-							CodeType type = child.accessEntry(Access.Entry);
-							invoke = new CodeMethodInvokeExpr(type, entryref, "getNode", weakref);
-						}
-						else {
-							CodeType type = child.accessEntry(Access.Map);
-							invoke = new CodeMethodInvokeExpr(type, entryref, "getMap", weakref);
-						}
+						// Due to indexing tree combining, even intermediate nodes can be a tuple.
+						// So, we should always use Access.Entry instead of Access.Map.
+						CodeType type = child.accessEntry(Access.Entry);
+						invoke = new CodeMethodInvokeExpr(type, mapref, "getNode", weakref);
 					}
-					CodeVariable result = CodeHelper.VariableName.getInternalNode(invoke.getType(), query, index);
+					CodeVariable result = CodeHelper.VariableName.getInternalNode(invoke.getType(), queryprms, index);
 					resultref = new CodeVarRefExpr(result);
 					CodeVarDeclStmt stmt = new CodeVarDeclStmt(result, invoke);
 					stmts.add(stmt);
 				}
 
-				RVMParameter nextprm = query.get(index + 1);
+				RVMParameter nextprm = specprms.get(index + 1);
 				stmts.add(visitor.visitPreNode(this, entryref, weakref, resultref, nextprm));
 	
-				CodeStmtCollection nested = child.traverseNodeInternal(query, index + 1, weakrefs, usestrongref, resultref, visitor);
+				CodeStmtCollection nested = child.traverseNodeInternal(queryprms, index + 1, specprms, weakrefs, usestrongref, resultref, visitor);
 				stmts.add(visitor.visitPostNode(this, resultref, nextprm, nested));
 			}
 			return stmts;
 		}
 		
-		private CodeStmtCollection traverseNode(RVMParameters query, WeakReferenceVariables weakrefs, boolean usestrongref, CodeExpr entryref, IIndexingTreeVisitor<CodeVarRefExpr> visitor) {
-			return this.traverseNodeInternal(query, 0, weakrefs, usestrongref, entryref, visitor);
+		private CodeStmtCollection traverseNode(RVMParameters queryprms, RVMParameters specprms, WeakReferenceVariables weakrefs, boolean usestrongref, CodeExpr entryref, IIndexingTreeVisitor<CodeVarRefExpr> visitor) {
+			assert specprms.subsumes(queryprms, specprms);
+
+			return this.traverseNodeInternal(queryprms, 0, specprms, weakrefs, usestrongref, entryref, visitor);
 		}
 		
 		static CodeStmtCollection callInsertSecondLastMap(StmtCollectionInserter<CodeExpr> inserter, Entry entry, CodeExpr entryref) {
@@ -729,7 +753,7 @@ public class IndexingTreeNew implements ICodeGenerator {
 			return stmts;
 		}
 
-		CodeStmtCollection generateFindOrCreateCode(RVMParameters query, final Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref) {
+		CodeStmtCollection generateFindOrCreateCode(RVMParameters queryprms, final Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref) {
 			IIndexingTreeVisitor<CodeVarRefExpr> visitor = new GenerativeIndexingTreeVisitor(specprms) {
 				@Override
 				public CodeStmtCollection visitSecondLast(Entry entry, CodeExpr entryref) {
@@ -742,10 +766,10 @@ public class IndexingTreeNew implements ICodeGenerator {
 				}
 			};
 
-			return this.traverseNode(query, weakrefs, false, entryref, visitor);
+			return this.traverseNode(queryprms, specprms, weakrefs, false, entryref, visitor);
 		}
 
-		CodeStmtCollection generateFindWithStrongRefCode(RVMParameters query, final Access access, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref, boolean suppressLastNullCheck) {
+		CodeStmtCollection generateFindWithStrongRefCode(RVMParameters queryprms, final Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref, boolean suppressLastNullCheck) {
 			IIndexingTreeVisitor<CodeVarRefExpr> visitor = new NonGenerativeIndexingTreeVisitor(suppressLastNullCheck) {
 				@Override
 				public CodeStmtCollection visitSecondLast(Entry entry, CodeExpr entryref) {
@@ -758,10 +782,10 @@ public class IndexingTreeNew implements ICodeGenerator {
 				}
 			};
 			
-			return this.traverseNode(query, weakrefs, true, entryref, visitor);
+			return this.traverseNode(queryprms, specprms, weakrefs, true, entryref, visitor);
 		}
 
-		CodeStmtCollection generateFindCode(RVMParameters query, final Access access, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref) {
+		CodeStmtCollection generateFindCode(RVMParameters queryprms, final Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref) {
 			IIndexingTreeVisitor<CodeVarRefExpr> visitor = new NonGenerativeIndexingTreeVisitor(false) {
 				@Override
 				public CodeStmtCollection visitSecondLast(Entry entry, CodeExpr entryref) {
@@ -775,7 +799,7 @@ public class IndexingTreeNew implements ICodeGenerator {
 				}
 			};
 			
-			return this.traverseNode(query, weakrefs, false, entryref, visitor);
+			return this.traverseNode(queryprms, specprms, weakrefs, false, entryref, visitor);
 		}
 
 		@Override
@@ -807,6 +831,7 @@ public class IndexingTreeNew implements ICodeGenerator {
 	public static class Level {
 		private final RVMParameter key;
 		private final Entry value;
+		private boolean embedGWRT;
 		
 		public final RVMParameter getKey() {
 			return this.key;
@@ -829,9 +854,28 @@ public class IndexingTreeNew implements ICodeGenerator {
 			Entry value = Entry.determine(params.tail(), set, leaf, fullbinding, evttype, timetrack);
 			return new Level(key, value);
 		}
-		
+
+		public static Level join(Level level1, Level level2) {
+			if (level1 == null)
+				return level2;
+			if (level2 == null)
+				return level1;
+	
+			if (!level1.key.equals(level2.key))
+				throw new IllegalArgumentException();
+			
+			RVMParameter key = level1.key;
+			
+			Entry joinedentry = Entry.join(level1.value, level2.value);
+			return new Level(key, joinedentry);
+		}
+
+		public void embedGWRT() {
+			this.embedGWRT = true;
+		}
+	
 		public RuntimeMonitorType getCodeType() {
-			return CodeHelper.RuntimeType.getIndexingTree(this.value.map, this.value.set, this.value.leaf, -1);
+			return CodeHelper.RuntimeType.getIndexingTree(this.value.map, this.value.set, this.value.leaf, this.embedGWRT);
 		}	
 
 		@Override

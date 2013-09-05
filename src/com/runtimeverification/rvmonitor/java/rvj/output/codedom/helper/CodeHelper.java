@@ -7,7 +7,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberField;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.Level;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Level;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
@@ -75,23 +75,16 @@ public class CodeHelper {
 			return RuntimeMonitorType.forTuple(type, fields);
 		}
 		
-		public static RuntimeMonitorType getIndexingTree(Level map, CodeType set, CodeType leaf, int weakreftag) {
+		public static RuntimeMonitorType getIndexingTree(Level map, CodeType set, CodeType leaf, boolean hasGWRT) {
 			boolean m = map != null;
 			boolean s = set != null;
 			boolean l = leaf != null;
 			
 			String clsname = "";
 
-			switch (weakreftag) {
-			case -1:
-				break;
-			case 0:
+			if (hasGWRT)
 				clsname += "BasicRef";
-				break;
-			default:
-				clsname += "MultiTagRef";
-				break;
-			}
+
 			clsname += "MapOf";
 			if (m && s && l)
 				clsname += "All";

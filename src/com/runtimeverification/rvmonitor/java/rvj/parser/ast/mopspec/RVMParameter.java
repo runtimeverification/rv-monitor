@@ -5,7 +5,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisi
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.*;
 
-public class RVMParameter extends Node{
+public class RVMParameter extends Node implements Comparable<RVMParameter> {
 	TypePattern type;
 	String name = "";
 	
@@ -36,4 +36,9 @@ public class RVMParameter extends Node{
     public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
         return v.visit(this, arg);
     }
+
+	@Override
+	public int compareTo(RVMParameter that) {
+		return this.name.compareTo(that.name);
+	}
 }

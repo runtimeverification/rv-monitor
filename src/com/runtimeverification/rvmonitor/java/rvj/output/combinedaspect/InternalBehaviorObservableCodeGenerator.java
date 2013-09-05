@@ -20,7 +20,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVari
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.WeakReferenceVariables;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingCacheNew;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
@@ -78,22 +78,18 @@ public class InternalBehaviorObservableCodeGenerator {
 		return this.generateCommon("onIndexingTreeCacheMissed", cacheref);
 	}
 	
-	private boolean isFullyFledgedIndexingTree(IndexingTreeNew indexingtree) {
-		// If an indexing tree does not take any parameter, then the code generator
-		// generates a zero-level object (such as a set, monitor or tuple) for the
-		// indexing tree, instead of an actual indexing tree. Since only an
-		// indexing tree can have information for dumping, the current implementation
-		// does not invoke observable objects for zero-level objects.
-		RVMParameters params = indexingtree.getQueryParams();
-		return params.size() > 0;
+	private boolean isFullyFledgedIndexingTree(IndexingTreeInterface indexingtree) {
+		// Since only an indexing tree can have information for dumping,
+		// the current implementation does not invoke observable objects for zero-level objects.
+		return indexingtree.isFullyFledgedTree();
 	}
 	
-	public CodeStmtCollection generateIndexingTreeLookupCode(IndexingTreeNew indexingtree, LookupPurpose purpose, WeakReferenceVariables weakrefs, boolean usestrongref, CodeVarRefExpr retrieved) {
+	public CodeStmtCollection generateIndexingTreeLookupCode(IndexingTreeInterface indexingtree, LookupPurpose purpose, WeakReferenceVariables weakrefs, boolean usestrongref, CodeVarRefExpr retrieved) {
 		if (!this.isFullyFledgedIndexingTree(indexingtree))
 			return CodeStmtCollection.empty();
 	
 		List<CodeExpr> args = new ArrayList<CodeExpr>();
-		args.add(new CodeFieldRefExpr(indexingtree.getField()));
+		args.add(new CodeFieldRefExpr(indexingtree.getImplementation().getField()));
 		args.add(CodeLiteralExpr.enumValue(purpose));
 		args.add(retrieved);
 		for (RVMParameter param : indexingtree.getQueryParams()) {
@@ -108,9 +104,9 @@ public class InternalBehaviorObservableCodeGenerator {
 		return this.generateCommon("onIndexingTreeLookup", args);
 	}
 	
-	public CodeStmtCollection generateTimeCheckedCode(IndexingTreeNew indexingtree, WeakReferenceVariables weakrefs, CodeExpr source, CodeExpr candidate, CodeVarRefExpr definable) {
+	public CodeStmtCollection generateTimeCheckedCode(IndexingTreeInterface indexingtree, WeakReferenceVariables weakrefs, CodeExpr source, CodeExpr candidate, CodeVarRefExpr definable) {
 		List<CodeExpr> args = new ArrayList<CodeExpr>();
-		args.add(new CodeFieldRefExpr(indexingtree.getField()));
+		args.add(new CodeFieldRefExpr(indexingtree.getImplementation().getField()));
 		args.add(source);
 		args.add(candidate);
 		args.add(definable);
@@ -122,12 +118,12 @@ public class InternalBehaviorObservableCodeGenerator {
 		return this.generateCommon("onTimeCheck", args);
 	}
 	
-	public CodeStmtCollection generateIndexingTreeNodeInsertedCode(IndexingTreeNew indexingtree, WeakReferenceVariables weakrefs, CodeVarRefExpr inserted) {
+	public CodeStmtCollection generateIndexingTreeNodeInsertedCode(IndexingTreeInterface indexingtree, WeakReferenceVariables weakrefs, CodeVarRefExpr inserted) {
 		if (!this.isFullyFledgedIndexingTree(indexingtree))
 			return CodeStmtCollection.empty();
 	
 		List<CodeExpr> args = new ArrayList<CodeExpr>();
-		args.add(new CodeFieldRefExpr(indexingtree.getField()));
+		args.add(new CodeFieldRefExpr(indexingtree.getImplementation().getField()));
 		args.add(inserted);
 		for (RVMParameter param : indexingtree.getQueryParams()) {
 			CodeVariable var = weakrefs.getWeakRef(param);

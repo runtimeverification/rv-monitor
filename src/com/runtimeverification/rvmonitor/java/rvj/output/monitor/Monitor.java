@@ -15,6 +15,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeMap;
 
 public abstract class Monitor {
 	RVMVariable monitorName;
@@ -52,7 +53,7 @@ public abstract class Monitor {
 
 	HashMap<String, RVMVariable> mopRefs = new HashMap<String, RVMVariable>();
 
-	HashMap<String, RefTree> refTrees;
+	TreeMap<String, RefTree> refTrees;
 
 	public Monitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		this.isOutermost = isOutermost;
@@ -112,7 +113,7 @@ public abstract class Monitor {
 		return activity;
 	}
 
-	public abstract void setRefTrees(HashMap<String, RefTree> refTrees);
+	public abstract void setRefTrees(TreeMap<String, RefTree> refTrees);
 
 	public abstract RVMVariable getOutermostName();
 

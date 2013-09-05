@@ -6,7 +6,7 @@ import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
@@ -18,7 +18,7 @@ public class RefTree {
 	public ArrayList<RVMonitorSpec> properties = new ArrayList<RVMonitorSpec>();
 	public ArrayList<RVMonitorSpec> generalProperties = new ArrayList<RVMonitorSpec>();
 	
-	public IndexingTreeNew hostIndexingTree = null;
+	private IndexingTreeInterface hostIndexingTree = null;
 	
 	// rv-monitor cannot assume that 'thisJoinPoint' exists, unlike JavaMOP.
 	// The joinpoint ids can be passed from the .aj code but it seems using 1-level
@@ -54,8 +54,12 @@ public class RefTree {
 			generalProperties.add(spec);
 	}
 	
-	public void setHost(IndexingTreeNew indexingTree){
+	public void setHost(IndexingTreeInterface indexingTree){
 		hostIndexingTree = indexingTree;
+	}
+	
+	public IndexingTreeInterface getHost() {
+		return this.hostIndexingTree;
 	}
 
 	public String get(RVMVariable tempRef, RVMParameter p) {
@@ -73,7 +77,7 @@ public class RefTree {
 		if(hostIndexingTree == null)
 			name = this.name;
 		else
-			name = new RVMVariable(hostIndexingTree.getName());
+			name = new RVMVariable(hostIndexingTree.getImplementation().getName());
 		
 		ret += name + ".findOrCreateWeakRef(" + p.getName();
 		
@@ -99,7 +103,7 @@ public class RefTree {
 		if(hostIndexingTree == null)
 			name = this.name;
 		else
-			name = new RVMVariable(hostIndexingTree.getName());
+			name = new RVMVariable(hostIndexingTree.getImplementation().getName());
 
 		ret += name + ".findWeakRef(" + p.getName();
 
@@ -118,7 +122,7 @@ public class RefTree {
 		if(hostIndexingTree == null)
 			name = this.name;
 		else
-			name = new RVMVariable(hostIndexingTree.getName());
+			name = new RVMVariable(hostIndexingTree.getImplementation().getName());
 		
 		String weakreftype = this.getResultType();
 		
@@ -197,7 +201,7 @@ public class RefTree {
 		}
 		else {
 //			ret = hostIndexingTree.getRefTreeType();
-			ret = hostIndexingTree.getField().getType().toString();
+			ret = hostIndexingTree.getImplementation().getField().getType().toString();
 //			ret = hostIndexingTree.getType().toString();
 		}
 
@@ -218,7 +222,7 @@ public class RefTree {
 			else
 				ret += "new " + getType() + "();\n";
 		} else {
-			ret += hostIndexingTree.getName() + ";\n";
+			ret += hostIndexingTree.getImplementation().getName() + ";\n";
 		}
 
 		return ret;
@@ -235,7 +239,7 @@ public class RefTree {
 			else
 				ret += "new " + getType() + "();\n";
 		} else {
-			ret += hostIndexingTree.getName() + ";\n";
+			ret += hostIndexingTree.getImplementation().getName() + ";\n";
 		}
 
 		return ret;

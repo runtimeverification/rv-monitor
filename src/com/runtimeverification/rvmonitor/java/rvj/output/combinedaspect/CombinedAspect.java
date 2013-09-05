@@ -8,7 +8,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.Ev
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTreeManager;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.BaseMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.Monitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
@@ -20,12 +20,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class CombinedAspect {
 	String name;
-	public HashMap<RVMonitorSpec, MonitorSet> monitorSets;
-	public HashMap<RVMonitorSpec, SuffixMonitor> monitors;
-	public HashMap<RVMonitorSpec, EnableSet> enableSets;
+	public TreeMap<RVMonitorSpec, MonitorSet> monitorSets;
+	public TreeMap<RVMonitorSpec, SuffixMonitor> monitors;
+	public TreeMap<RVMonitorSpec, EnableSet> enableSets;
 	public HashMap<RVMonitorSpec, HashSet<RVMParameter>> setOfParametersForDisable;
 
 	RVMVariable mapManager;
@@ -48,8 +49,8 @@ public class CombinedAspect {
 		return this.internalBehaviorObservableGenerator;
 	}
 
-	public CombinedAspect(String name, RVMSpecFile rvmSpecFile, HashMap<RVMonitorSpec, MonitorSet> monitorSets, HashMap<RVMonitorSpec, SuffixMonitor> monitors,
-			HashMap<RVMonitorSpec, EnableSet> enableSets, boolean versionedStack) throws RVMException {
+	public CombinedAspect(String name, RVMSpecFile rvmSpecFile, TreeMap<RVMonitorSpec, MonitorSet> monitorSets, TreeMap<RVMonitorSpec, SuffixMonitor> monitors,
+			TreeMap<RVMonitorSpec, EnableSet> enableSets, boolean versionedStack) throws RVMException {
 		this.name = name + "RuntimeMonitor";
 		this.monitorSets = monitorSets;
 		this.monitors = monitors;
@@ -109,6 +110,7 @@ public class CombinedAspect {
 		return name;
 	}
 	
+	/* This method is never used.
 	public String constructor(){
 		String ret = "";
 		
@@ -117,7 +119,7 @@ public class CombinedAspect {
 		for(RVMonitorSpec spec : specs){
 			IndexingDeclNew indexDecl = indexingTreeManager.getIndexingDecl(spec);
 			
-			for(IndexingTreeNew indexTree : indexDecl.getIndexingTrees().values()){
+			for(IndexingTreeInterface indexTree : indexDecl.getIndexingTrees().values()){
 				RVMParameters param = indexTree.getQueryParams();
 				
 				if(param.size() == 0)
@@ -133,6 +135,7 @@ public class CombinedAspect {
 		
 		return ret;
 	}
+	*/
 
 	public String initCache(){
 		String ret = "";
@@ -140,7 +143,7 @@ public class CombinedAspect {
 		for(RVMonitorSpec spec : specs){
 			IndexingDeclNew decl = indexingTreeManager.getIndexingDecl(spec);
 		
-			for(IndexingTreeNew tree : decl.getIndexingTrees().values()){
+			for(IndexingTreeInterface tree : decl.getIndexingTrees().values()){
 				if(tree.getCache()!= null){
 					// The following is no longer needed.
 //					ret += tree.getCache().init();

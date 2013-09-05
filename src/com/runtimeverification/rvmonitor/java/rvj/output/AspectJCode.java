@@ -11,18 +11,19 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class AspectJCode {
 	String name;
 	
 	Package packageDecl;
 	Imports imports;
-	HashMap<RVMonitorSpec, MonitorSet> monitorSets = new HashMap<RVMonitorSpec, MonitorSet>();
-	HashMap<RVMonitorSpec, SuffixMonitor> monitors = new HashMap<RVMonitorSpec, SuffixMonitor>();
+	TreeMap<RVMonitorSpec, MonitorSet> monitorSets = new TreeMap<RVMonitorSpec, MonitorSet>();
+	TreeMap<RVMonitorSpec, SuffixMonitor> monitors = new TreeMap<RVMonitorSpec, SuffixMonitor>();
 	//Aspect aspect;
 	CombinedAspect aspect;
-	HashMap<RVMonitorSpec, EnableSet> enableSets = new HashMap<RVMonitorSpec, EnableSet>();
-	HashMap<RVMonitorSpec, CoEnableSet> coenableSets = new HashMap<RVMonitorSpec, CoEnableSet>();
+	TreeMap<RVMonitorSpec, EnableSet> enableSets = new TreeMap<RVMonitorSpec, EnableSet>();
+	TreeMap<RVMonitorSpec, CoEnableSet> coenableSets = new TreeMap<RVMonitorSpec, CoEnableSet>();
 	boolean versionedStack = false;
 	SystemAspect systemAspect;
 	private boolean isCodeGenerated = false;
@@ -63,7 +64,7 @@ public class AspectJCode {
 			monitorSet.setMonitorLock(aspect.getAspectName() + "." + aspect.lockManager.getLock().getName());
 		}
 
-		HashMap<String, RefTree> refTrees = aspect.indexingTreeManager.refTrees;
+		TreeMap<String, RefTree> refTrees = aspect.indexingTreeManager.refTrees;
 
 		for(SuffixMonitor monitor : monitors.values()){
 			monitor.setRefTrees(refTrees);

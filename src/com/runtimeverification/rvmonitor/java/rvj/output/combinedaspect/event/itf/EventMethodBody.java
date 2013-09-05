@@ -45,10 +45,10 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.Internal
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.AdviceBody;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingCacheNew;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.Access;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.Entry;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.StmtCollectionInserter;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Access;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Entry;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.StmtCollectionInserter;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeQueryResult;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.MonitorFeatures;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.MonitorInfo;
@@ -82,7 +82,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorPa
  * @author Choonghwan Lee <clee83@illinois.edu>
  */
 public class EventMethodBody extends AdviceBody implements ICodeGenerator {
-	private final Map<RVMonitorParameterPair, IndexingTreeNew> indexingTreesForCopy;
+	private final Map<RVMonitorParameterPair, IndexingTreeInterface> indexingTreesForCopy;
 	private final List<RVMonitorParameterPair> paramPairsForCopy;
 	
 	private CodeStmtCollection generatedCode;
@@ -187,6 +187,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return this.monitorClass.getMonitorInfo();
 	}
 	
+	@SuppressWarnings("unused")
 	private CodeType getMonitorSetType() {
 		return new CodeType(this.monitorSet.getName().getVarName());
 	}
@@ -204,7 +205,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	/**
 	 * @return the indexing tree that exactly matches with the parameters that the event carries.
 	 */
-	private IndexingTreeNew getMatchedIndexingTree() {
+	private IndexingTreeInterface getMatchedIndexingTree() {
 		return this.indexingTrees.get(this.eventParams);
 	}
 	
@@ -336,7 +337,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 					return new CodeStmtCollection(assign);
 				}
 			};
-			IndexingTreeNew indexingtree = this.getMatchedIndexingTree();
+			IndexingTreeInterface indexingtree = this.getMatchedIndexingTree();
 			CodeStmtCollection code;
 			if (this.strategy.shouldCreateIndexingTreeIntemediateNodes)
 				code = indexingtree.generateFindOrCreateEntryCode(matched.getWeakRefs(), inserter);
@@ -351,7 +352,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return stmts;
 	}
 	
-	private IndexingTreeNew findIndexingTreeForCopy(RVMonitorParameterPair needle) {
+	private IndexingTreeInterface findIndexingTreeForCopy(RVMonitorParameterPair needle) {
 		for (RVMonitorParameterPair pair : indexingTreesForCopy.keySet()) {
 			if (needle.equals(pair))
 				return this.indexingTreesForCopy.get(pair);
@@ -359,7 +360,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return null;
 	}
 	
-	private IndexingTreeNew findIndexingTree(RVMonitorParameterPair needle) {
+	private IndexingTreeInterface findIndexingTree(RVMonitorParameterPair needle) {
 		for (RVMParameters params : this.indexingTrees.keySet()) {
 			if (params.equals(needle.getParam2()))
 				return this.indexingTrees.get(params);
@@ -367,7 +368,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return null;
 	}
 	
-	private IndexingTreeNew findIndexingTree(RVMParameters needle) {
+	private IndexingTreeInterface findIndexingTree(RVMParameters needle) {
 		for (RVMParameters params : this.indexingTrees.keySet()) {
 			if (params.equals(needle))
 				return this.indexingTrees.get(params);
@@ -395,7 +396,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		for (RVMParameters param : this.indexingTrees.keySet()) {
 			if (targetprms.contains(param) && !targetprms.equals(param)) {
 				stmts.comment(ctxmsg + " for <" + param.parameterString() + ">");
-				IndexingTreeNew srctree = this.indexingTrees.get(param);
+				IndexingTreeInterface srctree = this.indexingTrees.get(param);
 				CodeStmtCollection insert = srctree.generateInsertMonitorCode(weakrefs, monitorref);
 				stmts.add(insert);
 				stmts.add(this.getBehaviorObserver().generateIndexingTreeNodeInsertedCode(srctree, weakrefs, monitorref));
@@ -405,7 +406,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		for (RVMonitorParameterPair pair : this.indexingTreesForCopy.keySet()) {
 			if (targetprms.equals(pair.getParam2())) {
 				stmts.comment(ctxmsg + " for <" + pair.getParam1().parameterString() + "-" + pair.getParam2().parameterString() + ">");
-				IndexingTreeNew srctree = this.indexingTreesForCopy.get(pair);
+				IndexingTreeInterface srctree = this.indexingTreesForCopy.get(pair);
 				CodeStmtCollection insert = srctree.generateInsertMonitorCode(weakrefs, monitorref);
 				stmts.add(insert);
 				stmts.add(this.getBehaviorObserver().generateIndexingTreeNodeInsertedCode(srctree, weakrefs, monitorref));
@@ -486,7 +487,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 				CodeExpr ifcond = definableref;
 				CodeStmtCollection ifbody = new CodeStmtCollection();
 				{
-					final IndexingTreeNew srctree = this.indexingTrees.get(param);
+					final IndexingTreeInterface srctree = this.indexingTrees.get(param);
 					
 					StmtCollectionInserter<CodeExpr> inserter = new StmtCollectionInserter<CodeExpr>() {
 						@Override
@@ -510,7 +511,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 							return stmts;
 						}
 					};
-					ifbody.add(srctree.generateFindCode(IndexingTreeNew.Access.Leaf, dest.getWeakRefs(), inserter));
+					ifbody.add(srctree.generateFindCode(Access.Leaf, dest.getWeakRefs(), inserter));
 				}
 				stmts.add(new CodeConditionStmt(ifcond, ifbody));
 			}
@@ -553,7 +554,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	private CodeStmtCollection generateCopyStateFromListCode(RVMParameters sourceprms, RVMParameters targetprms, IndexingTreeQueryResult transition, IndexingTreeQueryResult source) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		
-		IndexingTreeNew targettree = this.findIndexingTree(targetprms);
+		IndexingTreeInterface targettree = this.findIndexingTree(targetprms);
 		
 		WeakReferenceVariables borrowedweakrefs;
 		{
@@ -668,7 +669,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
 		for (RVMonitorParameterPair pair : this.paramPairsForCopy) {
 			boolean frommonitor = this.event.getRVMParametersOnSpec().contains(pair.getParam2());
-			IndexingTreeNew sourcetree = this.findIndexingTreeForCopy(pair);
+			IndexingTreeInterface sourcetree = this.findIndexingTreeForCopy(pair);
 			if (frommonitor && sourcetree == null)
 				sourcetree = this.findIndexingTree(pair);
 			Access access = frommonitor ? Access.Leaf : Access.Set;
@@ -957,7 +958,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
 		CodeVarRefExpr affectedref;
 		{
-			IndexingTreeNew.Access access = single ? IndexingTreeNew.Access.Leaf : IndexingTreeNew.Access.Set;
+			Access access = single ? Access.Leaf : Access.Set;
 			CodePair<CodeVarRefExpr> pair = matched.generateFieldGetCode(access, "stateTransitioned");
 			stmts.add(pair.getGeneratedCode());
 			affectedref = pair.getLogicalReturn();

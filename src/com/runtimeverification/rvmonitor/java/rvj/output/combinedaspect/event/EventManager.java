@@ -13,6 +13,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class EventManager {
 
@@ -22,9 +23,9 @@ public class EventManager {
 	public ArrayList<StartThread> startThreadEvents = new ArrayList<StartThread>();
 	public EndProgram endProgramEvent = null;
 
-	public HashMap<RVMonitorSpec, MonitorSet> monitorSets;
-	public HashMap<RVMonitorSpec, SuffixMonitor> monitors;
-	public HashMap<RVMonitorSpec, EnableSet> enableSets;
+	public TreeMap<RVMonitorSpec, MonitorSet> monitorSets;
+	public TreeMap<RVMonitorSpec, SuffixMonitor> monitors;
+	public TreeMap<RVMonitorSpec, EnableSet> enableSets;
 	
 	private boolean isCodeGenerated = false;
 	

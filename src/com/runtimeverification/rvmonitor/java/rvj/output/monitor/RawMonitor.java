@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class RawMonitor extends Monitor{
 
@@ -53,7 +54,7 @@ public class RawMonitor extends Monitor{
 		}
 	}
 
-	public void setRefTrees(HashMap<String, RefTree> refTrees){
+	public void setRefTrees(TreeMap<String, RefTree> refTrees){
 		this.refTrees = refTrees;
 		
 		if(monitorTermination != null)

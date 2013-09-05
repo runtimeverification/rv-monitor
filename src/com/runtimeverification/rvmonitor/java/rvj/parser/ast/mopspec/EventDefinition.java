@@ -10,7 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventDefinition extends Node {
+public class EventDefinition extends Node implements Comparable<EventDefinition> {
 
 	String id;
 
@@ -228,4 +228,8 @@ public class EventDefinition extends Node {
 		return v.visit(this, arg);
 	}
 
+	@Override
+	public int compareTo(EventDefinition that) {
+		return this.id.compareTo(that.id);
+	}
 }

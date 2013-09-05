@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
 
-public class RVMonitorParameterPair {
+public class RVMonitorParameterPair implements Comparable<RVMonitorParameterPair> {
 	RVMParameters param1;
 	RVMParameters param2;
 	
@@ -27,5 +27,13 @@ public class RVMonitorParameterPair {
 	
 	public int hashCode() {
 		return param1.hashCode() ^ param2.hashCode();
+	}
+
+	@Override
+	public int compareTo(RVMonitorParameterPair that) {
+		int r = this.param1.compareTo(that.param1);
+		if (r != 0)
+			return r;
+		return this.param2.compareTo(that.param2);
 	}
 }

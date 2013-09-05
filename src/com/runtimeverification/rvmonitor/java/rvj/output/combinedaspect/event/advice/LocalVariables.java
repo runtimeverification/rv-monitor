@@ -2,6 +2,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.a
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMTypedVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
@@ -15,7 +16,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
 public class LocalVariables {
-	HashMap<String, RefTree> refTrees;
+	TreeMap<String, RefTree> refTrees;
 
 	ArrayList<Variable> variables= new ArrayList<Variable>();
 

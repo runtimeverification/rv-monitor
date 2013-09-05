@@ -10,6 +10,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class MonitorTermination {
 
@@ -20,7 +21,7 @@ public class MonitorTermination {
 	RVMonitorStatistics stat;
 	
 	HashMap<RVMParameter, RVMVariable> references = new HashMap<RVMParameter, RVMVariable>();
-	HashMap<String, RefTree> refTrees;
+	TreeMap<String, RefTree> refTrees;
 
 	public MonitorTermination(String name, RVMonitorSpec mopSpec, List<EventDefinition> events, OptimizedCoenableSet coenableSet){
 		this.parameters = mopSpec.getParameters();
@@ -38,7 +39,7 @@ public class MonitorTermination {
 		return p.getType().toString();
 	}
 	
-	public void setRefTrees(HashMap<String, RefTree> refTrees){
+	public void setRefTrees(TreeMap<String, RefTree> refTrees){
 		this.refTrees = refTrees;
 
 		for (RVMParameter param : parameters) {

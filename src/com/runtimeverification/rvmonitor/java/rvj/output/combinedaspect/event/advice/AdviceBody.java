@@ -7,7 +7,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.it
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
@@ -16,6 +16,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.util.RVMException;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public abstract class AdviceBody {
 	protected RVMonitorSpec mopSpec;
@@ -23,9 +24,9 @@ public abstract class AdviceBody {
 	protected MonitorSet monitorSet;
 	protected SuffixMonitor monitorClass;
 	protected RVMVariable monitorName;
-	protected HashMap<RVMParameters, IndexingTreeNew> indexingTrees;
+	protected TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
 	protected IndexingDeclNew indexingDecl;
-	protected HashMap<String, RefTree> refTrees;
+	protected TreeMap<String, RefTree> refTrees;
 	
 	protected RVMonitorStatistics stat;
 	

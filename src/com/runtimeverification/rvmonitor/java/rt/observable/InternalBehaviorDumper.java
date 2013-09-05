@@ -94,7 +94,10 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 	
 	private <TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> void printIndexingTree(AbstractIndexingTree<TWeakRef, TValue> tree) {
 		String desc = tree.getObservableObjectDescription();
-		this.writer.print(desc);
+		if (desc == null)
+			this.writer.print(tree.getClass().getSimpleName());
+		else
+			this.writer.print(desc);
 	}
 	
 	private void printPotentialMonitor(Object o) {
@@ -139,7 +142,9 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 	}
 	
 	private void printOneValue(Object value) {
-		if (value instanceof AbstractMonitorSet<?>)
+		if (value instanceof AbstractIndexingTree<?, ?>)
+			this.printIndexingTree((AbstractIndexingTree<?, ?>)value);
+		else if (value instanceof AbstractMonitorSet<?>)
 			this.printMonitorSet((AbstractMonitorSet<?>)value);
 		else
 			this.printPotentialMonitor(value);

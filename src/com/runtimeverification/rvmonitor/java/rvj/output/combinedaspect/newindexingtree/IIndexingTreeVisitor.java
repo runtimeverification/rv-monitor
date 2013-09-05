@@ -13,8 +13,8 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeObject;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeStmtCollection;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarRefExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.Access;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeNew.Entry;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Access;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Entry;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
@@ -49,64 +49,78 @@ abstract class GenerativeIndexingTreeVisitor implements IIndexingTreeVisitor<Cod
 	protected GenerativeIndexingTreeVisitor(RVMParameters specParams) {
 		this.specParams = specParams;
 	}
+	
+	private CodeNewExpr createSet(Entry nextentry) {
+		return new CodeNewExpr(nextentry.getSet());
+	}
+	
+	private CodeNewExpr createMap(Entry nextentry, RVMParameter nextparam) {
+		CodeExpr arg = null;
+		if (this.specParams != null) {
+			int id = this.specParams.getIdnum(nextparam);
+			arg = CodeLiteralExpr.integer(id);	
+		}
+		if (arg == null)
+			return new CodeNewExpr(nextentry.getMap().getCodeType());
+		else
+			return new CodeNewExpr(nextentry.getMap().getCodeType(), arg);
+	}
 
 	@Override
 	public CodeStmtCollection visitPreNode(Entry entry, CodeExpr parentref, CodeVarRefExpr weakref, CodeExpr entryref, RVMParameter nextparam) {
 		CodeExpr ifnull = CodeBinOpExpr.isNull(entryref);
+		CodeStmtCollection ifbody = new CodeStmtCollection();
 
-		CodeStmtCollection extrastmts = new CodeStmtCollection();
-		CodeNewExpr create;
-		{
-			if (nextparam == null) { 
-				// The above condition tells that this is the last map; i.e., below this entry,
-				// there is no map. Creating such a non-intermediate node requires careful manipulation.
-				// Currently, the rule is to create the entry or a set, but not a monitor, because
-				// creating a monitor should be done conditionally, whereas an entry or a set needs
-				// to be created unconditionally.
-				Entry nextentry = entry.getMap().getValue();
-				if (nextentry == null)
-					throw new NotImplementedException();
-				boolean m = nextentry.getMap() != null;
-				boolean s = nextentry.getSet() != null;
-				boolean l = nextentry.getLeaf() != null;
-				if (!m && !s && l)
-					create = null;
-				else {
-					create = new CodeNewExpr(nextentry.getCodeType());
-					if (s && (m || l)) {
-						// The above statement creates the entry, and the following creates a set
-						// instance and assigns it to one field of the entry.
-						CodeExpr createdset = new CodeNewExpr(nextentry.getSet());
-						extrastmts.add(nextentry.generateFieldSetCode(entryref, Access.Set, createdset));
-					}
-				}
-			}
+		Entry nextentry = entry.getMap().getValue();
+		if (nextentry == null)
+			throw new NotImplementedException();
+		boolean m = nextentry.getMap() != null;
+		boolean s = nextentry.getSet() != null;
+		boolean l = nextentry.getLeaf() != null;
+		boolean tuple = (m && s) || (s && l) || (l && m);
+	
+		CodeNewExpr createentry;
+		if (tuple) {
+			// A tuple is created when multiple fields need to be stored.
+			createentry = new CodeNewExpr(nextentry.getCodeType());
+		}
+		else {
+			if (m)
+				createentry = this.createMap(nextentry, nextparam);
+			else if (s)
+				createentry = this.createSet(nextentry);
 			else {
-				CodeExpr arg = null;
-				if (this.specParams != null) {
-					int id = this.specParams.getIdnum(nextparam);
-					arg = CodeLiteralExpr.integer(id);	
-				}
-				if (arg == null)
-					create = new CodeNewExpr(entryref.getType());
-				else
-					create = new CodeNewExpr(entryref.getType(), arg);
+				// A monitor cannot be simply created. This should be and will be
+				// created by the caller after some computation.
+				createentry = null;
 			}
 		}
 		
-		if (create == null)
+		if (createentry == null)
 			return null;
-		
-		CodeStmtCollection stmts = new CodeStmtCollection();
-		CodeAssignStmt assign = new CodeAssignStmt(entryref, create);
-		stmts.add(assign);
 
-		CodeMethodInvokeExpr insert = new CodeMethodInvokeExpr(CodeType.foid(), parentref, "putNode", weakref, entryref);
+		CodeAssignStmt assign = new CodeAssignStmt(entryref, createentry);
+		ifbody.add(assign);
+
+		CodeExpr mapref = entry.generateFieldGetInlinedCode(parentref, Access.Map);
+		CodeMethodInvokeExpr insert = new CodeMethodInvokeExpr(CodeType.foid(), mapref, "putNode", weakref, entryref);
 		CodeExprStmt insertstmt = new CodeExprStmt(insert);
-		stmts.add(insertstmt);
+		ifbody.add(insertstmt);
 		
-		stmts.add(extrastmts);
-		return new CodeStmtCollection(new CodeConditionStmt(ifnull, stmts));
+		if (tuple) {
+			// The current policy is that, whenever a tuple is created, its map and set are
+			// instantiated.
+			if (m) {
+				CodeExpr createdmap = this.createMap(nextentry, nextparam);
+				ifbody.add(nextentry.generateFieldSetCode(entryref, Access.Map, createdmap));
+			}
+			if (s) {
+				CodeExpr createdset = this.createSet(nextentry);
+				ifbody.add(nextentry.generateFieldSetCode(entryref, Access.Set, createdset));
+			}
+		}
+	
+		return new CodeStmtCollection(new CodeConditionStmt(ifnull, ifbody));
 	}
 
 	@Override

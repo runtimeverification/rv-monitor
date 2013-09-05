@@ -4,7 +4,7 @@ import java.util.*;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.BaseTypePattern;
 
-public class RVMParameters implements Iterable<RVMParameter> {
+public class RVMParameters implements Iterable<RVMParameter>, Comparable<RVMParameters> {
 
 	ArrayList<RVMParameter> parameters;
 
@@ -325,5 +325,35 @@ public class RVMParameters implements Iterable<RVMParameter> {
 				diff.add(p);
 		}
 		return new RVMParameters(diff);
+	}
+	
+	public boolean subsumes(RVMParameters that, RVMParameters specParams) {
+		if (!this.contains(that))
+			return false;
+		
+		RVMParameters thisqueryprms = specParams.sortParam(this);
+		RVMParameters thatqueryprms = specParams.sortParam(that);
+		
+		for (int i = 0; i < thatqueryprms.size(); ++i) {
+			if (!thisqueryprms.get(i).equals(thatqueryprms.get(i)))
+				return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int compareTo(RVMParameters that) {
+		int size1 = this.parameters.size();
+		int size2 = that.parameters.size();
+		
+		for (int i = 0; i < Math.min(size1, size2); ++i) {
+			RVMParameter p1 = this.get(i);
+			RVMParameter p2 = that.get(i);
+			int r = p1.compareTo(p2);
+			if (r != 0)
+				return r;
+		}
+
+		return size1 - size2;
 	}
 }
