@@ -4,9 +4,10 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeFormatters;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.EventManager;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTreeManager;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.BaseMonitor;
@@ -31,6 +32,7 @@ public class CombinedAspect {
 
 	RVMVariable mapManager;
 	boolean versionedStack;
+	private final RuntimeServiceManager runtimeServiceManager;
 
 	List<RVMonitorSpec> specs;
 	public RVMonitorStatManager statManager;
@@ -39,14 +41,12 @@ public class CombinedAspect {
 	public ActivatorManager activatorsManager;
 	public IndexingTreeManager indexingTreeManager;
 	public EventManager eventManager;
-	private final OptionManager optionManager;
-	private final InternalBehaviorObservableCodeGenerator internalBehaviorObservableGenerator;
 
 	boolean has__ACTIVITY = false;
 	private boolean isCodeGenerated = false;
 	
 	public InternalBehaviorObservableCodeGenerator getInternalBehaviorObservableGenerator() {
-		return this.internalBehaviorObservableGenerator;
+		return this.runtimeServiceManager.getObserver();
 	}
 
 	public CombinedAspect(String name, RVMSpecFile rvmSpecFile, TreeMap<RVMonitorSpec, MonitorSet> monitorSets, TreeMap<RVMonitorSpec, SuffixMonitor> monitors,
@@ -56,7 +56,7 @@ public class CombinedAspect {
 		this.monitors = monitors;
 		this.enableSets = enableSets;
 		this.versionedStack = versionedStack;
-		this.internalBehaviorObservableGenerator = new InternalBehaviorObservableCodeGenerator(Main.internalBehaviorObserving);
+		this.runtimeServiceManager = new RuntimeServiceManager();
 
 		this.specs = rvmSpecFile.getSpecs();
 		for (RVMonitorSpec spec : specs) {
@@ -73,8 +73,6 @@ public class CombinedAspect {
 		this.eventManager = new EventManager(name, this.specs, this);
 
 		this.mapManager = new RVMVariable(name + "MapManager");
-		
-		this.optionManager = new OptionManager();
 	}
 	
 	public void collectDisableParameters(List<RVMonitorSpec> specs){
@@ -169,10 +167,12 @@ public class CombinedAspect {
 			categoryVars.addAll(monitorClass.getCategoryVars());
 		}
 		String ret = "";
-		for (RVMVariable variable : categoryVars) {
-			ret += "public static boolean " +
-					BaseMonitor.getNiceVariable(variable) + " = " +
-					"false;\n";
+		if (!Main.eliminatePresumablyRemnantCode) {
+			for (RVMVariable variable : categoryVars) {
+				ret += "private static boolean " +
+						BaseMonitor.getNiceVariable(variable) + " = " +
+						"false;\n";
+			}
 		}
 		if (skipEvent) {
 			ret += "public static boolean " + BaseMonitor.skipEvent + " = false;" +
@@ -196,7 +196,7 @@ public class CombinedAspect {
 
 		ret += this.statManager.statClass();
 		
-		ret += "public class " + this.name + " implements com.runtimeverification.rvmonitor.java.rt.RVMObject {\n";
+		ret += "public final class " + this.name + " implements com.runtimeverification.rvmonitor.java.rt.RVMObject {\n";
 
 		ret += categoryVarsDecl();
 
@@ -207,8 +207,6 @@ public class CombinedAspect {
 		// constructor
 		ret += "static {\n";
 		
-		ret += this.optionManager.printCode();
-
 		ret += this.eventManager.printConstructor();
 		
 		ret += mapManager + " = " + "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapManager();\n";
@@ -232,8 +230,12 @@ public class CombinedAspect {
 
 		ret += this.indexingTreeManager.decl();
 		
-		ret += this.generateInternalBehaviorObserverCode();
-
+		{
+			ICodeFormatter fmt = CodeFormatters.getDefault();
+			this.runtimeServiceManager.getCode(fmt);
+			ret += fmt.getCode();
+		}
+		
 		ret += this.eventManager.advices();
 
 		if (this.has__ACTIVITY) {
@@ -267,38 +269,6 @@ public class CombinedAspect {
 
 		ret += "}\n";
 
-		return ret;
-	}
-
-	private String generateInternalBehaviorObserverCode() {
-		String ret = "";
-
-		if (!Main.internalBehaviorObserving)
-			return ret;
-	
-		ret += "\n";
-		
-		ret += "private static InternalBehaviorMultiplexer observer = new InternalBehaviorMultiplexer();\n";
-		ret += "public static IObservable<IInternalBehaviorObserver> getObservable() {\n";
-		ret += "return observer;\n";
-		ret += "}\n";
-		ret += "public static void subscribe(IInternalBehaviorObserver o) {\n";
-		ret += "observer.subscribe(o);\n";
-		ret += "}\n";
-		ret += "public static void unsubscribe(IInternalBehaviorObserver o) {\n";
-		ret += "observer.unsubscribe(o);\n";
-		ret += "}\n\n";
-		
-		return ret;
-	}
-}
-
-class OptionManager {
-	public String printCode() {
-		String ret = "";
-		ret += "com.runtimeverification.rvmonitor.java.rt.RuntimeOption.enableFineGrainedLock(";
-		ret += Main.useFineGrainedLock ? "true" : "false";
-		ret += ");\n";
 		return ret;
 	}
 }

@@ -15,6 +15,11 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarDeclStmt
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarRefExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVariable;
 
+/**
+ * This interface defines what a code visitor should implement.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public interface ICodeVisitor {
 	public void visit(CodeStmtCollection stmts);
 	
@@ -25,8 +30,21 @@ public interface ICodeVisitor {
 	public void closeScope();
 }
 
+/**
+ * This class implements a visitor that eliminates the given junks
+ * from all the visited statements.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 class StmtEliminationVisitor implements ICodeVisitor {
+	/**
+	 * Keeps all the remaining junk statements. Initially,
+	 * junk statements are given by the caller.
+	 */
 	private final Set<CodeStmt> junks;
+	/**
+	 * Keeps all the eliminated statements.
+	 */
 	private final Set<CodeStmt> eliminated;
 
 	public Set<CodeStmt> getRemainingJunks() {
@@ -75,6 +93,12 @@ class StmtEliminationVisitor implements ICodeVisitor {
 	}
 }
 
+/**
+ * This class implements a visitor that collects unused variables and their
+ * declarations and assignments.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 class ReferredVariableVisitor implements ICodeVisitor {
 	private final Block topblock;
 	private Block currentblock;

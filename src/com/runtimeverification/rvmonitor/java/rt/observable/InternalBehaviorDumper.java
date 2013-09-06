@@ -3,10 +3,8 @@ package com.runtimeverification.rvmonitor.java.rt.observable;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractIndexingTree;
@@ -42,14 +40,6 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 		this.writer.print('[');
 		this.writer.print(title);
 		this.writer.print("] ");
-	}
-	
-	private <T> void printArray(T[] array) {
-		for (int i = 0; i < array.length; ++i) {
-			if (i > 0)
-				this.writer.print(", ");
-			this.writer.print(array[i]);
-		}
 	}
 	
 	private void printOneKey(Object key) {
@@ -200,6 +190,15 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 	}
 
 	@Override
+	public void onIndexingTreeCacheUpdated(String cachename, Object cachevalue) {
+		this.printTitle("CacheUpdate");
+		this.writer.print(cachename);
+		this.printSpace();
+		this.printTreeValue(cachevalue);
+		this.writer.println();
+	}
+
+	@Override
 	public <TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> void onIndexingTreeLookup(AbstractIndexingTree<TWeakRef, TValue> tree, LookupPurpose purpose, Object retrieved, Object ... keys) {
 		this.printTitle("TreeLookup");
 		this.printIndexingTree(tree);
@@ -294,5 +293,6 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 		this.writer.print("=== END OF TRACE ===");
 		this.writer.println();
 		this.writer.flush();
+		this.writer.close();
 	}
 }

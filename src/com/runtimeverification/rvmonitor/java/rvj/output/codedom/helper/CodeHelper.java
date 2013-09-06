@@ -4,13 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberField;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeNewExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
-import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Level;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
+/**
+ * This class holds helpers for reducing hard-coding.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeHelper {
 	public static class VariableName {
 		public static CodeVariable getWeakRef(CodeType type, RVMParameter param) {
@@ -22,7 +29,7 @@ public class CodeHelper {
 			// The following convention had been hard-coded in the monitor-generating class; so,
 			// I followed it.
 			String fieldname = "RVMRef_" + param.getName();
-			return new CodeMemberField(fieldname, false, true, weakreftype);
+			return new CodeMemberField(fieldname, true, false, false, weakreftype);
 		}
 		
 		/**
@@ -59,7 +66,7 @@ public class CodeHelper {
 	}
 	
 	public static class RuntimeType {
-		public static RuntimeMonitorType.Tuple getIndexingTreeTuple(List<RuntimeMonitorType> fields) {
+		public static CodeRVType.Tuple getIndexingTreeTuple(List<CodeRVType> fields) {
 			if (fields.size() < 2 || fields.size() > 3)
 				throw new NotImplementedException();
 		
@@ -68,14 +75,14 @@ public class CodeHelper {
 			CodeType type;
 			{
 				List<CodeType> generics = new ArrayList<CodeType>();
-				for (RuntimeMonitorType field : fields)
+				for (CodeRVType field : fields)
 					generics.add(field);
 				type = new CodeType(pkgname, clsname, generics);
 			}
-			return RuntimeMonitorType.forTuple(type, fields);
+			return CodeRVType.forTuple(type, fields);
 		}
 		
-		public static RuntimeMonitorType getIndexingTree(Level map, CodeType set, CodeType leaf, boolean hasGWRT) {
+		public static CodeRVType getIndexingTree(Level map, CodeType set, CodeType leaf, boolean hasGWRT) {
 			boolean m = map != null;
 			boolean s = set != null;
 			boolean l = leaf != null;
@@ -111,13 +118,26 @@ public class CodeHelper {
 			
 			String pkgname = "com.runtimeverification.rvmonitor.java.rt.table";
 			CodeType treetype = new CodeType(pkgname, clsname, generics);
-			return RuntimeMonitorType.forIndexingTree(treetype);
+			return CodeRVType.forIndexingTree(treetype);
+		}
+
+		public static CodeType getAbstractIndexingTree() {
+			String pkgname = "com.runtimeverification.rvmonitor.java.rt.tablebase";
+			String clsname = "AbstractIndexingTree";
+			return new CodeType(pkgname, clsname, null, null);
 		}
 
 		public static CodeType getWeakReference() {
 			String pkgname = "com.runtimeverification.rvmonitor.java.rt.ref";
 			String clsname = "CachedWeakReference";
 			return new CodeType(pkgname, clsname);
+		}
+
+		public static CodeType getSetEventDelegator(CodeType monitor, CodeType pairmap) {
+			// SetEventDelegator<TMonitor>
+			String pkgname = "com.runtimeverification.rvmonitor.java.rt.tablebase";
+			String clsname = "SetEventDelegator";
+			return new CodeType(pkgname, clsname, monitor, pairmap);
 		}
 
 		public static CodeType getDisableHolderFromMonitor(CodeType monitor) {
@@ -143,6 +163,39 @@ public class CodeHelper {
 		public static CodeType getInternalBehaviorMultiplexer() {
 			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.observable";
 			String clsname = "InternalBehaviorMultiplexer";
+			return new CodeType(pkgname, clsname);
+		}
+
+		public static CodeType getObserverable(CodeType observer) {
+			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.observable";
+			String clsname = "IObservable";
+			return new CodeType(pkgname, clsname, observer);
+		}
+
+		public static CodeType getInternalBehaviorObserver() {
+			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.observable";
+			String clsname = "IInternalBehaviorObserver";
+			return new CodeType(pkgname, clsname);
+		}
+
+		public static CodeMemberField getSetWiseLockField(String name) {
+			String pkgname = "java.util.concurrent.locks";
+			String clsname = "ReentrantLock";
+			CodeType type = new CodeType(pkgname, clsname);
+			
+			CodeExpr init = new CodeNewExpr(type);
+			return new CodeMemberField(name, false, true, true, type, init);
+		}
+
+		public static CodeType getTerminatedMonitorCleaner() {
+			String pkgname = "com.runtimeverification.rvmonitor.java.rt.tablebase";
+			String clsname = "TerminatedMonitorCleaner";
+			return new CodeType(pkgname, clsname);
+		}
+
+		public static CodeType getRuntimeOption() {
+			String pkgname = "com.runtimeverification.rvmonitor.java.rt";
+			String clsname = "RuntimeOption";
 			return new CodeType(pkgname, clsname);
 		}
 	}

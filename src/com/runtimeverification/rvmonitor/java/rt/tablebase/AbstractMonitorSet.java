@@ -2,6 +2,22 @@ package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
 import java.util.Arrays;
 
+/**
+ * This class represents a set of monitors. This is the default implementation
+ * of a set. If certain conditions are met, the code generator replaces this
+ * by AbstractPartitionedMonitorSet, the presumably more efficient implementation.
+ * 
+ * This implementation is almost identical to MonitorSet, which has been there
+ * since JavaMOP 3.0. The only major difference between this and MonitorSet is
+ * that this class implements all the common features, whereas the old implementation
+ * implements less and assumes the generated monitor set, which is MonitorSet's
+ * subclass, implements the rest.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ * @see AbstractPartitionedMonitorSet
+ *
+ * @param <TMonitor> type of the monitor
+ */
 public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements IMonitorSet {
 	protected int size = 0;
 	protected TMonitor[] elements;
@@ -17,12 +33,6 @@ public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements I
 	
 		this.elements = null;
 		this.size = 0;
-	}
-	
-	@Override
-	public synchronized final boolean checkTerminatedWhileCleaningUp() {
-		this.removeTerminated();
-		return this.size == 0;
 	}
 	
 	public synchronized final void add(TMonitor e) {
@@ -48,7 +58,7 @@ public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements I
 		this.size = from;
 	}
 	
-	private void ensureCapacity() {
+	private final void ensureCapacity() {
 		int oldCapacity = this.elements.length;
 		
 		if (this.size + 1 > oldCapacity)
@@ -63,7 +73,7 @@ public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements I
 		}
 	}
 	
-	private void removeTerminated() {
+	private final void removeTerminated() {
 		int numAlive = 0;
 		for (int i = 0; i < this.size; ++i) {
 			TMonitor monitor = this.elements[i];

@@ -9,6 +9,13 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeForm
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGenerator;
 
+/**
+ * This class represents a list of statements.
+ * For example, the body of a for loop is represented by an instance of
+ * this class.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeStmtCollection implements ICodeGenerator, ICodeVisitable {
 	private final List<CodeStmt> list;
 	
@@ -85,6 +92,9 @@ public class CodeStmtCollection implements ICodeGenerator, ICodeVisitable {
 	@Override
 	public void getCode(ICodeFormatter fmt) {
 		for (CodeStmt stmt : this.list) {
+			if (stmt instanceof CodePhantomStmt)
+				continue;
+
 			stmt.getCode(fmt);
 			if (!stmt.isBlock())
 				fmt.endOfStatement();

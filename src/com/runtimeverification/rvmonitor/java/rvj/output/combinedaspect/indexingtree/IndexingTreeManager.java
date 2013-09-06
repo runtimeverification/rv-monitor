@@ -96,6 +96,25 @@ public class IndexingTreeManager {
 			}
 			ret += "}\n\n";
 		}
+		
+		{
+			String var = "collected";
+			ret += "public static int cleanUp() {\n";
+			ret += "int " + var + " = 0;\n";
+			ret += "// indexing trees\n";
+			for (IndexingDeclNew decl : trees.values()) {
+				ret += decl.getCleanUpCode(var);
+			}
+			
+			if (Main.useWeakRefInterning) {
+				ret += "// ref trees\n";
+				for (RefTree refTree : refTrees.values()){
+					ret += refTree.getCleanUpCode(var);
+				}
+			}
+			ret += "return collected;\n";
+			ret += "}\n\n";
+		}
 
 		return ret;
 	}

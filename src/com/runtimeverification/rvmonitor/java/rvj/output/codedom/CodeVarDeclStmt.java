@@ -4,6 +4,15 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeV
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
+/**
+ * This class represents a variable declaration statement; e.g.,
+ * <code>
+ * int a = 1;
+ * </code>
+ * This class can represent a declaration without any initial value as well.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeVarDeclStmt extends CodeStmt {
 	private final CodeVariable var;
 	private final CodeExpr init;

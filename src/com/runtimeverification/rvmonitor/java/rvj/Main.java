@@ -60,7 +60,13 @@ public class Main {
 	public static boolean internalBehaviorObserving = false;
 	
 	public static boolean useFineGrainedLock = false;
-	public static boolean useWeakRefInterning = true;
+	public static boolean useWeakRefInterning = false;
+
+	public static boolean generateVoidMethods = true;
+	public static boolean stripUnusedParameterInMonitor = true;
+	public static boolean eliminatePresumablyRemnantCode = true;
+	public static boolean suppressActivator = false;
+	public static boolean usePartitionedSet = true;
 
 	static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
 		if(Main.outputDir != null){
@@ -428,8 +434,16 @@ public class Main {
 				Main.internalBehaviorObserving = true;
 			} else if (args[i].compareTo("-finegrainedlock") == 0) {
 				Main.useFineGrainedLock = true;
+			} else if (args[i].compareTo("-nofinegrainedlock") == 0) {
+				Main.useFineGrainedLock = false;
 			} else if (args[i].compareTo("-weakrefinterning") == 0) {
 				Main.useWeakRefInterning = true;
+			} else if (args[i].compareTo("-noweakrefinterning") == 0) {
+				Main.useWeakRefInterning = false;
+			} else if (args[i].compareTo("-partitionedset") == 0) {
+				Main.usePartitionedSet = true;
+			} else if (args[i].compareTo("-nopartitionedset") == 0) {
+				Main.usePartitionedSet = false;
 			} else {
 				if (files.length() != 0)
 					files += ";";

@@ -1,6 +1,9 @@
 package com.runtimeverification.rvmonitor.java.rt.ref;
 
-
+/**
+ * This class should be no longer used.
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CachedTagWeakReference extends CachedWeakReference {
   	private long disabled = -1;
 	private long tau = -1;

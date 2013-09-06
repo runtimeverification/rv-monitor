@@ -4,6 +4,13 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeV
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
+/**
+ * This class represents a variable reference expression.
+ * The variable can be either a parameter or a local variable---the code
+ * generation process does not make distinction between them.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeVarRefExpr extends CodeExpr {
 	private final CodeVariable var;
 	

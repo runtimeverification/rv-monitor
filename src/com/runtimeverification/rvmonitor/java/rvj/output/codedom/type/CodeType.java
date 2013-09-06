@@ -1,8 +1,23 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom.type;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class represents a type in the generated code.
+ * Although this class holds the minimal information, such as
+ * the package name and class name, its subclass may hold additional
+ * information that can be useful during code generation.
+ *
+ * This class can represent an array, by holding a non-zero
+ * 'dimension' value.
+ * 
+ * This class can represent a generic class. The generics type is
+ * stored in the 'generics' field.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeType {
 	private final String pkgname;
 	private final String clsname;
@@ -31,6 +46,10 @@ public class CodeType {
 	
 	public CodeType(String pkgname, String clsname) {
 		this(pkgname, clsname, 0);
+	}
+
+	public CodeType(String pkgname, String clsname, CodeType ... generics) {
+		this(pkgname, clsname, 0, Arrays.asList(generics));
 	}
 	
 	public CodeType(String pkgname, String clsname, List<CodeType> generics) {
@@ -68,6 +87,7 @@ public class CodeType {
 	private final static CodeType nativeBoolean;
 	private final static CodeType nativeObject;
 	private final static CodeType nativeString;
+	private final static CodeType nativeClass;
 	
 	static {
 		nativeVoid = new CodeType(null, "void");
@@ -79,6 +99,7 @@ public class CodeType {
 		// treated specially.
 		nativeObject = new CodeType("java.lang", "Object");
 		nativeString = new CodeType("java.lang", "String");
+		nativeClass = new CodeType("java.lang", "Class");
 	}
 	
 	public static CodeType foid() {
@@ -98,6 +119,9 @@ public class CodeType {
 	}
 	public static CodeType string() {
 		return nativeString;
+	}
+	public static CodeType klass() {
+		return nativeClass;
 	}
 
 	public boolean isInteger() {
@@ -165,7 +189,10 @@ public class CodeType {
 			for (CodeType g : this.generics) {
 				if (first) first = false;
 				else s.append(", ");
-				s.append(g.toString());
+				if (g == null)
+					s.append('?');
+				else
+					s.append(g.toString());
 			}
 			s.append('>');
 		}
@@ -173,5 +200,13 @@ public class CodeType {
 		for (int i = 0; i < this.dimension; ++i)
 			s.append("[]");
 		return s.toString();
+	}
+
+	public static CodeType ThreadLocal(CodeType type) {
+		return new CodeType("java.lang", "ThreadLocal", type);
+	}
+
+	public static CodeType AtomicLong() {
+		return new CodeType("java.lang", "AtomicLong");
 	}
 }

@@ -6,6 +6,12 @@ import java.util.List;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
+/**
+ * This class represents an if (and optionally multiple else if and an else branches)
+ * statement.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeConditionStmt extends CodeStmt {
 	private final List<Branch> branches;
 	private CodeStmtCollection elsebranch;

@@ -3,6 +3,18 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
+/**
+ * This class represents a for loop.
+ * 
+ * <code>
+ * for (init; cond; incr) {
+ *   body
+ * }
+ * </code>
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ *
+ */
 public class CodeForStmt extends CodeStmt {
 	private final CodeStmt init;
 	private final CodeExpr cond;

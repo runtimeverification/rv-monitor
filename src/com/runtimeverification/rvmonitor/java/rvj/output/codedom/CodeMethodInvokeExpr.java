@@ -7,25 +7,46 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeV
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
+/**
+ * This class represents a method invocation.
+ * If the invoked method is static, the 'target' field is null.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ *
+ */
 public class CodeMethodInvokeExpr extends CodeExpr {
 	private final CodeExpr target;
+	private final CodeType declaring;
 	private final String methodname;
 	private final List<CodeExpr> arguments;
 	
 	public CodeMethodInvokeExpr(CodeType type, CodeExpr target, String methodname, CodeExpr ... args) {
-		this(type, target, methodname, Arrays.asList(args));
+		this(type, null, target, methodname, Arrays.asList(args));
 	}
 
 	public CodeMethodInvokeExpr(CodeType type, CodeExpr target, String methodname, List<CodeExpr> args) {
+		this(type, null, target, methodname, args);
+	}
+
+	public CodeMethodInvokeExpr(CodeType type, CodeType declaring, CodeExpr target, String methodname, CodeExpr ... args) {
+		this(type, declaring, target, methodname, Arrays.asList(args));
+	}
+
+	public CodeMethodInvokeExpr(CodeType type, CodeType declaring, CodeExpr target, String methodname, List<CodeExpr> args) {
 		super(type);
 
 		this.target = target;
+		this.declaring = declaring;
 		this.methodname = methodname;
 		this.arguments = args;
 	}
 
 	@Override
 	public void getCode(ICodeFormatter fmt) {
+		if (this.declaring != null) {
+			fmt.type(this.declaring);
+			fmt.operator(".");
+		}
 		if (this.target != null) {
 			this.target.getCode(fmt);
 			fmt.operator(".");

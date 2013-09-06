@@ -8,7 +8,7 @@ import com.runtimeverification.rvmonitor.java.rt.tablebase.IDisableHolder;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IIndexingTreeValue;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IMonitor;
 
-public interface IInternalBehaviorObserver {
+public interface IInternalBehaviorObserver extends IObserver {
 	/**
 	 * Fired when an event handling method has entered. This method is invoked
 	 * even if the event is suppressed due to various reasons, such as the activator
@@ -31,6 +31,13 @@ public interface IInternalBehaviorObserver {
 	 */
 	public void onIndexingTreeCacheMissed(String cachename);
 	
+	/**
+	 * Fired when the indexing cache has been updated.
+	 * @param cachename the name of the field for holding the cached value
+	 * @param cachevalue the value that is newly assigned
+	 */
+	public void onIndexingTreeCacheUpdated(String cachename, Object cachevalue);
+
 	public enum LookupPurpose {
 		TransitionedMonitor,
 		ClonedMonitor,

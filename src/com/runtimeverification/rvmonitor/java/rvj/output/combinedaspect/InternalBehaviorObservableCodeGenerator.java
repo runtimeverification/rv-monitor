@@ -23,11 +23,14 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindex
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class InternalBehaviorObservableCodeGenerator {
 	private final boolean enabled;
 	private final CodeFieldRefExpr observerref;
+	
+	public CodeMemberField getField() {
+		return this.observerref.getField();
+	}
 	
 	public InternalBehaviorObservableCodeGenerator(boolean enabled) {
 		this.enabled = enabled;
@@ -35,7 +38,7 @@ public class InternalBehaviorObservableCodeGenerator {
 		if (enabled) {
 			CodeType observertype = CodeHelper.RuntimeType.getInternalBehaviorMultiplexer();
 			CodeExpr init = new CodeNewExpr(observertype);
-			CodeMemberField field = new CodeMemberField("observer", true, false, observertype, init);
+			CodeMemberField field = new CodeMemberField("observer", false, true, true, observertype, init);
 			this.observerref = new CodeFieldRefExpr(field);
 		}
 		else
@@ -78,6 +81,11 @@ public class InternalBehaviorObservableCodeGenerator {
 		return this.generateCommon("onIndexingTreeCacheMissed", cacheref);
 	}
 	
+	public CodeStmtCollection generateIndexingTreeCacheUpdatedCode(IndexingCacheNew cache, CodeVarRefExpr valueref) {
+		CodeExpr cacheref = CodeLiteralExpr.string(cache.getValueField().getName());
+		return this.generateCommon("onIndexingTreeCacheUpdated", cacheref, valueref);
+	}
+
 	private boolean isFullyFledgedIndexingTree(IndexingTreeInterface indexingtree) {
 		// Since only an indexing tree can have information for dumping,
 		// the current implementation does not invoke observable objects for zero-level objects.

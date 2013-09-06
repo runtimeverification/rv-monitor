@@ -39,7 +39,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVari
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGenerator;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
-import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.InternalBehaviorObservableCodeGenerator;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.AdviceBody;
@@ -60,14 +60,16 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorPa
 
 /**
  * This class represents the body of each event method, a static Java method that a client can
- * invoke to inform RV-monitor of an event.
+ * invoke to inform RV-monitor of an event. The code that this class generates is equivalent
+ * to main() in Algorithm D(X). For optimization purposes, however, a few things are newly
+ * introduced, and complicated loops in the algorithm were replaced by simpler ones.
  *
  * This class originates from GeneralAdviceBody. While fixing a bug and improving performance,
  * it seemed necessary to significantly modify IndexingTree and GeneralAdviceBody. Except the bug,
  * the behavior of this class should be equivalent to that of the originating class.
  * 
  * That being said, this class somewhat changes the behavior for the purposes of generating
- * 1. type-safe code (i.e., do not generate casting expressions);
+ * 1. type-safe code (i.e., do not generate casting expressions, unless it must exist);
  * 2. precisely-scoped code (i.e., the life span of a variable is precisely set);
  * 3. offensive code (i.e., do not null-check unless it is required); and
  * 4. non-redundant code (i.e., do not perform expensive operations redundantly).
@@ -171,14 +173,16 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		}
 	}
 	
-	private String getAspectName() {
-		return this.aspect.getAspectName();
-	}
-	
 	private CodeType getMonitorType() {
 		return new CodeType(this.monitorClass.getOutermostName().getVarName());
 	}
 	
+	/**
+	 * Returns the monitor features, which tell what features of the monitor implement
+	 * and expect.
+	 * @return a MonitorFeatures object, owned by the monitor class
+	 * @see com.runtimeverification.rvmonitor.java.rvj.output.monitor.MonitorFeatures
+	 */
 	private MonitorFeatures getMonitorFeatures() {
 		return this.monitorClass.getFeatures();
 	}
@@ -192,12 +196,11 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return new CodeType(this.monitorSet.getName().getVarName());
 	}
 	
-	private CodeFieldRefExpr getTimestamp() {
+	private Timestamp getTimestamp() {
 		RVMVariable var = this.aspect.timestampManager.getTimestamp(mopSpec);
-		CodeMemberField field = new CodeMemberField(var.getVarName(), true, false, CodeType.rong());
-		return new CodeFieldRefExpr(field);
+		return Timestamp.create(var.getVarName());
 	}
-	
+
 	private InternalBehaviorObservableCodeGenerator getBehaviorObserver() {
 		return this.aspect.getInternalBehaviorObservableGenerator();
 	}
@@ -238,12 +241,19 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		}
 	
 		MonitorFeatures features = this.getMonitorFeatures();
-		this.monitorClass.getFeatures();
 		features.setTimeTracking(this.strategy.needsTimeTracking);
 		features.setDisableHolder(this.strategy.needsTimeTracking);
 	}
 	
-	private CodeConditionStmt generateCacheLookup(WeakReferenceVariables weakrefs, CodeVarRefExpr destref) {
+	/**
+	 * Generates code for looking up the indexing tree cache. If the cache hits, the corresponding node
+	 * can be retrieved without accessing the indexing tree, which can be relatively expensive.
+	 * @param weakrefs weak references, each of which corresponds to one parameter in the event
+	 * @param destref reference to the variable for holding the cached value
+	 * @param cachehitref reference to the variable for holding the result of the cache lookup
+	 * @return generated code
+	 */
+	private CodeConditionStmt generateCacheLookup(WeakReferenceVariables weakrefs, CodeVarRefExpr destref, CodeVarRefExpr cachehitref) {
 		IndexingCacheNew cache = this.getIndexingTreeCache();
 		if (cache == null)
 			return null;
@@ -251,6 +261,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		CodeExpr ifmatch = cache.getKeyCompareCode();
 		CodeStmtCollection body = cache.getCacheRetrievalCode(weakrefs, destref);
 		body.add(this.getBehaviorObserver().generateIndexingTreeCacheHitCode(cache, destref));
+		body.add(new CodeAssignStmt(cachehitref, CodeLiteralExpr.bool(true)));
 		return new CodeConditionStmt(ifmatch, body);
 	}
 	
@@ -258,6 +269,12 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return this.aspect.indexingTreeManager.refTrees.get(param.getType().toString());
 	}
 	
+	/**
+	 * Generates code for creating or retrieving weak references.
+	 * @param weakrefs weak references, each of which corresponds to one parameter in the event
+	 * @param conditional true if the generated code should create a weak reference only if it is null
+	 * @return generated code
+	 */
 	private CodeStmtCollection generateWeakReferenceLookup(WeakReferenceVariables weakrefs, boolean conditional) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		
@@ -268,17 +285,17 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			if (conditional)
 				condition = CodeBinOpExpr.isNull(weakref);
 
+			// The following was the original condition for preventing creation of a weak reference, which
+			// cannot be directly applied; e.g., noncreative :=
+			// (!isGeneral && !event.isStartEvent()) ||
+			// (isGeneral && !event.isStartEvent() && paramPairsForCopy.size() == 0 && !doDisable)
+			
+			boolean create = true;
+			if (CodeGenerationOption.isCacheKeyWeakReference())
+				throw new NotImplementedException();
+
 			CodeExpr initval = null;
 			if (Main.useWeakRefInterning) {
-				// The following was the original condition for preventing creation of a weak reference, which
-				// cannot be directly applied; e.g., noncreative :=
-				// (!isGeneral && !event.isStartEvent()) ||
-				// (isGeneral && !event.isStartEvent() && paramPairsForCopy.size() == 0 && !doDisable)
-				
-				boolean create = true;
-				if (CodeGenerationOption.isCacheKeyWeakReference())
-					throw new NotImplementedException();
-
 				String rhs;
 				RefTree gwrt = this.getGWRT(param);
 				if (create)
@@ -287,8 +304,12 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 					rhs = gwrt.getRefNonCreative(param);
 				initval = CodeExpr.fromLegacy(weakref.getType(), rhs);
 			}
-			else
-				initval = CodeLiteralExpr.nul();
+			else {
+				// When the weak reference interning is disabled, a weak reference needs to be created.
+				CodeType weakreftype = CodeHelper.RuntimeType.getWeakReference();
+				CodeVarRefExpr strongref = new CodeVarRefExpr(new CodeVariable(CodeType.object(), param.getName()));
+				initval = new CodeNewExpr(weakreftype, strongref);
+			}
 
 			CodeAssignStmt assign = new CodeAssignStmt(weakref, initval);
 			if (condition == null)
@@ -300,15 +321,36 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return stmts;
 	}
 	
-	private CodeStmtCollection generateCacheUpdate(CodeVarRefExpr entryref) {
+	/**
+	 * Generates code for updating the indexing tree cache.
+	 * The generated code should be reached, at runtime, only if cache misses.
+	 * @param matched information for accessing indexing trees, weak references and so forth
+	 * @param cachehitref reference to the variable for holding the result of the cache lookup
+	 * @return generated code
+	 */
+	private CodeStmtCollection generateCacheUpdate(CodeVarRefExpr matched, CodeVarRefExpr cachehitref) {
 		IndexingCacheNew cache = this.getIndexingTreeCache();
 		if (cache == null)
 			return null;
 		
-		CodeStmtCollection stmts = cache.getCacheUpdateCode(entryref);
-		return stmts;
+		CodeStmtCollection stmts = new CodeStmtCollection();
+		CodeStmt cacheupdate = new CodeConditionStmt(
+			CodeBinOpExpr.identical(cachehitref, CodeLiteralExpr.bool(false)),
+			stmts);
+
+		stmts.add(cache.getCacheUpdateCode(matched));
+		stmts.add(this.getBehaviorObserver().generateIndexingTreeCacheUpdatedCode(cache, matched));
+
+		return new CodeStmtCollection(cacheupdate);
 	}
 	
+	/**
+	 * Generates code for looking up the indexing tree.
+	 * The generated code should be reached, at runtime, only if there is no indexing tree cache
+	 * or the cache does not hit.
+	 * @param matched information for accessing indexing trees, weak references and so forth
+	 * @return generated code
+	 */
 	private CodeStmtCollection generateIndexingTreeLookup(final IndexingTreeQueryResult matched) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		
@@ -346,9 +388,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			stmts.add(code);
 			stmts.add(this.getBehaviorObserver().generateIndexingTreeLookupCode(indexingtree, LookupPurpose.TransitionedMonitor, matched.getWeakRefs(), !this.strategy.needsWeakReferenceLookup, matched.getEntryRef()));
 		}
-	
-		stmts.add(this.generateCacheUpdate(matched.getEntryRef()));
-	
+
 		return stmts;
 	}
 	
@@ -377,13 +417,21 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	}
 
 	/**
-	 * This method generates code that corresponds to either defineTo:7 or defineNew:5, which are
-	 * equivalent.
-	 * @param targetprms
-	 * @param weakrefs
-	 * @param monitorref
-	 * @param isDefineTo
-	 * @return the generated code
+	 * Generates code that corresponds to either defineTo:7 or defineNew:5 in D(X).
+	 * The implementation is slightly different from the algorithm description.
+	 * Unlike the description, the implementation does not have the map U. Instead,
+	 * the implementation keeps multiple indexing trees, one for a distinct parameter list,
+	 * and one can achieve accessing U by iterating over multiple indexing trees.
+	 * the implementation enables access to more informative monitors by accessing
+	 * different indexing trees.
+	 * For this reason, this implementation simply inserts the newly created
+	 * monitor to all the indexing trees corresponding to parameters less informative
+	 * than monitor's.
+	 *
+	 * @param combined indexing tree information for the parameter list of the created monitor
+	 * @param monitorref the monitor to be inserted into
+	 * @param isDefineTo true if invoked for handling 'defineTo', rather than 'defineNew' 
+	 * @return generated code
 	 */
 	private CodeStmtCollection generateInsertMonitorToAllCompatibleTreesCode(IndexingTreeQueryResult combined, CodeVarRefExpr monitorref, boolean isDefineTo) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
@@ -416,8 +464,12 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return stmts;
 	}
 
-	// source := theta'
-	// candidate := theta''
+	/**
+	 * Generates the code for comparing the timestamp.
+	 * @param source theta' in 'defineTo' in Algorithm D(X)
+	 * @param candidate theta'' in 'definTo' in Algorithm D(X)
+	 * @return generated code
+	 */
 	private CodeExpr generateTimeCheckCode(CodeVarRefExpr source, CodeExpr candidate) {
 		CodeExpr t1 = new CodeMethodInvokeExpr(CodeType.integer(), source, "getTau");
 		CodeExpr t2 = new CodeMethodInvokeExpr(CodeType.integer(), candidate, "getTau");
@@ -433,6 +485,14 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return cond;
 	}
 
+	/**
+	 * This class is used to lazily generate code for setting the value of the weak references
+	 * in a monitor instance.
+	 * That code should be lazily generated because what parameters need to be kept in a
+	 * monitor instance is determined during the first stage of code generation.
+	 * 
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 */
 	static class MonitorWeakRefSetLazyCode extends CodeLazyStmt {
 		private final MonitorFeatures features;
 		private final RVMParameters sourceprms;
@@ -456,7 +516,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
 			CodeStmtCollection stmts = new CodeStmtCollection();
 
-			if (this.features.isNonFinalWeakRefsInMonitorNeeded()) {
+			if (this.features.isNonFinalWeakRefsInMonitorNeeded() || this.features.isFinalWeakRefsInMonitorNeeded()) {
 				for (RVMParameter prm : targetprms.setDiff(sourceprms)) {
 					CodeExpr rhs = new CodeVarRefExpr(weakrefs.getWeakRef(prm));
 					CodeExpr lhs = new CodeFieldRefExpr(monitorref,
@@ -470,6 +530,17 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		}
 	}
 	
+	/**
+	 * Generates code that corresponds to createNewMonitorStates:6 in D(X).
+	 *
+	 * @param sourceprms theta'' in createNewMonitorStates, and theta' in defineTo
+	 * @param targetprms theta'' cup theta in createNewMonitorStates, and theta in defineTo
+	 * @param dest indexing tree and other information on targetprms
+	 * @param sourcemonref reference to the source monitor, from which the new monitor is copied
+	 * @param transition indexing tree and other information on theta in createNewMonitorStates; i.e., the parameters carried by the event
+	 * @param isFromMonitor true if this method is being invoked for copying from a monitor, rather than a set
+	 * @return generated code
+	 */
 	private CodeStmtCollection generateCopyStateInternalCode(RVMParameters sourceprms, RVMParameters targetprms, final IndexingTreeQueryResult dest, final CodeVarRefExpr sourcemonref, IndexingTreeQueryResult transition, boolean isFromMonitor) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 
@@ -481,6 +552,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		}
 		final CodeVarRefExpr definableref = new CodeVarRefExpr(definable);
 
+		// param := theta'' in defineTo in D(X)
 		for (RVMParameters param : this.indexingTrees.keySet()) {
 			if (targetprms.contains(param) && !sourceprms.contains(param)) {
 				stmts.comment("D(X) defineTo:1--5 for <" + param.parameterString() + ">");
@@ -495,7 +567,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 							CodeStmtCollection stmts = new CodeStmtCollection();
 							CodeStmtCollection guarded = stmts;
 
-							if (entry.getCodeType() instanceof RuntimeMonitorType.Tuple) {
+							if (entry.getCodeType() instanceof CodeRVType.Tuple) {
 								// If this is of tuple type, the corresponding field should be additionally checked.
 								CodeExpr ifextracond = CodeBinOpExpr.isNotNull(leafref);
 								guarded = new CodeStmtCollection();
@@ -551,6 +623,15 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return stmts;
 	}
 
+	/**
+	 * Generates code that corresponds to createNewMonitorStates:6 in D(X) when one or multiple new
+	 * monitors should be created from a set of existing monitors.
+	 * @param sourceprms theta'' in createNewMonitorStates, and theta' in defineTo
+	 * @param targetprms theta'' cup theta in createNewMonitorStates, and theta in defineTo
+	 * @param transition information on theta
+	 * @param source information on the indexing tree for sourceprms
+	 * @return generated code
+	 */
 	private CodeStmtCollection generateCopyStateFromListCode(RVMParameters sourceprms, RVMParameters targetprms, IndexingTreeQueryResult transition, IndexingTreeQueryResult source) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		
@@ -597,7 +678,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 				for (Map.Entry<RVMParameter, CodeVariable> pair : borrowedweakrefs.getMapping().entrySet()) {
 					CodeType wrtype = pair.getValue().getType();
 					RVMVariable wrfieldname = this.monitorClass.getRVMonitorRef(pair.getKey());
-					CodeMemberField wrfield = new CodeMemberField(wrfieldname.getVarName(), false, false, wrtype);
+					CodeMemberField wrfield = new CodeMemberField(wrfieldname.getVarName(), false, false, false, wrtype);
 					CodeFieldRefExpr wrfieldref = new CodeFieldRefExpr(srcmonref, wrfield);
 					CodeMethodInvokeExpr getref = new CodeMethodInvokeExpr(CodeType.object(), wrfieldref, "get");
 					CodeExpr notnull = CodeBinOpExpr.isNotNull(getref);
@@ -640,10 +721,10 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 					alivebody.add(this.getBehaviorObserver().generateIndexingTreeLookupCode(targettree, LookupPurpose.CombinedMonitor, mergedweakrefs, false, dest.getLeafRef()));
 	
 					CodeExpr ifcond = CodeBinOpExpr.isNull(dest.getLeafRef());
-					if (dest.getLeafRef().getType() instanceof RuntimeMonitorType.Interface) {
+					if (dest.getLeafRef().getType() instanceof CodeRVType.Interface) {
 						// Additional check is needed because the destination leaf may refer to a DisableHolder.
-						RuntimeMonitorType.Interface itftype = (RuntimeMonitorType.Interface)dest.getLeafRef().getType();
-						RuntimeMonitorType.DisableHolder dhtype = itftype.getDisableHolderType();
+						CodeRVType.Interface itftype = (CodeRVType.Interface)dest.getLeafRef().getType();
+						CodeRVType.DisableHolder dhtype = itftype.getDisableHolderType();
 						CodeExpr extra = new CodeInstanceOfExpr(dest.getLeafRef(), dhtype);
 						ifcond = CodeBinOpExpr.logicalOr(ifcond, extra);
 					}
@@ -659,11 +740,25 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return stmts;
 	}
 
-	// sourceref := theta'
+	/**
+	 * Generates code that corresponds to createNewMonitorStates:6 in D(X) when one new monitor
+	 * should be created from an existing monitor.
+	 *
+	 * @param sourceprms theta'' in createNewMonitorStates, and theta' in defineTo
+	 * @param targetprms theta'' cup theta in createNewMonitorStates, and theta in defineTo
+	 * @param transition information on theta
+	 * @param source information on the indexing tree for sourceprms
+	 * @return generated code
+	 */
 	private CodeStmtCollection generateCopyStateFromMonitorCode(RVMParameters sourceprms, RVMParameters targetprms, IndexingTreeQueryResult transition, IndexingTreeQueryResult source) {
 		return this.generateCopyStateInternalCode(sourceprms, targetprms, transition, source.getLeafRef(), transition, true);
 	}
 
+	/**
+	 * Generates code that corresponds to createNewMonitorState in D(X).
+	 * @param transition information for accessing indexing trees, weak references and so forth
+	 * @return generated code
+	 */
 	private CodeStmtCollection generateCreateNewMonitorStateCode(IndexingTreeQueryResult transition) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 
@@ -709,6 +804,13 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return stmts;
 	}
 	
+	/**
+	 * This class is used to lazily generate code for creating a monitor.
+	 * That code should be lazily generated because what parameters are expected by
+	 * the constructor is determined during the first stage of code generation.
+	 * 
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 */
 	static class MonitorCreationLazyCode extends CodeLazyStmt {
 		private final MonitorFeatures features;
 		private final RVMParameters specParams;
@@ -745,7 +847,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			
 			List<CodeExpr> args = new ArrayList<CodeExpr>();
 			args.addAll(this.fixedarguments);
-			if (this.features.isNonFinalWeakRefsInMonitorNeeded()) {
+			if (this.features.isNonFinalWeakRefsInMonitorNeeded() || this.features.isFinalWeakRefsInMonitorNeeded()) {
 				// The constructor will expect one parameter for each. It's okay to pass
 				// null if that parameter is unavailable.
 				for (RVMParameter param : this.specParams) {
@@ -770,6 +872,11 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		}
 	}
 	
+	/**
+	 * Generates code that corresponds to defineNew in Algorithm D(X).
+	 * @param transition information for accessing indexing trees, weak references and so forth
+	 * @return generated code
+	 */
 	private CodeStmtCollection generateDefineNewCode(IndexingTreeQueryResult transition) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		
@@ -780,7 +887,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		{
 			CodeExpr arg = null;
 			if (this.strategy.needsTimeTracking)
-				arg = CodePrePostfixExpr.postfix(this.getTimestamp(), true);
+				arg = this.getTimestamp().generateGetAndIncrementCode();
 			MonitorCreationLazyCode create = new MonitorCreationLazyCode(this.getMonitorFeatures(), this.mopSpec.getParameters(), transition.getWeakRefs(), this.getMonitorType(), arg);
 			monitorref = create.getDeclaredMonitorRef();
 			stmts.add(create);
@@ -802,17 +909,14 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	}
 	
 	/**
-	 * Generates code that inserts the newly created monitor into the given set.
-	 * @param weakrefs
-	 * @param parentmapref
-	 * @param entry the entry that contains the target set
-	 * @param entryref a reference to the entry
-	 * @param targetprms
-	 * @param monitorref the newly created monitor that will be inserted
-	 * @param isDefineTo true if invoked for handling 'defineTo', rather than 'defineNew'
-	 * @param isFromMonitor true if this method is invoked for copying a monitor, rather than a list
-	 * @return the generated code
-	 * @return
+	 * Generates code that inserts the newly created monitor into all the affected sets
+	 * and indexing trees.
+	 * @param created indexing tree information for the parameter list of the created monitor
+	 * @param transition indexing tree information for the parameter list carried by the event
+	 * @param monitorref reference to the newly created monitor
+	 * @param isDefineTo true if invoked for handling 'defineTo', rather than 'defineNew' 
+	 * @param isFromMonitor true if this method is being invoked for copying from a monitor, rather than a set 
+	 * @return generated code
 	 */
 	private CodeStmtCollection generateInsertMonitorCode(IndexingTreeQueryResult created, IndexingTreeQueryResult transition, CodeVarRefExpr monitorref, boolean isDefineTo, boolean isFromMonitor) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
@@ -823,7 +927,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		stmts.add(created.generateLeafUpdateCode(monitorref, forceleafupdate));
 		
 		if (isFromMonitor) {
-			if (transition.getEntry().getCodeType() instanceof RuntimeMonitorType.Tuple) {
+			if (transition.getEntry().getCodeType() instanceof CodeRVType.Tuple) {
 				// If the type is not a tuple, it must be a leaf. In such case, 'entry' is
 				// the same as 'leaf', and assigning has been already done.
 				stmts.add(new CodeAssignStmt(transition.getLeafRef(), monitorref));
@@ -858,10 +962,9 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	}
 
 	/**
-	 * This method generates code that corresponds to main:2--6.
-	 * @param weakrefs
-	 * @param entryref
-	 * @return
+	 * Generated code that corresponds to main:1--6 in Algorithm D(X).
+	 * @param transition information for accessing indexing trees, weak references and so forth
+	 * @return generated code
 	 */
 	private CodeStmtCollection generateMonitorCreation(IndexingTreeQueryResult transition) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
@@ -902,6 +1005,11 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return stmts;
 	}
 
+	/**
+	 * Generates code that corresponds to main:6 in Algorithm D(X).
+	 * @param transition information for accessing indexing trees, weak references and so forth
+	 * @return generated code
+	 */
 	private CodeStmtCollection generateDisableUpdateCode(IndexingTreeQueryResult transition) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		
@@ -919,13 +1027,13 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			CodeStmtCollection ifbody = new CodeStmtCollection();
 			stmts.add(new CodeConditionStmt(ifnull, ifbody));
 
-			RuntimeMonitorType.DisableHolder dhtype;
+			CodeRVType.DisableHolder dhtype;
 			{
-				RuntimeMonitorType leaftype = transition.getEntry().getLeaf();
-				if (leaftype instanceof RuntimeMonitorType.DisableHolder)
-					dhtype = (RuntimeMonitorType.DisableHolder)leaftype;
-				else if (leaftype instanceof RuntimeMonitorType.Interface) {
-					RuntimeMonitorType.Interface itf = (RuntimeMonitorType.Interface)leaftype;
+				CodeRVType leaftype = transition.getEntry().getLeaf();
+				if (leaftype instanceof CodeRVType.DisableHolder)
+					dhtype = (CodeRVType.DisableHolder)leaftype;
+				else if (leaftype instanceof CodeRVType.Interface) {
+					CodeRVType.Interface itf = (CodeRVType.Interface)leaftype;
 					dhtype = itf.getDisableHolderType();
 				}
 				else
@@ -942,7 +1050,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			ifbody.add(assign);
 		}
 
-		CodePrePostfixExpr ts = CodePrePostfixExpr.postfix(this.getTimestamp(), true);
+		CodeExpr ts = this.getTimestamp().generateGetAndIncrementCode();
 		CodeMethodInvokeExpr invoke = new CodeMethodInvokeExpr(CodeType.foid(), holderref, "setDisable", ts);
 		stmts.add(new CodeExprStmt(invoke));
 		stmts.add(this.getBehaviorObserver().generateDisableFieldUpdatedCode(holderref));
@@ -950,64 +1058,85 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		return stmts;
 	}
 
-	private CodeStmtCollection generateMonitorTransition(IndexingTreeQueryResult matched) {
+	/**
+	 * Generates code that corresponds to main:8--9 in Algorithm D(X).
+	 * @param matched information for accessing indexing trees, weak references and so forth
+	 * @param cacheupdatecode code for updating the indexing tree cache
+	 * @return generates code
+	 */
+	private CodeStmtCollection generateMonitorTransition(IndexingTreeQueryResult matched, CodeStmtCollection cacheupdatecode) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		stmts.comment("D(X) main:8--9");
 
 		boolean single = this.isFullyBound();
+		
+		CodeExpr guard1cond = null;
+		if (this.strategy.needsNullCheckForTransition) {
+			// If the entry is of tuple type, we first need to check whether or not
+			// the entry itself is non-null, which is addressed in 'guard1cond'. Then,
+			// we also need to check whether or not the specific field in the entry
+			// is non-null, which will be addressed in 'guard2cond'.
+			if (matched.getEntryRef().getType() instanceof CodeRVType.Tuple)
+				guard1cond = CodeBinOpExpr.isNotNull(matched.getEntryRef());
+		}
+		CodeStmtCollection guard1body = new CodeStmtCollection();
 
 		CodeVarRefExpr affectedref;
 		{
 			Access access = single ? Access.Leaf : Access.Set;
 			CodePair<CodeVarRefExpr> pair = matched.generateFieldGetCode(access, "stateTransitioned");
-			stmts.add(pair.getGeneratedCode());
+			guard1body.add(pair.getGeneratedCode());
 			affectedref = pair.getLogicalReturn();
 		}
 	
-		CodeExpr guardcond = null;
+		CodeExpr guard2cond = null;
 		if (this.strategy.needsNullCheckForTransition)
-			guardcond = CodeBinOpExpr.isNotNull(affectedref);
+			guard2cond = CodeBinOpExpr.isNotNull(affectedref);
+		CodeStmtCollection guard2body = new CodeStmtCollection();
 
-		CodeStmtCollection guarded = new CodeStmtCollection();
 		if (single) {
 			// The type of the leaf may not be a subclass of AbstractMonitor, which implies that
 			// the referent is a DisableHolder instance. Since such instances cannot transition, it
 			// is required to check the type and cast the reference.
 			CodeType leaftype = affectedref.getVariable().getType();
-			if (leaftype instanceof RuntimeMonitorType.DisableHolder)
+			if (leaftype instanceof CodeRVType.DisableHolder)
 				throw new NotImplementedException();
-			else if (leaftype instanceof RuntimeMonitorType.Interface) {
-				RuntimeMonitorType.Interface itftype = (RuntimeMonitorType.Interface)leaftype;
-				RuntimeMonitorType.Monitor monitortype = itftype.getMonitorType();
-				guardcond = new CodeInstanceOfExpr(affectedref, monitortype);
+			else if (leaftype instanceof CodeRVType.Interface) {
+				CodeRVType.Interface itftype = (CodeRVType.Interface)leaftype;
+				CodeRVType.Monitor monitortype = itftype.getMonitorType();
+				guard2cond = new CodeInstanceOfExpr(affectedref, monitortype);
 				{
 					CodeVariable monitor = new CodeVariable(monitortype, "monitor");
 					CodeVarDeclStmt decl = new CodeVarDeclStmt(monitor, new CodeCastExpr(monitortype, affectedref));
-					guarded.add(decl);
+					guard2body.add(decl);
 					affectedref = new CodeVarRefExpr(monitor);
 				}
 			}
 
-			{
-				RVMVariable monitorvar = affectedref.getVariable().toLegacy();
-				String mntcode = this.monitorClass.Monitoring(monitorvar, this.event, null, null, null, this.getAspectName(), false);
-				guarded.add(CodeStmtCollection.fromLegacy(mntcode));
-			}
+			guard2body.add(this.monitorClass.generateMonitorTransitionedCode(affectedref, this.event));
 		}
-		else {
-			RVMVariable setvar = affectedref.getVariable().toLegacy();
-			String mntcode = this.monitorSet.Monitoring(setvar, this.event, null, null, null);
-			guarded.add(CodeStmtCollection.fromLegacy(mntcode));
-		}
-		guarded.add(this.getBehaviorObserver().generateMonitorTransitionedCode(affectedref));
-		
-		if (guardcond != null)
-			stmts.add(new CodeConditionStmt(guardcond, guarded));
 		else
-			stmts.add(guarded);
+			guard2body.add(this.monitorSet.generateMonitoringCode(affectedref, this.event));
+		guard2body.add(this.getBehaviorObserver().generateMonitorTransitionedCode(affectedref));
+
+		guard2body.add(cacheupdatecode);
+		
+		if (guard2cond != null)
+			guard1body.add(new CodeConditionStmt(guard2cond, guard2body));
+		else
+			guard1body.add(guard2body);
+		if (guard1cond != null)
+			stmts.add(new CodeConditionStmt(guard1cond, guard1body));
+		else
+			stmts.add(guard1body);
 		return stmts;
 	}
 
+	/**
+	 * Generates the body of an event handling routine, equivalent to 'main' in Algorithm D(X).
+	 * This method generates the code and maintains the constructed AST in a field, so that
+	 * getCode() finally prints out the Java code, using a code formatter.
+	 */
 	@Override
 	public void generateCode() {
 		if (this.generatedCode != null)
@@ -1020,8 +1149,15 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		
 		IndexingTreeQueryResult transition = new IndexingTreeQueryResult(this.getMatchedIndexingTree(), weakrefs, this.eventParams, Access.Entry, "matched");
 		stmts.add(transition.generateDeclarationCode());
+		
+		CodeVarRefExpr cachehitref;
+		{
+			CodeVariable cachehit = new CodeVariable(CodeType.bool(), "cachehit");
+			stmts.add(new CodeVarDeclStmt(cachehit, CodeLiteralExpr.bool(false)));
+			cachehitref = new CodeVarRefExpr(cachehit);
+		}
 
-		CodeConditionStmt cacheLookup = this.generateCacheLookup(weakrefs, transition.getEntryRef());
+		CodeConditionStmt cacheLookup = this.generateCacheLookup(weakrefs, transition.getEntryRef(), cachehitref);
 		CodeStmtCollection treeLookup = this.generateIndexingTreeLookup(transition);
 		if (cacheLookup == null)
 			stmts.add(treeLookup);
@@ -1033,7 +1169,8 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		if (this.strategy.mayCreateMonitors)
 			stmts.add(this.generateMonitorCreation(transition));
 	
-		stmts.add(this.generateMonitorTransition(transition));
+		CodeStmtCollection cacheupdate = this.generateCacheUpdate(transition.getEntryRef(), cachehitref);
+		stmts.add(this.generateMonitorTransition(transition, cacheupdate));
 	
 		// Due to lazily generated code, the code simplifier cannot be used until
 		// everything is stabilized. To complete code generation, this method
@@ -1047,6 +1184,9 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 		}
 	}
 
+	/**
+	 * This is for debugging only.
+	 */
 	@Override
 	public String toString() {
 		ICodeFormatter fmt = CodeFormatters.getDefault();
@@ -1058,5 +1198,65 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	public void getCode(ICodeFormatter fmt) {
 		this.generateCode();
 		this.generatedCode.getCode(fmt);
+	}
+	
+	/**
+	 * This class represents the timestamp field in a monitor class.
+	 * There are two concrete implementations:
+	 * 1. OrdinaryTimestamp: previously, one global lock was used to synchronize
+	 * every single event and, therefore, a timestamp does not need to be synchronized.
+	 * 2. AtomicTimestamp: now that fine-grained locking is used, an atomically
+	 * increased timestamp implementation was needed.
+	 *
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 */
+	static abstract class Timestamp {
+		protected CodeMemberField field;
+	
+		public static Timestamp create(String fieldname) {
+			if (Main.useFineGrainedLock)
+				return new AtomicTimestamp(fieldname);
+			return new OrdinaryTimestamp(fieldname);
+		}
+
+		public abstract CodeExpr generateGetAndIncrementCode();
+	}
+	
+	/**
+	 * This class is used when synchronization is guaranteed by
+	 * callers and, therfore, no additional synchronization is needed.
+	 * 
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 */
+	static class OrdinaryTimestamp extends Timestamp {
+		OrdinaryTimestamp(String fieldname) {
+			this.field = new CodeMemberField(fieldname, false, true, false, CodeType.rong());
+		}
+
+		@Override
+		public CodeExpr generateGetAndIncrementCode() {
+			CodeFieldRefExpr fieldref = new CodeFieldRefExpr(this.field);
+			return CodePrePostfixExpr.postfix(fieldref, true);
+		}
+	}
+
+	/**
+	 * This class is used when the caller does not guarantee serial access of the timestamp.
+	 *
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 */
+	static class AtomicTimestamp extends Timestamp {
+		AtomicTimestamp(String fieldname) {
+			CodeType fieldtype = CodeType.AtomicLong();
+			CodeExpr init = new CodeNewExpr(fieldtype, CodeLiteralExpr.rong(1));
+			this.field = new CodeMemberField(fieldname, false, true, true, fieldtype, init);
+		}
+
+		@Override
+		public CodeExpr generateGetAndIncrementCode() {
+			CodeFieldRefExpr fieldref = new CodeFieldRefExpr(this.field);
+			CodeExpr invoke = new CodeMethodInvokeExpr(CodeType.rong(), fieldref, "getAndIncrement");
+			return invoke;
+		}
 	}
 }

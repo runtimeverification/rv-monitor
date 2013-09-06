@@ -153,10 +153,12 @@ public class Advice {
 			}
 
 			if (Main.useFineGrainedLock) {
-				for (RVMonitorSpec spec : specsForActivation) {
-					ret += this.activatorsManager.setValue(spec, true);
-					ret += ";\n";
-				}				
+				if (!Main.suppressActivator) {
+					for (RVMonitorSpec spec : specsForActivation) {
+						ret += this.activatorsManager.setValue(spec, true);
+						ret += ";\n";
+					}
+				}
 			}
 			else {
 				for(RVMonitorSpec spec : specsForActivation){
@@ -187,7 +189,10 @@ public class Advice {
 						ret += "//" + advice.mopSpec.getName() + "_" + event.getUniqueId() + "\n";
 					}
 
-					ret += "if (" + activatorsManager.getValue(advice.mopSpec) + ") {\n";
+					if (Main.suppressActivator)
+						ret += "{\n";
+					else
+						ret += "if (" + activatorsManager.getValue(advice.mopSpec) + ") {\n";
 				} else {
 					if(advices.size() > 1){
 						ret += "//" + advice.mopSpec.getName() + "_" + event.getUniqueId() + "\n";
@@ -306,10 +311,10 @@ public class Advice {
 		}
 		
 		if (this.blockingMethodName != null) {
-			ret += "private static void " + pointcutName;
+			ret += "private static final void " + pointcutName;
 		}
 		else {
-			ret += "public static void " + pointcutName;
+			ret += "public static final void " + pointcutName;
 		}
 		ret += "(";
 		ret += parameters.parameterDeclString();

@@ -4,33 +4,32 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFor
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGenerator;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
+/**
+ * This class represents a staic or non-staic field.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeMemberField extends CodeMember implements ICodeGenerator {
-	private final CodeType type;
 	private final CodeExpr init;
 	
 	public final CodeType getType() {
 		return this.type;
 	}
 
-	public CodeMemberField(String name, boolean statik, boolean publik, CodeType type) {
-		this(name, statik, publik, type, null);
+	public CodeMemberField(String name, boolean publik, boolean statik, boolean finale, CodeType type) {
+		this(name, publik, statik, finale, type, null);
 	}
 	
-	public CodeMemberField(String name, boolean statik, boolean publik, CodeType type, CodeExpr init) {
-		super(name, statik, publik);
-		
-		this.type = type;
+	public CodeMemberField(String name, boolean publik, boolean statik, boolean finale, CodeType type, CodeExpr init) {
+		super(name, publik, statik, finale, type);
+	
 		this.init = init;
 	}
 
 	@Override
 	public void getCode(ICodeFormatter fmt) {
-		fmt.keyword(this.publik ? "public" : "private");
-		if (this.statik)
-			fmt.keyword("static");
-		fmt.type(this.type);
-		fmt.identifier(this.name);
-		if (this.init != null) {
+		this.getCodeCommon(fmt);
+		if (this.init != null && this.init != CodeLiteralExpr.nul()) {
 			fmt.operator("=");
 			this.init.getCode(fmt);
 		}

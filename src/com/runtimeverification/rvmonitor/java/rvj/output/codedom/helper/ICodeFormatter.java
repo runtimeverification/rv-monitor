@@ -2,6 +2,14 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper;
 
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
+/**
+ * This interface defines all the operations that a formatter should implement.
+ * Each formatter is supposed to generate good-looking code of String type from
+ * keywords, identifiers, operators, and so on, which are fed into the formatter
+ * one by one.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public interface ICodeFormatter {
 	public enum State {
 		NEWLINE,

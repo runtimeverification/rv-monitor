@@ -6,6 +6,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.*;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
 import java.util.HashMap;
@@ -87,7 +88,8 @@ public class RawMonitor extends Monitor{
 		if (event.getAction() != null && event.getAction().getStmts() != null && event.getAction().getStmts().size() != 0) {
 			String eventActionStr = event.getAction().toString();
 
-			eventActionStr = eventActionStr.replaceAll("return;", "return true;");
+			if (!Main.generateVoidMethods)
+				eventActionStr = eventActionStr.replaceAll("return;", "return true;");
 			eventActionStr = eventActionStr.replaceAll("__RESET", "this.reset()");
  			eventActionStr = eventActionStr.replaceAll("__DEFAULT_MESSAGE", defaultMessage);
       //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
@@ -101,14 +103,28 @@ public class RawMonitor extends Monitor{
 			eventAction = new RVMJavaCode(eventActionStr);
 		}
 
-			ret += "final boolean event_" + event.getId() + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
+		boolean retbool = !Main.generateVoidMethods;
+		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
+		ret += "final" + synch + (retbool ? "boolean" : "void") + " event_" + event.getId() + "(";
+		{
+			RVMParameters params;
+			if (Main.stripUnusedParameterInMonitor)
+				params = event.getReferredParameters(event.getRVMParameters());
+			else
+				params = event.getRVMParameters();
+			ret += params.parameterDeclString();
+		}
+		ret += ") {\n";
 
 		if ( has__SKIP)
 			ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
 
 		if (!condition.isEmpty()) {
 			ret += "if (!(" + condition + ")) {\n";
-			ret += "return false;\n";
+			if (Main.generateVoidMethods)
+				ret += "return;\n";
+			else
+				ret += "return false;\n";
 			ret += "}\n";
 		}
 
@@ -119,7 +135,8 @@ public class RawMonitor extends Monitor{
 		if(eventAction != null)
 			ret += eventAction;
 
-		ret += "return true;\n";
+		if (!Main.generateVoidMethods)
+			ret += "return true;\n";
 		ret += "}\n";
 
 		return ret;
@@ -151,7 +168,14 @@ public class RawMonitor extends Monitor{
 		}
 
 		ret += monitorVar + ".event_" + event.getId() + "(";
-		ret += event.getRVMParameters().parameterString();
+		{
+			RVMParameters params;
+			if (Main.stripUnusedParameterInMonitor)
+				params = event.getReferredParameters(event.getRVMParameters());
+			else
+				params = event.getRVMParameters();
+			ret += params.parameterString();
+		}
 		ret += ");\n";
 		
 		if (this.hasThisJoinPoint){
@@ -201,6 +225,14 @@ public class RawMonitor extends Monitor{
 		if (this.hasThisJoinPoint)
 			ret += "org.aspectj.lang.JoinPoint " + thisJoinPoint + " = null;\n";
 		
+		// implements getState(), which returns -1
+		{
+			ret += "@Override\n";
+			ret += "public final int getState() {\n";
+			ret += "return -1;\n";
+			ret += "}\n\n";
+		}
+
 		// events
 		for (EventDefinition event : this.events) {
 			ret += this.doEvent(event) + "\n";

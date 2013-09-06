@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexin
 import java.util.ArrayList;
 
 import com.runtimeverification.rvmonitor.java.rvj.Main;
+import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree;
@@ -164,6 +165,7 @@ public class RefTree {
 		String ret = "";
 
 		ret += "Cached";
+		/* We no longer store 'disable' and 't' at GWRT.
 		if (Main.useWeakRefInterning) {
 			if (generalProperties.size() == 0)
 				ret += "";
@@ -172,6 +174,7 @@ public class RefTree {
 			else
 				ret += "MultiTag";
 		}
+		*/
 		ret += "WeakReference";
 
 		return ret;
@@ -188,15 +191,21 @@ public class RefTree {
 		
 		if (hostIndexingTree == null) {
 			if (Main.useWeakRefInterning) {
+				// Now that we no longer keep 'disable' and 't' at weak references,
+				// I don't think we need any distinction.
+				/*
 				if (generalProperties.size() == 0)
 					ret = "com.runtimeverification.rvmonitor.java.rt.table.BasicRefMap";
 				else if (generalProperties.size() == 1)
 					ret = "com.runtimeverification.rvmonitor.java.rt.table.TagRefMap";
 				else
 					ret = "com.runtimeverification.rvmonitor.java.rt.table.MultiTagRefMap";
+				*/
+				ret = "com.runtimeverification.rvmonitor.java.rt.table.BasicRefMap";
 			}
 			else {
 				// RefTree should not be used when weak-reference interning is disabled.
+				throw new NotImplementedException();
 			}
 		}
 		else {
@@ -215,12 +224,16 @@ public class RefTree {
 	public String toString() {
 		String ret = "";
 
-		ret += "static " + this.getType() + " " + name + " = ";	
+		ret += "private static final " + this.getType() + " " + name + " = ";	
 		if(hostIndexingTree == null){
+			// We no longer need to take care of the following case.
+			/*
 			if(generalProperties.size() > 1)
 				ret += "new " + getType() + "(" + generalProperties.size() + ");\n";
 			else
 				ret += "new " + getType() + "();\n";
+				*/
+			ret += "new " + getType() + "();\n";
 		} else {
 			ret += hostIndexingTree.getImplementation().getName() + ";\n";
 		}
@@ -234,14 +247,30 @@ public class RefTree {
 		ret += name;
 		ret += " = ";
 		if(hostIndexingTree == null){
+			// We no longer need to take care of the following case.
+			/*
 			if(generalProperties.size() > 1)
 				ret += "new " + getType() + "(" + generalProperties.size() + ");\n";
 			else
 				ret += "new " + getType() + "();\n";
+				*/
+			ret += "new " + getType() + "();\n";
 		} else {
 			ret += hostIndexingTree.getImplementation().getName() + ";\n";
 		}
 
+		return ret;
+	}
+
+	public String getCleanUpCode(String accvar) {
+		String ret = "";
+		if (hostIndexingTree == null) {
+			ret += accvar;
+			ret += " += ";
+			ret += this.name;
+			ret += ".";
+			ret += "cleanUpUnnecessaryMappings();\n";
+		}
 		return ret;
 	}
 

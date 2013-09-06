@@ -6,6 +6,12 @@ import java.util.List;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
+/**
+ * This class represents a comment.
+ * This class can hold multiple lines of comment.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeCommentStmt extends CodeStmt {
 	private final List<String> lines;
 	

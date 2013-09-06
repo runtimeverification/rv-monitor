@@ -14,14 +14,21 @@ public abstract class AbstractMonitor implements IMonitor {
 		}
 	}
 	
+	/*
 	@Override
 	public final boolean checkTerminatedWhileCleaningUp() {
 		return this.RVM_terminated;
 	}
+	*/
 	
 	@Override
-	public boolean isTerminated() {
+	public final boolean isTerminated() {
 		return this.RVM_terminated;
+	}
+	
+	@Override
+	public final int getLastEvent() {
+		return this.RVM_lastevent;
 	}
 	
 	@Override

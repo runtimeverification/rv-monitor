@@ -1,5 +1,19 @@
 package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
+/**
+ * This interface defines methods for manipulating a tuple.
+ * Currently, there is only one method, set(), for updating
+ * a field in the tuple.
+ * 
+ * For each tuple, there should be a dedicated trait, an implementation
+ * of this interface.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ * @see TableAdopter.Tuple2
+ * @see TableAdopter.Tuple3
+ *
+ * @param <TTuple> type of the tuple
+ */
 interface TupleTrait<TTuple> {
 	public void set(TTuple targettuple, TTuple newtuple, int flag);
 }
@@ -40,20 +54,25 @@ class Tuple3Trait<T extends IIndexingTreeValue, U extends IIndexingTreeValue, V 
 }
 
 public class TableAdopter {
+	/**
+	 * This class is used to hold nothing. This is used in a pure
+	 * weak reference table, AbstractPureWeakRefTable.
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 */
 	public static class Tuple0 implements IIndexingTreeValue {
 		@Override
 		public final void terminate(int treeid) {
 		}
-		
-		@Override
-		public final boolean checkTerminatedWhileCleaningUp() {
-			// Since this table is a pure GWRT (i.e., this is not an indexing tree),
-			// no value is associated with a key. Thus, it is infeasible for this tuple
-			// to notify the caller that the value is no longer needed.
-			return false;
-		}
 	}
 	
+	/**
+	 * This class is used to hold two values. This is used in
+	 * IndexingTree2.
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 *
+	 * @param <T> type of the first value
+	 * @param <U> type of the second value
+	 */
 	public static class Tuple2<T extends IIndexingTreeValue, U extends IIndexingTreeValue> implements IIndexingTreeValue {
 		private T value1;
 		private U value2;
@@ -89,21 +108,17 @@ public class TableAdopter {
 			if (this.value2 != null)
 				this.value2.terminate(treeid);
 		}
-		
-		@Override
-		public final boolean checkTerminatedWhileCleaningUp() {
-			if (this.value1 != null) {
-				if (this.value1.checkTerminatedWhileCleaningUp())
-					this.value1 = null;
-			}
-			if (this.value2 != null) {
-				if (this.value2.checkTerminatedWhileCleaningUp())
-					this.value2 = null;
-			}
-			return this.value1 == null && this.value2 == null;
-		}
 	}
 	
+	/**
+	 * This class is used to hold three values. This is used in
+	 * IndexingTree3.
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 *
+	 * @param <T> type of the first value
+	 * @param <U> type of the second value
+	 * @param <V> type of the third value
+	 */
 	public static class Tuple3<T extends IIndexingTreeValue, U extends IIndexingTreeValue, V extends IIndexingTreeValue> implements IIndexingTreeValue {
 		private T value1;
 		private U value2;
@@ -150,23 +165,6 @@ public class TableAdopter {
 				this.value2.terminate(treeid);
 			if (this.value3 != null)
 				this.value3.terminate(treeid);
-		}
-		
-		@Override
-		public final boolean checkTerminatedWhileCleaningUp() {
-			if (this.value1 != null) {
-				if (this.value1.checkTerminatedWhileCleaningUp())
-					this.value1 = null;
-			}
-			if (this.value2 != null) {
-				if (this.value2.checkTerminatedWhileCleaningUp())
-					this.value2 = null;
-			}
-			if (this.value3 != null) {
-				if (this.value3.checkTerminatedWhileCleaningUp())
-					this.value3 = null;
-			}
-			return this.value1 == null && this.value2 == null && this.value3 == null;
 		}
 	}
 }

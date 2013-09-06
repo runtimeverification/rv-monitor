@@ -1,11 +1,18 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.OptimizedCoenableSet;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodePhantomStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeStmtCollection;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarRefExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
@@ -236,7 +243,14 @@ public class SuffixMonitor extends Monitor {
 		}
 
 		ret += monitorVar + ".event_" + event.getId() + "(";
-		ret += event.getRVMParameters().parameterString();
+		{
+			RVMParameters passing;
+			if (Main.stripUnusedParameterInMonitor)
+				passing = event.getReferredParameters(event.getRVMParameters());
+			else
+				passing = event.getRVMParameters();
+			ret += passing.parameterString();
+		}
 		ret += ");\n";
 
 		for (RVMVariable var : getCategoryVars()) {
@@ -339,5 +353,24 @@ public class SuffixMonitor extends Monitor {
 		ret += this.innerMonitor;
 
 		return ret;
+	}
+
+	public CodeStmtCollection generateMonitorTransitionedCode(CodeVarRefExpr affectedref, EventDefinition event) {
+		CodeStmtCollection stmts = new CodeStmtCollection();
+		
+		// Modernizing the monitoring code takes too much effort. Maybe later.
+		RVMVariable monitorvar = affectedref.getVariable().toLegacy();
+		String mntcode = this.Monitoring(monitorvar, event, null, null, null, this.getAspectName(), false);
+		stmts.add(CodeStmtCollection.fromLegacy(mntcode));
+
+		// The referred variable is marked so that the dead-code elimination step
+		// won't remove the definition of the variable.
+		stmts.add(new CodePhantomStmt(affectedref.getVariable()));
+		return stmts;
+	}
+	
+	public CodeRVType.Monitor getRuntimeType() {
+		CodeType type = new CodeType(this.getOutermostName().toString());
+		return CodeRVType.forMonitor(type);
 	}
 }

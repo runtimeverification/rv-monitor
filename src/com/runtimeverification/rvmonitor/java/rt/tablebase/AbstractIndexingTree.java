@@ -4,7 +4,6 @@ import com.runtimeverification.rvmonitor.java.rt.observable.IObservableObject;
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 
 public abstract class AbstractIndexingTree<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> extends WeakRefHashTable<TWeakRef, TValue> implements IIndexingTree, IObservableObject {
-	private final int treeid;
 	private String observableDescription;
 	
 	@Override
@@ -13,8 +12,7 @@ public abstract class AbstractIndexingTree<TWeakRef extends CachedWeakReference,
 	}
 	
 	protected AbstractIndexingTree(TupleTrait<TValue> valuetrait, int treeid) {
-		super(valuetrait, WeakRefHashTableCleaner.forIndexingTree());
-		this.treeid = treeid;
+		super(treeid, valuetrait, WeakRefHashTableCleaner.forIndexingTree());
 	}
 
 	@Override
@@ -22,16 +20,30 @@ public abstract class AbstractIndexingTree<TWeakRef extends CachedWeakReference,
 		this.terminateValues(treeid);
 	}
 	
+	/*
 	@Override
 	public final boolean checkTerminatedWhileCleaningUp() {
 		return this.getNumElements() == 0;
 	}
+	*/
 	
+	/*
 	@Override
-	protected int cleanUpUnnecessaryMappingsInBucket(Bucket<TWeakRef, TValue> bucket) {
+	protected final int cleanUpInBucket(Bucket<TWeakRef, TValue> bucket) {
 		int removed = bucket.cleanUpUnnecessaryMappings(true, this.treeid);
 		return removed;
 	}
+
+	@Override
+	protected void requestCleanUpInBucket(Bucket<TWeakRef, TValue> bucket) {
+		bucket.requestCleanUp(true, this.treeid);
+	}
+
+	@Override
+	protected final Bucket<TWeakRef, TValue> createBucket(int capacity) {
+		return new Bucket<TWeakRef, TValue>(this.treeid, capacity);
+	}
+	*/
 	
 	public void setObservableObjectDescription(String desc) {
 		this.observableDescription = desc;

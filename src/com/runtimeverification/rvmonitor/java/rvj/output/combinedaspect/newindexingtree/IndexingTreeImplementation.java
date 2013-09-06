@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeAssignStmt;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeBlockStmt;
@@ -29,7 +30,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVari
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGenerator;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
-import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.WeakReferenceVariables;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
@@ -37,9 +38,41 @@ import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
+/**
+ * This class represents the implementation of an indexing tree.
+ * One instance of this class can be shared by multiple indexing tree
+ * interfaces (IndexingTreeInterface).
+ * For more information, see IndexingTreeInterface.
+ * 
+ * It is totally possible an instance of this class is designed to serve
+ * [Collection,Iterator] but tied with an interface for serving [Collection],
+ * if that interface is combined with one for serving [Collection,Iterator].
+ * When used by the [Collection] interface, the traversal simply stops after
+ * accessing the first level.
+ * 
+ * In this example, the interface for serving [Collection,Iterator] is specially
+ * called the master interface, because that parameter list matches with this instance's
+ * parameter list.
+ * 
+ * An instance of this class will eventually generate an indexing tree,
+ * as a static field, in the generated Java class.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ * @see IndexingTreeInterface
+ */
 public class IndexingTreeImplementation implements ICodeGenerator {
 	private final IndexingTreeInterface master;
+	/**
+	 * Represents the top entry of the indexing tree. If this instance
+	 * is for [Collection,Iterator], the entry will have a valid 'map' field.
+	 * If this instance is used for the case where no parameters are bound,
+	 * the entry will have the null 'map' field; instead, it would have a valid
+	 * 'set' field.
+	 */
 	private final Entry topEntry;
+	/**
+	 * Represents the field for holding the generated indexing tree.
+	 */
 	private CodeMemberField field;
 	
 	public IndexingTreeInterface getMasterInterface() {
@@ -63,22 +96,23 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 	}
 	
 	/**
-	 * 
-	 * @param aspectName
-	 * @param specParams
-	 * @param queryParams
-	 * @param contentParams
-	 * @param set
-	 * @param monitor
-	 * @param evttype
+	 * Creates an instance of IndexingTreeImplementation.
+	 * @param master master interface
+	 * @param aspectName aspect name
+	 * @param specParams parameters defined in the specification
+	 * @param queryParams parameters used for query
+	 * @param contentParams parameters provided by this tree
+	 * @param set monitor set class
+	 * @param monitor monitor class
+	 * @param evttype specifies whether this event always, possibly or never creates a monitor
 	 * @param timetrack specifies whether time tracking (keeping the 'disable' and 't' fields) is necessary
 	 */
 	IndexingTreeImplementation(IndexingTreeInterface master, String aspectName, RVMParameters specParams, RVMParameters queryParams, RVMParameters contentParams, MonitorSet set, SuffixMonitor monitor, EventKind evttype, boolean timetrack) {
 		this.master = master;
 	
 		{
-			CodeType settype = new CodeType(set.getName().toString());
-			CodeType monitortype = new CodeType(monitor.getOutermostName().toString());
+			CodeRVType.MonitorSet settype = set.getCodeType();
+			CodeRVType.Monitor monitortype = monitor.getRuntimeType();
 			boolean fullbinding = specParams.equals(queryParams);
 			this.topEntry = Entry.determine(queryParams, settype, monitortype, fullbinding, evttype, timetrack);
 		}
@@ -93,11 +127,24 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		this.field = this.topEntry.generateField(treename, master.getSpecParams(), master.getQueryParams());
 	}
 
+	/**
+	 * Creates a new implementation by combining two existing implementations.
+	 * The caller should guarantee that the two implementations are combined.
+	 * @param superimpl implementation that subsumes the subimpl
+	 * @param subimpl implementation that is subsumed by the superimpl
+	 * @return combined implementation
+	 */
 	static IndexingTreeImplementation combine(IndexingTreeImplementation superimpl, IndexingTreeImplementation subimpl) {
 		Entry combined = Entry.join(superimpl.topEntry, subimpl.topEntry);
 		return new IndexingTreeImplementation(superimpl.master, combined, superimpl.getName());
 	}
 
+	/**
+	 * Tells this implementation that global weak reference table (GWRT) should be embeded.
+	 * @param refTree unused
+	 * @param specParams parameters defined in the specification
+	 * @param queryParams parameters for query
+	 */
 	void embedGWRT(RefTree refTree, RVMParameters specParams, RVMParameters queryParams) {
 		// Since storing 'disable' and 't' at weak references turned out to be incorrect,
 		// indexing trees with multiple tags will not be used any longer. Therefore, there
@@ -134,15 +181,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		CodeBlockStmt block = new CodeBlockStmt(body);
 		return new CodeStmtCollection(block);
 	}
-	
-	/**
-	 * This method generates code for accessing the entry that corresponds to
-	 * the given list of weak references specified by 'weakrefs'.
-	 * An entry contains a leaf and/or a set.
-	 * This method may create internal nodes if they have not been created.
-	 * @param weakrefs the list of weak references used to access the node or leaf
-	 * @return pair of the generated code and the reference to the found node or leaf
-	 */
+
 	CodeStmtCollection generateFindOrCreateEntryCode(RVMParameters queryprms, RVMParameters specprms, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
 		CodeFieldRefExpr root = new CodeFieldRefExpr(this.field);
 		CodeStmtCollection stmts = this.topEntry.generateFindOrCreateCode(queryprms, Access.Entry, specprms, weakrefs, inserter, root);
@@ -163,6 +202,10 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 
 	CodeStmtCollection generateFindCode(RVMParameters queryprms, Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
 		CodeFieldRefExpr root = new CodeFieldRefExpr(this.field);
+		return this.generateFindCode(root, queryprms, access, specprms, weakrefs, inserter);
+	}
+
+	CodeStmtCollection generateFindCode(CodeExpr root, RVMParameters queryprms, Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, StmtCollectionInserter<CodeExpr> inserter) {
 		CodeStmtCollection stmts = this.topEntry.generateFindCode(queryprms, access, specprms, weakrefs, inserter, root);
 		return this.promoteSeparateBlock(stmts, "FindCode");
 	}
@@ -187,7 +230,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 	}
 	
 	/**
-	 * This method returns the exact type of this indexing tree.
+	 * Returns the exact type of this indexing tree.
 	 * The returned type can be used to declare this tree in the generated code.
 	 * @return the type of this indexing tree
 	 */
@@ -195,48 +238,14 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		return this.topEntry.getCodeType();
 	}
 	
+	/**
+	 * Retrieves the entry that results from accessing this indexing tree using the provided
+	 * parameters.
+	 * @param params parameters for accessing this indexing tree
+	 * @return resulting entry
+	 */
 	Entry lookupEntry(RVMParameters params) {
 		return this.topEntry.lookupEntry(params);
-	}
-
-	/**
-	 * This method returns the exact type of the leaf or set that corresponds to
-	 * 'eventParams', the set of parameters, by following each level one-by-one.
-	 * It should be noted that the type is not necessarily the leaf of this
-	 * indexing tree, because multiple trees with the same prefix can be combined.
-	 * @param access specifies whether set or leaf is wanted
-	 * @param params the set of parameters
-	 * @return the exact type of the entry
-	 */
-	public CodeType getQueryResultType(Access access, RVMParameters params) {
-		return this.topEntry.query(access, params);
-	}
-
-	public CodeType getQueryResultType(Access access) {
-		Entry entry = this.topEntry.getDeepestEntry();
-		return entry.accessEntry(access);
-	}
-	
-	/**
-	 * Returns the type of the type of the second last entry.
-	 * @return null if the top entry is the last entry
-	 */
-	public CodeType getSecondLastResultType() {
-		if (this.topEntry.map == null)
-			return null;
-	
-		Entry entry = this.topEntry.getSecondDeepestEntry();
-		return entry.accessEntry(Access.Map);
-	}
-	
-	public boolean canQuery(Access access, RVMParameters params) {
-		try {
-			this.topEntry.query(access, params);
-			return true;
-		}
-		catch (IllegalArgumentException ignored) {
-			return false;
-		}
 	}
 
 	@Override
@@ -244,6 +253,21 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		this.field.getCode(fmt);
 	}
 
+	/**
+	 * This class is used to insert some code while visiting a node in the
+	 * indexing tree. What the user typically needs to do is to create an
+	 * anonymous class from this class and overrides methods if some code should
+	 * be inserted at that particular moment.
+	 * 
+	 * In RV-Monitor, this class (or its subclass) is invoked by an implementation
+	 * of IIndexingTreeVisitor while it is visiting nodes. The separation of the visitor
+	 * and the inserter was made because visiting patterns are only a few whereas
+	 * inserting patterns are various.
+	 *
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 *
+	 * @param <T> currently it is always CodeExpr
+	 */
 	public static class StmtCollectionInserter<T extends CodeObject> {
 		/**
 		 * Allows the user to insert code at the second last map.
@@ -279,6 +303,11 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		}
 	}
 	
+	/**
+	 * This enumeration represents the kind of an access in an indexing tree.
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 * @see Entry
+	 */
 	public enum Access {
 		Entry,
 		Map,
@@ -286,62 +315,85 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		Leaf,
 	}
 	
+	/**
+	 * This enumeration represents the kind of a leaf.
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 * @see Entry
+	 */
 	public enum LeafKind {
 		Monitor,
 		Holder,
 	}
 	
+	/**
+	 * This enumeration indiciates whether an event always, possibly or never
+	 * creates a monitor.
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 * @see Entry
+	 */
 	public enum EventKind {
 		AlwaysCreate,
 		MayCreate,
 		NeverCreate,
 	}
 	
+	/**
+	 * This class represents an entry in an indexing tree. An entry is compile-time
+	 * object that corresponds to the type of values in an indexing tree at runtime.
+	 * An entry can hold a map, set, and/or leaf. For example, suppose that
+	 * an entry holds both a map and a set. During code generation, an instance of this
+	 * class will be created, where both the 'map' and 'set' fields are set. From this
+	 * entry, the generated code will use Tuple2<Map, Set> to plug two things into the
+	 * value in an indexing tree.
+	 *
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 * @see Level
+	 */
 	public static class Entry {
 		private final Level map;
-		private final RuntimeMonitorType.MonitorSet set;
-		private final RuntimeMonitorType.Leaf leaf;
-		private final Map<LeafKind, RuntimeMonitorType.Leaf> leafTypes;
+		private final CodeRVType.MonitorSet set;
+		private final CodeRVType.Leaf leaf;
+		private final Map<LeafKind, CodeRVType.Leaf> leafTypes;
 		
 		public final Level getMap() {
 			return this.map;
 		}
 		
-		public final CodeType getSet() {
+		public final CodeRVType.MonitorSet getSet() {
 			return this.set;
 		}
 
-		public final RuntimeMonitorType getLeaf() {
+		public final CodeRVType getLeaf() {
 			return this.leaf;
 		}
 		
-		public final RuntimeMonitorType getLeafType(LeafKind leaf) {
-			RuntimeMonitorType t = this.leafTypes.get(leaf);
+		public final CodeRVType getLeafType(LeafKind leaf) {
+			CodeRVType t = this.leafTypes.get(leaf);
 			if (t == null)
 				throw new IllegalArgumentException();
 			return t;
 		}
 	
-		private Entry(Level map, RuntimeMonitorType.MonitorSet set, RuntimeMonitorType.Leaf leaf, Map<LeafKind, RuntimeMonitorType.Leaf> leaftypes) {
+		private Entry(Level map, CodeRVType.MonitorSet set, CodeRVType.Leaf leaf, Map<LeafKind, CodeRVType.Leaf> leaftypes) {
 			this.map = map;
 			this.set = set;
 			this.leaf = leaf;
 			this.leafTypes = leaftypes;
 		}
 	
-		private static Entry fromCodeType(Level map, CodeType set, CodeType monitor, Set<LeafKind> leafflags) {
-			RuntimeMonitorType.Leaf leaftype = null;
-			Map<LeafKind, RuntimeMonitorType.Leaf> typemap = new HashMap<LeafKind, RuntimeMonitorType.Leaf>();
+		private static Entry fromCodeType(Level map, CodeRVType.MonitorSet set, CodeRVType.Monitor monitor, Set<LeafKind> leafflags) {
+			CodeRVType.Leaf leaftype = null;
+			Map<LeafKind, CodeRVType.Leaf> typemap = new HashMap<LeafKind, CodeRVType.Leaf>();
 			if (leafflags != null) {
 				int numtypes = 0;
 				for (LeafKind l : leafflags) {
 					switch (l) {
 					case Monitor:
-						leaftype = RuntimeMonitorType.forMonitor(monitor);
+						leaftype = monitor;
 						typemap.put(l, leaftype);
 						break;
 					case Holder:
-						leaftype = RuntimeMonitorType.forDisableHolder(monitor);
+						leaftype = CodeRVType.forDisableHolder(monitor);
 						typemap.put(l, leaftype);
 						break;
 					default:
@@ -351,15 +403,26 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 				}
 				
 				if (numtypes > 1)
-					leaftype = RuntimeMonitorType.forInterface(monitor);
+					leaftype = CodeRVType.forInterface(monitor);
 			}
 			
-			RuntimeMonitorType.MonitorSet settype = RuntimeMonitorType.forMonitorSet(set);
-			
-			return new Entry(map, settype, leaftype, typemap);
+			return new Entry(map, set, leaftype, typemap);
 		}
 		
-		public static Entry determine(RVMParameters params, CodeType set, CodeType leaf, boolean fullbinding, EventKind evttype, boolean timetrack) {
+		/**
+		 * Creates an entry from settings such as whether parameters are fully bound, event type and whether
+		 * time tracking is needed.
+		 * This method calls Level.determine(), which can call this method recursively, to construct all the
+		 * necessary entries and levels.
+		 * @param params parameter list used to query the indexing tree
+		 * @param set monitor set type
+		 * @param leaf monitor type
+		 * @param fullbinding true if parameters are fully bound
+		 * @param evttype whether an event always, possibly or never creates a monitor
+		 * @param timetrack whether time tracking is needed
+		 * @return constructed entry
+		 */
+		public static Entry determine(RVMParameters params, CodeRVType.MonitorSet set, CodeRVType.Monitor leaf, boolean fullbinding, EventKind evttype, boolean timetrack) {
 			if (params.size() == 0) {
 				Set<LeafKind> leafflags;
 				
@@ -411,6 +474,13 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			}
 		}
 
+		/**
+		 * Joins two entries. The caller should guarantee that two entries can be joined.
+		 * This method is used when two indexing trees are combined.
+		 * @param entry1 one entry
+		 * @param entry2 the other entry
+		 * @return merged entry
+		 */
 		public static Entry join(Entry entry1, Entry entry2) {
 			boolean s1 = entry1.set != null;
 			boolean s2 = entry2.set != null;
@@ -422,9 +492,9 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 				throw new IllegalArgumentException();
 			}
 
-			RuntimeMonitorType.MonitorSet set = s1 ? entry1.set : entry2.set;
-			RuntimeMonitorType.Leaf leaf = l1 ? entry1.leaf : entry2.leaf;
-			Map<LeafKind, RuntimeMonitorType.Leaf> leaftypes = l1 ? entry1.leafTypes : entry2.leafTypes;
+			CodeRVType.MonitorSet set = s1 ? entry1.set : entry2.set;
+			CodeRVType.Leaf leaf = l1 ? entry1.leaf : entry2.leaf;
+			Map<LeafKind, CodeRVType.Leaf> leaftypes = l1 ? entry1.leafTypes : entry2.leafTypes;
 	
 			Level joinedmap = Level.join(entry1.map, entry2.map);
 
@@ -455,31 +525,6 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			return this.map.value.lookupEntry(params, index + 1);
 		}
 		
-		public Entry getDeepestEntry() {
-			if (this.map == null)
-				return this;
-			return this.map.value.getDeepestEntry();
-		}
-		
-		public Entry getSecondDeepestEntry() {
-			Entry entry;
-			for (entry = this; entry.map != null; entry = entry.map.value) {
-				if (entry.map.value.map == null)
-					break;
-			}
-			return entry;
-		}
-		
-		public CodeType query(Access access, RVMParameters params) {
-			Entry entry = this.lookupEntry(params);
-			return entry.accessEntry(access);
-		}
-		
-		public CodeType query(Access access, RVMParameter ... params) {
-			Entry entry = this.lookupEntry(params);
-			return entry.accessEntry(access);
-		}
-		
 		private CodeType accessEntry(Access access) {
 			switch (access) {
 			case Entry:
@@ -502,7 +547,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		}
 		
 		public CodeType getCodeType() {
-			ArrayList<RuntimeMonitorType> enabled = new ArrayList<RuntimeMonitorType>();
+			ArrayList<CodeRVType> enabled = new ArrayList<CodeRVType>();
 			
 			if (this.map != null)
 				enabled.add(this.map.getCodeType());
@@ -517,6 +562,22 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			return CodeHelper.RuntimeType.getIndexingTreeTuple(enabled);
 		}
 		
+		/**
+		 * Returns the index in the tuple for accessing the specified access kind.
+		 * The indexing tree can hold a single object as a value. This is a design decision
+		 * to have one unified implementation for all the indexing trees; previously, about
+		 * 20 implementations existed.
+		 * Instead, the new indexing tree implementation employs a tuple (such as Tuple2 and Tuple3)
+		 * to put multiple entities (such as both a map and a set) as a value in an indexing tree.
+		 * For example, suppose that a Tuple2 instance is used for a map and a set. To extract a map from
+		 * this tuple, it is necessary to know which field corresponds to the map. This method returns
+		 * the index of the corresponding field. This method can determine the index because a tuple
+		 * holds a map, set and/or leaf in the predefined order.
+		 * When a tuple is used, the index starts from 1, which corresponds to the getValue1() method.
+		 * When a tuple is not used, because the value holds a single object, this method returns 0.
+		 * @param access access kind
+		 * @return 0 if no tuples are used; or a non-zero index in a tuple for accessing the specified access kind
+		 */
 		private int calculateFieldIndex(Access access) {
 			boolean m = this.map != null;
 			boolean s = this.set != null;
@@ -560,16 +621,16 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			CodeType type = this.getCodeType();
 			{
 				List<CodeExpr> args = new ArrayList<CodeExpr>();
-				if (type instanceof RuntimeMonitorType.Tuple) {
-					RuntimeMonitorType.Tuple tuple = (RuntimeMonitorType.Tuple)type;
-					for (RuntimeMonitorType elem : tuple.getElements()) {
+				if (type instanceof CodeRVType.Tuple) {
+					CodeRVType.Tuple tuple = (CodeRVType.Tuple)type;
+					for (CodeRVType elem : tuple.getElements()) {
 						// A map or set in a tuple needs to be instantiated.
-						if (elem instanceof RuntimeMonitorType.IndexingTree) {
+						if (elem instanceof CodeRVType.IndexingTree) {
 							CodeExpr id = CodeLiteralExpr.integer(specParams.getIdnum(queryParams.get(0)));
 							CodeExpr createmap = new CodeNewExpr(elem, id);
 							args.add(createmap);
 						}
-						else if (elem instanceof RuntimeMonitorType.MonitorSet) {
+						else if (elem instanceof CodeRVType.MonitorSet) {
 							CodeExpr createset = new CodeNewExpr(elem);
 							args.add(createset);
 						}
@@ -584,17 +645,17 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 				init = new CodeNewExpr(type, args);
 			}
 
-			return new CodeMemberField(name, true, false, type, init);
+			return new CodeMemberField(name, false, true, true, type, init);
 		}
 
 		/**
 		 * Generates code for accessing a specific field from the given entry.
 		 * If the entry has only a single field (i.e., the type is not Tuple2 or Tuple3),
 		 * this method does not do anything.
-		 * @param entryref the entry where the field is retrieved
+		 * @param entryref entry where the field is retrieved
 		 * @param access specifies which field is of interest
-		 * @param varnameprefix the prefix of the variable where the retrieved field is assigned
-		 * @return the pair of the generated code and the reference to either the created variable or the entry
+		 * @param varnameprefix prefix of the variable where the retrieved field is assigned
+		 * @return pair of the generated code and the reference to either the created variable or the entry
 		 */
 		public CodePair<CodeVarRefExpr> generateFieldGetCode(CodeExpr entryref, Access access, String varnameprefix) {
 			CodeExpr result = this.generateFieldGetInlinedCode(entryref, access);
@@ -613,6 +674,13 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			return new CodePair<CodeVarRefExpr>(decl, new CodeVarRefExpr(var));
 		}
 
+		/**
+		 * Generates code for accessing a specific field from the given entry
+		 * without introducing any variable. 
+		 * @param entryref entry where the field is retrieved
+		 * @param access specifies which field is of interest
+		 * @return generated code
+		 */
 		public CodeExpr generateFieldGetInlinedCode(CodeExpr entryref, Access access) {
 			CodeExpr result;
 
@@ -628,7 +696,13 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			return result;
 		}
 
-
+		/**
+		 * Generates code for setting a value in the field.
+		 * @param entryref entry where the field is retrieved
+		 * @param access specifies which field is of interest
+		 * @param value value to be assigned
+		 * @return generated code
+		 */
 		public CodeStmtCollection generateFieldSetCode(CodeExpr entryref, Access access, CodeExpr value) {
 			CodeStmt assign;
 
@@ -645,8 +719,48 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 	
 			return new CodeStmtCollection(assign);
 		}
+
+		/**
+		 * Generates code for retrieving the node that corresponds to the given parameter in the indexing tree.
+		 * @param usestrongref true if one wants to look up using a strong reference rather than a weak reference
+		 * @param child entry
+		 * @param mapref reference to the map where the lookup is made
+		 * @param param parameter for the lookup, used if 'usestrongref' is true
+		 * @param weakref weak reference for the lookup, used if 'usestrongref' is false
+		 * @return generated code
+		 */
+		private CodeMethodInvokeExpr generateGetNodeCode(boolean usestrongref, Entry child, CodeExpr mapref, RVMParameter param, CodeVarRefExpr weakref) {
+			CodeType type = child.accessEntry(Access.Entry);
+
+			CodeMethodInvokeExpr invoke;
+			if (usestrongref) {
+				CodeVarRefExpr strongref = new CodeVarRefExpr(new CodeVariable(CodeType.object(), param.getName()));
+				invoke = new CodeMethodInvokeExpr(type, mapref, "getNodeWithStrongRef", strongref);
+			}
+			else {
+				if (Main.useWeakRefInterning)
+					invoke = new CodeMethodInvokeExpr(type, mapref, "getNode", weakref);
+				else
+					invoke = new CodeMethodInvokeExpr(type, mapref, "getNodeEquivalent", weakref);
+			}
+
+			return invoke;
+		}
 	
-		private CodeStmtCollection traverseNodeInternal(RVMParameters queryprms, int index, RVMParameters specprms, WeakReferenceVariables weakrefs, boolean usestrongref, CodeExpr entryref, IIndexingTreeVisitor<CodeVarRefExpr> visitor) {
+		/**
+		 * Recursively traverses all the nodes, one-by-one, in the indexing tree.
+		 * Typically, this method is used to generate code by visiting each node. One can
+		 * customize the generated code by providing different visitors.
+		 * @param queryprms parameters for the query
+		 * @param index the index of parameters that this method is handling
+		 * @param specprms parameters defined in the specification
+		 * @param weakrefs weak references
+		 * @param usestrongref true if the strong reference, rather than the weak reference, should be used for lookup
+		 * @param entryref reference to the entry
+		 * @param visitor visitor
+		 * @return generated code
+		 */
+		private CodeStmtCollection traverseNodeInternal(RVMParameters queryprms, int index, RVMParameters specprms, WeakReferenceVariables weakrefs, boolean usestrongref, CodeExpr entryref, IIndexingTreeVisitor visitor) {
 			CodeStmtCollection stmts = new CodeStmtCollection();
 			if (index == queryprms.size())
 				stmts.add(visitor.visitLast(this, entryref));
@@ -665,22 +779,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 				CodeVarRefExpr resultref;
 				{
 					CodeExpr mapref = this.generateFieldGetInlinedCode(entryref, Access.Map);
-					CodeMethodInvokeExpr invoke;
-					if (usestrongref) {
-						if (index + 1 == queryprms.size()) {
-							CodeType type = child.accessEntry(Access.Entry);
-							CodeVarRefExpr strongref = new CodeVarRefExpr(new CodeVariable(type, head.getName()));
-							invoke = new CodeMethodInvokeExpr(type, mapref, "getNodeWithStrongRef", strongref);
-						}
-						else
-							invoke = null;
-					}
-					else {
-						// Due to indexing tree combining, even intermediate nodes can be a tuple.
-						// So, we should always use Access.Entry instead of Access.Map.
-						CodeType type = child.accessEntry(Access.Entry);
-						invoke = new CodeMethodInvokeExpr(type, mapref, "getNode", weakref);
-					}
+					CodeMethodInvokeExpr invoke = this.generateGetNodeCode(usestrongref, child, mapref, head, weakref);
 					CodeVariable result = CodeHelper.VariableName.getInternalNode(invoke.getType(), queryprms, index);
 					resultref = new CodeVarRefExpr(result);
 					CodeVarDeclStmt stmt = new CodeVarDeclStmt(result, invoke);
@@ -696,7 +795,19 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			return stmts;
 		}
 		
-		private CodeStmtCollection traverseNode(RVMParameters queryprms, RVMParameters specprms, WeakReferenceVariables weakrefs, boolean usestrongref, CodeExpr entryref, IIndexingTreeVisitor<CodeVarRefExpr> visitor) {
+		/**
+		 * Recursively traverses all the nodes, one-by-one, in the indexing tree.
+		 * Typically, this method is used to generate code by visiting each node. One can
+		 * customize the generated code by providing different visitors.
+		 * @param queryprms parameters for the query
+		 * @param specprms parameters defined in the specification
+		 * @param weakrefs weak references
+		 * @param usestrongref true if the strong reference, rather than the weak reference, should be used for lookup
+		 * @param entryref reference to the entry
+		 * @param visitor visitor
+		 * @return generated code
+		 */
+		private CodeStmtCollection traverseNode(RVMParameters queryprms, RVMParameters specprms, WeakReferenceVariables weakrefs, boolean usestrongref, CodeExpr entryref, IIndexingTreeVisitor visitor) {
 			assert specprms.subsumes(queryprms, specprms);
 
 			return this.traverseNodeInternal(queryprms, 0, specprms, weakrefs, usestrongref, entryref, visitor);
@@ -754,7 +865,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		}
 
 		CodeStmtCollection generateFindOrCreateCode(RVMParameters queryprms, final Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref) {
-			IIndexingTreeVisitor<CodeVarRefExpr> visitor = new GenerativeIndexingTreeVisitor(specprms) {
+			IIndexingTreeVisitor visitor = new GenerativeIndexingTreeVisitor(specprms) {
 				@Override
 				public CodeStmtCollection visitSecondLast(Entry entry, CodeExpr entryref) {
 					return Entry.callInsertSecondLastMap(inserter, entry, entryref);
@@ -770,7 +881,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		}
 
 		CodeStmtCollection generateFindWithStrongRefCode(RVMParameters queryprms, final Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref, boolean suppressLastNullCheck) {
-			IIndexingTreeVisitor<CodeVarRefExpr> visitor = new NonGenerativeIndexingTreeVisitor(suppressLastNullCheck) {
+			IIndexingTreeVisitor visitor = new NonGenerativeIndexingTreeVisitor(suppressLastNullCheck) {
 				@Override
 				public CodeStmtCollection visitSecondLast(Entry entry, CodeExpr entryref) {
 					return null;
@@ -786,7 +897,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		}
 
 		CodeStmtCollection generateFindCode(RVMParameters queryprms, final Access access, RVMParameters specprms, WeakReferenceVariables weakrefs, final StmtCollectionInserter<CodeExpr> inserter, CodeExpr entryref) {
-			IIndexingTreeVisitor<CodeVarRefExpr> visitor = new NonGenerativeIndexingTreeVisitor(false) {
+			IIndexingTreeVisitor visitor = new NonGenerativeIndexingTreeVisitor(false) {
 				@Override
 				public CodeStmtCollection visitSecondLast(Entry entry, CodeExpr entryref) {
 //					return Entry.callInsertSecondLastMap(inserter, entry, entryref);
@@ -828,6 +939,33 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 		}
 	}
 	
+	/**
+	 * This class represents a level in the indexing tree. Since an indexing tree can have
+	 * multiple levels, an instance of this class can have nested levels. For example, consider
+	 * a two-level indexing map: the first level being [Collection -> {Map, Set}] and the second level
+	 * being [Iterator -> Monitor]. Then, two levels will be created as follows:
+	 * <pre>
+	 *              Level
+	 * +-----------------+
+	 * | key: Collection |
+	 * | value: --+      |
+	 * +----------+------+
+	 *            |                 Entry                 Level
+	 *            |    +-----------------+     +---------------+
+	 *            +--> | map:  ----------+---> | key: Iterator |
+	 *                 | set: MonitorSet |     | value: --+    |
+	 *                 | leaf: none      |     +----------+----+
+	 *                 +-----------------+                |               Entry
+	 *                                                    |    +---------------+
+	 *                                                    +--> | map: none     |
+	 *                                                         | set: none     |
+	 *                                                         | leaf: Monitor |
+	 *                                                         +---------------+
+	 * </pre>
+	 *
+	 * @author Choonghwan Lee <clee83@illinois.edu>
+	 * @see Entry
+	 */
 	public static class Level {
 		private final RVMParameter key;
 		private final Entry value;
@@ -845,8 +983,21 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			this.key = key;
 			this.value = value;
 		}
-		
-		public static Level determine(RVMParameters params, CodeType set, CodeType leaf, boolean fullbinding, EventKind evttype, boolean timetrack) {
+	
+		/**
+		 * Creates a level from settings such as whether parameters are fully bound, event type and whether
+		 * time tracking is needed.
+		 * This method calls Entry.determine(), which can call this method recursively, to construct all the
+		 * necessary levels and entries.
+		 * @param params parameter list used to query the indexing tree
+		 * @param set monitor set type
+		 * @param leaf monitor type
+		 * @param fullbinding true if parameters are fully bound
+		 * @param evttype whether an event always, possibly or never creates a monitor
+		 * @param timetrack whether time tracking is needed
+		 * @return constructed entry
+		 */
+		public static Level determine(RVMParameters params, CodeRVType.MonitorSet set, CodeRVType.Monitor leaf, boolean fullbinding, EventKind evttype, boolean timetrack) {
 			if (params.size() < 1)
 				throw new IllegalArgumentException();
 
@@ -855,6 +1006,13 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			return new Level(key, value);
 		}
 
+		/**
+		 * Joins two levels. The caller should guarantee that two levels can be joined.
+		 * This method is used when two indexing trees are combined.
+		 * @param level1 one level
+		 * @param level2 the other level
+		 * @return merged level
+		 */
 		public static Level join(Level level1, Level level2) {
 			if (level1 == null)
 				return level2;
@@ -874,7 +1032,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			this.embedGWRT = true;
 		}
 	
-		public RuntimeMonitorType getCodeType() {
+		public CodeRVType getCodeType() {
 			return CodeHelper.RuntimeType.getIndexingTree(this.value.map, this.value.set, this.value.leaf, this.embedGWRT);
 		}	
 

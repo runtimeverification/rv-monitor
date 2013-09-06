@@ -10,10 +10,12 @@ import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
  * enabled. In such case, indexing trees and GWRTs need to be synchronized.
  */
 public class GlobalLock {
-	RVMVariable lock;
+	private RVMVariable lock;
+	private boolean useImplicitLock;
 
 	public GlobalLock(RVMVariable lock) {
 		this.lock = lock;
+		this.useImplicitLock = true;
 	}
 
 	public RVMVariable getName(){
@@ -24,8 +26,9 @@ public class GlobalLock {
 		String ret = "";
 		
 		if (!Main.useFineGrainedLock) {
-			ret += "static ReentrantLock " + lock + " = new ReentrantLock();\n";
-			ret += "static Condition " + lock + "_cond = " + lock + ".newCondition();\n";
+			ret += "private static final ReentrantLock " + lock + " = new ReentrantLock();\n";
+			// Why do we need this?
+			ret += "private static final Condition " + lock + "_cond = " + lock + ".newCondition();\n";
 		}
 
 		return ret;
@@ -35,9 +38,13 @@ public class GlobalLock {
 		String ret = "";
 		
 		if (!Main.useFineGrainedLock) {
-			ret += "while (!" + this.getName() + ".tryLock()) {\n";
-			ret += "Thread.yield();\n";
-			ret += "}\n";
+			if (this.useImplicitLock)
+				ret += "synchronized (" + this.getName() + ") {\n";
+			else {
+				ret += "while (!" + this.getName() + ".tryLock()) {\n";
+				ret += "Thread.yield();\n";
+				ret += "}\n";
+			}
 		}
 		
 		return ret;
@@ -46,8 +53,12 @@ public class GlobalLock {
 	public String getReleaseCode() {
 		String ret = "";
 		
-		if (!Main.useFineGrainedLock)
-			ret += this.getName() + ".unlock();\n";
+		if (!Main.useFineGrainedLock) {
+			if (this.useImplicitLock)
+				ret += "}\n";
+			else
+				ret += this.getName() + ".unlock();\n";
+		}
 		
 		return ret;
 	}

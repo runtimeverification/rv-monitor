@@ -83,7 +83,10 @@ public class HandlerMethod {
 		// if we want a handler to return some value, change it.
 		ret += "void ";
 
-		ret += methodName + " (" + this.specParam.parameterDeclString() + "){\n";
+		ret += methodName + " (";
+		if (!Main.stripUnusedParameterInMonitor)
+			ret += this.specParam.parameterDeclString();
+		ret += "){\n";
 
 		if (Main.statistics) {
 			ret += "if(" + categoryVar + ") {\n";

@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.MonitorFeatures;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
@@ -53,7 +54,6 @@ public class AspectJCode {
 			monitors.put(mopSpec, monitor);
 
 			monitorSets.put(mopSpec, new MonitorSet(name, mopSpec, monitor));
-
 		}
 
 		//aspect = new Aspect(name, rvmSpecFile, monitorSets, monitors, enableSets, versionedStack);
@@ -62,6 +62,7 @@ public class AspectJCode {
 		// Set monitor lock for each monitor set
 		for (MonitorSet monitorSet : monitorSets.values()) {
 			monitorSet.setMonitorLock(aspect.getAspectName() + "." + aspect.lockManager.getLock().getName());
+			monitorSet.setIndexingTreeManager(aspect.indexingTreeManager);
 		}
 
 		TreeMap<String, RefTree> refTrees = aspect.indexingTreeManager.refTrees;

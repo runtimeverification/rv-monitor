@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +25,19 @@ import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
+/**
+ * This class is used to hold parameters carried by an event and their weak references.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class WeakReferenceVariables {
+	/**
+	 * Keeps the list of parameters carried by the event. The order is significant.
+	 */
 	private final List<RVMParameter> params;
+	/**
+	 * Keeps the mapping from a parameter carried by the event to its weak reference.
+	 */
 	private final Map<RVMParameter, CodeVariable> mapping;
 	
 	public List<RVMParameter> getParams() {
@@ -40,8 +52,16 @@ public class WeakReferenceVariables {
 		this.params = params;
 		this.mapping = mapping;
 	}
+
+	public WeakReferenceVariables(IndexingTreeManager trees, RVMParameter ... params) {
+		this(trees, Arrays.asList(params));
+	}
 	
-	WeakReferenceVariables(IndexingTreeManager trees, RVMParameters params) {
+	public WeakReferenceVariables(IndexingTreeManager trees, RVMParameters params) {
+		this(trees, params.toList());
+	}
+
+	private WeakReferenceVariables(IndexingTreeManager trees, List<RVMParameter> params) {
 		this.params = new ArrayList<RVMParameter>();
 		this.mapping = new HashMap<RVMParameter, CodeVariable>();
 		
@@ -89,7 +109,7 @@ public class WeakReferenceVariables {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		for (Map.Entry<RVMParameter, CodeVariable> entry : this.mapping.entrySet()) {
 			RVMVariable wrfieldname = monitorClass.getRVMonitorRef(entry.getKey());
-			CodeMemberField wrfield = new CodeMemberField(wrfieldname.getVarName(), false, false, entry.getValue().getType());
+			CodeMemberField wrfield = new CodeMemberField(wrfieldname.getVarName(), false, false, false, entry.getValue().getType());
 			CodeFieldRefExpr wrfieldref = new CodeFieldRefExpr(monitorref, wrfield);
 			
 			CodeVarDeclStmt decl = new CodeVarDeclStmt(entry.getValue(), wrfieldref);

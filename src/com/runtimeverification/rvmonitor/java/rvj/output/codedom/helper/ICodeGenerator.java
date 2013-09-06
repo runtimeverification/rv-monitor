@@ -1,10 +1,9 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper;
 
-
 /**
  * This interface is used to mark a class that is capable of generating code.
  * 
- * @author 'Choonghwan Lee <clee83@illinois.edu>'
+ * @author Choonghwan Lee <clee83@illinois.edu>
  */
 public interface ICodeGenerator {
 	/**

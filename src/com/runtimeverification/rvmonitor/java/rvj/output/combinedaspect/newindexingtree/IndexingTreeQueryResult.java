@@ -9,7 +9,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodePair
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.rvapi.GeneratedCodeAPI;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
-import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.WeakReferenceVariables;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Access;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Entry;
@@ -17,6 +17,12 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindex
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
+/**
+ * This class represents one indexing tree and many other information that can be useful
+ * to use the indexing tree. This class was written to avoid repeated code.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class IndexingTreeQueryResult {
 	private final IndexingTreeInterface indexingTree;
 	private final WeakReferenceVariables weakrefs;
@@ -146,7 +152,7 @@ public class IndexingTreeQueryResult {
 		boolean putentry = false;
 		
 		CodeType entrytype = this.matchedEntry.getCodeType();
-		if (entrytype instanceof RuntimeMonitorType.Tuple)
+		if (entrytype instanceof CodeRVType.Tuple)
 			setfield = true;
 		else
 			putentry = true;

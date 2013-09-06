@@ -8,12 +8,33 @@ import java.util.Set;
 import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
+/**
+ * This class defines predefined code formatters.
+ * Currently, only Java code generator exists, and this is used as the
+ * default formatter.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ *
+ */
 public class CodeFormatters {
 	public static ICodeFormatter getDefault() {
 		return new JavaCodeFormatter();
 	}
 }
 
+/**
+ * This class implements the code formatter for Java.
+ * A visitor or a CodeObject is responsible for calling
+ * methods of this class.
+ * 
+ * Spaces are not perfectly printed; the resulting code may
+ * have an unnecessary whitespace.
+ * In addition to unnecessary spaces, the resulting code may
+ * contain unnecessary parentheses.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ *
+ */
 class JavaCodeFormatter implements ICodeFormatter {
 	private final Set<String> imports;
 	private final List<String> lines;

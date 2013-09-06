@@ -5,6 +5,13 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeV
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
+/**
+ * This class represents an expression that uses a binary operator.
+ * Operators have been extended only if they are needed. As a result,
+ * only used operators are defined; many are missing.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeBinOpExpr extends CodeExpr {
 	private final Operator operator;
 	private final CodeExpr lhs;

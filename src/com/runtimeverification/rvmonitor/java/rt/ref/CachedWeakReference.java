@@ -2,6 +2,13 @@ package com.runtimeverification.rvmonitor.java.rt.ref;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * This class extends Java's basic weak reference class by caching the hash value
+ * returned by System.identityHashCode(). This class was introduced after Dongyun
+ * realized that System.identityHashCode() is surprisingly expensive.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CachedWeakReference extends WeakReference<Object> {
 	private final int hashval;
 	

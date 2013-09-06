@@ -209,7 +209,8 @@ public class BaseMonitor extends Monitor {
 			if (event.getAction() != null && event.getAction().getStmts() != null && event.getAction().getStmts().size() != 0) {
 				String eventActionStr = event.getAction().toString();
 	
-				eventActionStr = eventActionStr.replaceAll("return;", "return true;");
+				if (!Main.generateVoidMethods)
+					eventActionStr = eventActionStr.replaceAll("return;", "return true;");
 				eventActionStr = eventActionStr.replaceAll("__RESET", "this.reset()");
 				eventActionStr = eventActionStr.replaceAll("__DEFAULT_MESSAGE", defaultMessage);
         //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
@@ -225,8 +226,21 @@ public class BaseMonitor extends Monitor {
 			}
 		}
 
-		// Add return value to events, so we know whether it's because of the condition failure or not
-		ret += "final" + synch + "boolean " + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
+		// Add return value to events, so we know whether it's because of the condition failure or not.
+		// However, it seems the return value is always 'true' for monitoring. To eliminate unnecessary
+		// hassle, I let it generate 'void' methods for monitoring.
+		boolean retbool = !Main.generateVoidMethods;
+		ret += "final" + synch + (retbool ? "boolean " : "void ") + methodNamePrefix + propMonitor.eventMethods.get(event.getId()) + "(";
+		// CL: Let's not pass parameters that are never referred to by the user's action code.
+		{
+			RVMParameters params;
+			if (Main.stripUnusedParameterInMonitor)
+				params = event.getReferredParameters(event.getRVMParameters());
+			else
+				params = event.getRVMParameters();
+			ret += params.parameterDeclString();
+		}
+		ret += ") {\n";
 
 		if (prop == props.get(props.size() - 1) && eventAction != null) {
 			for (RVMParameter p : event.getUsedParametersIn(specParam)) {
@@ -294,7 +308,8 @@ public class BaseMonitor extends Monitor {
 
 		ret += aftereventMonitoringCode;
 
-		ret += "return true;\n";
+		if (retbool)
+			ret += "return true;\n";
 		ret += "}\n";
 
 		return ret;
@@ -333,7 +348,14 @@ public class BaseMonitor extends Monitor {
 			
 			ret += this.beforeEventMethod(monitorVar, prop, event, lock, aspectName, inMonitorSet);
 			ret += monitorVar + "." + propMonitor.eventMethods.get(event.getId()) + "(";
-			ret += event.getRVMParameters().parameterString();
+			{
+				RVMParameters passing;
+				if (Main.stripUnusedParameterInMonitor)
+					passing = event.getReferredParameters(event.getRVMParameters());
+				else
+					passing = event.getRVMParameters();
+				ret += passing.parameterString();
+			}
 			ret += ");\n";
 			ret += this.afterEventMethod(monitorVar, prop, event, lock, aspectName);
 
@@ -349,12 +371,15 @@ public class BaseMonitor extends Monitor {
 				HandlerMethod handlerMethod = propMonitor.handlerMethods.get(category);
 
 				final RVMVariable rvmVariable = propMonitor.categoryVars.get(category);
-				ret += BaseMonitor.getNiceVariable(rvmVariable)
-						+ " |= " + monitorVar + "." + rvmVariable + ";\n";
+				if (!Main.eliminatePresumablyRemnantCode) {
+					ret += BaseMonitor.getNiceVariable(rvmVariable)
+							+ " |= " + monitorVar + "." + rvmVariable + ";\n";
+				}
 				ret += "if(" +  monitorVar + "." + rvmVariable + ") {\n";
 
 				ret += monitorVar + "." + handlerMethod.getMethodName() + "(";
-				ret += event.getRVMParametersOnSpec().parameterStringIn(specParam);
+				if (!Main.stripUnusedParameterInMonitor)
+					ret += event.getRVMParametersOnSpec().parameterStringIn(specParam);
 				ret += ");\n";
 
 				ret += "}\n";
@@ -412,16 +437,36 @@ public class BaseMonitor extends Monitor {
 			if (Main.internalBehaviorObserving)
 				ret += "this.holderid = ++nextid;\n";
 			ret += "}\n\n";
-			ret += "@Override\n";
-			ret += "public boolean isTerminated() {\n";
-			ret += "return false;\n";
-			ret += "}\n";
+			
+			// IMonitor.isTerminated()
+			{
+				ret += "@Override\n";
+				ret += "public final boolean isTerminated() {\n";
+				ret += "return false;\n";
+				ret += "}\n\n";
+			}
+			
+			// IMonitor.getLastEvent()
+			{
+				ret += "@Override\n";
+				ret += "public int getLastEvent() {\n";
+				ret += "return -1;\n";
+				ret += "}\n\n";
+			}
+
+			// IMonitor.getState()
+			{
+				ret += "@Override\n";
+				ret += "public int getState() {\n";
+				ret += "return -1;\n";
+				ret += "}\n\n";
+			}
+
 			if (Main.internalBehaviorObserving) {
-				ret += "\n";
 				ret += "private int holderid;\n";
 				ret += "private static int nextid;\n\n";
 				ret += "@Override\n";
-				ret += "public String getObservableObjectDescription() {\n";
+				ret += "public final String getObservableObjectDescription() {\n";
 				ret += "StringBuilder s = new StringBuilder();\n";
 				ret += "s.append('#');\n";
 				ret += "s.append(this.holderid);\n";
@@ -522,7 +567,7 @@ public class BaseMonitor extends Monitor {
 				args.add("long tau");
 			{
 				RVMParameters params;
-				if (feature.isNonFinalWeakRefsInMonitorNeeded())
+				if (feature.isNonFinalWeakRefsInMonitorNeeded() || feature.isFinalWeakRefsInMonitorNeeded())
 					params = this.specParam;
 				else
 					params = feature.getRememberedParameters();
@@ -554,9 +599,16 @@ public class BaseMonitor extends Monitor {
 			ret += propMonitor.initilization;
 			ret += "\n";
 		}
-		for (RVMParameter param : feature.getRememberedParameters()) {
-			RVMVariable var = this.monitorTermination.references.get(param);
-			ret += "this." + var + " = " + var + ";\n";
+		{
+			RVMParameters params;
+			if (feature.isNonFinalWeakRefsInMonitorNeeded() || feature.isFinalWeakRefsInMonitorNeeded())
+				params = this.specParam;
+			else
+				params = feature.getRememberedParameters();
+			for (RVMParameter param : params) {
+				RVMVariable var = this.monitorTermination.references.get(param);
+				ret += "this." + var + " = " + var + ";\n";
+			}
 		}
 		if (Main.statistics) {
 			ret += stat.incNumMonitor();
@@ -568,11 +620,25 @@ public class BaseMonitor extends Monitor {
 		ret += "}\n";
 		ret += "\n";
 		
+		// implements getState()
+		{
+			String statevar = this.getStateVariable();
+			ret += "@Override\n";
+			ret += "public final int getState() {\n";
+			ret += "return ";
+			if (statevar == null)
+				ret += "-1";
+			else
+				ret += statevar;
+			ret += ";\n";
+			ret += "}\n\n";
+		}
+		
 		if (feature.isTimeTrackingNeeded()) {
 			ret += "private final long tau;\n";
 			ret += "private long disable = -1;\n\n";
 			ret += "@Override\n";
-			ret += "public long getTau() {\n";
+			ret += "public final long getTau() {\n";
 			ret += "return this.tau;\n";
 			ret += "}\n\n";
 			ret += "@Override\n";
@@ -700,6 +766,16 @@ public class BaseMonitor extends Monitor {
 
 		if (monitorInfo != null)
 			ret += monitorInfo.monitorDecl();
+		
+		// # of events, # of states
+		{
+			ret += "public static int getNumberOfEvents() {\n";
+			ret += "return " + this.events.size() + ";\n";
+			ret += "}\n\n";
+			ret += "public static int getNumberOfStates() {\n";
+			ret += "return " + this.getNumberOfStates() + ";\n";
+			ret += "}\n\n";
+		}
 
 		if (Main.internalBehaviorObserving) {
 			ret += "private List<String> trace;\n";
@@ -707,7 +783,7 @@ public class BaseMonitor extends Monitor {
 			ret += "private static int nextid;\n";
 			ret += "\n";
 			ret += "@Override\n";
-			ret += "public String getObservableObjectDescription() {\n";
+			ret += "public final String getObservableObjectDescription() {\n";
 			ret += "StringBuilder s = new StringBuilder();\n";
 			ret += "s.append('#');\n";
 			ret += "s.append(this.monitorid);\n";
@@ -736,6 +812,30 @@ public class BaseMonitor extends Monitor {
 		}
 		
 		return ret;
+	}
+
+	private String getStateVariable() {
+		if (this.props.size() != 1)
+			return null;
+
+		PropertyAndHandlers prop = props.get(0);
+		// It seems JavaMOP never parses the passed code; instead, it does
+		// some string manipulation. As a result, we don't get the name of
+		// the variable for holding the state. Here, I do some unreliable and
+		// dirty trick, which is similar to existing string manipulation.
+		String varname = this.propMonitors.get(prop).stateDeclaration.extractStateVariable();
+		if (varname == null)
+			return null;
+		
+		return varname;
+	}
+	
+	private int getNumberOfStates() {
+		if (this.props.size() != 1)
+			return -1;
+
+		PropertyAndHandlers prop = props.get(0);
+		return this.propMonitors.get(prop).stateDeclaration.getNumberOfStates();
 	}
 
 	/***

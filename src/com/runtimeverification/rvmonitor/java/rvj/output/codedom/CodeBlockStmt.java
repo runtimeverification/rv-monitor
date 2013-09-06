@@ -3,6 +3,24 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
+/**
+ * This class represents a block, other than if, for, while and so on.
+ * The code generator is to generate the following code from an instance of
+ * this class:
+ * <code>
+ * {
+ *    ... (represented by the 'body' field)
+ * }
+ * </code>
+ * It simply wraps the statements represented by the 'body' field by a pair
+ * of curly braces.
+ *
+ * This class is used to create a block that does not leave any unnecessary local
+ * variable to the rest of the code.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ *
+ */
 public class CodeBlockStmt extends CodeStmt {
 	private final CodeStmtCollection body;
 	

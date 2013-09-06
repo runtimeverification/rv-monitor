@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
@@ -30,7 +31,10 @@ public class TimestampManager {
 
 		ret += "// Declarations for Timestamps \n";
 		for (RVMVariable timestamp : timestamps.values()) {
-			ret += "private static long " + timestamp + " = 1;\n";
+			if (Main.useFineGrainedLock)
+				ret += "private static final AtomicLong " + timestamp + " = new AtomicLong(1);\n";
+			else
+				ret += "private static long " + timestamp + " = 1;\n";
 		}
 		ret += "\n";
 
@@ -44,7 +48,10 @@ public class TimestampManager {
 			return ret;
 
 		for (RVMVariable timestamp : timestamps.values()) {
-			ret += timestamp + " = 1;\n";
+			if (Main.useFineGrainedLock)
+				ret += timestamp + ".set(1);\n";
+			else
+				ret += timestamp + " = 1;\n";
 		}
 		ret += "\n";
 

@@ -4,6 +4,14 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeV
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
+/**
+ * This class represents an 'instanceof' expression.
+ * <code>
+ * ref instanceof type
+ * </code>
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeInstanceOfExpr extends CodeExpr {
 	private final CodeExpr ref;
 	private final CodeType type;

@@ -4,6 +4,11 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeV
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
+/**
+ * This class represents a literal, such as 1, 2.3, "Hello world", and so on.
+ *
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeLiteralExpr extends CodeExpr {
 	private final String literal;
 	
@@ -28,6 +33,10 @@ public class CodeLiteralExpr extends CodeExpr {
 	
 	public static CodeLiteralExpr integer(int i) {
 		return new CodeLiteralExpr(CodeType.integer(), Integer.toString(i));
+	}
+
+	public static CodeLiteralExpr rong(long l) {
+		return new CodeLiteralExpr(CodeType.rong(), Long.toString(l));
 	}
 	
 	public static CodeLiteralExpr string(String s) {

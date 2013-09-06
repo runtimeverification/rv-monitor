@@ -65,11 +65,11 @@ public class MonitorTermination {
 		String ret = "";
 
 		{
-			boolean generalcase = features.isNonFinalWeakRefsInMonitorNeeded();
+			boolean generalcase = features.isNonFinalWeakRefsInMonitorNeeded() || features.isFinalWeakRefsInMonitorNeeded();
 			RVMParameters needed = features.getRememberedParameters();
 			for (RVMParameter param : parameters) {
 				if (generalcase || needed.contains(param)) {
-					if (!generalcase)
+					if (!features.isNonFinalWeakRefsInMonitorNeeded())
 						ret += "final ";
 					ret += getRefType(param) + " " + references.get(param) + ";";
 				}

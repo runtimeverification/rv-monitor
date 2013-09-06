@@ -67,6 +67,18 @@ public class MonitorFeatures {
 			throw new IllegalAccessError();
 		return this.needsNonFinalWeakRefsInMonitor;
 	}
+
+	private boolean needsFinalWeakRefsInMonitor;
+	public boolean isFinalWeakRefsInMonitorNeeded() {
+		if (!this.stabilized)
+			throw new IllegalAccessError();
+		return this.needsFinalWeakRefsInMonitor;
+	}
+	public void forceKeepWeakRefsInMonitor() {
+		if (this.stabilized)
+			throw new IllegalAccessError();
+		this.needsFinalWeakRefsInMonitor = true;
+	}
 	
 	/**
 	 * This field tells what parameters should be kept in each monitor instance.

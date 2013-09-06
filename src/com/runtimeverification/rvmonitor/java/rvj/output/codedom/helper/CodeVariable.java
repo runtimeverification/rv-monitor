@@ -3,6 +3,14 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
+/**
+ * This class represents a local variable or parameter.
+ * A variable keeps both the variable name and the type.
+ * Additionally, the description can be kept, which will be
+ * printed in a comment, only if an option is enabled.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeVariable {
 	private final CodeType type;
 	private final String name;
@@ -54,5 +62,10 @@ public class CodeVariable {
 			s.append(this.description);
 		}
 		return s.toString();
+	}
+	
+	public void getDeclarationCode(ICodeFormatter fmt) {
+		fmt.type(this.type);
+		fmt.identifier(this.name);
 	}
 }

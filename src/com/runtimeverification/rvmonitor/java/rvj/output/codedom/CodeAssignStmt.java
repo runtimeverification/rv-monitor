@@ -3,6 +3,11 @@ package com.runtimeverification.rvmonitor.java.rvj.output.codedom;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.analysis.ICodeVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 
+/**
+ * This class represents an assignment statement.
+ * 
+ * @author Choonghwan Lee <clee83@illinois.edu>
+ */
 public class CodeAssignStmt extends CodeStmt {
 	private final CodeExpr lhs;
 	private final CodeExpr rhs;

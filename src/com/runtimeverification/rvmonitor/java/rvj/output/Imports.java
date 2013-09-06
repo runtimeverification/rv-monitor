@@ -13,12 +13,15 @@ public class Imports {
 		"com.runtimeverification.rvmonitor.java.rt.*",
 		"com.runtimeverification.rvmonitor.java.rt.ref.*",
 		"com.runtimeverification.rvmonitor.java.rt.table.*",
-		"com.runtimeverification.rvmonitor.java.rt.tablebase.IBucketNode",
+		"com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractIndexingTree",
+//		"com.runtimeverification.rvmonitor.java.rt.tablebase.IBucketNode",
+		"com.runtimeverification.rvmonitor.java.rt.tablebase.SetEventDelegator",
 		"com.runtimeverification.rvmonitor.java.rt.tablebase.TableAdopter.Tuple2",
 		"com.runtimeverification.rvmonitor.java.rt.tablebase.TableAdopter.Tuple3",
 		"com.runtimeverification.rvmonitor.java.rt.tablebase.IDisableHolder",
 		"com.runtimeverification.rvmonitor.java.rt.tablebase.IMonitor",
 		"com.runtimeverification.rvmonitor.java.rt.tablebase.DisableHolder",
+		"com.runtimeverification.rvmonitor.java.rt.tablebase.TerminatedMonitorCleaner",
 	};
 	
 	private final String[] observer = {
@@ -49,8 +52,10 @@ public class Imports {
 		if (Main.internalBehaviorObserving)
 			this.addImports(this.observer);
 		
-		if (Main.useFineGrainedLock)
+		if (Main.useFineGrainedLock) {
 			imports.add("java.util.concurrent.atomic.AtomicBoolean");
+			imports.add("java.util.concurrent.atomic.AtomicLong");
+		}
 	}
 	
 	private void addImports(String[] array) {

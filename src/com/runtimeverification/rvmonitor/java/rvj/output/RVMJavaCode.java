@@ -63,6 +63,71 @@ public class RVMJavaCode {
 		}
 		return ret;
 	}
+	
+	/**
+	 * Returns the name of the variable for holding the state.
+	 * This variable is used to determine the slot in a set of monitors.
+	 * If multiple variables are needed to store states, this method
+	 * returns null, meaning that the partitioned-set optimization cannot
+	 * be used.
+	 * Since it seems JavaMOP does not parse the given string, I do a similar
+	 * unreliable and dirty string manipulation here.
+	 * @return the name of the variable for holding the state
+	 */
+	public String extractStateVariable() {
+		String ret = this.code;
+		String tagPattern = "\\$(\\w+)\\$";
+		Pattern pattern = Pattern.compile(tagPattern);
+		Matcher matcher = pattern.matcher(ret);
+		
+		String varname = null;
+
+		while (matcher.find()) {
+			String tagStr = matcher.group();
+			String varName = tagStr.replaceAll(tagPattern, "$1");
+			RVMVariable var;
+			
+			if (!varName.startsWith("state"))
+				continue;
+
+			if (prop == null)
+				var = new RVMVariable(varName);
+			else {
+				if (localVars != null && localVars.contains(varName))
+					var = new RVMVariable(varName);
+				else
+					var = new RVMVariable("Prop_" + prop.getPropertyId() + "_" + varName);
+			}
+			
+			// This method works only if there is a single variable.
+			if (varname != null)
+				return null;
+			varname = var.toString();
+		}
+		return varname;
+	}
+
+	public int getNumberOfStates() {
+		//String pattern = "\\$transition_\\w+\\$\\[\\]";
+		//String pattern = "\\$transition_\\w+\\$\\[\\] = ";
+		String pattern = "\\$transition_\\w+\\$\\[\\] = \\{([ ,\\d]+)\\}";
+		Matcher matcher = Pattern.compile(pattern).matcher(this.code);
+		
+		int maxstate = -1;
+		
+		while (matcher.find()) {
+			String tbl = matcher.group(1);
+			for (String tostr : tbl.split(",")) {
+				int to = Integer.parseInt(tostr.trim());
+				maxstate = Math.max(to, maxstate);
+			}
+		}
+		
+		// For the sake of the initial state.
+		++maxstate;
+
+		return maxstate;
+	}
 
 	public boolean isEmpty() {
 		if (code == null || code.length() == 0)

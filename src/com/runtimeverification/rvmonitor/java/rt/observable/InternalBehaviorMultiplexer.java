@@ -47,6 +47,12 @@ public class InternalBehaviorMultiplexer implements IInternalBehaviorObserver, I
 	}
 
 	@Override
+	public void onIndexingTreeCacheUpdated(String cachename, Object cachevalue) {
+		for (IInternalBehaviorObserver o : this.observers)
+			o.onIndexingTreeCacheUpdated(cachename, cachevalue);
+	}
+
+	@Override
 	public <TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> void onIndexingTreeLookup(AbstractIndexingTree<TWeakRef, TValue> tree, LookupPurpose purpose, Object retrieved, Object ... keys) {
 		for (IInternalBehaviorObserver o : this.observers)
 			o.onIndexingTreeLookup(tree, purpose, retrieved, keys);

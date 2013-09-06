@@ -1,13 +1,14 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberField;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeFormatters;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
-import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.RuntimeMonitorType;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.EventKind;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
@@ -112,9 +113,7 @@ public class IndexingDeclNew {
 					indexingTrees.put(param, indexingTree);
 					*/
 				} else {
-					EventKind evttype = this.calculateEventType(param);
-					boolean needsTimeTracking = mopSpec.isGeneral();
-					IndexingTreeInterface indexingTree = new IndexingTreeInterface(mopSpec.getName(), specParam, param, null, monitorSet, monitor, evttype, needsTimeTracking);
+					IndexingTreeInterface indexingTree = new IndexingTreeInterface(mopSpec.getName(), specParam, param, null);
 					/*
 					IndexingTree indexingTree = CentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
 							mopSpec.isPerThread(), mopSpec.isGeneral());
@@ -129,16 +128,31 @@ public class IndexingDeclNew {
 					indexingTreesForCopy.put(paramPair, CentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), paramPair.getParam1(), paramPair.getParam2(), specParam,
 							monitorSet, monitor, refTrees, mopSpec.isPerThread(), mopSpec.isGeneral()));
 							*/
-					EventKind evttype = EventKind.AlwaysCreate;
-					boolean needsTimeTracking = mopSpec.isGeneral();
-					IndexingTreeInterface indexingTree = new IndexingTreeInterface(mopSpec.getName(), specParam, paramPair.getParam1(), paramPair.getParam2(), monitorSet, monitor, evttype, needsTimeTracking);
+					IndexingTreeInterface indexingTree = new IndexingTreeInterface(mopSpec.getName(), specParam, paramPair.getParam1(), paramPair.getParam2());
 					indexingTreesForCopy.put(paramPair, indexingTree);
 				}
 			}
 
-			combineCentralIndexingTrees();
+			monitorSet.feedIndexingTreeInterface(this);
+
+			for (RVMParameters param : indexingParameterSet) {
+				IndexingTreeInterface itf = this.indexingTrees.get(param);
+				EventKind evttype = this.calculateEventType(param);
+				boolean needsTimeTracking = mopSpec.isGeneral();
+				itf.initializeImplementation(mopSpec.getName(), monitorSet, monitor, evttype, needsTimeTracking);
+			}
+
+			for (RVMonitorParameterPair paramPair : indexingRestrictedParameterSet) {
+				IndexingTreeInterface itf = this.indexingTreesForCopy.get(paramPair);
+				EventKind evttype = EventKind.AlwaysCreate;
+				boolean needsTimeTracking = mopSpec.isGeneral();
+				itf.initializeImplementation(mopSpec.getName(), monitorSet, monitor, evttype, needsTimeTracking);
+			}
 			
+			combineCentralIndexingTrees();
 			combineRefTreesIntoIndexingTrees();
+
+			monitorSet.feedIndexingTreeImplementation(this);
 		} else {
 			/* TODO: Decentralized RefTree which does not require any mapping.
 			
@@ -256,6 +270,10 @@ public class IndexingDeclNew {
 		if (mopSpec.isGeneral())
 			return;
 		
+		// If weak-ref interning is disabled, GWRT does not exist.
+		if (!Main.useWeakRefInterning)
+			return;
+		
 		for (RVMParameters params : this.indexingTrees.keySet()) {
 			if (params.size() == 1 && this.endObjectParameters.getParam(params.get(0).getName()) != null)
 				continue;
@@ -304,7 +322,7 @@ public class IndexingDeclNew {
 		String ret = "";
 		
 		CodeType type = tree.getCodeType();
-		if (type instanceof RuntimeMonitorType.IndexingTree) {
+		if (type instanceof CodeRVType.IndexingTree) {
 			CodeMemberField field = tree.getField();
 			ret += field.getName();
 			ret += ".";
@@ -315,7 +333,7 @@ public class IndexingDeclNew {
 		return ret;
 	}
 	
-	private Set<IndexingTreeImplementation> collectIndexingTreeImplementation(Collection<IndexingTreeInterface> itfs) {
+	public Set<IndexingTreeImplementation> collectIndexingTreeImplementation(Collection<IndexingTreeInterface> itfs) {
 		Set<IndexingTreeImplementation> set = new HashSet<IndexingTreeImplementation>();
 
 		for (IndexingTreeInterface itf : itfs)
@@ -339,6 +357,39 @@ public class IndexingDeclNew {
 				ret += this.getDescriptionCode(impl);
 		}
 
+		return ret;
+	}
+	
+	public String getCleanUpCode(String accvar) {
+		String ret = "";
+		
+		{
+			Set<IndexingTreeImplementation> impls = this.collectIndexingTreeImplementation(this.indexingTrees.values());
+			for (IndexingTreeImplementation impl : impls)
+				ret += this.getCleanUpCode(impl, accvar);
+		}
+
+		{
+			Set<IndexingTreeImplementation> impls = this.collectIndexingTreeImplementation(this.indexingTreesForCopy.values());
+			for (IndexingTreeImplementation impl : impls)
+				ret += this.getCleanUpCode(impl, accvar);
+		}
+
+		return ret;
+	}
+
+	private String getCleanUpCode(IndexingTreeImplementation tree, String accvar) {
+		String ret = "";
+		
+		CodeType type = tree.getCodeType();
+		if (type instanceof CodeRVType.IndexingTree) {
+			CodeMemberField field = tree.getField();
+			ret += accvar;
+			ret += " += ";
+			ret += field.getName();
+			ret += ".";
+			ret += "cleanUpUnnecessaryMappings();\n";
+		}
 		return ret;
 	}
 }
