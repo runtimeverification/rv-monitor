@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+#replay
+BASEDIR=$(dirname $0)
+java -Xmx1g -cp ${PWD}/tmp/replay:${BASEDIR}/rv-replayer.jar edu.uiuc.run.Main $@
+

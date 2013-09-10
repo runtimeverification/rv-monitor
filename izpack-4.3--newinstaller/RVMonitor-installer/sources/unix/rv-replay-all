@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+count=0
+
+classname=$1
+count=$2
+
+index=1
+while [ "$index" -le "$count" ]
+do
+
+rv-replay $classname $index
+
+index=$(($index + 1))
+done

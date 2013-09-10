@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+rv-instrument $1
+rv-record $1
+rv-predict $1
+rv-replay $1 1
