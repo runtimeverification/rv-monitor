@@ -1,0 +1,37 @@
+Linux:
+NOTE:  On Cygwin you must replace : with ; in classpaths
+
+To run HashSet_1 execute the following commands:
+
+../../../../bin/rv-monitor mop/HashSet.rvm
+
+javac -cp ../../../../lib/rt.jar:. mop/HashSetRuntimeMonitor.java HashSet_1/HashSet_1.java
+
+java -cp ../../../../lib/rt.jar:. HashSet_1.HashSet_1
+
+To run HashSet_2 execute the following commands:
+
+../../../../bin/rv-monitor mop/HashSet.rvm
+
+javac -cp ../../../../lib/rt.jar:. mop/HashSetRuntimeMonitor.java HashSet_2/HashSet_2.java
+
+java -cp ../../../../lib/rt.jar:. HashSet_2.HashSet_2
+
+
+Windows:
+
+To run HashSet_1 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\HashSet.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\HashSetRuntimeMonitor.java HashSet_1\HashSet_1.java
+
+java -cp ..\..\..\..\lib\rt.jar;. HashSet_1.HashSet_1
+
+To run HashSet_2 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\HashSet.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\HashSetRuntimeMonitor.java HashSet_2\HashSet_2.java
+
+java -cp ..\..\..\..\lib\rt.jar;. HashSet_2.HashSet_2

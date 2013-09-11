@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+headlights {
+   event on()  {}
+   event off() {}
+
+   fsm :
+     unsafe [
+          on -> safe
+          off -> unsafe
+     ]
+     safe [
+          on -> already_on
+          off -> unsafe
+     ]
+     already_on [
+          on -> already_on
+          off -> unsafe
+     ]
+
+   @safe {
+       fprintf(stderr, "car %p is safe\n", key);
+   }
+
+   @unsafe {
+       fprintf(stderr, "car %p is unsafe!\n", key);
+   }
+
+   @already_on {
+       fprintf(stderr, "car %p is already on!\n", key);
+   }
+}
+
+
+
+
+

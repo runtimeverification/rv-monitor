@@ -1,0 +1,12 @@
+#include <stdio.h>
+
+HoodLoose {
+  event hoodLoose() {}
+
+  ere : hoodLoose
+
+  @match {
+    fprintf(stderr, "Warning: Your hood is loose!\n");
+  }
+
+}

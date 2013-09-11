@@ -1,32 +1,69 @@
-Runtime Verification Prediction
--------------------------------
 
-RV Prediction runs through these phases:
+                          RV-Monitor README
 
-Instrumentation    - The program is instrumented using soot.
-Logging            - The instrumented program is run to collect execution logs.
-Prediction         - Prediction occurs. For race detection this consists of an
-                     un-ordered read-write or write-write conflict to a shared 
-                     variable.
-Relay              - The program is re-executed to demonstrate the predicted
-                     race.
-                     
-                     
-                     
--- Prepare
-RV Prediction uses Z3 to verify races. To install Z3, following the instruction
-at http://z3.codeplex.com/SourceControl/latest#README
+==1. Overview==
 
--- Running (demo with command line)
+RV-Monitor is a commercial product derived from earlier work on
+Monitoring-Oriented Programming, abbreviated MOP.  It is a software development
+and analysis framework aiming at reducing the gap between formal specification
+and implementation by allowing them together to form a system. In MOP, and by
+extension RV-Monitor, runtime monitoring is supported and encouraged as a
+fundamental principle for building reliable software: monitors are
+automatically synthesized from specified properties and integrated into the
+original system to check its dynamic behaviors during execution. When a
+specification is violated or validated at runtime, user-defined actions will be
+triggered, which can be any code from information logging to runtime recovery.
+One can understand RV-Monitor from at least three perspectives: as a discipline
+allowing one to improve safety, reliability and dependability of a system by
+monitoring its requirements against its implementation at runtime; as an
+extension of programming languages with logics (one can add logical statements
+anywhere in the program, referring to past or future states); and as a
+lightweight formal method. 
 
-./compile
-./runall demo.Example
+==2. Usage==
 
--- Running (Eclipse projects)
+=2.1 Linux and Mac (POSIX)
 
-1. Instrument -- in rv-predict-inst, run rvpredict.instrumentation.Main demo.Example
-2. Logging    -- in run-record, run edu.uiuc.run.Main demo.Example
-3. Prediction -- in run-predict-engine, run NewRVPredict demo.Example
-4. Replay     -- in run-replay, run edu.uiuc.run.Main demo.Example 1
+The 'rvmonitor' script has the following usage:
 
-** demo.Example is the program main class name. 1 means to replay schedule 1 (the first schedule)
+Usage) rvmonitor [-v] [-d <target directory>] <specification file or dir>
+
+-v option is verbose mode -d option is used to specify the target directory
+where the resulting java code will be saved. Specification files must have
+The .mop file extension.
+
+Example) rvmonitor -d examples/FSM/ examples/FSM/HasNext.mop
+
+For more options, type 'rvmonitor' or 'rvmonitor -h'
+
+=2.2 Windows
+
+The script, 'rvmonitor.bat' has the following usage.
+
+Usage) rvmonitor.bat [-v] [-d <target directory>] <specification file or dir>
+
+The -v option is used to specify verbose mode. The -d option is used to specify
+the target directory where the resulting aspectj code will be saved.
+Specification files must have The .mop file extension.
+
+Example) rvmonitor.bat -d examples\FSM examples\FSM\HasNext.mop
+
+For more options, type 'rvmonitor.bat' or 'rvmonitor.bat -h'
+
+==3. Additional Features of the JavaMOP Distribution==
+
+=3.1 Executing a Monitored Program
+
+When you execute a monitored program, you need to include the RV-Monitor Runtime 
+Library in your class path. The RV-Monitor Runtime Library is provided in this package 
+in the rvmonitor2.3/lib directory. A typical value of this is:
+
+In Windows,
+  rv-monitor\lib\rvmonitorrt.jar
+
+In Linux and Mac,
+  rv-monitor/lib/rvmonitorrt.jar
+
+Add this to the left end of the "CLASSPATH" followed by ";" (in Windows) or ":"
+(in Linux and Mac). For more information, refer to Section 5 from the following
+URL http://java.sun.com/j2se/1.4.2/install-windows.html

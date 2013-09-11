@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+Foo {
+  static int a;
+  static int b;
+
+  event bar(int x, int y) {
+    if(1){
+      printf("bar\n");
+    }
+    a += x + y;
+  }
+
+  event car(int z, int f) {
+    if(1){
+      printf("car\n");
+    }
+    b += z + f;
+  }
+
+  ere : bar+ car+
+
+  @ match {
+    if(1){
+      printf("match\n");
+    }
+    printf("a=%d\n", a);
+    printf("b=%d\n", b);
+  }
+
+  @ fail {
+    if(1){
+      printf("fail\n");
+    }
+    printf("a=%d\n", a);
+    printf("b=%d\n", b);
+  }
+}
