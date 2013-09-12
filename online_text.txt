@@ -1,3 +1,5 @@
+==Overview==
+
 RV-Monitor is a software development and analysis framework aiming at reducing
 the gap between formal specification and implementation by allowing them
 together to form a system. With RV-Monitor, runtime monitoring is supported and
@@ -30,4 +32,58 @@ matches, we run a handler designated with the keyword +@match+, and when an LTL
 formula is violated, we run a handler designated with the keyword +@violation+. 
 As mentioned, handlers are run by the Java class as needed, however, we also export
 a number of boolean variables that allow for external testing of the different 
-*categories* (e.g., match or violation) that a property may flag. 
+*categories* (e.g., match or violation) that a property may flag.  Additionally,
+RV-Monitor has the capable to generate monitors that enforce a given property
+by delaying threads in multi-threaded programs. 
+
+==RV-Monitor Uses==
+
+RV-Monitor has a number of uses:
+
+1)  RV-Monitor can be used as a testing framework that uses properties to
+enforce a desired thread schedule.  Any time an event occurs which could 
+violate a property, that thread is put to sleep until such time that it may continue.
+A special deadlock handler is able to run when all threads become deadlocked due
+to an infeasible schedule.
+
+2)  RV-Monitor event methods can be called form instrumentation, for instance,
+one can call them using AspectJ.  It is possible to write an AspectJ file that
+calls a given event method every place that event method needs to occur.
+
+3) RV-Monitor event methods can be manually called from code.  This allows for
+fine grain use of RV-Monitor monitors as a programming paradigm.
+
+4) RV-Monitor can access a whole data base of properties that may be run against
+a program as a large scale dynamic property checker.  (this point seems sort of out
+of place with the others)
+
+==RV-Monitor Language==
+
+==Command Line Option==
+
+ Options enabled by default are prefixed with '+'
+    -h -help			  print this help message
+    -v | -verbose		  enable verbose output
+    -debug			  enable verbose error message
+
+    -local			+ use local logic engine
+    -remote			  use default remote logic engine
+				  http://fsl.cs.uiuc.edu/jsps/logic-2.2.php
+				  (You can change the default address
+	 in com/runtimeverification/rvmonitor/java/rvj/config/remote_server_addr.properties)
+    -remote:<server address>	  use remote logic engine
+
+    -d <output path>		  select directory to store output files
+    -n | -aspectname <aspect name>	  use the given aspect name instead of source code name
+
+    -showevents			  show every event/handler occurrence
+    -showhandlers			  show every handler occurrence
+
+    -s | -statistics		  generate monitor with statistics
+    -noopt1			  don't use the enable set optimization
+    -javalib			  generate a java library rather than an AspectJ file
+
+    -finegrainedlock		  use fine-grained lock for internal data structure
+    -weakrefinterning		  use WeakReference interning in indexing trees
+
+    -aspect:"<command line>"	  compile the result right after it is generated
