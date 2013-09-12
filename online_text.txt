@@ -1,0 +1,24 @@
+RV-Monitor is a software development and analysis framework aiming at reducing
+the gap between formal specification and implementation by allowing them
+together to form a system. With RV-Monitor, runtime monitoring is supported and
+encouraged as a fundamental principle for building reliable software: monitors
+are automatically synthesized from specified properties and integrated into the
+original system to check its dynamic behaviors during execution. When a
+specification is violated or validated at runtime, user-defined actions will be
+triggered, which can be any code from information logging to runtime recovery.
+One can understand RV-Monitor from at least four perspectives: as a discipline
+allowing one to improve safety, reliability and dependability of a system by
+monitoring its requirements against its implementation at runtime; as an
+extension of programming languages with logics (one can add logical statements
+anywhere in the program, referring to past or future states); as a means to
+*enforce* specifications in multi-threaded programs; and as a lightweight
+formal method.
+
+RV-Monitor takes as input a speification file and generates a Java class
+which implements the monitoring functionality.  Each specification defines
+a number of *events*, which represent abstractions of certain points in programs,
+e.g., a call to the +hasNextNext()+ method in Java, or closing a file.  With these
+event abstractions in mind, a user can define one or more properties over the events,
+taking the events as either atoms in logical formulae or as symbols in formal
+language descriptions.  For example, one may use these events as symbols in a regular
+expression, or as atoms in a linear temporal logic formula.
