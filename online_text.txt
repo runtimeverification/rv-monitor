@@ -21,4 +21,13 @@ e.g., a call to the +hasNextNext()+ method in Java, or closing a file.  With the
 event abstractions in mind, a user can define one or more properties over the events,
 taking the events as either atoms in logical formulae or as symbols in formal
 language descriptions.  For example, one may use these events as symbols in a regular
-expression, or as atoms in a linear temporal logic formula.
+expression or as atoms in a linear temporal logic formula. In the generated Java class,
+each event becomes a method that can be either called manually by a user or by using
+some means of instrumentation, such as AspectJ.  Each specification also has a number
+of handlers associated with each property that run when their associated property
+matches some specific conditions.  For instance, when a regular expression pattern
+matches, we run a handler designated with the keyword +@match+, and when an LTL
+formula is violated, we run a handler designated with the keyword +@violation+. 
+As mentioned, handlers are run by the Java class as needed, however, we also export
+a number of boolean variables that allow for external testing of the different 
+*categories* (e.g., match or violation) that a property may flag. 
