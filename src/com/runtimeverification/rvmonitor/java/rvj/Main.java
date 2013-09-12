@@ -344,10 +344,6 @@ public class Main {
 		System.out.println("    -n <name>\t\t\t  use the given class name instead of source code name");
 		System.out.println();
 
-		System.out.println("    -showevents\t\t\t  show every event/handler occurrence");
-		System.out.println("    -showhandlers\t\t  show every handler occurrence");
-		System.out.println();
-
 		System.out.println("    -s | -statistics\t\t  generate monitor with statistics");
 		System.out.println("    -noopt1\t\t\t  don't use the enable set optimization");
 		System.out.println();
