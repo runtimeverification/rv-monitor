@@ -70,7 +70,7 @@ and
 
 public void nextEvent(Iterator i)
 
-By calling the methods directy, rather than using some sort of automatic instrumentor,
+By calling the methods directly, rather than using some sort of automatic instrumentor,
 like AspectJ, we can choose exactly which methods we wish to monitor.  For instance,
 we can add a wrapper class for Iterator that has versions of hasNext and next that
 call our monitoring code, and only use them in places where it is crucial to be correct.
@@ -101,19 +101,90 @@ public class SafeIterator<E> implements java.util.Iterator<E> {
 Now our program can distinguish between monitored and unmonitored Iterators
 by simply creating SafeIterators from Iterators.
 
-2)  RV-Monitor event methods can be called form instrumentation, for instance,
+**RV-Monitor event methods can be called form instrumentation, for instance,
 one can call them using AspectJ.  It is possible to write an AspectJ file that
 calls a given event method every place that event method needs to occur.
 
-3) RV-Monitor can access a whole data base of properties that may be run against
+Rather than including our calls to the HasNextRuntimeMonitor events in
+ava code, we can create an AspectJ aspect that calls them for all instances
+of +next()+ and +hasNext()+ in the program.  This aspect can then be weaved throughout
+any program to make *all* uses of Iterators safe.  What follows is an example of
+an aspect that can achieve this effect.
+
+aspect HasNextAspect {
+  after(Iterator i) : call(* Iterator.hasNext()) && target(i) {
+    HasNextRuntimeMonitor.hasnextEvent(i);
+  }
+
+  after(): before(Iterator i) : call(* Iterator.next()) && target(i) {
+    HasNextRuntimeMonitor.nextEvent(it);
+  }
+}
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!PLEASE COMMENT HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+**RV-Monitor can access a whole data base of properties that may be run against
 a program as a large scale dynamic property checker.  (this point seems sort of out
 of place with the others)
 
-4)  RV-Monitor can be used as a testing framework that uses properties to
+I still don't know what to do for an example for this, and think this point adds
+nothing over point 2...
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+**RV-Monitor can be used as a testing framework that uses properties to
 enforce a desired thread schedule.  Any time an event occurs which could 
 violate a property, that thread is put to sleep until such time that it may continue.
 A special deadlock handler is able to run when all threads become deadlocked due
 to an infeasible schedule.
+
+For example, we can modify our previous HasNext property as follows:
+
+enforce HasNext(Iterator i) {
+	event hasnext(Iterator i) {}
+	event next(Iterator i) {}
+
+	ere : (hasnext hasnext* next)*
+
+	@deadlock {
+	  System.out.println(
+             "! hasNext() has not been called"
+           + " before calling next() for an" 
+           + " iterator");
+          __RESET;
+	}
+}
+
+By adding the keyword enforce, we can actually delay threads when a violation
+of the specified ere is found.  As a more concrete example we can use the following
+property to insure mutual exclusion between calls to +hashcode()+ and list modification:
+
+enforce SafeListCFG(List l) {
+  
+  event beforehashcode(List l) {}
+  event afterhashcode(List l) {}
+  event beforemodify(List l) {}
+  event aftermodify(List l) {}
+
+  cfg :
+    S −> A S | B S | epsilon,
+    A −> A beforehashcode A afterhashcode | epsilon,
+    B −> B beforemodify B aftermodify | epsilon
+
+@nonfail {}
+
+@deadlock { System.out.println(”Deadlock detected!”); }
+
+}
+
+The property is parametric in the list, so operations on different list
+instances will not interfere with each other. There are four types of events in
+this property: +beforehashcode+ and +afterhashcode+ indicate the start and end
+of the execution of +hashCode+, and +beforemodify+ and +aftermodify+ represent
+the start and end of all the modification methods on +ArrayList+.  The property
+is defined using a CFG, which allows us to pair the start and the end events of
+the execution of +hashCode+ or of modification methods.  While the execution of
++hashCode+ is in progress (event +afterhashcode+ has not been encountered), the
+execution of any modification methods is not allowed (event +beforemodify+ is
+not allowed).
 
 ==RV-Monitor Language==
 
@@ -208,24 +279,22 @@ of text" in one place)
 
 ==Command Line Options==
 
- Options enabled by default are prefixed with '+'
-    -h -help			  print this help message
-    -v | -verbose		  enable verbose output
-    -debug			  enable verbose error message
-
-    -local			+ use local logic engine
-    -remote			  use default remote logic engine
-				  http://fsl.cs.uiuc.edu/jsps/logic-2.2.php
-				  (You can change the default address
-	 in com/runtimeverification/rvmonitor/java/rvj/config/remote_server_addr.properties)
-    -remote:<server address>	  use remote logic engine
+    -h | -help			  print this help message
 
     -d <output path>		  select directory to store output files
-    -n <name>	                  use the given class name instead of source code name
+
+    -n <name>	                  use the given class name instead of specification name in the
+                                  specification file
+
+    -v | -verbose		  enable verbose output
+
+    -debug			  enable verbose error message
 
     -s | -statistics		  generate monitor with statistics
+
     -noopt1			  don't use the enable set optimization
 
     -finegrainedlock		  use fine-grained lock for internal data structure
+
     -weakrefinterning		  use WeakReference interning in indexing trees
 
