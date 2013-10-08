@@ -259,7 +259,7 @@ public class MonitorSet {
 		return true;
 	}
 	
-	public CodeStmtCollection generateMonitoringCode(CodeVarRefExpr setref, EventDefinition event) {
+	public CodeStmtCollection generateMonitoringCode(CodeVarRefExpr setref, EventDefinition event, GlobalLock enforcelock) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 
 		/* The following code is just fine, but, for the sake of keeping the legacy
@@ -278,7 +278,7 @@ public class MonitorSet {
 		*/
 
 		RVMVariable monitorvar = setref.getVariable().toLegacy();
-		String mntcode = this.Monitoring(monitorvar, event, null, null, null);
+		String mntcode = this.Monitoring(monitorvar, event, null, null, enforcelock);
 		stmts.add(CodeStmtCollection.fromLegacy(mntcode));
 
 		// The referred variable is marked so that the dead-code elimination step
@@ -435,7 +435,7 @@ public class MonitorSet {
 		{
 			final CodeVarRefExpr monitorref = new CodeVarRefExpr(new CodeVariable(monitortype, "monitor"));
 			final CodeVarRefExpr pairmapref = new CodeVarRefExpr(new CodeVariable(pairmaptype, "pairmap"));
-			CodeStmtCollection body = this.monitor.generateMonitorTransitionedCode(monitorref, evt);
+			CodeStmtCollection body = this.monitor.generateMonitorTransitionedCode(monitorref, evt, null);
 			
 			if (!evt.isStartEvent()) {
 				// Manipulates the pair set.

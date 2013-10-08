@@ -1124,10 +1124,10 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 				}
 			}
 
-			guard2body.add(this.monitorClass.generateMonitorTransitionedCode(affectedref, this.event));
+			guard2body.add(this.monitorClass.generateMonitorTransitionedCode(affectedref, this.event, this.enforceLock));
 		}
 		else
-			guard2body.add(this.monitorSet.generateMonitoringCode(affectedref, this.event));
+			guard2body.add(this.monitorSet.generateMonitoringCode(affectedref, this.event, this.enforceLock));
 		guard2body.add(this.getBehaviorObserver().generateMonitorTransitionedCode(affectedref));
 
 		guard2body.add(cacheupdatecode);

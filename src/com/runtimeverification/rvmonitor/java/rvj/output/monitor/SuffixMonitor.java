@@ -355,12 +355,12 @@ public class SuffixMonitor extends Monitor {
 		return ret;
 	}
 
-	public CodeStmtCollection generateMonitorTransitionedCode(CodeVarRefExpr affectedref, EventDefinition event) {
+	public CodeStmtCollection generateMonitorTransitionedCode(CodeVarRefExpr affectedref, EventDefinition event, GlobalLock enforcelock) {
 		CodeStmtCollection stmts = new CodeStmtCollection();
 		
 		// Modernizing the monitoring code takes too much effort. Maybe later.
 		RVMVariable monitorvar = affectedref.getVariable().toLegacy();
-		String mntcode = this.Monitoring(monitorvar, event, null, null, null, this.getAspectName(), false);
+		String mntcode = this.Monitoring(monitorvar, event, null, null, enforcelock, this.getAspectName(), false);
 		stmts.add(CodeStmtCollection.fromLegacy(mntcode));
 
 		// The referred variable is marked so that the dead-code elimination step
