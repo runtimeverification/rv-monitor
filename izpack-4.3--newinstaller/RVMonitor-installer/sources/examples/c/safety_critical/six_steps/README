@@ -1,0 +1,33 @@
+Linux:
+To run test_1
+../../../../bin/rv-monitor -c six_steps.rvm
+
+gcc test_1/six_steps.c __RVC_SixSteps_Monitor.c -o six_steps
+
+./six_steps
+
+
+To run test_2
+../../../../bin/rv-monitor -c six_steps.rvm
+
+gcc test_2/six_steps.c __RVC_SixSteps_Monitor.c -o six_steps
+
+./six_steps
+
+
+
+Windows:
+To run test_1
+../../../../bin/rv-monitor -c six_steps.rvm
+
+gcc test_1/six_steps.c __RVC_SixSteps_Monitor.c -o six_steps.exe
+
+six_steps.exe
+
+
+To run test_2
+../../../../bin/rv-monitor -c six_steps.rvm
+
+gcc test_2/six_steps.c __RVC_SixSteps_Monitor.c -o six_steps.exe
+
+six_steps.exe

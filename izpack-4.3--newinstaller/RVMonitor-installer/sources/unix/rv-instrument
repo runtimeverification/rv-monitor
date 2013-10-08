@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+#instrument
+echo "instrumenting "$1
+BIN=${PWD}
+BIN=$(dirname $BIN)
+BASEDIR=$(dirname $0)
+java -Xmx1g -cp $BIN:${BASEDIR}/rv-instrumentor.jar rvpredict.instrumentation.Main $1

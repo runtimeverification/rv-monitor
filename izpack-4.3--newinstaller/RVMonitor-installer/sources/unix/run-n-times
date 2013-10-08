@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+count=0
+
+classname=$1
+count=$2
+
+BIN=${PWD}
+BIN=$(dirname $BIN)
+
+index=1
+while [ "$index" -le "$count" ]
+do
+echo "run" $index
+java -cp $BIN $classname
+
+index=$(($index + 1))
+done

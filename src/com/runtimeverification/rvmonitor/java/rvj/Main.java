@@ -220,16 +220,17 @@ public class Main {
 	protected static void writeAspectFile(String aspectContent, String location) throws RVMException {
 		if (aspectContent == null || aspectContent.length() == 0)
 			return;
+                String name = (Main.aspectname == null?Tool.getFileName(location):Main.aspectname); 
 
 		int i = location.lastIndexOf(File.separator);
 		try {
-			FileWriter f = new FileWriter(location.substring(0, i + 1) + Tool.getFileName(location) + "RuntimeMonitor.java");
+			FileWriter f = new FileWriter(location.substring(0, i + 1) + name + "RuntimeMonitor.java");
 			f.write(aspectContent);
 			f.close();
 		} catch (Exception e) {
 			throw new RVMException(e.getMessage());
 		}
-		System.out.println(" " + Tool.getFileName(location) + "RuntimeMonitor.java is generated");
+		System.out.println(" " + name + "RuntimeMonitor.java is generated");
 	}
 
 	protected static void writeJavaLibFile(String javaLibContent, String location) throws RVMException {
@@ -346,24 +347,17 @@ public class Main {
 		System.out.println();
 
 		System.out.println("    -d <output path>\t\t  select directory to store output files");
-		System.out.println("    -n | -aspectname <aspect name>\t  use the given aspect name instead of source code name");
-		System.out.println();
-
-		System.out.println("    -showevents\t\t\t  show every event/handler occurrence");
-		System.out.println("    -showhandlers\t\t\t  show every handler occurrence");
+		System.out.println("    -n <name>\t\t\t  use the given class name instead of source code name");
 		System.out.println();
 
 		System.out.println("    -s | -statistics\t\t  generate monitor with statistics");
 		System.out.println("    -noopt1\t\t\t  don't use the enable set optimization");
-		System.out.println("    -javalib\t\t\t  generate a java library rather than an AspectJ file");
 		System.out.println();
 		
 		System.out.println("    -finegrainedlock\t\t  use fine-grained lock for internal data structure");
 		System.out.println("    -weakrefinterning\t\t  use WeakReference interning in indexing trees");
 		System.out.println();
 
-		System.out.println("    -aspect:\"<command line>\"\t  compile the result right after it is generated");
-		System.out.println();
 	}
 
 	public static void main(String[] args) {

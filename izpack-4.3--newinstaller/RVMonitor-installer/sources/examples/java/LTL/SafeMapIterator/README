@@ -1,0 +1,37 @@
+Linux:
+NOTE:  On Cygwin you must replace : with ; in classpaths
+
+To run SafeMapIterator_1 execute the following commands:
+
+../../../../bin/rv-monitor mop/SafeMapIterator.rvm
+
+javac -cp ../../../../lib/rt.jar:. mop/SafeMapIteratorRuntimeMonitor.java SafeMapIterator_1/SafeMapIterator_1.java
+
+java -cp ../../../../lib/rt.jar:. SafeMapIterator_1.SafeMapIterator_1
+
+To run SafeMapIterator_2 execute the following commands:
+
+../../../../bin/rv-monitor mop/SafeMapIterator.rvm
+
+javac -cp ../../../../lib/rt.jar:. mop/SafeMapIteratorRuntimeMonitor.java SafeMapIterator_2/SafeMapIterator_2.java
+
+java -cp ../../../../lib/rt.jar:. SafeMapIterator_2.SafeMapIterator_2
+
+
+Windows:
+
+To run SafeMapIterator_1 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\SafeMapIterator.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\SafeMapIteratorRuntimeMonitor.java SafeMapIterator_1\SafeMapIterator_1.java
+
+java -cp ..\..\..\..\lib\rt.jar;. SafeMapIterator_1.SafeMapIterator_1
+
+To run SafeMapIterator_2 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\SafeMapIterator.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\SafeMapIteratorRuntimeMonitor.java SafeMapIterator_2\SafeMapIterator_2.java
+
+java -cp ..\..\..\..\lib\rt.jar;. SafeMapIterator_2.SafeMapIterator_2

@@ -1,0 +1,36 @@
+Linux:
+NOTE:  On Cygwin you must replace : with ; in classpaths
+
+To run SafeFile_1 execute the following commands:
+
+../../../../bin/rv-monitor mop/SafeFile.rvm
+
+javac -cp ../../../../lib/rt.jar:. mop/SafeFileRuntimeMonitor.java SafeFile_1/SafeFile_1.java
+
+java -cp ../../../../lib/rt.jar:. SafeFile_1.SafeFile_1
+
+To run SafeFile_2 execute the following commands:
+
+../../../../bin/rv-monitor mop/SafeFile.rvm
+
+javac -cp ../../../../lib/rt.jar:. mop/SafeFileRuntimeMonitor.java SafeFile_2/SafeFile_2.java
+
+java -cp ../../../../lib/rt.jar:. SafeFile_2.SafeFile_2
+
+Windows:
+
+To run SafeFile_1 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\SafeFile.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\SafeFileRuntimeMonitor.java SafeFile_1\SafeFile_1.java
+
+java -cp ..\..\..\..\lib\rt.jar;. SafeFile_1.SafeFile_1
+
+To run SafeFile_2 execute the following commands;
+
+..\..\..\..\bin\rv-monitor mop\SafeFile.rvm
+
+javac -cp ..\..\..\..\lib\rt.jar;. mop\SafeFileRuntimeMonitor.java SafeFile_2\SafeFile_2.java
+
+java -cp ..\..\..\..\lib\rt.jar;. SafeFile_2.SafeFile_2

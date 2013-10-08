@@ -1,0 +1,37 @@
+package mop;
+
+UnsafeMapIterator(Map m, Collection c, Iterator i){
+  int useCounter = 0;
+  event createColl(Map m, Collection c) {System.out.println("createColl");}
+  event createIter(Collection c, Iterator i) {System.out.println("createIter");}
+  event useIter(Iterator i) {System.out.println("useIter"); ++useCounter;}
+  event updateMap(Map m) {System.out.println("updateMap");}
+
+  fsm: start [ createColl -> s1, updateMap -> start ]
+  s1 [ updateMap -> s1, createIter -> s2 ]
+  s2 [ useIter -> s2, updateMap -> s3 ]
+  s3 [ updateMap -> s3, useIter -> end ]
+  end []
+  @end{
+    System.out.println("fsm: Accessed invalid Iterator!");
+  }
+
+  ere: updateMap* createColl updateMap* createIter useIter* updateMap+ useIter
+  @match{
+     System.out.println("ere: Accessed Invalid Iterator!"); 
+     System.out.println("there were " + useCounter + " uses"); 
+  }
+
+
+  cfg: S -> Updates createColl Updates createIter Nexts updateMap Updates useIter,
+       Nexts -> Nexts useIter | epsilon,
+       Updates -> Updates updateMap | epsilon
+  @match{ 
+     System.out.println("cfg: Accessed Invalid Iterator!"); 
+  }
+
+  ltl: [](createIter => not <> (updateMap and <> useIter))
+  @violation{
+    System.out.println("ltl: Accessed Invalid Iterator!"); 
+  }
+ }

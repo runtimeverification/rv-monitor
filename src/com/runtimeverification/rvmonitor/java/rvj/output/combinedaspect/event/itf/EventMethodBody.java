@@ -41,6 +41,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGen
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.InternalBehaviorObservableCodeGenerator;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.AdviceBody;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
@@ -86,6 +87,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorPa
 public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	private final Map<RVMonitorParameterPair, IndexingTreeInterface> indexingTreesForCopy;
 	private final List<RVMonitorParameterPair> paramPairsForCopy;
+	private final GlobalLock enforceLock;
 	
 	private CodeStmtCollection generatedCode;
 	private final Strategy strategy;
@@ -234,6 +236,15 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	
 		this.indexingTreesForCopy = indexingDecl.getIndexingTreesForCopy();
 		this.paramPairsForCopy = indexingDecl.getCopyParamForEvent(event);
+		
+		{
+			// Only enforcing case requires a global lock. Here we do not create any lock in
+			// other cases, so that any wrong assumption results in a visible failure.
+			GlobalLock lock = null;
+			if (mopSpec.isEnforce())
+				lock = new GlobalLock(new RVMVariable(combinedAspect.getAspectName() + "." + combinedAspect.lockManager.getLock().getName()));
+			this.enforceLock = lock;
+		}
 
 		{
 			HashSet<RVMParameter> disableprms = this.aspect.setOfParametersForDisable.get(mopSpec);

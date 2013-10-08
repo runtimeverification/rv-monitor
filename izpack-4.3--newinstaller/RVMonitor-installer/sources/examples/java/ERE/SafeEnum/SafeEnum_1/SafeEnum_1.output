@@ -1,0 +1,3 @@
+improper enumeration usage at SafeEnum_1.main(SafeEnum_1.java:30).
+ Collection was modified at SafeEnum_1.main(SafeEnum_1.java:26).
+sum: 26

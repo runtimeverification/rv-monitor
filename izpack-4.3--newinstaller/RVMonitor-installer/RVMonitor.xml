@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<!-- 
+    To compile it :
+    - go in the bin directory where you installed IzPack
+    - call "compile ../sample/install.xml -b ../sample"
+-->
+
+<installation version="1.0">
+
+    <info>
+        <appname>RV Monitor</appname>
+        <appversion>1.0</appversion>
+		<appsubpath>RVMonitor</appsubpath>
+        <authors>
+            <author name="Runtime Verification, Inc." email="rv@runtimeverification.com"/>
+        </authors>
+        <url>http://www.runtimeverification.com/</url>
+    </info>
+
+    <guiprefs width="860" height="600" resizable="yes">
+		<modifier key="useHeadingPanel" value="yes"/>
+		<modifier key="headingImageOnLeft" value="yes"/>
+		<modifier key="headingFontSize" value="1"/>
+		<modifier key="headingLineCount" value="1"/>
+		<modifier key="headingPanelCounter" value="text"/>
+		<modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
+	<!--	<modifier key="layoutAnchor" value="NORTHWEST"/> -->
+	</guiprefs>
+
+    <!-- 
+        The locale section.
+        Asks here to include the English and French langpacks.
+    -->
+    <locale>
+        <langpack iso3="eng"/>
+    </locale>
+
+    <!-- 
+        The resources section.
+        The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
+    -->
+    <resources>
+        <res id="LicencePanel.licence" src="Licence.txt"/>
+        <res id="InfoPanel.info" src="Readme.txt"/>
+	<!--
+		<res id="TargetPanel.dir.windows" src="util/TargetDir.Windows.txt"/>
+		<res id="TargetPanel.dir.unix" src="util/TargetDir.Unix.txt"/>
+	-->
+		<res id="Heading.image" src="util/rv-logo.png"/>
+    </resources>
+	
+	
+	<variables>
+		<variable name="TargetPanel.dir.windows" value="C:/rvmonitor"/>
+		<variable name="TargetPanel.dir.unix" value="rvmonitor"/>
+	</variables>
+
+    <!-- 
+        The panels section.
+        We indicate here which panels we want to use. The order will be respected.
+    -->
+    <panels>
+        <panel classname="HelloPanel"/>
+        <panel classname="InfoPanel"/>
+        <panel classname="LicencePanel"/>
+        <panel classname="SafeTargetPanel"/>
+        <panel classname="PacksPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="EditedFinishPanel"/>
+    </panels>
+
+    <!-- 
+        The packs section.
+        We specify here our packs.
+    -->
+    <packs>
+        <pack name="RV Monitor Tool" required="yes">
+            <description>The core files: RV Monitor libraries (JAR files) and scripts</description>
+      <file src="Readme.txt" targetdir="$INSTALL_PATH"/>
+      <file src="Licence.txt" targetdir="$INSTALL_PATH"/>
+
+      <file src="./sources/rv-monitor.bat" targetdir="$INSTALL_PATH/bin">
+				<os family="windows"/>
+			</file>
+      <executable targetfile="$INSTALL_PATH/bin/rv-monitor.bat" keep="true" stage="never">
+				<os family="windows"/>
+      </executable>
+      <file src="./sources/logicrepository.bat" targetdir="$INSTALL_PATH/bin">
+				<os family="windows"/>
+			</file>
+      <executable targetfile="$INSTALL_PATH/bin/logicrepository.bat" keep="true" stage="never">
+				<os family="windows"/>
+      </executable>
+      <file src="./sources/rv-monitor-test.bat" targetdir="$INSTALL_PATH/bin">
+				<os family="windows"/>
+			</file>
+      <executable targetfile="$INSTALL_PATH/bin/rv-monitor-test.bat" keep="true" stage="never">
+				<os family="windows"/>
+      </executable>
+
+      <file src="./sources/rv-monitor" targetdir="$INSTALL_PATH/bin">
+				<os family="unix"/>
+			</file>
+      <executable targetfile="$INSTALL_PATH/bin/rv-monitor" keep="true" stage="never">
+				<os family="unix"/>
+      </executable>
+      <file src="./sources/logicrepository" targetdir="$INSTALL_PATH/bin">
+				<os family="unix"/>
+			</file>
+      <executable targetfile="$INSTALL_PATH/bin/logicrepository" keep="true" stage="never">
+				<os family="unix"/>
+      </executable>
+      <file src="./sources/rv-monitor-test" targetdir="$INSTALL_PATH/bin">
+				<os family="unix"/>
+			</file>
+      <executable targetfile="$INSTALL_PATH/bin/rv-monitor-test" keep="true" stage="never">
+				<os family="unix"/>
+      </executable>
+
+		  <file src="./sources/external" targetdir="$INSTALL_PATH/lib">
+				<os family="windows"/>
+			</file>
+			<file src="./sources/plugins" targetdir="$INSTALL_PATH/lib">
+				<os family="windows"/>
+			</file>
+			<file src="./sources/logicrepository.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="windows"/>
+			</file>
+			<file src="./sources/rvmonitor.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="windows"/>
+			</file>
+			<file src="./sources/rt.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="windows"/>
+			</file>
+			<file src="./sources/scala-library.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="windows"/>
+			</file>
+			<file src="./sources/testsuite.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="windows"/>
+			</file>
+
+
+		  <file src="./sources/external" targetdir="$INSTALL_PATH/lib">
+				<os family="unix"/>
+			</file>
+			<file src="./sources/plugins" targetdir="$INSTALL_PATH/lib">
+				<os family="unix"/>
+			</file>
+			<file src="./sources/logicrepository.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="unix"/>
+			</file>
+			<file src="./sources/rvmonitor.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="unix"/>
+			</file>
+			<file src="./sources/rt.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="unix"/>
+			</file>
+			<file src="./sources/scala-library.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="unix"/>
+			</file>
+			<file src="./sources/testsuite.jar" targetdir="$INSTALL_PATH/lib">
+				<os family="unix"/>
+			</file>
+
+        </pack>
+		<pack name="Examples" required="no">
+            <description>Some simple examples to start with</description>
+            <file src="./sources/examples" targetdir="$INSTALL_PATH"/>
+        </pack>	
+	<!--
+		<pack name="Docs" required="no">
+            <description>The documentation</description>
+            <file src="doc" targetdir="$INSTALL_PATH"/>
+        </pack>		
+	-->
+    </packs>
+
+</installation>

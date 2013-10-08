@@ -1,0 +1,7 @@
+rvmonitor.jar
+rt.jar
+testsuite.jar
+logicrepository.jar
+scala-library.jar
+plugins/*
+log/*

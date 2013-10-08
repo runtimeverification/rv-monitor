@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+Foo {
+  static int a;
+  static int b;
+
+  event bar(int x, int y) {
+    if(1){
+      printf("bar\n");
+    }
+    a += x + y;
+  }
+
+  event car(int z, int f) {
+    if(1){
+      printf("car\n");
+    }
+    b += z + f;
+  }
+
+  ltl : [](bar => (*) car)
+
+  @ violation {
+    if(1){
+      printf("violation\n");
+    }
+    printf("a=%d\n", a);
+    printf("b=%d\n", b);
+  }
+}
