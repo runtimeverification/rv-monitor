@@ -21,9 +21,11 @@ import java.util.*;
 
 SafeHashSet(HashSet t, Object o) {
   int hashcode;
+  Object obj;
  
   event add(HashSet t, Object o) {
       hashcode = o.hashCode();
+      obj = o;
   }
   event unsafe_contains(HashSet t, Object o) {
     if (!(hashcode != o.hashCode())) return;
@@ -35,7 +37,7 @@ SafeHashSet(HashSet t, Object o) {
   @match{
     System.err.println(
        "HashCode changed for Object " 
-     + o 
+     + obj
      + " while being in a   Hashtable!"); 
     System.exit(1); 
   }

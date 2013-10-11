@@ -159,6 +159,7 @@ public class SuffixMonitor extends Monitor {
 	}
 
 	public String doEvent(EventDefinition event) {
+		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
 		String ret = "";
 
 		int idnum = event.getIdNum();
@@ -171,8 +172,16 @@ public class SuffixMonitor extends Monitor {
 
 		categoryVars.addAll(innerMonitor.getCategoryVars());
 
-		ret += "final void event_" + event.getId() + "(" + event.getRVMParameters().parameterDeclString() + ") {\n";
-
+		ret += "final" + synch + "void event_" + event.getId() + "(";
+		{
+			RVMParameters params;
+			if (Main.stripUnusedParameterInMonitor)
+				params = event.getReferredParameters(event.getRVMParameters());
+			else
+				params = event.getRVMParameters();
+			ret += params.parameterDeclString();
+		}
+		ret += ") {\n";
 
 		for (RVMVariable var : getCategoryVars()) {
 			ret += BaseMonitor.getNiceVariable(var) + " = false;\n";
@@ -253,11 +262,14 @@ public class SuffixMonitor extends Monitor {
 		}
 		ret += ");\n";
 
-		for (RVMVariable var : getCategoryVars()) {
-			ret += BaseMonitor.getNiceVariable(var) + " |= " +
-					monitorVar + "." + BaseMonitor.getNiceVariable(var) + ";" +
-					"\n";
+		if (!Main.eliminatePresumablyRemnantCode) {
+			for (RVMVariable var : getCategoryVars()) {
+				ret += BaseMonitor.getNiceVariable(var) + " |= " +
+						monitorVar + "." + BaseMonitor.getNiceVariable(var) + ";" +
+						"\n";
+			}
 		}
+		
 		if (existSkip) {
 			ret += BaseMonitor.skipEvent + " |= " +
 					monitorVar + "." + BaseMonitor.skipEvent + ";\n";
@@ -331,6 +343,14 @@ public class SuffixMonitor extends Monitor {
 			ret += "}\n";
 			ret += "}\n";
 			ret += "\n";
+			
+			// implements getState()
+			{
+				ret += "@Override\n";
+				ret += "public final int getState() {\n";
+				ret += "return -1;\n";
+				ret += "}\n\n";
+			}
 
 			// events
 			for (EventDefinition event : this.events) {

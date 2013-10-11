@@ -621,7 +621,7 @@ public class BaseMonitor extends Monitor {
 		ret += "\n";
 		
 		// implements getState()
-		{
+		if (isOutermost) {
 			String statevar = this.getStateVariable();
 			ret += "@Override\n";
 			ret += "public final int getState() {\n";

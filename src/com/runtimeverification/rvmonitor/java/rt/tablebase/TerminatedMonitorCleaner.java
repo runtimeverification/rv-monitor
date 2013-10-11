@@ -50,6 +50,7 @@ public class TerminatedMonitorCleaner {
 		Runner() {
 			this.queue = new HashSet<AbstractPartitionedMonitorSet<?>>();
 			this.setName("MonitorCleaner");
+			this.setDaemon(true);
 		}
 		
 		@Override
