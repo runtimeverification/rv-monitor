@@ -62,7 +62,7 @@ public class Main {
 	public static boolean useFineGrainedLock = false;
 	public static boolean useWeakRefInterning = false;
 
-	public static boolean generateVoidMethods = true;
+	public static boolean generateVoidMethods = false;
 	public static boolean stripUnusedParameterInMonitor = true;
 	public static boolean eliminatePresumablyRemnantCode = true;
 	public static boolean suppressActivator = false;
