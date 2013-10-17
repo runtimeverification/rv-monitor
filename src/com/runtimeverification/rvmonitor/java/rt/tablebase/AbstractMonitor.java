@@ -1,6 +1,8 @@
 package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
-public abstract class AbstractMonitor implements IMonitor {
+import com.runtimeverification.rvmonitor.java.rt.RVMObject;
+
+public abstract class AbstractMonitor implements IMonitor, RVMObject {
 	protected boolean RVM_terminated;
 	protected int RVM_lastevent = -1;
 	

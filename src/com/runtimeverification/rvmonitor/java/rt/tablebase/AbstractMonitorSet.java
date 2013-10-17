@@ -2,26 +2,30 @@ package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
 import java.util.Arrays;
 
+import com.runtimeverification.rvmonitor.java.rt.RVMObject;
+
 /**
  * This class represents a set of monitors. This is the default implementation
- * of a set. If certain conditions are met, the code generator replaces this
- * by AbstractPartitionedMonitorSet, the presumably more efficient implementation.
+ * of a set. If certain conditions are met, the code generator replaces this by
+ * AbstractPartitionedMonitorSet, the presumably more efficient implementation.
  * 
  * This implementation is almost identical to MonitorSet, which has been there
  * since JavaMOP 3.0. The only major difference between this and MonitorSet is
- * that this class implements all the common features, whereas the old implementation
- * implements less and assumes the generated monitor set, which is MonitorSet's
- * subclass, implements the rest.
- *
+ * that this class implements all the common features, whereas the old
+ * implementation implements less and assumes the generated monitor set, which
+ * is MonitorSet's subclass, implements the rest.
+ * 
  * @author Choonghwan Lee <clee83@illinois.edu>
  * @see AbstractPartitionedMonitorSet
- *
- * @param <TMonitor> type of the monitor
+ * 
+ * @param <TMonitor>
+ *            type of the monitor
  */
-public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements IMonitorSet {
+public abstract class AbstractMonitorSet<TMonitor extends IMonitor> implements
+		IMonitorSet, RVMObject {
 	protected int size = 0;
 	protected TMonitor[] elements;
-	
+
 	@Override
 	public synchronized final void terminate(int treeid) {
 		for (int i = this.size - 1; i >= 0; --i) {
