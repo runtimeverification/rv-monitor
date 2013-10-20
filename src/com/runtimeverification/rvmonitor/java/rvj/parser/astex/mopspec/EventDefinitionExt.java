@@ -88,6 +88,7 @@ EventDefinitionExt Event()
 		this.parameters = e.getParameters();
 		this.block = e.getBlock();
 		this.startEvent = e.getStartEvent();
+		this.blockingEvent = e.isBlockingEvent();
 		this.rvmParameters = e.getRVMParameters();
 		this.condition = e.getCondition();
 		this.threadVar = e.getThreadVar();
