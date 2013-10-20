@@ -109,7 +109,8 @@ public class EnforceMonitor extends BaseMonitor {
 				.values().toArray()[0];
 		ret += "boolean cloned_monitor_condition_fail = " + clonedMonitor + "."
 				+ methodName + "("
-				+ event.getRVMParameters().parameterInvokeString() + ");\n";
+				// Because of CL's change
+				+ /*event.getRVMParameters().parameterInvokeString() +*/ ");\n";
 
 		ret += "if (!cloned_monitor_condition_fail) {\n";
 		ret += "break;\n";

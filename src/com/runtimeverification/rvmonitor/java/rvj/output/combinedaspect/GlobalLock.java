@@ -15,7 +15,7 @@ public class GlobalLock {
 
 	public GlobalLock(RVMVariable lock) {
 		this.lock = lock;
-		this.useImplicitLock = true;
+		this.useImplicitLock = false;
 	}
 
 	public RVMVariable getName(){
@@ -26,9 +26,9 @@ public class GlobalLock {
 		String ret = "";
 		
 		if (!Main.useFineGrainedLock) {
-			ret += "private static final ReentrantLock " + lock + " = new ReentrantLock();\n";
+			ret += "static final ReentrantLock " + lock + " = new ReentrantLock();\n";
 			// Why do we need this?
-			ret += "private static final Condition " + lock + "_cond = " + lock + ".newCondition();\n";
+			ret += "static final Condition " + lock + "_cond = " + lock + ".newCondition();\n";
 		}
 
 		return ret;
