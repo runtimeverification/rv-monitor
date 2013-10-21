@@ -304,6 +304,8 @@ public class Advice {
 			ret += " }\n";
 			ret += " };\n";
 			
+			// Set name of the blocking event method thread to be the same name
+			ret += threadName + ".setName(Thread.currentThread().getName());\n";
 			// Start the blocking event method thread
 			ret += threadName + ".start();\n";
 			ret += " }\n";
