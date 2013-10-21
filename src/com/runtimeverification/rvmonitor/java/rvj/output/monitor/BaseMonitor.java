@@ -344,55 +344,99 @@ public class BaseMonitor extends Monitor {
 			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
+		ret += "boolean cloned_monitor_condition_satisfied = true;\n";
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			
 			ret += this.beforeEventMethod(monitorVar, prop, event, lock, aspectName, inMonitorSet);
-			ret += monitorVar + "." + propMonitor.eventMethods.get(event.getId()) + "(";
-			{
-				RVMParameters passing;
-				if (Main.stripUnusedParameterInMonitor)
-					passing = event.getReferredParameters(event.getRVMParameters());
-				else
-					passing = event.getRVMParameters();
-				ret += passing.parameterString();
-			}
-			ret += ");\n";
-			ret += this.afterEventMethod(monitorVar, prop, event, lock, aspectName);
+			
+			RVMVariable finalMonitor = new RVMVariable(monitorVar + "finalMonitor");
+			ret += "final " + this.monitorName + " " + finalMonitor +
+					" = " + monitorVar + ";\n";
+			String handlerCode = getHandlerCallingCode(finalMonitor, event, propMonitor);
+			if (!event.isBlockingEvent()) {
+				ret += monitorVar + "."
+						+ propMonitor.eventMethods.get(event.getId()) + "(";
+				{
+					RVMParameters passing;
+					if (Main.stripUnusedParameterInMonitor)
+						passing = event.getReferredParameters(event
+								.getRVMParameters());
+					else
+						passing = event.getRVMParameters();
+					ret += passing.parameterString();
+				}
+				ret += ");\n";
+			} else {
+				// Copy parameters to final variables
+				List<String> finalParameters = new ArrayList<String>();
+				for (RVMParameter p : event.getRVMParameters()) {
+					ret += "final " + p.getType() + " " + p.getName() + "_final = " + p.getName() + ";\n";
+					finalParameters.add(p.getName() + "_final");
+				}
+				
+				String methodName = propMonitor.eventMethods.get(event.getId()).toString();
+				String threadName = finalMonitor + "_thread";
+				//String eventName = this.pointcutName.toString().substring(0, this.pointcutName.toString().length() - 5);
+				ret += "com.runtimeverification.rvmonitor.java.rt.concurrent.BlockingEventThread " + threadName + 
+						" = new com.runtimeverification.rvmonitor.java.rt.concurrent.BlockingEventThread(\"" + event.getId() + "\") {\n";
+				
+				ret += "public void execEvent() {\n";
+				
+				// Acquire lock
+				if (lock != null) {
+					ret += lock.getAcquireCode();
+				}
+				
+				// Call the real event method
+				ret += finalMonitor + "." + methodName + "(";
+				
 
-			if (event.getCondition() != null && event.getCondition().length() != 0) {
-				ret += "if(" + monitorVar + "." + conditionFail + "){\n";
-				ret += monitorVar + "." + conditionFail + " = false;\n";
-				ret += "} else {\n";
+				String finalParameter = "";
+				for (String p : finalParameters) {
+					finalParameter += ", " + p;
+				}
+				if (finalParameter.length() != 0) {
+					finalParameter = finalParameter.substring(2);
+				}
+				ret += finalParameter;
+				ret += ");\n";
+				
+				// SignalAll
+				if (lock != null) {
+					ret += lock.getName() + "_cond.signalAll();\n";
+				}
+				ret += handlerCode;
+				
+				// Release lock
+				if (lock != null) {
+					ret += lock.getReleaseCode();
+				}
+				
+				ret += " }\n";
+				ret += " };\n";
+				
+				// Set name of the blocking event method thread to be the same name
+				ret += threadName + ".setName(Thread.currentThread().getName());\n";
+				// Start the blocking event method thread
+				// See if condition is satisfied, otherwise won't start the thread
+				
+				ret += "if (cloned_monitor_condition_satisfied) {\n";
+				if (lock != null) {
+					ret += lock.getReleaseCode();
+				}
+				ret += threadName + ".start();\n";
+				if (lock != null) {
+					ret += lock.getAcquireCode();
+				}
+				ret += "}\n";
+				ret += "\n";
 			}
 			
-			for (String category : propMonitor.handlerMethods.keySet()) {
-				if (category.equals("deadlock"))
-					continue;
-				HandlerMethod handlerMethod = propMonitor.handlerMethods.get(category);
-
-				final RVMVariable rvmVariable = propMonitor.categoryVars.get(category);
-				if (!Main.eliminatePresumablyRemnantCode) {
-					ret += BaseMonitor.getNiceVariable(rvmVariable)
-							+ " |= " + monitorVar + "." + rvmVariable + ";\n";
-				}
-				ret += "if(" +  monitorVar + "." + rvmVariable + ") {\n";
-
-				ret += monitorVar + "." + handlerMethod.getMethodName() + "(";
-				if (!Main.stripUnusedParameterInMonitor)
-					ret += event.getRVMParametersOnSpec().parameterStringIn(specParam);
-				ret += ");\n";
-
-				ret += "}\n";
-			}
-			if (existSkip) {
-				ret += skipEvent + " |= " + monitorVar + "." +
-						skipEvent + ";\n";
-				ret += monitorVar + "." + skipEvent + " = false;\n";
-			}
-
-			if (event.getCondition() != null && event.getCondition().length() != 0) {
-				ret += "}\n";
+			if (!event.isBlockingEvent()) {
+				ret += this.afterEventMethod(monitorVar, prop, event, lock,
+						aspectName);
+				ret += handlerCode;
 			}
 		}
 		
@@ -400,6 +444,49 @@ public class BaseMonitor extends Monitor {
 			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
 		}
 
+		
+		return ret;
+	}
+
+	private String getHandlerCallingCode(RVMVariable monitorVar,
+			EventDefinition event, PropMonitor propMonitor) {
+		String ret = "";
+		if (event.getCondition() != null && event.getCondition().length() != 0) {
+			ret += "if(" + monitorVar + "." + conditionFail + "){\n";
+			ret += monitorVar + "." + conditionFail + " = false;\n";
+			ret += "} else {\n";
+		}
+		
+		for (String category : propMonitor.handlerMethods.keySet()) {
+			if (category.equals("deadlock"))
+				continue;
+			HandlerMethod handlerMethod = propMonitor.handlerMethods.get(category);
+
+			final RVMVariable rvmVariable = propMonitor.categoryVars.get(category);
+			if (!Main.eliminatePresumablyRemnantCode) {
+				ret += BaseMonitor.getNiceVariable(rvmVariable)
+						+ " |= " + monitorVar + "." + rvmVariable + ";\n";
+			}
+			
+			// Generate code to trigger handler
+			ret += "if(" +  monitorVar + "." + rvmVariable + ") {\n";
+
+			ret += monitorVar + "." + handlerMethod.getMethodName() + "(";
+			if (!Main.stripUnusedParameterInMonitor)
+				ret += event.getRVMParametersOnSpec().parameterStringIn(specParam);
+			ret += ");\n";
+
+			ret += "}\n";
+		}
+		if (existSkip) {
+			ret += skipEvent + " |= " + monitorVar + "." +
+					skipEvent + ";\n";
+			ret += monitorVar + "." + skipEvent + " = false;\n";
+		}
+
+		if (event.getCondition() != null && event.getCondition().length() != 0) {
+			ret += "}\n";
+		}
 		return ret;
 	}
 	

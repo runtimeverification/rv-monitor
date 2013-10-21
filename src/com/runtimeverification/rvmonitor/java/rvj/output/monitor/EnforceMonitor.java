@@ -89,9 +89,10 @@ public class EnforceMonitor extends BaseMonitor {
 			String aspectName, boolean inMonitorSet) {
 
 		// If it is a blocking event, then it cannot be enforced.
-		if (event.isBlockingEvent()) {
-			return "";
-		}
+		// TODO
+//		if (event.isBlockingEvent()) {
+//			return "";
+//		}
 		
 		String ret = "";
 		PropMonitor propMonitor = propMonitors.get(prop);
@@ -99,7 +100,6 @@ public class EnforceMonitor extends BaseMonitor {
 				.toString();
 		ArrayList<String> blockedThreads = event.getThreadBlockedVar();
 		ret += "try {\n";
-
 		ret += "do {\n";
 		RVMVariable clonedMonitor = new RVMVariable("clonedMonitor");
 		ret += this.monitorName + " " + clonedMonitor + " = ("
@@ -107,12 +107,12 @@ public class EnforceMonitor extends BaseMonitor {
 
 		RVMVariable enforceCategory = (RVMVariable) propMonitor.categoryVars
 				.values().toArray()[0];
-		ret += "boolean cloned_monitor_condition_fail = " + clonedMonitor + "."
+		ret += "cloned_monitor_condition_satisfied = " + clonedMonitor + "."
 				+ methodName + "("
 				// Because of CL's change
 				+ /*event.getRVMParameters().parameterInvokeString() +*/ ");\n";
 
-		ret += "if (!cloned_monitor_condition_fail) {\n";
+		ret += "if (!cloned_monitor_condition_satisfied) {\n";
 		ret += "break;\n";
 		ret += "}\n";
 
@@ -131,7 +131,7 @@ public class EnforceMonitor extends BaseMonitor {
 		// we don't need that in rv-monitor because we have separate blockingEvent
 
 //		if (blockedThreads != null) {
-//			ret += "if (!cloned_monitor_condition_fail){\n";
+//			ret += "if (!cloned_monitor_condition_satisfied){\n";
 //			for (String var : blockedThreads) {
 //
 //				if (!(var.startsWith("\"") && var.endsWith("\"")))

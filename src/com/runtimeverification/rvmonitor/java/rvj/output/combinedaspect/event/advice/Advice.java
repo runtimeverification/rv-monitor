@@ -24,7 +24,6 @@ public class Advice {
 	RVMParameters inlineParameters;
 
 	RVMVariable pointcutName;
-	RVMVariable blockingMethodName;
 	RVMParameters parameters;
 
 	boolean hasThisJoinPoint;
@@ -48,9 +47,6 @@ public class Advice {
 
 		String prefix = Main.merge ? mopSpec.getName() + "_" : "";
 		this.pointcutName = new RVMVariable(prefix + event.getId() + "Event");
-		if (event.isBlockingEvent()) {
-			this.blockingMethodName = new RVMVariable(event.getId() + "BlockingEvent");
-		}
 		this.inlineFuncName = new RVMVariable("RVMInline" + mopSpec.getName() + "_" + event.getUniqueId());
 		this.parameters = event.getParametersWithoutThreadVar();
 		this.inlineParameters = event.getRVMParametersWithoutThreadVar();
@@ -260,64 +256,8 @@ public class Advice {
 			
 			ret += "}\n";
 		}
-
-		if (this.blockingMethodName != null) {
-			ret += "public static void " + blockingMethodName;
-			ret += "(";
-			ret += parameters.parameterDeclString();
-			ret += ")";
-			ret += " {\n";
-			
-			
-//			BlockingEventThread b = new BlockingEventThread() {
-//				public void execEvent() {
-//					blocked();
-//				}
-//				
-//			};
-			
-			// Copy parameters to final variables
-			List<String> finalParameters = new ArrayList<String>();
-			for (RVMParameter p : parameters) {
-				ret += "final " + p.getType() + " " + p.getName() + "_final = " + p.getName() + ";\n";
-				finalParameters.add(p.getName() + "_final");
-			}
-			String threadName = this.blockingMethodName + "_thread";
-			String eventName = this.pointcutName.toString().substring(0, this.pointcutName.toString().length() - 5);
-			ret += "com.runtimeverification.rvmonitor.java.rt.concurrent.BlockingEventThread " + threadName + " = new com.runtimeverification.rvmonitor.java.rt.concurrent.BlockingEventThread(\"" + eventName + "\") {\n";
-			
-			ret += "public void execEvent() {\n";
-			
-			// Call the real event method
-			ret += pointcutName + "(";
-			
-			String finalParameter = "";
-			for (String p : finalParameters) {
-				finalParameter += ", " + p;
-			}
-			if (finalParameter.length() != 0) {
-				finalParameter = finalParameter.substring(2);
-			}
-			ret += finalParameter;
-			ret += ");\n";
-			
-			ret += " }\n";
-			ret += " };\n";
-			
-			// Set name of the blocking event method thread to be the same name
-			ret += threadName + ".setName(Thread.currentThread().getName());\n";
-			// Start the blocking event method thread
-			ret += threadName + ".start();\n";
-			ret += " }\n";
-			ret += "\n";
-		}
 		
-		if (this.blockingMethodName != null) {
-			ret += "private static final void " + pointcutName;
-		}
-		else {
-			ret += "public static final void " + pointcutName;
-		}
+		ret += "public static final void " + pointcutName;
 		ret += "(";
 		ret += parameters.parameterDeclString();
 		ret += ")";
