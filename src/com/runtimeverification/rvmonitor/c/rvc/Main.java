@@ -22,12 +22,7 @@ import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
+import java.io.*; //tired of this nonsense
 
 import java.util.Scanner;
 
@@ -35,8 +30,9 @@ public class Main {
   public static boolean isJarFile = false;
   public static String jarFilePath = null;
   public static String basePath = null;
-
+ 
   private static boolean parametric = false;
+  private static boolean llvm = false;
 
   private static RVCParser rvcParser;
 
@@ -57,13 +53,15 @@ public class Main {
       "Unrecoverable error: please place plugins in the default plugins directory:plugins");
       }
 
-      if(args[0].equals("-p")){
-        parametric = true; 
-        rvcParser = parseInput(args[1]);
+      for(int i = 0; i < args.length - 1; ++i){
+        if(args[i].equals("-p")){
+          parametric = true; 
+        }
+        else if(args[i].equals("-llvm")){
+          llvm = true;
+        }
       }
-      else {
-        rvcParser = parseInput(args[0]);
-      }
+      rvcParser = parseInput(args[args.length - 1]);
 
       //send Spec to logic repository to get the logic result 
       LogicRepositoryData cmgDataOut = sendToLogicRepository(logicPluginDirPath);
@@ -191,6 +189,7 @@ public class Main {
   }
 
   //Output code for the monitor.  Creates a C and a H file
+  //optionally compiles to LLVM
   static private void outputCode(LogicRepositoryData cmgDataOut)
     throws LogicException, RVMException, FileNotFoundException {
       LogicRepositoryType logicOutputXML = cmgDataOut.getXML();
@@ -215,27 +214,48 @@ public class Main {
 
       String cFile = rvcPrefix + specName + "Monitor.c";
       String hFile = rvcPrefix + specName + "Monitor.h";
+      String bcFile = rvcPrefix + specName + "Monitor.bc";
       String hDef = rvcPrefix + constSpecName + "MONITOR_H";
 
-      FileOutputStream cfos = new FileOutputStream(new File(cFile));
+      File cFileHandle = new File(cFile);
+      FileOutputStream cfos = new FileOutputStream(cFileHandle);
       PrintStream cos = new PrintStream(cfos);
-      FileOutputStream hfos = new FileOutputStream(new File(hFile));
-      PrintStream hos = new PrintStream(hfos);
-      
-      hos.println("#ifndef " + hDef);
-      hos.println("#define " + hDef);
+     
+      if(!llvm){ 
+        FileOutputStream hfos = new FileOutputStream(new File(hFile));
+        PrintStream hos = new PrintStream(hfos);
+        hos.println("#ifndef " + hDef);
+        hos.println("#define " + hDef);
+        hos.println(sr.properties.get("header declarations"));
+        hos.println("#endif");
+      }
 
       cos.println(rvcParser.getIncludes());
+      cos.println("#include <stdlib.h>");
       cos.println(sr.properties.get("state declaration"));
       cos.println(rvcParser.getDeclarations());
       cos.println(sr.properties.get("categories"));
       cos.println(sr.properties.get("reset"));
       cos.println(sr.properties.get("monitoring body"));
       cos.println(sr.properties.get("event functions"));
-      hos.println(sr.properties.get("header declarations"));
 
-      hos.println("#endif");
-      System.out.println(hFile + " and " + cFile + " have been generated.");
+      if(llvm){
+         try{
+           Process p = Runtime.getRuntime().exec(new String[] {"gcc", "-emit-llvm", "-c", "-o", bcFile, cFile});
+           BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+           String inputLine;
+           while ((inputLine = in.readLine()) != null)
+             System.out.println(inputLine);
+           in.close();
+         } catch (java.io.IOException e){
+           throw new RuntimeException(e);
+         }
+         cFileHandle.delete(); 
+         System.out.println(bcFile + " file has been generated");
+      }
+      else{
+         System.out.println(cFile + " and " + hFile + " have been generated");
+      }
   }
 
 }

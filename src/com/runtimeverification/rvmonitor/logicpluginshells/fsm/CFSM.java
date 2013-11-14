@@ -351,7 +351,7 @@ public class CFSM extends LogicPluginShell {
           }
         }
         String catName = rvcPrefix + specName + stateName;
-        condString += "  mon->" + catName + " = mon->" + conditionStr + ";\n";  
+        condString += "  mon->" + catName + " = " + conditionStr + ";\n";  
       }
     }
 

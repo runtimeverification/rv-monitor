@@ -47,16 +47,19 @@ PARSER_BEGIN(SRSParser)
         extraTerminals.add(Terminal.get(s));
       }
       PatternMatchAutomaton p = new PatternMatchAutomaton(srs, extraTerminals);
-      System.out.println(p);
+     // System.out.println(p);
      // if(args.length == 0){
-        System.out.println(p.toImplString());
+     //   System.out.println(p.toImplString());
+        System.out.println(p.toDotString());
      // }
-      SpliceList<Symbol> l = new SpliceList<Symbol>();
-      for(String s : args){
-        l.add(Terminal.get(s)); 
-      }
-      p.rewrite(l);
+    //  SpliceList<Symbol> l = new SpliceList<Symbol>();
+      //for(String s : args){
+    //    l.add(Terminal.get(s)); 
+  //    }
+//      p.rewrite(l);
     }
+
+
   
     private SRS srs;
     private PatternMatchAutomaton pma = null;
