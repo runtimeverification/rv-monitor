@@ -241,7 +241,7 @@ public class Main {
 
       if(llvm){
          try{
-           Process p = Runtime.getRuntime().exec(new String[] {"gcc", "-emit-llvm", "-c", "-o", bcFile, cFile});
+           Process p = Runtime.getRuntime().exec(new String[] {"clang", "-emit-llvm", "-c", "-o", bcFile, cFile});
            BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
            String inputLine;
            while ((inputLine = in.readLine()) != null)
