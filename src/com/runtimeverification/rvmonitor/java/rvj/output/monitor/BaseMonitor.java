@@ -344,7 +344,9 @@ public class BaseMonitor extends Monitor {
 			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
 		}
 
-		ret += "boolean cloned_monitor_condition_satisfied = true;\n";
+		if (event.isBlockingEvent())
+			ret += "boolean cloned_monitor_condition_satisfied = true;\n";
+
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			
