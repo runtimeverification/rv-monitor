@@ -23,22 +23,22 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGen
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
 public class RuntimeServiceManager implements ICodeGenerator {
-	private final List<ServiceDefinition> services;
 	private InternalBehaviorObservableCodeGenerator observer;
+	private final List<ServiceDefinition> services;
 
 	public InternalBehaviorObservableCodeGenerator getObserver() {
 		return this.observer;
 	}
 	
 	public RuntimeServiceManager() {
+		this.observer = new InternalBehaviorObservableCodeGenerator(Main.internalBehaviorObserving);
+
 		this.services = new ArrayList<ServiceDefinition>();
 		
 		this.services.add(this.addCleanerService());
 		this.services.add(this.addRuntimeBehaviorOption());
 		if (Main.internalBehaviorObserving)
 			this.services.add(this.addObserverService());
-		
-		this.observer = new InternalBehaviorObservableCodeGenerator(Main.internalBehaviorObserving);
 	}
 
 	private ServiceDefinition addCleanerService() {
@@ -117,7 +117,7 @@ public class RuntimeServiceManager implements ICodeGenerator {
 			this.description = desc;
 			this.fields = fields;
 			this.methods = methods;
-			this.initializer = new CodeMemberStaticInitializer(init);
+			this.initializer = new CodeMemberStaticInitializer(init == null ? new CodeStmtCollection() : init);
 		}
 	}
 

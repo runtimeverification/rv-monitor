@@ -10,6 +10,7 @@ import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractIndexingTree;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitor;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitorSet;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractPartitionedMonitorSet;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.DisableHolder;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IDisableHolder;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IIndexingTreeValue;
@@ -105,6 +106,24 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 		this.writer.print(s);
 	}
 	
+	private void printMonitorSetElement(Object o) {
+		if (o instanceof IObservableObject) {
+			IObservableObject obs = (IObservableObject)o;
+			// 'desc' will look like the following:
+			// <type>#<id>{<time>}[<trace>]
+			// The {<time>} part can be omitted.
+			String desc = obs.getObservableObjectDescription();
+			int j = desc.indexOf('#');
+			int k = desc.indexOf('{', j);
+			if (k == -1)
+				k = desc.indexOf('[', j);
+			String brief = desc.substring(j, k);
+			this.writer.print(brief);
+		}
+		else
+			this.writer.print('?');
+	}
+	
 	private void printMonitorSet(AbstractMonitorSet<?> set) {
 		this.writer.print(set.getClass().getSimpleName());
 		this.writer.print('{');
@@ -112,21 +131,20 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 			if (i > 0)
 				this.writer.print(',');
 			Object o = set.get(i);
-			if (o instanceof IObservableObject) {
-				IObservableObject obs = (IObservableObject)o;
-				// 'desc' will look like the following:
-				// <type>#<id>{<time>}[<trace>]
-				// The {<time>} part can be omitted.
-				String desc = obs.getObservableObjectDescription();
-				int j = desc.indexOf('#');
-				int k = desc.indexOf('{', j);
-				if (k == -1)
-					k = desc.indexOf('[', j);
-				String brief = desc.substring(j, k);
-				this.writer.print(brief);
-			}
-			else
-				this.writer.print('?');
+			this.printMonitorSetElement(o);
+		}
+		this.writer.print('}');
+	}
+
+	private void printMonitorSet(AbstractPartitionedMonitorSet<?> set) {
+		this.writer.print(set.getClass().getSimpleName());
+		this.writer.print('{');
+		int n = 0;
+		for (AbstractPartitionedMonitorSet<?>.MonitorIterator i = set.monitorIterator(true); i.moveNext(); ++n) {
+			IMonitor monitor = i.getMonitor();
+			if (n > 0)
+				this.writer.print(',');
+			this.printMonitorSetElement(monitor);
 		}
 		this.writer.print('}');
 	}
@@ -136,6 +154,8 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 			this.printIndexingTree((AbstractIndexingTree<?, ?>)value);
 		else if (value instanceof AbstractMonitorSet<?>)
 			this.printMonitorSet((AbstractMonitorSet<?>)value);
+		else if (value instanceof AbstractPartitionedMonitorSet<?>)
+			this.printMonitorSet((AbstractPartitionedMonitorSet<?>)value);
 		else
 			this.printPotentialMonitor(value);
 	}
@@ -275,6 +295,20 @@ public class InternalBehaviorDumper implements IInternalBehaviorObserver {
 		this.writer.println();
 		for (int i = 0; i < set.getSize(); ++i) {
 			TMonitor monitor = set.get(i);
+			this.printIndent(2);
+			this.printPotentialMonitor(monitor);
+			this.writer.println();
+		}
+	}
+
+	@Override
+	public <TMonitor extends IMonitor> void onMonitorTransitioned(AbstractPartitionedMonitorSet<TMonitor> set) {
+		this.printTitle("MonitorSetTransition");
+		this.printMonitorSet(set);
+		this.writer.println();
+		
+		for (AbstractPartitionedMonitorSet<TMonitor>.MonitorIterator i = set.monitorIterator(true); i.moveNext(); ) {
+			TMonitor monitor = i.getMonitor();
 			this.printIndent(2);
 			this.printPotentialMonitor(monitor);
 			this.writer.println();

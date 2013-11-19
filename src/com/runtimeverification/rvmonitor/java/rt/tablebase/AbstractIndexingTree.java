@@ -12,7 +12,7 @@ public abstract class AbstractIndexingTree<TWeakRef extends CachedWeakReference,
 	}
 	
 	protected AbstractIndexingTree(TupleTrait<TValue> valuetrait, int treeid) {
-		super(treeid, valuetrait, WeakRefHashTableCleaner.forIndexingTree());
+		super(treeid, valuetrait);
 	}
 
 	@Override

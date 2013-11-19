@@ -1,70 +1,14 @@
 package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.runtimeverification.rvmonitor.java.rt.RuntimeOption;
-import com.runtimeverification.rvmonitor.java.rt.observable.IObservableObject;
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.annotation.ThreadSafety;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.annotation.ThreadSafety.Safety;
 
-/**
- * This class holds predefined configurations for indexing tree cleaners.
- *
- * @author Choonghwan Lee <clee83@illinois.edu>
- */
-final class WeakRefHashTableCleanerConfig {
-	final int INITIAL_CAPACITY;
-	final int SECONDSTEP_CAPACITY;
-	
-	final static WeakRefHashTableCleanerConfig forIndexingTree;
-	final static WeakRefHashTableCleanerConfig forPureWeakRefTable;
-	
-	static {
-		forIndexingTree = new WeakRefHashTableCleanerConfig(2, 32);
-		forPureWeakRefTable = new WeakRefHashTableCleanerConfig(16, 64);
-	}
-	
-	private WeakRefHashTableCleanerConfig(int initialCapacity, int secondStepCapacity) {
-		this.INITIAL_CAPACITY = initialCapacity;
-		this.SECONDSTEP_CAPACITY = secondStepCapacity;
-	}
-}
-
-/**
- * This class is used to hold configurations for cleaning indexing trees and GWRTs.
- * Although it is now simple, this had implemented various things that have been finally dropped.
- *
- * @author Choonghwan Lee <clee83@illinois.edu>
- */
-final class WeakRefHashTableCleaner {
-	private final WeakRefHashTableCleanerConfig config;
-	
-	public int getInitialCapacity() {
-		return this.config.INITIAL_CAPACITY;
-	}
-	
-	public int getSecondStepCapacity() {
-		return this.config.SECONDSTEP_CAPACITY;
-	}
-	
-	private WeakRefHashTableCleaner(WeakRefHashTableCleanerConfig config) {
-		this.config = config;
-	}
-	
-	public static WeakRefHashTableCleaner forIndexingTree() {
-		return new WeakRefHashTableCleaner(WeakRefHashTableCleanerConfig.forIndexingTree);
-	}
-	
-	public static WeakRefHashTableCleaner forPureWeakRefTable() {
-		return new WeakRefHashTableCleaner(WeakRefHashTableCleanerConfig.forPureWeakRefTable);
-	}
-
-	public <TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> void onSaturated(WeakRefHashTable<TWeakRef, TValue> table) {
-		table.increaseBucket();
-	}
-}
- 
 /**
  * This class is the base of one level of an indexing tree or global weak reference table (GWRT).
  * It implements all the necessary features; its subclasses simply qualify types to prevent the
@@ -105,49 +49,292 @@ final class WeakRefHashTableCleaner {
 public abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> implements INodeOperation<TWeakRef, TValue> {
 	protected final int treeid;
 	private final TupleTrait<TValue> valueTrait;
-	private final WeakRefHashTableCleaner cleaner;
-
-	private final AtomicInteger revision;
-	private int defaultBucketCapacity;
-	private ArrayList<Bucket<TWeakRef, TValue>> buckets;
+	private final AtomicReferenceArray<Segment<TWeakRef, TValue>> segments;
 	private final CacheEntry<TWeakRef, TValue> cacheWeakRef;
 	
-	protected WeakRefHashTable(int treeid, TupleTrait<TValue> valuetrait, WeakRefHashTableCleaner cleaner) {
+	/**
+	 * This must be a power of 2.
+	 */
+	private static final int NUM_SEGMENTS = 16;
+	/**
+	 * This number should correspond to NUM_SEGMENTS.
+	 */
+	private static final int NUM_SEGMENTS_BITS = 4;
+	
+	static final class Segment<TWeakRef extends CachedWeakReference, TValue extends IIndexingTreeValue> extends ReentrantLock {
+		private WeakRefHashTable<TWeakRef, TValue> enclosing;
+		private ArrayList<Bucket<TWeakRef, TValue>> buckets;
+		private int defaultBucketCapacity = 2;
+		
+		private static final long serialVersionUID = 1004720745644334860L;
+		private static final int INITIAL_CAPACITY = 2;
+		
+		Segment(WeakRefHashTable<TWeakRef, TValue> enclosing) {
+			this.enclosing = enclosing;
+			this.resizeBucketSize(this.getNextBucketSize());
+		}
+		
+		private final int getNextBucketSize() {
+			if (this.buckets == null)
+				return INITIAL_CAPACITY;
+			else
+				return this.buckets.size() * 2;
+		}
+		
+		/**
+		 * Resizes the bucket size.
+		 * The caller should make sure that this method has exclusive access.
+		 * @param newsize
+		 */
+		private final void resizeBucketSize(int newsize) {
+			ArrayList<Bucket<TWeakRef, TValue>> oldbuckets = this.buckets; 
+
+			ArrayList<Bucket<TWeakRef, TValue>> newbuckets = new ArrayList<Bucket<TWeakRef, TValue>>(newsize);
+			for (int i = 0; i < newsize; ++i)
+				newbuckets.add(null);
+
+			if (oldbuckets != null) {
+				for (Bucket<TWeakRef, TValue> bucket : oldbuckets) {
+					if (bucket == null)
+						continue;
+					Bucket<TWeakRef, TValue>.PairIterator it = bucket.iterator();
+					while (it.moveNext()) {
+						if (bucket.terminateIfReclaimed(it.getKey(), it.getValue()))
+							continue;
+					}
+					Bucket<TWeakRef, TValue> target = this.getOrCreateBucket(newbuckets, it.getKey());
+					target.add(it.getKey(), it.getValue());
+				}
+			}
+			
+			this.buckets = newbuckets;
+		}
+		
+		private final void increaseBuckets() {
+			this.resizeBucketSize(this.getNextBucketSize());
+		}
+		
+		private final Bucket<TWeakRef, TValue> getBucket(TWeakRef key) {
+			return this.getBucket(this.buckets, key.hashCode());
+		}
+		
+		private final Bucket<TWeakRef, TValue> getBucket(int hashval) {
+			return this.getBucket(this.buckets, hashval);
+		}
+		
+		private final Bucket<TWeakRef, TValue> getBucket(ArrayList<Bucket<TWeakRef, TValue>> buckets, int hashval) {
+			int index = this.getBucketIndex(buckets, hashval);
+			return buckets.get(index);
+		}
+		
+		private final Bucket<TWeakRef, TValue> getOrCreateBucket(TWeakRef key) {
+			return this.getOrCreateBucket(this.buckets, key.hashCode());
+		}
+
+		private final Bucket<TWeakRef, TValue> getOrCreateBucket(int hashval) {
+			return this.getOrCreateBucket(this.buckets, hashval);
+		}
+
+		private final Bucket<TWeakRef, TValue> getOrCreateBucket(ArrayList<Bucket<TWeakRef, TValue>> buckets, TWeakRef key) {
+			return this.getOrCreateBucket(buckets, key.hashCode());
+		}
+		
+		private final Bucket<TWeakRef, TValue> getOrCreateBucket(ArrayList<Bucket<TWeakRef, TValue>> buckets, int hashval) {
+			int index = this.getBucketIndex(buckets, hashval);
+			Bucket<TWeakRef, TValue> bucket = buckets.get(index);
+			if (bucket != null)
+				return bucket;
+			
+			bucket = new Bucket<TWeakRef, TValue>(this.enclosing.treeid, this.defaultBucketCapacity);
+			buckets.set(index, bucket);
+			return bucket;
+		}
+		
+		private final int getBucketIndex(ArrayList<Bucket<TWeakRef, TValue>> buckets, int hashval) {
+			int remaining = hashval >> NUM_SEGMENTS_BITS;
+			return remaining & (buckets.size() - 1);
+		}
+	
+		@ThreadSafety(safety=Safety.SAFE)
+		public final TValue findByWeakRef(TWeakRef key) {
+			this.lock();
+			try {
+				Bucket<TWeakRef, TValue> bucket = this.getBucket(key);
+				if (bucket == null)
+					return null;
+				return bucket.findByWeakRef(key);
+			}
+			finally {
+				this.unlock();
+			}
+		}
+
+		@ThreadSafety(safety=Safety.SAFE)
+		public final TValue findByStrongRef(int hashval, Object key) {
+			this.lock();
+			try {
+				Bucket<TWeakRef, TValue> bucket = this.getBucket(hashval);
+				if (bucket == null)
+					return null;
+				return bucket.findByStrongRef(key);
+			}
+			finally {
+				this.unlock();
+			}
+		}
+
+		@ThreadSafety(safety=Safety.SAFE)
+		public final void updateOrAdd(TupleTrait<TValue> trait, TWeakRef key, TValue value, boolean additive, int valueflag) {
+			this.lock();
+			try {
+				Bucket<TWeakRef, TValue> bucket = this.getOrCreateBucket(key);
+				if (bucket.updateOrAdd(trait, key, value, additive, valueflag)) {
+					if (bucket.isSaturated())
+						this.onSaturated();
+				}
+			}
+			finally {
+				this.unlock();
+			}
+		}
+		
+		@ThreadSafety(safety=Safety.SAFE)
+		public TWeakRef findOrCreateWeakRef(int hashval, Object key, boolean create) {
+			this.lock();
+			try {
+				Bucket<TWeakRef, TValue> bucket = this.getOrCreateBucket(hashval);
+	
+				TWeakRef weakref = bucket.findWeakRef(key);
+				if (weakref != null)
+					return weakref;
+		
+				if (create) {
+					weakref = this.enclosing.createWeakRef(key, hashval);
+					bucket.add(weakref, null);
+					if (bucket.isSaturated())
+						this.onSaturated();
+				}
+				return weakref;
+			}
+			finally {
+				this.unlock();
+			}
+		}
+
+		/**
+		 * Terminates all the values contained in this map. This will
+		 * eventually terminate all the monitors reached by this map.
+		 * @param treeid tree id
+		 */
+		@ThreadSafety(safety=Safety.SAFE)
+		public void terminateValues(int treeid) {
+			this.lock();
+			try {
+				for (Bucket<TWeakRef, TValue> bucket : this.buckets) {
+					if (bucket == null)
+						continue;
+					bucket.terminateValues();
+				}
+			}
+			finally {
+				this.unlock();
+			}
+		}
+		
+		private final void onSaturated() {
+			this.increaseBuckets();
+		}
+		
+		@ThreadSafety(safety=Safety.SAFE)
+		public final int cleanUpUnnecessaryMappings() {
+			this.lock();
+			try {
+				int removed = 0;
+				for (Bucket<TWeakRef, TValue> bucket : this.buckets) {
+					if (bucket == null)
+						continue;
+					int n = bucket.cleanUpUnnecessaryMappings();
+					removed += n;
+				}
+				return removed;
+			}
+			finally {
+				this.unlock();
+			}
+		}
+	
+		@Override
+		public String toString() {
+			StringBuilder r = new StringBuilder();
+			int i = 0;
+			for (Bucket<TWeakRef, TValue> bucket : this.buckets) {
+				r.append("[");
+				r.append(i);
+				r.append("] ");
+				if (bucket != null)
+					r.append(bucket.toString());
+				r.append("\n");
+				
+				++i;
+			}
+			return r.toString();
+		}
+	}
+	
+	protected WeakRefHashTable(int treeid, TupleTrait<TValue> valuetrait) {
 		this.treeid = treeid;
 		this.valueTrait = valuetrait;
-		this.cleaner = cleaner;
 
-		this.revision = new AtomicInteger();
-		this.defaultBucketCapacity = 2;
-		this.setBucketSize(true, this.getNextBucketSize());
+		@SuppressWarnings("unchecked")
+		Segment<TWeakRef, TValue>[] segs = new Segment[NUM_SEGMENTS];
+		this.segments = new AtomicReferenceArray<Segment<TWeakRef, TValue>>(segs);
+
 		if (RuntimeOption.isFineGrainedLockEnabled())
 			this.cacheWeakRef = new ThreadLocalCacheEntry<TWeakRef, TValue>();
 		else
 			this.cacheWeakRef = new OrdinaryCacheEntry<TWeakRef, TValue>();
 	}
 	
-	private int getNextBucketSize() {
-		if (this.buckets == null)
-			return this.cleaner.getInitialCapacity();
-		else if (this.buckets.size() == this.cleaner.getInitialCapacity())
-			return this.cleaner.getSecondStepCapacity();
-		else
-			return this.buckets.size() * 2;
+	private final int getSegmentIndex(int hashval) {
+		return hashval & (NUM_SEGMENTS - 1);
+	}
+	
+	private final Segment<TWeakRef, TValue> getSegment(int hashval) {
+		int index = this.getSegmentIndex(hashval);
+		return this.segments.get(index);
+	}
+	
+	private final Segment<TWeakRef, TValue> getOrCreateSegment(TWeakRef key) {
+		int hashval = key.hashCode();
+		return this.getOrCreateSegment(hashval);
+	}
+
+	private final Segment<TWeakRef, TValue> getOrCreateSegment(int hashval) {
+		int index = this.getSegmentIndex(hashval);
+		Segment<TWeakRef, TValue> oldseg = this.segments.get(index);
+		
+		if (oldseg != null)
+			return oldseg;
+		
+		Segment<TWeakRef, TValue> newseg = new Segment<TWeakRef, TValue>(this);
+		oldseg = this.segments.getAndSet(index, newseg);
+		return oldseg == null ? newseg : oldseg;
 	}
 	
 	@Override
-	public final synchronized TValue getNode(TWeakRef key) {
-		Bucket<TWeakRef, TValue> bucket = this.getBucket(key);
-		if (bucket == null)
+	public final TValue getNode(TWeakRef key) {
+		int hashval = key.hashCode();
+		Segment<TWeakRef, TValue> segment = this.getSegment(hashval);
+		if (segment == null)
 			return null;
-		return bucket.findByWeakRef(key);
+		return segment.findByWeakRef(key);
 	}
 	
-	private final synchronized TValue getNodeEquivalentInternal(int hashval, Object key) {
-		Bucket<TWeakRef, TValue> bucket = this.getBucket(hashval);
-		if (bucket == null)
+	private final TValue getNodeEquivalentInternal(int hashval, Object key) {
+		Segment<TWeakRef, TValue> segment = this.getSegment(hashval);
+		if (segment == null)
 			return null;
-		return bucket.findByStrongRef(key);
+		return segment.findByStrongRef(hashval, key);
 	}
 	
 	@Override
@@ -162,12 +349,9 @@ public abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TVa
 		return this.getNodeEquivalentInternal(hashval, key);
 	}
 
-	private final synchronized void putNodeInternal(TWeakRef key, TValue value, boolean additive, int valueflag) {
-		Bucket<TWeakRef, TValue> bucket = this.getOrCreateBucket(key);
-		if (bucket.updateOrAdd(this.valueTrait, key, value, additive, valueflag)) {
-			if (bucket.isSaturated())
-				this.cleaner.onSaturated(this);
-		}
+	private final void putNodeInternal(TWeakRef key, TValue value, boolean additive, int valueflag) {
+		Segment<TWeakRef, TValue> segment = this.getOrCreateSegment(key);
+		segment.updateOrAdd(this.valueTrait, key, value, additive, valueflag);
 	}
 	
 	protected final void putNodeUnconditional(TWeakRef key, TValue value) {
@@ -191,249 +375,65 @@ public abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TVa
 	 * @return found or created weak reference
 	 */
 	protected final TWeakRef findOrCreateWeakRefInternal(Object key, boolean create) {
-		TWeakRef weakref = this.cacheWeakRef.getWeakRef(key);
-		if (weakref != null)
-			return weakref;
+		{
+			TWeakRef weakref = this.cacheWeakRef.getWeakRef(key);
+			if (weakref != null)
+				return weakref;
+		}
 
 		int hashval = System.identityHashCode(key);
-		
-		// The new bucket node inserted below may be lost if another thread is
-		// resizing the buckets. Unlike putNodeInternal(), where losing the inserted
-		// node may result in an error, losing a weak reference here does not result
-		// in such catastrophic error; the weak reference will be added next time.
-		Bucket<TWeakRef, TValue> bucket = this.getOrCreateBucket(hashval);
-		synchronized (bucket) {
-			weakref = bucket.findWeakRef(key);
-			if (weakref != null) {
-				this.cacheWeakRef.set(key, weakref);
-				return weakref;
-			}
-			
-			if (!create) {
+
+		Segment<TWeakRef, TValue> segment = this.getSegment(hashval);
+		if (segment == null) {
+			if (create)
+				segment = this.getOrCreateSegment(hashval);
+			else {
 				this.cacheWeakRef.invalidate();
 				return null;
 			}
-			
-			weakref = this.createWeakRef(key, hashval);
-			bucket.add(weakref, null);
 		}
 
-		if (bucket.isSaturated())
-			this.cleaner.onSaturated(this);
-		
-		this.cacheWeakRef.set(key, weakref);
+		TWeakRef weakref = segment.findOrCreateWeakRef(hashval, key, create);
+		if (weakref == null)
+			this.cacheWeakRef.invalidate();
+		else
+			this.cacheWeakRef.set(key, weakref);
 		return weakref;
 	}
 
 	protected abstract TWeakRef createWeakRef(Object key, int hashval);
 	
-	private final Bucket<TWeakRef, TValue> getBucket(TWeakRef key) {
-		return this.getBucket(this.buckets, key.hashCode());
-	}
-	
-	private final Bucket<TWeakRef, TValue> getBucket(int hashval) {
-		return this.getBucket(this.buckets, hashval);
-	}
-	
-	private final Bucket<TWeakRef, TValue> getBucket(ArrayList<Bucket<TWeakRef, TValue>> buckets, int hashval) {
-		int index = this.getBucketIndex(buckets, hashval);
-		return buckets.get(index);
-	}
-
-	private final synchronized Bucket<TWeakRef, TValue> getOrCreateBucket(TWeakRef key) {
-		return this.getOrCreateBucket(this.buckets, key.hashCode());
-	}
-
-	private final synchronized Bucket<TWeakRef, TValue> getOrCreateBucket(int hashval) {
-		return this.getOrCreateBucket(this.buckets, hashval);
-	}
-
-	private final Bucket<TWeakRef, TValue> getOrCreateBucket(ArrayList<Bucket<TWeakRef, TValue>> buckets, TWeakRef key) {
-		return this.getOrCreateBucket(buckets, key.hashCode());
-	}
-	
-	private final Bucket<TWeakRef, TValue> getOrCreateBucket(ArrayList<Bucket<TWeakRef, TValue>> buckets, int hashval) {
-		int index = this.getBucketIndex(buckets, hashval);
-		Bucket<TWeakRef, TValue> bucket = buckets.get(index);
-		if (bucket != null)
-			return bucket;
-		
-		bucket = new Bucket<TWeakRef, TValue>(this.treeid, this.defaultBucketCapacity);
-		buckets.set(index, bucket);
-		return bucket;
-	}
-	
-	private final int getBucketIndex(ArrayList<Bucket<TWeakRef, TValue>> buckets, int hashval) {
-		return hashval & (buckets.size() - 1);
-	}
-	
-	public void increaseBucket() {
-		int newsize = this.getNextBucketSize();
-		this.setBucketSize(false, newsize);
-	}
-	
-	private final void updateDefaultBucketCapacity(ArrayList<Bucket<TWeakRef, TValue>> oldbuckets) {
-		// Since the number of buckets is doubled below, the number of elements
-		// that each new bucket holds would be close to half. It simply picks the
-		// first few buckets and see their sizes for the purpose of getting statistics.
-		int denom = 0;
-		int sum = 0;
-		for (Bucket<TWeakRef, TValue> bucket : oldbuckets) {
-			if (bucket == null)
-				continue;
-			denom++;
-			sum += bucket.size();
-			if (denom == 4)
-				break;
-		}
-		
-		if (denom == 0)
-			return;
-
-		int capacity = sum / denom;
-	
-		// The capacity should be a power of 2.
-		int safecapacity = 1;
-		for (int c = capacity >> 1; c != 0; c >>= 1)
-			safecapacity <<= 1;
-		if (safecapacity < capacity)
-			safecapacity <<= 1;	
-
-		this.defaultBucketCapacity = safecapacity;
-	}
-	
-	private final synchronized void setBucketSize(boolean initial, int newsize) {
-		ArrayList<Bucket<TWeakRef, TValue>> oldbuckets = this.buckets; 
-		
-		if (!initial)
-			this.updateDefaultBucketCapacity(oldbuckets);
-
-		ArrayList<Bucket<TWeakRef, TValue>> newbuckets = new ArrayList<Bucket<TWeakRef, TValue>>(newsize);
-		for (int i = 0; i < newsize; ++i) {
-			// Let's create buckets lazily.
-			newbuckets.add(null);
-		}
-
-		if (oldbuckets != null) {
-			for (Bucket<TWeakRef, TValue> bucket : oldbuckets) {
-				if (bucket == null)
-					continue;
-				synchronized (bucket) {
-					Bucket<TWeakRef, TValue>.PairIterator it = bucket.iterator();
-					while (it.moveNext()) {
-						if (!initial) {
-							if (bucket.terminateIfReclaimed(it.getKey(), it.getValue()))
-								continue;
-						}
-						Bucket<TWeakRef, TValue> target = this.getOrCreateBucket(newbuckets, it.getKey());
-						target.add(it.getKey(), it.getValue());
-					}
-				}
-			}
-		}
-		
-		synchronized (this) {
-			this.buckets = newbuckets;
-			this.revision.incrementAndGet();
+	protected final void terminateValues(int treeid) {
+		for (int i = 0; i < this.segments.length(); ++i) {
+			Segment<TWeakRef, TValue> segment = this.segments.get(i);
+			if (segment != null)
+				segment.terminateValues(treeid);
 		}
 	}
 	
-	public synchronized final int cleanUpUnnecessaryMappings() {
+	public final int cleanUpUnnecessaryMappings() {
 		int removed = 0;
-		for (Bucket<TWeakRef, TValue> bucket : this.buckets) {
-			if (bucket == null)
+		for (int i = 0; i < this.segments.length(); ++i) {
+			Segment<TWeakRef, TValue> segment = this.segments.get(i);
+			if (segment == null)
 				continue;
-			int n = bucket.cleanUpUnnecessaryMappings();
+			int n = segment.cleanUpUnnecessaryMappings();
 			removed += n;
 		}
 		return removed;
 	}
 	
-	public void printStatistics() {
-		String name = this.getClass().toString();
-		if (this instanceof IObservableObject) {
-			IObservableObject obs = (IObservableObject)this;
-			name = obs.getObservableObjectDescription();
-		}
-		System.out.println("=== " + name + " ===");
-		StringBuilder s = new StringBuilder();
-		s.append("# buckets: " + this.buckets.size());
-		System.out.println(s);
-		for (int i = 0; i < this.buckets.size(); ++i) {
-			System.out.print(this.buckets.get(i).getCapacity());
-			System.out.print(':');
-			System.out.print(this.buckets.get(i).size());
-			if (i % 16 == 15)
-				System.out.println();
-			else
-				System.out.print(", ");
-		}
-		System.out.println();
-	}
-	
-	/**
-	 * Terminates all the values contained in this map. This will
-	 * eventually terminate all the monitors reached by this map.
-	 * @param treeid tree id
-	 */
-	protected final void terminateValues(int treeid) {
-		for (Bucket<TWeakRef, TValue> bucket : this.buckets) {
-			if (bucket == null)
-				continue;
-			bucket.terminateValues();
-		}
-	}
-	
-	public PairIterator iterator() {
-		return new PairIterator();
-	}
-	
-	public class PairIterator {
-		private final Iterator<Bucket<TWeakRef, TValue>> iterbucket;
-		private Bucket<TWeakRef, TValue>.PairIterator iternode;
-		
-		public PairIterator() {
-			this.iterbucket = WeakRefHashTable.this.buckets.iterator();
-		}
-
-		public boolean moveNext() {
-			if (this.iternode != null && this.iternode.moveNext())
-				return true;
-
-			while (this.iterbucket.hasNext()) {
-				Bucket<TWeakRef, TValue> bucket = this.iterbucket.next();
-				if (bucket == null)
-					continue;
-				this.iternode = bucket.iterator();
-				if (this.iternode.moveNext())
-					return true;
-			}
-
-			return false;
-		}
-		
-		public TWeakRef getKey() {
-			return this.iternode.getKey();
-		}
-		
-		public TValue getValue() {
-			return this.iternode.getValue();
-		}
-	}
-	
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();
-		int i = 0;
-		for (Bucket<TWeakRef, TValue> bucket : this.buckets) {
-			r.append("[");
+		for (int i = 0; i < this.segments.length(); ++i) {
+			Segment<TWeakRef, TValue> segment = this.segments.get(i);
+			r.append("Segment [");
 			r.append(i);
 			r.append("] ");
-			if (bucket != null)
-				r.append(bucket.toString());
+			if (segment != null)
+				r.append(segment.toString());
 			r.append("\n");
-			
-			++i;
 		}
 		return r.toString();
 	}
