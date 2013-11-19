@@ -101,9 +101,9 @@ public abstract class WeakRefHashTable<TWeakRef extends CachedWeakReference, TVa
 					while (it.moveNext()) {
 						if (bucket.terminateIfReclaimed(it.getKey(), it.getValue()))
 							continue;
+						Bucket<TWeakRef, TValue> target = this.getOrCreateBucket(newbuckets, it.getKey());
+						target.add(it.getKey(), it.getValue());
 					}
-					Bucket<TWeakRef, TValue> target = this.getOrCreateBucket(newbuckets, it.getKey());
-					target.add(it.getKey(), it.getValue());
 				}
 			}
 			
