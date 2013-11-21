@@ -299,7 +299,7 @@ public class SuffixMonitor extends Monitor {
 		if (isDefined) {
 			ret += "class " + monitorName;
 			if (isOutermost)
-				ret += " extends com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitor";
+				ret += " extends com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractSynchronizedMonitor";
 			ret += " implements Cloneable, com.runtimeverification.rvmonitor.java.rt.RVMObject {\n";
 
 			for (RVMVariable var : getCategoryVars()) {

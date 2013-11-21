@@ -870,7 +870,8 @@ public class BaseMonitor extends Monitor {
 			ret += "}\n\n";
 		}
 		
-		ret += this.getInternalEventHandlerCode();
+		if (this.isAtomicMoniorUsed())
+			ret += this.getInternalEventHandlerCode();
 
 		// events
 		for(PropertyAndHandlers prop : props){
