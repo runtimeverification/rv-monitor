@@ -107,6 +107,24 @@ public class RVMJavaCode {
 		return varname;
 	}
 
+	public String extractTableVariable() {
+		String pattern = "(\\$transition_\\w+\\$)\\[";
+		Matcher matcher = Pattern.compile(pattern).matcher(this.code);
+		
+		String tablename = null;
+		
+		while (matcher.find()) {
+			// This method assumes that there is only one table.
+			if (tablename != null)
+				return null;
+
+			tablename = matcher.group(1);
+		}
+		
+		String unescaped = this.getProperJavaCode(tablename);
+		return unescaped.trim();
+	}
+
 	public int getNumberOfStates() {
 		//String pattern = "\\$transition_\\w+\\$\\[\\]";
 		//String pattern = "\\$transition_\\w+\\$\\[\\] = ";
@@ -128,6 +146,59 @@ public class RVMJavaCode {
 
 		return maxstate;
 	}
+	
+	public int getStateRHS() {
+		String pattern = "\\$state\\$ = ([\\d]+);";
+		String code = this.code.trim();
+		Matcher matcher = Pattern.compile(pattern).matcher(code);
+		
+		if (!matcher.find())
+			throw new IllegalArgumentException();
+	
+		// $state$ = 1; should be the only thing in the code.
+		{
+			int start = matcher.regionStart();
+			int end = matcher.regionEnd();
+			if (start != 0 || end != code.length())
+				throw new IllegalArgumentException();
+		}
+		
+		int rhs;
+		try {
+			String rhsstr = matcher.group(1);
+			rhs = Integer.parseInt(rhsstr);
+		}
+		catch (Exception e) {
+			throw new IllegalArgumentException();
+		}
+		
+		return rhs;
+	}
+
+	public String getWithoutState() {
+		// "$state$ = 0;" -> ""
+		String pattern = "\\$state\\$ = ([\\d]+);";
+		Matcher matcher = Pattern.compile(pattern).matcher(this.code);
+		String eliminated = matcher.replaceAll("");
+		
+		return this.getProperJavaCode(eliminated);
+	}
+
+	public String getWithoutStateDeclaration() {
+		// "int $state$;" -> ""
+		String pattern = "int \\$state\\$;";
+		Matcher matcher = Pattern.compile(pattern).matcher(this.code);
+		String eliminated = matcher.replaceAll("");
+
+		return this.getProperJavaCode(eliminated);
+	}
+
+	public String replaceStateVariable(String stateVarName) {
+		// ... $state$ ... -> ... stateVarName ...
+		String pattern = "\\$state\\$";
+		Matcher matcher = Pattern.compile(pattern).matcher(this.code);
+		return matcher.replaceAll(stateVarName);
+	}
 
 	public boolean isEmpty() {
 		if (code == null || code.length() == 0)
@@ -135,12 +206,9 @@ public class RVMJavaCode {
 		else
 			return false;
 	}
-
-	public String toString() {
-		String ret = "";
-
-		if (code != null)
-			ret += code;
+	
+	private String getProperJavaCode(String rawcode) {
+		String ret = rawcode;
 
 		if (this.monitorName != null)
 			ret = ret.replaceAll("\\@MONITORCLASS", monitorName.toString());
@@ -161,5 +229,15 @@ public class RVMJavaCode {
 		}
 
 		return ret;
+		
+	}
+
+	public String toString() {
+		String ret = "";
+
+		if (code != null)
+			ret += code;
+		
+		return this.getProperJavaCode(ret);
 	}
 }

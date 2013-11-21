@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.EventMethodBody;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
@@ -31,6 +32,24 @@ public class MonitorFeatures {
 	private boolean stabilized;
 	public boolean isStabilized() {
 		return this.stabilized;
+	}
+	
+	/**
+	 * This field tells whether the monitor should be synchronized; i.e.,
+	 * each operation should be protected by some locks. If this field is
+	 * true, methods in the generated monitor class would have the 'synchronized'
+	 * flag.
+	 * At the time of writing this method, this field is true if fine-grained locking
+	 * is enabled and using an atomic field for the state is infeasible.
+	 */
+	private boolean needsSelfSynchronization;
+	public boolean isSelfSynchronizationNeeded() {
+		return this.needsSelfSynchronization;
+	}
+	public void setSelfSynchroniztionNeeded(boolean on) {
+		if (!this.stabilized)
+			throw new IllegalAccessError();
+		this.needsSelfSynchronization = on;
 	}
 	
 	/**
@@ -129,6 +148,8 @@ public class MonitorFeatures {
 		
 		this.stabilized = false;
 	
+		this.needsSelfSynchronization = Main.useFineGrainedLock;
+
 		this.needsTimeTracking = true;
 		this.rememberedParameters = new HashSet<RVMParameter>();
 

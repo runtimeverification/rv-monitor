@@ -1,9 +1,11 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.OptimizedCoenableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.Util;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.RVMonitorStatistics;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
@@ -126,4 +128,8 @@ public abstract class Monitor {
 	public abstract MonitorInfo getMonitorInfo();
 
 	public abstract String toString();
+
+	public CodeRVType.Monitor getRuntimeType() {
+		throw new NotImplementedException();
+	}
 }

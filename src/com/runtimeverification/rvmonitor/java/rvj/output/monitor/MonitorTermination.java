@@ -59,8 +59,11 @@ public class MonitorTermination {
 		return ret;
 	}
 	
-	public String getCode(MonitorFeatures features) {
-		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
+	public String getCode(MonitorFeatures features, String decl, String lastEventVar) {
+		if (lastEventVar == null)
+			lastEventVar = "RVM_lastevent";
+	
+		String synch = features.isSelfSynchronizationNeeded() ? " synchronized " : " ";
 		int step = 0;
 		String ret = "";
 
@@ -88,6 +91,9 @@ public class MonitorTermination {
 
 		ret += "@Override\n";
 		ret += "protected" + synch + "final void terminateInternal(int idnum) {\n";
+		
+		if (decl != null)
+			ret += decl + "\n";
 
 		ret += "switch(idnum){\n";
 		for (int i = 0; i < parameters.size(); i++) {
@@ -103,7 +109,7 @@ public class MonitorTermination {
 		ret += "}\n";
 
 		// do endObject event
-		ret += "switch(RVM_lastevent) {\n";
+		ret += "switch(" + lastEventVar + ") {\n";
 		ret += "case -1:\n";
 		ret += "return;\n";
 		for (EventDefinition event : this.events) {

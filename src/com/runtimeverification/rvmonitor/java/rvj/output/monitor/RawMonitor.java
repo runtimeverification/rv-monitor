@@ -249,7 +249,7 @@ public class RawMonitor extends Monitor{
 		
 		//endObject and some declarations
 		if (isOutermost) {
-			ret += monitorTermination.getCode(this.getFeatures());
+			ret += monitorTermination.getCode(this.getFeatures(), null, null);
 			ret += "\n";
 		}
 		

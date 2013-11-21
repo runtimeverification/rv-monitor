@@ -56,6 +56,9 @@ public class Imports {
 			imports.add("java.util.concurrent.atomic.AtomicBoolean");
 			imports.add("java.util.concurrent.atomic.AtomicLong");
 		}
+		
+		if (Main.useAtomicMonitor)
+			imports.add("java.util.concurrent.atomic.AtomicInteger");
 	}
 	
 	private void addImports(String[] array) {

@@ -3,10 +3,36 @@ package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.*;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeArrayLookup;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeAssignStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeBinOpExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeBreakStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeConditionStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeExprStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeFieldRefExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeForStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeLiteralExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberField;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberMethod;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMethodInvokeExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeNewExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeReturnStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeStmtCollection;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeThisRefExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarDeclStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarRefExpr;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeWhileStmt;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeFormatters;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVariable;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
+import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
+import com.sun.codemodel.internal.CodeWriter;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -25,6 +51,43 @@ class PropMonitor {
 	HashMap<String, RVMVariable> categoryVars = new HashMap<String, RVMVariable>();
 	HashMap<String, HandlerMethod> handlerMethods = new HashMap<String, HandlerMethod>();
 	HashMap<String, RVMVariable> eventMethods = new HashMap<String, RVMVariable>();
+	
+	public String getStateDeclarationCode(boolean omitState) {
+		if (omitState)
+			return this.stateDeclaration.getWithoutStateDeclaration();
+		return this.stateDeclaration.toString();
+	}
+	
+	public String getInitializationCode(boolean omitState) {
+		if (omitState)
+			return this.initilization.getWithoutState();
+		return this.initilization.toString();
+	}
+	
+	public String getResetCode(boolean omitState) {
+		if (omitState)
+			return this.resetCode.getWithoutState();
+		return this.resetCode.toString();
+	}
+	
+	public int getInitialState() {
+		return this.initilization.getStateRHS();
+	}
+	
+	public int getResetState() {
+		return this.initilization.getStateRHS();
+	}
+	
+	public boolean isSimpleFSM() {
+		try {
+			this.getInitialState();
+			this.getResetState();
+			return true;
+		}
+		catch (IllegalArgumentException e) {
+			return false;
+		}
+	}
 }
 
 public class BaseMonitor extends Monitor {
@@ -35,6 +98,15 @@ public class BaseMonitor extends Monitor {
 	public static RVMVariable skipEvent = new RVMVariable("skipEvent");
 	RVMVariable conditionFail = new RVMVariable("RVM_conditionFail");
 	RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
+	
+	private boolean atomicMonitorTried = false;
+	private CodeMemberField pairValueField;
+	
+	public final boolean isAtomicMoniorUsed() {
+		if (!this.atomicMonitorTried)
+			throw new IllegalStateException();
+		return this.pairValueField != null;
+	}
 
 	// methods
 	RVMVariable reset = new RVMVariable("reset");
@@ -52,13 +124,41 @@ public class BaseMonitor extends Monitor {
 	HashMap<PropertyAndHandlers, PropMonitor> propMonitors = new HashMap<PropertyAndHandlers, PropMonitor>();
 
 	public BaseMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
-		super(name, mopSpec, coenableSet, isOutermost);
-		this.initialize(name, mopSpec, coenableSet, isOutermost, "");
+		this(name, mopSpec, coenableSet, isOutermost, "");
 	}
 	
 	public BaseMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);
 		this.initialize(name, mopSpec, coenableSet, isOutermost, monitorNameSuffix);
+	}
+	
+	private void checkIfAtomicMonitorCanBeEnabled() {
+		MonitorFeatures feature = this.getFeatures();
+
+		CodeMemberField pair = null;
+		if (Main.useAtomicMonitor) {
+			boolean simple = true;
+			for (PropertyAndHandlers prop : props) {
+				if (prop.getVersionedStack()) {
+					simple = false;
+					break;
+				}
+				PropMonitor propMonitor = propMonitors.get(prop);
+				if (!propMonitor.isSimpleFSM()) {
+					simple = false;
+					break;
+				}
+			}
+
+			// It seems lastEvent is changed here only if isOutermost is true.
+			if (simple && isOutermost && monitorInfo == null && !feature.isTimeTrackingNeeded())
+				pair = new CodeMemberField("pairValue", false, false, true, CodeType.AtomicInteger());
+		}
+		this.pairValueField = pair;
+		
+		this.atomicMonitorTried = true;
+		
+		feature.setSelfSynchroniztionNeeded(Main.useFineGrainedLock && !this.isAtomicMoniorUsed());
 	}
 	
 	public void initialize(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) {
@@ -176,7 +276,7 @@ public class BaseMonitor extends Monitor {
 	}
 
 	public String printEventMethod(PropertyAndHandlers prop, EventDefinition event, String methodNamePrefix) {
-		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
+		String synch = this.getFeatures().isSelfSynchronizationNeeded() ? " synchronized " : " ";
 		String ret = "";
 
 		PropMonitor propMonitor = propMonitors.get(prop);
@@ -275,7 +375,8 @@ public class BaseMonitor extends Monitor {
 		}
 
 		if (isOutermost) {
-			ret += lastevent + " = " + idnum + ";\n";
+			if (!this.isAtomicMoniorUsed())
+				ret += lastevent + " = " + idnum + ";\n";
 		}
 
 		if (monitorInfo != null)
@@ -293,19 +394,27 @@ public class BaseMonitor extends Monitor {
 
 		ret += stackManage + "\n";
 
-		ret += eventMonitoringCode;
+		if (!this.isAtomicMoniorUsed())
+			ret += eventMonitoringCode;
 		
 		ret += monitoringBody;
 
-		String categoryCode = "";
-		for (Entry<String, RVMJavaCode> entry : categoryConditions.entrySet()) {
-			categoryCode += propMonitors.get(prop).categoryVars.get(entry.getKey()) + " = " + entry.getValue() + ";\n";
+		if (!this.isAtomicMoniorUsed()) {
+			String categoryCode = "";
+			for (Entry<String, RVMJavaCode> entry : categoryConditions.entrySet()) {
+				categoryCode += propMonitors.get(prop).categoryVars.get(entry.getKey()) + " = " + entry.getValue() + ";\n";
+			}
+	
+			if (monitorInfo != null)
+				ret += monitorInfo.computeCategory(categoryCode);
+			else
+				ret += categoryCode;
 		}
-
-		if (monitorInfo != null)
-			ret += monitorInfo.computeCategory(categoryCode);
-		else
-			ret += categoryCode;
+		
+		if (this.isAtomicMoniorUsed()) {
+			String tablevar = eventMonitoringCode.extractTableVariable();
+			ret += this.getInternalEventHandlerCallCode(idnum, tablevar, prop, categoryConditions);
+		}
 
 		ret += aftereventMonitoringCode;
 
@@ -315,8 +424,7 @@ public class BaseMonitor extends Monitor {
 
 		return ret;
 	}
-	
-	
+
 	public String printEventMethod(PropertyAndHandlers prop, EventDefinition event) {
 		return this.printEventMethod(prop, event, "");	
 	}
@@ -505,8 +613,10 @@ public class BaseMonitor extends Monitor {
 	}
 	
 	public String toString() {
-		String synch = Main.useFineGrainedLock ? " synchronized " : " ";
+		this.checkIfAtomicMonitorCanBeEnabled();
+
 		MonitorFeatures feature = this.getFeatures();
+		String synch = feature.isSelfSynchronizationNeeded() ? " synchronized " : " ";
 		
 		String ret = "";
 		
@@ -572,8 +682,10 @@ public class BaseMonitor extends Monitor {
 		}
 
 		ret += "class " + monitorName;
-		if (isOutermost)
-			ret += " extends com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitor";	
+		if (isOutermost) {
+			String clsname = this.isAtomicMoniorUsed() ? "AbstractAtomicMonitor" : "AbstractSynchronizedMonitor";
+ 			ret += " extends com.runtimeverification.rvmonitor.java.rt.tablebase." + clsname;	
+		}
 		ret += " implements Cloneable, com.runtimeverification.rvmonitor.java.rt.RVMObject";
 		if (feature.isTimeTrackingNeeded()) {
 			if (feature.isDisableHolderNeeded())
@@ -636,7 +748,8 @@ public class BaseMonitor extends Monitor {
 
 		// state declaration
 		for(PropertyAndHandlers prop : props){
-			ret += propMonitors.get(prop).stateDeclaration;
+			PropMonitor propMonitor = propMonitors.get(prop);
+			ret += propMonitor.getStateDeclarationCode(this.isAtomicMoniorUsed());
 		}
 		ret += "\n";
 
@@ -644,10 +757,18 @@ public class BaseMonitor extends Monitor {
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			for (String category : propMonitor.categoryVars.keySet()) {
+				if (this.isAtomicMoniorUsed())
+					ret += "volatile ";
 				ret += "boolean " + propMonitor.categoryVars.get(category) + " = false;\n";
 			}
 		}
 		ret += "\n";
+		
+		if (this.isAtomicMoniorUsed()) {
+			ICodeFormatter fmt = CodeFormatters.getDefault();
+			this.pairValueField.getCode(fmt);
+			ret += fmt.getCode();
+		}
 
 		// constructor
 		ret += monitorName + "(";
@@ -686,7 +807,13 @@ public class BaseMonitor extends Monitor {
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			ret += propMonitor.localDeclaration;
-			ret += propMonitor.initilization;
+			if (this.isAtomicMoniorUsed()) {
+				ret += propMonitor.getInitializationCode(this.isAtomicMoniorUsed());
+				int initstate = propMonitor.getInitialState();
+				ret += this.getStateUpdateCode(initstate, true);
+			}
+			else
+				ret += propMonitor.initilization;
 			ret += "\n";
 		}
 		{
@@ -710,18 +837,22 @@ public class BaseMonitor extends Monitor {
 		ret += "}\n";
 		ret += "\n";
 		
-		// implements getState()
+		// implements getState(), getLastEvent() and other related things
 		if (isOutermost) {
-			String statevar = this.getStateVariable();
-			ret += "@Override\n";
-			ret += "public final int getState() {\n";
-			ret += "return ";
-			if (statevar == null)
-				ret += "-1";
-			else
-				ret += statevar;
-			ret += ";\n";
-			ret += "}\n\n";
+			if (this.isAtomicMoniorUsed())
+				ret += this.generatePairValueRelatedMethods();
+			else {
+				String statevar = this.getStateVariable();
+				ret += "@Override\n";
+				ret += "public final int getState() {\n";
+				ret += "return ";
+				if (statevar == null)
+					ret += "-1";
+				else
+					ret += statevar;
+				ret += ";\n";
+				ret += "}\n\n";
+			}
 		}
 		
 		if (feature.isTimeTrackingNeeded()) {
@@ -740,6 +871,8 @@ public class BaseMonitor extends Monitor {
 			ret += "this.disable = value;\n";
 			ret += "}\n\n";
 		}
+		
+		ret += this.getInternalEventHandlerCode();
 
 		// events
 		for(PropertyAndHandlers prop : props){
@@ -770,17 +903,25 @@ public class BaseMonitor extends Monitor {
 			}
 		}
 		if (isOutermost) {
-			ret += lastevent + " = -1;\n";
+			if (!this.isAtomicMoniorUsed())
+				ret += lastevent + " = -1;\n";
 		}
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 
 			ret += propMonitor.localDeclaration;
-			ret += propMonitor.resetCode;
+			if (this.isAtomicMoniorUsed()) {
+				ret += propMonitor.getResetCode(this.isAtomicMoniorUsed());
+				int resetstate = propMonitor.getResetState();
+				ret += this.getStateUpdateCode(resetstate, false);
+			}
+			else
+				ret += propMonitor.resetCode;
 			for (String category : propMonitor.categoryVars.keySet()) {
 				ret += propMonitor.categoryVars.get(category) + " = false;\n";
 			}
 		}
+
 		ret += "}\n";
 		ret += "\n";
 
@@ -851,7 +992,9 @@ public class BaseMonitor extends Monitor {
 		
 		// endObject and some declarations
 		if (isOutermost) {
-			ret += monitorTermination.getCode(this.getFeatures());
+			String decl = this.isAtomicMoniorUsed() ? "int lastEvent = this.getLastEvent();\n" : null;
+			String lastEventVar = this.isAtomicMoniorUsed() ? "lastEvent" : null;
+			ret += monitorTermination.getCode(feature, decl, lastEventVar);
 		}
 
 		if (monitorInfo != null)
@@ -903,6 +1046,212 @@ public class BaseMonitor extends Monitor {
 		
 		return ret;
 	}
+	
+	private CodeMemberMethod getPairValueWrapper(CodeThisRefExpr thisRef, CodeFieldRefExpr pairValueRef, String methodname) {
+		CodeMethodInvokeExpr getvalue = new CodeMethodInvokeExpr(CodeType.integer(), pairValueRef, "get");
+		CodeMethodInvokeExpr getstate = new CodeMethodInvokeExpr(CodeType.integer(), thisRef, methodname, getvalue);
+		CodeReturnStmt ret = new CodeReturnStmt(getstate);
+
+		CodeMemberMethod method = new CodeMemberMethod(methodname, true, false, true, CodeType.integer(), true, ret);
+		return method;
+	}
+	
+	private CodeMemberMethod getPairValueExtracter(boolean state) {
+		CodeVariable pairvalue = new CodeVariable(CodeType.integer(), "pairValue");
+
+		CodeExpr result;
+		{
+			int numStateBits = this.getNumberOfStateBits();
+			CodeVarRefExpr pairvalueref = new CodeVarRefExpr(pairvalue);
+			if (state) {
+				// pairValue & ((2 ^ numStateBits) - 1)
+				int mask = (1 << numStateBits) - 1;
+				result = CodeBinOpExpr.bitwiseAnd(pairvalueref, CodeLiteralExpr.integer(mask));
+			}
+			else {
+				// pairValue >> numStateBits
+				result = CodeBinOpExpr.rightShift(pairvalueref, CodeLiteralExpr.integer(numStateBits));
+			}
+		}
+
+		String methodname = state ? "getState" : "getLastEvent";
+		CodeReturnStmt ret = new CodeReturnStmt(result);
+
+		CodeMemberMethod method = new CodeMemberMethod(methodname, false, false, true, CodeType.integer(), false, ret, pairvalue);
+		return method;
+	}
+	
+	private CodeMemberMethod getPairValueCalculator() {
+		CodeVariable levtvar = new CodeVariable(CodeType.integer(), "lastEvent");
+		CodeVariable statevar = new CodeVariable(CodeType.integer(), "state");
+		
+		CodeExpr result;
+		{
+			// lastEvent: [-1 ~ numEvents)
+			// state: [0 ~ numStates)
+			// value := ((lastEvent + 1) << numStateBits) | state
+			int numStateBits = this.getNumberOfStateBits();
+			result = CodeBinOpExpr.bitwiseOr(
+				CodeBinOpExpr.leftShift(
+					CodeBinOpExpr.add(
+						new CodeVarRefExpr(levtvar),
+						CodeLiteralExpr.integer(1)),
+					CodeLiteralExpr.integer(numStateBits)),
+				new CodeVarRefExpr(statevar));
+		}
+		CodeReturnStmt ret = new CodeReturnStmt(result);
+
+		CodeMemberMethod method = new CodeMemberMethod("calculatePairValue", false, false, true, CodeType.integer(), false, ret, levtvar, statevar);
+		return method;
+	}
+
+	private String generatePairValueRelatedMethods() {
+		List<CodeMemberMethod> methods = new ArrayList<CodeMemberMethod>();
+		
+		CodeThisRefExpr thisRef = new CodeThisRefExpr(this.getRuntimeType());
+		CodeFieldRefExpr pairValueRef = new CodeFieldRefExpr(thisRef, this.pairValueField);
+
+		// getState()
+		methods.add(this.getPairValueWrapper(thisRef, pairValueRef, "getState"));
+		
+		// getLastEvent()
+		methods.add(this.getPairValueWrapper(thisRef, pairValueRef, "getLastEvent"));
+		
+		// getState(int)
+		methods.add(this.getPairValueExtracter(true));
+
+		// getLastEvent(int)
+		methods.add(this.getPairValueExtracter(false));
+	
+		// calculatePairValue(int, int)
+		methods.add(this.getPairValueCalculator());
+	
+		ICodeFormatter fmt = CodeFormatters.getDefault();
+		for (CodeMemberMethod method : methods)
+			method.getCode(fmt);
+		return fmt.getCode();
+	}
+
+	private String getStateUpdateCode(int newState, boolean createNew) {
+		CodeStmtCollection stmts = new CodeStmtCollection();
+
+		{
+			int initialLastEvent = -1;
+			CodeMethodInvokeExpr calculate = new CodeMethodInvokeExpr(
+				CodeType.integer(),
+				new CodeThisRefExpr(this.getRuntimeType()),
+				"calculatePairValue",
+				CodeLiteralExpr.integer(initialLastEvent),
+				CodeLiteralExpr.integer(newState));
+			CodeFieldRefExpr fieldref = new CodeFieldRefExpr(new CodeThisRefExpr(this.getRuntimeType()), this.pairValueField);
+			
+			if (createNew) {
+				CodeNewExpr construct = new CodeNewExpr(CodeType.AtomicInteger(), calculate);
+				CodeAssignStmt assign = new CodeAssignStmt(fieldref, construct);
+				stmts.add(assign);
+			}
+			else {
+				CodeMethodInvokeExpr set = new CodeMethodInvokeExpr(CodeType.foid(), fieldref, "set", calculate);
+				stmts.add(new CodeExprStmt(set));
+			}
+		}
+		
+		ICodeFormatter fmt = CodeFormatters.getDefault();
+		stmts.getCode(fmt);
+		return fmt.getCode();
+	}
+	
+	private String getInternalEventHandlerCode() {
+		CodeVarRefExpr eventid = new CodeVarRefExpr(new CodeVariable(CodeType.integer(), "eventId"));
+		CodeVarRefExpr transtable = new CodeVarRefExpr(new CodeVariable(CodeType.array1(CodeType.integer()), "table"));
+
+		CodeStmtCollection body = new CodeStmtCollection();
+		{
+			CodeThisRefExpr thisRef = new CodeThisRefExpr(this.getRuntimeType());
+			CodeFieldRefExpr pairValueRef = new CodeFieldRefExpr(thisRef, this.pairValueField);
+
+			CodeVarRefExpr nextStateRef = new CodeVarRefExpr(new CodeVariable(CodeType.integer(), "nextstate"));
+			body.add(new CodeVarDeclStmt(nextStateRef.getVariable()));
+			
+			CodeStmtCollection loopbody = new CodeStmtCollection();
+			{
+				CodeVarRefExpr oldpairvalref = new CodeVarRefExpr(new CodeVariable(CodeType.integer(), "oldpairvalue"));
+				loopbody.add(new CodeVarDeclStmt(
+					oldpairvalref.getVariable(),
+					new CodeMethodInvokeExpr(CodeType.integer(), pairValueRef, "get")));
+
+				CodeVarRefExpr oldstateref = new CodeVarRefExpr(new CodeVariable(CodeType.integer(), "oldstate"));
+				loopbody.add(new CodeVarDeclStmt(
+					oldstateref.getVariable(),
+					new CodeMethodInvokeExpr(CodeType.integer(), thisRef, "getState", oldpairvalref)));
+				
+				loopbody.add(new CodeAssignStmt(
+					nextStateRef,
+					new CodeArrayLookup(CodeType.integer(), transtable, oldstateref)));
+
+				CodeVarRefExpr nextpairvalref = new CodeVarRefExpr(new CodeVariable(CodeType.integer(), "nextpairvalue"));
+				loopbody.add(new CodeVarDeclStmt(
+					nextpairvalref.getVariable(),
+					new CodeMethodInvokeExpr(CodeType.integer(), thisRef, "calculatePairValue", eventid, nextStateRef)));
+				
+				loopbody.add(new CodeConditionStmt(
+					new CodeMethodInvokeExpr(CodeType.bool(), pairValueRef, "compareAndSet", oldpairvalref, nextpairvalref),
+					new CodeBreakStmt()));
+			}
+			body.add(new CodeWhileStmt(CodeLiteralExpr.bool(true), loopbody));
+			
+			body.add(new CodeReturnStmt(nextStateRef));
+		}
+
+		CodeMemberMethod method = new CodeMemberMethod("handleEvent", false, false, true, CodeType.integer(), false, body, eventid.getVariable(), transtable.getVariable());
+
+		ICodeFormatter fmt = CodeFormatters.getDefault();
+		method.getCode(fmt);
+		return fmt.getCode();
+	}
+	
+	private String getInternalEventHandlerCallCode(int eventid, String tablevar, PropertyAndHandlers prop, HashMap<String, RVMJavaCode> categoryConditions) {
+		CodeStmtCollection stmts = new CodeStmtCollection();
+		
+		CodeVarRefExpr nextStateRef;
+		{
+			CodeExpr tableRef = CodeExpr.fromLegacy(CodeType.array1(CodeType.integer()), tablevar);
+			CodeMethodInvokeExpr invoke = new CodeMethodInvokeExpr(
+				CodeType.integer(),
+				new CodeThisRefExpr(this.getRuntimeType()),
+				"handleEvent",
+				CodeLiteralExpr.integer(eventid),
+				tableRef);
+			CodeVarDeclStmt decl = new CodeVarDeclStmt(
+				new CodeVariable(CodeType.integer(), "nextstate"),
+				invoke);
+			stmts.add(decl);
+			
+			nextStateRef = new CodeVarRefExpr(decl.getVariable());
+		}
+
+		for (Entry<String, RVMJavaCode> pair : categoryConditions.entrySet()) {
+			CodeFieldRefExpr matchFieldRef;
+			{
+				RVMVariable matchvar = propMonitors.get(prop).categoryVars.get(pair.getKey());
+				CodeMemberField matchfield = new CodeMemberField(matchvar.getVarName(), false, false, false, CodeType.integer());
+				matchFieldRef = new CodeFieldRefExpr(new CodeThisRefExpr(this.getRuntimeType()), matchfield);
+			}
+
+			CodeExpr rhs;
+			{
+				String exprstr = pair.getValue().replaceStateVariable(nextStateRef.getVariable().getName());
+				rhs = CodeExpr.fromLegacy(CodeType.integer(), exprstr);
+			}
+			
+			CodeAssignStmt assign = new CodeAssignStmt(matchFieldRef, rhs);
+			stmts.add(assign);
+		}
+
+		ICodeFormatter fmt = CodeFormatters.getDefault();
+		stmts.getCode(fmt);
+		return fmt.getCode();
+	}
 
 	private String getStateVariable() {
 		if (this.props.size() != 1)
@@ -926,6 +1275,15 @@ public class BaseMonitor extends Monitor {
 
 		PropertyAndHandlers prop = props.get(0);
 		return this.propMonitors.get(prop).stateDeclaration.getNumberOfStates();
+	}
+	
+	private int getNumberOfStateBits() {
+		int num = this.getNumberOfStates();
+		// [0 ~ num)
+		int bits = 0;
+		for (int i = num - 1; i > 0; i /= 2)
+			++bits;
+		return bits;
 	}
 
 	/***
@@ -963,5 +1321,11 @@ public class BaseMonitor extends Monitor {
 		result = new RVMVariable(v);
 		niceVars.put(var, result);
 		return  result;
+	}
+	
+	@Override
+	public CodeRVType.Monitor getRuntimeType() {
+		CodeType type = new CodeType(this.getOutermostName().toString());
+		return CodeRVType.forMonitor(type);
 	}
 }

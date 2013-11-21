@@ -20,8 +20,13 @@ public class CodeBinOpExpr extends CodeExpr {
 	public enum Operator {
 		LAND,
 		LOR,
+		BITAND,
+		BITOR,
+		LSHIFT,
+		RSHIFT,
 		IDENTICAL,
 		NOTIDENTICAL,
+		ADD,
 		GREATER,
 		LESS,
 	}
@@ -43,6 +48,22 @@ public class CodeBinOpExpr extends CodeExpr {
 	public static CodeBinOpExpr logicalOr(CodeExpr lhs, CodeExpr rhs) {
 		return new CodeBinOpExpr(CodeType.bool(), Operator.LOR, lhs, rhs);
 	}
+
+	public static CodeBinOpExpr bitwiseAnd(CodeExpr lhs, CodeExpr rhs) {
+		return new CodeBinOpExpr(CodeType.bool(), Operator.BITAND, lhs, rhs);
+	}
+
+	public static CodeBinOpExpr bitwiseOr(CodeExpr lhs, CodeExpr rhs) {
+		return new CodeBinOpExpr(CodeType.bool(), Operator.BITOR, lhs, rhs);
+	}
+
+	public static CodeBinOpExpr leftShift(CodeExpr lhs, CodeExpr rhs) {
+		return new CodeBinOpExpr(CodeType.bool(), Operator.LSHIFT, lhs, rhs);
+	}
+
+	public static CodeBinOpExpr rightShift(CodeExpr lhs, CodeExpr rhs) {
+		return new CodeBinOpExpr(CodeType.bool(), Operator.RSHIFT, lhs, rhs);
+	}
 	
 	public static CodeBinOpExpr identical(CodeExpr lhs, CodeExpr rhs) {
 		return new CodeBinOpExpr(CodeType.bool(), Operator.IDENTICAL, lhs, rhs);
@@ -50,6 +71,10 @@ public class CodeBinOpExpr extends CodeExpr {
 
 	public static CodeBinOpExpr notIdentical(CodeExpr lhs, CodeExpr rhs) {
 		return new CodeBinOpExpr(CodeType.bool(), Operator.NOTIDENTICAL, lhs, rhs);
+	}
+
+	public static CodeBinOpExpr add(CodeExpr lhs, CodeExpr rhs) {
+		return new CodeBinOpExpr(CodeType.bool(), Operator.ADD, lhs, rhs);
 	}
 
 	public static CodeBinOpExpr greater(CodeExpr lhs, CodeExpr rhs) {
@@ -85,6 +110,12 @@ public class CodeBinOpExpr extends CodeExpr {
 			if (!(this.lhs.type.isBool() && this.rhs.type.isBool()))
 				throw new NotImplementedException();
 			break;
+		case BITAND:
+		case BITOR:
+			break;
+		case LSHIFT:
+		case RSHIFT:
+			break;
 		case IDENTICAL:
 		case NOTIDENTICAL:
 			if (this.lhs != CodeLiteralExpr.nul() && this.rhs != CodeLiteralExpr.nul()) {
@@ -92,6 +123,7 @@ public class CodeBinOpExpr extends CodeExpr {
 					throw new NotImplementedException();
 			}
 			break;
+		case ADD:
 		case GREATER:
 		case LESS:
 			if (!this.lhs.type.equals(this.rhs.type))
@@ -121,11 +153,26 @@ public class CodeBinOpExpr extends CodeExpr {
 			case LOR:
 				op = "||";
 				break;
+			case BITAND:
+				op = "&";
+				break;
+			case BITOR:
+				op = "|";
+				break;
+			case LSHIFT:
+				op = "<<";
+				break;
+			case RSHIFT:
+				op = ">>";
+				break;
 			case IDENTICAL:
 				op = "==";
 				break;
 			case NOTIDENTICAL:
 				op = "!=";
+				break;
+			case ADD:
+				op = "+";
 				break;
 			case GREATER:
 				op = ">";
