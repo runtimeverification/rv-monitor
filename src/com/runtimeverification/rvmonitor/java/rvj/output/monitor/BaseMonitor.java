@@ -11,7 +11,6 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeConditionSt
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeExprStmt;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeFieldRefExpr;
-import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeForStmt;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeLiteralExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberField;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberMethod;
@@ -32,7 +31,6 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLo
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
-import com.sun.codemodel.internal.CodeWriter;
 
 import java.util.*;
 import java.util.Map.Entry;
