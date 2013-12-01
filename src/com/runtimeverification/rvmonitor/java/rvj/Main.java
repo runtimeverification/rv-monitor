@@ -66,7 +66,7 @@ public class Main {
 	public static boolean stripUnusedParameterInMonitor = true;
 	public static boolean eliminatePresumablyRemnantCode = true;
 	public static boolean suppressActivator = false;
-	public static boolean usePartitionedSet = true;
+	public static boolean usePartitionedSet = false;
 	public static boolean useAtomicMonitor = true;
 
 	static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
