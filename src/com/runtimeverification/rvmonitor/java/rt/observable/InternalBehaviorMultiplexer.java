@@ -7,6 +7,7 @@ import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractIndexingTree;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitor;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitorSet;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractPartitionedMonitorSet;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IDisableHolder;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IIndexingTreeValue;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IMonitor;
@@ -97,6 +98,12 @@ public class InternalBehaviorMultiplexer implements IInternalBehaviorObserver, I
 
 	@Override
 	public <TMonitor extends IMonitor> void onMonitorTransitioned(AbstractMonitorSet<TMonitor> set) {
+		for (IInternalBehaviorObserver o : this.observers)
+			o.onMonitorTransitioned(set);
+	}
+
+	@Override
+	public <TMonitor extends IMonitor> void onMonitorTransitioned(AbstractPartitionedMonitorSet<TMonitor> set) {
 		for (IInternalBehaviorObserver o : this.observers)
 			o.onMonitorTransitioned(set);
 	}

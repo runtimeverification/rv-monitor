@@ -123,6 +123,10 @@ public class CodeType {
 	public static CodeType klass() {
 		return nativeClass;
 	}
+	
+	public static CodeType array1(CodeType elemtype) {
+		return new CodeType(elemtype.getPackageName(), elemtype.getClassName(), 1);
+	}
 
 	public boolean isInteger() {
 		return this == nativeInteger;
@@ -208,5 +212,9 @@ public class CodeType {
 
 	public static CodeType AtomicLong() {
 		return new CodeType("java.lang", "AtomicLong");
+	}
+
+	public static CodeType AtomicInteger() {
+		return new CodeType("java.lang", "AtomicInteger");
 	}
 }

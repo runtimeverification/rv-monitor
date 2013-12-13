@@ -62,11 +62,12 @@ public class Main {
 	public static boolean useFineGrainedLock = false;
 	public static boolean useWeakRefInterning = false;
 
-	public static boolean generateVoidMethods = false;
+	public static boolean generateVoidMethods = true;
 	public static boolean stripUnusedParameterInMonitor = true;
 	public static boolean eliminatePresumablyRemnantCode = true;
 	public static boolean suppressActivator = false;
-	public static boolean usePartitionedSet = true;
+	public static boolean usePartitionedSet = false;
+	public static boolean useAtomicMonitor = true;
 
 	static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
 		if(Main.outputDir != null){
@@ -438,6 +439,10 @@ public class Main {
 				Main.usePartitionedSet = true;
 			} else if (args[i].compareTo("-nopartitionedset") == 0) {
 				Main.usePartitionedSet = false;
+			} else if (args[i].compareTo("-atomicmonitor") == 0) {
+				Main.useAtomicMonitor = true;
+			} else if (args[i].compareTo("-noatomicmonitor") == 0) {
+				Main.useAtomicMonitor = false;
 			} else {
 				if (files.length() != 0)
 					files += ";";

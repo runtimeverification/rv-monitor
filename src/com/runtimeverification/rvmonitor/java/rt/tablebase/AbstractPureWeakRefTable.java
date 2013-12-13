@@ -14,6 +14,6 @@ import com.runtimeverification.rvmonitor.java.rt.tablebase.TableAdopter.Tuple0;
  */
 public abstract class AbstractPureWeakRefTable<TWeakRef extends CachedWeakReference> extends WeakRefHashTable<TWeakRef, Tuple0> implements IWeakRefTableOperation<TWeakRef> {
 	protected AbstractPureWeakRefTable() {
-		super(-1, null, WeakRefHashTableCleaner.forPureWeakRefTable());
+		super(-1, null);
 	}
 }

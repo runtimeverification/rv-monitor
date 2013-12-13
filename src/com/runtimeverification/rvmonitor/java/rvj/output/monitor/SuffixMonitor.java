@@ -146,7 +146,7 @@ public class SuffixMonitor extends Monitor {
 		else
 			return innerMonitor.getOutermostName();
 	}
-
+	
 	public Set<String> getNames() {
 		Set<String> ret = innerMonitor.getNames();
 		if (isDefined)
@@ -299,7 +299,7 @@ public class SuffixMonitor extends Monitor {
 		if (isDefined) {
 			ret += "class " + monitorName;
 			if (isOutermost)
-				ret += " extends com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitor";
+				ret += " extends com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractSynchronizedMonitor";
 			ret += " implements Cloneable, com.runtimeverification.rvmonitor.java.rt.RVMObject {\n";
 
 			for (RVMVariable var : getCategoryVars()) {
@@ -359,7 +359,7 @@ public class SuffixMonitor extends Monitor {
 
 			// endObject and some declarations
 			if (isOutermost && monitorTermination != null) {
-				ret += monitorTermination.getCode(this.getFeatures());
+				ret += monitorTermination.getCode(this.getFeatures(), null, null);
 			}
 
 			if (monitorInfo != null){
@@ -388,7 +388,8 @@ public class SuffixMonitor extends Monitor {
 		stmts.add(new CodePhantomStmt(affectedref.getVariable()));
 		return stmts;
 	}
-	
+
+	@Override
 	public CodeRVType.Monitor getRuntimeType() {
 		CodeType type = new CodeType(this.getOutermostName().toString());
 		return CodeRVType.forMonitor(type);

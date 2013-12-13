@@ -4,6 +4,7 @@ import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractIndexingTree;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitor;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractMonitorSet;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.AbstractPartitionedMonitorSet;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IDisableHolder;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IIndexingTreeValue;
 import com.runtimeverification.rvmonitor.java.rt.tablebase.IMonitor;
@@ -101,6 +102,12 @@ public interface IInternalBehaviorObserver extends IObserver {
 	 * @param set
 	 */
 	public <TMonitor extends IMonitor> void onMonitorTransitioned(AbstractMonitorSet<TMonitor> set);
+
+	/**
+	 * Fired when a set of monitors have transitioned.
+	 * @param set
+	 */
+	public <TMonitor extends IMonitor> void onMonitorTransitioned(AbstractPartitionedMonitorSet<TMonitor> set);
 	
 	/**
 	 * Fired when an event handling method is about to leave. This method is invoked

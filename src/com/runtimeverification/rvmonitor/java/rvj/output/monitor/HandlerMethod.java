@@ -74,7 +74,8 @@ public class HandlerMethod {
 	}
 
 	public String toString() {
-		String synch = Main.useFineGrainedLock ? "synchronized " : "";
+//		String synch = Main.useFineGrainedLock ? "synchronized " : "";
+		String synch = "";
 		String ret = "";
 
 		ret += "final ";

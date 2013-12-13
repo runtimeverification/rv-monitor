@@ -1,6 +1,8 @@
 package com.runtimeverification.rvmonitor.java.rt.tablebase;
 
 import com.runtimeverification.rvmonitor.java.rt.ref.CachedWeakReference;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.annotation.ThreadSafety;
+import com.runtimeverification.rvmonitor.java.rt.tablebase.annotation.ThreadSafety.Safety;
 
 /**
  * This class represents a bucket in WeakRefHashMap.
@@ -60,7 +62,8 @@ final class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexin
 		}
 	}
 	
-	private synchronized void resize(int newsize) {
+	@ThreadSafety(safety=Safety.UNSAFE)
+	private void resize(int newsize) {
 		CachedWeakReference[] newkeys = new CachedWeakReference[newsize];
 		IIndexingTreeValue[] newvals = new IIndexingTreeValue[newsize];
 		
@@ -111,7 +114,8 @@ final class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexin
 		return true;
 	}
 	
-	public synchronized final void add(TWeakRef key, TValue value) {
+	@ThreadSafety(safety=Safety.UNSAFE)
+	public final void add(TWeakRef key, TValue value) {
 		if (this.keys == null)
 			this.resize(INITIAL_CAPACITY);
 		
@@ -130,8 +134,9 @@ final class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexin
 		}
 	}
 
+	@ThreadSafety(safety=Safety.UNSAFE)
 	@SuppressWarnings("unchecked")
-	public synchronized final boolean updateOrAdd(TupleTrait<TValue> trait, TWeakRef key, TValue value, boolean additive, int valueflag) {
+	public final boolean updateOrAdd(TupleTrait<TValue> trait, TWeakRef key, TValue value, boolean additive, int valueflag) {
 		for (int i = this.head; i != this.tail; i = (i + 1) & (this.keys.length - 1)) {
 			CachedWeakReference wref = this.keys[i];
 			if (key == wref) {
@@ -152,8 +157,9 @@ final class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexin
 	 * @param key strong reference
 	 * @return weak reference corresponds to the given strong reference
 	 */
+	@ThreadSafety(safety=Safety.UNSAFE)
 	@SuppressWarnings("unchecked")
-	public synchronized TWeakRef findWeakRef(Object key) {
+	public TWeakRef findWeakRef(Object key) {
 		for (int i = this.head; i != this.tail; i = (i + 1) & (this.keys.length - 1)) {
 			CachedWeakReference wref = this.keys[i];
 			if (key == wref.get())
@@ -167,8 +173,9 @@ final class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexin
 	 * @param key weak reference
 	 * @return value associated with the weak reference
 	 */
+	@ThreadSafety(safety=Safety.UNSAFE)
 	@SuppressWarnings("unchecked")
-	public synchronized TValue findByWeakRef(TWeakRef key) {
+	public TValue findByWeakRef(TWeakRef key) {
 		for (int i = this.head; i != this.tail; i = (i + 1) & (this.keys.length - 1)) {
 			CachedWeakReference wref = this.keys[i];
 			if (key == wref)
@@ -182,8 +189,9 @@ final class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexin
 	 * @param key strong reference
 	 * @return value associated with the strong reference
 	 */
+	@ThreadSafety(safety=Safety.UNSAFE)
 	@SuppressWarnings("unchecked")
-	public synchronized TValue findByStrongRef(Object key) {
+	public TValue findByStrongRef(Object key) {
 		for (int i = this.head; i != this.tail; i = (i + 1) & (this.keys.length - 1)) {
 			CachedWeakReference wref = this.keys[i];
 			if (key == wref.get())
@@ -247,7 +255,8 @@ final class Bucket<TWeakRef extends CachedWeakReference, TValue extends IIndexin
 	 * also terminates values when it removes elements.
 	 * @return number of removed elements
 	 */
-	public synchronized final int cleanUpUnnecessaryMappings() {
+	@ThreadSafety(safety=Safety.UNSAFE)
+	public final int cleanUpUnnecessaryMappings() {
 		int removed;
 		int numalive = 0;
 		
