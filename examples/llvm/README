@@ -1,0 +1,8 @@
+Here are all the examples that use llvm and run the output
+using the lli virtual machine.
+
+The Parametric directory has a parametric property and test.
+The CFG directory shows an example of the CFG logic in llvm.
+The safety_critical directory has safety critical examples.
+
+See the READMEs in each individual directory for more information

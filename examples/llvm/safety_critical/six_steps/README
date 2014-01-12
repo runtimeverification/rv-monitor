@@ -1,0 +1,21 @@
+Linux:
+To run test_1
+../../../../bin/rv-monitor -llvm six_steps.rvm
+
+clang test_1/six_steps.c -o six_steps_1.bc -c -emit-llvm
+
+llvm-link __RVC_SixSteps_Monitor.bc six_steps_1.bc -o test_1.bc
+
+lli test_1.bc
+
+
+To run test_2
+
+../../../../bin/rv-monitor -llvm six_steps.rvm
+
+clang test_2/six_steps.c -o six_steps_2.bc -c -emit-llvm
+
+llvm-link __RVC_SixSteps_Monitor.bc six_steps_2.bc -o test_2.bc
+
+lli test_2.bc
+

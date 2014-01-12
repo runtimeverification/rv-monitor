@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+DoorAjar {
+  event doorClose() {printf("Door closed\n");}
+  event doorOpen() {printf("Door opened\n");}
+  event startEngine() {printf("Attempting to start engine\n");}
+  
+  ptltl : startEngine => (*) doorClose
+
+  @violation {
+    fprintf(stderr, "Attempting to start the engine with door open!\n");
+  }
+}

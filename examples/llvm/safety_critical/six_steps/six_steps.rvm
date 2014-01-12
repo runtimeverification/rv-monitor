@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+SixSteps {
+
+  event complete(void){fprintf(stderr, "Operation complete.\n");}
+
+  event step(void){fprintf(stderr, "Step.\n");}
+
+  ere : step^7
+
+  @match {
+    fprintf(stderr, "too many steps!\n");
+    exit(1);
+  }
+
+  @fail {
+    __RESET;
+  }
+}

@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+IsNull {
+   event isNull()  {}
+   event deref() {}
+
+   cfg : 
+       S -> A deref deref,
+       A ->  A isNull | A isNull deref | epsilon
+
+   @match {
+       fprintf(stderr, "isNull not called before deref!\n");
+       __RESET;
+   }
+}
+
+
+
+
+

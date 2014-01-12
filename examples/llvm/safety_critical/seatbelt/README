@@ -1,0 +1,18 @@
+Linux:
+To run test_1
+../../../../bin/rv-monitor -llvm seatbelt.rvm
+
+clang test_1/seatbelt.c -o seatbelt.bc -c -emit-llvm
+
+llvm-link __RVC_SeatBelt_Monitor.bc seatbelt.bc -o test_1.bc 
+
+lli test_1.bc
+
+To run test_2
+../../../../bin/rv-monitor -llvm seatbelt.rvm
+
+clang test_2/seatbelt.c -o seatbelt.bc -c -emit-llvm
+
+llvm-link __RVC_SeatBelt_Monitor.bc seatbelt.bc -o test_2.bc 
+
+lli test_2.bc

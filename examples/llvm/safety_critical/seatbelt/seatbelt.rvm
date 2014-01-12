@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+SeatBelt {
+  event seatBeltRemoved(){fprintf(stderr, "Seat belt removed.\n");}
+
+  event seatBeltAttached() {fprintf(stderr, "Seat belt attached.\n");}
+
+  fsm : unsafe [
+             seatBeltAttached -> safe
+           ]
+        safe [
+             seatBeltRemoved -> unsafe
+        ]
+
+  @safe {
+      fprintf(stderr, "set max speed to user input.\n");
+  }
+
+  @unsafe {
+      fprintf(stderr, "set max speed to 10 mph.\n");
+  }
+
+}

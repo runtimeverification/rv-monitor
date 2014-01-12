@@ -1,0 +1,19 @@
+Linux:
+To run test_1
+../../../../bin/rv-monitor -llvm door_ajar.rvm
+
+clang test_1/door_ajar.c -o door_ajar.bc -c -emit-llvm
+
+llvm-link __RVC_DoorAjar_Monitor.bc door_ajar.bc -o test_1.bc 
+
+lli test_1.bc
+
+
+To run test_2
+../../../../bin/rv-monitor -llvm door_ajar.rvm
+
+clang test_2/door_ajar.c -o door_ajar.bc -c -emit-llvm
+
+llvm-link __RVC_DoorAjar_Monitor.bc door_ajar.bc -o test_2.bc 
+
+lli test_2.bc

@@ -1,0 +1,29 @@
+
+ This property specifies a case in which a pointer is
+ dereferenced without checking whether it is NULL.
+ It is monitored for the match condition.
+
+ We use lr rather than lalr because we are monitoring
+ for matching rather than failure
+
+
+To run IsNull_1 execute the following commands:
+
+../../../../bin/rv-monitor -llvm mop/IsNull.rvm
+
+clang IsNull_1/IsNull_1.c -o IsNull_1.bc -c -emit-llvm
+
+llvm-link -o IsNullTest.bc IsNull_1.bc __RVC_IsNull_Monitor.bc
+
+lli IsNullTest.bc
+
+To run IsNull_2 execute the following commands:
+
+../../../../bin/rv-monitor -llvm mop/IsNull.rvm
+
+clang IsNull_2/IsNull_2.c -o IsNull_2.bc -c -emit-llvm
+
+llvm-link -o IsNullTest.bc IsNull_2.bc __RVC_IsNull_Monitor.bc
+
+lli IsNullTest.bc
+

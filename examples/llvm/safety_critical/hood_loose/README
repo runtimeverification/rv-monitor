@@ -1,0 +1,12 @@
+Linux:
+To run test
+
+../../../../bin/rv-monitor -llvm hood_loose.rvm
+
+clang test_1/hood_loose.c -o hood_loose.bc -c -emit-llvm
+
+llvm-link __RVC_HoodLoose_Monitor.bc hood_loose.bc -o test.bc
+
+lli test.bc
+
+
