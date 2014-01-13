@@ -7,7 +7,18 @@ gcc test_1/auto_headlights.c __RVC_AutoHeadlights_Monitor.c -o auto_headlights
 
 ./auto_headlights
 
+To run test_1_aspc (requires AspectC from aspectc.net in the execution path)
 
+../../../../bin/rv-monitor -c auto_headlights.rvm
+
+acc test_1_aspc/auto_headlights.mc test_1_aspc/auto_headlights_acc.acc
+
+gcc test_1_aspc/auto_headlights.c test_1_aspc/auto_headlights_acc.c __RVC_AutoHeadlights_Monitor.c -o auto_headlights
+
+./auto_headlights
+
+The output of test_1_aspc and test_1 should be consistent.  Instrumentation with AspectC++ is possible through an almost identical process,
+but requires a C++ compiler for the final compilation step, making it less practical for embedded systems..
 
 To run test_2
 
