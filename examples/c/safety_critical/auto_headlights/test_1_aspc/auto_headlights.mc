@@ -1,5 +1,3 @@
-#include "../__RVC_AutoHeadlights_Monitor.h"
-
 int main(void) {
     changeHeadlights("stop");
     changeHeadlights("on");

@@ -1,3 +1,5 @@
+#include "../__RVC_AutoHeadlights_Monitor.h"
+
 before(char * argu): call(void changeHeadlights(char *)) && args(argu) {
     if (strcmp(argu, "stop") == 0) {
         __RVC_AutoHeadlights_stop();
