@@ -28,7 +28,15 @@ gcc test_2/auto_headlights.c __RVC_AutoHeadlights_Monitor.c -o auto_headlights
 
 ./auto_headlights
 
+To run test_2_aspc (requires AspectC from aspectc.net in the execution path)
 
+../../../../bin/rv-monitor -c auto_headlights.rvm
+
+acc test_2_aspc/auto_headlights.mc test_2_aspc/auto_headlights_acc.acc
+
+gcc test_2_aspc/auto_headlights.c test_2_aspc/auto_headlights_acc.c __RVC_AutoHeadlights_Monitor.c -o auto_headlights
+
+./auto_headlights
 
 Windows:
 To run test_1
