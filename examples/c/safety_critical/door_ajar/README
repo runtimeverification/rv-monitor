@@ -15,6 +15,25 @@ gcc test_2/door_ajar.c __RVC_DoorAjar_Monitor.c -o door_ajar
 ./door_ajar
 
 
+To run test_1_aspc (requires AspectC from aspectc.net in the execution path)
+
+../../../../bin/rv-monitor -c door_ajar.rvm
+
+acc lib_aspc/door_ajar.mc lib_aspc/door_ajar_acc.acc
+
+gcc test_1/door_ajar.c lib_aspc/door_ajar.c lib_aspc/door_ajar_acc.c __RVC_DoorAjar_Monitor.c -o door_ajar
+
+./door_ajar
+
+To run test_2_aspc (requires AspectC from aspectc.net in the execution path)
+
+../../../../bin/rv-monitor -c door_ajar.rvm
+
+acc lib_aspc/door_ajar.mc lib_aspc/door_ajar_acc.acc
+
+gcc test_2/door_ajar.c lib_aspc/door_ajar.c lib_aspc/door_ajar_acc.c __RVC_DoorAjar_Monitor.c -o door_ajar
+
+./door_ajar
 
 Windows:
 To run test_1

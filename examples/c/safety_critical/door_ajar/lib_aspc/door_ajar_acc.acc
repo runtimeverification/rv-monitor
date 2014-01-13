@@ -1,0 +1,16 @@
+#include "../__RVC_DoorAjar_Monitor.h"
+
+before(const char * argu): execution(void doorOperation(const char *)) && args(argu) {
+    if (strcmp(argu, "open") == 0) {
+        __RVC_DoorAjar_doorOpen();
+    }
+    else if (strcmp(argu, "close") == 0) {
+        __RVC_DoorAjar_doorClose();
+    }
+}
+
+before(const char * argu): execution(void engineOperation(const char *)) && args(argu) {
+    if (strcmp(argu, "start") == 0) {
+        __RVC_DoorAjar_startEngine();
+    }
+}
