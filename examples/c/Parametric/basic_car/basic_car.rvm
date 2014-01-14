@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+Basic_Car {
+  #include "basic_car.h"
+
+  event toggle_lights() {}
+
+  event toggle_wipers() {}
+
+  event accelerate() {
+    if (((car *) key)->speed > 200)
+      printf("Warning: exceeding top speed of car\n");
+  }
+
+  event create() {}
+
+  event destroy() {
+    car * my_car = (car *) key;
+    if (my_car->windshield_wiper_state) {
+      printf("Warning: Car turning off with windshield wipers on\n");
+    }
+    if (my_car->headlight_state) {
+      printf("Warning: Car turning off with headlights on\n");
+    }
+  }
+
+  ere : create (toggle_lights | toggle_wipers | accelerate)* destroy
+
+  @ match {
+    printf("Methods in car with driver %s used appropriately\n", ((car *) key)->driver_name);
+  }
+
+  @ fail {
+    printf("Warning: Methods in car with driver %s used inappropriately!\n", ((car *) key)->driver_name);
+  }
+}

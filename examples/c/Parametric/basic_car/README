@@ -1,0 +1,17 @@
+  This property simulates a basic car using operations on a struct.
+  It uses an extended regular expression to ensure proper sequencing of car events,
+  and checks basic post and preconditions of certain events.  It instruments the code
+  using AspectC (www.aspectc.net), allowing for the car-related source code to be entirely
+  separate from the RVMonitor event handling code.
+
+Linux:
+
+To run basic_car_1_aspc execute the following commands:
+
+../../../../bin/rv-monitor -c -p basic_car.rvm
+
+acc basic_car_1_aspc/basic_car_acc.acc basic_car_1_aspc/basic_car.mc
+
+gcc basic_car_1_aspc/basic_car.c basic_car_1_aspc/basic_car_acc.c __RVC_Basic_Car_Monitor.c -o basic_car
+
+./basic_car

@@ -1,0 +1,32 @@
+#include "../__RVC_Basic_Car_Monitor.h"
+
+// Due to a limitation in ACC, we must manually redeclare
+// this struct rather than automatically including it from the header.
+typedef struct car {
+    int speed;
+    int headlight_state;
+    int windshield_wiper_state;
+    char * driver_name;
+} car;
+
+after(car * my_car): call(car * init_car(char *)) && result(my_car) {
+    __RVC_Basic_Car_create(my_car);
+}
+
+after(car * my_car): call(void accelerate(car *, int)) && args(my_car,int) {
+    __RVC_Basic_Car_accelerate(my_car);
+}
+
+before(car * my_car): call(void toggle_headlights(car *)) && args(my_car) {
+    __RVC_Basic_Car_toggle_lights(my_car);
+}
+
+before(car * my_car): call(void toggle_wipers(car *)) && args(my_car) {
+    __RVC_Basic_Car_toggle_wipers(my_car);
+}
+
+before(car * my_car): call(void destroy(car *)) && args(my_car) {
+    __RVC_Basic_Car_destroy(my_car);
+}
+
+
