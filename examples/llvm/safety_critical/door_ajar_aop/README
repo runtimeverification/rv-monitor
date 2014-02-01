@@ -1,0 +1,44 @@
+Linux:
+
+ If the `make` tool is available:
+    
+  make
+
+  lli test_1.bc
+  lli test_2.bc
+
+ If `make` is not avaliable:
+
+ Common steps:
+
+  # Generate the monitor LLVM bitcode
+	../../../../bin/rv-monitor -llvm door_ajar.rvm
+
+  # Compile the library to LLVM bitcode
+	clang lib/door_ajar.c -o lib/door_ajar.bc -c -emit-llvm
+
+  # Instrument the library bitcode with calls to monitoring events
+	opt -load LLVMAOP.so -aop < lib/door_ajar.bc >lib/door_ajar_instr.bc
+
+ To run test_1: 
+
+  # Compile the main file to LLVM bitcode
+	clang test_1/test_1.c -o test_1/test_1.bc -c -emit-llvm
+
+  # Link together monitor, library and main file
+	llvm-link  __RVC_DoorAjar_Monitor.bc lib/door_ajar_instr.bc test_1/test_1.bc -o test_1.bc
+
+  # invoke the llvm virtual machine on the result
+  lli test_1.bc
+
+ To run test_2:
+
+  # Compile the main file to LLVM bitcode
+	clang test_2/test_2.c -o test_2/test_2.bc -c -emit-llvm
+
+  # Link together monitor, library and main file
+	llvm-link  __RVC_DoorAjar_Monitor.bc lib/door_ajar_instr.bc test_1/test_1.bc -o test_2.bc
+
+  # invoke the llvm virtual machine on the result
+  lli test_2.bc
+
