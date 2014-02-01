@@ -1,2 +1,2 @@
-doorOperation dispatchDoor
-engineOperation dispatchEngine
+before executing doorOperation call dispatchDoor
+before executing engineOperation call dispatchEngine

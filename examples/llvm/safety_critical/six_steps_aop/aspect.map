@@ -1,2 +1,2 @@
-step __RVC_SixSteps_step
-done __RVC_SixSteps_complete
+before executing step call __RVC_SixSteps_step
+before executing done call __RVC_SixSteps_complete
