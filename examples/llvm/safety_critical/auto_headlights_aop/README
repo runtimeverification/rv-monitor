@@ -1,0 +1,27 @@
+To run test_1
+  ../../../../bin/rv-monitor -llvm auto_headlights.rvm
+
+  clang auto_headlights_aspect.c -o auto_headlights_aspect.bc -c -emit-llvm
+
+  clang test_1/test_1.c -o test_1/test_1.bc -c -emit-llvm
+
+  opt -load LLVMAOP.so -aop < test_1/test_1.bc >test_1/test_1_instr.bc
+
+  llvm-link  __RVC_AutoHeadlights_Monitor.bc auto_headlights_aspect.bc test_1/test_1_instr.bc -o test_1.bc
+
+  lli test_1.bc
+
+
+To run test_2
+
+  ../../../../bin/rv-monitor -llvm auto_headlights.rvm
+
+  clang auto_headlights_aspect.c -o auto_headlights_aspect.bc -c -emit-llvm
+
+  clang test_2/test_2.c -o test_2/test_2.bc -c -emit-llvm
+
+  opt -load LLVMAOP.so -aop < test_2/test_2.bc >test_2/test_2_instr.bc
+
+  llvm-link  __RVC_AutoHeadlights_Monitor.bc auto_headlights_aspect.bc test_2/test_2_instr.bc -o test_2.bc
+
+  lli test_2.bc
