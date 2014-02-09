@@ -33,6 +33,7 @@
     <javacc target="src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/RVMonitorParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/cfg/parser/CFGParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/fsm/parser/FSMParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/tfsm/parser/FSMParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/pda/parser/PDAParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/po/parser/POParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicpluginshells/ptcaret/parser/PTCARETParser.jj" javacchome="lib/external" />
@@ -40,6 +41,7 @@
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/cfg/parser/CFGParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ere/parser/EREParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/fsm/parser/FSMParser.jj" javacchome="lib/external" />
+    <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/tfsm/parser/FSMParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/ltl/parser/LTLParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/pda/parser/PDAParser.jj" javacchome="lib/external" />
     <javacc target="src/com/runtimeverification/rvmonitor/logicrepository/plugins/po/parser/POParser.jj" javacchome="lib/external" />
@@ -88,15 +90,25 @@
 		<include name="ParseException.java" />
 	</fileset>
        <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/fsm/parser">
-		<include name="FSMParser.java" />
-		<include name="FSMParserConstants.java" />
-		<include name="FSMParserTokenManager.java" />
-		<include name="Token.java" />
-		<include name="TokenMgrError.java" />
-		<include name="JavaCharStream.java" />
-		<include name="SimpleCharStream.java" />
-		<include name="ParseException.java" />
-	</fileset>
+        <include name="FSMParser.java" />
+        <include name="FSMParserConstants.java" />
+        <include name="FSMParserTokenManager.java" />
+        <include name="Token.java" />
+        <include name="TokenMgrError.java" />
+        <include name="JavaCharStream.java" />
+        <include name="SimpleCharStream.java" />
+        <include name="ParseException.java" />
+    </fileset>
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/tfsm/parser">
+        <include name="FSMParser.java" />
+        <include name="FSMParserConstants.java" />
+        <include name="FSMParserTokenManager.java" />
+        <include name="Token.java" />
+        <include name="TokenMgrError.java" />
+        <include name="JavaCharStream.java" />
+        <include name="SimpleCharStream.java" />
+        <include name="ParseException.java" />
+    </fileset>
        <fileset dir="src/com/runtimeverification/rvmonitor/logicpluginshells/pda/parser">
 		<include name="PDAParser.java" />
 		<include name="PDAParserConstants.java" />
@@ -157,7 +169,7 @@
 		<include name="SimpleCharStream.java" />
 		<include name="ParseException.java" />
 	</fileset>
-       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/fsm/parser">
+       <fileset dir="src/com/runtimeverification/rvmonitor/logicrepository/plugins/tfsm/parser">
 		<include name="FSMParser.java" />
 		<include name="FSMParserConstants.java" />
 		<include name="FSMParserTokenManager.java" />
@@ -261,6 +273,7 @@
     <jar destfile="${plugins}/CFG.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/cfg/**" />
     <jar destfile="${plugins}/ERE.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/ere/**" />
     <jar destfile="${plugins}/FSM.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/fsm/**" />
+    <jar destfile="${plugins}/TFSM.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/tfsm/**" />
     <jar destfile="${plugins}/LTL.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/ltl/**" />
     <jar destfile="${plugins}/PTLTL.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/ptltl/**" />
     <jar destfile="${plugins}/PTCARET.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/ptcaret/**" />

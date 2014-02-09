@@ -10,6 +10,7 @@
 package com.runtimeverification.rvmonitor.c.rvc;
 
 import com.runtimeverification.rvmonitor.logicpluginshells.fsm.CFSM;
+import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.CTFSM;
 import com.runtimeverification.rvmonitor.logicpluginshells.cfg.CCFG;
 import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
 import com.runtimeverification.rvmonitor.logicrepository.LogicException;
@@ -199,6 +200,10 @@ public class Main {
       if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") == 0){
         CFSM cfsm = new CFSM(rvcParser, parametric);
         sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents());
+      }
+      else if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("tfsm") == 0){
+        CTFSM ctfsm = new CTFSM(rvcParser, parametric);
+        sr = ctfsm.process(logicOutputXML, logicOutputXML.getEvents());
       }
       else if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("cfg") == 0){
         CCFG ccfg = new CCFG(rvcParser, parametric);

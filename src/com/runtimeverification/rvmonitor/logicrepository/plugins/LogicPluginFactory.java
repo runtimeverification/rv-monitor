@@ -69,8 +69,14 @@ public class LogicPluginFactory {
 				if (jarEntry.getName().endsWith(".class")) {
 					String className = jarEntry.getName().replaceAll("/", "\\.");
 					className = className.substring(0, className.length() - ".class".length());
-					Class<?> clazz = Class.forName(className);
-
+					Class<?> clazz;
+					try {
+						clazz =  Class.forName(className);
+					}
+					catch (ClassNotFoundException e) {
+						e.printStackTrace();
+						continue;
+					}
 					if (!clazz.isInterface()) {
 						Class<?> superClass = clazz.getSuperclass();
 						while (superClass != null) {
