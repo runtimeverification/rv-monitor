@@ -155,7 +155,7 @@ public class CTFSM extends LogicPluginShell {
     String condString = "";
     //add fail if necessary
     if(cats.contains("fail")){
-      catString = "int " + rvcPrefix + specName + "fail = 0;\n"; 
+      catString += "int " + rvcPrefix + specName + "fail = 0;\n"; 
       condString += "  " + rvcPrefix + specName + "fail = __RVC_state == -1;\n"; 
     }
 
@@ -196,6 +196,28 @@ public class CTFSM extends LogicPluginShell {
 
     String resetName = rvcPrefix + specName + "reset";
 
+    //add timeout if necessary
+    if(cats.contains("timeout")){
+      monitoringbodyString += "#include <sys/time.h>\n" 
+      + "#include <signal.h>\n\n"
+      + "void " + rvcPrefix + "Handle_Timeout(void) {\n  "
+      +  rvcParser.getHandlers().get("timeout").replaceAll("__RESET", resetName + "()\n")
+      + "\n}\n\n"
+      + "void " + rvcPrefix + "Trigger_Timeout() {\n"
+      + "  struct itimerval it_val;\n"
+      + "  if (signal(SIGALRM, (void (*)(int)) " + rvcPrefix + "Handle_Timeout) == SIG_ERR) {\n"
+      + "    perror(\"Unable to catch SIGALRM\");\n    exit(1);\n"
+      + "  }\n"
+      + "  it_val.it_value.tv_sec = 1;\n"
+      + "  it_val.it_value.tv_usec = 0;\n"
+      + "  if (setitimer(ITIMER_REAL, &it_val, NULL) == -1) {\n"     
+      + "    perror(\"error calling setitimer()\");\n    exit(1);\n"
+      + "  }\n"    
+      + "}\n"
+      ;
+      condString += "  " + rvcPrefix + "Trigger_Timeout();\n";
+    }
+
     headerDecs.append("void\n");
     headerDecs.append(resetName + "(void);\n"); 
 
@@ -211,6 +233,7 @@ public class CTFSM extends LogicPluginShell {
       eventFuncs.append("__RVC_state = " + constEventNames.get(eventName) + "[__RVC_state];\n"); 
       eventFuncs.append(condString);
       for(String category : rvcParser.getHandlers().keySet()){
+        if (category.toLowerCase().compareTo("timeout") == 0) continue;
         eventFuncs.append("if(" + rvcPrefix + specName + category + ")\n{\n");
         eventFuncs.append(rvcParser.getHandlers().get(category).replaceAll("__RESET", resetName + "()\n"));
         eventFuncs.append("}\n");

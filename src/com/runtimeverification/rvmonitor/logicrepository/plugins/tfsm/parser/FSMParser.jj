@@ -89,7 +89,8 @@ TOKEN : {
 	| <EQUAL : "=" >
 	| <COMMA : "," >
 	| <ALIAS : "alias">
-	| <FAIL : "fail">
+  | <FAIL : "fail">
+  | <TIMEOUT : "timeout">
 	| <DEF : "default">
 	| <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_")*> 
 	| <DIGIT : ["0"-"9"]>
@@ -190,7 +191,8 @@ HashSet<State> StateList() :{
                           stateList.add(s);                           
                           usedStates.add(s);
                               }
-	      | "fail" { stateList.add(State.get("fail"));}
+        | "fail" { stateList.add(State.get("fail"));}
+        | "timeout" { stateList.add(State.get("fail"));}
 	 )
 	 [","]
   )*
