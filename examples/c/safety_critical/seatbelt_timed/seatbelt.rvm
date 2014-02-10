@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+SeatBelt {
+  event seatBeltRemoved(){fprintf(stderr, "Seat belt removed.\n");}
+
+  event seatBeltAttached() {fprintf(stderr, "Seat belt attached.\n");}
+
+  tfsm : unsafe [
+             seatBeltAttached -> safe
+           ]
+        safe [
+             seatBeltRemoved -> unsafe
+        ]
+
+  @safe {
+      fprintf(stderr, "set max speed to user input.\n");
+  }
+
+  @unsafe {
+      fprintf(stderr, "set max speed to 10 mph.\n");
+  }
+
+  @timeout {
+      fprintf(stderr, "Oh no!  Timeout elapsed without event (1000ms).\n");
+      exit(1);
+  }
+}

@@ -1,0 +1,29 @@
+Linux (these tests are for Linux/POSIX-compliant systems ONLY):
+To run test_1
+../../../../bin/rv-monitor -c seatbelt.rvm
+
+gcc test_1/seatbelt.c __RVC_SeatBelt_Monitor.c -o seatbelt
+
+./seatbelt
+
+
+To run test_2
+../../../../bin/rv-monitor -c seatbelt.rvm
+
+gcc test_2/seatbelt.c __RVC_SeatBelt_Monitor.c -o seatbelt
+
+./seatbelt
+
+To run test_3
+../../../../bin/rv-monitor -c seatbelt.rvm
+
+gcc test_3/seatbelt.c __RVC_SeatBelt_Monitor.c -o seatbelt
+
+./seatbelt
+
+To run test_4
+../../../../bin/rv-monitor -c seatbelt.rvm
+
+gcc test_4/seatbelt.c __RVC_SeatBelt_Monitor.c -o seatbelt
+
+./seatbelt
