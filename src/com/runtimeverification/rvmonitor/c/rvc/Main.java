@@ -220,6 +220,8 @@ public class Main {
 
       String cFile = rvcPrefix + specName + "Monitor.c";
       String aFile = "aspect.map";
+      String mFile = "Makefile.instrument";
+      String mnFile = "Makefile.new";
       String hFile = rvcPrefix + specName + "Monitor.h";
       String bcFile = rvcPrefix + specName + "Monitor.bc";
       String hDef = rvcPrefix + constSpecName + "MONITOR_H";
@@ -299,7 +301,63 @@ public class Main {
       }
 
       if(llvm){
-         try{
+          File mnFileHandle = new File(mnFile);
+          FileOutputStream mnfos = new FileOutputStream(mnFileHandle);
+          PrintStream mnos = new PrintStream(mnfos);
+          String nmakefile = "# This Makefile assumes that Makefile.original contains your original Makefile\n" +
+                  "# you could rename this as Makefile\n" +
+                  "all: original\n" +
+                  "\n" +
+                  "original:\n" +
+                  "\tmake -f Makefile.original\n" +
+                  "\n" +
+                  "instrument: original door_ajar.rvm\n" +
+                  "\t../../../../bin/rv-monitor -llvm door_ajar.rvm\n" +
+                  "\tmake -f Makefile.instrument\n" +
+                  "\n" +
+                  "uninstrument: .instrumented\n" +
+                  "\tmake -f Makefile.instrument uninstrument\n" +
+                  "\tmake -f Makefile.original\n" +
+                  "\n" +
+                  "clean:\n" +
+                  "\tmake -f Makefile.instrument clean\n" +
+                  "\tmake -f Makefile.original clean\n" +
+                  "\trm -f aspect.map *.bc Makefile.instrument\n" +
+                  "\n" +
+                  "\n" +
+                  ".PHONY: original instrument uninstrument\n";
+          mnos.print(nmakefile);
+          File mFileHandle = new File(mFile);
+          FileOutputStream mfos = new FileOutputStream(mFileHandle);
+          PrintStream mos = new PrintStream(mfos);
+          String makefile="all: .instrumented\n" +
+                  "\n" +
+                  "__RVC__Monitor.o: __RVC__Monitor.bc\n" +
+                  "\tllc -filetype=obj $< -o $@\n" +
+                  "\n" +
+                  ".instrumented: __RVC__Monitor.o aspect.map \n" +
+                  "\tfind . -type f \\( -name \"*.bc\" ! -name \"__RVC*\" \\) -exec make -f Makefile.instrument \"{}.original\" \\; \n" +
+                  "\tmake LDFLAGS=__RVC__Monitor.o\n" +
+                  "\ttouch .instrumented\n" +
+                  "\n" +
+                  "%.bc.original: %.bc\n" +
+                  "\tcp $< $@\n" +
+                  "\topt -load LLVMAOP.so -aop $< -o $< -f\n" +
+                  "\tif diff -q $< $@ >/dev/null ; then rm $@ ; fi\n" +
+                  "\n" +
+                  "clean:\n" +
+                  "\tmake -f Makefile.Instrument uninstrument\n" +
+                  "\trm -f __RVC__Monitor.o\n" +
+                  "\n" +
+                  "uninstrument: .instrumented \n" +
+                  "\trm -f .instrumented\n" +
+                  "\tfind . -name \"*.bc\" -type f -exec mv \"{}.original\" \"{}\" \\; 2>/dev/null\n" +
+                  "\n" +
+                  ".PHONY: uninstrument\n";
+          makefile = makefile.replaceAll(rvcPrefix + "_",rvcPrefix + specName);
+          mos.print(makefile);
+
+          try{
            Process p = Runtime.getRuntime().exec(new String[] {"clang", "-emit-llvm", "-c", "-o", bcFile, cFile});
            BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
            String inputLine;
