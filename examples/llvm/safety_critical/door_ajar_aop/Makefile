@@ -1,23 +1,20 @@
-.SUFFIXES: .bc
+all: original
 
-.c.bc:
-	clang $(CFLAGS) $< -o $@ -c -emit-llvm
+original:
+	make -f Makefile.original
 
-.bc.o:
-	llc -filetype=obj $< -o $@
+instrument: original door_ajar.rvm
+	../../../../bin/rv-monitor -llvm door_ajar.rvm
+	make -f Makefile.Instrument
 
-.o:
-	clang $(LDFLAGS) $@.o -o $@
-
-all: test1 test2
-
-lib/door_ajar.bc: lib/door_ajar.h
-
-test2.bc: lib/door_ajar.bc test_2/test2.bc
-	llvm-link lib/door_ajar.bc test_2/test2.bc -o test2.bc
-	
-test1.bc: lib/door_ajar.bc test_1/test1.bc
-	llvm-link lib/door_ajar.bc test_1/test1.bc -o test1.bc
+uninstrument: .instrumented
+	make -f Makefile.Instrument uninstrument
+	make -f Makefile.original
 
 clean:
-	rm -f test1.bc test2.bc lib/*.bc test_1/*.bc test_2/*.bc test1 test1.o test2 test2.o
+	make -f Makefile.Instrument clean
+	make -f Makefile.original clean
+	rm -f aspect.map *.bc
+
+
+.PHONY: original instrument uninstrument
