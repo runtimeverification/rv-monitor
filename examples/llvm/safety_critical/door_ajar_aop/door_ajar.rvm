@@ -1,6 +1,22 @@
 #include <stdio.h>
 
 DoorAjar {
+  event dispatchDoor() 
+      before executing void doorOperation(const char * argu) {
+    if (strcmp(argu, "open") == 0) {
+        doorOpen();
+    } else if (strcmp(argu, "close") == 0) {
+        doorClose();
+    }
+    return;  // this is not really an event
+  }
+  event dispatchEngine() 
+      before executing void engineOperation(const char * argu) {
+    if (strcmp(argu, "start") == 0) {
+        startEngine();
+    }
+  }
+
   event doorClose() {printf("Door closed\n");}
   event doorOpen() {printf("Door opened\n");}
   event startEngine() {printf("Attempting to start engine\n");}

@@ -1,0 +1,33 @@
+all: .instrumented
+
+__RVC_DoorAjar_Monitor.o: __RVC_DoorAjar_Monitor_aspect.bc
+	llc -filetype=obj $< -o $@
+
+__RVC_DoorAjar_Monitor.bc: door_ajar.rvm
+	../../../../bin/rv-monitor -llvm door_ajar.rvm
+
+__RVC_door_ajar_aspect.bc: __RVC_door_ajar_aspect.c  
+	clang $(CFLAGS) $< -o $@ -c -emit-llvm
+
+__RVC_DoorAjar_Monitor_aspect.bc: __RVC_DoorAjar_Monitor.bc __RVC_door_ajar_aspect.bc
+	llvm-link  __RVC_DoorAjar_Monitor.bc __RVC_door_ajar_aspect.bc -o __RVC_DoorAjar_Monitor_aspect.bc
+
+.instrumented: __RVC_DoorAjar_Monitor.o aspect.map 
+	find . -type f \( -name "*.bc" ! -name "__RVC*" \) -exec make -f Makefile.Instrument "{}.original" \; 
+	make LDFLAGS=__RVC_DoorAjar_Monitor.o
+	touch .instrumented
+
+%.bc.original: %.bc
+	cp $< $@
+	opt -load LLVMAOP.so -aop $< -o $< -f
+	if diff -q $< $@ >/dev/null ; then rm $@ ; fi
+
+clean: uninstrument
+	rm -rf __RVC_DoorAjar_Monitor.o __RVC_door_ajar_aspect.bc __RVC_DoorAjar_Monitor.bc __RVC_DoorAjar_Monitor_aspect.bc __RVC_DoorAjar_Monitor.bc
+
+uninstrument: .instrumented 
+	rm -f .instrumented
+	find . -name "*.bc" -type f -exec mv "{}.original" "{}" \; 2>/dev/null
+	make
+
+.PHONY: uninstrument

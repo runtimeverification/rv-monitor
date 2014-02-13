@@ -1,44 +1,30 @@
 Linux:
-
- If the `make` tool is available:
+ To build the tests without monitoring
     
   make
 
-  lli test_1.bc
-  lli test_2.bc
+ To run the unmonitored tests
+  ./test1
+  ./test2
+ 
+ Nothing should be printed for the unmonitored tests as they don't have 
+ output.
 
- If `make` is not avaliable:
+ To instrument the tests for monitoring, after building normally
+  
+  make -f Makefile.Instrument
 
- Common steps:
+ To run the instrumented tests
+  ./test1
+  ./test2
+ 
+ The output of these tests should be the same as in test_1/test1.output and
+ test_2/test2.output 
 
-  # Generate the monitor LLVM bitcode
-	../../../../bin/rv-monitor -llvm door_ajar.rvm
+ To remove monitoring code (without fully rebuilding):
+   make -f Makefile.Instrument uninstrument
 
-  # Compile the library to LLVM bitcode
-	clang lib/door_ajar.c -o lib/door_ajar.bc -c -emit-llvm
-
-  # Instrument the library bitcode with calls to monitoring events
-	opt -load LLVMAOP.so -aop < lib/door_ajar.bc >lib/door_ajar_instr.bc
-
- To run test_1: 
-
-  # Compile the main file to LLVM bitcode
-	clang test_1/test_1.c -o test_1/test_1.bc -c -emit-llvm
-
-  # Link together monitor, library and main file
-	llvm-link  __RVC_DoorAjar_Monitor.bc lib/door_ajar_instr.bc test_1/test_1.bc -o test_1.bc
-
-  # invoke the llvm virtual machine on the result
-  lli test_1.bc
-
- To run test_2:
-
-  # Compile the main file to LLVM bitcode
-	clang test_2/test_2.c -o test_2/test_2.bc -c -emit-llvm
-
-  # Link together monitor, library and main file
-	llvm-link  __RVC_DoorAjar_Monitor.bc lib/door_ajar_instr.bc test_1/test_1.bc -o test_2.bc
-
-  # invoke the llvm virtual machine on the result
-  lli test_2.bc
-
+ To clean the workspace:
+   make -f Makefile.Instrument clean
+   make clean
+ 
