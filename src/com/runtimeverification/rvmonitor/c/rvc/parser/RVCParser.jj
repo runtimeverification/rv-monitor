@@ -13,17 +13,17 @@ import java.io.*;
 
 public class RVCParser {
 
-enum WhenType { BEFORE,AFTER,INSTEAD }
-enum WhatType { EXEC,CALL}
+  public enum WhenType { BEFORE,AFTER,INSTEAD }
+  public enum WhatType { EXEC,CALL}
 
-  class CutPoint {
-    WhenType when;
-    WhatType what;
-    String params;
-    String retType;
-    String name;
-    String body;
-    String eventName;
+  public class CutPoint {
+    public WhenType when;
+    public WhatType what;
+    public String params;
+    public String retType;
+    public String name;
+    public String body;
+    public String eventName;
   }
 
   class StringPair {
@@ -85,6 +85,10 @@ enum WhatType { EXEC,CALL}
   private String formula;
   private String declarations;
  
+  public ArrayList<CutPoint> getCutpoints(){
+    return cutpoints;
+  }
+
   public String getIncludes(){
     return includes;
   }
@@ -326,7 +330,7 @@ StringPair TypedParameter() : {
     assert preTypes.size() > 1 : "Should have at least type and name";
     name = "";  type = "";
     for (String pType : preTypes) {
-       type += name;
+       type += name + " ";
        name = pType;
     }
     StringPair ret = new StringPair();

@@ -25,6 +25,7 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 
 import java.io.*; //tired of this nonsense
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -218,6 +219,7 @@ public class Main {
       String constSpecName = (String) sr.properties.get("constSpecName");
 
       String cFile = rvcPrefix + specName + "Monitor.c";
+      String aFile = "aspect.map";
       String hFile = rvcPrefix + specName + "Monitor.h";
       String bcFile = rvcPrefix + specName + "Monitor.bc";
       String hDef = rvcPrefix + constSpecName + "MONITOR_H";
@@ -243,6 +245,58 @@ public class Main {
       cos.println(sr.properties.get("reset"));
       cos.println(sr.properties.get("monitoring body"));
       cos.println(sr.properties.get("event functions"));
+
+      // Adding the aspect functions
+      ArrayList<RVCParser.CutPoint> cutpoints = rvcParser.getCutpoints();
+      if (!cutpoints.isEmpty()) {
+          File aFileHandle = new File(aFile);
+          FileOutputStream afos = new FileOutputStream(aFileHandle);
+          PrintStream aos = new PrintStream(afos);
+          for (RVCParser.CutPoint cutpoint : cutpoints) {
+              String aspectFn = rvcPrefix + specName + cutpoint.eventName + "_aspect";
+              //print aspect functions to .c file
+              if (cutpoint.when == RVCParser.WhenType.INSTEAD) {
+                  cos.print(cutpoint.retType);
+              } else {
+                  cos.print("void");
+              }
+              cos.print(" ");
+              cos.print(aspectFn);
+              cos.print("(");
+              if (cutpoint.when == RVCParser.WhenType.AFTER) {
+                  cos.print(cutpoint.retType);
+                  cos.print(" ");
+                  cos.print(rvcPrefix + "return");
+                  if (!cutpoint.params.isEmpty()) cos.print(", ");
+              }
+              cos.print(cutpoint.params);
+              cos.print(") ");
+              cos.println("{");
+              String body = cutpoint.body;
+              for (String name : rvcParser.getEvents().keySet()) {
+                  body = body.replaceAll(name, rvcPrefix + specName + name);
+              }
+              body = body.replaceAll("@return", rvcPrefix + "return");
+              cos.println(body);
+              cos.println(rvcPrefix + specName + cutpoint.eventName + "();");
+              cos.println("}");
+              //print instrumentation code to aspect file
+              switch(cutpoint.when) {
+                  case BEFORE: aos.print("before "); break;
+                  case AFTER: aos.print("after "); break;
+                  case INSTEAD: aos.print("instead of ");
+              }
+              switch (cutpoint.what) {
+                  case EXEC: aos.print("executing "); break;
+                  case CALL: aos.print("calling ");
+              }
+              aos.print(cutpoint.name);
+              aos.print(" call " );
+              aos.println(aspectFn);
+          }
+
+
+      }
 
       if(llvm){
          try{
