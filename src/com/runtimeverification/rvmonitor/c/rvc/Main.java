@@ -311,8 +311,9 @@ public class Main {
                   "original:\n" +
                   "\tmake -f Makefile.original\n" +
                   "\n" +
-                  "instrument: original door_ajar.rvm\n" +
-                  "\t../../../../bin/rv-monitor -llvm door_ajar.rvm\n" +
+                  "instrument: instrumented\n" +
+                  "\n" +
+                  "instrumented: original door_ajar.rvm\n" +
                   "\tmake -f Makefile.instrument\n" +
                   "\n" +
                   "uninstrument: .instrumented\n" +
@@ -322,10 +323,8 @@ public class Main {
                   "clean:\n" +
                   "\tmake -f Makefile.instrument clean\n" +
                   "\tmake -f Makefile.original clean\n" +
-                  "\trm -f aspect.map *.bc Makefile.instrument\n" +
                   "\n" +
-                  "\n" +
-                  ".PHONY: original instrument uninstrument\n";
+                  ".PHONY: original instrument instrumented uninstrument\n";
           mnos.print(nmakefile);
           File mFileHandle = new File(mFile);
           FileOutputStream mfos = new FileOutputStream(mFileHandle);
@@ -346,7 +345,7 @@ public class Main {
                   "\tif diff -q $< $@ >/dev/null ; then rm $@ ; fi\n" +
                   "\n" +
                   "clean:\n" +
-                  "\tmake -f Makefile.Instrument uninstrument\n" +
+                  "\tmake -f Makefile.instrument uninstrument\n" +
                   "\trm -f __RVC__Monitor.o\n" +
                   "\n" +
                   "uninstrument: .instrumented \n" +

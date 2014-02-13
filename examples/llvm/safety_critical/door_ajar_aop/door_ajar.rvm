@@ -16,6 +16,7 @@ DoorAjar {
     if (strcmp(argu, "start") == 0) {
         startEngine();
     }
+    return;  // this is not really an event
   }
 
   event doorClose() {printf("Door closed\n");}

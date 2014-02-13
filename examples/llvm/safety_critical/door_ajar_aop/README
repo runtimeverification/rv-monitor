@@ -1,4 +1,16 @@
 Linux:
+ To build the monitoring library bitcode and the assisting Makefiles
+  ../../../../bin/rv-monitor -c -llvm door_ajar.rvm
+ 
+ The above generates 4 files:
+ *__RVC_DoorAjar_Monitor.bc (monitoring library bitcode),
+ *aspect.map (information for instrumentation), 
+ *Makefile.instrument (make file for performing the instrumentation)
+ *Makefile.new (make file to deal with both compilation and instrumentation)
+
+  Makefile.new should be renamed as Makefile
+   mv Makefile.new Makefile
+
  To build the tests without monitoring
     
   make
