@@ -12,7 +12,7 @@ Linux:
 
  To instrument the tests for monitoring, after building normally
   
-  make -f Makefile.Instrument
+  make instrument
 
  To run the instrumented tests
   ./test1
@@ -22,9 +22,8 @@ Linux:
  test_2/test2.output 
 
  To remove monitoring code (without fully rebuilding):
-   make -f Makefile.Instrument uninstrument
+   make uninstrument
 
  To clean the workspace:
-   make -f Makefile.Instrument clean
    make clean
  
