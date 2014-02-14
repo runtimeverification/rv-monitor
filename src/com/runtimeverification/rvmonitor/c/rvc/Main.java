@@ -276,7 +276,7 @@ public class Main {
               cos.println("{");
               String body = cutpoint.body;
               for (String name : rvcParser.getEvents().keySet()) {
-                  body = body.replaceAll(name, rvcPrefix + specName + name);
+                  body = body.replaceAll("@" + name, rvcPrefix + specName + name);
               }
               body = body.replaceAll("@return", rvcPrefix + "return");
               cos.println(body);
@@ -297,10 +297,7 @@ public class Main {
               aos.println(aspectFn);
           }
 
-
-      }
-
-      if(llvm){
+          if (llvm) {
           File mnFileHandle = new File(mnFile);
           FileOutputStream mnfos = new FileOutputStream(mnFileHandle);
           PrintStream mnos = new PrintStream(mnfos);
@@ -313,7 +310,7 @@ public class Main {
                   "\n" +
                   "instrument: instrumented\n" +
                   "\n" +
-                  "instrumented: original door_ajar.rvm\n" +
+                  "instrumented: original\n" +
                   "\tmake -f Makefile.instrument\n" +
                   "\n" +
                   "uninstrument: .instrumented\n" +
@@ -355,7 +352,11 @@ public class Main {
                   ".PHONY: uninstrument\n";
           makefile = makefile.replaceAll(rvcPrefix + "_",rvcPrefix + specName);
           mos.print(makefile);
+          }
 
+      }
+
+      if(llvm){
           try{
            Process p = Runtime.getRuntime().exec(new String[] {"clang", "-emit-llvm", "-c", "-o", bcFile, cFile});
            BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));

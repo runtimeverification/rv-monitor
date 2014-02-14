@@ -5,16 +5,16 @@ DoorAjar {
   event dispatchDoor() 
       before executing void doorOperation(const char * argu) {
     if (strcmp(argu, "open") == 0) {
-        doorOpen();
+        @doorOpen();                 //generate event doorOpen
     } else if (strcmp(argu, "close") == 0) {
-        doorClose();
+        @doorClose();               //generate event doorClose
     }
     return;  // this is not really an event
   }
   event dispatchEngine() 
       before executing void engineOperation(const char * argu) {
     if (strcmp(argu, "start") == 0) {
-        startEngine();
+        @startEngine();
     }
     return;  // this is not really an event
   }

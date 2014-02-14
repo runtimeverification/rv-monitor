@@ -30,8 +30,8 @@ Linux:
   ./test1
   ./test2
  
- The output of these tests should be the same as in test_1/test1.output and
- test_2/test2.output 
+ The output of these tests on the stderr stream should be the same as in 
+ test_1/test1.output and test_2/test2.output 
 
  To remove monitoring code (without fully rebuilding):
    make uninstrument

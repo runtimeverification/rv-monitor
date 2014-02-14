@@ -3,9 +3,11 @@
 
 SixSteps {
 
-  event complete(void){fprintf(stderr, "Operation complete.\n");}
+  event complete(void)
+   before executing done() {fprintf(stderr, "Operation complete.\n");}
 
-  event step(void){fprintf(stderr, "Step.\n");}
+  event step(void)
+   before executing step() {fprintf(stderr, "Step.\n");}
 
   ere : step^7
 
