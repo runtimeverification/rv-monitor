@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 IsNull {
-   event isNull()  {}
-   event deref() {}
+   event isNull() after calling int isNull(int* x) {}
+   event deref() before calling int value(int* x)  {}
 
    cfg : 
        S -> A deref deref,

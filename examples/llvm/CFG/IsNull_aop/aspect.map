@@ -1,2 +1,0 @@
-before calling value call derefAspect
-after calling isNull call isNullAspect
