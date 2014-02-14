@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+Can_If {
+  event if_init() {}
+  event preinit_controller() {}
+  event set_controller_mode() {}
+  event get_controller_mode() {}
+  event transmit() {}
+
+  ere : if_init preinit_controller (set_controller_mode | get_controller_mode | transmit)*
+
+  @ fail {
+    fprintf(stderr, "Warning: CAN layer was used without proper controller initialization!\n");
+    exit(1);
+  }
+
+  @match {
+    printf("CanIf component correctly initialized and used.\n");
+  }
+}

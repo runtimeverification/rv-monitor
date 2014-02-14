@@ -1,0 +1,7 @@
+To run these examples, simply run "make" in the directory.
+
+Binaries canif_test_1 through canif_test_3 will be generated.
+
+This test is a minimal version of the following open-source Autosar CanIf implementation:
+http://code.google.com/p/gainos/source/browse/GaInOS_Based_On_uTenux-tkernel/gainos/uTenux/autosar/autosar/comstack/CanIf/?r=29
+and checks for certain properties required to conform to the AUTOSAR API.
