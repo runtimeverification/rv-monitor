@@ -1,6 +1,29 @@
 #include <stdio.h>
+#include <string.h>
 
-AutoHeadlights{
+AutoHeadlights {
+
+  event dispatch() before calling void changeHeadlights(char* argu) {
+    if (strcmp(argu, "stop") == 0) {
+        @stop();
+    }
+    else if (strcmp(argu, "on") == 0) {
+        @on();
+    }
+    else if (strcmp(argu, "manual") == 0) {
+        @manual();
+    }
+    else if (strcmp(argu, "off") == 0) {
+        @off();
+    }
+    else if (strcmp(argu, "start") == 0) {
+        @start();
+    }
+    else if (strcmp(argu, "auto") == 0) {
+        @auto();
+    }
+    return; /// skip generating the event
+  }
 
   event auto  () { printf("auto\n"); }
  

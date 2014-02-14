@@ -1,27 +1,41 @@
-To run test_1
-  ../../../../bin/rv-monitor -llvm auto_headlights.rvm
+Linux:
+ To build the monitoring library bitcode and the assisting Makefiles
+  ../../../../bin/rv-monitor -c -llvm auto_headlights.rvm
+ 
+ The above generates 4 files:
+ *__RVC_AutoHeadlights_Monitor.bc (monitoring library bitcode),
+ *aspect.map (information for instrumentation), 
+ *Makefile.instrument (make file for performing the instrumentation)
+ *Makefile.new (make file to deal with both compilation and instrumentation)
 
-  clang auto_headlights_aspect.c -o auto_headlights_aspect.bc -c -emit-llvm
+  Makefile.new should be renamed as Makefile
+   mv Makefile.new Makefile
 
-  clang test_1/test_1.c -o test_1/test_1.bc -c -emit-llvm
+ To build the tests without monitoring
+    
+  make
 
-  opt -load LLVMAOP.so -aop < test_1/test_1.bc >test_1/test_1_instr.bc
+ To run the unmonitored tests
+  ./test1
+  ./test2
+ 
+ Nothing should be printed for the unmonitored tests as they don't have 
+ output.
 
-  llvm-link  __RVC_AutoHeadlights_Monitor.bc auto_headlights_aspect.bc test_1/test_1_instr.bc -o test_1.bc
+ To instrument the tests for monitoring, after building normally
+  
+  make instrument
 
-  lli test_1.bc
+ To run the instrumented tests
+  ./test1
+  ./test2
+ 
+ The output of these tests on the stderr stream should be the same as in 
+ test_1/test1.output and test_2/test2.output 
 
+ To remove monitoring code (without fully rebuilding):
+   make uninstrument
 
-To run test_2
-
-  ../../../../bin/rv-monitor -llvm auto_headlights.rvm
-
-  clang auto_headlights_aspect.c -o auto_headlights_aspect.bc -c -emit-llvm
-
-  clang test_2/test_2.c -o test_2/test_2.bc -c -emit-llvm
-
-  opt -load LLVMAOP.so -aop < test_2/test_2.bc >test_2/test_2_instr.bc
-
-  llvm-link  __RVC_AutoHeadlights_Monitor.bc auto_headlights_aspect.bc test_2/test_2_instr.bc -o test_2.bc
-
-  lli test_2.bc
+ To clean the workspace:
+   make clean
+ 

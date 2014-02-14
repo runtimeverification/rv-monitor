@@ -19,8 +19,8 @@ Linux:
   ./test1
   ./test2
  
- Nothing should be printed for the unmonitored tests as they don't have 
- output.
+ On stdout a succession of Step and complete messages are printed.
+ Nothing is printed on the stderr stream.
 
  To instrument the tests for monitoring, after building normally
   
