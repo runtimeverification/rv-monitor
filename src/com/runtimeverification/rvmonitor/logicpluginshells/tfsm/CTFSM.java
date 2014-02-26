@@ -210,6 +210,8 @@ public class CTFSM extends LogicPluginShell {
       + "  }\n"
       + "  it_val.it_value.tv_sec = 1;\n"
       + "  it_val.it_value.tv_usec = 0;\n"
+      + "  it_val.it_interval.tv_sec = 0;\n"
+      + "  it_val.it_interval.tv_usec = 0;\n"
       + "  if (setitimer(ITIMER_REAL, &it_val, NULL) == -1) {\n"     
       + "    perror(\"error calling setitimer()\");\n    exit(1);\n"
       + "  }\n"    
