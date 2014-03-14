@@ -347,7 +347,7 @@ public class Main {
                   "\n" +
                   "uninstrument: .instrumented \n" +
                   "\trm -f .instrumented\n" +
-                  "\tfind . -name \"*.bc\" -type f -exec mv \"{}.original\" \"{}\" \\; 2>/dev/null\n" +
+                  "\tfind . -name \"*.bc\" -type f -exec mv \"{}.original\" \"{}\" \\; -exec touch \"{}\" \\; 2>/dev/null\n" +
                   "\n" +
                   ".PHONY: uninstrument\n";
           makefile = makefile.replaceAll(rvcPrefix + "_",rvcPrefix + specName);
