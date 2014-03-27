@@ -4,15 +4,27 @@
   <property name="build" value="build" />
   <property name="lib" value="lib" />
   <property name="src" value="src" />
+  <property name="src.tests" value="test" />
+  <property name="reports.tests" value="test-reports" />
+  <property name="build.tests" value="build" />
   <property environment="env" />
   <property name="plugins" value="lib/plugins" />
   <property name="scala.home" value="${env.SCALA_HOME}" />
   <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
   <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
 
+   <path id="classpath.base"/>
+   <path id="classpath.test">
+      <pathelement location="lib/external/junit.jar" />
+      <pathelement location="lib/external/hamcrest-core.jar" />
+      <pathelement location="${src.tests}" />
+      <pathelement location="${src}" />
+      <path refid="classpath.base" />
+   </path>
+
   <path id="scala.classpath">
     <fileset dir="${scala.home}/lib/"> <include name="*.jar" /> </fileset>
-    <pathelement location="build" />
+    <pathelement location="${build}" />
   </path>
 
   <taskdef resource="scala/tools/ant/antlib.xml">
@@ -283,4 +295,31 @@
   </target>
 
   <target name="build" depends="jar"/>
+
+
+  <target name="build-test" depends="build" >
+    <javac srcdir="${src.tests}" destdir="${build.tests}" classpathref="classpath.test" includeantruntime="false" />
+  </target>
+  
+
+  <target name="test" depends="build-test">
+    <junit>
+      <env key="LOGICPLUGINPATH" path="${plugins}" />
+      <classpath>
+        <pathelement location="${plugins}/*.jar" />
+        <pathelement location="${scala-library.jar}" />
+        <pathelement location="${build.tests}"/>
+        <pathelement path="${java.class.path}"/>
+        <path refid="classpath.test" />
+      </classpath>
+     <batchtest fork="yes" todir="${reports.tests}">
+       <formatter type="xml"/>
+       <fileset dir="${src.tests}">
+         <include name="**/*Test*.java"/>
+         <exclude name="**/TestHelper.java"/>
+       </fileset>
+     </batchtest>
+         
+    </junit>
+  </target>
 </project>
