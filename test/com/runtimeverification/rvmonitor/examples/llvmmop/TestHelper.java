@@ -1,7 +1,6 @@
 package com.runtimeverification.rvmonitor.examples.llvmmop;
 
 import com.runtimeverification.rvmonitor.c.rvc.Main;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +31,21 @@ public class TestHelper {
         fileSystem = FileSystems.getDefault();
         specPathParent = fileSystem.getPath(specPath).getParent();
         specFile = specPathParent.toFile();
+
+    }
+
+
+    @Test
+    public void testMonitor() throws Exception {
+        if (Files.exists(fileSystem.getPath(specPathParent.toString(), RVC + specName + MONITOR_BC))) {
+            return;
+        }
+        deleteFiles(false,
+                RVC + specName + MONITOR_BC,
+                "Makefile",
+                "Makefile.instrument",
+                "aspect.map"
+        );
         Main.main(new String[]{"-llvm", specPath});
         relocateFiles(
                 RVC + specName + MONITOR_BC,
@@ -61,20 +75,13 @@ public class TestHelper {
         testCommand("make", "uninstrument");
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void testMakeClean() throws Exception {
         testCommand("make", "clean");
-        specPathParent = fileSystem.getPath(this.specPath).getParent();
-        deleteFiles(
-                RVC + specName + MONITOR_BC,
-                "Makefile",
-                "Makefile.instrument",
-                "aspect.map"
-        );
-
     }
 
-    private void testCommand(String... command) throws IOException, InterruptedException {
+    private void testCommand(String... command) throws Exception {
+        testMonitor();
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.directory(specFile);
         Process process = processBuilder.start();
@@ -92,10 +99,14 @@ public class TestHelper {
         }
     }
 
-    private void deleteFiles(String... files) throws IOException {
+    private void deleteFiles(boolean fail, String... files) throws IOException {
         for (String s : files) {
             Path toDelete = fileSystem.getPath(specPathParent.toString(), s);
-            Files.delete(toDelete);
+            if (fail) {
+                Files.delete(toDelete);
+            } else {
+                Files.deleteIfExists(toDelete);
+            }
         }
     }
 }

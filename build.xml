@@ -303,6 +303,7 @@
   
 
   <target name="test" depends="build-test">
+    <mkdir dir="${reports.tests}" />
     <junit>
       <env key="LOGICPLUGINPATH" path="${plugins}" />
       <classpath>
