@@ -61,7 +61,7 @@ SKIP : {
 
 TOKEN : {
     <EPSILON   : "#epsilon" >
-  | <NUMBER    : ["0"-"9"]  >
+  | <NUMBER    : (["0"-"9"])+  >
   | <MATCHES   : "matches"  >
   | <TRUE      : "true"     >
   | <FALSE     : "false"    >
