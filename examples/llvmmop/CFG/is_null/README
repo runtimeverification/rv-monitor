@@ -7,7 +7,7 @@
  for matching rather than failure
 
  To build the monitoring library bitcode and the assisting Makefiles
-  ../../../../bin/rv-monitor -c -llvm door_ajar.rvm
+  ../../../../bin/rv-monitor -c -llvm is_null.rvm
  
  The above generates 4 files:
  *__RVC_IsNull_Monitor.bc (monitoring library bitcode),
