@@ -17,13 +17,13 @@ test1.o: test_1/test1.bc
 test2.o: test_2/test2.bc
 	llc -filetype=obj $< -o $@
 
-test: 
+test: all
 	@echo "Test 1" 
 	@echo "Test 1"  >>/dev/stderr
-	@./test1
+	-@./test1
 	@echo "Test 2" 
 	@echo "Test 2"  >>/dev/stderr
-	@./test2
+	-@./test2
 	
 clean:
 	rm -f test_1/*.bc test_2/*.bc test1 test1.o test2 test2.o

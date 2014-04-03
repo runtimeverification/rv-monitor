@@ -90,7 +90,7 @@ public class Main {
 
       ClassLoader loader = Main.class.getClassLoader();
       String mainClassPath = loader.getResource("com/runtimeverification/rvmonitor/c/rvc/Main.class").toString();
-      String cmgPath = null;
+      String cmgPath;
       if (mainClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class") && mainClassPath.startsWith("jar:")) {
         cmgPath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
                    - "rvmonitor.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
@@ -115,8 +115,7 @@ public class Main {
       Scanner sc = new Scanner(fio);
       StringBuilder buf = new StringBuilder();
       while(sc.hasNextLine()) buf.append(sc.nextLine());
-      RVCParser ret = RVCParser.parse(buf.toString());
-      return ret; 
+     return RVCParser.parse(buf.toString());
  }
 
   // Generates the proper name for the logic plugin directory
@@ -308,12 +307,10 @@ public class Main {
                   "original:\n" +
                   "\tmake -f Makefile.original\n" +
                   "\n" +
-                  "instrument: instrumented\n" +
-                  "\n" +
-                  "instrumented: original\n" +
+                  "instrument: original\n" +
                   "\tmake -f Makefile.instrument\n" +
                   "\n" +
-                  "uninstrument: .instrumented\n" +
+                  "uninstrument:\n" +
                   "\tmake -f Makefile.instrument uninstrument\n" +
                   "\tmake -f Makefile.original\n" +
                   "\n" +
@@ -321,35 +318,32 @@ public class Main {
                   "\tmake -f Makefile.instrument clean\n" +
                   "\tmake -f Makefile.original clean\n" +
                   "\n" +
-                  ".PHONY: original instrument instrumented uninstrument\n";
+                  ".PHONY: original instrument uninstrument\n";
           mnos.print(nmakefile);
           File mFileHandle = new File(mFile);
           FileOutputStream mfos = new FileOutputStream(mFileHandle);
           PrintStream mos = new PrintStream(mfos);
-          String makefile="all: .instrumented\n" +
+          String makefile="all: instrument\n" +
                   "\n" +
                   "__RVC__Monitor.o: __RVC__Monitor.bc\n" +
                   "\tllc -filetype=obj $< -o $@\n" +
                   "\n" +
-                  ".instrumented: __RVC__Monitor.o aspect.map \n" +
+                  "instrument: __RVC__Monitor.o aspect.map uninstrument\n" +
                   "\tfind . -type f \\( -name \"*.bc\" ! -name \"__RVC*\" \\) -exec make -f Makefile.instrument \"{}.original\" \\; \n" +
                   "\tmake LDFLAGS=__RVC__Monitor.o\n" +
-                  "\ttouch .instrumented\n" +
                   "\n" +
                   "%.bc.original: %.bc\n" +
                   "\tcp $< $@\n" +
                   "\topt -load LLVMAOP.so -aop $< -o $< -f\n" +
                   "\tif diff -q $< $@ >/dev/null ; then rm $@ ; fi\n" +
                   "\n" +
-                  "clean:\n" +
-                  "\tmake -f Makefile.instrument uninstrument\n" +
+                  "clean: uninstrument\n" +
                   "\trm -f __RVC__Monitor.o\n" +
                   "\n" +
-                  "uninstrument: .instrumented \n" +
-                  "\trm -f .instrumented\n" +
+                  "uninstrument:\n" +
                   "\tfind . -name \"*.bc\" -type f -exec mv \"{}.original\" \"{}\" \\; -exec touch \"{}\" \\; 2>/dev/null\n" +
                   "\n" +
-                  ".PHONY: uninstrument\n";
+                  ".PHONY: instrument uninstrument\n";
           makefile = makefile.replaceAll(rvcPrefix + "_",rvcPrefix + specName);
           mos.print(makefile);
           }

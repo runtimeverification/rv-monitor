@@ -13,7 +13,9 @@
   <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
   <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
 
-   <path id="classpath.base"/>
+   <path id="classpath.base">
+      <pathelement location="lib/external/commons-io-2.4.jar" />
+   </path>
    <path id="classpath.test">
       <pathelement location="lib/external/junit.jar" />
       <pathelement location="lib/external/hamcrest-core.jar" />

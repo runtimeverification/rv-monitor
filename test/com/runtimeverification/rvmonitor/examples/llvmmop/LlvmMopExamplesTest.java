@@ -2,9 +2,11 @@ package com.runtimeverification.rvmonitor.examples.llvmmop;
 
 import com.runtimeverification.rvmonitor.c.rvc.Main;
 import com.runtimeverification.rvmonitor.util.Tool;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,39 +14,34 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Base class for llvmmop examples JUnit tests.
  * @author TraianSF
  */
-public class TestHelper {
+@RunWith(Parameterized.class)
+public class LlvmMopExamplesTest {
     public static final String RVC = "__RVC_";
     public static final String MONITOR_BC = "_Monitor.bc";
-    protected String specPath;
-    protected String specName;
-    File specFile;
-    private FileSystem fileSystem;
-    private Path specPathParent;
+    private final String specPath;
+    private final String specName;
+    private final File specFile;
+    private final FileSystem fileSystem;
+    private final Path specPathParent;
 
-    @Before
-    public void setUp() throws Exception {
+
+    public LlvmMopExamplesTest(String specPath, String specName) {
+        this.specName = specName;
+        this.specPath = specPath;
         fileSystem = FileSystems.getDefault();
         specPathParent = fileSystem.getPath(specPath).getParent();
         specFile = specPathParent.toFile();
-
     }
 
-    /**
-     * Calls rv-monitor on the specification described by {@code specPath} and relocates files appropriately.
-     * If the monitor was already generated, the method does not generate it again.
-     * @throws Exception
-     */
-    @Test
-    public void testMonitor() throws Exception {
-        if (Files.exists(fileSystem.getPath(specPathParent.toString(), RVC + specName + MONITOR_BC))) {
-            return;
-        }
+    private void createMonitor() throws IOException {
         deleteFiles(false,
                 RVC + specName + MONITOR_BC,
                 "Makefile",
@@ -73,7 +70,7 @@ public class TestHelper {
      */
     @Test
     public void testTest() throws Exception {
-        testMonitor();
+        createMonitor();
         testCommand(null, "make", "clean");
         testCommand(null, "make");
         testCommand("tests/original", "make", "-f", "Makefile.original", "test");
@@ -81,12 +78,22 @@ public class TestHelper {
         testCommand("tests/instrumented", "make", "-f", "Makefile.original", "test");
         testCommand(null, "make", "uninstrument");
         testCommand("tests/original", "make", "-f", "Makefile.original", "test");
+        testCommand(null, "make", "clean");
+        deleteFiles(false,
+                RVC + specName + MONITOR_BC,
+                "Makefile",
+                "Makefile.instrument",
+                "aspect.map",
+                "tests/original.actual.out",
+                "tests/original.actual.err",
+                "tests/instrumented.actual.out",
+                "tests/instrumented.actual.err"
+        );
 
     }
 
     private void testCommand(String expectedFilePrefix, String... command) throws Exception {
-        testMonitor();
-        ProcessBuilder processBuilder = new ProcessBuilder(command);
+        ProcessBuilder processBuilder = new ProcessBuilder(command).inheritIO();
         processBuilder.directory(specFile);
         String actualOutFile = null;
         String testsPrefix;
@@ -106,9 +113,9 @@ public class TestHelper {
         int returnCode = process.waitFor();
         Assert.assertEquals("Expected no error during" + Arrays.toString(command) + ".", 0, returnCode);
         if (expectedFilePrefix != null) {
-            Assert.assertEquals(".out files should be the same", Tool.convertFileToString(expectedOutFile),
+            Assert.assertEquals(actualOutFile + " should match " + expectedOutFile, Tool.convertFileToString(expectedOutFile),
                     Tool.convertFileToString(actualOutFile));
-            Assert.assertEquals(".out files should be the same", Tool.convertFileToString(expectedErrFile),
+            Assert.assertEquals(actualErrFile + "should match " + expectedErrFile, Tool.convertFileToString(expectedErrFile),
                     Tool.convertFileToString(actualErrFile));
         }
     }
@@ -132,5 +139,22 @@ public class TestHelper {
                 Files.deleteIfExists(toDelete);
             }
         }
+    }
+
+    @Parameterized.Parameters(name="{0}")
+    public static Collection<Object[]> data() {
+        Collection<Object[]> data = new ArrayList<Object[]>();
+        for (File rvmFile : FileUtils.listFiles(new File("examples/llvmmop"), new String[]{"rvm"}, true)) {
+            String rvmFileName = rvmFile.getName();
+            String fileName = rvmFileName.substring(0, rvmFileName.lastIndexOf('.'));
+            String[] parts = fileName.split("_");
+            String specPath = rvmFile.getPath();
+            String specName = "";
+            for (String part : parts) {
+                specName += Character.toUpperCase(part.charAt(0)) + part.substring(1);
+            }
+            data.add(new Object[] {specPath, specName});
+        }
+        return data;
     }
 }
