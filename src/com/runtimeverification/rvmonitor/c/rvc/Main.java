@@ -300,6 +300,13 @@ public class Main {
           File mnFileHandle = new File(mnFile);
           FileOutputStream mnfos = new FileOutputStream(mnFileHandle);
           PrintStream mnos = new PrintStream(mnfos);
+          // The llvm backend assumes a Makefile.original exists building the (unistrumented) project
+          // and adds two other Makefiles:
+          // * Makefile.instrument is used to instrument the .bc files with the provided aspects
+          // * Makefile.new is the new main Makefile, which defines tasks for building and instrumenting and
+          //   delegates work to the other two
+          
+          // Makefile.new
           String nmakefile = "# This Makefile assumes that Makefile.original contains your original Makefile\n" +
                   "# you could rename this as Makefile\n" +
                   "all: original\n" +
@@ -323,6 +330,8 @@ public class Main {
           File mFileHandle = new File(mFile);
           FileOutputStream mfos = new FileOutputStream(mFileHandle);
           PrintStream mos = new PrintStream(mfos);
+          
+          // Makefile.instrument
           String makefile="all: instrument\n" +
                   "\n" +
                   "__RVC__Monitor.o: __RVC__Monitor.bc\n" +
