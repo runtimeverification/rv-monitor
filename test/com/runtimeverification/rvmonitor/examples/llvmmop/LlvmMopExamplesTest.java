@@ -141,6 +141,10 @@ public class LlvmMopExamplesTest {
         }
     }
 
+    // The method bellow creates the set of parameter instances to be used as seeds by
+    // the test constructor.  Junit will run the testsuite once for each parameter instance.
+    // This is documented in the Junit Parameterized tests page:
+    // http://junit.sourceforge.net/javadoc/org/junit/runners/Parameterized.html
     @Parameterized.Parameters(name="{0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> data = new ArrayList<Object[]>();
