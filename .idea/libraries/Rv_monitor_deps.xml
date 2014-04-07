@@ -5,8 +5,11 @@
       <root url="jar://$PROJECT_DIR$/lib/external/jaxb-impl.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/external/mysql-connector-java-3.0.9-stable-bin.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/scala-library.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/external/commons-io-2.4.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/commons-io-2.4/commons-io-2.4-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

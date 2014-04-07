@@ -6,9 +6,14 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/com/runtimeverification/rvmonitor/logicrepository/plugins/ptltl" />
     </content>
+    <content url="file://$MODULE_DIR$/../test">
+      <sourceFolder url="file://$MODULE_DIR$/../test" isTestSource="true" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Rv-monitor-deps" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="plugins" level="project" />
   </component>
 </module>
 

@@ -18,6 +18,14 @@ test2.bc: lib/six_steps.bc test_2/test2.bc
 	
 test1.bc: lib/six_steps.bc test_1/test1.bc
 	llvm-link  lib/six_steps.bc test_1/test1.bc -o test1.bc
+
+test: all
+	@echo "Test 1" 
+	@echo "Test 1"  >>/dev/stderr
+	-@./test1
+	@echo "Test 2" 
+	@echo "Test 2"  >>/dev/stderr
+	-@./test2
 	
 clean:
 	rm -f test1.bc test2.bc lib/*.bc test_1/*.bc test_2/*.bc test1 test1.o test2 test2.o

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-Can_If {
+CanIfConcept {
   event if_init() before executing void CanIf_Init() {}
   event preinit_controller() 
     before executing void CanIf_PreInit_InitController(int x, int y) {}
