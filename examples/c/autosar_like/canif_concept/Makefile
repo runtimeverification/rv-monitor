@@ -14,3 +14,18 @@ canif_test_3: __RVC_Can_If_Monitor.c canif_3/test_3.c
 
 clean:
 	rm -f canif_test_1 canif_test_2 canif_test_3 __RVC_*
+
+
+test: all
+	@echo "Test 1" 
+	@echo "Test 1"  >>/dev/stderr
+	-@./canif_test_1
+	@echo "Test 2" 
+	@echo "Test 2"  >>/dev/stderr
+	-@./canif_test_2
+	@echo "Test 3" 
+	@echo "Test 3"  >>/dev/stderr
+	-@./canif_test_3
+
+
+

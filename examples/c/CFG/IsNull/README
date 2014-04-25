@@ -11,35 +11,35 @@ Linux:
 
 To run IsNull_1 execute the following commands:
 
-../../../../bin/rv-monitor -c mop/IsNull.rvm
+../../../../bin/rv-monitor -c IsNull.rvm
 
-gcc IsNull_1/IsNull_1.c ../__RVC_IsNull_Monitor.c -o IsNull_1
+gcc IsNull_1/IsNull_1.c __RVC_IsNull_Monitor.c -o test_1
 
-./IsNull_1
+./test_1
 
 To run IsNull_2 execute the following commands:
 
-../../../../bin/rv-monitor -c mop/IsNull.rvm
+../../../../bin/rv-monitor -c IsNull.rvm
 
-gcc IsNull_2/IsNull_2.c __RVC_IsNull_Monitor.c -o IsNull_2
+gcc IsNull_2/IsNull_2.c __RVC_IsNull_Monitor.c -o test_2
 
-./IsNull_2
+./test_2
 
 Windows:
 
 To run IsNull_1 execute the following commands:
 
-../../../../bin/rv-monitor -c mop/IsNull.rvm
+../../../../bin/rv-monitor -c IsNull.rvm
 
-gcc IsNull_1/IsNull_1.c __RVC_IsNull_Monitor.c -o IsNull_1.exe
+gcc IsNull_1/IsNull_1.c __RVC_IsNull_Monitor.c -o test_1.exe
 
-IsNull_1.exe
+test_1.exe
 
 To run IsNull_2 execute the following commands:
 
-../../../../bin/rv-monitor -c mop/IsNull.rvm
+../../../../bin/rv-monitor -c IsNull.rvm
 
-gcc IsNull_2/IsNull_2.c __RVC_IsNull_Monitor.c -o IsNull_2.exe
+gcc IsNull_2/IsNull_2.c __RVC_IsNull_Monitor.c -o test_2.exe
 
-IsNull_2.exe
+test_2.exe
 
