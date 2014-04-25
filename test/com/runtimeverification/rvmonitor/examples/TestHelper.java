@@ -48,9 +48,12 @@ public class TestHelper {
             actualErrFile = testsPrefix + ".actual.err";
             expectedOutFile = testsPrefix + ".expected.out";
             expectedErrFile = testsPrefix + ".expected.err";
-            processBuilder.redirectError(new File(actualErrFile));
-            processBuilder.redirectOutput(new File(actualOutFile));
+        } else {
+            actualOutFile = "/dev/null";
+            actualErrFile = "/dev/null";
         }
+        processBuilder.redirectError(new File(actualErrFile));
+        processBuilder.redirectOutput(new File(actualOutFile));
         Process process = processBuilder.start();
         int returnCode = process.waitFor();
         Assert.assertEquals("Expected no error during" + Arrays.toString(command) + ".", 0, returnCode);

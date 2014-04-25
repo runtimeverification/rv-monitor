@@ -306,7 +306,7 @@
 
   <target name="test" depends="build-test">
     <mkdir dir="${reports.tests}" />
-    <junit>
+    <junit printsummary="yes">
       <env key="LOGICPLUGINPATH" path="${plugins}" />
       <classpath>
         <pathelement location="${plugins}/*.jar" />
