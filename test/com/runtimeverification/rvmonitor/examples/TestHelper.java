@@ -21,6 +21,10 @@ public class TestHelper {
     private final File basePathFile;
     private final Path basePath;
 
+    /**
+     * Initializes the {@code basePath} field to the parent directory of the specified file path
+     * @param filePath  path to the file which prompted this test, used to establish working dir
+     */
     public TestHelper(String filePath)   {
         fileSystem = FileSystems.getDefault();
         this.basePath = fileSystem.getPath(filePath).getParent();
