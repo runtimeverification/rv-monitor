@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Base class for llvmmop examples JUnit tests.
+ * Base class for C examples JUnit tests.
  * @author TraianSF
  */
 @RunWith(Parameterized.class)

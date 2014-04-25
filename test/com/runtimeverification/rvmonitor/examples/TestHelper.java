@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 
 /**
+ * Helper class for testing the output of external commands against the expected output.
  * @author TraianSF
  */
 public class TestHelper {
@@ -65,6 +66,12 @@ public class TestHelper {
         }
     }
 
+    /**
+     * Moves files from the current directory to the path pointed to by basePath
+     * @param files  files to be relocated
+     * @throws IOException
+     */
+
     public void relocateFiles(String... files) throws IOException {
         for (String s : files) {
             Path path = fileSystem.getPath(basePath.toString(), s);
@@ -75,6 +82,12 @@ public class TestHelper {
         }
     }
 
+    /**
+     * Deletes files from the basePath, potentially failing if the files don't exist
+     * @param fail  if true, it expects the files to exist and fails the test if they don't
+     * @param files relative paths (to basePath) of the files to be deleted
+     * @throws IOException
+     */
     public void deleteFiles(boolean fail, String... files) throws IOException {
         for (String s : files) {
             Path toDelete = fileSystem.getPath(basePath.toString(), s);
@@ -86,6 +99,12 @@ public class TestHelper {
         }
     }
 
+    /**
+     * Computes the path obtained by adding the relative path specified by {@code path} to the
+     * {@code basePath}
+     * @param path  path relative to {@code basePath} to be computed
+     * @return the path obtained by adding {@code path} to {@code basePath}
+     */
     public Path getPath(String path) {
         return fileSystem.getPath(basePath.toString(), path);
     }
