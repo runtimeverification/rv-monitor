@@ -1,21 +1,16 @@
 package com.runtimeverification.rvmonitor.examples.llvmmop;
 
 import com.runtimeverification.rvmonitor.c.rvc.Main;
-import com.runtimeverification.rvmonitor.util.Tool;
+import com.runtimeverification.rvmonitor.examples.TestHelper;
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -28,28 +23,24 @@ public class LlvmMopExamplesTest {
     public static final String MONITOR_BC = "_Monitor.bc";
     private final String specPath;
     private final String specName;
-    private final File specFile;
-    private final FileSystem fileSystem;
-    private final Path specPathParent;
+    private final TestHelper helper;
 
 
     public LlvmMopExamplesTest(String specPath, String specName) {
         this.specName = specName;
         this.specPath = specPath;
-        fileSystem = FileSystems.getDefault();
-        specPathParent = fileSystem.getPath(specPath).getParent();
-        specFile = specPathParent.toFile();
+        helper = new TestHelper(specPath);
     }
 
     private void createMonitor() throws IOException {
-        deleteFiles(false,
+        helper.deleteFiles(false,
                 RVC + specName + MONITOR_BC,
                 "Makefile",
                 "Makefile.instrument",
                 "aspect.map"
         );
         Main.main(new String[]{"-llvm", specPath});
-        relocateFiles(
+        helper.relocateFiles(
                 RVC + specName + MONITOR_BC,
                 "Makefile.instrument",
                 "Makefile.new",
@@ -57,8 +48,8 @@ public class LlvmMopExamplesTest {
         );
 
         Files.move(
-                fileSystem.getPath(specPathParent.toString(), "Makefile.new"),
-                fileSystem.getPath(specPathParent.toString(), "Makefile")
+                helper.getPath("Makefile.new"),
+                helper.getPath("Makefile")
         );
     }
 
@@ -71,15 +62,15 @@ public class LlvmMopExamplesTest {
     @Test
     public void testTest() throws Exception {
         createMonitor();
-        testCommand(null, "make", "clean");
-        testCommand(null, "make");
-        testCommand("tests/original", "make", "-f", "Makefile.original", "test");
-        testCommand(null, "make", "instrument");
-        testCommand("tests/instrumented", "make", "-f", "Makefile.original", "test");
-        testCommand(null, "make", "uninstrument");
-        testCommand("tests/original", "make", "-f", "Makefile.original", "test");
-        testCommand(null, "make", "clean");
-        deleteFiles(false,
+        helper.testCommand(null, "make", "clean");
+        helper.testCommand(null, "make");
+        helper.testCommand("tests/original", "make", "-f", "Makefile.original", "test");
+        helper.testCommand(null, "make", "instrument");
+        helper.testCommand("tests/instrumented", "make", "-f", "Makefile.original", "test");
+        helper.testCommand(null, "make", "uninstrument");
+        helper.testCommand("tests/original", "make", "-f", "Makefile.original", "test");
+        helper.testCommand(null, "make", "clean");
+        helper.deleteFiles(false,
                 RVC + specName + MONITOR_BC,
                 "Makefile",
                 "Makefile.instrument",
@@ -92,54 +83,6 @@ public class LlvmMopExamplesTest {
 
     }
 
-    private void testCommand(String expectedFilePrefix, String... command) throws Exception {
-        ProcessBuilder processBuilder = new ProcessBuilder(command).inheritIO();
-        processBuilder.directory(specFile);
-        String actualOutFile = null;
-        String testsPrefix;
-        String actualErrFile = null;
-        String expectedOutFile = null;
-        String expectedErrFile = null;
-        if (expectedFilePrefix != null) {
-            testsPrefix = specPathParent.toString() + "/" + expectedFilePrefix;
-            actualOutFile = testsPrefix + ".actual.out";
-            actualErrFile = testsPrefix + ".actual.err";
-            expectedOutFile = testsPrefix + ".expected.out";
-            expectedErrFile = testsPrefix + ".expected.err";
-            processBuilder.redirectError(new File(actualErrFile));
-            processBuilder.redirectOutput(new File(actualOutFile));
-        }
-        Process process = processBuilder.start();
-        int returnCode = process.waitFor();
-        Assert.assertEquals("Expected no error during" + Arrays.toString(command) + ".", 0, returnCode);
-        if (expectedFilePrefix != null) {
-            Assert.assertEquals(actualOutFile + " should match " + expectedOutFile, Tool.convertFileToString(expectedOutFile),
-                    Tool.convertFileToString(actualOutFile));
-            Assert.assertEquals(actualErrFile + "should match " + expectedErrFile, Tool.convertFileToString(expectedErrFile),
-                    Tool.convertFileToString(actualErrFile));
-        }
-    }
-
-    private void relocateFiles(String... files) throws IOException {
-        for (String s : files) {
-            Path path = fileSystem.getPath(specPathParent.toString(), s);
-            Files.move(
-                    fileSystem.getPath(s),
-                    path
-            );
-        }
-    }
-
-    private void deleteFiles(boolean fail, String... files) throws IOException {
-        for (String s : files) {
-            Path toDelete = fileSystem.getPath(specPathParent.toString(), s);
-            if (fail) {
-                Files.delete(toDelete);
-            } else {
-                Files.deleteIfExists(toDelete);
-            }
-        }
-    }
 
     // The method bellow creates the set of parameter instances to be used as seeds by
     // the test constructor.  Junit will run the testsuite once for each parameter instance.

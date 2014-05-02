@@ -1,3 +1,4 @@
-sum: 15
 isNull not called before deref!
 isNull not called before deref!
+make: [test] Error 8 (ignored)
+make: [test] Error 8 (ignored)
