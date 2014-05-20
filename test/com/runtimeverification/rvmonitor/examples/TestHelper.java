@@ -63,11 +63,31 @@ public class TestHelper {
         int returnCode = process.waitFor();
         Assert.assertEquals("Expected no error during" + Arrays.toString(command) + ".", 0, returnCode);
         if (expectedFilePrefix != null) {
-            Assert.assertEquals(actualOutFile + " should match " + expectedOutFile, Tool.convertFileToString(expectedOutFile),
-                    Tool.convertFileToString(actualOutFile));
-            Assert.assertEquals(actualErrFile + "should match " + expectedErrFile, Tool.convertFileToString(expectedErrFile),
-                    Tool.convertFileToString(actualErrFile));
+            assertEqualFiles(expectedOutFile, actualOutFile);
+            assertEqualFiles(expectedErrFile, actualErrFile);
         }
+    }
+    
+    /**
+     * Assert two files have equal content.
+     * @param expectedFile The path to the file with the expected result.
+     * @param actualFile The path to the file with the calculated result.
+     */
+    public void assertEqualFiles(String expectedFile, String actualFile) throws IOException {
+        String expectedText = Tool.convertFileToString(expectedFile);
+        String actualText = Tool.convertFileToString(actualFile);
+        
+        // Ignore test separator output for stderr inconsistency.
+        expectedText = expectedText.replaceAll("Test [0-9]+\n","");
+        actualText = actualText.replaceAll("Test [0-9]+\n","");
+        
+        expectedText = expectedText.replaceAll("Test [0-9]+ ASPC\n","");
+        actualText = actualText.replaceAll("Test [0-9]+ ASPC\n","");
+        
+        //Hackish fix for new gnu make output in 4.0: it adds a "recipe for target failed" message even 
+        //when the error is ignored
+        actualText = actualText.replaceAll("[^\n]+recipe for target[^\n]+\n","");
+        Assert.assertEquals(actualFile + " should match " + expectedFile, expectedText, actualText);
     }
 
     /**
