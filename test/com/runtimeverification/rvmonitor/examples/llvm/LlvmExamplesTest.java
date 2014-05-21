@@ -32,7 +32,7 @@ public class LlvmExamplesTest {
     public void testTest() throws Exception {
         helper.testCommand(null, "make", "clean");
         helper.testCommand(null, "make");
-        helper.testCommand("tests/test", "make", "test");
+        helper.testCommand("tests/test", "make", "-s", "test");
         helper.testCommand(null, "make", "clean");
         helper.deleteFiles(false,
                 "tests/test.actual.out",
