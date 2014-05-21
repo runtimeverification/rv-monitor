@@ -13,6 +13,7 @@ import java.util.Collection;
 /**
  * Base class for LLVM examples JUnit tests.
  * @author TraianSF
+ * @author A. Cody Schuffelen
  */
 @RunWith(Parameterized.class)
 public class LlvmExamplesTest {
