@@ -84,9 +84,6 @@ public class TestHelper {
         expectedText = expectedText.replaceAll("Test [0-9]+ ASPC\n","");
         actualText = actualText.replaceAll("Test [0-9]+ ASPC\n","");
         
-        //Hackish fix for new gnu make output in 4.0: it adds a "recipe for target failed" message even 
-        //when the error is ignored
-        actualText = actualText.replaceAll("[^\n]+recipe for target[^\n]+\n","");
         Assert.assertEquals(actualFile + " should match " + expectedFile, expectedText, actualText);
     }
 
