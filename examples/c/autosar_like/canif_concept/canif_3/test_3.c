@@ -3,6 +3,8 @@
 
 int main( int argc, const char* argv[] )
 {
+    fprintf(stdout, "Test 3\n");
+    fprintf(stderr, "Test 3\n");
     CanIf_Transmit();
     CanIf_Init();
     CanIf_Init();

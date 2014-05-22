@@ -1,4 +1,8 @@
+#include <stdio.h>
+
 int main(void) {
+    fprintf(stdout, "Test 1 ASPC\n");
+	fprintf(stderr, "Test 1 ASPC\n");
     changeHeadlights("stop");
     changeHeadlights("on");
     changeHeadlights("manual");

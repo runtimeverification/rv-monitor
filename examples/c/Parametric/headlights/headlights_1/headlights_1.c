@@ -4,6 +4,8 @@
 
 int main(void) {
    void *car1, *car2, *car3;
+   fprintf(stdout, "Test 1\n");
+   fprintf(stderr, "Test 1\n");
 
    car1 = (void *) 15;
    car2 = (void *) 30;

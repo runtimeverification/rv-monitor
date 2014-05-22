@@ -14,11 +14,7 @@ clean:
 
 
 test: all
-	@echo "Test 1" 
-	@echo "Test 1"  >>/dev/stderr
 	-@./test_1
-	@echo "Test 2" 
-	@echo "Test 2"  >>/dev/stderr
 	-@./test_2
 
 

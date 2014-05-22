@@ -12,6 +12,8 @@ int value(int* x) {
 
 int main(void) {
 	int* v[5], i, sum = 0;
+	fprintf(stdout, "Test 2\n");
+	fprintf(stderr, "Test 2\n");
 
 	v[0] = (int *)malloc(sizeof(int)); *(v[0]) = 1;
 	v[1] = (int *)malloc(sizeof(int)); *(v[1]) = 2;

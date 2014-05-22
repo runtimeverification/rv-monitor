@@ -13,6 +13,4 @@ clean:
 	rm -f test_1_aspc __RVC_* basic_car_1_aspc/*.c
 
 test: all
-	@echo "Test 1" 
-	@echo "Test 1"  >>/dev/stderr
 	-@./test_1_aspc	
