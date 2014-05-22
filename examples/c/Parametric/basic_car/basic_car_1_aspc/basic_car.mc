@@ -35,6 +35,8 @@ void destroy(car * my_car) {
 
 int main(void) {
     car *car1, *car2, *car3;
+    fprintf(stdout, "Test 1\n");
+    fprintf(stderr, "Test 1\n");
 
     car1 = init_car("Kevin");
     car2 = init_car("Britney");

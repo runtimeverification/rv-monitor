@@ -1,4 +1,5 @@
+Test 1
 Warning: CAN layer was used without proper controller initialization!
-make: [test] Error 1 (ignored)
+Test 2
+Test 3
 Warning: CAN layer was used without proper controller initialization!
-make: [test] Error 1 (ignored)

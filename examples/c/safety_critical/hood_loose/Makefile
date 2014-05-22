@@ -10,8 +10,6 @@ clean:
 	rm -f test1 __RVC_* 
 
 test: all
-	@echo "Test 1" 
-	@echo "Test 1"  >>/dev/stderr
 	-@./test1
 
 

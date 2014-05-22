@@ -23,14 +23,8 @@ test_3.bc: CanIf.bc canif_3/test_3.bc
 	llvm-link CanIf.bc canif_3/test_3.bc -o test_3.bc
 
 test: all
-	@echo "Test 1" 
-	@echo "Test 1"  >>/dev/stderr
 	-@./test_1
-	@echo "Test 2" 
-	@echo "Test 2"  >>/dev/stderr
 	-@./test_2
-	@echo "Test 3" 
-	@echo "Test 3"  >>/dev/stderr
 	-@./test_3
 		
 clean:

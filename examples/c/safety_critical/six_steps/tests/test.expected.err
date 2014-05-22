@@ -1,3 +1,4 @@
+Test 1
 Step.
 Operation complete.
 Step.
@@ -14,7 +15,7 @@ Step.
 Step.
 Step.
 too many steps!
-make: [test] Error 1 (ignored)
+Test 2
 Step.
 Operation complete.
 Step.

@@ -19,9 +19,5 @@ clean:
 	rm -f test1 test2 test3 test4 __RVC_* 
 
 test: all
-	@echo "Test 1" 
-	@echo "Test 1"  >>/dev/stderr
 	-@./test1
-	@echo "Test 2" 
-	@echo "Test 2"  >>/dev/stderr
 	-@./test2

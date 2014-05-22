@@ -64,11 +64,11 @@ public class LlvmMopExamplesTest {
         createMonitor();
         helper.testCommand(null, "make", "clean");
         helper.testCommand(null, "make");
-        helper.testCommand("tests/original", "make", "-f", "Makefile.original", "test");
+        helper.testCommand("tests/original", "make", "-s", "-f", "Makefile.original", "test");
         helper.testCommand(null, "make", "instrument");
-        helper.testCommand("tests/instrumented", "make", "-f", "Makefile.original", "test");
+        helper.testCommand("tests/instrumented", "make", "-s", "-f", "Makefile.original", "test");
         helper.testCommand(null, "make", "uninstrument");
-        helper.testCommand("tests/original", "make", "-f", "Makefile.original", "test");
+        helper.testCommand("tests/original", "make", "-s", "-f", "Makefile.original", "test");
         helper.testCommand(null, "make", "clean");
         helper.deleteFiles(false,
                 RVC + specName + MONITOR_BC,

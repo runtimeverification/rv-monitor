@@ -17,14 +17,8 @@ clean:
 
 
 test: all
-	@echo "Test 1" 
-	@echo "Test 1"  >>/dev/stderr
 	-@./canif_test_1
-	@echo "Test 2" 
-	@echo "Test 2"  >>/dev/stderr
 	-@./canif_test_2
-	@echo "Test 3" 
-	@echo "Test 3"  >>/dev/stderr
 	-@./canif_test_3
 
 

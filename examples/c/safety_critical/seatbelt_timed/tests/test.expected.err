@@ -1,12 +1,13 @@
+Test 1
 Seat belt attached.
 set max speed to user input.
 Seat belt removed.
 set max speed to 10 mph.
 Seat belt attached.
 set max speed to user input.
+Test 2
 Seat belt attached.
 set max speed to user input.
 Seat belt removed.
 set max speed to 10 mph.
 Oh no!  Timeout elapsed without event (1000ms).
-make: [test] Error 1 (ignored)
