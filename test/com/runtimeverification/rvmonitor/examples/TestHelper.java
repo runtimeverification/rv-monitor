@@ -77,13 +77,6 @@ public class TestHelper {
         String expectedText = Tool.convertFileToString(expectedFile);
         String actualText = Tool.convertFileToString(actualFile);
         
-        // Ignore test separator output for stderr inconsistency.
-        expectedText = expectedText.replaceAll("Test [0-9]+\n","");
-        actualText = actualText.replaceAll("Test [0-9]+\n","");
-        
-        expectedText = expectedText.replaceAll("Test [0-9]+ ASPC\n","");
-        actualText = actualText.replaceAll("Test [0-9]+ ASPC\n","");
-        
         Assert.assertEquals(actualFile + " should match " + expectedFile, expectedText, actualText);
     }
 
