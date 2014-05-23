@@ -10,6 +10,11 @@ import static org.junit.Assert.*;
 
 public class PluginTest {
 	
+	/**
+	 * Tests invocation of the complete ERE Logic Repository plugin.
+	 * Verifies that the complete ERE plugin can be invoked through the normal plugin mechanism
+	 * and that it produces reasonable output.
+	 */
 	@Test
 	public void testCompletePluginHasNext() throws Exception {
 		//based on HasNext at http://fsl.cs.illinois.edu/index.php/Special:EREPlugin3

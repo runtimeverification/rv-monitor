@@ -10,6 +10,11 @@ import static org.junit.Assert.*;
 
 public class PluginTest {
 	
+	/**
+	 * Tests invocation of the complete PTCaReT Logic Repository plugin.
+	 * Verifies that the complete PTCaReT plugin can be invoked through the normal plugin mechanism
+	 * and that it produces reasonable output.
+	 */
 	@Test
 	public void testCompletePluginHasNext() throws Exception {
 		LogicRepositoryType input = new LogicRepositoryType();

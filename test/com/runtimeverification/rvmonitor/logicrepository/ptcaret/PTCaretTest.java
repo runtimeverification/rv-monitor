@@ -12,8 +12,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PTCaretTest {
-	// String logicStr = "! a";
 	
+	/**
+	 * Tests that PTCaReT can simplify complex boolean expressions.
+	 */
 	@Test
 	public void testSimplify() throws ParseException {
 		PTCARET_Formula ptCaretFormula = PTCARETParser.parse("!!!(!a && (b || c))");
@@ -23,6 +25,9 @@ public class PTCaretTest {
 		assertEquals("a || (!b && !c)", ptCaretFormula.toString());
 	}
 	
+	/**
+	 * Tests that PTCaReT can simplify and produce code for boolean expressions with temporal logic.
+	 */
 	@Test
 	public void testSimplifyCode() throws ParseException {
 		PTCARET_Formula ptCaretFormula = PTCARETParser.parse("a S (b Sa (*)a)");
