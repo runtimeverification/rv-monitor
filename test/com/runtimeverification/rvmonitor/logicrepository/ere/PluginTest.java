@@ -8,12 +8,16 @@ import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorys
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Tests invocation of the complete ERE Logic Repository plugin.
+ * Verifies that the complete ERE plugin can be invoked through the normal plugin mechanism
+ * and that it produces reasonable output.
+ * @author A. Cody Schuffelen
+ */
 public class PluginTest {
 	
 	/**
-	 * Tests invocation of the complete ERE Logic Repository plugin.
-	 * Verifies that the complete ERE plugin can be invoked through the normal plugin mechanism
-	 * and that it produces reasonable output.
+	 * Tests formula generation for ERE code on a simple property.
 	 */
 	@Test
 	public void testCompletePluginHasNext() throws Exception {

@@ -8,12 +8,16 @@ import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorys
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Tests invocation of the complete PTCaReT Logic Repository plugin.
+ * Verifies that the complete PTCaReT plugin can be invoked through the normal plugin mechanism
+ * and that it produces reasonable output.
+ * @author A. Cody Schuffelen
+ */
 public class PluginTest {
 	
 	/**
-	 * Tests invocation of the complete PTCaReT Logic Repository plugin.
-	 * Verifies that the complete PTCaReT plugin can be invoked through the normal plugin mechanism
-	 * and that it produces reasonable output.
+	 * Tests code generation for PTCaReT code containing temporal logic.
 	 */
 	@Test
 	public void testCompletePluginHasNext() throws Exception {

@@ -11,6 +11,10 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret.visitor
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * High-level tests of PTCaReT internals.
+ * @author A. Cody Schuffelen
+ */
 public class PTCaretTest {
 	
 	/**
