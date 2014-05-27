@@ -11,6 +11,11 @@ import java.io.PrintStream;
 
 public class EREPlugin extends LogicPlugin {
 	
+	/**
+	 * Processes an extended regular expression definition into a finite state machine.
+	 * @param logicInputXML Plugin input containing an extended regular expression.
+	 * @return Plugin output containing a finite state machine.
+	 */
 	public LogicRepositoryType process(LogicRepositoryType logicInputXML) throws LogicException {
 		String logicStr = logicInputXML.getProperty().getFormula();
 		String eventsStr = logicInputXML.getEvents();
@@ -44,6 +49,11 @@ public class EREPlugin extends LogicPlugin {
 	
 	static protected EREPlugin plugin = new EREPlugin();
 	
+	/**
+	 * Main method to run the plugin as a standalone executable.
+	 * Reads plugin input as XML through stdin, and prints plugin output as XML through stdout.
+	 * @param args Unused.
+	 */
 	public static void main(String[] args) {
 
 		try {

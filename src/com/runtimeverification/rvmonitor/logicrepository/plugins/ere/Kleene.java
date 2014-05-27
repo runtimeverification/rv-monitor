@@ -2,14 +2,24 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
 import java.util.ArrayList;
 
-//class representing a symbol in an ERE
+/**
+ * An ERE representing a pattern occuring an arbitrary amount of times, i.e. at least 0.
+ */
 public class Kleene extends ERE {
-//  public String name;
 
+  /**
+   * Acquire a Kleene ERE instance.
+   * @param child The pattern that can occur at least 0 times.
+   * @return An instance of an ERE that matches the pattern at least 0 times.
+   */
   public static ERE get(ERE child){
     return new Kleene(child);
   }
 
+  /**
+   * Construct a Kleene ERE instance.
+   * @param child The pattern that can occur at least 0 times.
+   */
   private Kleene(ERE child){
     children = new ArrayList<ERE>();
 	 children.add(child);

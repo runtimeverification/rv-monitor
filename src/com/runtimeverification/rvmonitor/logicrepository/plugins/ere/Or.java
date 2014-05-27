@@ -3,23 +3,37 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 import java.util.ArrayList;
 import java.util.Collections;
 
-//class representing or in an ERE
+/**
+ * An ERE that matches any out of a set of options.
+ */
 public class Or extends ERE {
-//  public String name;
 
+  /**
+   * Acquire an instance of an ERE that matches any of the given elements.
+   * @param children Any of the elements that can be matched.
+   * @return An ERE matching any of the children elements.
+   */
   static public ERE get(ArrayList<ERE> children){
     Or or = new Or(children);
 	 ERE ret = or.simplify();
 	 return ret;
   }
 
+  /**
+   * Construct an ERE that matches any of the children.
+   * @param children Any child ERE that can be matched.
+   */
   private Or(ArrayList<ERE> children){
     assert children != null && children.size() >= 2 
      : "Or requires at least two children!";
     this.children = children;
   }
 
+  /**
+   * Perform a shallow simplification of the element.
+   */
   public ERE simplify(){
+	 //Flatten any child Or elements into this one.
 	 ArrayList<ERE> flattened;
 	 ArrayList<ERE> previous = children;
 	 boolean changed;
@@ -37,17 +51,21 @@ public class Or extends ERE {
       previous = flattened;
 	 } while(changed);
 	 children = flattened;
+	 // Sort the elements so that structurally equal one will be adjacent.
 	 Collections.sort(children);
+	// Remove elements that do not match anything.
     for(int i = 0; i < children.size(); ++i){
       if(children.get(i) == empty){
         children.remove(i);
 		}
 	 }
+	 // Remove duplicate elements.
 	 for(int i = 0; i < children.size() - 1; ++i){
       if(children.get(i).equals(children.get(i + 1))){
         children.remove(i);
 		}
 	 }
+	 // Simplify degenerate Or instances to simpler ERE types.
 	 if(children.size() == 0) return empty;
 	 if(children.size() == 1) return children.get(0);
 	 return this;
