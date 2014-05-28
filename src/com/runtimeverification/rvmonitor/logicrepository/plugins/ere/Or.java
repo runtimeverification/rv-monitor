@@ -46,6 +46,7 @@ public class Or extends ERE {
 	 for(int i = 0; i < children.size() - 1; ++i){
       if(children.get(i).equals(children.get(i + 1))){
         children.remove(i);
+        i--;
 		}
 	 }
 	 if(children.size() == 0) return empty;
