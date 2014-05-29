@@ -7,6 +7,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Negation;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,15 +17,24 @@ import static org.junit.Assert.*;
  */
 public class NegationTest {
 	
+	private Symbol symbol;
+	private Empty empty;
+	private Epsilon epsilon;
+	
+	@Before
+	public void setUp() {
+		symbol = Symbol.get("test");;
+		empty = Empty.get();
+		epsilon = Epsilon.get();
+	}
+	
 	/**
 	 * Test that negations constructed from the same elements are equal.
 	 */
 	@Test
 	public void testEquality() {
-		Symbol symOne = Symbol.get("one");
-		
-		ERE one = Negation.get(symOne);
-		ERE one_again = Negation.get(symOne);
+		ERE one = Negation.get(symbol);
+		ERE one_again = Negation.get(symbol);
 		
 		assertEquals(one, one_again);
 		assertEquals(0, one.compareTo(one_again));
@@ -35,7 +45,6 @@ public class NegationTest {
 	 */
 	@Test
 	public void testInequality() {
-		Symbol symbol = Symbol.get("one");
 		Epsilon epsilon = Epsilon.get();
 		
 		ERE one = Negation.get(symbol);
@@ -50,8 +59,6 @@ public class NegationTest {
 	 */
 	@Test
 	public void testSimplification() {
-		Symbol symbol = Symbol.get("one");
-		
 		ERE negation = Negation.get(symbol);
 		ERE doubleNegation = Negation.get(negation);
 		
@@ -63,9 +70,6 @@ public class NegationTest {
 	 */
 	@Test
 	public void testContainsEpsilon() {
-		Empty empty = Empty.get();
-		Epsilon epsilon = Epsilon.get();
-		
 		ERE negateEmpty = Negation.get(empty);
 		ERE negateEpsilon = Negation.get(epsilon);
 		
@@ -78,9 +82,6 @@ public class NegationTest {
 	 */
 	@Test
 	public void testDerive() {
-		Empty empty = Empty.get();
-		Epsilon epsilon = Epsilon.get();
-		
 		ERE negateEmpty = Negation.get(empty);
 		ERE negateEpsilon = Negation.get(epsilon);
 		
@@ -94,8 +95,6 @@ public class NegationTest {
 	 */
 	@Test
 	public void testCopy() {
-		Empty empty = Empty.get();
-		
 		ERE negation = Negation.get(empty);
 		ERE copy = negation.copy();
 		assertEquals(negation, copy);
@@ -106,8 +105,6 @@ public class NegationTest {
 	 */
 	@Test
 	public void testEREType() {
-		Epsilon epsilon = Epsilon.get();
-		
 		ERE negation = Negation.get(epsilon);
 		assertEquals(EREType.NEG, negation.getEREType());
 	}
@@ -117,8 +114,6 @@ public class NegationTest {
 	 */
 	@Test
 	public void testString() {
-		Epsilon epsilon = Epsilon.get();
-		
 		ERE negation = Negation.get(epsilon);
 		assertEquals("~(epsilon)", negation.toString());
 	}

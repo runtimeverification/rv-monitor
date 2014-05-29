@@ -7,6 +7,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Repeat;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,13 +17,22 @@ import static org.junit.Assert.*;
  */
 public class RepeatTest {
 	
+	private Symbol a;
+	private ERE a_x3;
+	private ERE a_x5;
+	
+	@Before
+	public void setUp() {
+		a = Symbol.get("a");
+		a_x5 = Repeat.get(a, 5);
+		a_x3 = Repeat.get(a, 3);
+	}
+	
 	/**
 	 * Test that two equivalent repeat elements are equal.
 	 */
 	@Test
 	public void equalityTest() {
-		Symbol a = Symbol.get("a");
-		ERE a_x5 = Repeat.get(a, 5);
 		ERE a_x5_again = Repeat.get(a, 5);
 		
 		assertEquals(a_x5, a_x5_again);
@@ -34,8 +44,6 @@ public class RepeatTest {
 	 */
 	@Test
 	public void inequalityTest() {
-		Symbol a = Symbol.get("a");
-		ERE a_x5 = Repeat.get(a, 5);
 		ERE a_x10 = Repeat.get(a, 10);
 		Symbol b = Symbol.get("b");
 		ERE b_x5 = Repeat.get(b, 5);
@@ -52,7 +60,6 @@ public class RepeatTest {
 	@Test
 	public void deriveTest() {
 		Symbol a = Symbol.get("a");
-		ERE a_x3 = Repeat.get(a, 3);
 		Epsilon epsilon = Epsilon.get();
 		
 		assertEquals(epsilon, a_x3.derive(a).derive(a).derive(a));
@@ -69,8 +76,6 @@ public class RepeatTest {
 	 */
 	@Test
 	public void containsEpsilonTest() {
-		Symbol a = Symbol.get("a");
-		ERE a_x3 = Repeat.get(a, 3);
 		assertFalse(a_x3.containsEpsilon());
 	}
 	
@@ -79,8 +84,6 @@ public class RepeatTest {
 	 */
 	@Test
 	public void testCopy() {
-		Symbol a = Symbol.get("a");
-		ERE a_x3 = Repeat.get(a, 3);
 		ERE copy = a_x3.copy();
 		assertEquals(a_x3, copy);
 	}

@@ -8,6 +8,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Kleene;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,13 +18,24 @@ import static org.junit.Assert.*;
  */
 public class KleeneTest {
 	
+	private Symbol a;
+	private Symbol b;
+	private ERE aStar;
+	private ERE bStar;
+	
+	@Before
+	public void setUp() {
+		a = Symbol.get("a");
+		b = Symbol.get("b");
+		aStar = Kleene.get(a);
+		bStar = Kleene.get(b);
+	}
+	
 	/**
 	 * Test that equivalent Kleene operators compare equal.
 	 */
 	@Test
 	public void testEquality() {
-		Symbol a = Symbol.get("a");
-		ERE aStar = Kleene.get(a);
 		ERE aStar_again = Kleene.get(a);
 		
 		assertEquals(aStar, aStar_again);
@@ -35,12 +47,6 @@ public class KleeneTest {
 	 */
 	@Test
 	public void testInequality() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
-		ERE aStar = Kleene.get(a);
-		ERE bStar = Kleene.get(b);
-		
 		assertFalse(aStar.equals(bStar));
 		assertFalse(0 == aStar.compareTo(bStar));
 		assertFalse(aStar.equals(a));
@@ -52,9 +58,6 @@ public class KleeneTest {
 	 */
 	@Test
 	public void testEREType() {
-		Symbol a = Symbol.get("a");
-		ERE aStar = Kleene.get(a);
-		
 		assertEquals(EREType.STAR, aStar.getEREType());
 	}
 	
@@ -63,9 +66,6 @@ public class KleeneTest {
 	 */
 	@Test
 	public void testString() {
-		Symbol a = Symbol.get("a");
-		ERE aStar = Kleene.get(a);
-		
 		assertEquals("a*", aStar.toString());
 	}
 	
@@ -74,9 +74,6 @@ public class KleeneTest {
 	 */
 	@Test
 	public void testContainsEpsilon() {
-		Symbol a = Symbol.get("a");
-		ERE aStar = Kleene.get(a);
-		
 		assertTrue(aStar.containsEpsilon());
 	}
 	
@@ -85,9 +82,6 @@ public class KleeneTest {
 	 */
 	@Test
 	public void testCopy() {
-		Symbol a = Symbol.get("a");
-		ERE aStar = Kleene.get(a);
-		
 		ERE copy = aStar.copy();
 		assertEquals(aStar, copy);
 	}
@@ -97,12 +91,9 @@ public class KleeneTest {
 	 */
 	@Test
 	public void testDerive() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
 		Epsilon epsilon = Epsilon.get();
 		Empty empty = Empty.get();
 		
-		ERE aStar = Kleene.get(a);
 		assertEquals(aStar, aStar.derive(a));
 		assertEquals(empty, aStar.derive(b));
 		

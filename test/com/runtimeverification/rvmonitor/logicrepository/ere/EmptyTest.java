@@ -6,6 +6,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.ERE;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,15 +16,21 @@ import static org.junit.Assert.*;
  */
 public class EmptyTest {
 	
+	private Empty empty;
+	
+	@Before
+	public void setUp() {
+		empty = Empty.get();
+	}
+	
 	/**
 	 * Test two instances of the class retrieved through the standard method are equal.
 	 */
 	@Test
 	public void testEquality() {
-		Empty one = Empty.get();
 		Empty two = Empty.get();
-		assertEquals(one, two);
-		assertEquals(0, one.compareTo(two));
+		assertEquals(empty, two);
+		assertEquals(0, empty.compareTo(two));
 	}
 	
 	/**
@@ -31,10 +38,9 @@ public class EmptyTest {
 	 */
 	@Test
 	public void testInequality() {
-		Empty one = Empty.get();
 		Epsilon two = Epsilon.get();
-		assertFalse(one.equals(two));
-		assertFalse(0 == one.compareTo(two));
+		assertFalse(empty.equals(two));
+		assertFalse(0 == empty.compareTo(two));
 	}
 	
 	/**
@@ -42,7 +48,6 @@ public class EmptyTest {
 	 */
 	@Test
 	public void testType() {
-		Empty empty = Empty.get();
 		assertEquals(empty.getEREType(), EREType.EMP);
 	}
 	
@@ -51,7 +56,6 @@ public class EmptyTest {
 	 */
 	@Test
 	public void testString() {
-		Empty empty = Empty.get();
 		assertEquals("empty", empty.toString());
 	}
 	
@@ -60,7 +64,6 @@ public class EmptyTest {
 	 */
 	@Test
 	public void testDerive() {
-		Empty empty = Empty.get();
 		ERE derived = empty.derive(Symbol.get("test"));
 		assertEquals(empty, derived);
 	}
@@ -70,7 +73,6 @@ public class EmptyTest {
 	 */
 	@Test
 	public void testContainsEpsilon() {
-		Empty empty = Empty.get();
 		assertFalse(empty.containsEpsilon());
 	}
 	
@@ -79,7 +81,6 @@ public class EmptyTest {
 	 */
 	@Test
 	public void testCopy() {
-		Empty empty = Empty.get();
 		ERE copy = empty.copy();
 		assertEquals(empty, copy);
 	}

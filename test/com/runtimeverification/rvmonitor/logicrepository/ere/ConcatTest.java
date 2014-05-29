@@ -8,6 +8,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Kleene;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,14 +18,22 @@ import static org.junit.Assert.*;
  */
 public class ConcatTest {
 	
+	private Symbol a;
+	private Symbol b;
+	private Symbol c;
+	
+	@Before
+	public void setUp() {
+		a = Symbol.get("a");
+		b = Symbol.get("b");
+		c = Symbol.get("c");
+	}
+	
 	/**
 	 * Test that equivalent concat operators compare equal.
 	 */
 	@Test
 	public void testEquality() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
 		ERE one = Concat.get(a, b);
 		ERE two = Concat.get(a, b);
 		assertEquals(one, two);
@@ -36,10 +45,6 @@ public class ConcatTest {
 	 */
 	@Test
 	public void testInequality() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		Symbol c = Symbol.get("c");
-		
 		ERE one = Concat.get(a, b);
 		ERE two = Concat.get(a, c);
 		
@@ -54,9 +59,6 @@ public class ConcatTest {
 	 */
 	@Test
 	public void testEREType() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
 		ERE one = Concat.get(a, b);
 		assertEquals(EREType.CAT, one.getEREType());
 	}
@@ -66,9 +68,6 @@ public class ConcatTest {
 	 */
 	@Test
 	public void testString() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
 		ERE one = Concat.get(a, b);
 		assertEquals("(a b)", one.toString());
 	}
@@ -78,9 +77,6 @@ public class ConcatTest {
 	 */
 	@Test
 	public void testContainsEpsilon() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
 		Epsilon epsilon = Epsilon.get();
 		
 		assertFalse(Concat.get(a, b).containsEpsilon());
@@ -94,7 +90,6 @@ public class ConcatTest {
 	 */
 	@Test
 	public void testSimplify() {
-		Symbol a = Symbol.get("a");
 		Epsilon epsilon = Epsilon.get();
 		Empty empty = Empty.get();
 		
@@ -112,9 +107,6 @@ public class ConcatTest {
 	 */
 	@Test
 	public void testCopy() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
 		ERE concat = Concat.get(a, b);
 		ERE copy = concat.copy();
 		assertEquals(concat, copy);
@@ -127,10 +119,6 @@ public class ConcatTest {
 	 */
 	@Test
 	public void testDerive() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		Symbol c = Symbol.get("c");
-		
 		Epsilon epsilon = Epsilon.get();
 		Empty empty = Empty.get();
 		

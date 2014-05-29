@@ -12,6 +12,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Kleene;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Or;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

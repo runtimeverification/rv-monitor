@@ -18,6 +18,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Or;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.parser.EREParser;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -25,6 +26,15 @@ import static org.junit.Assert.*;
  * Test generating deterministic finite automata from extended regular expressions.
  */
 public class FSMTest {
+	
+	private Symbol a;
+	private Symbol b;
+	
+	@Before
+	public void setUp() {
+		a = Symbol.get("a");
+		b = Symbol.get("b");
+	}
 	
 	/**
 	 * Construct the string representation of a DFA matching the given expression.
@@ -47,8 +57,6 @@ public class FSMTest {
 	 */
 	@Test
 	public void testConcat() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
 		ERE ab = Concat.get(a, b);
 		
 		String fsm = "s0 [\n   a -> s1\n]\n" +
@@ -63,8 +71,6 @@ public class FSMTest {
 	 */
 	@Test
 	public void testOr() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
 		ERE or = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		
 		String fsm = "s0 [\n   a -> s1\n   b -> s1\n]\n"+
@@ -78,7 +84,6 @@ public class FSMTest {
 	 */
 	@Test
 	public void testKleene() {
-		Symbol a = Symbol.get("a");
 		ERE aStar = Kleene.get(a);
 		
 		String fsm = "s0 [\n   a -> s0\n]\n" +

@@ -6,6 +6,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.ERE;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,15 +16,21 @@ import static org.junit.Assert.*;
  */
 public class EpsilonTest {
 	
+	private Epsilon epsilon;
+	
+	@Before
+	public void setUp() {
+		epsilon = Epsilon.get();
+	}
+	
 	/**
 	 * Test two instances of the class retrieved through the standard method are equal.
 	 */
 	@Test
 	public void testEquality() {
-		Epsilon one = Epsilon.get();
 		Epsilon two = Epsilon.get();
-		assertEquals(one, two);
-		assertEquals(0, one.compareTo(two));
+		assertEquals(epsilon, two);
+		assertEquals(0, epsilon.compareTo(two));
 	}
 	
 	/**
@@ -31,10 +38,9 @@ public class EpsilonTest {
 	 */
 	@Test
 	public void testInequality() {
-		Epsilon one = Epsilon.get();
 		Empty two = Empty.get();
-		assertFalse(one.equals(two));
-		assertFalse(0 == one.compareTo(two));
+		assertFalse(epsilon.equals(two));
+		assertFalse(0 == epsilon.compareTo(two));
 	}
 	
 	/**
@@ -42,7 +48,6 @@ public class EpsilonTest {
 	 */
 	@Test
 	public void testType() {
-		Epsilon epsilon = Epsilon.get();
 		assertEquals(epsilon.getEREType(), EREType.EPS);
 	}
 	
@@ -51,7 +56,6 @@ public class EpsilonTest {
 	 */
 	@Test
 	public void testString() {
-		Epsilon epsilon = Epsilon.get();
 		assertEquals("epsilon", epsilon.toString());
 	}
 	
@@ -60,7 +64,6 @@ public class EpsilonTest {
 	 */
 	@Test
 	public void testDerive() {
-		Epsilon epsilon = Epsilon.get();
 		ERE derived = epsilon.derive(Symbol.get("test"));
 		Empty empty = Empty.get();
 		assertEquals(empty, derived);
@@ -71,7 +74,6 @@ public class EpsilonTest {
 	 */
 	@Test
 	public void testContainsEpsilon() {
-		Epsilon epsilon = Epsilon.get();
 		assertTrue(epsilon.containsEpsilon());
 	}
 	
@@ -80,7 +82,6 @@ public class EpsilonTest {
 	 */
 	@Test
 	public void testCopy() {
-		Epsilon epsilon = Epsilon.get();
 		ERE copy = epsilon.copy();
 		assertEquals(epsilon, copy);
 	}

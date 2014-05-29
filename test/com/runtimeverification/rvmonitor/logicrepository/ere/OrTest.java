@@ -10,6 +10,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Or;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,22 +19,30 @@ import static org.junit.Assert.*;
  */
 public class OrTest {
 	
+	private Symbol a;
+	private Symbol b;
+	private ERE aOrb;
+	
+	@Before
+	public void setUp() {
+		a = Symbol.get("a");
+		b = Symbol.get("b");
+		aOrb = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
+	}
+	
 	/**
 	 * Test that equivalent Or elements compare equal.
 	 */
 	@Test
 	public void testEquality() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
 		
-		ERE or = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		ERE or_again = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		ERE or_reverse = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		
-		assertEquals(or, or_again);
-		assertEquals(0, or.compareTo(or_again));
-		assertEquals(or, or_reverse);
-		assertEquals(0, or.compareTo(or_reverse));
+		assertEquals(aOrb, or_again);
+		assertEquals(0, aOrb.compareTo(or_again));
+		assertEquals(aOrb, or_reverse);
+		assertEquals(0, aOrb.compareTo(or_reverse));
 	}
 	
 	/**
@@ -41,11 +50,7 @@ public class OrTest {
 	 */
 	@Test
 	public void testInequality() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
 		Symbol c = Symbol.get("c");
-		
-		ERE aOrb = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		ERE aOrc = Or.get(new ArrayList<ERE>(Arrays.asList(a, c)));
 		
 		assertFalse(aOrb.equals(aOrc));
@@ -59,12 +64,8 @@ public class OrTest {
 	 */
 	@Test
 	public void testCopy() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
-		ERE or = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
-		ERE copy = or.copy();
-		assertEquals(or, copy);
+		ERE copy = aOrb.copy();
+		assertEquals(aOrb, copy);
 	}
 	
 	/**
@@ -72,11 +73,7 @@ public class OrTest {
 	 */
 	@Test
 	public void testEREType() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
-		ERE or = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
-		assertEquals(EREType.OR, or.getEREType());
+		assertEquals(EREType.OR, aOrb.getEREType());
 	}
 	
 	/**
@@ -84,10 +81,6 @@ public class OrTest {
 	 */
 	@Test
 	public void testString() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
-		ERE aOrb = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		assertEquals("(a | b)", aOrb.toString());
 		
 		Symbol c = Symbol.get("c");
@@ -100,10 +93,6 @@ public class OrTest {
 	 */
 	@Test
 	public void testContainsEpsilon() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
-		
-		ERE aOrb = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		assertFalse(aOrb.containsEpsilon());
 		
 		Epsilon epsilon = Epsilon.get();
@@ -116,14 +105,9 @@ public class OrTest {
 	 */
 	@Test
 	public void testDerive() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
 		Symbol c = Symbol.get("c");
-		
 		Epsilon epsilon = Epsilon.get();
 		Empty empty = Empty.get();
-		
-		ERE aOrb = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		
 		assertEquals(epsilon, aOrb.derive(a));
 		assertEquals(epsilon, aOrb.derive(b));
@@ -135,13 +119,9 @@ public class OrTest {
 	 */
 	@Test
 	public void testSimplify() {
-		Symbol a = Symbol.get("a");
-		Symbol b = Symbol.get("b");
 		Symbol c = Symbol.get("c");
-		
 		Epsilon epsilon = Epsilon.get();
 		
-		ERE aOrb = Or.get(new ArrayList<ERE>(Arrays.asList(a, b)));
 		assertEquals(aOrb, Or.get(new ArrayList<ERE>(Arrays.asList(a, b, a, b, a, b, a, b, a))));
 		assertEquals(Or.get(new ArrayList<ERE>(Arrays.asList(a, b, c))), Or.get(new ArrayList<ERE>(Arrays.asList(aOrb, c))));
 	}

@@ -6,6 +6,7 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.ERE;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,12 +16,20 @@ import static org.junit.Assert.*;
  */
 public class SymbolTest {
 	
+	private Symbol one;
+	private Symbol two;
+	
+	@Before
+	public void setUp() {
+		one = Symbol.get("one");
+		two = Symbol.get("two");
+	}
+	
 	/**
 	 * Test that symbols with the same string are equal.
 	 */
 	@Test
 	public void testEquality() {
-		Symbol one = Symbol.get("one");
 		Symbol one_again = Symbol.get("one");
 		
 		assertEquals(one, one_again);
@@ -32,9 +41,6 @@ public class SymbolTest {
 	 */
 	@Test
 	public void testInequality() {
-		Symbol one = Symbol.get("one");
-		Symbol two = Symbol.get("two");
-		
 		assertFalse(one.equals(two));
 		assertFalse(0 == one.compareTo(two));
 		
@@ -53,7 +59,6 @@ public class SymbolTest {
 	 */
 	@Test
 	public void testCopy() {
-		Symbol one = Symbol.get("one");
 		ERE copy = one.copy();
 		assertEquals(one, copy);
 	}
@@ -63,7 +68,6 @@ public class SymbolTest {
 	 */
 	@Test
 	public void testEREType() {
-		Symbol one = Symbol.get("one");
 		EREType type = one.getEREType();
 		
 		assertEquals(EREType.S, type);
@@ -74,8 +78,6 @@ public class SymbolTest {
 	 */
 	@Test
 	public void testContainsEpsilon() {
-		Symbol one = Symbol.get("one");
-		
 		assertFalse(one.containsEpsilon());
 	}
 	
@@ -85,9 +87,6 @@ public class SymbolTest {
 	 */
 	@Test
 	public void testDerive() {
-		Symbol one = Symbol.get("one");
-		Symbol two = Symbol.get("two");
-		
 		Empty empty = Empty.get();
 		Epsilon epsilon = Epsilon.get();
 		
@@ -102,9 +101,6 @@ public class SymbolTest {
 	 */
 	@Test
 	public void testString() {
-		Symbol one = Symbol.get("one");
-		Symbol two = Symbol.get("two");
-		
 		assertEquals("one", one.toString());
 		assertEquals("two", two.toString());
 	}
