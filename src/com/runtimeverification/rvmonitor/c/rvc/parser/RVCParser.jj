@@ -245,6 +245,7 @@ TOKEN : {
   | <INCLUDE: "#include">
   | <LT: "<">
   | <GT: ">">
+  | <QUOTE: "'">
 	| <POINTER : "*">
 	| <EVENT : "event">
 	| <BEFORE : "before">
@@ -263,7 +264,7 @@ void Start() : {
   Token includeToken;
 }
 { 
-  ("#include" "<" includeToken = <ID> ">" {includes += "#include <" + includeToken.image + ">\n";})*
+  (("#include" "<" includeToken = <ID> ">" {includes += "#include <" + includeToken.image + ">\n";}) | ("##include" "\"" includeToken = <ID> "\"" {includes += "#include \"" + includeToken.image + "\"\n";}))*
   specNameToken = <ID> {specName = specNameToken.image;}
   "{"
     { declarations = parseDeclarations(); }
@@ -366,13 +367,14 @@ StringPair Parameters() : {
   Token token;
   StringBuilder buf = new StringBuilder("(");
   String p;
+  int numParams = 0;
 }
 {
   "("
-   [ p = Parameter() {buf.append(p);} ( "," p = Parameter() {buf.append(", " + p);} )*]
+   [ p = Parameter() {buf.append(p);numParams++;} ( "," p = Parameter() {buf.append(", " + p);} )*]
    ")"
    {  String f = buf.toString() + ")";
-      String s = buf.toString() + "void *key)";
+      String s = buf.toString() + (numParams > 0 ? ", " : "") + "void *key)";
       StringPair sp = new StringPair(); //can't declare constructors in jj files???
       sp.f = f;
       sp.s = s;

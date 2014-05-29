@@ -278,7 +278,7 @@ public class CFSM extends LogicPluginShell {
     }
     
     
-    result.put("reset", "void\n" + rvcPrefix + specName + "reset(void *key)\n{\n  __RV_find(list,key)->__RVC_state = 0;\n }\n");
+    result.put("reset", "void\n" + rvcPrefix + specName + "reset(void *key)\n{\n__RV_monitor * temp = __RV_find(list,key);\nif(temp != NULL) {\ntemp->__RVC_state = 0;}\n }\n");
     
     
    
