@@ -2,22 +2,38 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
 import java.util.ArrayList;
 
-//class representing a symbol in an ERE
+/**
+ * An extended regular expression element represeting two elements in sequence.
+ */
 public class Concat extends ERE {
-//  public String name;
- 
+
+  /**
+   * Acquire an extended regular expression element representing a sequence of two elements.
+   * @param left The element to match first.
+   * @param right The element to match second.
+   * @return An element that matches the left parameter then the right parameter.
+   */
   public static ERE get(ERE left, ERE right){
     Concat cat = new Concat(left, right);
     ERE ret = cat.simplify();
 	 return ret;
   }
 
+  /**
+   * Construct a Concat element.
+   * @param left The element to match first.
+   * @param right The element to match second.
+   */
   private Concat(ERE left, ERE right){
     children = new ArrayList<ERE>(2);
 	 children.add(left);
 	 children.add(right);
   }
 
+  /**
+   * Shallow simplification of the Concat ERE element.
+   * @return A possibly simpler ERE matching the same expressions.
+   */
   private ERE simplify(){
     if(children.get(0) == empty) return empty;
 	 if(children.get(1) == empty) return empty;

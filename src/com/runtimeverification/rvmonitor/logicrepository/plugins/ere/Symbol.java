@@ -1,9 +1,16 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
-//class representing a symbol in an ERE
+/**
+ * 
+ */
 public class Symbol extends ERE {
-//  public String name;
 
+  /**
+   * Acquire a Symbol ERE for the given string.
+   * Each string symbol name is associated with a specific instance of the Symbol class.
+   * These instances can be reference-compared for equality or inequality.
+   * @return An instance of Symbol unique to its name.
+   */
   static public Symbol get(String name){
     Symbol self = ERE.stringToRef.get(name); 
 	 if(self != null) return self;

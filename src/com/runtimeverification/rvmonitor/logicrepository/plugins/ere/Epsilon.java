@@ -1,9 +1,14 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
-//class representing a symbol in an ERE
+/**
+ * An ERE that matches only the empty string.
+ */
 public class Epsilon extends ERE {
-//  public String name;
 
+  /**
+   * Acquire an instance of the Epsilon ERE.
+   * @return An instance of the Epsilon ERE.
+   */
   static public Epsilon get(){
 	 return epsilon;
   }

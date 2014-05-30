@@ -1,9 +1,14 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
-//class representing a symbol in an ERE
+/**
+ * An ERE that matches the empty set, i.e. does not match any strings.
+ */
 public class Empty extends ERE {
-//  public String name;
 
+  /**
+   * Acquire an instance of the Empty ERE.
+   * @return an instance of the Empty ERE.
+   */
   static public Empty get(){
 	 return empty;
   }
