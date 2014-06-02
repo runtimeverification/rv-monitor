@@ -33,8 +33,7 @@ public class Symbol extends ERE {
 	 ERE E = (ERE) o;
     if(E.getEREType() == EREType.S) {
       if(this == E) return 0;
-		if(this.hashCode() < E.hashCode()) return -1;
-		if(this.hashCode() > E.hashCode()) return 1;
+		return ERE.refToString.get(this).compareTo(ERE.refToString.get((Symbol)o));
 	 }
 	 return EREType.S.compareTo(E.getEREType());
   }
