@@ -47,18 +47,22 @@ public class Concat extends ERE {
         return this;
     }
     
+    @Override
     public EREType getEREType() { 
         return EREType.CAT;
     }
     
+    @Override
     public String toString() {
         return "(" + children.get(0) + " " + children.get(1) + ")";
     }
     
+    @Override
     public ERE copy() {
         return new Concat(children.get(0).copy(), children.get(1).copy());
     }
     
+    @Override
     public boolean containsEpsilon() {
         for(ERE child : children) {
             if(!child.containsEpsilon()) {
@@ -68,6 +72,7 @@ public class Concat extends ERE {
         return true;
     }
     
+    @Override
     public ERE derive(Symbol s){
         ERE left = children.get(0);
         ERE right = children.get(1);

@@ -7,6 +7,9 @@ public class Epsilon extends ERE {
     
     private static Epsilon epsilon = new Epsilon();
     
+    /**
+     * Private constructor, as this is a singleton
+     */
     private Epsilon() {
         
     }
@@ -19,14 +22,17 @@ public class Epsilon extends ERE {
         return epsilon;
     }
     
+    @Override
     public EREType getEREType() { 
         return EREType.EPS;
     }
     
+    @Override
     public boolean equals(Object o) {
         return this == o;
     }
     
+    @Override
     public int compareTo(Object o) {
         if(!(o instanceof ERE)) {
             return -1;
@@ -35,18 +41,22 @@ public class Epsilon extends ERE {
         return EREType.EPS.compareTo(E.getEREType());
     }
     
+    @Override
     public ERE copy() {
         return this;
     }
     
+    @Override
     public String toString() {
         return "epsilon";
     }
     
+    @Override
     public boolean containsEpsilon() {
         return true;
     }
     
+    @Override
     public ERE derive(Symbol s) {
         return Empty.get();
     }

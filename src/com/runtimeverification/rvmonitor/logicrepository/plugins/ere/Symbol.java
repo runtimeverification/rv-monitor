@@ -10,6 +10,9 @@ public class Symbol extends ERE {
     private static final HashMap<String, Symbol> stringToRef = new HashMap<String, Symbol>();
     private static final HashMap<Symbol, String> refToString = new HashMap<Symbol, String>();
     
+    /**
+     * Private constructor, as instances of this are managed by the {@link get(String)} method.
+     */
     private Symbol() {
         
     }
