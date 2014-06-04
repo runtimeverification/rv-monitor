@@ -35,13 +35,13 @@ public class Concat extends ERE {
      * @return A possibly simpler ERE matching the same expressions.
      */
     private ERE simplify(){
-        if(children.get(0) == empty) {
-            return empty;
-        } else if(children.get(1) == empty) {
-            return empty;
-        } else if(children.get(0) == epsilon) {
+        if(children.get(0) == Empty.get()) {
+            return Empty.get();
+        } else if(children.get(1) == Empty.get()) {
+            return Empty.get();
+        } else if(children.get(0) == Epsilon.get()) {
             return children.get(1);
-        } else if(children.get(1) == epsilon) {
+        } else if(children.get(1) == Epsilon.get()) {
             return children.get(0);
         }
         return this;

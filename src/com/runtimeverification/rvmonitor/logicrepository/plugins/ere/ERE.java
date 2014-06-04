@@ -12,17 +12,6 @@ public abstract class ERE implements Comparable{
     protected ArrayList<ERE> children;  
     protected int hash = 0;
     
-    protected static HashMap<String, Symbol> stringToRef;
-    protected static HashMap<Symbol, String> refToString;
-    protected static Epsilon epsilon;
-    protected static Empty empty;
-    static {
-        stringToRef = new HashMap<String, Symbol>();
-        refToString = new HashMap<Symbol, String>();
-        epsilon = new Epsilon();
-        empty = new Empty();
-    }
-    
     /**
      * Retrieve the instance of the EREType enum corresponding to this class.
      * @return The related EREType instance.

@@ -19,10 +19,16 @@ public class Repeat {
          * return a new concatenation list of the child repeated
          * num times.
          */
-        ERE ret = Concat.get(child, child);
-        for(int i = 2; i < num; ++i) {
-            ret = Concat.get(child, ret); 
-        } 
-        return ret;
+        if(num < 1) {
+            return Empty.get();
+        } else if(num == 1) {
+            return child;
+        } else {
+            ERE ret = Concat.get(child, child);
+            for(int i = 2; i < num; ++i) {
+                ret = Concat.get(child, ret); 
+            } 
+            return ret;
+        }
     }
 }

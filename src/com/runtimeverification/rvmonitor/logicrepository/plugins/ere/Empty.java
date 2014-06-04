@@ -5,6 +5,12 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
  */
 public class Empty extends ERE {
     
+    private static Empty empty = new Empty();
+    
+    private Empty() {
+        
+    }
+    
     /**
      * Acquire an instance of the Empty ERE.
      * @return an instance of the Empty ERE.

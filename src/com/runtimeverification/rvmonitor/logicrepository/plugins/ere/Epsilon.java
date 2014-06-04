@@ -5,6 +5,12 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
  */
 public class Epsilon extends ERE {
     
+    private static Epsilon epsilon = new Epsilon();
+    
+    private Epsilon() {
+        
+    }
+    
     /**
      * Acquire an instance of the Epsilon ERE.
      * @return An instance of the Epsilon ERE.
@@ -42,6 +48,6 @@ public class Epsilon extends ERE {
     }
     
     public ERE derive(Symbol s) {
-        return empty;
+        return Empty.get();
     }
 }

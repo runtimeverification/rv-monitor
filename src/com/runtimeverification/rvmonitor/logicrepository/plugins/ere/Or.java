@@ -38,7 +38,7 @@ public class Or extends ERE {
         boolean changed = true;
         while(changed) {
             changed = false; 
-            flattened = new ArrayList<ERE>(children.size() >> 1);
+            flattened = new ArrayList<ERE>(children.size());
             for(ERE child : previous) {
                 if(child.getEREType() == EREType.OR) {
                     flattened.addAll(child.getChildren());
@@ -54,7 +54,7 @@ public class Or extends ERE {
         Collections.sort(children);
         // Remove elements that do not match anything.
         for(int i = 0; i < children.size(); ++i) {
-            if(children.get(i) == empty) {
+            if(children.get(i) == Empty.get()) {
                 children.remove(i);
             }
         }
@@ -67,7 +67,7 @@ public class Or extends ERE {
         }
         // Simplify degenerate Or instances to simpler ERE types.
         if(children.size() == 0) {
-            return empty;
+            return Empty.get();
         }
         else if(children.size() == 1) {
             return children.get(0);
