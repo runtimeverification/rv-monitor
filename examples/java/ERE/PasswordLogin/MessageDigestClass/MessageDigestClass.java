@@ -1,3 +1,5 @@
+package MessageDigestClass;
+
 import java.security.MessageDigest;
 
 

@@ -31,7 +31,7 @@ public class TestHelper {
         basePathFile = basePath.toFile();
 
     }
-
+    
     /**
      * Execute command, tests return code and potentially checks standard and error output against expected content
      * in files if {@code expectedFilePrefix} not null.
@@ -40,6 +40,18 @@ public class TestHelper {
      * @throws Exception
      */
     public void testCommand(String expectedFilePrefix, String... command) throws Exception {
+        testCommand(expectedFilePrefix, true, command);
+    }
+
+    /**
+     * Execute command, tests return code and potentially checks standard and error output against expected content
+     * in files if {@code expectedFilePrefix} not null.
+     * @param expectedFilePrefix the prefix for the expected files, or null if output is not checked.
+     * @param mustSucceed if the program's return code must be {@code 0}.
+     * @param command  list of arguments describing the system command to be executed.
+     * @throws Exception
+     */
+    public void testCommand(String expectedFilePrefix, boolean mustSucceed, String... command) throws Exception {
         ProcessBuilder processBuilder = new ProcessBuilder(command).inheritIO();
         processBuilder.directory(basePathFile);
         String actualOutFile = null;
@@ -61,7 +73,9 @@ public class TestHelper {
         processBuilder.redirectOutput(new File(actualOutFile));
         Process process = processBuilder.start();
         int returnCode = process.waitFor();
-        Assert.assertEquals("Expected no error during" + Arrays.toString(command) + ".", 0, returnCode);
+        if(mustSucceed) {
+            Assert.assertEquals("Expected no error during" + Arrays.toString(command) + ".", 0, returnCode);
+        }
         if (expectedFilePrefix != null) {
             assertEqualFiles(expectedOutFile, actualOutFile);
             assertEqualFiles(expectedErrFile, actualErrFile);
