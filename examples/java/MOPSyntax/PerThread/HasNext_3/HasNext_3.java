@@ -1,3 +1,4 @@
+package HasNext_3;
 
 import java.util.*;
 

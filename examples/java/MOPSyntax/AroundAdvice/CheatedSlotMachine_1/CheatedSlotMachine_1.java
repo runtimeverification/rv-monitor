@@ -1,6 +1,8 @@
-package casino;
+package CheatedSlotMachine_1;
 
-import casino.mop.CheatedSlotMachineRuntimeMonitor;
+import mop.CheatedSlotMachineRuntimeMonitor;
+
+import casino.SlotMachine;
 
 public class CheatedSlotMachine_1 {
 	public static void main(String[] args){
@@ -8,10 +10,10 @@ public class CheatedSlotMachine_1 {
 		for (int i = 0; i < 10 ; ++i) {
 			System.out.println("Round " + i);
 			machine.insertCoin();
-			casino.mop.CheatedSlotMachineRuntimeMonitor.insert_coinEvent(machine);
+			mop.CheatedSlotMachineRuntimeMonitor.insert_coinEvent(machine);
 			machine.push();
-			casino.mop.CheatedSlotMachineRuntimeMonitor.push_buttonEvent(machine);
-			casino.mop.CheatedSlotMachineRuntimeMonitor.resultEvent(machine);
+			mop.CheatedSlotMachineRuntimeMonitor.push_buttonEvent(machine);
+			mop.CheatedSlotMachineRuntimeMonitor.resultEvent(machine);
 			if (!CheatedSlotMachineRuntimeMonitor.skipEvent)
 				System.out.println(machine.getResult());
 		}

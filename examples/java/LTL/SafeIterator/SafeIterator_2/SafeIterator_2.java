@@ -1,4 +1,4 @@
-package SafeFileWriter_2;
+package SafeIterator_2;
 
 import java.util.*;
 

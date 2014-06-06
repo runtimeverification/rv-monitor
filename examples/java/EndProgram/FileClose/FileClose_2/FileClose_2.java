@@ -1,3 +1,4 @@
+package FileClose_2;
 
 import java.io.File;
 import java.io.FileWriter;
