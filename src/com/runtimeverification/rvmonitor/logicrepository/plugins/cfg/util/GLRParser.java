@@ -2,7 +2,7 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util;
 
 import java.util.ArrayList;
 
-class GLRParser implements java.io.Serializable {
+public class GLRParser implements java.io.Serializable {
     private ArrayList<IntStack> stacks = new ArrayList<IntStack>();
     private int[][] gt;
     private int[][][][] at;

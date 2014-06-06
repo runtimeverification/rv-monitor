@@ -1,7 +1,13 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util;
 
+/**
+ * A special symbol representing the current index into the context-free grammar.
+ */
 class Cursor extends Symbol {
     
+    /**
+     * Construct a Cursor object.
+     */
     public Cursor() { 
         super("@@@");
     } 

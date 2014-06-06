@@ -1,8 +1,15 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util;
 
+/**
+ * Anything that can be recognized as part of a context-free grammar.
+ */
 public class Symbol implements java.io.Serializable {
     public final String name;
     
+    /**
+     * Construct a named symbol.
+     * @param s The name of the symbol.
+     */
     public Symbol(String s) {
         name = s;
     }

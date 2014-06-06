@@ -14,18 +14,33 @@ public class LR implements java.io.Serializable {
     private int start;
     private int q0 = 0;
     
-    public LR(LR old) { this(old.at,old.gt,old.start,old.q0); }
+    public LR(LR old) {
+        this(old.at,old.gt,old.start,old.q0);
+    }
     public LR(HashSet<LRAction>[][] atold, int[][] gtold, int startold, int qold) {
-        at = DeepCopy.copy(atold); gt = DeepCopy.copy(gtold); start = startold; q0=qold;
+        at = DeepCopy.copy(atold); 
+        gt = DeepCopy.copy(gtold); 
+        start = startold; 
+        q0=qold;
     }
     
-    public int hashCode() { return at.hashCode()+gt.hashCode(); }
+    @Override
+    public int hashCode() { 
+        return at.hashCode()+gt.hashCode();
+    }
+    
+    @Override
     public boolean equals(Object o) {
-        if (o == null) return false;
-        if (!(o instanceof LR)) return false;
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof LR)) {
+            return false;
+        }
         return at.equals(((LR)o).at) && gt.equals(((LR)o).gt) && start == (((LR)o).start) && q0 == (((LR)o).q0);
     }
     
+    @Override
     public String toString() {
         String ret = "Start: "+start+", "+q0;
         ret+="\nNonTermMap: \n"+nonTermMap.toString();
@@ -124,8 +139,13 @@ public class LR implements java.io.Serializable {
         return ret;
     }
     
-    // CT p128
+    /**
+     * Construct a LR parser.
+     * @param g The grammar the parser should parse.
+     * @param termMap A mapping from terminals to indexes.
+     */
     public LR(CFG g, HashMap<Terminal,Integer> termMap) {
+        // CT p128
         HashMap<HashSet<LRPair>,HashMap<Terminal,HashSet<LRAction>>> atsparse = new HashMap<HashSet<LRPair>,HashMap<Terminal,HashSet<LRAction>>>();
         HashMap<HashSet<LRPair>,HashMap<NonTerminal,HashSet<LRPair>>> gtsparse = new HashMap<HashSet<LRPair>,HashMap<NonTerminal,HashSet<LRPair>>>();
         HashMap<HashSet<LRPair>,Integer> ccMap = new HashMap<HashSet<LRPair>,Integer>();
@@ -138,19 +158,22 @@ public class LR implements java.io.Serializable {
         // Populate the integer maps
         // NB -1 indicates errors
         int hashint = 0;
-        for (HashSet<LRPair> cc : ccSet)
+        for (HashSet<LRPair> cc : ccSet) {
             ccMap.put(cc,hashint++);
+        }
         hashint = 0;
-        for (NonTerminal nont : g.nonTerminals())
+        for (NonTerminal nont : g.nonTerminals()) {
             nonTermMap.put(nont,hashint++);
+        }
         termMap.put(new EOF(),0);
         
         // Calculate the goal production
         Production goalprod = new Production(g.getStart(),new ArrayList<Symbol>());
         HashSet<LRPair> goallrps = new HashSet<LRPair>();
         HashSet<LRPair> temp;
-        for (Production p : g.prodsOf(g.getStart()))
+        for (Production p : g.prodsOf(g.getStart())) {
             goalprod = p.clone();
+        }
         goalprod.getRhs().add(0,new Cursor());
         goallrps.add(new LRPair(goalprod,new EOF()));
         
@@ -166,8 +189,9 @@ public class LR implements java.io.Serializable {
         
         // the production to accept on
         Production accprod = null;
-        for (Production p : g.prodsOf(g.getStart()))
+        for (Production p : g.prodsOf(g.getStart())) {
             accprod = p.clone();
+        }
         accprod.getRhs().add(new Cursor());
         LRPair acclrp = new LRPair(accprod,new EOF());
         
@@ -229,8 +253,9 @@ public class LR implements java.io.Serializable {
         Production goalprod = new Production(g.getStart(),new ArrayList<Symbol>());
         HashSet<LRPair> goallrps = new HashSet<LRPair>();
         HashSet<LRPair> temp;
-        for (Production p : g.prodsOf(g.getStart()))
+        for (Production p : g.prodsOf(g.getStart())) {
             goalprod = p.clone();
+        }
         goalprod.getRhs().add(0,new Cursor());
         goallrps.add(new LRPair(goalprod,new EOF()));
         work.offer(closure(goallrps,g));

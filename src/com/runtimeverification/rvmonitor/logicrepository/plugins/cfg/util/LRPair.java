@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util;
 
-class LRPair implements java.io.Serializable {
+public class LRPair implements java.io.Serializable {
     private Production prod;
     private Terminal look;
     
