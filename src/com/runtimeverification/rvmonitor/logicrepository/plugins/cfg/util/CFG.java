@@ -30,11 +30,22 @@ public class CFG implements java.io.Serializable {
     }
     
     /**
+     * Invalidate the cached results as they are out of date from the grammar being modified.
+     */
+    public void invalidate() {
+        ts = null;
+        nts = null;
+        firstSet = null;
+        followsSet = null;
+    }
+    
+    /**
      * Add a production to the grammar.
      * @param p The production to add.
      */
     public void add(Production p) {
         prods.add(p);
+        invalidate();
     }
     
     /**
@@ -45,8 +56,13 @@ public class CFG implements java.io.Serializable {
         for (Production p : ps) {
             add(p);
         }
+        invalidate();
     }
     
+    /**
+     * The events which should trigger the creation of a monitor based on this FSM.
+     * @return A string with the creation events.
+     */
     public String creationEvents() {
         // Note these are only for match
         HashMap<Terminal,HashSet<HashSet<Terminal>>> emap = enableSets();
@@ -59,6 +75,10 @@ public class CFG implements java.io.Serializable {
         return ret;
     }
     
+    /**
+     * Return the string of all enable events.
+     * @return A string with the enables events for exporting.
+     */
     public String enablesString() {
         // Note these are only for match
         return "// match Enables\n" + preenableSets().toString();
@@ -735,5 +755,6 @@ public class CFG implements java.io.Serializable {
      */
     public void setStart(NonTerminal newStart) {
         this.start = newStart;
+        invalidate();
     }
 }

@@ -22,7 +22,8 @@ public class LRPair implements java.io.Serializable {
         if (o == null) {
             return false;
         }
-        if (!(o instanceof LRPair)) {return false;
+        if (!(o instanceof LRPair)) {
+            return false;
         }
         return look.equals(((LRPair)o).look) && prod.equals(((LRPair)o).prod);
     }

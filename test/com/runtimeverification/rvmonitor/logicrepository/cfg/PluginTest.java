@@ -48,7 +48,7 @@ public class PluginTest {
     }
     
     /**
-     * 
+     * Test code generation for CFG code containing a HasNext property.
      */
     @Test
     public void testCompletePluginHasNext() throws Exception {

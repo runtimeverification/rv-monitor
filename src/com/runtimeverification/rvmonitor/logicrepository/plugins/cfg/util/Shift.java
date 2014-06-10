@@ -21,8 +21,12 @@ public class Shift extends LRAction {
     
     @Override
     public boolean equals(Object o) {
-        if (o == null) return false;
-        if (!(o instanceof Shift)) return false;
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof Shift)) {
+            return false;
+        }
         return target == (((Shift)o).target);
     }
     

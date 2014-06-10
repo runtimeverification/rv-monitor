@@ -128,7 +128,7 @@ public class UtilTest {
     }
     
     /**
-     * 
+     * Test getting the members in an ArrayList before a specific element.
      */
     @Test
     public void testGetBefore() {
@@ -142,6 +142,9 @@ public class UtilTest {
         assertEquals("b", beforeC.get(1));
     }
     
+    /**
+     * Test getting the set of ArrayLists of members in an ArrayList before all instances of a specific element.
+     */
     @Test
     public void testGetBeforeS() {
         ArrayList<String> strings = new ArrayList<String>(Arrays.asList("a", "c", "b", "c"));

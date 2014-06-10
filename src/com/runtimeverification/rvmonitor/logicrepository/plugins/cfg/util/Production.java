@@ -2,6 +2,7 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * An expansion/production from a nonterminal symbol to several other symbols in a context-free grammar.
@@ -15,7 +16,7 @@ public class Production implements java.io.Serializable {
      * @param nt The nonterminal left hand side.
      * @param l The list of symbols in the right hand side.
      */
-    public Production(NonTerminal nt, ArrayList<Symbol> l){
+    public Production(NonTerminal nt, List<Symbol> l){
         lhs = nt;
         rhs = new ArrayList<Symbol>();
         for (Symbol s : l) {
