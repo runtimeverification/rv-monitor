@@ -57,7 +57,7 @@ public class PluginTest {
         assertFalse(matchCoenables.contains("[]"));
         assertTrue(matchCoenables.contains("[next]"));
         assertFalse(matchCoenables.contains("[hasnext]"));
-        assertTrue(matchCoenables.contains("[next, hasnext]") || matchEnables.contains("[hasnext, next]"));
+        assertTrue(matchCoenables.contains("[next, hasnext]") || matchCoenables.contains("[hasnext, next]"));
         
         System.out.println(enableSets);
     }

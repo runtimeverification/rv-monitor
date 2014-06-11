@@ -11,12 +11,15 @@
   <property name="plugins" value="lib/plugins" />
   <property name="scala.home" value="${env.SCALA_HOME}" />
   <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
+  <property name="scala-parser.jar" value="${scala.home}/lib/scala-parser-combinators*.jar" />
   <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
 
    <path id="classpath.base">
       <pathelement location="lib/external/commons-io-2.4.jar" />
+      <pathelement location="${scala-parser.jar}" />
    </path>
    <path id="classpath.test">
+      <pathelement location="${scala-parser.jar}" />
       <pathelement location="lib/external/junit.jar" />
       <pathelement location="lib/external/hamcrest-core.jar" />
       <pathelement location="${src.tests}" />
@@ -267,6 +270,11 @@
       </fileset>
     </copy>
     <copy file="${scala-library.jar}" todir="${lib}" />
+    <copy todir="${lib}">
+        <fileset dir="${scala.home}/lib">
+            <include name="scala-parser*.jar" />
+        </fileset>
+    </copy>
   </target>
 
   <target name="jar" depends="compile">
@@ -300,7 +308,7 @@
 
 
   <target name="build-test" depends="build" >
-    <javac srcdir="${src.tests}" destdir="${build.tests}" classpathref="classpath.test" includeantruntime="false" />
+    <javac srcdir="${src.tests}" destdir="${build.tests}" debug="on" classpathref="classpath.test" includeantruntime="false" />
   </target>
   
 
@@ -309,8 +317,12 @@
     <junit printsummary="yes">
       <env key="LOGICPLUGINPATH" path="${plugins}" />
       <classpath>
+        <fileset dir="lib">
+          <include name="*.jar" />
+        </fileset>
         <pathelement location="${plugins}/*.jar" />
         <pathelement location="${scala-library.jar}" />
+        <pathelement location="${scala-parser.jar}" />
         <pathelement location="${build.tests}"/>
         <pathelement path="${java.class.path}"/>
         <path refid="classpath.test" />
@@ -322,7 +334,41 @@
          <exclude name="**/TestHelper.java"/>
        </fileset>
      </batchtest>
-         
     </junit>
+    <junitreport todir="${reports.tests}">
+      <fileset dir="${reports.tests}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${reports.tests}/html"/>
+    </junitreport>
+  </target>
+  
+  <target name="fast_test" depends="build-test">
+      <mkdir dir="${reports.tests}" />
+      <junit forkmode="once" printsummary="yes">
+          <env key="LOGICPLUGINPATH" path="${plugins}" />
+          <classpath>
+              <pathelement location="${plugins}/*.jar" />
+              <pathelement location="${scala-library.jar}" />
+              <pathelement location="${scala-parser.jar}" />
+              <pathelement location="${build.tests}"/>
+              <pathelement path="${java.class.path}"/>
+              <path refid="classpath.test" />
+          </classpath>
+          <batchtest fork="yes" todir="${reports.tests}">
+              <formatter type="xml"/>
+              <fileset dir="${src.tests}">
+                  <include name="**/*Test*.java"/>
+                  <exclude name="**/TestHelper.java"/>
+                  <exclude name="**/examples/**"/>
+              </fileset>
+          </batchtest>
+      </junit>
+      <junitreport todir="${reports.tests}">
+          <fileset dir="${reports.tests}">
+              <include name="TEST-*.xml"/>
+          </fileset>
+          <report format="frames" todir="${reports.tests}/html"/>
+      </junitreport>
   </target>
 </project>

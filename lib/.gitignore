@@ -5,3 +5,4 @@ logicrepository.jar
 scala-library.jar
 plugins/*
 log/*
+scala-parser*.jar
