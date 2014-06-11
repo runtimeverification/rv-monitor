@@ -1,7 +1,19 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util;
 
+/**
+ * A symbol representing the empty string.
+ */
 public class Epsilon extends Symbol {
-   Epsilon(String s){ super("epsilon"); }
-   public Epsilon(){ super("epsilon"); }
-   public String toString(){return "epsilon";}
+    
+    /**
+     * Construct an Epsilon.
+     */
+    public Epsilon() {
+        super("epsilon");
+    }
+    
+    @Override
+    public String toString() {
+        return "epsilon";
+    }
 }
