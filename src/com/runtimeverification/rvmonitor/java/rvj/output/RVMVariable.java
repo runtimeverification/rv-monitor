@@ -3,8 +3,8 @@ package com.runtimeverification.rvmonitor.java.rvj.output;
 import com.runtimeverification.rvmonitor.java.rvj.RVMNameSpace;
 
 public class RVMVariable {
-	RVMVariable pred;
-	String varName;
+	private RVMVariable pred;
+	private final String varName;
 	
 	public RVMVariable(String varName){
 		this.varName = varName;

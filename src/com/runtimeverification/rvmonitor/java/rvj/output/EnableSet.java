@@ -16,8 +16,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAnd
 
 public class EnableSet {
 	Map<String, RVMParameterSet> contents;
-	protected RVMParameters specParameters;
-	protected List<EventDefinition> events;
+	protected final  RVMParameters specParameters;
+	protected final List<EventDefinition> events;
 
 	HashMap<String, RVMParameters> parametersOnSpec = new HashMap<String, RVMParameters>();
 

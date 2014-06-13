@@ -17,18 +17,18 @@ import java.util.TreeMap;
 
 public class RawMonitor extends Monitor{
 
-	RVMVariable loc = new RVMVariable("RVM_loc");
-	RVMVariable activity = new RVMVariable("RVM_activity");
-	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
-	RVMVariable lastevent = new RVMVariable("RVM_lastevent");
-	RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
+	private final RVMVariable loc = new RVMVariable("RVM_loc");
+	private final RVMVariable activity = new RVMVariable("RVM_activity");
+	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
+	private final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
+	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 	
-	RVMonitorSpec mopSpec;
-	List<EventDefinition> events;
+	private final RVMonitorSpec mopSpec;
+	private final List<EventDefinition> events;
 	
-	boolean isGeneral;
+	private final boolean isGeneral;
 	
-	UserJavaCode monitorDeclaration;
+	private final UserJavaCode monitorDeclaration;
 
 	public RawMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost);

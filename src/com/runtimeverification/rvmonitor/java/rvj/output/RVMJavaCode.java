@@ -8,10 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RVMJavaCode {
-	String code;
-	RVMVariable monitorName = null;
-	PropertyAndHandlers prop = null;
-	Set<String> localVars;
+	private String code;
+	private RVMVariable monitorName = null;
+	private PropertyAndHandlers prop = null;
+	private Set<String> localVars;
 
 	public RVMJavaCode(String code) {
 		this.code = code;

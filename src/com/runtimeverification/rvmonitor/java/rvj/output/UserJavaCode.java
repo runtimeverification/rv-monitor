@@ -1,7 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output;
 
 public class UserJavaCode {
-	String code;
+	private final String code;
 
 	public UserJavaCode(String code) {
 		this.code = code;

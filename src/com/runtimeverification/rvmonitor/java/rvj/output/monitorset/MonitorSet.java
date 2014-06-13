@@ -56,24 +56,24 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class MonitorSet {
-	RVMVariable setName;
-	RVMVariable monitorName;
-	SuffixMonitor monitor;
+	private final RVMVariable setName;
+	private final RVMVariable monitorName;
+	private final SuffixMonitor monitor;
 
-	ArrayList<EventDefinition> events;
-	List<PropertyAndHandlers> properties;
-	boolean has__LOC;
-	boolean has__STATICSIG;
-	boolean hasThisJoinPoint;
-	boolean existSkip = false;
+	private final ArrayList<EventDefinition> events;
+	private final List<PropertyAndHandlers> properties;
+	private final boolean has__LOC;
+	private final boolean has__STATICSIG;
+	private final boolean hasThisJoinPoint;
+	private boolean existSkip = false;
 
-	RVMVariable loc = new RVMVariable("RVM_loc");
-	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
-	RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
+	private final RVMVariable loc = new RVMVariable("RVM_loc");
+	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
+	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 
-	RVMonitorStatistics stat;
+	private final RVMonitorStatistics stat;
 	
-	GlobalLock monitorLock;
+	private GlobalLock monitorLock;
 	
 	private final RVMonitorSpec mopSpec;
 	private IndexingTreeManager indexingTreeManager;

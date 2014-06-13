@@ -13,12 +13,12 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAnd
 import java.util.HashMap;
 
 public class JavaLibCode {
-	Package packageDecl;
-	Imports imports;
-	HashMap<RVMonitorSpec, MonitorSet> monitorSets = new HashMap<RVMonitorSpec, MonitorSet>();
-	HashMap<RVMonitorSpec, SuffixMonitor> monitors = new HashMap<RVMonitorSpec, SuffixMonitor>();
-	HashMap<RVMonitorSpec, EnableSet> enableSets = new HashMap<RVMonitorSpec, EnableSet>();
-	HashMap<RVMonitorSpec, CoEnableSet> coenableSets = new HashMap<RVMonitorSpec, CoEnableSet>();
+	private final Package packageDecl;
+	private Imports imports;
+	private final HashMap<RVMonitorSpec, MonitorSet> monitorSets = new HashMap<RVMonitorSpec, MonitorSet>();
+	private final HashMap<RVMonitorSpec, SuffixMonitor> monitors = new HashMap<RVMonitorSpec, SuffixMonitor>();
+	private final HashMap<RVMonitorSpec, EnableSet> enableSets = new HashMap<RVMonitorSpec, EnableSet>();
+	private final HashMap<RVMonitorSpec, CoEnableSet> coenableSets = new HashMap<RVMonitorSpec, CoEnableSet>();
 
 	public JavaLibCode(String name, RVMSpecFile rvmSpecFile) throws RVMException {
 		packageDecl = new Package(rvmSpecFile);

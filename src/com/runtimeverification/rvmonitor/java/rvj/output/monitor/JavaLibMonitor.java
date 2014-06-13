@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class JavaLibMonitor extends BaseMonitor {
-	private BaseMonitor basemon;
+	private final BaseMonitor basemon;
 	
-	PropertyAndHandlers prop;
+	private final PropertyAndHandlers prop;
 
 	public JavaLibMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost)
 			throws RVMException {

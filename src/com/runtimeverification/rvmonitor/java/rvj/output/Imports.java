@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Imports {
 	// Hope this is cleaned up. I think the followings should be put on demand, conditionally.
-	private ArrayList<String> imports;
+	private final ArrayList<String> imports;
 	private final String[] required = {"java.util.concurrent.*", "java.util.concurrent.locks.*", "java.util.*", "java.lang.ref.*",
 		"com.runtimeverification.rvmonitor.java.rt.*",
 		"com.runtimeverification.rvmonitor.java.rt.ref.*",
