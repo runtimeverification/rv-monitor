@@ -29,16 +29,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    private static boolean parametric = false;
-    private static boolean llvm = false;
     
+    /**
+     * Generate C monitoring code for files passed on the command line.
+     * @param args The command-line arguments to rv-monitor.
+     */
     static public void main(String[] args) {
-        
-        try{
-            
+        try {
             String basePath = getBasePath();
             
-            handleArgs(args);
+            if(args.length < 1){
+                System.err.println("usage is:  rv-monitor -c <spec_file>\n  Please specify a spec file");
+                System.exit(1);
+            }
             
             String logicPluginDirPath = polishPath(readLogicPluginDir(basePath));
             
@@ -49,6 +52,8 @@ public class Main {
                     "Unrecoverable error: please place plugins in the default plugins directory:plugins");
             }
             
+            boolean parametric = false;
+            boolean llvm = false;
             for(int i = 0; i < args.length - 1; ++i){
                 if(args[i].equals("-p")){
                     parametric = true; 
@@ -63,7 +68,7 @@ public class Main {
             LogicRepositoryData cmgDataOut = sendToLogicRepository(rvcParser, logicPluginDirPath);
             
             // Outputting the logic result
-            outputCode(cmgDataOut, rvcParser);    
+            outputCode(cmgDataOut, rvcParser, parametric, llvm);    
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,19 +76,11 @@ public class Main {
         }
     }
     
-    //put any arg handling code here
-    static private void handleArgs(String[] args){
-        if(args.length < 1){
-            System.err.println("usage is:  rv-monitor -c <spec_file>\n  Please specify a spec file");
-            System.exit(1);
-        }
-    }
-    
     /**
      * Find the base path from which this class was invoked.
      * @return The location of the jar file or root of the project directory.
      */
-    static private String getBasePath(){
+    static private String getBasePath() {
         
         ClassLoader loader = Main.class.getClassLoader();
         String mainClassPath = loader.getResource("com/runtimeverification/rvmonitor/c/rvc/Main.class").toString();
@@ -206,7 +203,7 @@ public class Main {
      * @throws LogicException Something went wrong in applying the logic plugin shell.
      */
     private static LogicPluginShellResult evaluateLogicPluginShell(
-            LogicRepositoryType logicOutputXML, RVCParser rvcParser)
+            LogicRepositoryType logicOutputXML, RVCParser rvcParser, boolean parametric)
             throws LogicException, RVMException {
         //TODO: make this reflective instead of using a switch over type
         if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") == 0){
@@ -231,11 +228,11 @@ public class Main {
      * @param cmgDataOut The output of the logic repository plugins.
      * @param rvcParser Extracted information from the RVM C file.
      */
-    static private void outputCode(LogicRepositoryData cmgDataOut, RVCParser rvcParser)
-            throws LogicException, RVMException, FileNotFoundException {
+    static private void outputCode(LogicRepositoryData cmgDataOut, RVCParser rvcParser, 
+            boolean parametric, boolean llvm) throws LogicException, RVMException, FileNotFoundException {
         LogicRepositoryType logicOutputXML = cmgDataOut.getXML();
         
-        LogicPluginShellResult sr = evaluateLogicPluginShell(logicOutputXML, rvcParser);
+        LogicPluginShellResult sr = evaluateLogicPluginShell(logicOutputXML, rvcParser, parametric);
         
         String rvcPrefix = (String) sr.properties.get("rvcPrefix");
         String specName = (String) sr.properties.get("specName");
@@ -336,6 +333,14 @@ public class Main {
         }
     }
     
+    /**
+     * Output specialized Makefiles for compiling the generated LLVM code and the monitored code
+     * together.
+     * @param mnFile The filename for the new makefile.
+     * @param mFile The filename for the instrumented makefile.
+     * @param rvcPrefix The prefix used on monitoring code.
+     * @param specName The name of the monitoring code.
+     */
     private static void outputLLVMMakefiles(String mnFile, String mFile, 
             String rvcPrefix, String specName) throws FileNotFoundException {
         File mnFileHandle = new File(mnFile);
@@ -400,6 +405,11 @@ public class Main {
         mos.print(makefile);
     }
     
+    /**
+     * Output the LLVM bytecode for the monitoring and monitored code.
+     * @param bcFile The filename of the file to output the bytecode to.
+     * @param cFile The filename of the generated C code.
+     */
     private static void outputLLVMBytecode(String bcFile, String cFile) 
             throws FileNotFoundException {
         try{
