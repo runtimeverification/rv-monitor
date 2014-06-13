@@ -10,7 +10,7 @@ public class LockManager {
 
 	//HashMap<RVMonitorSpec, GlobalLock> locks = new HashMap<RVMonitorSpec, GlobalLock>();
 	
-	GlobalLock lock;
+	private final GlobalLock lock;
 
 	public LockManager(String name, List<RVMonitorSpec> specs) throws RVMException {
 //		for (RVMonitorSpec spec : specs) {

@@ -14,11 +14,11 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class PartialParamIndexingTree extends IndexingTree {
-	RVMParameter firstKey;
+	private final RVMParameter firstKey;
 
-	final static int NODEONLY = 0;
-	final static int SETONLY = 1;
-	final static int NODEANDSET = 2;
+	private final static int NODEONLY = 0;
+	private final static int SETONLY = 1;
+	private final static int NODEANDSET = 2;
 
 	public PartialParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
 			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {

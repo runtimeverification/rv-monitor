@@ -17,26 +17,26 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Advice {
-	public RVMonitorStatManager statManager;
-	public ActivatorManager activatorsManager;
+	public final RVMonitorStatManager statManager;
+	public final ActivatorManager activatorsManager;
 
-	RVMVariable inlineFuncName;
-	RVMParameters inlineParameters;
+	private final RVMVariable inlineFuncName;
+	private final RVMParameters inlineParameters;
 
-	RVMVariable pointcutName;
-	RVMParameters parameters;
+	private final RVMVariable pointcutName;
+	private final RVMParameters parameters;
 
-	boolean hasThisJoinPoint;
+	private final boolean hasThisJoinPoint;
 	public boolean beCounted = false;
 	public RVMParameters threadVars = new RVMParameters();
-	GlobalLock globalLock;
-	boolean isSync;
+	private final GlobalLock globalLock;
+	private final boolean isSync;
 
-	LinkedList<EventDefinition> events = new LinkedList<EventDefinition>();
-	HashSet<RVMonitorSpec> specsForActivation = new HashSet<RVMonitorSpec>();
-	HashSet<RVMonitorSpec> specsForChecking = new HashSet<RVMonitorSpec>();
+	private final LinkedList<EventDefinition> events = new LinkedList<EventDefinition>();
+	private final HashSet<RVMonitorSpec> specsForActivation = new HashSet<RVMonitorSpec>();
+	private final HashSet<RVMonitorSpec> specsForChecking = new HashSet<RVMonitorSpec>();
 	
-	HashMap<EventDefinition, AdviceBody> advices = new HashMap<EventDefinition, AdviceBody>();
+	private final HashMap<EventDefinition, AdviceBody> advices = new HashMap<EventDefinition, AdviceBody>();
 	
 	private final InternalBehaviorObservableCodeGenerator internalBehaviorObservableGenerator;
 

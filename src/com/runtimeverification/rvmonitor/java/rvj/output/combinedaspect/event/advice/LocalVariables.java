@@ -16,12 +16,12 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
 public class LocalVariables {
-	TreeMap<String, RefTree> refTrees;
+	private final TreeMap<String, RefTree> refTrees;
 
-	ArrayList<Variable> variables= new ArrayList<Variable>();
+	private final ArrayList<Variable> variables= new ArrayList<Variable>();
 
-	HashMap<String, Variable> varMap = new HashMap<String, Variable>();
-	HashMap<String, Variable> tempRefs = new HashMap<String, Variable>();
+	private final HashMap<String, Variable> varMap = new HashMap<String, Variable>();
+	private final HashMap<String, Variable> tempRefs = new HashMap<String, Variable>();
 	
 	private final ArrayList<RVMTypedVariable> varTempMaps = new ArrayList<RVMTypedVariable>();
 	private final ArrayList<RVMTypedVariable> varObjs = new ArrayList<RVMTypedVariable>();

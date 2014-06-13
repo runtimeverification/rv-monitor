@@ -9,8 +9,8 @@ import java.util.TreeMap;
 
 public class ActivatorManager {
 
-	List<RVMonitorSpec> specs;
-	TreeMap<RVMonitorSpec, RVMVariable> activators = new TreeMap<RVMonitorSpec, RVMVariable>();
+	private final List<RVMonitorSpec> specs;
+	private final TreeMap<RVMonitorSpec, RVMVariable> activators = new TreeMap<RVMonitorSpec, RVMVariable>();
 
 	public ActivatorManager(String name, List<RVMonitorSpec> specs) {
 		this.specs = specs;

@@ -16,26 +16,26 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 public abstract class IndexingTree {
 	public RVMVariable name;
 	
-	public RVMParameters fullParam;
-	public RVMParameters queryParam;
-	public RVMParameters contentParam;
+	public final RVMParameters fullParam;
+	public final RVMParameters queryParam;
+	public final RVMParameters contentParam;
 	
-	public MonitorSet monitorSet;
-	public SuffixMonitor monitorClass;
+	public final MonitorSet monitorSet;
+	public final SuffixMonitor monitorClass;
 	
 	public IndexingCache cache = null;
 	
-	public boolean anycontent = true;
-	public boolean perthread = false;
-	public boolean isFullParam = false;
-	public boolean isGeneral = false;
+	public final boolean anycontent;
+	public final boolean perthread;
+	public final boolean isFullParam;
+	public final boolean isGeneral;
 	
-	protected HashMap<String, RefTree> refTrees;
+	protected final HashMap<String, RefTree> refTrees;
 	
 	public RefTree parasiticRefTree = null;
 	
 	public IndexingTree parentTree = null;
-	public ArrayList<IndexingTree> childTrees = new ArrayList<IndexingTree>();
+	public final ArrayList<IndexingTree> childTrees = new ArrayList<IndexingTree>();
 	
 	public IndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
 		this.queryParam = queryParam;
@@ -44,16 +44,9 @@ public abstract class IndexingTree {
 		this.monitorSet = monitorSet;
 		this.monitorClass = monitor;
 
-		if (contentParam == null) {
-			anycontent = true;
-		} else {
-			anycontent = false;
-		}
+		anycontent = contentParam == null;
 		
-		if (queryParam != null && fullParam != null && queryParam.equals(fullParam))
-			isFullParam = true;
-		if (queryParam != null && contentParam != null && queryParam.equals(contentParam))
-			isFullParam = true;
+		isFullParam = (queryParam != null && fullParam != null && queryParam.equals(fullParam)) || (queryParam != null && contentParam != null && queryParam.equals(contentParam));
 
 		this.refTrees = refTrees;
 

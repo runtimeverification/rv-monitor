@@ -16,7 +16,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 
 public class IndexingTreeManager {
 
-	TreeMap<RVMonitorSpec, IndexingDeclNew> trees = new TreeMap<RVMonitorSpec, IndexingDeclNew>();
+	private final TreeMap<RVMonitorSpec, IndexingDeclNew> trees = new TreeMap<RVMonitorSpec, IndexingDeclNew>();
 	
 	public TreeMap<String, RefTree> refTrees = new TreeMap<String, RefTree>();
 

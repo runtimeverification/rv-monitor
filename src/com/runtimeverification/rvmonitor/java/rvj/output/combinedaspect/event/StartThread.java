@@ -17,20 +17,20 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class StartThread {
-	RVMonitorSpec mopSpec;
-	EventDefinition event;
-	MonitorSet monitorSet;
-	SuffixMonitor monitorClass;
-	IndexingDeclNew indexingDecl;
-	TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
-	GlobalLock globalLock;
+	private final RVMonitorSpec mopSpec;
+	private final EventDefinition event;
+	private final MonitorSet monitorSet;
+	private final SuffixMonitor monitorClass;
+	private final IndexingDeclNew indexingDecl;
+	private final TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
+	private final GlobalLock globalLock;
 
-	AdviceBody eventBody;
+	private final AdviceBody eventBody;
 
-	RVMVariable runnableMap;
-	RVMVariable mainThread;
+	private final RVMVariable runnableMap;
+	private final RVMVariable mainThread;
 
-	RVMVariable commonPointcut = new RVMVariable("RVM_CommonPointCut");
+	private final RVMVariable commonPointcut = new RVMVariable("RVM_CommonPointCut");
 
 	public StartThread(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isStartThread())

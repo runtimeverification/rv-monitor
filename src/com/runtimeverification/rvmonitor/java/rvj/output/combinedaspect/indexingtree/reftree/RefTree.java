@@ -12,12 +12,12 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
 public class RefTree {
-	RVMVariable name;
+	private final RVMVariable name;
 
-	public String type;
+	public final String type;
 
-	public ArrayList<RVMonitorSpec> properties = new ArrayList<RVMonitorSpec>();
-	public ArrayList<RVMonitorSpec> generalProperties = new ArrayList<RVMonitorSpec>();
+	public final ArrayList<RVMonitorSpec> properties = new ArrayList<RVMonitorSpec>();
+	public final ArrayList<RVMonitorSpec> generalProperties = new ArrayList<RVMonitorSpec>();
 	
 	private IndexingTreeInterface hostIndexingTree = null;
 	

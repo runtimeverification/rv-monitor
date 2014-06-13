@@ -18,22 +18,22 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class EndThread {
-	RVMonitorSpec mopSpec;
-	EventDefinition event;
-	MonitorSet monitorSet;
+	private RVMonitorSpec mopSpec;
+	private EventDefinition event;
+	private MonitorSet monitorSet;
 	SuffixMonitor monitorClass;
-	IndexingDeclNew indexingDecl;
-	TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
+	private IndexingDeclNew indexingDecl;
+	private TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
 	GlobalLock globalLock;
 
-	AdviceBody eventBody;
+	private AdviceBody eventBody;
 
 	RVMVariable runnableMap;
 	RVMVariable mainThread;
-	RVMVariable mainCounter;
+	private RVMVariable mainCounter;
 	RVMVariable threadSet;
 
-	RVMVariable commonPointcut = new RVMVariable("RVM_CommonPointCut");
+	final RVMVariable commonPointcut = new RVMVariable("RVM_CommonPointCut");
 
 	public EndThread(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isEndThread())

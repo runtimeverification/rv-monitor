@@ -11,10 +11,10 @@ import java.util.List;
 
 public class RVMonitorStatManager {
 
-	HashMap<RVMonitorSpec, RVMonitorStatistics> stats = new HashMap<RVMonitorSpec, RVMonitorStatistics>();
+	private final HashMap<RVMonitorSpec, RVMonitorStatistics> stats = new HashMap<RVMonitorSpec, RVMonitorStatistics>();
 
-	RVMVariable statClass;
-	RVMVariable statObject;
+	private final RVMVariable statClass;
+	private final RVMVariable statObject;
 	
 	public RVMonitorStatManager(String name, List<RVMonitorSpec> specs) throws RVMException {
 		for (RVMonitorSpec spec : specs) {

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TimestampManager {
 
-	HashMap<RVMonitorSpec, RVMVariable> timestamps = new HashMap<RVMonitorSpec, RVMVariable>();
+	private final HashMap<RVMonitorSpec, RVMVariable> timestamps = new HashMap<RVMonitorSpec, RVMVariable>();
 
 	public TimestampManager(String name, List<RVMonitorSpec> specs) throws RVMException {
 		for (RVMonitorSpec spec : specs) {

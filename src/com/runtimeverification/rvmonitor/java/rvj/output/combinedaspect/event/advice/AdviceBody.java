@@ -19,22 +19,22 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 public abstract class AdviceBody {
-	protected RVMonitorSpec mopSpec;
-	protected EventDefinition event;
-	protected MonitorSet monitorSet;
-	protected SuffixMonitor monitorClass;
-	protected RVMVariable monitorName;
-	protected TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
-	protected IndexingDeclNew indexingDecl;
-	protected TreeMap<String, RefTree> refTrees;
+	protected final RVMonitorSpec mopSpec;
+	protected final EventDefinition event;
+	protected final MonitorSet monitorSet;
+	protected final SuffixMonitor monitorClass;
+	protected final RVMVariable monitorName;
+	protected final TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
+	protected final IndexingDeclNew indexingDecl;
+	protected final TreeMap<String, RefTree> refTrees;
 	
-	protected RVMonitorStatistics stat;
+	protected final RVMonitorStatistics stat;
 	
-	protected boolean isGeneral;
-	protected RVMParameters eventParams;
+	protected final boolean isGeneral;
+	protected final RVMParameters eventParams;
 
-	protected boolean isFullParam;
-	protected CombinedAspect aspect;
+	protected final boolean isFullParam;
+	protected final CombinedAspect aspect;
 	
 	public RVMParameters getEventParameters() {
 		return this.eventParams;
