@@ -29,20 +29,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static boolean isJarFile = false;
-    public static String jarFilePath = null;
-    public static String basePath = null;
-    
     private static boolean parametric = false;
     private static boolean llvm = false;
-    
-    private static RVCParser rvcParser;
     
     static public void main(String[] args) {
         
         try{
             
-            basePath = getBasePath();
+            String basePath = getBasePath();
             
             handleArgs(args);
             
@@ -63,13 +57,13 @@ public class Main {
                     llvm = true;
                 }
             }
-            rvcParser = parseInput(args[args.length - 1]);
+            RVCParser rvcParser = parseInput(args[args.length - 1]);
             
             //send Spec to logic repository to get the logic result 
-            LogicRepositoryData cmgDataOut = sendToLogicRepository(logicPluginDirPath);
+            LogicRepositoryData cmgDataOut = sendToLogicRepository(rvcParser, logicPluginDirPath);
             
             // Outputting the logic result
-            outputCode(cmgDataOut);    
+            outputCode(cmgDataOut, rvcParser);    
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +79,10 @@ public class Main {
         }
     }
     
-    //Finds the base path from which this class was invoked
+    /**
+     * Find the base path from which this class was invoked.
+     * @return The location of the jar file or root of the project directory.
+     */
     static private String getBasePath(){
         
         ClassLoader loader = Main.class.getClassLoader();
@@ -95,10 +92,6 @@ public class Main {
             cmgPath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
             - "rvmonitor.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
             cmgPath = polishPath(cmgPath);
-            isJarFile = true;
-            jarFilePath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
-            - "!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
-            jarFilePath = polishPath(jarFilePath);
         }
         else {
             cmgPath = Main.class.getResource(".").getFile();
@@ -106,11 +99,13 @@ public class Main {
         return cmgPath;
     }
     
-    // Parses rv-monitor C input and produces a RVCParser object
-    // from which we can grab important data
-    static private RVCParser parseInput(String fileName) 
-    throws FileNotFoundException
-    {
+    /** 
+     * Parses rv-monitor C input and produces a RVCParser object from which we can grab important 
+     * data.
+     * @param fileName The location of the C file to parse.
+     * @return A RVCParser instance with extracted information from the C file.
+     */
+    static private RVCParser parseInput(String fileName)  throws FileNotFoundException {
         FileInputStream fio = new FileInputStream(new File(fileName));
         Scanner sc = new Scanner(fio);
         StringBuilder buf = new StringBuilder();
@@ -118,7 +113,11 @@ public class Main {
         return RVCParser.parse(buf.toString());
     }
     
-    // Generates the proper name for the logic plugin directory
+    /**
+     * Generates the proper name for the logic plugin directory.
+     * @param basePath The location of the project.
+     * @return The location of the logic plugins.
+     */
     static public String readLogicPluginDir(String basePath) {
         String logicPluginDirPath = System.getenv("LOGICPLUGINPATH");
         if (logicPluginDirPath == null || logicPluginDirPath.length() == 0) {
@@ -131,16 +130,26 @@ public class Main {
         return logicPluginDirPath;
     }
     
-    // Polishing directory path for windows
+    /**
+     * Polishing directory path for windows.
+     * @param path A directory path.
+     * @return A cleaned path without windows oddities.
+     */
     static public String polishPath(String path) {
         if (path.indexOf("%20") > 0)
             path = path.replaceAll("%20", " ");
         return path;
     }
     
-    //sends spec to logic repository
-    static public LogicRepositoryData sendToLogicRepository(String logicPluginDirPath)
-    throws LogicException {
+    /**
+     * Send the specification to the logic repository. The appropriate logic repository plugins
+     * are run on the code.
+     * @param rvcParser Extracted information from the RVM C file being used.
+     * @param logicPluginDirPath The location at which to find the logic repository plugins.
+     * @return The output of the logic plugins.
+     */
+    static public LogicRepositoryData sendToLogicRepository(RVCParser rvcParser, 
+            String logicPluginDirPath) throws LogicException {
         LogicRepositoryType cmgXMLIn = new LogicRepositoryType();
         PropertyType logicProperty = new PropertyType();
         
@@ -189,29 +198,44 @@ public class Main {
         return new LogicRepositoryData(logicPluginResultStream);
     }
     
-    //Output code for the monitor.  Creates a C and a H file
-    //optionally compiles to LLVM
-    static private void outputCode(LogicRepositoryData cmgDataOut)
-    throws LogicException, RVMException, FileNotFoundException {
-        LogicRepositoryType logicOutputXML = cmgDataOut.getXML();
-        
-        LogicPluginShellResult sr;
+    /**
+     * Evaluate the appropriate logic plugin shell on the logic formalism.
+     * @param logicOutputXML The result of the logic repository plugins.
+     * @param rvcParser The extracted information from the C file.
+     * @return The result of applying the appropriate logic plugin shell to the parameters.
+     * @throws LogicException Something went wrong in applying the logic plugin shell.
+     */
+    private static LogicPluginShellResult evaluateLogicPluginShell(
+            LogicRepositoryType logicOutputXML, RVCParser rvcParser)
+            throws LogicException, RVMException {
         //TODO: make this reflective instead of using a switch over type
         if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") == 0){
             CFSM cfsm = new CFSM(rvcParser, parametric);
-            sr = cfsm.process(logicOutputXML, logicOutputXML.getEvents());
+            return cfsm.process(logicOutputXML, logicOutputXML.getEvents());
         }
         else if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("tfsm") == 0){
             CTFSM ctfsm = new CTFSM(rvcParser, parametric);
-            sr = ctfsm.process(logicOutputXML, logicOutputXML.getEvents());
+            return ctfsm.process(logicOutputXML, logicOutputXML.getEvents());
         }
         else if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("cfg") == 0){
             CCFG ccfg = new CCFG(rvcParser, parametric);
-            sr = ccfg.process(logicOutputXML, logicOutputXML.getEvents());
+            return ccfg.process(logicOutputXML, logicOutputXML.getEvents());
         }
         else {
             throw new LogicException("Only finite logics and CFG are currently supported");
         } 
+    }
+    
+    /**
+     * Output code for the monitor. Creates a C and a H file, optionally compiles to LLVM.
+     * @param cmgDataOut The output of the logic repository plugins.
+     * @param rvcParser Extracted information from the RVM C file.
+     */
+    static private void outputCode(LogicRepositoryData cmgDataOut, RVCParser rvcParser)
+            throws LogicException, RVMException, FileNotFoundException {
+        LogicRepositoryType logicOutputXML = cmgDataOut.getXML();
+        
+        LogicPluginShellResult sr = evaluateLogicPluginShell(logicOutputXML, rvcParser);
         
         String rvcPrefix = (String) sr.properties.get("rvcPrefix");
         String specName = (String) sr.properties.get("specName");
@@ -297,84 +321,97 @@ public class Main {
             }
             
             if (llvm) {
-                File mnFileHandle = new File(mnFile);
-                FileOutputStream mnfos = new FileOutputStream(mnFileHandle);
-                PrintStream mnos = new PrintStream(mnfos);
-                // The llvm backend assumes a Makefile.original exists building the (unistrumented) project
-                // and adds two other Makefiles:
-                // * Makefile.instrument is used to instrument the .bc files with the provided aspects
-                // * Makefile.new is the new main Makefile, which defines tasks for building and instrumenting and
-                //   delegates work to the other two
-                
-                // Makefile.new
-                String nmakefile = "# This Makefile assumes that Makefile.original contains your original Makefile\n" +
-                "# you could rename this as Makefile\n" +
-                "all: original\n" +
-                "\n" +
-                "original:\n" +
-                "\tmake -f Makefile.original\n" +
-                "\n" +
-                "instrument: original\n" +
-                "\tmake -f Makefile.instrument\n" +
-                "\n" +
-                "uninstrument:\n" +
-                "\tmake -f Makefile.instrument uninstrument\n" +
-                "\tmake -f Makefile.original\n" +
-                "\n" +
-                "clean:\n" +
-                "\tmake -f Makefile.instrument clean\n" +
-                "\tmake -f Makefile.original clean\n" +
-                "\n" +
-                ".PHONY: original instrument uninstrument\n";
-                mnos.print(nmakefile);
-                File mFileHandle = new File(mFile);
-                FileOutputStream mfos = new FileOutputStream(mFileHandle);
-                PrintStream mos = new PrintStream(mfos);
-                
-                // Makefile.instrument
-                String makefile="all: instrument\n" +
-                "\n" +
-                "__RVC__Monitor.o: __RVC__Monitor.bc\n" +
-                "\tllc -filetype=obj $< -o $@\n" +
-                "\n" +
-                "instrument: __RVC__Monitor.o aspect.map uninstrument\n" +
-                "\tfind . -type f \\( -name \"*.bc\" ! -name \"__RVC*\" \\) -exec make -f Makefile.instrument \"{}.original\" \\; \n" +
-                "\tmake LDFLAGS=__RVC__Monitor.o\n" +
-                "\n" +
-                "%.bc.original: %.bc\n" +
-                "\tcp $< $@\n" +
-                "\topt -load LLVMAOP.so -aop $< -o $< -f\n" +
-                "\tif diff -q $< $@ >/dev/null ; then rm $@ ; fi\n" +
-                "\n" +
-                "clean: uninstrument\n" +
-                "\trm -f __RVC__Monitor.o\n" +
-                "\n" +
-                "uninstrument:\n" +
-                "\tfind . -name \"*.bc\" -type f -exec mv \"{}.original\" \"{}\" \\; -exec touch \"{}\" \\; 2>/dev/null\n" +
-                "\n" +
-                ".PHONY: instrument uninstrument\n";
-                makefile = makefile.replaceAll(rvcPrefix + "_",rvcPrefix + specName);
-                mos.print(makefile);
+                outputLLVMMakefiles(mnFile, mFile, rvcPrefix, specName);
             }
             
         }
         
         if(llvm){
-            try{
-                Process p = Runtime.getRuntime().exec(new String[] {"clang", "-emit-llvm", "-c", "-o", bcFile, cFile});
-                BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                String inputLine;
-                while ((inputLine = in.readLine()) != null)
-                    System.out.println(inputLine);
-                in.close();
-            } catch (java.io.IOException e){
-                throw new RuntimeException(e);
-            }
+            outputLLVMBytecode(bcFile, cFile);
             cFileHandle.delete(); 
             System.out.println(bcFile + " file has been generated");
         }
         else{
             System.out.println(cFile + " and " + hFile + " have been generated");
+        }
+    }
+    
+    private static void outputLLVMMakefiles(String mnFile, String mFile, 
+            String rvcPrefix, String specName) throws FileNotFoundException {
+        File mnFileHandle = new File(mnFile);
+        FileOutputStream mnfos = new FileOutputStream(mnFileHandle);
+        PrintStream mnos = new PrintStream(mnfos);
+        // The llvm backend assumes a Makefile.original exists building the (unistrumented) project
+        // and adds two other Makefiles:
+        // * Makefile.instrument is used to instrument the .bc files with the provided aspects
+        // * Makefile.new is the new main Makefile, which defines tasks for building and instrumenting and
+        //   delegates work to the other two
+        
+        // Makefile.new
+        String nmakefile = 
+            "# This Makefile assumes that Makefile.original contains your original Makefile\n" +
+            "# you could rename this as Makefile\n" +
+            "all: original\n" +
+            "\n" +
+            "original:\n" +
+            "\tmake -f Makefile.original\n" +
+            "\n" +
+            "instrument: original\n" +
+            "\tmake -f Makefile.instrument\n" +
+            "\n" +
+            "uninstrument:\n" +
+            "\tmake -f Makefile.instrument uninstrument\n" +
+            "\tmake -f Makefile.original\n" +
+            "\n" +
+            "clean:\n" +
+            "\tmake -f Makefile.instrument clean\n" +
+            "\tmake -f Makefile.original clean\n" +
+            "\n" +
+            ".PHONY: original instrument uninstrument\n";
+        mnos.print(nmakefile);
+        File mFileHandle = new File(mFile);
+        FileOutputStream mfos = new FileOutputStream(mFileHandle);
+        PrintStream mos = new PrintStream(mfos);
+        
+        // Makefile.instrument
+        String makefile=
+            "all: instrument\n" +
+            "\n" +
+            "__RVC__Monitor.o: __RVC__Monitor.bc\n" +
+            "\tllc -filetype=obj $< -o $@\n" +
+            "\n" +
+            "instrument: __RVC__Monitor.o aspect.map uninstrument\n" +
+            "\tfind . -type f \\( -name \"*.bc\" ! -name \"__RVC*\" \\) -exec make -f Makefile.instrument \"{}.original\" \\; \n" +
+            "\tmake LDFLAGS=__RVC__Monitor.o\n" +
+            "\n" +
+            "%.bc.original: %.bc\n" +
+            "\tcp $< $@\n" +
+            "\topt -load LLVMAOP.so -aop $< -o $< -f\n" +
+            "\tif diff -q $< $@ >/dev/null ; then rm $@ ; fi\n" +
+            "\n" +
+            "clean: uninstrument\n" +
+            "\trm -f __RVC__Monitor.o\n" +
+            "\n" +
+            "uninstrument:\n" +
+            "\tfind . -name \"*.bc\" -type f -exec mv \"{}.original\" \"{}\" \\; -exec touch \"{}\" \\; 2>/dev/null\n" +
+            "\n" +
+            ".PHONY: instrument uninstrument\n";
+        makefile = makefile.replaceAll(rvcPrefix + "_",rvcPrefix + specName);
+        mos.print(makefile);
+    }
+    
+    private static void outputLLVMBytecode(String bcFile, String cFile) 
+            throws FileNotFoundException {
+        try{
+            Process p = Runtime.getRuntime().exec(
+                new String[] {"clang", "-emit-llvm", "-c", "-o", bcFile, cFile});
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null)
+                System.out.println(inputLine);
+            in.close();
+        } catch (java.io.IOException e){
+            throw new RuntimeException(e);
         }
     }
     
