@@ -69,6 +69,13 @@ public class Main {
     public static boolean usePartitionedSet = false;
     public static boolean useAtomicMonitor = true;
     
+    /**
+     * The target directory for outputting the results produced from some specification files.
+     * If {@link outputDir} is already set, use that. If the input files are all in the same
+     * directory, return that directory. Otherwise, return the current directory.
+     * @param specFiles The specification files used in the input.
+     * @return The place to put the output files.
+     */
     static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
         if(Main.outputDir != null){
             return outputDir;
@@ -147,6 +154,10 @@ public class Main {
         }
     }
     
+    /**
+     * Aggregate and process multiple specification files to generate a runtime monitor file.
+     * @param specFiles All the file objects used to construct the monitor object.
+     */
     public static void processMultipleFiles(ArrayList<File> specFiles) throws RVMException {
         String aspectName;
         
@@ -189,6 +200,11 @@ public class Main {
         writeCombinedAspectFile(output, aspectName);
     }
     
+    /**
+     * Output some text into a Java file.
+     * @param javaContent The Java code to write to the file.
+     * @param location The place to write the Java code into.
+     */
     protected static void writeJavaFile(String javaContent, String location) throws RVMException {
         if ((javaContent == null) || (javaContent.length() == 0))
             throw new RVMException("Nothing to write as a java file");
@@ -204,6 +220,11 @@ public class Main {
         }
     }
     
+    /**
+     * Write an aspect file with the given content and name.
+     * @param aspectContent The text to write into the file.
+     * @param aspectName The name of the aspect being written.
+     */
     protected static void writeCombinedAspectFile(String aspectContent, String aspectName) throws RVMException {
         if (aspectContent == null || aspectContent.length() == 0)
             return;
@@ -218,6 +239,11 @@ public class Main {
         System.out.println(" " + aspectName + "RuntimeMonitor.java is generated");
     }
     
+    /**
+     * Write an aspect file targeting a particular destination file.
+     * @param aspectContent The text of the file to write.
+     * @param location The place to write the file to.
+     */
     protected static void writeAspectFile(String aspectContent, String location) throws RVMException {
         if (aspectContent == null || aspectContent.length() == 0)
             return;
@@ -234,6 +260,11 @@ public class Main {
         System.out.println(" " + name + "RuntimeMonitor.java is generated");
     }
     
+    /**
+     * Write the code needed to produce a monitor as a java library. to a file.
+     * @param javaLibContent The text of the file to write.
+     * @param location The place to write the file to.
+     */
     protected static void writeJavaLibFile(String javaLibContent, String location) throws RVMException {
         if (javaLibContent == null || javaLibContent.length() == 0)
             return;
@@ -249,7 +280,11 @@ public class Main {
         System.out.println(" " + Tool.getFileName(location) + "JavaLibMonitor.java is generated");
     }
     
-    // PM
+    /**
+     * Write the output of a plugin to a file.
+     * @param pluginOutput The output of the plugin files.
+     * @param location The place to write the plugin output to.
+     */
     protected static void writePluginOutputFile(String pluginOutput, String location) throws RVMException {
         int i = location.lastIndexOf(File.separator);
         
@@ -263,6 +298,11 @@ public class Main {
         System.out.println(" " + Tool.getFileName(location) + "PluginOutput.txt is generated");
     }
     
+    /**
+     * Reformat a path to deal with platform-specific oddities.
+     * @param path The path to clean up.
+     * @return A cleaned up path.
+     */
     public static String polishPath(String path) {
         if (path.indexOf("%20") > 0)
             path = path.replaceAll("%20", " ");
@@ -270,6 +310,12 @@ public class Main {
         return path;
     }
     
+    /**
+     * Filter to Java and RVM files and construct their full paths.
+     * @param files An array of files that might be involved.
+     * @param path The directory to look for the files in.
+     * @return A filtered list of relevant files with full paths.
+     */
     public static ArrayList<File> collectFiles(String[] files, String path) throws RVMException {
         ArrayList<File> ret = new ArrayList<File>();
         
@@ -297,6 +343,11 @@ public class Main {
         return ret;
     }
     
+    /**
+     * Process an array of files at a base path.
+     * @param files All the files to consider when producing output.
+     * @param path The base path of the files.
+     */
     public static void process(String[] files, String path) throws RVMException {
         ArrayList<File> specFiles = collectFiles(files, path);
         
@@ -321,6 +372,10 @@ public class Main {
         }
     }
     
+    /**
+     * Process a semicolon-separated list of files.
+     * @param arg A list of files, separated by semicolons.
+     */
     public static void process(String arg) throws RVMException {
         if(outputDir != null && !outputDir.exists())
             throw new RVMException("The output directory, " + outputDir.getPath() + " does not exist.");
@@ -328,7 +383,9 @@ public class Main {
         process(arg.split(";"), "");
     }
     
-    // PM
+    /**
+     * Print the command line options usable with Java RV-Monitor.
+     */
     public static void print_help() {
         System.out.println("Usage: java [-cp rv_monitor_classpath] com.runtimeverification.rvmonitor.java.rvj.Main [-options] files");
         System.out.println("");
@@ -361,6 +418,10 @@ public class Main {
         
     }
     
+    /**
+     * Run Java RV-Monitor on some files.
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         ClassLoader loader = Main.class.getClassLoader();
         String mainClassPath = loader.getResource("com/runtimeverification/rvmonitor/java/rvj/Main.class").toString();
