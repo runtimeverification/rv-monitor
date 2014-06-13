@@ -42,11 +42,6 @@ public class Main {
     public static boolean isJarFile = false;
     public static String jarFilePath = null;
     
-    public static final int NONE = 0;
-    public static final int HANDLERS = 1;
-    public static final int EVENTS = 2;
-    public static int logLevel = NONE;
-    
     public static boolean dacapo = false;
     public static boolean dacapo2 = false;
     public static boolean silent = false;
@@ -54,8 +49,6 @@ public class Main {
     
     public static boolean merge = false;
     public static boolean inline = false;
-    
-    public static boolean scalable = false;
     
     public static boolean internalBehaviorObserving = false;
     
@@ -77,18 +70,18 @@ public class Main {
      * @return The place to put the output files.
      */
     static private File getTargetDir(ArrayList<File> specFiles) throws RVMException {
-        if(Main.outputDir != null){
+        if(Main.outputDir != null) {
             return outputDir;
         }
         
         boolean sameDir = true;
         File parentFile = null;
         
-        for(File file : specFiles){
-            if(parentFile == null){
+        for(File file : specFiles) {
+            if(parentFile == null) {
                 parentFile = file.getAbsoluteFile().getParentFile();
             } else {
-                if(file.getAbsoluteFile().getParentFile().equals(parentFile)){
+                if(file.getAbsoluteFile().getParentFile().equals(parentFile)) {
                     continue;
                 } else {
                     sameDir = false;
@@ -97,7 +90,7 @@ public class Main {
             }
         }
         
-        if(sameDir){
+        if(sameDir) {
             return parentFile;
         } else {
             return new File(".");
@@ -161,7 +154,7 @@ public class Main {
     public static void processMultipleFiles(ArrayList<File> specFiles) throws RVMException {
         String aspectName;
         
-        if(outputDir == null){
+        if(outputDir == null) {
             outputDir = getTargetDir(specFiles);
         }
         
@@ -186,7 +179,7 @@ public class Main {
         
         RVMNameSpace.init();
         ArrayList<RVMSpecFile> specs = new ArrayList<RVMSpecFile>();
-        for(File file : specFiles){
+        for(File file : specFiles) {
             String specStr = SpecExtractor.process(file);
             RVMSpecFile spec =  SpecExtractor.parse(specStr);
             
@@ -351,7 +344,7 @@ public class Main {
     public static void process(String[] files, String path) throws RVMException {
         ArrayList<File> specFiles = collectFiles(files, path);
         
-        if(Main.aspectname != null && files.length > 1){
+        if(Main.aspectname != null && files.length > 1) {
             Main.merge = true;
         }
         
@@ -436,73 +429,65 @@ public class Main {
         String files = "";
         
         while (i < args.length) {
-            if (args[i].compareTo("-h") == 0 || args[i].compareTo("-help") == 0) {
+            if ("-h".equals(args[i]) || "-help".equals(args[i])) {
                 print_help();
                 return;
             }
             
-            if (args[i].compareTo("-d") == 0) {
+            if ("-d".equals(args[i])) {
                 i++;
                 outputDir = new File(args[i]);
-            } else if (args[i].compareTo("-local") == 0) {
+            } else if ("-local".equals(args[i])) {
                 LogicRepositoryConnector.serverName = "local";
-            } else if (args[i].compareTo("-remote") == 0) {
+            } else if ("-remote".equals(args[i])) {
                 LogicRepositoryConnector.serverName = "default";
             } else if (args[i].startsWith("-remote:")) {
                 LogicRepositoryConnector.serverName = args[i].substring(8);
-            } else if (args[i].compareTo("-v") == 0 || args[i].compareTo("-verbose") == 0) {
+            } else if ("-v".equals(args[i]) || "-verbose".equals(args[i])) {
                 LogicRepositoryConnector.verbose = true;
                 RVMProcessor.verbose = true;
-            } else if (args[i].compareTo("-javalib") == 0) {
+            } else if ("-javalib".equals(args[i])) {
                 toJavaLib = true;
-            } else if (args[i].compareTo("-debug") == 0) {
+            } else if ("-debug".equals(args[i])) {
                 Main.debug = true;
-            } else if (args[i].compareTo("-noopt1") == 0) {
+            } else if ("-noopt1".equals(args[i])) {
                 Main.noopt1 = true;
-            } else if (args[i].compareTo("-s") == 0 || args[i].compareTo("-statistics") == 0) {
+            } else if ("-s".equals(args[i]) || "-statistics".equals(args[i])) {
                 Main.statistics = true;
-            } else if (args[i].compareTo("-s2") == 0 || args[i].compareTo("-statistics2") == 0) {
+            } else if ("-s2".equals(args[i]) || "-statistics2".equals(args[i])) {
                 Main.statistics2 = true;
-            } else if (args[i].compareTo("-n") == 0 || args[i].compareTo("-aspectname") == 0) {
+            } else if ("-n".equals(args[i]) || "-aspectname".equals(args[i])) {
                 i++;
                 Main.aspectname = args[i];
-            } else if (args[i].compareTo("-showhandlers") == 0) {
-                if (Main.logLevel < Main.HANDLERS)
-                    Main.logLevel = Main.HANDLERS;
-            } else if (args[i].compareTo("-showevents") == 0) {
-                if (Main.logLevel < Main.EVENTS)
-                    Main.logLevel = Main.EVENTS;
-            } else if (args[i].compareTo("-dacapo") == 0) {
+            } else if ("-dacapo".equals(args[i])) {
                 Main.dacapo = true;
-            } else if (args[i].compareTo("-dacapo2") == 0) {
+            } else if ("-dacapo2".equals(args[i])) {
                 Main.dacapo2 = true;
-            } else if (args[i].compareTo("-silent") == 0) {
+            } else if ("-silent".equals(args[i])) {
                 Main.silent = true;
-            } else if (args[i].compareTo("-merge") == 0) {
+            } else if ("-merge".equals(args[i])) {
                 Main.merge = true;
-            } else if (args[i].compareTo("-inline") == 0) {
+            } else if ("-inline".equals(args[i])) {
                 Main.inline = true;
-            } else if (args[i].compareTo("-noadvicebody") == 0) {
+            } else if ("-noadvicebody".equals(args[i])) {
                 Main.empty_advicebody = true;
-            } else if (args[i].compareTo("-scalable") == 0) {
-                Main.scalable = true;
-            } else if (args[i].compareTo("-internalbehavior") == 0) {
+            } else if ("-internalbehavior".equals(args[i])) {
                 Main.internalBehaviorObserving = true;
-            } else if (args[i].compareTo("-finegrainedlock") == 0) {
+            } else if ("-finegrainedlock".equals(args[i])) {
                 Main.useFineGrainedLock = true;
-            } else if (args[i].compareTo("-nofinegrainedlock") == 0) {
+            } else if ("-nofinegrainedlock".equals(args[i])) {
                 Main.useFineGrainedLock = false;
-            } else if (args[i].compareTo("-weakrefinterning") == 0) {
+            } else if ("-weakrefinterning".equals(args[i])) {
                 Main.useWeakRefInterning = true;
-            } else if (args[i].compareTo("-noweakrefinterning") == 0) {
+            } else if ("-noweakrefinterning".equals(args[i])) {
                 Main.useWeakRefInterning = false;
-            } else if (args[i].compareTo("-partitionedset") == 0) {
+            } else if ("-partitionedset".equals(args[i])) {
                 Main.usePartitionedSet = true;
-            } else if (args[i].compareTo("-nopartitionedset") == 0) {
+            } else if ("-nopartitionedset".equals(args[i])) {
                 Main.usePartitionedSet = false;
-            } else if (args[i].compareTo("-atomicmonitor") == 0) {
+            } else if ("-atomicmonitor".equals(args[i])) {
                 Main.useAtomicMonitor = true;
-            } else if (args[i].compareTo("-noatomicmonitor") == 0) {
+            } else if ("-noatomicmonitor".equals(args[i])) {
                 Main.useAtomicMonitor = false;
             } else {
                 if (files.length() != 0)
