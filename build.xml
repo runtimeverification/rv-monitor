@@ -267,6 +267,7 @@
       <fileset dir="${src}">
         <include name="**/*.xml" />
         <include name="**/*.properties" />
+        <include name="**/jar_include/**" />
       </fileset>
     </copy>
     <copy file="${scala-library.jar}" todir="${lib}" />

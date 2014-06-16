@@ -10,6 +10,7 @@ import com.runtimeverification.rvmonitor.logicpluginshells.fsm.parser.*;
 import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.*;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.util.FileUtils;
 
 import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 
@@ -415,69 +416,9 @@ public class CFSM extends LogicPluginShell {
     for(String cat : cats){
       ret += "int " + rvcPrefix + specName + cat + ";\n"; 
     }
-ret += "} __RV_monitor;\n"
-    + "\n"
-    + "typedef struct tag_mon {\n"
-    + "  void *key;\n"
-    + "  __RV_monitor *monitor;\n"
-    + "} __RV_tag_monitor;\n"
-    + "\n"
-    + "typedef struct list{\n"
-    + "  int current_index;\n"
-    + "  int length;\n"
-    + "  __RV_tag_monitor **data;\n"
-    + "} __RV_list;\n"
-    + "\n"
-    + "static __RV_list *list = NULL;\n"
-    + "static void __RV_delete_RV_list(__RV_list *list){\n"
-    + "  if(list == NULL) return;\n"
-    + "  free(list->data);\n"
-    + "  free(list);\n"
-    + "}\n"
-    + "\n"
-    + "static __RV_list *__RV_new_RV_list(int size){\n"
-    + "  __RV_list *ret = (__RV_list *) malloc(sizeof(__RV_list));\n"
-    + "  ret->current_index = 0;\n"
-    + "  ret->length = size;\n"
-    + "  ret->data = (__RV_tag_monitor **) malloc(sizeof(__RV_tag_monitor *) * size);\n"
-    + "  return ret; \n"
-    + "}\n"
-    + "\n"
-    + "static __RV_tag_monitor  *__RV_new_RV_tag_monitor(void *key, int state){\n"
-    + "  __RV_monitor *mon = (__RV_monitor *) malloc(sizeof(__RV_monitor));\n"
-    + "  __RV_tag_monitor *ret = (__RV_tag_monitor *) malloc(sizeof(__RV_tag_monitor));\n"
-    + "  \n"
-    + "  mon->__RVC_state = state;\n"
-    + "  ret->monitor = mon;\n"
-    + "  ret->key = key;\n"
-    + "  return ret;\n"
-    + "}\n"
-    + "\n"
-    + "static void __RV_append(__RV_list *list, __RV_tag_monitor *elem){\n"
-    + "  if(list->current_index >= list->length) {\n"
-    + "    int i;\n"
-    + "    __RV_tag_monitor **tmp \n"
-    + "       = (__RV_tag_monitor **) malloc(sizeof(__RV_tag_monitor *) * list->length * 2);\n"
-    + "    for(i = 0; i < list->length; ++i){\n"
-    + "      tmp[i] = list->data[i];\n"
-    + "    } \n"
-    + "    list->length *= 2;\n"
-    + "    free(list->data);\n"
-    + "    list->data = tmp;\n"
-    + "  } \n"
-    + "  list->data[(list->current_index)++] = elem;\n"
-    + "}\n"
-    + "\n"
-    + "static __RV_monitor *__RV_find(__RV_list *list, void *tag){\n"
-    + "  int i;\n"
-    + "  for(i = 0; i < list->current_index; ++i){\n"
-    + "    if(list->data[i]->key == tag){\n"
-    + "      return list->data[i]->monitor;\n"
-    + "    }\n"
-    + "  }\n"
-    + "  return NULL;\n"
-    + "}\n"
-    + "\n";
+    ret += "} __RV_monitor;\n"
+      + "\n";
+    ret += FileUtils.extractFileFromJar(CFSM.class, "cfg_monitor.h");
     p.put("state declaration", ret);
   }
 

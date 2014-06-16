@@ -8,6 +8,7 @@ import com.runtimeverification.rvmonitor.logicpluginshells.cfg.util.GLRGen;
 import com.runtimeverification.rvmonitor.logicpluginshells.cfg.util.LR;
 import com.runtimeverification.rvmonitor.logicpluginshells.cfg.util.Terminal;
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.util.FileUtils;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
@@ -80,7 +81,7 @@ public class JavaCFG extends LogicPluginShell {
 
 		result.put("monitored events", monitoredEventsStr);
 
-		result.put("state declaration", GLRGen.state(lr) + "\n" + GLRGen.intstack);
+        result.put("state declaration", GLRGen.state(lr) + "\n" + FileUtils.extractFileFromJar(this, "IntStack.jva"));
 		result.put("reset", GLRGen.reset(lr));
 		result.put("initialization", GLRGen.init(lr));
 
