@@ -9,24 +9,36 @@
 
 package com.runtimeverification.rvmonitor.c.rvc;
 
-import com.runtimeverification.rvmonitor.logicpluginshells.fsm.CFSM;
-import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.CTFSM;
-import com.runtimeverification.rvmonitor.logicpluginshells.cfg.CCFG;
-import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
-import com.runtimeverification.rvmonitor.logicrepository.LogicException;
-import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
-import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.PropertyType;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.*;
-import com.runtimeverification.rvmonitor.logicpluginshells.*;
-
-import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
-
-import com.runtimeverification.rvmonitor.util.RVMException;
-
-import java.io.*; //tired of this nonsense
+import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
+
+import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
+import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
+import com.runtimeverification.rvmonitor.logicpluginshells.fsm.CFSM;
+import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.CTFSM;
+import com.runtimeverification.rvmonitor.logicpluginshells.cfg.CCFG;
+
+import com.runtimeverification.rvmonitor.logicrepository.LogicException;
+import com.runtimeverification.rvmonitor.logicrepository.LogicRepositoryData;
+
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
+import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.PropertyType;
+
+import com.runtimeverification.rvmonitor.logicrepository.plugins.LogicPluginFactory;
+
+import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.util.Tool;
 
 public class Main {
     
@@ -43,7 +55,7 @@ public class Main {
                 System.exit(1);
             }
             
-            String logicPluginDirPath = polishPath(readLogicPluginDir(basePath));
+            String logicPluginDirPath = Tool.polishPath(readLogicPluginDir(basePath));
             
             File dirLogicPlugin = new File(logicPluginDirPath);
             
@@ -72,7 +84,6 @@ public class Main {
             
         } catch (Exception e) {
             e.printStackTrace();
-            //System.out.println(e);
         }
     }
     
@@ -88,7 +99,7 @@ public class Main {
         if (mainClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class") && mainClassPath.startsWith("jar:")) {
             cmgPath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
             - "rvmonitor.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
-            cmgPath = polishPath(cmgPath);
+            cmgPath = Tool.polishPath(cmgPath);
         }
         else {
             cmgPath = Main.class.getResource(".").getFile();
@@ -106,7 +117,9 @@ public class Main {
         FileInputStream fio = new FileInputStream(new File(fileName));
         Scanner sc = new Scanner(fio);
         StringBuilder buf = new StringBuilder();
-        while(sc.hasNextLine()) buf.append(sc.nextLine());
+        while(sc.hasNextLine()) {
+            buf.append(sc.nextLine());
+        }
         return RVCParser.parse(buf.toString());
     }
     
@@ -125,17 +138,6 @@ public class Main {
         }
         
         return logicPluginDirPath;
-    }
-    
-    /**
-     * Polishing directory path for windows.
-     * @param path A directory path.
-     * @return A cleaned path without windows oddities.
-     */
-    static public String polishPath(String path) {
-        if (path.indexOf("%20") > 0)
-            path = path.replaceAll("%20", " ");
-        return path;
     }
     
     /**
@@ -206,21 +208,23 @@ public class Main {
             LogicRepositoryType logicOutputXML, RVCParser rvcParser, boolean parametric)
             throws LogicException, RVMException {
         //TODO: make this reflective instead of using a switch over type
-        if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("fsm") == 0){
-            CFSM cfsm = new CFSM(rvcParser, parametric);
-            return cfsm.process(logicOutputXML, logicOutputXML.getEvents());
+        String logic = logicOutputXML.getProperty().getLogic().toLowerCase();
+        LogicPluginShell shell;
+        
+        if("fsm".equals(logic)) {
+            shell = new CFSM(rvcParser, parametric);
         }
-        else if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("tfsm") == 0){
-            CTFSM ctfsm = new CTFSM(rvcParser, parametric);
-            return ctfsm.process(logicOutputXML, logicOutputXML.getEvents());
+        else if("tfsm".equals(logic)) {
+            shell = new CTFSM(rvcParser, parametric);
         }
-        else if(logicOutputXML.getProperty().getLogic().toLowerCase().compareTo("cfg") == 0){
-            CCFG ccfg = new CCFG(rvcParser, parametric);
-            return ccfg.process(logicOutputXML, logicOutputXML.getEvents());
+        else if("cfg".equals(logic)) {
+            shell = new CCFG(rvcParser, parametric);
         }
         else {
             throw new LogicException("Only finite logics and CFG are currently supported");
-        } 
+        }
+        
+        return shell.process(logicOutputXML, logicOutputXML.getEvents());
     }
     
     /**
