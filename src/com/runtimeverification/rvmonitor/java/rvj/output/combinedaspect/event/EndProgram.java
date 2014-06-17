@@ -10,11 +10,11 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefini
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
 public class EndProgram {
-	RVMVariable hookName = null;
-	String className;
+	private final RVMVariable hookName;
+	private final String className;
 
-	ArrayList<EndThread> endThreadEvents = new ArrayList<EndThread>();
-	ArrayList<AdviceBody> eventBodies = new ArrayList<AdviceBody>();
+	private final ArrayList<EndThread> endThreadEvents = new ArrayList<EndThread>();
+	private final ArrayList<AdviceBody> eventBodies = new ArrayList<AdviceBody>();
 
 	public EndProgram(String name) {
 		this.hookName = new RVMVariable(name + "_DummyHookThread");

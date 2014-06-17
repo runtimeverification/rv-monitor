@@ -3,7 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 
 public class SystemAspect {
-	String name;
+	private final String name;
 
 	public SystemAspect(String name) {
 		this.name = name + "SystemAspect";

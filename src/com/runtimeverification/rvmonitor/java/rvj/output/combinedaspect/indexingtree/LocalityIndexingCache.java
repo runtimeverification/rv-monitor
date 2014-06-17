@@ -13,8 +13,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 
 // it turns out that this cache is inefficient.
 // do not use.
-public class LocalityIndexingCache extends IndexingCache{
-	int size = 16;
+public class LocalityIndexingCache extends IndexingCache {
+	private final int size = 16;
 	
 	public LocalityIndexingCache(RVMVariable name, RVMParameters param, RVMParameters fullParam, SuffixMonitor monitor, MonitorSet monitorSet, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
 		super(name, param, fullParam, monitor, monitorSet, refTrees, perthread, isGeneral);

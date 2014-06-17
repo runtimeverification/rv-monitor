@@ -12,21 +12,21 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class IndexingCache {
-	RVMParameters param;
-	boolean perthread = false;
-	boolean isGeneral = false;
-	SuffixMonitor monitor;
+	final RVMParameters param;
+	final boolean perthread;
+	private final boolean isGeneral;
+	private final SuffixMonitor monitor;
 
-	public boolean hasSet = false;
-	public boolean hasNode = false;
-	RVMVariable setType;
-	RVMVariable set;
+	public final boolean hasSet;
+	public final boolean hasNode;
+	final RVMVariable setType;
+	final RVMVariable set;
 
-	RVMVariable nodeType;
-	RVMVariable node;
+	final RVMVariable nodeType;
+	final RVMVariable node;
 
-	HashMap<String, RVMVariable> keys = new HashMap<String, RVMVariable>();
-	HashMap<String, RefTree> refTrees;
+	final HashMap<String, RVMVariable> keys = new HashMap<String, RVMVariable>();
+	final HashMap<String, RefTree> refTrees;
 
 	public IndexingCache(RVMVariable name, RVMParameters param, RVMParameters fullParam, SuffixMonitor monitor, MonitorSet monitorSet, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
 		this.param = param;

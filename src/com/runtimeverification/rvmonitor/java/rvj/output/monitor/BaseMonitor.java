@@ -90,12 +90,12 @@ class PropMonitor {
 
 public class BaseMonitor extends Monitor {
 	// fields
-	RVMVariable loc = new RVMVariable("RVM_loc");
-	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
-	RVMVariable lastevent = new RVMVariable("RVM_lastevent");
+	private final RVMVariable loc = new RVMVariable("RVM_loc");
+	final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
+	final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
 	public static RVMVariable skipEvent = new RVMVariable("skipEvent");
-	RVMVariable conditionFail = new RVMVariable("RVM_conditionFail");
-	RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
+	private final RVMVariable conditionFail = new RVMVariable("RVM_conditionFail");
+	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 	
 	private boolean atomicMonitorTried = false;
 	private CodeMemberField pairValueField;
@@ -107,19 +107,19 @@ public class BaseMonitor extends Monitor {
 	}
 
 	// methods
-	RVMVariable reset = new RVMVariable("reset");
+	private final RVMVariable reset = new RVMVariable("reset");
 
 	// info about spec
 	List<PropertyAndHandlers> props;
 	List<EventDefinition> events;
-	RVMParameters specParam;
-	UserJavaCode monitorDeclaration;
-	String systemAspectName;
-	boolean existCondition = false;
-	boolean existSkip = false;
-	HashMap<RVMParameter, RVMVariable> varsToSave;
+	private RVMParameters specParam;
+	private UserJavaCode monitorDeclaration;
+	private String systemAspectName;
+	private boolean existCondition = false;
+	private boolean existSkip = false;
+	private HashMap<RVMParameter, RVMVariable> varsToSave;
 
-	HashMap<PropertyAndHandlers, PropMonitor> propMonitors = new HashMap<PropertyAndHandlers, PropMonitor>();
+	final HashMap<PropertyAndHandlers, PropMonitor> propMonitors = new HashMap<PropertyAndHandlers, PropMonitor>();
 
 	public BaseMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		this(name, mopSpec, coenableSet, isOutermost, "");

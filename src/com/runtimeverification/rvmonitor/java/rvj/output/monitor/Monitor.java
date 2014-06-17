@@ -23,14 +23,14 @@ public abstract class Monitor {
 	RVMVariable monitorName;
 
 	boolean isDefined;
-	boolean isOutermost;
+	final boolean isOutermost;
 
-	boolean has__LOC;
-	boolean has__ACTIVITY;
-	boolean has__STATICSIG;
-	boolean has__SKIP;
+	private final boolean has__LOC;
+	final boolean has__ACTIVITY;
+	final boolean has__STATICSIG;
+	final boolean has__SKIP;
 	boolean handlersHave__SKIP;
-	boolean hasThisJoinPoint;
+	final boolean hasThisJoinPoint;
 	
 	private final MonitorFeatures features;
 	
@@ -44,16 +44,16 @@ public abstract class Monitor {
 		return defaultMessage;
 	}
 
-	OptimizedCoenableSet coenableSet;
+	private final OptimizedCoenableSet coenableSet;
 
 	MonitorTermination monitorTermination = null;
 	MonitorInfo monitorInfo = null;
 
-	RVMonitorStatistics stat;
+	final RVMonitorStatistics stat;
 
 	VarInOutermostMonitor varInOutermostMonitor = null;
 
-	HashMap<String, RVMVariable> mopRefs = new HashMap<String, RVMVariable>();
+	private final HashMap<String, RVMVariable> mopRefs = new HashMap<String, RVMVariable>();
 
 	TreeMap<String, RefTree> refTrees;
 

@@ -14,14 +14,14 @@ import java.util.TreeMap;
 
 public class MonitorTermination {
 
-	RVMParameters parameters;
-	List<EventDefinition> events;
-	OptimizedCoenableSet coenableSet;
+	private final RVMParameters parameters;
+	private final List<EventDefinition> events;
+	private final OptimizedCoenableSet coenableSet;
 
-	RVMonitorStatistics stat;
+	private final RVMonitorStatistics stat;
 	
-	HashMap<RVMParameter, RVMVariable> references = new HashMap<RVMParameter, RVMVariable>();
-	TreeMap<String, RefTree> refTrees;
+	final HashMap<RVMParameter, RVMVariable> references = new HashMap<RVMParameter, RVMVariable>();
+	private TreeMap<String, RefTree> refTrees;
 
 	public MonitorTermination(String name, RVMonitorSpec mopSpec, List<EventDefinition> events, OptimizedCoenableSet coenableSet){
 		this.parameters = mopSpec.getParameters();

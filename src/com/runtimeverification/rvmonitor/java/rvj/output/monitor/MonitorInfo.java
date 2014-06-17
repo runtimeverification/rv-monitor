@@ -6,11 +6,11 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class MonitorInfo {
-	RVMParameters parameters;
-	RVMVariable monitorInfo = new RVMVariable("monitorInfo");
+	private final RVMParameters parameters;
+	private final RVMVariable monitorInfo = new RVMVariable("monitorInfo");
 
-	boolean isFullBinding;
-	boolean isConnected;
+	private final boolean isFullBinding;
+	private final boolean isConnected;
 
 	public MonitorInfo(RVMonitorSpec mopSpec) {
 		this.parameters = mopSpec.getParameters();

@@ -19,22 +19,22 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class EndObject {
-	RVMonitorSpec mopSpec;
-	EventDefinition event;
-	MonitorSet monitorSet;
-	SuffixMonitor monitorClass;
-	IndexingDeclNew indexingDecl;
-	TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
-	GlobalLock globalLock;
+	private final RVMonitorSpec mopSpec;
+	private final EventDefinition event;
+	private final MonitorSet monitorSet;
+	private final SuffixMonitor monitorClass;
+	private final IndexingDeclNew indexingDecl;
+	private final TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
+	private final GlobalLock globalLock;
 
-	String endObjectVar;
-	TypePattern endObjectType;
-	IndexingTreeInterface indexingTree;
+	private final String endObjectVar;
+	private final TypePattern endObjectType;
+	private IndexingTreeInterface indexingTree;
 	
-	boolean isStart;
-	AdviceBody eventBody = null;
+	private boolean isStart;
+	private final AdviceBody eventBody;
 	
-	RVMVariable endObjectSupportType;
+	private final RVMVariable endObjectSupportType;
 
 	public EndObject(RVMonitorSpec mopSpec, EventDefinition event, CombinedAspect combinedAspect) throws RVMException {
 		if (!event.isEndObject())

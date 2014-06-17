@@ -3,7 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 
 public class Package {
-	String packageString;
+	private String packageString;
 
 	public Package(RVMSpecFile rvmSpecFile) {
 		if (rvmSpecFile.getPakage() != null)

@@ -4,7 +4,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
 
 public class Util {
 
-	public static String defaultLocation = "Thread.currentThread()" +
+	public static final String defaultLocation = "Thread.currentThread()" +
 			".getStackTrace()[4].toString()";
 
   public static String packageAndNameToUrl(PackageDeclaration packageDeclaration, String name){

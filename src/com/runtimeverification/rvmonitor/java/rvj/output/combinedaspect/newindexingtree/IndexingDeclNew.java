@@ -25,19 +25,19 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class IndexingDeclNew {
-	RVMonitorSpec mopSpec;
-	RVMParameters specParam;
-	TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees = new TreeMap<RVMParameters, IndexingTreeInterface>();
-	TreeMap<RVMonitorParameterPair, IndexingTreeInterface> indexingTreesForCopy = new TreeMap<RVMonitorParameterPair, IndexingTreeInterface>();
+	private final RVMonitorSpec mopSpec;
+	private final RVMParameters specParam;
+	private final TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees = new TreeMap<RVMParameters, IndexingTreeInterface>();
+	private final TreeMap<RVMonitorParameterPair, IndexingTreeInterface> indexingTreesForCopy = new TreeMap<RVMonitorParameterPair, IndexingTreeInterface>();
 
-	TreeMap<EventDefinition, ArrayList<RVMonitorParameterPair>> mapEventToCopyParams = new TreeMap<EventDefinition, ArrayList<RVMonitorParameterPair>>();
+	private final TreeMap<EventDefinition, ArrayList<RVMonitorParameterPair>> mapEventToCopyParams = new TreeMap<EventDefinition, ArrayList<RVMonitorParameterPair>>();
 
-	TreeMap<String, RefTree> refTrees;
+	private final TreeMap<String, RefTree> refTrees;
 
-	MonitorSet monitorSet;
-	SuffixMonitor monitor;
+	private MonitorSet monitorSet;
+	private SuffixMonitor monitor;
 
-	public RVMParameters endObjectParameters = new RVMParameters();
+	public final RVMParameters endObjectParameters = new RVMParameters();
 
 	public IndexingDeclNew(RVMonitorSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, TreeMap<String, RefTree> refTrees) throws RVMException {
 		this.mopSpec = mopSpec;

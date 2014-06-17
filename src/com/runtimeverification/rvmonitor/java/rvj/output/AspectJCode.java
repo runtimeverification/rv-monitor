@@ -15,18 +15,18 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 public class AspectJCode {
-	String name;
+	private final String name;
 	
-	Package packageDecl;
-	Imports imports;
-	TreeMap<RVMonitorSpec, MonitorSet> monitorSets = new TreeMap<RVMonitorSpec, MonitorSet>();
-	TreeMap<RVMonitorSpec, SuffixMonitor> monitors = new TreeMap<RVMonitorSpec, SuffixMonitor>();
+	private final Package packageDecl;
+	private final Imports imports;
+	private final TreeMap<RVMonitorSpec, MonitorSet> monitorSets = new TreeMap<RVMonitorSpec, MonitorSet>();
+	private final TreeMap<RVMonitorSpec, SuffixMonitor> monitors = new TreeMap<RVMonitorSpec, SuffixMonitor>();
 	//Aspect aspect;
-	CombinedAspect aspect;
-	TreeMap<RVMonitorSpec, EnableSet> enableSets = new TreeMap<RVMonitorSpec, EnableSet>();
-	TreeMap<RVMonitorSpec, CoEnableSet> coenableSets = new TreeMap<RVMonitorSpec, CoEnableSet>();
-	boolean versionedStack = false;
-	SystemAspect systemAspect;
+	private final CombinedAspect aspect;
+	private final TreeMap<RVMonitorSpec, EnableSet> enableSets = new TreeMap<RVMonitorSpec, EnableSet>();
+	private final TreeMap<RVMonitorSpec, CoEnableSet> coenableSets = new TreeMap<RVMonitorSpec, CoEnableSet>();
+	private boolean versionedStack = false;
+	private SystemAspect systemAspect;
 	private boolean isCodeGenerated = false;
 	
 	public AspectJCode(String name, RVMSpecFile rvmSpecFile) throws RVMException {

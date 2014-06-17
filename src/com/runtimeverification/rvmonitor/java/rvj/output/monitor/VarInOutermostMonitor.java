@@ -9,10 +9,10 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import java.util.List;
 
 public class VarInOutermostMonitor {
-	RVMParameters parameters;
-	List<EventDefinition> events;
+	private final RVMParameters parameters;
+	private final List<EventDefinition> events;
 
-	boolean isGeneral = false;
+	private final boolean isGeneral;
 	
 //	RVMVariable tau = new RVMVariable("tau");
 //	private final RVMVariable disable;

@@ -20,20 +20,20 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import java.util.*;
 
 public class SuffixMonitor extends Monitor {
-	RVMVariable activity = new RVMVariable("RVM_activity");
-	RVMVariable loc = new RVMVariable("RVM_loc");
-	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
-	RVMVariable lastevent = new RVMVariable("RVM_lastevent");
-	RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
+	private final RVMVariable activity = new RVMVariable("RVM_activity");
+	private final RVMVariable loc = new RVMVariable("RVM_loc");
+	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
+	private final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
+	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 
-	List<EventDefinition> events;
+	private List<EventDefinition> events;
 
 	Monitor innerMonitor = null;
 
-	ArrayList<String> categories;
-	RVMVariable monitorList = new RVMVariable("monitorList");
-	boolean existSkip = false;
-	String aspectName;
+	private ArrayList<String> categories;
+	private final RVMVariable monitorList = new RVMVariable("monitorList");
+	private boolean existSkip = false;
+	private String aspectName;
 	
 	@Override
 	public MonitorFeatures getFeatures() {

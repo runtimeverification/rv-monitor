@@ -13,7 +13,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class OnePartialParamIndexingTree extends IndexingTree {
-	RVMParameter firstKey;
+	private RVMParameter firstKey;
 	public RVMVariable oneParamNode;
 
 	public OnePartialParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet,

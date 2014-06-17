@@ -24,25 +24,25 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class CombinedAspect {
-	String name;
-	public TreeMap<RVMonitorSpec, MonitorSet> monitorSets;
-	public TreeMap<RVMonitorSpec, SuffixMonitor> monitors;
-	public TreeMap<RVMonitorSpec, EnableSet> enableSets;
+	private final String name;
+	public final TreeMap<RVMonitorSpec, MonitorSet> monitorSets;
+	public final TreeMap<RVMonitorSpec, SuffixMonitor> monitors;
+	public final TreeMap<RVMonitorSpec, EnableSet> enableSets;
 	public HashMap<RVMonitorSpec, HashSet<RVMParameter>> setOfParametersForDisable;
 
-	RVMVariable mapManager;
-	boolean versionedStack;
+	final RVMVariable mapManager;
+	final boolean versionedStack;
 	private final RuntimeServiceManager runtimeServiceManager;
 
-	List<RVMonitorSpec> specs;
-	public RVMonitorStatManager statManager;
-	public LockManager lockManager;
-	public TimestampManager timestampManager;
-	public ActivatorManager activatorsManager;
-	public IndexingTreeManager indexingTreeManager;
-	public EventManager eventManager;
+	final List<RVMonitorSpec> specs;
+	public final RVMonitorStatManager statManager;
+	public final LockManager lockManager;
+	public final TimestampManager timestampManager;
+	public final ActivatorManager activatorsManager;
+	public final IndexingTreeManager indexingTreeManager;
+	public final EventManager eventManager;
 
-	boolean has__ACTIVITY = false;
+	private boolean has__ACTIVITY = false;
 	private boolean isCodeGenerated = false;
 	
 	public InternalBehaviorObservableCodeGenerator getInternalBehaviorObservableGenerator() {

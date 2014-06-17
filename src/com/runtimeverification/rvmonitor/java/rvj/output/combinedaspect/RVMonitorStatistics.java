@@ -10,16 +10,16 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import java.util.HashMap;
 
 public class RVMonitorStatistics {
-	String aspectName;
+	private final String aspectName;
 
-	RVMVariable numMonitor;
-	RVMVariable collectedMonitor;
-	RVMVariable terminatedMonitor;
-	HashMap<String, RVMVariable> eventVars = new HashMap<String, RVMVariable>();
-	HashMap<PropertyAndHandlers, HashMap<String, RVMVariable>> categoryVars = new HashMap<PropertyAndHandlers, HashMap<String, RVMVariable>>();
-	HashMap<RVMParameter, RVMVariable> paramVars = new HashMap<RVMParameter, RVMVariable>();
+	private final RVMVariable numMonitor;
+	private final RVMVariable collectedMonitor;
+	private final RVMVariable terminatedMonitor;
+	private final HashMap<String, RVMVariable> eventVars = new HashMap<String, RVMVariable>();
+	private final HashMap<PropertyAndHandlers, HashMap<String, RVMVariable>> categoryVars = new HashMap<PropertyAndHandlers, HashMap<String, RVMVariable>>();
+	private final HashMap<RVMParameter, RVMVariable> paramVars = new HashMap<RVMParameter, RVMVariable>();
 
-	String specName;
+	private final String specName;
 	
 	public RVMonitorStatistics(String name, RVMonitorSpec mopSpec) {
 		this.aspectName = name + "MonitorAspect";

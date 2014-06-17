@@ -6,7 +6,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.util.RVMBooleanSimplifier;
 
 public class OptimizedCoenableSet extends CoEnableSet{
-	RVMParameterSet parameterGroups = new RVMParameterSet();
+	private final RVMParameterSet parameterGroups = new RVMParameterSet();
 	
 	public OptimizedCoenableSet(CoEnableSet coenableSet){
 		super(coenableSet.events, coenableSet.specParameters);

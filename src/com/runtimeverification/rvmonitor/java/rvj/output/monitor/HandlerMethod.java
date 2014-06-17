@@ -12,22 +12,22 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import java.util.HashMap;
 
 public class HandlerMethod {
-	PropertyAndHandlers prop;
-	RVMVariable methodName;
-	RVMJavaCode handlerCode = null;
-	RVMParameters specParam;
-	RVMVariable categoryVar;
-	String category;
-	Monitor monitor;
+	private final PropertyAndHandlers prop;
+	private final RVMVariable methodName;
+	private final RVMJavaCode handlerCode;
+	private final RVMParameters specParam;
+	private final RVMVariable categoryVar;
+	private final String category;
+	private final Monitor monitor;
 
-	RVMParameters varsToRestore;
-	HashMap<RVMParameter, RVMVariable> savedParams;
+	private final RVMParameters varsToRestore;
+	private final HashMap<RVMParameter, RVMVariable> savedParams;
 
 	// local variables for now
-	RVMVariable loc = new RVMVariable("RVM_loc");
-	RVMVariable staticsig = new RVMVariable("RVM_staticsig");
+	private final RVMVariable loc = new RVMVariable("RVM_loc");
+	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 
-	private boolean has__SKIP = false;
+	private final boolean has__SKIP;
 
 	public HandlerMethod(PropertyAndHandlers prop, String category, RVMParameters specParam, RVMParameters commonParamInEvents,
 			HashMap<RVMParameter, RVMVariable> savedParams, BlockStmt body, RVMVariable categoryVar, Monitor monitor) {
@@ -37,9 +37,7 @@ public class HandlerMethod {
 		if(body != null){
 			String handlerBody = body.toString();
 
-			if (handlerBody.indexOf("__SKIP") != -1) {
-				has__SKIP = true;
-			}
+			has__SKIP = handlerBody.indexOf("__SKIP") != -1;
 
 			handlerBody = handlerBody.replaceAll("__RESET", "this.reset()");
       handlerBody = handlerBody.replaceAll("__DEFAULT_MESSAGE", monitor.getDefaultMessage());
@@ -51,6 +49,9 @@ public class HandlerMethod {
 					BaseMonitor.skipEvent + " = true");
 			
 			this.handlerCode = new RVMJavaCode(handlerBody);
+		} else {
+			this.handlerCode = null;
+			has__SKIP = false;
 		}
 		this.specParam = specParam;
 		this.categoryVar = categoryVar;
