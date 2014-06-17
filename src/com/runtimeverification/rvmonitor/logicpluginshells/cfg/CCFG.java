@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.cfg;
 
 import java.io.ByteArrayInputStream;
+
 import java.util.*;
 
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
@@ -14,6 +15,7 @@ import com.runtimeverification.rvmonitor.logicpluginshells.cfg.util.Terminal;
 
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.util.FileUtils;
 
 import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 
@@ -113,7 +115,7 @@ public class CCFG extends LogicPluginShell {
 
 
 
-    result.put("state declaration", GLRGen.cintstack + GLRGen.cstate(lr) + "\n");
+    result.put("state declaration", FileUtils.extractFileFromJar(this, "int_stack.h") + GLRGen.cstate(lr) + "\n");
 
 
     String resetName = rvcPrefix + specName + "reset";
@@ -125,11 +127,7 @@ public class CCFG extends LogicPluginShell {
                         + "}\n"
                          );
 
-    result.put("monitoring body", 
-               "static void\nmonitor(int event){\n" 
-               + GLRGen.cbody()
-               + "\n}\n"
-               );
+    result.put("monitoring body", FileUtils.extractFileFromJar(this, "monitor.h"));
 
     String catString  = "int " + rvcPrefix + specName + "match = 0;\n"
                       + "int " + rvcPrefix + specName + "fail = 0;\n";
