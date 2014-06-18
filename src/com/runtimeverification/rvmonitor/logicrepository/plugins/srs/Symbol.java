@@ -38,14 +38,4 @@ public class Symbol {
     public int length() {
         return name.length();
     }
-    
-    public static void main(String[] args) {
-        Symbol foo = Symbol.get("foo");
-        Symbol foo2 = Symbol.get("foo");
-        Symbol bar = Symbol.get("bar");
-        Symbol bar2 = Symbol.get("bar");
-        System.out.println(foo == foo2); //true
-        System.out.println(foo == bar);  //false
-        System.out.println(bar == bar2); //true
-    }
 }
