@@ -40,5 +40,23 @@ public class SymbolTest {
         assertEquals(bar.hashCode(), bar_again.hashCode());
     }
     
+    /**
+     * Test conversion of Symbols to strings.
+     */
+    @Test
+    public void testString() {
+        assertEquals("foo", foo.toString());
+        assertEquals("bar", bar.toString());
+    }
     
+    /**
+     * Test conversion of Symbols to dot strings.
+     */
+    @Test
+    public void testDotString() {
+        assertEquals("foo", foo.toDotString());
+        assertEquals("bar", bar.toDotString());
+        assertEquals("\\mathbin{\\char`\\^}", Symbol.get("^").toDotString());
+        assertEquals("\\$", Symbol.get("$").toDotString());
+    }
 }

@@ -39,42 +39,43 @@ public class PluginTest {
         assertEquals("done", output.getMessage().get(output.getMessage().size() - 1));
         
         String formula = output.getProperty().getFormula();
+        System.out.println(formula);
         
         /**
          * These get reordered and the order isn't important, so i just test for the lines separately.
          */
         
-        String fiveAtZero = formula.substring(formula.indexOf("\n<5 @ 0"), formula.indexOf("\n<6 @ 1"));
+        String zeroAtZero = formula.substring(formula.indexOf("\n<0 @ 0"), formula.indexOf("\n<1 @ 1"));
         
-        assertTrue(fiveAtZero.contains("hasnexttrue -> [0] <6 @ 1>"));
-        assertTrue(fiveAtZero.contains("hasnextfalse -> [0] <5 @ 0>"));
-        assertTrue(fiveAtZero.contains("next -> [0] <9 @ 1 matches next  -> #fail>"));
+        assertTrue(zeroAtZero.contains("hasnexttrue -> [0] <1 @ 1>"));
+        assertTrue(zeroAtZero.contains("hasnextfalse -> [0] <0 @ 0>"));
+        assertTrue(zeroAtZero.contains("next -> [0] <4 @ 1 matches next  -> #fail>"));
         
-        String sixAtOne = formula.substring(formula.indexOf("\n<6 @ 1"), formula.indexOf("\n<7 @ 2"));
+        String oneAtOne = formula.substring(formula.indexOf("\n<1 @ 1"), formula.indexOf("\n<2 @ 2"));
         
-        assertTrue(sixAtOne.contains("hasnexttrue -> [0] <7 @ 2 matches hasnexttrue hasnexttrue  -> hasnexttrue"));
-        assertTrue(sixAtOne.contains("hasnextfalse -> [1] <5 @ 0>"));
-        assertTrue(sixAtOne.contains("next -> [0] <8 @ 2 matches hasnexttrue next  -> #epsilon"));
+        assertTrue(oneAtOne.contains("hasnexttrue -> [0] <2 @ 2 matches hasnexttrue hasnexttrue  -> hasnexttrue"));
+        assertTrue(oneAtOne.contains("hasnextfalse -> [1] <0 @ 0>"));
+        assertTrue(oneAtOne.contains("next -> [0] <3 @ 2 matches hasnexttrue next  -> #epsilon"));
         
-        String sevenAtTwo = formula.substring(formula.indexOf("\n<7 @ 2"), formula.indexOf("\n<8 @ 2"));
+        String twoAtTwo = formula.substring(formula.indexOf("\n<2 @ 2"), formula.indexOf("\n<3 @ 2"));
         
-        assertTrue(sevenAtTwo.contains("matches hasnexttrue hasnexttrue  -> hasnexttrue"));
-        assertTrue(sevenAtTwo.contains("hasnexttrue -> [1] <6 @ 1>"));
-        assertTrue(sevenAtTwo.contains("hasnextfalse -> [1] <6 @ 1>"));
-        assertTrue(sevenAtTwo.contains("next -> [1] <6 @ 1>"));
+        assertTrue(twoAtTwo.contains("matches hasnexttrue hasnexttrue  -> hasnexttrue"));
+        assertTrue(twoAtTwo.contains("hasnexttrue -> [1] <1 @ 1>"));
+        assertTrue(twoAtTwo.contains("hasnextfalse -> [1] <1 @ 1>"));
+        assertTrue(twoAtTwo.contains("next -> [1] <1 @ 1>"));
         
-        String eightAtTwo = formula.substring(formula.indexOf("\n<8 @ 2"), formula.indexOf("\n<9 @ 1"));
+        String threeAtTwo = formula.substring(formula.indexOf("\n<3 @ 2"), formula.indexOf("\n<4 @ 1"));
         
-        assertTrue(eightAtTwo.contains("matches hasnexttrue next  -> #epsilon"));
-        assertTrue(eightAtTwo.contains("hasnexttrue -> [1] <9 @ 1 matches next  -> #fail>"));
-        assertTrue(eightAtTwo.contains("hasnextfalse -> [1] <9 @ 1 matches next  -> #fail>"));
-        assertTrue(eightAtTwo.contains("next -> [1] <9 @ 1 matches next  -> #fail>"));
+        assertTrue(threeAtTwo.contains("matches hasnexttrue next  -> #epsilon"));
+        assertTrue(threeAtTwo.contains("hasnexttrue -> [1] <4 @ 1 matches next  -> #fail>"));
+        assertTrue(threeAtTwo.contains("hasnextfalse -> [1] <4 @ 1 matches next  -> #fail>"));
+        assertTrue(threeAtTwo.contains("next -> [1] <4 @ 1 matches next  -> #fail>"));
         
-        String nineAtOne = formula.substring(formula.indexOf("\n<9 @ 1"));
+        String fourAtOne = formula.substring(formula.indexOf("\n<4 @ 1"));
         
-        assertTrue(nineAtOne.contains("matches next  -> #fail"));
-        assertTrue(nineAtOne.contains("hasnexttrue -> [1] <5 @ 0>"));
-        assertTrue(nineAtOne.contains("hasnextfalse -> [1] <5 @ 0>"));
-        assertTrue(nineAtOne.contains("next -> [1] <5 @ 0>"));
+        assertTrue(fourAtOne.contains("matches next  -> #fail"));
+        assertTrue(fourAtOne.contains("hasnexttrue -> [1] <0 @ 0>"));
+        assertTrue(fourAtOne.contains("hasnextfalse -> [1] <0 @ 0>"));
+        assertTrue(fourAtOne.contains("next -> [1] <0 @ 0>"));
     }
 }
