@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.ere;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.ere;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Concat;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Empty;

@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.cfg;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg;
 
 import com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util.Cursor;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util.EOF;

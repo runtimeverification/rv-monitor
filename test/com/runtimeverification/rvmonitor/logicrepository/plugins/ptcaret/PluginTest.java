@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.ptcaret;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.ptcaret;
 
 import com.runtimeverification.rvmonitor.logicrepository.PluginHelper;
 
