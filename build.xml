@@ -349,6 +349,9 @@
       <junit forkmode="once" printsummary="yes">
           <env key="LOGICPLUGINPATH" path="${plugins}" />
           <classpath>
+              <fileset dir="lib">
+                  <include name="*.jar" />
+              </fileset>
               <pathelement location="${plugins}/*.jar" />
               <pathelement location="${scala-library.jar}" />
               <pathelement location="${scala-parser.jar}" />
