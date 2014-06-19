@@ -4,7 +4,6 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.
 import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.Symbol;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.Transition;
 
-import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.FSMMin;
 
 import java.util.HashSet;
 import java.util.HashMap;

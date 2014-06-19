@@ -1,12 +1,5 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Concat;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Empty;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Epsilon;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.ERE;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.EREType;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Kleene;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ere.Symbol;
 
 import org.junit.Before;
 import org.junit.Test;

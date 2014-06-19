@@ -4,7 +4,6 @@ import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.
 import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.Symbol;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.Transition;
 
-import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.FSMCoenables;
 import com.runtimeverification.rvmonitor.logicrepository.LogicException;
 
 import java.util.HashSet;
