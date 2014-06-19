@@ -1,9 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.ltl;
-
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ltl.And;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ltl.Atom;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.ltl.LTLFormula; 
-
+package com.runtimeverification.rvmonitor.logicrepository.plugins.ltl;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -28,14 +23,12 @@ public class AndTest {
      LinkedHashSet<LTLFormula> in4 = new LinkedHashSet<LTLFormula>();
     
 
-    ArrayList<LTLFormula>  
-
 
     @Test
     public void testAnd() {
      // see if get properly adds atoms
-     in1.add(Atom.get("1"));
-     in2.add(Atom.get("1"));
+     //in1.add(Atom.get("1"));
+     //in2.add(Atom.get("1"));
      assertTrue(in1.equals(in2));
 
      System.out.println(one);
