@@ -1,7 +1,9 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ltl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.LinkedHashSet;
 
@@ -27,8 +29,8 @@ public abstract class LTLFormula implements Comparable{
     }
     
     public abstract LTLType getLTLType();
-    public ArrayList<LTLFormula> getChildren(){
-        return children;
+    public List<LTLFormula> getChildren(){
+        return Collections.unmodifiableList(children);
     }
     
     //Lower should be called before normalize
@@ -125,7 +127,7 @@ public abstract class LTLFormula implements Comparable{
         }
         //If, instead, the types are equal the comparison
         //must be based on the children, from left to right
-        ArrayList<LTLFormula> lChildren = L.getChildren();
+        List<LTLFormula> lChildren = L.getChildren();
         for(int i = 0; i < children.size(); ++i){
             int res = children.get(i).compareTo(lChildren.get(i));
             if(res != 0) return res; 
@@ -147,7 +149,7 @@ public abstract class LTLFormula implements Comparable{
         if(!(o instanceof LTLFormula)) return false;
         LTLFormula L = (LTLFormula) o;
         if(L.getLTLType() != getLTLType()) return false; 
-        ArrayList<LTLFormula> lChildren = L.getChildren();
+        List<LTLFormula> lChildren = L.getChildren();
         for(int i = 0; i < children.size(); ++i){
             if(!children.get(i).equals(lChildren.get(i))){
                 return false;
@@ -178,7 +180,7 @@ public abstract class LTLFormula implements Comparable{
     // is often less clear
     public abstract LTLFormula copy();
     
-    public LinkedHashSet<LTLFormula> subFormulae() {
+    public final LinkedHashSet<LTLFormula> subFormulae() {
         LinkedHashSet<LTLFormula> ret = new LinkedHashSet<LTLFormula>();
         subFormulae(ret);
         return ret;
@@ -205,7 +207,7 @@ public abstract class LTLFormula implements Comparable{
     // consider said atoms, from a user's perspective
     //
     // This is inherited by all sub classes
-    public Set<Atom> atoms(){
+    public final Set<Atom> atoms(){
         if(atoms == null) atoms = refToString.keySet();
         return atoms;
     }
