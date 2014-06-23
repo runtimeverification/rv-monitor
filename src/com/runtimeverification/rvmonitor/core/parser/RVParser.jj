@@ -1,0 +1,154 @@
+options {
+ STATIC = false;
+}
+
+PARSER_BEGIN(RVParser)
+package com.runtimeverification.rvmonitor.core.parser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.io.*;
+
+import com.runtimeverification.rvmonitor.core.ast.Event;
+import com.runtimeverification.rvmonitor.core.ast.Property;
+import com.runtimeverification.rvmonitor.core.ast.PropertyHandler;
+import com.runtimeverification.rvmonitor.core.ast.Specification;
+
+public class RVParser {
+    
+    public static Specification parse(String s) {
+        return parse(new StringReader(s));
+    }
+    
+    public static Specification parse(Reader reader) {
+        RVParser parser = new RVParser(reader);
+        try {
+            return parser.rvmFile();
+        } catch(ParseException e) {
+            throw new RuntimeException(e);
+        } catch(TokenMgrError e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    private String parseBacktickSegment() throws ParseException {
+        try {
+            int backtickDepth = 1;
+            char c;
+            while((c =jj_input_stream.readChar()) == '`') {
+                backtickDepth++;
+            }
+            StringBuilder innerSegment = new StringBuilder();
+            innerSegment.append(c);
+            while(true) {
+                
+                while((c = jj_input_stream.readChar()) != '`') {
+                    innerSegment.append(c);
+                }
+                int endingTicks;
+                for(endingTicks = 1; endingTicks < backtickDepth; endingTicks++) {
+                    c = jj_input_stream.readChar();
+                    if(c != '`') {
+                        for(int i = 0; i < endingTicks; i++) {
+                            innerSegment.append('`');
+                        }
+                        innerSegment.append(c);
+                        break;
+                    }
+                }
+                if(endingTicks == backtickDepth) {
+                    return innerSegment.toString();
+                }
+            }
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+            return "";
+        }
+    }
+}
+PARSER_END(RVParser)
+
+SKIP : {
+    <WHITESPACE: [" ","\t","\r","\n"]>
+}
+
+TOKEN : {
+    <LBRACE : "{">
+    | <RBRACE : "}">
+    | <COLON : ":">
+    | <AT : "@">
+    | <EVENT : ("event")>
+    | <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_"|".")*>
+    | <DIGIT : ["0"-"9"]>
+    | <LETTER : ["a"-"z","A"-"Z"]>
+    | <BACKTICK : "`">
+}
+
+Specification rvmFile() : {
+    String preDeclarations = "";
+    ArrayList<String> languageModifiers = new ArrayList<String>();
+    Token modifier;
+    String languageParameters = "";
+    String languageDeclarations = "";
+    ArrayList<Event> events = new ArrayList<Event>();
+    Event myEvent;
+    ArrayList<Property> properties = new ArrayList<Property>();
+    Property myProperty;
+}
+{
+    ("`" {preDeclarations = parseBacktickSegment();})?
+    (modifier = <ID> {languageModifiers.add(modifier.image);})+
+    ("`" {languageParameters = parseBacktickSegment();})?
+    "{"
+        ("`" {languageDeclarations = parseBacktickSegment();})?
+        (myEvent = event() { events.add(myEvent); })+
+        (myProperty = propertyAndHandlers() {properties.add(myProperty);})+
+    "}"
+    {
+        System.out.println(languageModifiers);
+        String name = languageModifiers.get(languageModifiers.size() - 1);
+        languageModifiers.remove(languageModifiers.size() - 1);
+        return new Specification(preDeclarations, languageModifiers, name, languageParameters,
+            languageDeclarations, events, properties);
+    }
+}
+
+Event event() : {
+    Token name;
+    String eventDefinition;
+    String eventAction;
+}
+{
+    "event"
+    (name = <ID>)
+    "`" {eventDefinition = parseBacktickSegment();}
+    "`" {eventAction = parseBacktickSegment();}
+    {return new Event(name.image, eventDefinition, eventAction);}
+}
+
+Property propertyAndHandlers() : {
+    Token name;
+    String syntax;
+    ArrayList<PropertyHandler> propertyHandlers = new ArrayList<PropertyHandler>();
+    PropertyHandler handler;
+}
+{
+    (name = <ID>)
+    ":"
+    "`" {syntax = parseBacktickSegment();}
+    (handler = propertyHandler() {propertyHandlers.add(handler);})+
+    {return new Property(name.image, syntax, propertyHandlers);}
+}
+
+PropertyHandler propertyHandler() : {
+    Token name;
+    String languageAction;
+}
+{
+    "@"
+    (name = <ID>)
+    "`" {languageAction = parseBacktickSegment();}
+    {return new PropertyHandler(name.image, languageAction);}
+}
