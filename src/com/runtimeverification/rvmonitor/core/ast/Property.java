@@ -35,12 +35,17 @@ public class Property {
     }
     
     /**
-     * 
+     * The expression describing the property.
+     * @return The property logic formula.
      */
     public String getSyntax() {
         return syntax;
     }
     
+    /**
+     * An unmodifiable list of the handlers for the different states of the property.
+     * @return A list of state handlers.
+     */
     public List<PropertyHandler> getHandlers() {
         return handlers;
     }

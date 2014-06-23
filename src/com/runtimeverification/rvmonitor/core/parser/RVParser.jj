@@ -19,7 +19,7 @@ import com.runtimeverification.rvmonitor.core.ast.Specification;
 public class RVParser {
     
     public static Specification parse(String s) {
-        return parse(new StringReader(s));
+        return parse(new BufferedReader(new StringReader(s)));
     }
     
     public static Specification parse(Reader reader) {
@@ -43,7 +43,6 @@ public class RVParser {
             StringBuilder innerSegment = new StringBuilder();
             innerSegment.append(c);
             while(true) {
-                
                 while((c = jj_input_stream.readChar()) != '`') {
                     innerSegment.append(c);
                 }
@@ -107,7 +106,6 @@ Specification rvmFile() : {
         (myProperty = propertyAndHandlers() {properties.add(myProperty);})+
     "}"
     {
-        System.out.println(languageModifiers);
         String name = languageModifiers.get(languageModifiers.size() - 1);
         languageModifiers.remove(languageModifiers.size() - 1);
         return new Specification(preDeclarations, languageModifiers, name, languageParameters,
@@ -117,8 +115,8 @@ Specification rvmFile() : {
 
 Event event() : {
     Token name;
-    String eventDefinition;
-    String eventAction;
+    String eventDefinition = "";
+    String eventAction = "";
 }
 {
     "event"
@@ -130,7 +128,7 @@ Event event() : {
 
 Property propertyAndHandlers() : {
     Token name;
-    String syntax;
+    String syntax = "";
     ArrayList<PropertyHandler> propertyHandlers = new ArrayList<PropertyHandler>();
     PropertyHandler handler;
 }
@@ -144,7 +142,7 @@ Property propertyAndHandlers() : {
 
 PropertyHandler propertyHandler() : {
     Token name;
-    String languageAction;
+    String languageAction = "";
 }
 {
     "@"

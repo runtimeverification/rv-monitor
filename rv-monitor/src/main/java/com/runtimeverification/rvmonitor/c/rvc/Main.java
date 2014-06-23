@@ -21,7 +21,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
+import com.runtimeverification.rvmonitor.core.parser.RVParser;
 
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
@@ -75,7 +75,7 @@ public class Main {
                     llvm = true;
                 }
             }
-            RVCParser rvcParser = parseInput(args[args.length - 1]);
+            CSpecification rvcParser = parseInput(args[args.length - 1]);
             
             //send Spec to logic repository to get the logic result 
             LogicRepositoryData cmgDataOut = sendToLogicRepository(rvcParser, logicPluginDirPath);
@@ -109,19 +109,19 @@ public class Main {
     }
     
     /** 
-     * Parses rv-monitor C input and produces a RVCParser object from which we can grab important 
+     * Parses rv-monitor C input and produces a CSpecification object from which we can grab important 
      * data.
      * @param fileName The location of the C file to parse.
-     * @return A RVCParser instance with extracted information from the C file.
+     * @return A CSpecification instance with extracted information from the C file.
      */
-    static private RVCParser parseInput(String fileName)  throws FileNotFoundException {
+    static private CSpecification parseInput(String fileName)  throws FileNotFoundException {
         FileInputStream fio = new FileInputStream(new File(fileName));
         Scanner sc = new Scanner(fio);
         StringBuilder buf = new StringBuilder();
         while(sc.hasNextLine()) {
-            buf.append(sc.nextLine());
+            buf.append(sc.nextLine() + "\n");
         }
-        return RVCParser.parse(buf.toString());
+        return new CSpecification(RVParser.parse(buf.toString()));
     }
     
     /**
@@ -148,7 +148,7 @@ public class Main {
      * @param logicPluginDirPath The location at which to find the logic repository plugins.
      * @return The output of the logic plugins.
      */
-    static public LogicRepositoryData sendToLogicRepository(RVCParser rvcParser, 
+    static public LogicRepositoryData sendToLogicRepository(CSpecification rvcParser, 
             String logicPluginDirPath) throws LogicException {
         LogicRepositoryType cmgXMLIn = new LogicRepositoryType();
         PropertyType logicProperty = new PropertyType();
@@ -206,7 +206,7 @@ public class Main {
      * @throws LogicException Something went wrong in applying the logic plugin shell.
      */
     private static LogicPluginShellResult evaluateLogicPluginShell(
-            LogicRepositoryType logicOutputXML, RVCParser rvcParser, boolean parametric)
+            LogicRepositoryType logicOutputXML, CSpecification rvcParser, boolean parametric)
             throws LogicException, RVMException {
         //TODO: make this reflective instead of using a switch over type
         String logic = logicOutputXML.getProperty().getLogic().toLowerCase();
@@ -233,7 +233,7 @@ public class Main {
      * @param cmgDataOut The output of the logic repository plugins.
      * @param rvcParser Extracted information from the RVM C file.
      */
-    static private void outputCode(LogicRepositoryData cmgDataOut, RVCParser rvcParser, 
+    static private void outputCode(LogicRepositoryData cmgDataOut, CSpecification rvcParser, 
             boolean parametric, boolean llvm) throws LogicException, RVMException, FileNotFoundException {
         LogicRepositoryType logicOutputXML = cmgDataOut.getXML();
         
@@ -272,17 +272,17 @@ public class Main {
         cos.println(sr.properties.get("reset"));
         cos.println(sr.properties.get("monitoring body"));
         cos.println(sr.properties.get("event functions"));
-        
+        /*
         // Adding the aspect functions
-        ArrayList<RVCParser.CutPoint> cutpoints = rvcParser.getCutpoints();
+        ArrayList<CSpecification.CutPoint> cutpoints = rvcParser.getCutpoints();
         if (!cutpoints.isEmpty()) {
             File aFileHandle = new File(aFile);
             FileOutputStream afos = new FileOutputStream(aFileHandle);
             PrintStream aos = new PrintStream(afos);
-            for (RVCParser.CutPoint cutpoint : cutpoints) {
+            for (CSpecification.CutPoint cutpoint : cutpoints) {
                 String aspectFn = rvcPrefix + specName + cutpoint.eventName + "_aspect";
                 //print aspect functions to .c file
-                if (cutpoint.when == RVCParser.WhenType.INSTEAD) {
+                if (cutpoint.when == CSpecification.WhenType.INSTEAD) {
                     cos.print(cutpoint.retType);
                 } else {
                     cos.print("void");
@@ -290,7 +290,7 @@ public class Main {
                 cos.print(" ");
                 cos.print(aspectFn);
                 cos.print("(");
-                if (cutpoint.when == RVCParser.WhenType.AFTER) {
+                if (cutpoint.when == CSpecification.WhenType.AFTER) {
                     cos.print(cutpoint.retType);
                     cos.print(" ");
                     cos.print(rvcPrefix + "return");
@@ -327,7 +327,7 @@ public class Main {
             }
             
         }
-        
+        */
         if(llvm){
             outputLLVMBytecode(bcFile, cFile);
             cFileHandle.delete(); 

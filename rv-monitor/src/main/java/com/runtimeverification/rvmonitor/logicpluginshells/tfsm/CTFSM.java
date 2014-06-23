@@ -11,24 +11,24 @@ import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.ast.*;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.util.RVMException;
 
-import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
+import com.runtimeverification.rvmonitor.c.rvc.CSpecification;
 
 public class CTFSM extends LogicPluginShell {
-  private RVCParser rvcParser;
+  private CSpecification cSpec;
   private boolean parametric;
 
   public CTFSM() {
     super();
     monitorType = "TFSM";
     outputLanguage = "C";
-    this.rvcParser = null;
+    this.cSpec = null;
   }
 
-  public CTFSM(RVCParser rvcParser, boolean parametric) {
+  public CTFSM(CSpecification cSpec, boolean parametric) {
     super();
     monitorType = "TFSM";
     outputLanguage = "C";
-    this.rvcParser = rvcParser;
+    this.cSpec = cSpec;
     this.parametric = parametric;
   }
 
@@ -200,7 +200,7 @@ public class CTFSM extends LogicPluginShell {
       monitoringbodyString += "#include <sys/time.h>\n" 
       + "#include <signal.h>\n\n"
       + "void " + rvcPrefix + "Handle_Timeout(void) {\n  "
-      +  rvcParser.getHandlers().get("timeout").replaceAll("__RESET", resetName + "()\n")
+      +  cSpec.getHandlers().get("timeout").replaceAll("__RESET", resetName + "()\n")
       + "\n}\n\n"
       + "void " + rvcPrefix + "Trigger_Timeout() {\n"
       + "  struct itimerval it_val;\n"
@@ -226,17 +226,17 @@ public class CTFSM extends LogicPluginShell {
     for(String eventName : monitoredEvents){
       headerDecs.append("void\n");
       eventFuncs.append("void\n");
-      String funcDecl = rvcPrefix + specName + eventName + rvcParser.getParameters().get(eventName);
+      String funcDecl = rvcPrefix + specName + eventName + cSpec.getParameters().get(eventName);
       headerDecs.append(funcDecl + ";\n");
       eventFuncs.append(funcDecl + "\n");
       eventFuncs.append("{\n");
-      eventFuncs.append(rvcParser.getEvents().get(eventName) + "\n"); 
+      eventFuncs.append(cSpec.getEvents().get(eventName) + "\n"); 
       eventFuncs.append("__RVC_state = " + constEventNames.get(eventName) + "[__RVC_state];\n"); 
       eventFuncs.append(condString);
-      for(String category : rvcParser.getHandlers().keySet()){
+      for(String category : cSpec.getHandlers().keySet()){
         if (category.toLowerCase().compareTo("timeout") == 0) continue;
         eventFuncs.append("if(" + rvcPrefix + specName + category + ")\n{\n");
-        eventFuncs.append(rvcParser.getHandlers().get(category).replaceAll("__RESET", resetName + "()\n"));
+        eventFuncs.append(cSpec.getHandlers().get(category).replaceAll("__RESET", resetName + "()\n"));
         eventFuncs.append("}\n");
       }
       eventFuncs.append("}\n\n");
@@ -391,11 +391,11 @@ public class CTFSM extends LogicPluginShell {
     for(String eventName : monitoredEvents){
       headerDecs.append("void\n");
       eventFuncs.append("void\n");
-      String funcDecl = rvcPrefix + specName + eventName + rvcParser.getPParameters().get(eventName);
+      String funcDecl = rvcPrefix + specName + eventName + cSpec.getPParameters().get(eventName);
       headerDecs.append(funcDecl + ";\n");
       eventFuncs.append(funcDecl + "\n");
       eventFuncs.append("{\n");
-      eventFuncs.append(rvcParser.getEvents().get(eventName) + "\n"); 
+      eventFuncs.append(cSpec.getEvents().get(eventName) + "\n"); 
       eventFuncs.append("if(list == NULL){\n");
       eventFuncs.append("  list = __RV_new_RV_list(10);\n");
       eventFuncs.append("}\n");
@@ -407,9 +407,9 @@ public class CTFSM extends LogicPluginShell {
       eventFuncs.append("}\n");
       eventFuncs.append("mon->__RVC_state = " + constEventNames.get(eventName) + "[mon->__RVC_state];\n"); 
       eventFuncs.append(condString);
-      for(String category : rvcParser.getHandlers().keySet()){
+      for(String category : cSpec.getHandlers().keySet()){
         eventFuncs.append("if(mon->" + rvcPrefix + specName + category + ")\n{\n");
-        eventFuncs.append(rvcParser.getHandlers().get(category).replaceAll("__RESET", resetName + "()\n"));
+        eventFuncs.append(cSpec.getHandlers().get(category).replaceAll("__RESET", resetName + "()\n"));
         eventFuncs.append("}\n");
       }
       eventFuncs.append("}\n\n");

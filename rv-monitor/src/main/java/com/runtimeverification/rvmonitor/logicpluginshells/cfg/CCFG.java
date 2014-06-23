@@ -17,23 +17,25 @@ import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorys
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.FileUtils;
 
-import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
+import com.runtimeverification.rvmonitor.c.rvc.CSpecification;
 
 public class CCFG extends LogicPluginShell {
-  private RVCParser rvcParser;
+  private CSpecification cSpec;
+  private boolean parametric;
 
   public CCFG() {
     super();
     monitorType = "CFG";
     outputLanguage = "C";
-    this.rvcParser = null;
+    this.cSpec = null;
   }
 
-  public CCFG(RVCParser rvcParser, boolean parametric) {
+  public CCFG(CSpecification cSpec, boolean parametric) {
     super();
     monitorType = "CFG";
     outputLanguage = "C";
-    this.rvcParser = rvcParser;
+    this.cSpec = cSpec;
+    this.parametric = parametric;
   }
 
   ArrayList<String> allEvents;
@@ -146,18 +148,18 @@ public class CCFG extends LogicPluginShell {
   for(String eventName : monitoredEvents){
       headerDecs.append("void\n");
       eventFuncs.append("void\n");
-      String funcDecl = rvcPrefix + specName + eventName + rvcParser.getParameters().get(eventName);
+      String funcDecl = rvcPrefix + specName + eventName + cSpec.getParameters().get(eventName);
       headerDecs.append(funcDecl + ";\n");
       eventFuncs.append(funcDecl + "\n");
       eventFuncs.append("{\n");
-      eventFuncs.append(rvcParser.getEvents().get(eventName) + "\n"); 
+      eventFuncs.append(cSpec.getEvents().get(eventName) + "\n"); 
       eventFuncs.append("if(__RV_stacks_inst == NULL){\n");
       eventFuncs.append("__RV_stacks_inst = __RV_new_RV_stacks(5);\n __RV_init();\n}\n");
       eventFuncs.append("monitor(" + tsmap.get(eventName) + ");\n"); 
       eventFuncs.append(condString);
-      for(String category : rvcParser.getHandlers().keySet()){
+      for(String category : cSpec.getHandlers().keySet()){
         eventFuncs.append("if(" + rvcPrefix + specName + category + ")\n{\n");
-        eventFuncs.append(rvcParser.getHandlers().get(category).replaceAll("__RESET", resetName + "()\n"));
+        eventFuncs.append(cSpec.getHandlers().get(category).replaceAll("__RESET", resetName + "()\n"));
         eventFuncs.append("}\n");
       }
       eventFuncs.append("}\n\n");
