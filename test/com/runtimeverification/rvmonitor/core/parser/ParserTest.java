@@ -14,8 +14,15 @@ import com.runtimeverification.rvmonitor.core.ast.Specification;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+/**
+ * Test that the language-independent parser produces reasonable AST structures.
+ * @author A. Cody Schuffelen
+ */
 public class ParserTest {
     
+    /**
+     * Test the parser on a HasNext property.
+     */
     @Test
     public void testHasNext() throws FileNotFoundException {
         Specification spec = RVParser.parse(new InputStreamReader(new FileInputStream(
