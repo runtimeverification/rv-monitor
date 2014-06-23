@@ -1,11 +1,9 @@
-package com.runtimeverification.rvmonitor.logicrepository.fsm;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.fsm;
 
 import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.State;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.Symbol;
 import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.parser.ast.Transition;
 
-import com.runtimeverification.rvmonitor.logicrepository.plugins.fsm.FSMCoenables;
-import com.runtimeverification.rvmonitor.logicrepository.LogicException;
 
 import java.util.HashSet;
 import java.util.HashMap;
@@ -15,10 +13,10 @@ import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class CoenablesTest {
+public class EnablesTest {
     
     @Test
-    public void testSimple() throws LogicException {
+    public void testSimple() {
         State start = State.get("start");
         State extra = State.get("extra");
         ArrayList<State> states = new ArrayList<State>();
@@ -48,31 +46,29 @@ public class CoenablesTest {
         transitions.put(start, fromStart);
         transitions.put(extra, fromExtra);
         
-        FSMCoenables enableObject = new FSMCoenables(start, symbols, states, categories, aliases, transitions);
+        FSMEnables enableObject = new FSMEnables(start, symbols, states, categories, aliases, transitions);
         
-        HashMap<State, HashMap<Symbol, HashSet<HashSet<Symbol>>>> coenables = enableObject.getCoenables();
+        HashMap<State, HashMap<Symbol, HashSet<HashSet<Symbol>>>> enables = enableObject.getEnables();
         
-        System.out.println(coenables);
+        assertTrue(enables.containsKey(start));
+        assertFalse(enables.containsKey(extra));
         
-        assertTrue(coenables.containsKey(start));
-        assertFalse(coenables.containsKey(extra));
+        HashMap<Symbol, HashSet<HashSet<Symbol>>> startEnables = enables.get(start);
         
-        HashMap<Symbol, HashSet<HashSet<Symbol>>> startCoenables = coenables.get(start);
-        
-        HashSet<HashSet<Symbol>> symbolsA = startCoenables.get(a);
-        HashSet<HashSet<Symbol>> symbolsB = startCoenables.get(b);
+        HashSet<HashSet<Symbol>> symbolsA = startEnables.get(a);
+        HashSet<HashSet<Symbol>> symbolsB = startEnables.get(b);
         
         HashSet<Symbol> empty = new HashSet<Symbol>();
         HashSet<Symbol> setA = new HashSet<Symbol>(Arrays.asList(a));
         HashSet<Symbol> setB = new HashSet<Symbol>(Arrays.asList(b));
         HashSet<Symbol> setAB = new HashSet<Symbol>(Arrays.asList(a, b));
         
-        assertFalse(symbolsA.contains(empty));
+        assertTrue(symbolsA.contains(empty));
         assertTrue(symbolsA.contains(setA));
         assertTrue(symbolsA.contains(setB));
         assertTrue(symbolsA.contains(setAB));
         
-        assertFalse(symbolsB.contains(empty));
+        assertTrue(symbolsB.contains(empty));
         assertTrue(symbolsB.contains(setA));
         assertTrue(symbolsB.contains(setB));
         assertTrue(symbolsB.contains(setAB));
