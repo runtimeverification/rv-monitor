@@ -346,7 +346,7 @@
   
   <target name="fast_test" depends="build-test">
       <mkdir dir="${reports.tests}" />
-      <junit forkmode="once" printsummary="yes">
+      <junit printsummary="yes">
           <env key="LOGICPLUGINPATH" path="${plugins}" />
           <classpath>
               <pathelement location="${plugins}/*.jar" />
