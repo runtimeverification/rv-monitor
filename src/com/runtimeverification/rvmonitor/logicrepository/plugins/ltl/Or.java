@@ -18,9 +18,11 @@ public class Or extends LTLFormula {
         return LTLType.OR;
     }
     
-    //This method inlines nested OR nodes,
-    //creating a flat list of ORS, making
-    //reduction MUCH easier
+    /**
+     * This method inlines nested OR nodes,
+     * creating a flat list of ORS, making
+     * reduction MUCH easier
+     */
     private void flatten(){
         ArrayList<LTLFormula> flattened;
         ArrayList<LTLFormula> previous = children;
@@ -41,6 +43,7 @@ public class Or extends LTLFormula {
         children = flattened;
     }
     
+    @Override
     protected LTLFormula reduce(){
         //first reduce all children
         for(int i = 0; i < children.size(); ++i){

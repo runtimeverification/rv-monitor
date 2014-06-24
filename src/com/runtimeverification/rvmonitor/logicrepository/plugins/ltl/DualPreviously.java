@@ -4,18 +4,26 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
 
-//class representing an DualPreviously node in an LTL formula
+/**
+ * class representing an DualPreviously node in an LTL formula
+ */
 public class DualPreviously extends LTLFormula {
     
+    /**
+     * Construct a DualPreviously node around the given child.
+     * @param child The node to construct a DualPreviously around.
+     */
     public DualPreviously(LTLFormula child){
         children = new ArrayList<LTLFormula>(1);
         children.add(child);
     }
     
+    @Override
     public LTLType getLTLType(){ 
         return LTLType.DY;
     }
     
+    @Override
     protected LTLFormula normalize(boolean b) {
         if(b) {
             return new Previously(
@@ -27,10 +35,12 @@ public class DualPreviously extends LTLFormula {
         }
     }
     
+    @Override
     public LTLFormula copy(){
         return new DualPreviously(children.get(0).copy());
     }
     
+    @Override
     public ATransition d(HashMap<LTLFormula, ATransition> D){
         LinkedHashSet<ATuple> retTuples 
         = new LinkedHashSet<ATuple>(1);

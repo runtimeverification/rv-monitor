@@ -5,22 +5,31 @@ import java.util.LinkedHashSet;
 import java.util.Collections;
 import java.util.HashMap;
 
-//class representing an And node in an LTL formula
+/**
+ * class representing an And node in an LTL formula
+ */
 public class And extends LTLFormula {
     
+    /**
+     * Construct an And element.
+     * @param children The children of the And element.
+     */
     public And(ArrayList<LTLFormula> children){
         assert children != null && children.size() >= 2 
         : "And requires at least two children!";
         this.children = children;
     }
     
+    @Override
     public LTLType getLTLType(){ 
         return LTLType.AND;
     }
     
-    //This method inlines nested AND nodes,
-    //creating a flat list of ANDS, making
-    //reduction MUCH easier
+    /**
+     * This method inlines nested AND nodes,
+     * creating a flat list of ANDS, making
+     * reduction MUCH easier
+     */
     private void flatten(){
         ArrayList<LTLFormula> flattened;
         ArrayList<LTLFormula> previous = children;
@@ -41,6 +50,7 @@ public class And extends LTLFormula {
         children = flattened;
     }
     
+    @Override
     protected LTLFormula reduce(){
         //first reduce all children
         for(int i = 0; i < children.size(); ++i){
@@ -91,11 +101,14 @@ public class And extends LTLFormula {
         }
     }
     
-    //simple helper to remove clutter
+    /**
+     * simple helper to remove clutter
+     */
     private LTLFormula getNegation(int i, boolean b){
         return children.get(i).normalize(b);
     }
     
+    @Override
     protected LTLFormula normalize(boolean b) {
         if(b) {
             flatten();
@@ -116,6 +129,7 @@ public class And extends LTLFormula {
         }
     }
     
+    @Override
     public LTLFormula copy() {
         ArrayList<LTLFormula> copiedChildren = new ArrayList<LTLFormula>(children.size());
         for(LTLFormula child : children){
@@ -124,6 +138,9 @@ public class And extends LTLFormula {
         return new And(copiedChildren);
     }
     
+    /**
+     * 
+     */
     private static LinkedHashSet<LTLFormula> copySet(LinkedHashSet<LTLFormula> set){
         LinkedHashSet<LTLFormula> ret = new LinkedHashSet<LTLFormula>(set.size());
         //this is a shallow copy, we are no longer manipulating formulae,
@@ -136,6 +153,9 @@ public class And extends LTLFormula {
         return ret;
     }
     
+    /**
+     * 
+     */
     private static LinkedHashSet<LinkedHashSet<LTLFormula>> 
     innerUnion(LinkedHashSet<LinkedHashSet<LTLFormula>> first, 
                LinkedHashSet<LinkedHashSet<LTLFormula>> second){
@@ -156,6 +176,7 @@ public class And extends LTLFormula {
         return ret;
     }
     
+    @Override
     public LinkedHashSet<LinkedHashSet<LTLFormula>> toSetForm(){
         LinkedHashSet<LinkedHashSet<LTLFormula>> ret
         = new LinkedHashSet<LinkedHashSet<LTLFormula>>(1); 
@@ -168,6 +189,7 @@ public class And extends LTLFormula {
         return ret;
     }
     
+    @Override
     public ATransition d(HashMap<LTLFormula, ATransition> D){
         ATransition ret = D.get(children.get(0));
         for(int i = 1; i < children.size(); ++i){

@@ -2,28 +2,38 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.ltl;
 
 import java.util.ArrayList;
 
-//class representing an XOr node in an LTL formula
+/**
+ * class representing an XOr node in an LTL formula
+ */
 public class XOr extends LTLFormula {
     
+    /**
+     * Construct an XOr element.
+     * @param children The children of the XOr element.
+     */
     public XOr(ArrayList<LTLFormula> children){
         assert children != null && children.size() >= 2 
         : "XOr requires at least two children!";
         this.children = children;
     }
     
+    @Override
     public LTLType getLTLType(){ 
         return LTLType.XOR;
     }
     
+    @Override
     public LTLFormula normalize(){
         return normalize(false);
     }
     
+    @Override
     protected LTLFormula normalize(boolean b) {
         assert false : "normalize called before lowering!";
         return null;
     }
     
+    @Override
     protected LTLFormula lower(){
         for(int i = 0; i < children.size(); ++i){
             children.set(i,children.get(i).lower());
@@ -48,6 +58,7 @@ public class XOr extends LTLFormula {
         return left;
     }
     
+    @Override
     public LTLFormula copy() {
         ArrayList<LTLFormula> copiedChildren = new ArrayList<LTLFormula>(children.size());
         for(LTLFormula child : children){

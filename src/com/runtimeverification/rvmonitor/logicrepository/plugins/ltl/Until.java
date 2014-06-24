@@ -4,19 +4,28 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
 
-//class representing an Until node in an LTL formula
+/**
+ * class representing an Until node in an LTL formula
+ */
 public class Until extends LTLFormula {
     
+    /**
+     * Construct a Until node around the given children.
+     * @param leftChild The left node to construct a Until around.
+     * @param rightChild The right node to construct a Until around.
+     */
     public Until(LTLFormula leftChild, LTLFormula rightChild){
         children = new ArrayList<LTLFormula>(2);
         children.add(leftChild);
         children.add(rightChild);
     }
     
+    @Override
     public LTLType getLTLType(){ 
         return LTLType.U;
     }
     
+    @Override
     protected LTLFormula normalize(boolean b) {
         if(b) {
             return new DualUntil(
@@ -30,10 +39,12 @@ public class Until extends LTLFormula {
         }
     }
     
+    @Override
     public LTLFormula copy(){
         return new Until(children.get(0).copy(), children.get(1).copy());
     }
     
+    @Override
     public ATransition d(HashMap<LTLFormula, ATransition> D){
         LinkedHashSet<ATuple> retTuples 
         = new LinkedHashSet<ATuple>();

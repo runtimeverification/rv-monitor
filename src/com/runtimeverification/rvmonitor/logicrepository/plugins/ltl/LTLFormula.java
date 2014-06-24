@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.LinkedHashSet;
 
-//abstract class for the internal representation of our 
-//LTL formulas
+/**
+ * abstract class for the internal representation of our 
+ * LTL formulas
+ */
 public abstract class LTLFormula implements Comparable{
     protected ArrayList<LTLFormula> children;  
     protected int hash = 0;
@@ -33,10 +35,12 @@ public abstract class LTLFormula implements Comparable{
         return Collections.unmodifiableList(children);
     }
     
-    //Lower should be called before normalize
-    //It lowers =>, <=> and xor into the proper
-    //operations, making parsers simpler
-    //by not requiring them to perform lowering
+    /**
+     * Lower should be called before normalize
+     * It lowers =>, <=> and xor into the proper
+     * operations, making parsers simpler
+     * by not requiring them to perform lowering
+     */
     protected LTLFormula lower(){
         //Java foreach constructs should really
         //allow ASSIGNMENT to the induction element.
@@ -47,16 +51,20 @@ public abstract class LTLFormula implements Comparable{
         return this;
     }
     
-    //normalize places a formula into normalized form
+    /**
+     * normalize places a formula into normalized form
+     */
     protected LTLFormula normalize() {
         return this.normalize(false);
     }
     
-    //reduce performs boolean reductions and inlines
-    //nested boolean operators into their parents
-    //(e.g. a and b and (b and c) becomes
-    //first a and b and b and c, then
-    //a and b and c
+    /**
+     * reduce performs boolean reductions and inlines
+     * nested boolean operators into their parents
+     * (e.g. a and b and (b and c) becomes
+     * first a and b and b and c, then
+     * a and b and c
+     */
     protected LTLFormula reduce(){
         for(int i = 0; i < children.size(); ++i){
             children.set(i,children.get(i).reduce());
@@ -64,15 +72,17 @@ public abstract class LTLFormula implements Comparable{
         return this;
     }
     
-    //This is the public interface to the simplification
-    //passes that ensures that they are called in order
-    //
-    // This method is inherited by all sublcasses.  It
-    // would be slightly more efficient for Atom, True,
-    // and False to implemented a version which just returns,
-    // but who cares about the efficiency of simplifying a
-    // formula that is JUST an Atom, True, or False:
-    // this method is only ever called on the top node
+    /**
+     * This is the public interface to the simplification
+     * passes that ensures that they are called in order.
+     *
+     * This method is inherited by all sublcasses.  It
+     * would be slightly more efficient for Atom, True,
+     * and False to implemented a version which just returns,
+     * but who cares about the efficiency of simplifying a
+     * formula that is JUST an Atom, True, or False:
+     * this method is only ever called on the top node
+     */
     public LTLFormula simplify(){
         //maybe I should rename this method
         //since it also computes sigma
@@ -86,10 +96,12 @@ public abstract class LTLFormula implements Comparable{
         return ret;
     }
     
-    //Place a formula in negative normal form.
-    //WARNING -- may return a formula which shares 
-    //part of the original formula.  Do not use orginal
-    //formula
+    /**
+     * Place a formula in negative normal form.
+     * WARNING -- may return a formula which shares 
+     * part of the original formula.  Do not use orginal
+     * formula.
+     */
     protected abstract LTLFormula normalize(boolean b);
     
     public String toString(){
@@ -106,13 +118,15 @@ public abstract class LTLFormula implements Comparable{
         return ret;
     }
     
-    // SYNTACTIC compareTo of LTLFormula
-    // The return values can be thought of
-    // as follows (standard Java practice)
-    // -1 := <, 0 := ==, 1 := >
-    //
-    // this is inherited my all subclasses
-    // save Atom, True, and False
+    /** 
+     * SYNTACTIC compareTo of LTLFormula.
+     * The return values can be thought of
+     * as follows (standard Java practice)
+     * -1 := <, 0 := ==, 1 := >
+     *
+     * this is inherited my all subclasses
+     * save Atom, True, and False
+     */
     public int compareTo(Object o){
         // we want to push all non-LTLFormulas
         // to the end, in a sort.  In this project
@@ -136,15 +150,18 @@ public abstract class LTLFormula implements Comparable{
         return 0;
     }
     
-    // SYNTACTIC equality of LTLFormula
-    // This could be implemented simply by checking
-    // if compareTo is 0, but this method should be
-    // slightly faster, and equality is important
-    // for sets and maps
-    //
-    // The idea here is similar to compare to
-    // and this method is inherited by all subclasses
-    // save Atom, True, and False
+    /** 
+     * SYNTACTIC equality of LTLFormula.
+     * This could be implemented simply by checking
+     * if compareTo is 0, but this method should be
+     * slightly faster, and equality is important
+     * for sets and maps
+     *
+     * The idea here is similar to compare to
+     * and this method is inherited by all subclasses
+     * save Atom, True, and False
+     */
+    @Override
     public boolean equals(Object o){
         if(!(o instanceof LTLFormula)) return false;
         LTLFormula L = (LTLFormula) o;
@@ -158,9 +175,10 @@ public abstract class LTLFormula implements Comparable{
         return true;
     }
     
-    //let's actually store the hashcode so we 
-    //don't recursively compute it EVERY time
+    @Override
     public int hashCode(){
+        //let's actually store the hashcode so we 
+        //don't recursively compute it EVERY time
         if(hash != 0) {
             return hash;
         }
@@ -175,9 +193,11 @@ public abstract class LTLFormula implements Comparable{
         return hash;
     }
     
-    // This returns a copy of a given LTLFormula, I prefer
-    // the explicit word copy to a copy constructor, which
-    // is often less clear
+    /**
+     * This returns a copy of a given LTLFormula. I prefer
+     * the explicit word copy to a copy constructor, which
+     * is often less clear
+     */
     public abstract LTLFormula copy();
     
     public final LinkedHashSet<LTLFormula> subFormulae() {
@@ -187,12 +207,14 @@ public abstract class LTLFormula implements Comparable{
     }
     
     
-    // Return the subformula of a formula (inculding itself)
-    // in a bottom up ordering
-    //
-    // This is inherited by all subclasses save
-    // Atom, True, and False, which simply add themselves to the
-    // set
+    /** 
+     * Return the subformula of a formula (inculding itself)
+     * in a bottom up ordering.
+     *
+     * This is inherited by all subclasses save
+     * Atom, True, and False, which simply add themselves to the
+     * set.
+     */
     public void subFormulae(LinkedHashSet acc){
         for(LTLFormula child : children){
             child.subFormulae(acc); 
@@ -200,25 +222,29 @@ public abstract class LTLFormula implements Comparable{
         acc.add(this);
     }
     
-    // Return the atoms of a given formula
-    // Note that this returns atoms that have disappeared
-    // do to simplifcation.  This is the behavior we
-    // want because the generated atomaton must still
-    // consider said atoms, from a user's perspective
-    //
-    // This is inherited by all sub classes
+    /**
+     * Return the atoms of a given formula.
+     * Note that this returns atoms that have disappeared
+     * do to simplifcation.  This is the behavior we
+     * want because the generated atomaton must still
+     * consider said atoms, from a user's perspective
+     *
+     * This is inherited by all sub classes
+     */
     public final Set<Atom> atoms(){
         if(atoms == null) atoms = refToString.keySet();
         return atoms;
     }
     
-    // Transform a formula to set form
-    //
-    // This is inherited by all subclasses save
-    // And and Or
+    /**
+     * Transform a formula to set form.
+     *
+     * This is inherited by all subclasses save
+     * And and Or
+     */
     public LinkedHashSet<LinkedHashSet<LTLFormula>> toSetForm(){
         LinkedHashSet<LinkedHashSet<LTLFormula>> ret 
-        = new LinkedHashSet<LinkedHashSet<LTLFormula>>();
+            = new LinkedHashSet<LinkedHashSet<LTLFormula>>();
         LinkedHashSet<LTLFormula> singleton = new LinkedHashSet<LTLFormula>();
         singleton.add(this);
         ret.add(singleton);

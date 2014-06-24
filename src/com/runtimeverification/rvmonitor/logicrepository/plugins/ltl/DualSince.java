@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
 
-//class representing an DualSince node in an LTL formula
+/**
+ * class representing an DualSince node in an LTL formula
+ */
 public class DualSince extends LTLFormula {
     
+    /**
+     * Construct a DualSince node around the given children.
+     * @param leftChild The left node to construct a DualSince around.
+     * @param rightChild The right node to construct a DualSince around.
+     */
     public DualSince(LTLFormula leftChild, LTLFormula rightChild){
         children = new ArrayList<LTLFormula>(2);
         children.add(leftChild);

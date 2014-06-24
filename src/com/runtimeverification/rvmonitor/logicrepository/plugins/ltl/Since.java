@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
 
-//class representing an Since node in an LTL formula
+/**
+ * class representing an Since node in an LTL formula
+ */
 public class Since extends LTLFormula {
     
     public Since(LTLFormula leftChild, LTLFormula rightChild){
@@ -13,10 +15,12 @@ public class Since extends LTLFormula {
         children.add(rightChild);
     }
     
+    @Override
     public LTLType getLTLType(){ 
         return LTLType.S;
     }
     
+    @Override
     protected LTLFormula normalize(boolean b) {
         if(b) {
             return new DualSince(
@@ -30,10 +34,12 @@ public class Since extends LTLFormula {
         }
     }
     
+    @Override
     public LTLFormula copy(){
         return new Since(children.get(0).copy(), children.get(1).copy());
     }
     
+    @Override
     public ATransition d(HashMap<LTLFormula, ATransition> D){
         LinkedHashSet<ATuple> retTuples 
         = new LinkedHashSet<ATuple>();

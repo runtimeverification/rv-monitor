@@ -4,18 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-//class representing a negation node in an LTL formula
+/**
+ * class representing a negation node in an LTL formula
+ */
 public class Negation extends LTLFormula {
     
+    /**
+     * Construct a negation around the given element.
+     * @param child The element to build a negation around.
+     */
     public Negation(LTLFormula child){
         children = new ArrayList<LTLFormula>(1);
         children.add(child);
     }
     
+    @Override
     public LTLType getLTLType(){ 
         return LTLType.NEG;
     }
     
+    @Override
     protected LTLFormula normalize(boolean b) {
         LTLFormula child = children.get(0);
         //The is a negation above, simply remove this
@@ -33,11 +41,13 @@ public class Negation extends LTLFormula {
         return child.normalize(true); 
     }
     
+    @Override
     public LTLFormula copy(){
         LTLFormula copied = children.get(0).copy();
         return new Negation(copied);
     }
     
+    @Override
     public ATransition d(HashMap<LTLFormula, ATransition> D){
         LinkedHashSet<ATuple> retTuples 
         = new LinkedHashSet<ATuple>(1);

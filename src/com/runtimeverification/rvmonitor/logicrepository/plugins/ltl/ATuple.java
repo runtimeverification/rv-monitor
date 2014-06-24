@@ -15,12 +15,14 @@ public class ATuple {
         this.next = next;
     }
     
-    // this implements (X1 union X2, s1 intersect s2, X3 union X4)
-    // for tuples (X1, s1, X3) and (X2, s2, X4)
-    // it must be non-destructive due to the implementation of
-    // and at the ATransition level (which is essentially a cross product
-    // with ATuple and as the operator crossed over rather than tuple
-    // construction)
+    /**
+     * this implements (X1 union X2, s1 intersect s2, X3 union X4)
+     * for tuples (X1, s1, X3) and (X2, s2, X4)
+     * it must be non-destructive due to the implementation of
+     * and at the ATransition level (which is essentially a cross product
+     * with ATuple and as the operator crossed over rather than tuple
+     * construction)
+     */
     public ATuple and(ATuple second){
         LinkedHashSet<LTLFormula> retPrevious 
             = new LinkedHashSet<LTLFormula>(previous.size() + second.previous.size()) ;

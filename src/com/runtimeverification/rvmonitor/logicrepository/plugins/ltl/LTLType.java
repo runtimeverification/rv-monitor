@@ -1,5 +1,8 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ltl;
 
+/**
+ * An enumeration of the different LTLFormula types.
+ */
 public enum LTLType {
     // ordering is important to compare LTLFormula
     //we want true false and atoms to be sorted to the
@@ -27,15 +30,28 @@ public enum LTLType {
     private String stringRepresentation;
     private int intRepresentation;
     
+    /**
+     * Construct the LTLType enum instance.
+     * @param s The string representation of the type.
+     * @param i The integer representation of the type.
+     */
     private LTLType(String s, int i) {
         stringRepresentation = s;
         intRepresentation = i;
     }
     
+    /**
+     * The string representation of the enum.
+     * @return A string representing the instance.
+     */
     public String toString(){
         return stringRepresentation;
     }
     
+    /**
+     * The integer representation of the enum.
+     * @return A string representation of the instance.
+     */
     public int toInt(){
         return intRepresentation;
     }
