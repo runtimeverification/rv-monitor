@@ -1,4 +1,5 @@
-`package mop;
+`
+package mop;
 
 import java.io.*;
 import java.util.*;
@@ -9,20 +10,21 @@ import java.util.*;
 // It is monitored for the pattern fail 
 // condition.  This property is borrowed 
 // from tracematches (see ECOOP'07 
-// http://abc.comlab.ox.ac.uk/papers)`
+// http://abc.comlab.ox.ac.uk/papers)
+`
 
-HasNext `(Iterator i)` {
-    event hasnext `(Iterator i)` `{}`
-    event next `(Iterator i)` `{}`
+fullbinding HasNext (Iterator i) {
+    event hasnext (Iterator i) {}
+    event next (Iterator i) {}
 
     ere : ``(hasnext hasnext* next)*``
 
-    @fail ```{
+    @fail {
       System.out.println(
              "! ``hasNext() has not been called"
            + " before calling next() for an" 
            + " iterator``");
           __RESET;
-    }```
+    }
 }
 

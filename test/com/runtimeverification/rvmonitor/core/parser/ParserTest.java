@@ -32,7 +32,8 @@ public class ParserTest {
         assertTrue(spec.getPreDeclarations().contains("import java.io.*;"));
         assertTrue(spec.getPreDeclarations().contains("import java.util.*;"));
         
-        assertEquals(0, spec.getLanguageModifiers().size());
+        assertEquals(1, spec.getLanguageModifiers().size());
+        assertEquals("fullbinding", spec.getLanguageModifiers().get(0));
         assertEquals("HasNext", spec.getName());
         assertEquals(1, spec.getProperties().size());
         

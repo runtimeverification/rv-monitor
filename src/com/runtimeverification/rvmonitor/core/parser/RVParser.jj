@@ -66,6 +66,36 @@ public class RVParser {
             return "";
         }
     }
+    
+    private String parseMatchingSegment(char open, char close, int depth) throws ParseException {
+        try {
+            StringBuilder innerSegment = new StringBuilder();
+            for(int i = 0; i < depth; i++) {
+                innerSegment.append(open);
+            }
+            while(depth > 0) {
+                char c = jj_input_stream.readChar();
+                innerSegment.append(c);
+                if(c == open) {
+                    depth++;
+                } else if(c == close) {
+                    depth--;
+                }
+            }
+            return innerSegment.toString();
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+            return "";
+        }
+    }
+    
+    private String parseMatchingParens() throws ParseException {
+        return parseMatchingSegment('(', ')', 1);
+    }
+    
+    private String parseMatchingCurlyBrackets() throws ParseException {
+        return parseMatchingSegment('{', '}', 1);
+    }
 }
 PARSER_END(RVParser)
 
@@ -76,6 +106,8 @@ SKIP : {
 TOKEN : {
     <LBRACE : "{">
     | <RBRACE : "}">
+    | <LPAREN : "(">
+    | <RPAREN : ")">
     | <COLON : ":">
     | <AT : "@">
     | <EVENT : ("event")>
@@ -97,9 +129,9 @@ Specification rvmFile() : {
     Property myProperty;
 }
 {
-    ("`" {preDeclarations = parseBacktickSegment();})?
+    (preDeclarations = delimitedSegment())?
     (modifier = <ID> {languageModifiers.add(modifier.image);})+
-    ("`" {languageParameters = parseBacktickSegment();})?
+    (languageParameters = delimitedNoCurly())?
     "{"
         ("`" {languageDeclarations = parseBacktickSegment();})?
         (myEvent = event() { events.add(myEvent); })+
@@ -121,8 +153,8 @@ Event event() : {
 {
     "event"
     (name = <ID>)
-    "`" {eventDefinition = parseBacktickSegment();}
-    "`" {eventAction = parseBacktickSegment();}
+    (eventDefinition = delimitedSegment())
+    (eventAction = delimitedSegment())
     {return new Event(name.image, eventDefinition, eventAction);}
 }
 
@@ -135,7 +167,7 @@ Property propertyAndHandlers() : {
 {
     (name = <ID>)
     ":"
-    "`" {syntax = parseBacktickSegment();}
+    (syntax = delimitedSegment())
     (handler = propertyHandler() {propertyHandlers.add(handler);})+
     {return new Property(name.image, syntax, propertyHandlers);}
 }
@@ -147,6 +179,22 @@ PropertyHandler propertyHandler() : {
 {
     "@"
     (name = <ID>)
-    "`" {languageAction = parseBacktickSegment();}
+    (languageAction = delimitedSegment())
     {return new PropertyHandler(name.image, languageAction);}
+}
+
+String delimitedSegment() : {
+    String other;
+}
+{
+    (other = delimitedNoCurly() { return other; }) |
+    ("{" { return parseMatchingCurlyBrackets(); })
+}
+
+String delimitedNoCurly() : {
+
+}
+{
+    ("`" { return parseBacktickSegment(); }) |
+    ("(" { return parseMatchingParens(); })
 }
