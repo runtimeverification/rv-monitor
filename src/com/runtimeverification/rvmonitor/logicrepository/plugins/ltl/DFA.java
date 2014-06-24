@@ -12,9 +12,9 @@ import java.util.HashMap;
 //Here we finally drop conjunction of atoms... there is no way for more than one atom to be true
 //at once from here on out.  Should be easy to convert back at a latter date if we 
 //decide to support simultaneous events
-public class DFA 
-extends LinkedHashMap<DFAState, DFATransition> 
-{
+public class DFA {
+    private  LinkedHashMap<DFAState, DFATransition> transitions = 
+        new LinkedHashMap<DFAState, DFATransition>();
     public DFAState I;
     private ArrayList<Atom> atoms = new ArrayList();
     private DFAState violation = DFAState.get("violation");
@@ -52,7 +52,7 @@ extends LinkedHashMap<DFAState, DFATransition>
             } 
             DFAState dest = createDFAState(states);
             dtrans.put(a, dest);
-            put(s, dtrans);
+            transitions.put(s, dtrans);
             workList.put(dest, states);
         }
         //for each destination in the worklist, we need recursively call gen
@@ -66,8 +66,11 @@ extends LinkedHashMap<DFAState, DFATransition>
         //I don't think it's worth comparing the performance.  Pretty sure 
         //recomputing the DFAState would be worse
         for(DFAState dest : workList.keySet()){
-            if(containsKey(dest)) continue;
-            if(dest == violation) { put(dest, new DFATransition()); continue;}
+            if(transitions.containsKey(dest)) continue;
+            if(dest == violation) {
+                transitions.put(dest, new DFATransition());
+                continue;
+            }
             gen(nfa, workList.get(dest));
         }
     }
@@ -90,7 +93,7 @@ extends LinkedHashMap<DFAState, DFATransition>
     
     private void findViolations(DFAState s, LinkedHashSet<DFAState> seen, LinkedHashSet<DFAState> violations){
         //depth first traversal
-        for(DFAState destination : get(s).values()){
+        for(DFAState destination : transitions.get(s).values()){
             if(!seen.contains(destination)){
                 seen.add(destination);
                 findViolations(destination, seen, violations);
@@ -100,7 +103,7 @@ extends LinkedHashMap<DFAState, DFATransition>
         //at this point it is conventient for violation to be in the violations set
         //when we go to remove the violations this will no longer be the case
         boolean allViolations = true;
-        for(DFAState destination : get(s).values()){
+        for(DFAState destination : transitions.get(s).values()){
             if(!violations.contains(destination)){
                 allViolations = false; break;
             }
@@ -112,12 +115,12 @@ extends LinkedHashMap<DFAState, DFATransition>
         ArrayList<DFAState> toRemove = new ArrayList();
         //remove violation now because we don't want to remove it from the map
         violations.remove(violation);
-        for(DFAState s : keySet()){
+        for(DFAState s : transitions.keySet()){
             if(violations.contains(s)){
                 toRemove.add(s); 
             }
             else{
-                DFATransition trans = get(s);
+                DFATransition trans = transitions.get(s);
                 for(Atom a : trans.keySet()){
                     if(violations.contains(trans.get(a))){
                         trans.put(a, violation);
@@ -127,44 +130,44 @@ extends LinkedHashMap<DFAState, DFATransition>
         }
         
         for(DFAState s : toRemove){
-            remove(s);
+            transitions.remove(s);
         }
     }
     
     private void rename(){
         Numbering<DFAState> stateNum = new Numbering();
         I = DFAState.get("s" + stateNum.get(I));
-        ArrayList<DFAState> toRemove = new ArrayList(size());    
-        ArrayList<DFAState> states = new ArrayList(keySet());
+        ArrayList<DFAState> toRemove = new ArrayList(transitions.size());    
+        ArrayList<DFAState> states = new ArrayList(transitions.keySet());
         states.remove(violation);
         for(DFAState s : states){
             toRemove.add(s);
             DFAState newS = DFAState.get("s" + stateNum.get(s));
-            DFATransition trans = get(s);
+            DFATransition trans = transitions.get(s);
             DFATransition newT = new DFATransition(); 
             for(Atom a : trans.keySet()){
                 DFAState dest = trans.get(a);
                 if(dest == violation) newT.put(a, violation);
                 else newT.put(a, DFAState.get("s" + stateNum.get(dest))); 
             }
-            put(newS, newT);
+            transitions.put(newS, newT);
         }
         
         for(DFAState s : toRemove){
-            remove(s);
+            transitions.remove(s);
         }
     }
     
     public String toString(){
         //put the initial state first
-        DFATransition trans = get(I);
+        DFATransition trans = transitions.get(I);
         if(trans == null) return I + "[\n  default violation\n]\n\nviolation[\n]\n";
         String ret = I.toString() + trans;
         
-        for(DFAState key : keySet()){
+        for(DFAState key : transitions.keySet()){
             //don't repeat the initial state
             if(key == I) continue;
-            ret += "\n" + key + get(key); 
+            ret += "\n" + key + transitions.get(key); 
         }
         return ret;
     }

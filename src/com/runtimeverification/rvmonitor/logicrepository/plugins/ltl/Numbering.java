@@ -7,7 +7,8 @@ import java.util.LinkedHashSet;
  * A class that manages a unique enumeration for a set of objects. Each object is assigned a
  * distinct index once and keeps that index.
  */
-public class Numbering<Key> extends HashMap<Key, Integer>{
+public class Numbering<Key> {
+    private HashMap<Key, Integer> map = new HashMap<Key, Integer>();
     private int count;
     
     /**
@@ -17,8 +18,10 @@ public class Numbering<Key> extends HashMap<Key, Integer>{
      * @return The index of the object.
      */
     public Integer get(Object k){
-        if(containsKey(k)) return super.get(k);
-        put((Key)k, count);
+        if(map.containsKey(k)) {
+            return map.get(k);
+        }
+        map.put((Key)k, count);
         return count++;
     }
     

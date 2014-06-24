@@ -4,9 +4,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.LinkedHashMap;
 
-public class NFA 
-extends LinkedHashMap<Integer, NFATransition> 
-{
+public class NFA {
+    private LinkedHashMap<Integer, NFATransition> transitions =
+        new LinkedHashMap<Integer, NFATransition>();
     public LinkedHashSet<Integer> I;
     public LinkedHashSet<LinkedHashSet<Atom>> sigma;
     
@@ -269,7 +269,7 @@ extends LinkedHashMap<Integer, NFATransition>
         //it is possible to have no initial states, if this occurs
         //we need to output an empty NFA
         if(ba.I.isEmpty() || ba.T.isEmpty()){
-            put(0, new NFATransition()); 
+            transitions.put(0, new NFATransition()); 
             return;
         }
         for(BAState state : ba.T.keySet()){
@@ -281,7 +281,7 @@ extends LinkedHashMap<Integer, NFATransition>
                 }
                 trans.put(symbols, destinations);
             }
-            put(stateNumber.get(state), trans);
+            transitions.put(stateNumber.get(state), trans);
         } 
     }
     
@@ -291,9 +291,13 @@ extends LinkedHashMap<Integer, NFATransition>
             ret += "s" + state + " ";
         }
         ret += "\n";
-        for(Integer key : keySet()){
-            ret += "\ns" + key + get(key); 
+        for(Integer key : transitions.keySet()){
+            ret += "\ns" + key + transitions.get(key); 
         }
         return ret;
+    }
+    
+    public NFATransition get(Integer i) {
+        return transitions.get(i);
     }
 }
