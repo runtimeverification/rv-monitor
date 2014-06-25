@@ -32,13 +32,15 @@ public class ParserTest {
         assertTrue(spec.getPreDeclarations().contains("import java.io.*;"));
         assertTrue(spec.getPreDeclarations().contains("import java.util.*;"));
         
+        assertTrue(spec.getLanguageDeclarations().contains("int i;"));
+        
         assertEquals(1, spec.getLanguageModifiers().size());
         assertEquals("fullbinding", spec.getLanguageModifiers().get(0));
         assertEquals("HasNext", spec.getName());
         assertEquals(1, spec.getProperties().size());
         
         Property ereProp = spec.getProperties().get(0);
-        assertEquals("(hasnext hasnext* next)*", ereProp.getSyntax());
+        assertEquals("(hasnext hasnext* next)*", ereProp.getSyntax().trim());
         assertEquals(1, ereProp.getHandlers().size());
         
         PropertyHandler failHandler = ereProp.getHandlers().get(0);

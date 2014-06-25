@@ -1,4 +1,3 @@
-`
 package mop;
 
 import java.io.*;
@@ -11,19 +10,21 @@ import java.util.*;
 // condition.  This property is borrowed 
 // from tracematches (see ECOOP'07 
 // http://abc.comlab.ox.ac.uk/papers)
-`
 
 fullbinding HasNext (Iterator i) {
+    
+    int i;
+    
     event hasnext (Iterator i) {}
     event next (Iterator i) {}
 
-    ere : ``(hasnext hasnext* next)*``
+    ere : (hasnext hasnext* next)*
 
     @fail {
       System.out.println(
-             "! ``hasNext() has not been called"
+             "! hasNext() has not been called"
            + " before calling next() for an" 
-           + " iterator``");
+           + " iterator");
           __RESET;
     }
 }

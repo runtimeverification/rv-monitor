@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.*;
 
 import com.runtimeverification.rvmonitor.core.ast.Event;
@@ -96,11 +98,75 @@ public class RVParser {
     private String parseMatchingCurlyBrackets() throws ParseException {
         return parseMatchingSegment('{', '}', 1);
     }
+    
+    private String parseUntil(String s) throws ParseException {
+        try {
+            StringBuilder innerSegment = new StringBuilder();
+            while(true) {
+                char c;
+                while((c = jj_input_stream.readChar()) != s.charAt(0)) {
+                    innerSegment.append(c);
+                }
+                StringBuilder partialMatch = new StringBuilder();
+                partialMatch.append(c);
+                for(int i = 1; i < s.length(); i++) {
+                    c = jj_input_stream.readChar();
+                    if(c == s.charAt(i)) {
+                        partialMatch.append(c);
+                    } else {
+                        break;
+                    }
+                }
+                if(partialMatch.toString().equals(s)) {
+                    jj_input_stream.backup(s.length());
+                    return innerSegment.toString();
+                } else {
+                    innerSegment.append(partialMatch);
+                }
+            }
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+            return "";
+        }
+    }
+    
+    private String parseUntilLineMatches(Pattern pattern) {
+        try {
+            StringBuilder allText = new StringBuilder();
+            StringBuilder line = new StringBuilder();
+            while(!pattern.matcher(line.toString()).find()) {
+                allText.append(line);
+                line = new StringBuilder();
+                char c;
+                while((c = jj_input_stream.readChar()) != '\n') {
+                    line.append(c);
+                }
+                line.append(c);
+            }
+            jj_input_stream.backup(line.length());
+            return allText.toString();
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+            return "";
+        }
+    }
+    
+    public static void main(String[] args) {
+        try {
+            parse(new InputStreamReader(new FileInputStream(args[0])));
+            System.out.println("Success : " + args[0]);
+        } catch(Exception e) {
+            System.out.println("Failure : " + args[0]);
+            e.printStackTrace();
+        }
+    }
 }
 PARSER_END(RVParser)
 
 SKIP : {
     <WHITESPACE: [" ","\t","\r","\n"]>
+    | <LINECOMMENT: "//" (~["\n"])* "\n">
+    | <BLOCKCOMMENT: "/*"(~["*"])* "*"(~["/"] (~["*"])* "*")* "/" >
 }
 
 TOKEN : {
@@ -129,13 +195,13 @@ Specification rvmFile() : {
     Property myProperty;
 }
 {
-    (preDeclarations = delimitedSegment())?
+    {preDeclarations = parseUntilLineMatches(Pattern.compile("^([0-9_a-zA-Z\\s]+)\\("));}
     (modifier = <ID> {languageModifiers.add(modifier.image);})+
     (languageParameters = delimitedNoCurly())?
     "{"
-        ("`" {languageDeclarations = parseBacktickSegment();})?
-        (myEvent = event() { events.add(myEvent); })+
-        (myProperty = propertyAndHandlers() {properties.add(myProperty);})+
+        {languageDeclarations = parseUntil("event");}
+        (LOOKAHEAD( 2 ) myEvent = event() { events.add(myEvent); })+
+        (myProperty = propertyAndHandlers() {properties.add(myProperty);})*
     "}"
     {
         String name = languageModifiers.get(languageModifiers.size() - 1);
@@ -146,11 +212,14 @@ Specification rvmFile() : {
 }
 
 Event event() : {
+    ArrayList<String> modifiers = new ArrayList<String>();
+    Token modifier;
     Token name;
     String eventDefinition = "";
     String eventAction = "";
 }
 {
+    (modifier = <ID> { modifiers.add(modifier.image); })*
     "event"
     (name = <ID>)
     (eventDefinition = delimitedSegment())
@@ -160,6 +229,7 @@ Event event() : {
 
 Property propertyAndHandlers() : {
     Token name;
+    Token notAt;
     String syntax = "";
     ArrayList<PropertyHandler> propertyHandlers = new ArrayList<PropertyHandler>();
     PropertyHandler handler;
@@ -167,7 +237,7 @@ Property propertyAndHandlers() : {
 {
     (name = <ID>)
     ":"
-    (syntax = delimitedSegment())
+    {syntax = parseUntil("@");}
     (handler = propertyHandler() {propertyHandlers.add(handler);})+
     {return new Property(name.image, syntax, propertyHandlers);}
 }
