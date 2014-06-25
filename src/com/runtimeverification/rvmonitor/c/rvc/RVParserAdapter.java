@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.c.rvc;
 
 import com.runtimeverification.rvmonitor.core.ast.Event;
+import com.runtimeverification.rvmonitor.core.ast.MonitorFile;
 import com.runtimeverification.rvmonitor.core.ast.Property;
 import com.runtimeverification.rvmonitor.core.ast.PropertyHandler;
 import com.runtimeverification.rvmonitor.core.ast.Specification;
@@ -14,14 +15,16 @@ import java.util.HashMap;
  */
 public class RVParserAdapter implements CSpecification {
     
+    private final MonitorFile file;
     private final Specification wrapped;
     
     /**
      * Wrap the given specification.
      * @param wrapped The specification to wrap.
      */
-    public RVParserAdapter(Specification wrapped) {
-        this.wrapped = wrapped;
+    public RVParserAdapter(final MonitorFile file) {
+        this.file = file;
+        wrapped = file.getSpecifications().get(0);
         for(Event event : wrapped.getEvents()) {
             String params = event.getDefinition().trim();
             if(params.charAt(0) != '(' || params.charAt(params.length()-1) != ')') {
@@ -32,7 +35,7 @@ public class RVParserAdapter implements CSpecification {
     
     @Override
     public String getIncludes() {
-        return wrapped.getPreDeclarations();
+        return file.getPreamble();
     }
     
     @Override

@@ -14,17 +14,18 @@ import java.util.regex.Pattern;
 import java.io.*;
 
 import com.runtimeverification.rvmonitor.core.ast.Event;
+import com.runtimeverification.rvmonitor.core.ast.MonitorFile;
 import com.runtimeverification.rvmonitor.core.ast.Property;
 import com.runtimeverification.rvmonitor.core.ast.PropertyHandler;
 import com.runtimeverification.rvmonitor.core.ast.Specification;
 
 public class RVParser {
     
-    public static Specification parse(String s) {
+    public static MonitorFile parse(String s) {
         return parse(new BufferedReader(new StringReader(s)));
     }
     
-    public static Specification parse(Reader reader) {
+    public static MonitorFile parse(Reader reader) {
         RVParser parser = new RVParser(reader);
         try {
             return parser.rvmFile();
@@ -183,7 +184,20 @@ TOKEN : {
     | <BACKTICK : "`">
 }
 
-Specification rvmFile() : {
+MonitorFile rvmFile() : {
+    String preamble;
+    ArrayList<Specification> specs = new ArrayList<Specification>();
+    Specification spec;
+}
+{
+    {preamble = parseUntilLineMatches(Pattern.compile("^([0-9_a-zA-Z\\s-]+)((\\()|(\\{))"));}
+    (spec = specification() { specs.add(spec); })+
+    {
+        return new MonitorFile(preamble, specs);
+    }
+}
+
+Specification specification() : {
     String preDeclarations = "";
     ArrayList<String> languageModifiers = new ArrayList<String>();
     Token modifier;
@@ -195,7 +209,6 @@ Specification rvmFile() : {
     Property myProperty;
 }
 {
-    {preDeclarations = parseUntilLineMatches(Pattern.compile("^([0-9_a-zA-Z\\s-]+)((\\()|(\\{))"));}
     (modifier = <ID> {languageModifiers.add(modifier.image);})+
     (languageParameters = delimitedNoCurly())?
     "{"

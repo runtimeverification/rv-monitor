@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A RVM Specification file.
+ * A RVM property specification.
  * @author A. Cody Schuffelen
  */
 public class Specification {
@@ -20,7 +20,6 @@ public class Specification {
     
     /**
      * Construct the specification out of its children elements.
-     * @param preDeclarations Declarations at the beginning of the file, e.g. imports.
      * @param languageModifiers Words before the name directing behavior of rv-monitor.
      * @param name The name of the specification.
      * @param languageParameters Parameters used to parameterize the monitor.
@@ -39,14 +38,6 @@ public class Specification {
         this.languageDeclarations = languageDeclarations;
         this.events = Collections.unmodifiableList(new ArrayList<Event>(events));
         this.properties = Collections.unmodifiableList(new ArrayList<Property>(properties));
-    }
-    
-    /**
-     * Language-specific declarations that go at the top of the file, e.g. includes, imports.
-     * @return Language-specific top of the file declarations.
-     */
-    public String getPreDeclarations() {
-        return preDeclarations;
     }
     
     /**
