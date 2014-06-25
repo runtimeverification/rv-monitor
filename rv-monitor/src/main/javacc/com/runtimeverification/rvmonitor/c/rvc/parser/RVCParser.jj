@@ -11,7 +11,9 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.io.*;
 
-public class RVCParser {
+import com.runtimeverification.rvmonitor.c.rvc.CSpecification;
+
+public class RVCParser implements CSpecification {
 
   public enum WhenType { BEFORE,AFTER,INSTEAD }
   public enum WhatType { EXEC,CALL}

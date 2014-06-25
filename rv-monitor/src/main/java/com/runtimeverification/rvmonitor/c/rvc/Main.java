@@ -115,13 +115,7 @@ public class Main {
      * @return A CSpecification instance with extracted information from the C file.
      */
     static private CSpecification parseInput(String fileName)  throws FileNotFoundException {
-        FileInputStream fio = new FileInputStream(new File(fileName));
-        Scanner sc = new Scanner(fio);
-        StringBuilder buf = new StringBuilder();
-        while(sc.hasNextLine()) {
-            buf.append(sc.nextLine() + "\n");
-        }
-        return new CSpecification(RVParser.parse(buf.toString()));
+        return new RVParserAdapter(RVParser.parse(new InputStreamReader(new FileInputStream(fileName))));
     }
     
     /**
