@@ -177,7 +177,7 @@ TOKEN : {
     | <COLON : ":">
     | <AT : "@">
     | <EVENT : ("event")>
-    | <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_"|".")*>
+    | <ID : (<LETTER>|"_")(<LETTER>|<DIGIT>|"_"|"."|"-")*>
     | <DIGIT : ["0"-"9"]>
     | <LETTER : ["a"-"z","A"-"Z"]>
     | <BACKTICK : "`">
@@ -195,7 +195,7 @@ Specification rvmFile() : {
     Property myProperty;
 }
 {
-    {preDeclarations = parseUntilLineMatches(Pattern.compile("^([0-9_a-zA-Z\\s]+)\\("));}
+    {preDeclarations = parseUntilLineMatches(Pattern.compile("^([0-9_a-zA-Z\\s-]+)((\\()|(\\{))"));}
     (modifier = <ID> {languageModifiers.add(modifier.image);})+
     (languageParameters = delimitedNoCurly())?
     "{"
@@ -220,7 +220,7 @@ Event event() : {
 }
 {
     (modifier = <ID> { modifiers.add(modifier.image); })*
-    "event"
+    <EVENT>
     (name = <ID>)
     (eventDefinition = delimitedSegment())
     (eventAction = delimitedSegment())

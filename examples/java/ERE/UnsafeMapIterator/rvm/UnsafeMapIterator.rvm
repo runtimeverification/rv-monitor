@@ -16,10 +16,10 @@ import java.util.*;
 // many iterators can be created from one map).
 
 full-binding UnsafeMapIterator(Map map, Collection c, Iterator i){
-	event createColl(Map map, Collection c) {} // after
-	event createIter(Collection c, Iterator i) {} //  after
-	event useIter(Iterator i) {} //  before
-	event updateMap(Map map) {} //  after
+    event createColl(Map map, Collection c) {} // after
+    event createIter(Collection c, Iterator i) {} //  after
+    event useIter(Iterator i) {} //  before
+    event updateMap(Map map) {} //  after
 
     ere : createColl updateMap* createIter useIter* updateMap updateMap* useIter
 
