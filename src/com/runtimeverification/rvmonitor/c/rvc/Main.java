@@ -37,6 +37,7 @@ import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorys
 
 import com.runtimeverification.rvmonitor.logicrepository.plugins.LogicPluginFactory;
 
+import com.runtimeverification.rvmonitor.util.FileUtils;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Tool;
 
@@ -357,54 +358,16 @@ public class Main {
         //   delegates work to the other two
         
         // Makefile.new
-        String nmakefile = 
-            "# This Makefile assumes that Makefile.original contains your original Makefile\n" +
-            "# you could rename this as Makefile\n" +
-            "all: original\n" +
-            "\n" +
-            "original:\n" +
-            "\tmake -f Makefile.original\n" +
-            "\n" +
-            "instrument: original\n" +
-            "\tmake -f Makefile.instrument\n" +
-            "\n" +
-            "uninstrument:\n" +
-            "\tmake -f Makefile.instrument uninstrument\n" +
-            "\tmake -f Makefile.original\n" +
-            "\n" +
-            "clean:\n" +
-            "\tmake -f Makefile.instrument clean\n" +
-            "\tmake -f Makefile.original clean\n" +
-            "\n" +
-            ".PHONY: original instrument uninstrument\n";
+        String nmakefile = FileUtils.extractFileFromJar(Main.class, "Makefile.new");
+        
         mnos.print(nmakefile);
         File mFileHandle = new File(mFile);
         FileOutputStream mfos = new FileOutputStream(mFileHandle);
         PrintStream mos = new PrintStream(mfos);
         
         // Makefile.instrument
-        String makefile=
-            "all: instrument\n" +
-            "\n" +
-            "__RVC__Monitor.o: __RVC__Monitor.bc\n" +
-            "\tllc -filetype=obj $< -o $@\n" +
-            "\n" +
-            "instrument: __RVC__Monitor.o aspect.map uninstrument\n" +
-            "\tfind . -type f \\( -name \"*.bc\" ! -name \"__RVC*\" \\) -exec make -f Makefile.instrument \"{}.original\" \\; \n" +
-            "\tmake LDFLAGS=__RVC__Monitor.o\n" +
-            "\n" +
-            "%.bc.original: %.bc\n" +
-            "\tcp $< $@\n" +
-            "\topt -load LLVMAOP.so -aop $< -o $< -f\n" +
-            "\tif diff -q $< $@ >/dev/null ; then rm $@ ; fi\n" +
-            "\n" +
-            "clean: uninstrument\n" +
-            "\trm -f __RVC__Monitor.o\n" +
-            "\n" +
-            "uninstrument:\n" +
-            "\tfind . -name \"*.bc\" -type f -exec mv \"{}.original\" \"{}\" \\; -exec touch \"{}\" \\; 2>/dev/null\n" +
-            "\n" +
-            ".PHONY: instrument uninstrument\n";
+        String makefile= FileUtils.extractFileFromJar(Main.class, "Makefile.instrument");
+        
         makefile = makefile.replaceAll(rvcPrefix + "_",rvcPrefix + specName);
         mos.print(makefile);
     }

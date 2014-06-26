@@ -2,6 +2,8 @@ package com.runtimeverification.rvmonitor.logicpluginshells.cfg.util;
 
 import java.util.*;
 
+import com.runtimeverification.rvmonitor.util.FileUtils;
+
 public class GLRGen {
 	static String gen(CFG g, HashMap<Terminal, Integer> tmap, String name) {
 		return gen(new LR(g, tmap), name);
@@ -38,45 +40,7 @@ public class GLRGen {
 
 	// See body.txt
 	public static String body() {
-		return "if ($cat$ != 2) {\n" 
-                        + "$event$--;\n" 
-                        + "$cat$ = 1;\n" 
-                        + "for (int $i$ = $stacks$.size()-1; $i$ >=0; $i$--) {\n"
-		        + "IntStack stack = $stacks$.get($i$);\n" 
-                        + "$stacks$.set($i$,null);\n" 
-                        + "while (stack != null) {\n" 
-                        + "int s = stack.peek();\n"
-			+ "if (s >= 0 && $at$[s][$event$].length >= 0) {\n" 
-                        + "/* not in an error state and something to do? */\n"
-		        + "for (int j = 0; j < $at$[s][$event$].length; j++) {\n" 
-                        + "IntStack tstack;\n" 
-                        + "if ($at$[s][$event$].length > 1){\n"
-			+ "tstack = stack.fclone();\n" 
-                        + "} else{\n" 
-                        + "tstack = stack;\n" 
-                        + "}\n" 
-                        + "switch ($at$[s][$event$][j].length) {\n" 
-                        + "case 1:/* Shift */\n"
-			+ "tstack.push($at$[s][$event$][j][0]);\n" 
-                        + "$stacks$.add(tstack);\n" 
-                        + "if ($acc$[$at$[s][$event$][j][0]]) $cat$ = 0;\n" 
-                        + "break;\n"
-			+ "case 2: /* Reduce */\n" 
-                        + "tstack.pop($at$[s][$event$][j][1]);\n" 
-                        + "int $old$ = tstack.peek();\n"
-			+ "tstack.push($gt$[$old$][$at$[s][$event$][j][0]]);\n" 
-                        + "$stacks$.add($i$,tstack);\n" 
-                        + "break;\n" 
-                        + "}\n" 
-                        + "}\n" 
-                        + "}\n"
-			+ "stack = $stacks$.get($i$);\n" 
-                        + "$stacks$.remove($i$);\n" 
-                        + "}\n"
-                        + "}\n" 
-                        + "if ($stacks$.isEmpty())\n" 
-                        + "$cat$ = 2;\n" 
-                        + "}\n";
+		return FileUtils.extractFileFromJar(GLRGen.class, "body.txt");
 	}
     
 	public static String init(LR lr) {
