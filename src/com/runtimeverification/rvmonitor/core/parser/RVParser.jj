@@ -212,7 +212,8 @@ Specification specification() : {
     (modifier = <ID> {languageModifiers.add(modifier.image);})+
     (languageParameters = delimitedNoCurly())?
     "{"
-        {languageDeclarations = parseUntil("event");}
+        {languageDeclarations = parseUntilLineMatches(Pattern.compile(
+            "^([-a-zA-Z\\s_]+) event([a-zA-Z_\\s0-9]+)\\("));}
         (LOOKAHEAD( 2 ) myEvent = event() { events.add(myEvent); })+
         (myProperty = propertyAndHandlers() {properties.add(myProperty);})*
     "}"
@@ -236,8 +237,8 @@ Event event() : {
     <EVENT>
     (name = <ID>)
     (eventDefinition = delimitedSegment())
-    (eventAction = delimitedSegment())
-    {return new Event(name.image, eventDefinition, eventAction);}
+    ((eventAction = delimitedSegment()) | ";")
+    {return new Event(modifiers, name.image, eventDefinition, eventAction);}
 }
 
 Property propertyAndHandlers() : {
