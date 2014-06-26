@@ -6,8 +6,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.*;
 
 public class RVMParameter extends Node implements Comparable<RVMParameter> {
-	TypePattern type;
-	String name = "";
+	private final TypePattern type;
+	private final String name;
 	
 	public RVMParameter(int line, int column, TypePattern type, String name){
 		super(line, column);

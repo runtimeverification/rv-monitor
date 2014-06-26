@@ -9,20 +9,18 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVi
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisitor;
 
 public class RVMSpecFileExt extends ExtNode {
-	PackageDeclaration pakage = null;
-	List<ImportDeclaration> imports = null;
-	List<RVMonitorSpecExt> specList = null;
-	
+    private final PackageDeclaration pakage;
+    private final List<ImportDeclaration> imports;
+    private final List<RVMonitorSpecExt> specList;
+
     public RVMSpecFileExt(int line, int column, PackageDeclaration pakage, List<ImportDeclaration> imports, List<RVMonitorSpecExt> specList) {
         super(line, column);
         this.pakage = pakage;
         this.imports = imports;
         this.specList = specList;
     }
-    public RVMSpecFileExt() {
-		super(0,0);
-	}
-	public PackageDeclaration getPakage() {
+    
+    public PackageDeclaration getPakage() {
         return pakage;
     }
 

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class RVMParameterPairSet implements Iterable<RVMonitorParameterPair>{
 
-	public ArrayList<RVMonitorParameterPair> paramPairSet;
+	private final ArrayList<RVMonitorParameterPair> paramPairSet;
 
 	public RVMParameterPairSet() {
 		this.paramPairSet = new ArrayList<RVMonitorParameterPair>();

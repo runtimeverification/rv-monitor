@@ -17,22 +17,22 @@ import java.util.HashSet;
 import java.util.List;
 
 public class RVMonitorSpecExt extends ExtNode {
-	int modifiers;
-	boolean isPublic = false;
-	String name;
-	RVMParameters parameters;
-	String inMethod;
-  PackageDeclaration packageDeclaration;
-	List<BodyDeclaration> declarations;
-	List<EventDefinitionExt> events = null;
-	List<PropertyAndHandlersExt> properties = null;
-	List<String> eventNames = null;
-	List<ExtendedSpec> extendedSpecs = null;
+	private final int modifiers;
+	private final boolean isPublic;
+	private final String name;
+	private final RVMParameters parameters;
+	private final String inMethod;
+	private final PackageDeclaration packageDeclaration;
+	private final List<BodyDeclaration> declarations;
+	private final List<EventDefinitionExt> events;
+	private final List<PropertyAndHandlersExt> properties;
+	private final List<String> eventNames;
+	private final List<ExtendedSpec> extendedSpecs;
 
-	public RVMonitorSpecExt(PackageDeclaration packagedeclaration, int line, int column, boolean isPublic, int modifiers, String name, List<RVMParameter> parameters, String inMethod, List<ExtendedSpec> extendedSpecs,
+	public RVMonitorSpecExt(PackageDeclaration packageDeclaration, int line, int column, boolean isPublic, int modifiers, String name, List<RVMParameter> parameters, String inMethod, List<ExtendedSpec> extendedSpecs,
 							List<BodyDeclaration> declarations, List<EventDefinitionExt> events, List<PropertyAndHandlersExt> properties) throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
 		super(line, column);
-    this.packageDeclaration = packageDeclaration;
+		this.packageDeclaration = packageDeclaration;
 		this.modifiers = modifiers;
 		this.name = name;
 		this.parameters = new RVMParameters(parameters);

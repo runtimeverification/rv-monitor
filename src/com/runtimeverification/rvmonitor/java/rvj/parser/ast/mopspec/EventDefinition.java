@@ -24,7 +24,6 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.MethodPatte
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.MethodPointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.NotPointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.NotTypePattern;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.PointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.StartThreadPointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.TargetPointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.ThisPointCut;
@@ -111,24 +110,22 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.VoidType;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.WildcardType;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.*;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 public class EventDefinition extends Node implements Comparable<EventDefinition> {
 
-	String id;
+	private final String id;
 
-	String purePointCutStr;
+	private String purePointCutStr;
 
-	RVMParameters parameters;
+	private final RVMParameters parameters;
 
-	RVMParameters rvmParameters;
+	final RVMParameters rvmParameters;
 
-	BlockStmt block;
-	RVMParameters usedParameter = null;
+	private final BlockStmt block;
+	private RVMParameters usedParameter = null;
 
 
 	// will be modified by RVMonitorSpec when creation events are not specified
@@ -136,16 +133,15 @@ public class EventDefinition extends Node implements Comparable<EventDefinition>
 	
 	boolean blockingEvent = false;
 
-	String condition;
-	String threadVar;
-	String threadNameVar;
-	ArrayList<String> threadBlockedVars;
-	TypePattern endObjectType;
-	String endObjectId;
-	boolean endProgram = false;
-	boolean endThread = false;
-	boolean startThread = false;
-	boolean endObject = false;
+	private String condition;
+	private String threadVar;
+	private ArrayList<String> threadBlockedVars;
+	private TypePattern endObjectType;
+	private String endObjectId;
+	private boolean endProgram = false;
+	private boolean endThread = false;
+	private boolean startThread = false;
+	private boolean endObject = false;
 	String countCond;
 
 	// things that should be defined afterward
