@@ -1,7 +1,7 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Collections;
 
 //abstract class for the internal representation of our 
 //ERE formulas
@@ -9,19 +9,8 @@ import java.util.HashMap;
  * Abstract class representing an element of an ERE formula.
  */
 public abstract class ERE implements Comparable{
-    protected ArrayList<ERE> children;  
+    protected List<ERE> children;  
     protected int hash = 0;
-    
-    protected static HashMap<String, Symbol> stringToRef;
-    protected static HashMap<Symbol, String> refToString;
-    protected static Epsilon epsilon;
-    protected static Empty empty;
-    static {
-        stringToRef = new HashMap<String, Symbol>();
-        refToString = new HashMap<Symbol, String>();
-        epsilon = new Epsilon();
-        empty = new Empty();
-    }
     
     /**
      * Retrieve the instance of the EREType enum corresponding to this class.
@@ -33,8 +22,8 @@ public abstract class ERE implements Comparable{
      * Retrieve a list of the children of this element.
      * @return The children of the element.
      */
-    public ArrayList<ERE> getChildren() {
-        return children;
+    public List<ERE> getChildren() {
+        return Collections.unmodifiableList(children);
     }
     
     /**
@@ -65,7 +54,7 @@ public abstract class ERE implements Comparable{
         }
         //If, instead, the types are equal the comparison
         //must be based on the children, from left to right
-        ArrayList<ERE> lChildren = L.getChildren();
+        List<ERE> lChildren = L.getChildren();
         for(int i = 0; i < children.size(); ++i) {
             int res = children.get(i).compareTo(lChildren.get(i));
             if(res != 0) {
@@ -93,7 +82,7 @@ public abstract class ERE implements Comparable{
         if(!(o instanceof ERE)) return false;
         ERE ere = (ERE) o;
         if(ere.getEREType() != getEREType()) return false; 
-        ArrayList<ERE> lChildren = ere.getChildren();
+        List<ERE> lChildren = ere.getChildren();
         for(int i = 0; i < children.size(); ++i) {
             if(!children.get(i).equals(lChildren.get(i))) {
                 return false;

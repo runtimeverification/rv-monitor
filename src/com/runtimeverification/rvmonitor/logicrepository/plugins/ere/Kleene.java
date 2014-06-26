@@ -25,22 +25,27 @@ public class Kleene extends ERE {
         children.add(child);
     }
     
+    @Override
     public EREType getEREType() { 
         return EREType.STAR;
     }
     
+    @Override
     public String toString() {
         return children.get(0) + "*";
     }
     
+    @Override
     public ERE copy() {
         return new Kleene(children.get(0).copy());
     }
     
+    @Override
     public boolean containsEpsilon() {
         return true;
     }
     
+    @Override
     public ERE derive(Symbol s) {
         return Concat.get(children.get(0).derive(s), copy());
     }

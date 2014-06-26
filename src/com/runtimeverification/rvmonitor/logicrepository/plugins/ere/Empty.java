@@ -5,6 +5,15 @@ package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
  */
 public class Empty extends ERE {
     
+    private static Empty empty = new Empty();
+    
+    /**
+     * Private constructor, as this class is a singleton.
+     */
+    private Empty() {
+        
+    }
+    
     /**
      * Acquire an instance of the Empty ERE.
      * @return an instance of the Empty ERE.
@@ -13,14 +22,17 @@ public class Empty extends ERE {
         return empty;
     }
     
+    @Override
     public EREType getEREType() { 
         return EREType.EMP;
     }
     
+    @Override
     public boolean equals(Object o) {
         return this == o;
     }
     
+    @Override
     public int compareTo(Object o) {
         if(!(o instanceof ERE)) {
             return -1;
@@ -29,18 +41,22 @@ public class Empty extends ERE {
         return EREType.EMP.compareTo(E.getEREType());
     }
     
+    @Override
     public ERE copy() {
         return this;
     }
     
+    @Override
     public String toString() {
         return "empty";
     }
     
+    @Override
     public boolean containsEpsilon() {
         return false;
     }
     
+    @Override
     public ERE derive(Symbol s) {
         return empty;
     }

@@ -26,22 +26,27 @@ public class Negation extends ERE {
         children.add(child);
     }
     
+    @Override
     public EREType getEREType() { 
         return EREType.NEG;
     }
     
+    @Override
     public String toString() {
         return "~(" + children.get(0) + ")";
     }
     
+    @Override
     public ERE copy() {
         return new Negation(children.get(0).copy());
     }
     
+    @Override
     public boolean containsEpsilon() {
         return !(children.get(0).containsEpsilon());
     }
     
+    @Override
     public ERE derive(Symbol s) {
         return Negation.get(children.get(0).derive(s));
     }

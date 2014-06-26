@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.ere;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 
 /**
@@ -12,7 +13,7 @@ public class Or extends ERE {
      * @param children Any of the elements that can be matched.
      * @return An ERE matching any of the children elements.
      */
-    static public ERE get(ArrayList<ERE> children) {
+    static public ERE get(List<ERE> children) {
         Or or = new Or(children);
         ERE ret = or.simplify();
         return ret;
@@ -22,7 +23,7 @@ public class Or extends ERE {
      * Construct an ERE that matches any of the children.
      * @param children Any child ERE that can be matched.
      */
-    private Or(ArrayList<ERE> children) {
+    private Or(List<ERE> children) {
         assert children != null && children.size() >= 2 
         : "Or requires at least two children!";
         this.children = children;
@@ -34,11 +35,11 @@ public class Or extends ERE {
     public ERE simplify() {
         //Flatten any child Or elements into this one.
         ArrayList<ERE> flattened = new ArrayList<ERE>(children.size() >> 1);
-        ArrayList<ERE> previous = children;
+        ArrayList<ERE> previous = new ArrayList<ERE>(children);
         boolean changed = true;
         while(changed) {
             changed = false; 
-            flattened = new ArrayList<ERE>(children.size() >> 1);
+            flattened = new ArrayList<ERE>(children.size());
             for(ERE child : previous) {
                 if(child.getEREType() == EREType.OR) {
                     flattened.addAll(child.getChildren());
@@ -54,7 +55,7 @@ public class Or extends ERE {
         Collections.sort(children);
         // Remove elements that do not match anything.
         for(int i = 0; i < children.size(); ++i) {
-            if(children.get(i) == empty) {
+            if(children.get(i) == Empty.get()) {
                 children.remove(i);
             }
         }
@@ -67,7 +68,7 @@ public class Or extends ERE {
         }
         // Simplify degenerate Or instances to simpler ERE types.
         if(children.size() == 0) {
-            return empty;
+            return Empty.get();
         }
         else if(children.size() == 1) {
             return children.get(0);
@@ -75,10 +76,12 @@ public class Or extends ERE {
         return this;
     }
     
+    @Override
     public EREType getEREType() { 
         return EREType.OR;
     }
     
+    @Override
     public String toString() {
         String ret = "(" + children.get(0);
         for(int i = 1; i < children.size(); ++i) {
@@ -88,6 +91,7 @@ public class Or extends ERE {
         return ret;
     }
     
+    @Override
     public ERE copy() {
         ArrayList<ERE> retChildren = new ArrayList<ERE>(children.size());
         for(ERE child : children) {
@@ -96,6 +100,7 @@ public class Or extends ERE {
         return new Or(retChildren);
     }
     
+    @Override
     public boolean containsEpsilon() {
         for(ERE child : children) {
             if(child.containsEpsilon()) {
@@ -104,7 +109,7 @@ public class Or extends ERE {
         }
         return false;
     }
-    
+    @Override
     public ERE derive(Symbol s) {
         ArrayList<ERE> orChildren = new ArrayList<ERE>(children.size());
         for(ERE child : children) {
