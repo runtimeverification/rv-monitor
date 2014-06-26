@@ -232,7 +232,7 @@ public class LogicRepositoryConnector {
 			errorGobbler.join();
 			outputGobbler.join();
 
-			output = outputGobbler.text + errorGobbler.text;
+			output = outputGobbler.getText() + errorGobbler.getText();
 
 			ByteArrayOutputStream logicOutput = new ByteArrayOutputStream();
 			logicOutput.write(output.getBytes());

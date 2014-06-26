@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.jar.*;
 import java.util.*;
 
+import com.runtimeverification.rvmonitor.util.StreamGobbler;
+
 import com.runtimeverification.rvmonitor.logicrepository.*;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 
@@ -179,7 +181,7 @@ public class LogicPluginFactory {
 
 
 			//child.waitFor();
-			output = outputGobbler.text + errorGobbler.text;
+			output = outputGobbler.getText() + errorGobbler.getText();
 
 			ByteArrayOutputStream logicOutput = new ByteArrayOutputStream();
 			logicOutput.write(output.getBytes());
