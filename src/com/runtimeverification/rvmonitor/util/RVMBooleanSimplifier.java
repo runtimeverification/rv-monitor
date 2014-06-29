@@ -4,14 +4,14 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 class RVMonitorTruthTable {
-    int level;
+    private final int level;
     
-    RVMonitorTruthTable trueTable;
-    RVMonitorTruthTable falseTable;
+    private final RVMonitorTruthTable trueTable;
+    private final RVMonitorTruthTable falseTable;
     
     // 0 = false, 1 = true, 2 = true and covered
-    int trueEntry = 0;
-    int falseEntry = 0;
+    private int trueEntry = 0;
+    private int falseEntry = 0;
     
     public RVMonitorTruthTable(int level) {
         this.level = level;
@@ -19,6 +19,9 @@ class RVMonitorTruthTable {
         if (level > 1) {
             trueTable = new RVMonitorTruthTable(level - 1);
             falseTable = new RVMonitorTruthTable(level - 1);
+        } else {
+            trueTable = null;
+            falseTable = null;
         }
     }
     
@@ -105,17 +108,19 @@ class RVMonitorTruthTable {
 }
 
 class RVMBitmap {
-    int truesize;
-    int totalsize;
-    boolean[] bitmap;
+    private final int truesize;
+    private final int totalsize;
+    private final boolean[] bitmap;
     
     public RVMBitmap(int truesize, int totalsize) {
         bitmap = new boolean[totalsize];
         
-        this.truesize = truesize;
         this.totalsize = totalsize;
-        if (this.truesize > this.totalsize)
+        if (this.truesize > this.totalsize) {
             this.truesize = this.totalsize;
+        } else {
+        	this.truesize = truesize;
+        }
         
         for (int i = 0; i < this.truesize; i++) {
             bitmap[i] = true;
