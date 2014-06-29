@@ -14,8 +14,6 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 public class IndexingCache {
 	final RVMParameters param;
 	final boolean perthread;
-	private final boolean isGeneral;
-	private final SuffixMonitor monitor;
 
 	public final boolean hasSet;
 	public final boolean hasNode;
@@ -31,8 +29,6 @@ public class IndexingCache {
 	public IndexingCache(RVMVariable name, RVMParameters param, RVMParameters fullParam, SuffixMonitor monitor, MonitorSet monitorSet, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
 		this.param = param;
 		this.perthread = perthread;
-		this.monitor = monitor;
-		this.isGeneral = isGeneral;
 
 		for (int i = 0; i < param.size(); i++) {
 			this.keys.put(param.get(i).getName(), new RVMVariable(name + "_cachekey_" + fullParam.getIdnum(param.get(i))));

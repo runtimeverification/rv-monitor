@@ -226,19 +226,6 @@ public class RVMonitorExtender {
 		return numProps;
 	}
 
-	private static RVMParameters getParametersFromStringList(List<String> list, RVMParameters parameters) throws RVMException {
-		RVMParameters ret = new RVMParameters();
-
-		for (String paramName : list) {
-			RVMParameter param = parameters.getParam(paramName);
-			if (param != null)
-				ret.add(param);
-			else
-				throw new RVMException("An event pointcut is using unknown parameter.");
-		}
-		return ret;
-	}
-
 	private static HashMap<String, RVMSpecFileExt> retrieveParentFiles(RVMonitorSpecExt spec, RVMSpecFileExt currentFile) throws RVMException {
 		HashMap<String, RVMSpecFileExt> ret = new HashMap<String, RVMSpecFileExt>();
 
@@ -360,32 +347,7 @@ public class RVMonitorExtender {
 
 		return ret;
 	}
-
-	private static Pair<EventDefinitionExt, SpecContext> getReferencedEvent(ReferenceSpec ref, String pos, RVMParameters params, SpecContext context)
-			throws RVMException {
-		// search in the same spec
-
-		if (!context.spec.hasExtend())
-			return null;
-
-		// search in the parent specs
-		for (ExtendedSpec parentSpecName : context.spec.getExtendedSpec()) {
-			Pair<EventDefinitionExt, SpecContext> ret;
-
-			Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), context.currentFile, context.depFiles);
-
-			RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
-			RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
-
-			ret = getReferencedEvent(ref, pos, params, new SpecContext(parentSpec, parentSpecFile, context.depFiles));
-
-			if (ret != null)
-				return ret;
-		}
-
-		return null;
-	}
-
+	
 	private static Pair<PropertyAndHandlersExt, SpecContext> getReferencedProp(ReferenceSpec ref, SpecContext context) throws RVMException {
 		// search in the same spec
 		if (ref.getSpecName() == null || ref.getSpecName().equals(context.spec.getName())) {

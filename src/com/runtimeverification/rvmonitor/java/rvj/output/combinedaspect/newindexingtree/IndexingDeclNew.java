@@ -33,10 +33,7 @@ public class IndexingDeclNew {
 	private final TreeMap<EventDefinition, ArrayList<RVMonitorParameterPair>> mapEventToCopyParams = new TreeMap<EventDefinition, ArrayList<RVMonitorParameterPair>>();
 
 	private final TreeMap<String, RefTree> refTrees;
-
-	private MonitorSet monitorSet;
-	private SuffixMonitor monitor;
-
+	
 	public final RVMParameters endObjectParameters = new RVMParameters();
 
 	public IndexingDeclNew(RVMonitorSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, TreeMap<String, RefTree> refTrees) throws RVMException {

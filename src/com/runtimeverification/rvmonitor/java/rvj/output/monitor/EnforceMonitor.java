@@ -98,7 +98,6 @@ public class EnforceMonitor extends BaseMonitor {
 		PropMonitor propMonitor = propMonitors.get(prop);
 		String methodName = propMonitor.eventMethods.get(event.getId())
 				.toString();
-		ArrayList<String> blockedThreads = event.getThreadBlockedVar();
 		ret += "try {\n";
 		ret += "do {\n";
 		RVMVariable clonedMonitor = new RVMVariable("clonedMonitor");

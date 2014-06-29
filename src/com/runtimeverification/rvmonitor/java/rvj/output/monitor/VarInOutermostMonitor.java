@@ -1,26 +1,16 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 
-import com.runtimeverification.rvmonitor.java.rvj.Main;
-import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 import java.util.List;
 
 public class VarInOutermostMonitor {
-	private final RVMParameters parameters;
-	private final List<EventDefinition> events;
-
-	private final boolean isGeneral;
 	
 //	RVMVariable tau = new RVMVariable("tau");
 //	private final RVMVariable disable;
 
 	public VarInOutermostMonitor(String name, RVMonitorSpec mopSpec, List<EventDefinition> events){
-		this.parameters = mopSpec.getParameters();
-		this.events = events;
-		this.isGeneral = mopSpec.isGeneral();
 		
 		// If weak-reference interning is disabled, we cannot use weak-reference's
 		// 'disable' flag because there can be multiple weak references for the same
@@ -29,16 +19,6 @@ public class VarInOutermostMonitor {
 	}
 	
 	public String toString(){
-		String ret = "";
-
-		if(isGeneral){
-			/*
-			ret += "long " + tau + " = -1;\n";
-			if (this.disable != null)
-				ret += "long " + this.disable + " = -1;\n";
-				*/
-		}
-		
-		return ret;
-	}		
+		return "";
+	}
 }

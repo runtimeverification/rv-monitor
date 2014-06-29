@@ -1,6 +1,5 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 

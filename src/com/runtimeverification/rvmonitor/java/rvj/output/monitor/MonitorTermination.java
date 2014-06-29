@@ -64,7 +64,6 @@ public class MonitorTermination {
 			lastEventVar = "RVM_lastevent";
 	
 		String synch = features.isSelfSynchronizationNeeded() ? " synchronized " : " ";
-		int step = 0;
 		String ret = "";
 
 		{

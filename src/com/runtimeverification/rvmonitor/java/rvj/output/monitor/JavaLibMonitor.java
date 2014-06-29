@@ -42,7 +42,6 @@ public class JavaLibMonitor extends BaseMonitor {
 		RVMJavaCode eventMonitoringCode = new RVMJavaCode(prop, prop.getEventMonitoringCode(event.getId()), monitorName);
 		RVMJavaCode monitoringBody = new RVMJavaCode(prop, prop.getLogicProperty("monitoring body"), monitorName);
 		HashMap<String, RVMJavaCode> categoryConditions = new HashMap<String, RVMJavaCode>();
-		RVMJavaCode eventAction = null;
 
 		for (String handlerName : prop.getHandlers().keySet()) {
 			String conditionStr = prop.getLogicProperty(handlerName + " condition");
@@ -64,7 +63,6 @@ public class JavaLibMonitor extends BaseMonitor {
 			eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 			eventActionStr = eventActionStr.replaceAll("__SKIP", skipEvent + " = true");
 
-			eventAction = new RVMJavaCode(eventActionStr);
 		}
 
 		// The parameter is omitted so as to be able to implement a more

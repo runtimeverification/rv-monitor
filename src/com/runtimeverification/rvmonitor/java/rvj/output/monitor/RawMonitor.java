@@ -9,7 +9,6 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefini
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,16 +16,12 @@ import java.util.TreeMap;
 
 public class RawMonitor extends Monitor{
 
-	private final RVMVariable loc = new RVMVariable("RVM_loc");
 	private final RVMVariable activity = new RVMVariable("RVM_activity");
 	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 	private final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
 	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 	
-	private final RVMonitorSpec mopSpec;
 	private final List<EventDefinition> events;
-	
-	private final boolean isGeneral;
 	
 	private final UserJavaCode monitorDeclaration;
 
@@ -34,9 +29,6 @@ public class RawMonitor extends Monitor{
 		super(name, mopSpec, coenableSet, isOutermost);
 		
 		this.isDefined = true;
-
-		this.mopSpec = mopSpec;
-		this.isGeneral = mopSpec.isGeneral();
 
 		this.monitorName = new RVMVariable(mopSpec.getName() + "RawMonitor");
 

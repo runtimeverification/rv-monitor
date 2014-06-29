@@ -119,6 +119,7 @@ public class LogicRepositoryData {
 		return transInputStreamToXML(parserInput);
 	}
 
+	@SuppressWarnings("unchecked")
 	public LogicRepositoryType transInputStreamToXML(InputStream inputStream) throws RVMException {
 		LogicRepositoryType xmlData;
 		InputStream parserInput = inputStream;
@@ -126,7 +127,7 @@ public class LogicRepositoryData {
 		JAXBContext logicRequest;
 		try {
 			logicRequest = JAXBContext.newInstance("com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax");
-			Unmarshaller unmarshaller = logicRequest.createUnmarshaller();			
+			Unmarshaller unmarshaller = logicRequest.createUnmarshaller();
 			xmlData = ((JAXBElement<LogicRepositoryType>) unmarshaller.unmarshal(parserInput)).getValue();
 		} catch (Exception e) {
 			throw new RVMException(e.getMessage());

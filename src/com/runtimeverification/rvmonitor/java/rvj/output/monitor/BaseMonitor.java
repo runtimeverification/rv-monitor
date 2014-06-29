@@ -90,7 +90,6 @@ class PropMonitor {
 
 public class BaseMonitor extends Monitor {
 	// fields
-	private final RVMVariable loc = new RVMVariable("RVM_loc");
 	final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 	final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
 	public static RVMVariable skipEvent = new RVMVariable("skipEvent");
@@ -105,9 +104,6 @@ public class BaseMonitor extends Monitor {
 			throw new IllegalStateException();
 		return this.pairValueField != null;
 	}
-
-	// methods
-	private final RVMVariable reset = new RVMVariable("reset");
 
 	// info about spec
 	List<PropertyAndHandlers> props;
@@ -280,7 +276,6 @@ public class BaseMonitor extends Monitor {
 		PropMonitor propMonitor = propMonitors.get(prop);
 		
 		int idnum = event.getIdNum();
-		RVMJavaCode condition = new RVMJavaCode(event.getCondition(), monitorName);
 		RVMJavaCode eventMonitoringCode = new RVMJavaCode(prop, prop.getEventMonitoringCode(event.getId()), monitorName);
 		RVMJavaCode aftereventMonitoringCode = new RVMJavaCode(prop, prop.getAfterEventMonitoringCode(event.getId()), monitorName);
 		RVMJavaCode monitoringBody = new RVMJavaCode(prop, prop.getLogicProperty("monitoring body"), monitorName);

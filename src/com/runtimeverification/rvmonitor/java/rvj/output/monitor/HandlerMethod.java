@@ -24,7 +24,6 @@ public class HandlerMethod {
 	private final HashMap<RVMParameter, RVMVariable> savedParams;
 
 	// local variables for now
-	private final RVMVariable loc = new RVMVariable("RVM_loc");
 	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 
 	private final boolean has__SKIP;
