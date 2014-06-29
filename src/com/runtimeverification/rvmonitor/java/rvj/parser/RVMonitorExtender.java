@@ -99,8 +99,8 @@ public class RVMonitorExtender {
 			for (ExtendedSpec parentSpecName : context.spec.getExtendedSpec()) {
 				Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), context.currentFile, context.depFiles);
 
-				RVMonitorSpecExt parentSpec = parentSpecPair.left;
-				RVMSpecFileExt parentSpecFile = parentSpecPair.right;
+				RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
+				RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
 
 				List<EventDefinition> eventsFromParents = collectAndTranslateEvents(new SpecContext(parentSpec, parentSpecFile, context.depFiles));
 
@@ -153,8 +153,8 @@ public class RVMonitorExtender {
 			for (ExtendedSpec parentSpecName : context.spec.getExtendedSpec()) {
 				Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), context.currentFile, context.depFiles);
 
-				RVMonitorSpecExt parentSpec = parentSpecPair.left;
-				RVMSpecFileExt parentSpecFile = parentSpecPair.right;
+				RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
+				RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
 
 				HashMap<PropertyExt, HashMap<String, HandlerExt>> propsFromParents = collectProps(new SpecContext(parentSpec, parentSpecFile,
 						context.depFiles));
@@ -194,7 +194,7 @@ public class RVMonitorExtender {
 				if (propExtPair == null)
 					throw new RVMException("cannot find the associated property for a handler.");
 
-				PropertyAndHandlersExt pnh2 = propExtPair.left;
+				PropertyAndHandlersExt pnh2 = propExtPair.getLeft();
 
 				HashMap<String, HandlerExt> handlers = ret.get(pnh2.getProperty());
 				handlers.put(handler.getState(), handler);
@@ -314,8 +314,8 @@ public class RVMonitorExtender {
 		for (ExtendedSpec parentSpecName : spec.getExtendedSpec()) {
 			Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), currentFile, depFiles);
 
-			RVMonitorSpecExt parentSpec = parentSpecPair.left;
-			RVMSpecFileExt parentSpecFile = parentSpecPair.right;
+			RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
+			RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
 
 			List<BodyDeclaration> declOfParents = collectDeclarations(parentSpec, parentSpecFile, depFiles);
 
@@ -337,8 +337,8 @@ public class RVMonitorExtender {
 		for (ExtendedSpec parentSpecName : spec.getExtendedSpec()) {
 			Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), currentFile, depFiles);
 
-			RVMonitorSpecExt parentSpec = parentSpecPair.left;
-			RVMSpecFileExt parentSpecFile = parentSpecPair.right;
+			RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
+			RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
 
 			List<EventDefinitionExt> nonImpAbsEventsFromParents = collectNonImpAbstractEvents(parentSpec, parentSpecFile, depFiles);
 
@@ -374,8 +374,8 @@ public class RVMonitorExtender {
 
 			Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), context.currentFile, context.depFiles);
 
-			RVMonitorSpecExt parentSpec = parentSpecPair.left;
-			RVMSpecFileExt parentSpecFile = parentSpecPair.right;
+			RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
+			RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
 
 			ret = getReferencedEvent(ref, pos, params, new SpecContext(parentSpec, parentSpecFile, context.depFiles));
 
@@ -418,8 +418,8 @@ public class RVMonitorExtender {
 
 			Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), context.currentFile, context.depFiles);
 
-			RVMonitorSpecExt parentSpec = parentSpecPair.left;
-			RVMSpecFileExt parentSpecFile = parentSpecPair.right;
+			RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
+			RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
 
 			ret = getReferencedProp(ref, new SpecContext(parentSpec, parentSpecFile, context.depFiles));
 
