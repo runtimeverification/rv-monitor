@@ -21,7 +21,6 @@ import com.runtimeverification.rvmonitor.c.rvc.parser.RVCParser;
 
 public class CCFG extends LogicPluginShell {
   private RVCParser rvcParser;
-  private boolean parametric;
 
   public CCFG() {
     super();
@@ -35,7 +34,6 @@ public class CCFG extends LogicPluginShell {
     monitorType = "CFG";
     outputLanguage = "C";
     this.rvcParser = rvcParser;
-    this.parametric = parametric;
   }
 
   ArrayList<String> allEvents;
@@ -91,12 +89,8 @@ public class CCFG extends LogicPluginShell {
 		Map<String, Integer> tsmap = new HashMap<String, Integer>();
 		int tnum = 1;
 
-		String monitoredEventsStr = "";
-
 		for (String event : monitoredEvents) {
 			tsmap.put(event, new Integer(tnum));
-
-			monitoredEventsStr += event + ":{\n  __RV_event = " + tnum + ";\n}\n\n";
 
 			tnum++;
 		}

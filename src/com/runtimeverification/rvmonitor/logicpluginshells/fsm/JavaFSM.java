@@ -48,7 +48,7 @@ public class JavaFSM extends LogicPluginShell {
 			throw new RVMException("FSM to Java Plugin cannot parse FSM formula");
 
 		HasDefaultVisitor hasDefaultVisitor = new HasDefaultVisitor();
-		boolean[] hasDefault = fsmInput.accept(hasDefaultVisitor, null);
+		fsmInput.accept(hasDefaultVisitor, null);
 
 		List<String> monitoredEvents;
 		monitoredEvents = allEvents;

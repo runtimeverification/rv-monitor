@@ -3,7 +3,6 @@ package com.runtimeverification.rvmonitor.logicpluginshells.fsm;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import com.runtimeverification.rvmonitor.logicpluginshells.fsm.visitor.HasDefaultVisitor;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.logicpluginshells.fsm.parser.*;
@@ -87,7 +86,7 @@ public class CFSM extends LogicPluginShell {
     Map<String, Integer> EventNum = new HashMap<String, Integer>();
     int countEvent = 1;
 
-    Map<String, String> constEventNames = new HashMap(allEvents.size());   
+    Map<String, String> constEventNames = new HashMap<String, String>(allEvents.size());   
  
     for(String event: monitoredEvents){
       EventNum.put(event, new Integer(countEvent));
@@ -111,9 +110,8 @@ public class CFSM extends LogicPluginShell {
     result.put("reset", "void\n" + rvcPrefix + specName + "reset(void)\n{\n  __RVC_state = 0;\n }\n");
     
     
-   
+
     for(FSMItem i : fsmInput.getItems()){
-      int num = stateNum.get(i.getState());
       Set<String> unseenEvents = new HashSet<String>(monitoredEvents);
       int defaultState = -1;
       for(FSMTransition t : i.getTransitions()){
@@ -147,7 +145,7 @@ public class CFSM extends LogicPluginShell {
     addStateDeclaration(result);
 
     //figure out which categories we actually care about
-    HashSet<String> cats = new HashSet();
+    HashSet<String> cats = new HashSet<String>();
     for(String category : logicOutput.getCategories().split("\\s+")){
       cats.add(category); 
     }
@@ -258,7 +256,7 @@ public class CFSM extends LogicPluginShell {
     Map<String, Integer> EventNum = new HashMap<String, Integer>();
     int countEvent = 1;
 
-    Map<String, String> constEventNames = new HashMap(allEvents.size());   
+    Map<String, String> constEventNames = new HashMap<String, String>(allEvents.size());   
  
     for(String event: monitoredEvents){
       EventNum.put(event, new Integer(countEvent));
@@ -282,9 +280,8 @@ public class CFSM extends LogicPluginShell {
     result.put("reset", "void\n" + rvcPrefix + specName + "reset(void *key)\n{\n__RV_monitor * temp = __RV_find(list,key);\nif(temp != NULL) {\ntemp->__RVC_state = 0;}\n }\n");
     
     
-   
+    
     for(FSMItem i : fsmInput.getItems()){
-      int num = stateNum.get(i.getState());
       Set<String> unseenEvents = new HashSet<String>(monitoredEvents);
       int defaultState = -1;
       for(FSMTransition t : i.getTransitions()){
@@ -317,7 +314,7 @@ public class CFSM extends LogicPluginShell {
 
 
     //figure out which categories we actually care about
-    HashSet<String> cats = new HashSet();
+    HashSet<String> cats = new HashSet<String>();
     for(String category : logicOutput.getCategories().split("\\s+")){
       cats.add(category); 
     }
