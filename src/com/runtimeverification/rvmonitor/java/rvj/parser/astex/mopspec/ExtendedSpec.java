@@ -21,7 +21,9 @@
  */
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
@@ -36,13 +38,13 @@ public final class ExtendedSpec extends ExtNode {
 
     private final boolean isParametric;
 
-    List<String> parameters = null;
+    private final List<String> parameters;
 
     public ExtendedSpec(int line, int column, String specName, boolean isParametric, List<String> parameters) {
         super(line, column);
         this.specName = specName;
         this.isParametric = isParametric;
-        this.parameters = parameters;
+        this.parameters = Collections.unmodifiableList(new ArrayList<String>(parameters));
     }
     
     public String getName() {

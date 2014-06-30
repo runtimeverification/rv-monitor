@@ -9,11 +9,11 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisit
  */
 public class ReferenceSpec extends ExtNode {
 
-	private String specName;
+	private final String specName;
 
-	private String referenceElement;
+	private final String referenceElement;
 
-	private String elementType;
+	private final String elementType;
 
 	public ReferenceSpec(int line, int column, String specName, String referenceElement, String elementType) {
 		super(line, column);

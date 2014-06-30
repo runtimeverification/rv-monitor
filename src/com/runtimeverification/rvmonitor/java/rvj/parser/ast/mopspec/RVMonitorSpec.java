@@ -18,18 +18,18 @@ import java.util.List;
 // This should really be refactored.
 // -P
 public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
-	int modifiers;
-	String name;
-	PackageDeclaration packageDeclaration;
-	RVMParameters parameters;
-	String inMethod;
-	List<BodyDeclaration> declarations;
-	List<EventDefinition> events = null;
-	List<PropertyAndHandlers> properties = null;
-	List<String> eventNames = null;
+	private final int modifiers;
+	private final String name;
+	private final PackageDeclaration packageDeclaration;
+	private final RVMParameters parameters;
+	private final String inMethod;
+	private final List<BodyDeclaration> declarations;
+	private final List<EventDefinition> events;
+	private final List<PropertyAndHandlers> properties;
+	private final List<String> eventNames;
 
-	RVMParameters commonParamInEvents;
-	RVMParameters varsToSave;
+	private final RVMParameters commonParamInEvents;
+	private final RVMParameters varsToSave;
 
 	public RVMonitorSpec(PackageDeclaration packageDeclaration, int line, int column, int modifiers, String name, List<RVMParameter> parameters, String inMethod, List<BodyDeclaration> declarations,
 						 List<EventDefinition> events, List<PropertyAndHandlers> properties) throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
@@ -43,7 +43,7 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 		this.events = events;
 		this.properties = properties;
 		this.eventNames = new ArrayList<String>();
-		this.commonParamInEvents = new RVMParameters(this.parameters);
+		RVMParameters commonParamInEvents = new RVMParameters(this.parameters);
 
 		for (EventDefinition event : this.events) {
 			if (!this.eventNames.contains(event.getId()))
@@ -64,8 +64,9 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 		for (EventDefinition event : this.events) {
 			RVMParameters param = event.getRVMParametersOnSpec();
 
-			this.commonParamInEvents = RVMParameters.intersectionSet(param, this.commonParamInEvents);
+			commonParamInEvents = RVMParameters.intersectionSet(param, commonParamInEvents);
 		}
+		this.commonParamInEvents = commonParamInEvents;
 
 		this.varsToSave = new RVMParameters();
 

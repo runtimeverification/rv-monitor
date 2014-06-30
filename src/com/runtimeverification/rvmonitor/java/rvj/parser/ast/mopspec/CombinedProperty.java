@@ -7,7 +7,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor
 
 public class CombinedProperty extends Property {
 	
-	List<Property> properties;
+    private final List<Property> properties;
 
 	public CombinedProperty(int line, int column, String type, List<Property> properties) {
 		super(line, column, type);

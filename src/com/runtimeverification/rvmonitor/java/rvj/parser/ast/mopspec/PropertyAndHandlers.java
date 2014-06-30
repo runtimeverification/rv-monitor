@@ -14,16 +14,16 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor
 
 public class PropertyAndHandlers extends Node {
 	
-	Property property;
-	HashMap<String, BlockStmt> handlers;
-	HashMap<String, RVMParameters> usedParameters = new HashMap<String, RVMParameters>();
+	private final Property property;
+	private final HashMap<String, BlockStmt> handlers;
+	private final HashMap<String, RVMParameters> usedParameters = new HashMap<String, RVMParameters>();
 
 	//things that should be defined afterward
 	int propertyId; //will be defined in RVMonitorSpec
-	Properties logicResult; //will be defined by RVMProcessor
+	private Properties logicResult; //will be defined by RVMProcessor
 	
-	HashMap<String, String> eventMonitoringCodes = new HashMap<String, String>();
-	HashMap<String, String> aftereventMonitoringCodes = new HashMap<String, String>();
+	private final HashMap<String, String> eventMonitoringCodes = new HashMap<String, String>();
+	private final HashMap<String, String> aftereventMonitoringCodes = new HashMap<String, String>();
 	
 	boolean versionedStack = false;
 

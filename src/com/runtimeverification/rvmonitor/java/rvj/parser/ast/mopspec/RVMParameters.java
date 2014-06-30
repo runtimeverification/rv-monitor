@@ -6,7 +6,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.BaseTypePat
 
 public class RVMParameters implements Iterable<RVMParameter>, Comparable<RVMParameters> {
 
-	ArrayList<RVMParameter> parameters;
+	private final ArrayList<RVMParameter> parameters;
 
 	public RVMParameters() {
 		this.parameters = new ArrayList<RVMParameter>();

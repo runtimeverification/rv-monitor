@@ -1,8 +1,8 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
 
 public class RVMonitorParameterPair implements Comparable<RVMonitorParameterPair> {
-	RVMParameters param1;
-	RVMParameters param2;
+	private final RVMParameters param1;
+	private final RVMParameters param2;
 	
 	public RVMonitorParameterPair(RVMParameters param1, RVMParameters param2){
 		this.param1 = param1;

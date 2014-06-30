@@ -6,7 +6,7 @@ import java.util.*;
 
 public class RVMParameterSet implements Iterable<RVMParameters>{
 
-	public ArrayList<RVMParameters> paramSet;
+	private final ArrayList<RVMParameters> paramSet;
 
 	public RVMParameterSet() {
 		this.paramSet = new ArrayList<RVMParameters>();

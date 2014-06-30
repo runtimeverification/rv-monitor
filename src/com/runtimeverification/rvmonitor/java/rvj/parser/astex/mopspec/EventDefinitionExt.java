@@ -16,29 +16,27 @@ import java.util.List;
 
 public class EventDefinitionExt extends ExtNode {
 
-	String id;
+	private final String id;
 
-	String purePointCutStr;
+	private String purePointCutStr;
 
-	RVMParameters parameters;
+	private final RVMParameters parameters;
 
-	RVMParameters rvmParameters;
+	final RVMParameters rvmParameters;
 
-	BlockStmt block;
+	private final BlockStmt block;
 
 	// will be modified by RVMonitorSpec when creation events are not specified
 	boolean startEvent = false;
-	
 	boolean blockingEvent = false;
 
-	String condition;
-	String threadVar;
-	TypePattern endObjectType;
-	String endObjectId;
-	boolean endProgram = false;
-	boolean endThread = false;
-	boolean startThread = false;
-	boolean endObject = false;
+	private String condition;
+	private String threadVar;
+	private TypePattern endObjectType;
+	private String endObjectId;
+	private boolean endProgram = false;
+	private boolean endThread = false;
+	private boolean endObject = false;
 
 	// things that should be defined afterward
 	int idnum; // will be defined in RVMonitorSpec
@@ -46,7 +44,7 @@ public class EventDefinitionExt extends ExtNode {
 	String uniqueId = null; // will be defined in RVMonitorSpec
 	RVMParameters rvmParametersOnSpec; // will be defined in RVMonitorSpec
 
-	RVMParameters parametersWithoutThreadVar = null;
+	private RVMParameters parametersWithoutThreadVar = null;
 	private Boolean cachedHas__SKIP = null;
 	private Boolean cachedHas__LOC = null;
 
