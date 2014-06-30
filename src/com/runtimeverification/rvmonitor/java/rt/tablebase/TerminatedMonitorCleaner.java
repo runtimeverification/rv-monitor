@@ -31,7 +31,8 @@ public class TerminatedMonitorCleaner {
 	}
 	
 	public static void start() {
-		runner.start();
+        if (!runner.isAlive())
+		    runner.start();
 	}
 	
 	public static Thread getThread() {
