@@ -220,7 +220,7 @@ public class CombinedAspect {
 		ret += "}\n";
 		ret += "\n";
 
-		ret += this.statManager.fieldDecl();
+		//ret += this.statManager.fieldDecl();
 
 		ret += this.lockManager.decl();
 
@@ -249,7 +249,7 @@ public class CombinedAspect {
 			ret += "\n";
 		}
 
-		ret += this.statManager.advice();
+		//ret += this.statManager.advice();
 
 		if(Main.dacapo2){
 			ret += "// after () : (execution(* avrora.Main.main(..)) || call(* dacapo.Benchmark.run(..)) || call(* org.dacapo.harness.Benchmark.run(..))) {\n";

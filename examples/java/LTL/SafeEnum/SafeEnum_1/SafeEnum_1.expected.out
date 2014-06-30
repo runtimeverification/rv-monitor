@@ -1,5 +1,25 @@
-improper enumeration usage at SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:32)
-improper enumeration usage at SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:32)
-improper enumeration usage at SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:32)
-improper enumeration usage at SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:32)
+improper enumeration usage at 
+[mop.SafeEnumMonitor.Prop_1_handler_violation(SafeEnumRuntimeMonitor.java:195)
+mop.SafeEnumMonitor_Set.event_next(SafeEnumRuntimeMonitor.java:77)
+mop.SafeEnumRuntimeMonitor.nextEvent(SafeEnumRuntimeMonitor.java:697)
+SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:32)]
+
+improper enumeration usage at 
+[mop.SafeEnumMonitor.Prop_1_handler_violation(SafeEnumRuntimeMonitor.java:195)
+mop.SafeEnumMonitor_Set.event_next(SafeEnumRuntimeMonitor.java:77)
+mop.SafeEnumRuntimeMonitor.nextEvent(SafeEnumRuntimeMonitor.java:697)
+SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:32)]
+
+improper enumeration usage at 
+[mop.SafeEnumMonitor.Prop_1_handler_violation(SafeEnumRuntimeMonitor.java:195)
+mop.SafeEnumMonitor_Set.event_next(SafeEnumRuntimeMonitor.java:77)
+mop.SafeEnumRuntimeMonitor.nextEvent(SafeEnumRuntimeMonitor.java:697)
+SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:32)]
+
+improper enumeration usage at 
+[mop.SafeEnumMonitor.Prop_1_handler_violation(SafeEnumRuntimeMonitor.java:195)
+mop.SafeEnumMonitor_Set.event_next(SafeEnumRuntimeMonitor.java:77)
+mop.SafeEnumRuntimeMonitor.nextEvent(SafeEnumRuntimeMonitor.java:697)
+SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:32)]
+
 sum: 26

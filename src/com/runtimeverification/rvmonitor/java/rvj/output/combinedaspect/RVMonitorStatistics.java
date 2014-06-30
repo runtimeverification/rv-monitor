@@ -101,7 +101,7 @@ public class RVMonitorStatistics {
 
 		RVMVariable eventVar = eventVars.get(eventName);
 
-		ret += eventVar + "++;\n";
+		ret += aspectName + "." + eventVar + "++;\n";
 
 		return ret;
 	}
