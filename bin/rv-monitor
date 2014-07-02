@@ -24,6 +24,6 @@ fi
 
 PLUGINS_CLASSPATH="$SRC_ROOT/lib/*":"$SRC_ROOT/lib/plugins/*"
 
-java -cp "$SRC_ROOT/lib/rvmonitor.jar":$PLUGINS_CLASSPATH:"$SRC_ROOT/lib/mysql-connector-java-3.0.9-stable-bin.jar" $MAINCLASS $@
+java -cp "$SRC_ROOT/lib/rvmonitorrt.jar:$SRC_ROOT/lib/rvmonitor.jar":$PLUGINS_CLASSPATH:"$SRC_ROOT/lib/mysql-connector-java-3.0.9-stable-bin.jar" $MAINCLASS $@
 
 
