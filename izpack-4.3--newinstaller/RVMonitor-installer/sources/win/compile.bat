@@ -1,2 +1,0 @@
-@echo off
-javac *.java
