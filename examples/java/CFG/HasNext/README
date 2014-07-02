@@ -1,37 +1,24 @@
-Linux:
-NOTE:  On Cygwin you must replace : with ; in classpaths
+The java and javac commands need rt.jar and the monitor directory on your CLASSPATH.
 
-To run HasNext_1 execute the following commands:
+    javac -cp [rt]:[monitor directory] InsrumentedProgram MonitorLibrary
+    java -cp [rt]:[monitor directory] TestWithMain
 
-../../../../bin/rv-monitor mop/HasNext.rvm
+This is why we have asked you to add rv-monitor/lib/rt.jar:. to your CLASSPATH.
+It makes calling javac and java from this directory (/HasNext) simpler.
 
-javac -cp ../../../../lib/rt.jar:. mop/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
+    javac InstrumentedProgram MonitorLibrary
+    java TestWithMain
 
-java -cp ../../../../lib/rt.jar:. HasNext_1.HasNext_1
+______________
 
-To run HasNext_2 execute the following commands:
+To run our examples from this directory,
 
-../../../../bin/rv-monitor mop/HasNext.rvm
+1)
+    rv-monitor rvm/HasNext.rvm
+    javac HasNext_1/HasNext_1.java rvm/HasNextRuntimeMonitor.java
+    java HasNext_1.HasNext_1
 
-javac -cp ../../../../lib/rt.jar:. mop/HasNextRuntimeMonitor.java HasNext_2/HasNext_2.java
+2)
+    javac HasNext_2/HasNext_2.java rvm/HasNextRuntimeMonitor.java
+    java HasNext_2.HasNext_2
 
-java -cp ../../../../lib/rt.jar:. HasNext_2.HasNext_2
-
-
-Windows:
-
-To run HasNext_1 execute the following commands;
-
-..\..\..\..\bin\rv-monitor mop\HasNext.rvm
-
-javac -cp ..\..\..\..\lib\rt.jar;. mop\HasNextRuntimeMonitor.java HasNext_1\HasNext_1.java
-
-java -cp ..\..\..\..\lib\rt.jar;. HasNext_1.HasNext_1
-
-To run HasNext_2 execute the following commands;
-
-..\..\..\..\bin\rv-monitor mop\HasNext.rvm
-
-javac -cp ..\..\..\..\lib\rt.jar;. mop\HasNextRuntimeMonitor.java HasNext_2\HasNext_2.java
-
-java -cp ..\..\..\..\lib\rt.jar;. HasNext_2.HasNext_2
