@@ -1,10 +1,10 @@
 The java and javac commands need rvmonitorrt.jar and the monitor directory on your CLASSPATH.
 
-    javac -cp [rvmonitorrt]:[monitor directory] InsrumentedProgram MonitorLibrary
-    java -cp [rvmonitorrt]:[monitor directory] TestWithMain
+    javac -cp [rvmonitorrt.jar]:[monitor directory] InsrumentedProgram MonitorLibrary
+    java -cp [rvmonitorrt.jar]:[monitor directory] TestWithMain
 
 This is why we have asked you to add rv-monitor/lib/rt.jar:. to your CLASSPATH.
-It makes calling javac and java from this directory (/HasNext) simpler.
+It makes calling javac and java from this directory simpler.
 
     javac InstrumentedProgram MonitorLibrary
     java TestWithMain
