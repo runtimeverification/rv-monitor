@@ -4,9 +4,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
 
 public class Util {
 
-    public static final String defaultLocation = "System.getProperty(\"line.separator\") + " +
-        "Arrays.toString(new Exception().getStackTrace()).replace(\", \", System.getProperty(\"line.separator\"))"
-        + " + System.getProperty(\"line.separator\")";
+    public static final String defaultLocation = "com.runtimeverification.rvmonitor.java.rt."
+        + "ViolationRecorder.getLineOfCode()";
 
   public static String packageAndNameToUrl(PackageDeclaration packageDeclaration, String name){
     return "http://fsl.cs.uiuc.edu/annotated-java/__properties/html/" +
