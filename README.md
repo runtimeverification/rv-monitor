@@ -434,10 +434,11 @@ HasNext_2 demonstrates RV-Monitor used to enforce safe programming practice.
 > before calling next(). RV-Monitor does not display any warnings in the
 > terminal.
 
-* If you navigate to the directory above the rvm folder in each example and compile & run the code there, 
+### Note:
+If you navigate to the directory above the rvm folder in each example and compile & run the code there, 
 you will be able to use the *same exact structure* as the commands in this example. That is,
-you will not have to manually tell javac and java the directory in which your rvm directory dwells! 
-The modification you have already made to your CLASSPATH environment variable will accomodate this. *
+you will not have to manually tell javac and java the location of rvmonitorrt.jar or the directory in which your rvm directory dwells! 
+The modification you have already made to your `CLASSPATH` environment variable will accomodate this. 
 
 Each directory in rv-monitor/examples/java demonstrates different logic types used to enforce 
 our monitoring.
