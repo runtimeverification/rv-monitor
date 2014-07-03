@@ -6,20 +6,20 @@ public class SafeSyncMap_1 {
 	public static void main(String[] args){
 	  Map<String,String> testMap = new HashMap<String,String>();
       testMap = Collections.synchronizedMap(testMap);
-		mop.SafeSyncMapRuntimeMonitor.syncEvent(testMap);
+		rvm.SafeSyncMapRuntimeMonitor.syncEvent(testMap);
 	  synchronized (testMap) {
         testMap.put("Foo", "Bar");
 		testMap.put("Bar", "Foo");
 		Set<String> keys = testMap.keySet();
-		  mop.SafeSyncMapRuntimeMonitor.createSetEvent(testMap, keys);
+		  rvm.SafeSyncMapRuntimeMonitor.createSetEvent(testMap, keys);
 		Iterator i = keys.iterator();
-		  mop.SafeSyncMapRuntimeMonitor.asyncCreateIterEvent(keys, i);
-		  mop.SafeSyncMapRuntimeMonitor.syncCreateIterEvent(keys, i);
-		  mop.SafeSyncMapRuntimeMonitor.accessIterEvent(i);
+		  rvm.SafeSyncMapRuntimeMonitor.asyncCreateIterEvent(keys, i);
+		  rvm.SafeSyncMapRuntimeMonitor.syncCreateIterEvent(keys, i);
+		  rvm.SafeSyncMapRuntimeMonitor.accessIterEvent(i);
         while(i.hasNext()){
-			mop.SafeSyncMapRuntimeMonitor.accessIterEvent(i);
+			rvm.SafeSyncMapRuntimeMonitor.accessIterEvent(i);
           System.out.println(testMap.get(i.next()));
-			mop.SafeSyncMapRuntimeMonitor.accessIterEvent(i);
+			rvm.SafeSyncMapRuntimeMonitor.accessIterEvent(i);
 		}
 	  }
 	}
