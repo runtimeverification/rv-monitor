@@ -87,9 +87,10 @@ public class ViolationRecorder {
     private static List<StackTraceElement> makeRelevantList(StackTraceElement[] elements) {
         final ArrayList<StackTraceElement> relevantList = new ArrayList<StackTraceElement>();
         for(int i = 0; i < elements.length; i++) {
+            final String fileName = elements[i].getFileName();
             final String className = elements[i].getClassName();
             if(className.contains("com.runtimeverification.rvmonitor.") ||
-                    className.contains("javamop.")) {
+                    className.contains("javamop.") || fileName.contains(".aj")) {
             } else {
                 relevantList.add(elements[i]);
             }

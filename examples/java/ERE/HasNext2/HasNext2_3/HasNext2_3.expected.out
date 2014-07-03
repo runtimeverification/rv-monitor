@@ -1,13 +1,3 @@
-@:
-[mop.HasNextMonitor.Prop_1_handler_match(HasNext2RuntimeMonitor.java:198)
-mop.HasNextSuffixMonitor.event_next(HasNext2RuntimeMonitor.java:117)
-mop.HasNext2RuntimeMonitor.nextEvent(HasNext2RuntimeMonitor.java:333)
-HasNext2_3.HasNext2_3.main(HasNext2_3.java:23)]
- ! hasNext not called before next
-@:
-[mop.HasNextMonitor.Prop_1_handler_match(HasNext2RuntimeMonitor.java:198)
-mop.HasNextSuffixMonitor.event_next(HasNext2RuntimeMonitor.java:117)
-mop.HasNext2RuntimeMonitor.nextEvent(HasNext2RuntimeMonitor.java:333)
-HasNext2_3.HasNext2_3.main(HasNext2_3.java:25)]
- ! hasNext not called before next
+@:HasNext2_3.HasNext2_3.main(HasNext2_3.java:23) ! hasNext not called before next
+@:HasNext2_3.HasNext2_3.main(HasNext2_3.java:25) ! hasNext not called before next
 sum: 6

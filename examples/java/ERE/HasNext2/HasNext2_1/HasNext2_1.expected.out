@@ -1,7 +1,2 @@
-@:
-[mop.HasNextMonitor.Prop_1_handler_match(HasNext2RuntimeMonitor.java:198)
-mop.HasNextSuffixMonitor.event_next(HasNext2RuntimeMonitor.java:117)
-mop.HasNext2RuntimeMonitor.nextEvent(HasNext2RuntimeMonitor.java:333)
-HasNext2_1.HasNext2_1.main(HasNext2_1.java:19)]
- ! hasNext not called before next
+@:HasNext2_1.HasNext2_1.main(HasNext2_1.java:19) ! hasNext not called before next
 sum: 3

@@ -1,13 +1,3 @@
-improper enumeration usage at 
-[mop.SafeEnumMonitor.Prop_1_handler_match(SafeEnumRuntimeMonitor.java:197)
-mop.SafeEnumMonitor_Set.event_next(SafeEnumRuntimeMonitor.java:77)
-mop.SafeEnumRuntimeMonitor.nextEvent(SafeEnumRuntimeMonitor.java:518)
-SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:31)]
-.
- Collection was modified at 
-[mop.SafeEnumMonitor.Prop_1_event_updatesource(SafeEnumRuntimeMonitor.java:174)
-mop.SafeEnumMonitor_Set.event_updatesource(SafeEnumRuntimeMonitor.java:55)
-mop.SafeEnumRuntimeMonitor.updatesourceEvent(SafeEnumRuntimeMonitor.java:460)
-SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:27)]
-.
+improper enumeration usage at SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:31).
+ Collection was modified at SafeEnum_1.SafeEnum_1.main(SafeEnum_1.java:27).
 sum: 26
