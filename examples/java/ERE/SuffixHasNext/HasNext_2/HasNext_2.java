@@ -16,8 +16,8 @@ public class HasNext_2 {
 		int sum = 0;
 
 		while(i.hasNext()){
-			mop.HasNextRuntimeMonitor.hasnextEvent(i);
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.hasnextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
 
