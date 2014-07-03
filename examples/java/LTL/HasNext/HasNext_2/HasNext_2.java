@@ -16,13 +16,13 @@ public class HasNext_2 {
 
 		boolean b;
 		while(b=i.hasNext()){
-			mop.HasNextRuntimeMonitor.hasnexttrueEvent(i,b);
-			mop.HasNextRuntimeMonitor.hasnextfalseEvent(i,b);
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.hasnexttrueEvent(i,b);
+			rvm.HasNextRuntimeMonitor.hasnextfalseEvent(i,b);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
-		mop.HasNextRuntimeMonitor.hasnexttrueEvent(i,b);
-		mop.HasNextRuntimeMonitor.hasnextfalseEvent(i,b);
+		rvm.HasNextRuntimeMonitor.hasnexttrueEvent(i,b);
+		rvm.HasNextRuntimeMonitor.hasnextfalseEvent(i,b);
 
 		System.out.println("sum: " + sum);
 	}
