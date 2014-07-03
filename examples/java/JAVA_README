@@ -1,6 +1,6 @@
 Before trying any examples, 
     please ensure you've added the rv-monitor/bin directory to your PATH 
-    and rv-monitor/lib/rt.jar:. to your CLASSPATH.
+    and rv-monitor/lib/rvmonitorrt.jar:. to your CLASSPATH.
 
 This ensures easy use of 1) rv-monitor to generate monitoring libraries, 2) javac to compile
 the libraries together with your instrumented program, and 3) java to run your code. 

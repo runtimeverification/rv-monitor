@@ -125,12 +125,12 @@ public class Test {
 We must compile SafeIterator.java, Test.java, and HasNextRuntimeMonitor.java and run
 Test.java.
 
-The javac and java commands need rv-monitor-rt.jar and the monitor directory on your CLASSPATH.
+The javac and java commands need rvmonitorrt.jar and the monitor directory on your CLASSPATH.
 
-    javac -cp [rv-monitor-rt.jar]:[monitor directory] InstrumentedProgram(s) MonitorLibrary
-    java -cp [rv-monitor-rt.jar]:[monitor directory] TestWithMain
+    javac -cp [rvmonitorrt.jar]:[monitor directory] InstrumentedProgram(s) MonitorLibrary
+    java -cp [rvmonitorrt.jar]:[monitor directory] TestWithMain
 
-This is why we ask you to add rv-monitor/lib/rv-monitor-rt.jar:. to your CLASSPATH.
+This is why we ask you to add rv-monitor/lib/rvmonitorrt.jar:. to your CLASSPATH.
 It makes calling javac and java from above the /rvm directory in all examples simpler.
 
     javac InstrumentedProgram(s) MonitorLibrary
@@ -163,7 +163,7 @@ rv-monitor/examples/CFG/HasNext,
     java HasNext_2.HasNext_2
 ______________
 
-**RV-Monitor event methods can be called form instrumentation, for instance,
+***RV-Monitor event methods can be called form instrumentation, for instance,
 one can call them using AspectJ.  It is possible to write an AspectJ file that
 calls a given event method every place that event method needs to occur.
 

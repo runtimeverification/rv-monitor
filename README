@@ -63,10 +63,10 @@ Runtime Library is provided in this package in the rv-monitor/lib directory.
 A typical value of this is:
 
 In Windows,
-  rv-monitor\lib\rv-monitor-rt.jar
+  rv-monitor\lib\rvmonitorrt.jar
 
 In Linux and Mac,
-  rv-monitor/lib/rv-monitor-rt.jar
+  rv-monitor/lib/rvmonitorrt.jar
 
 Add this to the left end of the "CLASSPATH" followed by ";." (in Windows) or ":."
 (in Linux and Mac).
