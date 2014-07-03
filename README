@@ -22,6 +22,8 @@ lightweight formal method.
 
 ==2. Usage==
 
+*** To call rv-monitor with ease, please add rv-monitor/bin to your PATH!
+
 =2.1 Linux and Mac (POSIX)
 
 The 'rv-monitor' script has the following usage:

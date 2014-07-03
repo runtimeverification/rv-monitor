@@ -1,0 +1,48 @@
+Before trying any examples, 
+    please ensure you've added the rv-monitor/bin directory to your PATH 
+    and rv-monitor/lib/rt.jar:. to your CLASSPATH.
+
+This ensures easy use of 1) rv-monitor to generate monitoring libraries, 2) javac to compile
+the libraries together with your instrumented program, and 3) java to run your code. 
+
+_________________
+
+Using RV-Monitor is easy. 
+    1) rv-monitor [file with your formalism].rvm
+    2) javac [generated monitor].java [file you've instrumented to monitor].java
+    3) java [your instrumented, compiled java program]
+_________________
+
+To get started, here's an example of monitoring via context free grammar.
+    
+    In CFG/HasNext, we call
+
+        rv-monitor rvm/HasNext.rvm
+        javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
+        java HasNext_1.HasNext_1
+
+            HasNext_1 demonstrates RV-Monitor used to detect unsafe programming practice.
+
+                In HasNext_1.java, a programmer calls next() on an Iterator without first
+                calling hasNext() to check if there is another item available. RV-Monitor
+                warns the user every time this is done.
+    
+
+    Now that we've already compiled the monitor, we must only call
+      
+        javac HasNext_2/HasNext_2.java
+        java HasNext_2.HasNext_2
+
+            HasNext_2 demonstrates RV-Monitor used to enforce safe programming practice.
+
+                In HasNext_2.java, a programmer correctly calls hasNext() on an Iterator
+                before calling next(). RV-Monitor does not display any warnings in the
+                terminal.
+
+_________________
+ 
+Each directory provides examples of Java runtime verification.
+Each directory and its examples demonstrate a different logic types used to enforce our monitoring.
+_________________
+
+
