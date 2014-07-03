@@ -258,7 +258,7 @@ which is extended with {p} for zero or more and [p] for zero or one p's:
    	<Property>          ::= <LOGIC Name> ":" <LOGIC Syntax>
    	<Java Declarations> ::= ... <!-- syntax of declarations in Java -->
 	<Java Parameters>   ::= ... <!-- syntax of method parameter list in Java -->
-	<Java Statements>   ::= ... <!-- slightly extended syntax of statements in Java --> `
+	<Java Statements>   ::= ... <!-- slightly extended syntax of statements in Java --> 
 
 `<Modifier>`
 The modifier unsynchronized tells RV-Monitor that the monitor state need not be
