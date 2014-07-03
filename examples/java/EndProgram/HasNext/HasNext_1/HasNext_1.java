@@ -15,21 +15,21 @@ public class HasNext_1 {
 		int sum = 0;
 
 		if(i.hasNext()){
-			mop.HasNextRuntimeMonitor.hasnextEvent(i);
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.hasnextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		} else {
-			mop.HasNextRuntimeMonitor.hasnextEvent(i);
+			rvm.HasNextRuntimeMonitor.hasnextEvent(i);
 		}
 
 		System.out.println("sum: " + sum);
-		mop.HasNextRuntimeMonitor.endProgEvent();
+		rvm.HasNextRuntimeMonitor.endProgEvent();
 	}
 }
 

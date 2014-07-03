@@ -8,14 +8,14 @@ public class HasNext_3 {
                v.add(1); v.add(2);
                Iterator it = v.iterator();
                while(it.hasNext()) {
-				   mop.HasNextRuntimeMonitor.hasnextEvent(it);
-				   mop.HasNextRuntimeMonitor.nextEvent(it);
+				   rvm.HasNextRuntimeMonitor.hasnextEvent(it);
+				   rvm.HasNextRuntimeMonitor.nextEvent(it);
 				   final Integer next = (Integer) it.next();
-				   mop.HasNextRuntimeMonitor.nextEvent(it);
+				   rvm.HasNextRuntimeMonitor.nextEvent(it);
 				   int sum = next + (Integer)it.next();
                        System.out.println("sum = " + sum);
                }
-		mop.HasNextRuntimeMonitor.endProgEvent();
+		rvm.HasNextRuntimeMonitor.endProgEvent();
        }
 }
 
