@@ -1,4 +1,4 @@
-package mop;
+package rvm;
 
 import java.io.*;
 import java.util.*;
@@ -21,11 +21,11 @@ import java.util.*;
 
 SafeHashSet(HashSet t, Object o) {
   int hashcode;
-  Object obj;
+  Object involved;
  
   event add(HashSet t, Object o) {
       hashcode = o.hashCode();
-      obj = o;
+      involved = o;
   }
   event unsafe_contains(HashSet t, Object o) {
     if (!(hashcode != o.hashCode())) return;
@@ -37,8 +37,8 @@ SafeHashSet(HashSet t, Object o) {
   @match{
     System.err.println(
        "HashCode changed for Object " 
-     + obj
-     + " while being in a   Hashtable!"); 
+     + involved 
+     + " while inside  Hashtable!"); 
     System.exit(1); 
   }
 }
