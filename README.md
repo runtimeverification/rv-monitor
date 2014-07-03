@@ -44,7 +44,7 @@ by delaying threads in multi-threaded programs.
 # Writing a Property, Instrumenting a Program, and Running It
 
 ## RV-Monitor event methods can be manually called from code.  This allows for
-fine grain use of RV-Monitor monitors as a programming paradigm.
+## fine grain use of RV-Monitor monitors as a programming paradigm.
 
 For example, we can directly call the event methods generated for the
 HasNext.rvm property shown below:
