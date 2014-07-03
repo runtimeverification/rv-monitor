@@ -236,7 +236,7 @@ this property: `beforehashcode` and `afterhashcode` indicate the start and end
 of the execution of `hashCode`, and `beforemodify` and `aftermodify` represent
 the start and end of all the modification methods on `ArrayList`.  The property
 is defined using a CFG, which allows us to pair the start and the end events of
-the execution of +hashCode+ or of modification methods.  While the execution of
+the execution of `hashCode` or of modification methods.  While the execution of
 `hashCode` is in progress (event `afterhashcode` has not been encountered), the
 execution of any modification methods is not allowed (event `beforemodify` is
 not allowed).
@@ -271,15 +271,15 @@ garbage-collect monitor instances are stored in a common place; decentralized
 indexing means that the indexing trees are scattered all over the code as
 additional fields of objects of interest. Decentralized indexing typically
 yields lower runtime overhead, though it may not always work for all settings.
-Our OOPSLA'07 paper explains how centralized and decentralized indexing work.
+Our [OOPSLA'07 paper](http://fsl.cs.illinois.edu/index.php/MOP:_An_Efficient_and_Generic_Runtime_Verification_Framework) explains how centralized and decentralized indexing work.
 
-`<Java Parameters> and <Java Declarations>`
+`<Java Parameters> and <Java Declarations>` <br>
 These are ordinary Java parameters (as used in methods) and Java declarations.
 The former are the parameters of the RV-Monitor specification and the latter
 are additional monitor variables that one can access and modify in both event
 actions and property handlers (see below).
 
-`<Event>`
+`<Event>` <br>
 The event declaration code allows for the definition of events which may then
 be referred to in the property. As part of its defining AspectJ advice, an
 event can also have arbitrary code associated with it, called an event action,
@@ -288,7 +288,7 @@ or the monitor state. The event action is represented, in the grammar, by the
 optional `<Java Statements>` within the braces at the end of the event
 definition.
 
-`<Property>`
+`<Property>` <br>
 Properties are optional in RV-Monitor. A property consists of a named formalism
 (`<LOGIC Name>`), followed by a colon, followed by a property specification using
 the named formalism (`<LOGIC Syntax>`) and usually referring to the declared
@@ -315,7 +315,7 @@ Raw specifications are useful when no existing logic plugin is powerful or
 efficient enough to specify the desired property; in that case, one embeds the
 custom monitoring code manually within the event generation code.
 
-`"@"<LOGIC State>`
+`"@"<LOGIC State>` <br>
 This syntax allows us to define property handlers, which consist of arbitrary
 Java code that will be invoked whenever a certain state is reached in the
 generated monitor (e.g., validation or violation in linear temporal logic
@@ -323,7 +323,7 @@ specifications, or a particular state in a finite state machine description).
 At least one handler is required anytime there is a property (i.e., anytime we
 are not using a raw monitor).
 
-`<Java Statement>`
+`<Java Statement>` <br>
 The Java code used in RV-Monitor specifications slightly extends Java with
 two special variables:
 __RESET: a special expression (evaluates to void) that resets the monitor to its initial state;
@@ -360,7 +360,7 @@ For more options, type `rv-monitor.bat` or `rv-monitor.bat -h`
 ## Executing a Monitored Program
 
 When you execute a monitored program with Java, you need to include the RV-Monitor Runtime 
-Library, as well as your current directory, in your class path. The RV-Monitor 
+Library, as well as your current directory, in your Java classpath. The RV-Monitor 
 Runtime Library is provided in this package in the rv-monitor/lib directory. 
 A typical value of this is:
 
@@ -371,8 +371,8 @@ In Linux and Mac,
   rv-monitor/lib/rvmonitorrt.jar
 
 Add this to the left end of the `CLASSPATH` followed by `;.` (in Windows) or `:.`
-(in Linux and Mac). The inclusion of the second part (i.e. *this* directory) is for ease of use. It
-identifies the directory which houses the monitor, or rvm, directory.
+(in Linux and Mac). The second part (`:.` i.e. *this* directory) is for ease of use. It
+identifies the directory which houses the monitor directory, which is conventionally /rvm.
 We assume you will call java and javac from the directory which contains the rvm folder. 
 This is for uniformity and ease of use in trying the examples.
 
@@ -403,7 +403,7 @@ This is for uniformity and ease of use in trying the examples.
 # Examples
 
 Remember, before trying any examples, please ensure you've added the `rv-monitor/bin` directory to your PATH
-and `rv-monitor/lib/rvmonitorrt.jar:.` to your `CLASSPATH`.
+and `rv-monitor/lib/rvmonitorrt.jar:.` to the beginning of your `CLASSPATH`.
 
 This ensures easy use of 1) rv-monitor to generate monitoring libraries, 2) javac to compile
 the libraries together with your instrumented program, and 3) java to run the code in all the 
