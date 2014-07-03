@@ -10,18 +10,18 @@ public class SafeSyncCollection_1 {
 		ArrayList<String> list = new ArrayList<String>();
 		Collection c = list;
 		c = Collections.synchronizedCollection(c);
-		mop.SafeSyncCollectionRuntimeMonitor.syncEvent(c);
+		rvm.SafeSyncCollectionRuntimeMonitor.syncEvent(c);
 
 		list.add("Foo");
 		list.add("Bar");
 		Iterator i = c.iterator();
-		mop.SafeSyncCollectionRuntimeMonitor.asyncCreateIterEvent(c,i);
-		mop.SafeSyncCollectionRuntimeMonitor.syncCreateIterEvent(c,i);
-		mop.SafeSyncCollectionRuntimeMonitor.accessIterEvent(i);
+		rvm.SafeSyncCollectionRuntimeMonitor.asyncCreateIterEvent(c,i);
+		rvm.SafeSyncCollectionRuntimeMonitor.syncCreateIterEvent(c,i);
+		rvm.SafeSyncCollectionRuntimeMonitor.accessIterEvent(i);
 		while(i.hasNext()){
-			mop.SafeSyncCollectionRuntimeMonitor.accessIterEvent(i);
+			rvm.SafeSyncCollectionRuntimeMonitor.accessIterEvent(i);
 			System.out.println(i.next());
-			mop.SafeSyncCollectionRuntimeMonitor.accessIterEvent(i);
+			rvm.SafeSyncCollectionRuntimeMonitor.accessIterEvent(i);
 		}
 	}
 }
