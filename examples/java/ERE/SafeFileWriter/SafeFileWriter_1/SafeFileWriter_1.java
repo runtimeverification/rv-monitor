@@ -1,6 +1,6 @@
 package SafeFileWriter_1;
 
-import mop.SafeFileWriterRuntimeMonitor;
+import rvm.SafeFileWriterRuntimeMonitor;
 
 import java.io.File;
 import java.io.FileWriter;
