@@ -13,13 +13,13 @@ public class HasNext2_1 {
 		int sum = 0;
 
 		if (i.hasNext()) {
-			mop.HasNext2RuntimeMonitor.hasnextEvent(i);
-			mop.HasNext2RuntimeMonitor.nextEvent(i);
+			rvm.HasNext2RuntimeMonitor.hasnextEvent(i);
+			rvm.HasNext2RuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			// JavaMOP should match "next next" on the following event
-			mop.HasNext2RuntimeMonitor.nextEvent(i);
+			// should match "next next" on the following event
+			rvm.HasNext2RuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-		} else mop.HasNext2RuntimeMonitor.hasnextEvent(i);
+		} else rvm.HasNext2RuntimeMonitor.hasnextEvent(i);
 
 		System.out.println("sum: " + sum);
 	}

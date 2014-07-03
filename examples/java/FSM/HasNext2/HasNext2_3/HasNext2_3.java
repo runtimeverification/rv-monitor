@@ -14,12 +14,12 @@ public class HasNext2_3 {
 		// Regardless of the number of "hasNext" events,
 		// "next" "next" should be matched.
 		i.hasNext();
-		mop.HasNext2RuntimeMonitor.hasnextEvent(i);
+		rvm.HasNext2RuntimeMonitor.hasnextEvent(i);
 		i.hasNext();
-		mop.HasNext2RuntimeMonitor.hasnextEvent(i);
-		mop.HasNext2RuntimeMonitor.nextEvent(i);
+		rvm.HasNext2RuntimeMonitor.hasnextEvent(i);
+		rvm.HasNext2RuntimeMonitor.nextEvent(i);
 		sum += (Integer)i.next();
-		mop.HasNext2RuntimeMonitor.nextEvent(i);
+		rvm.HasNext2RuntimeMonitor.nextEvent(i);
 		sum += (Integer)i.next();
 
 		System.out.println("sum: " + sum);
