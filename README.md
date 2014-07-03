@@ -411,7 +411,7 @@ examples.
 
 To get started, here's an example of monitoring via context free grammar.
 
-In CFG/HasNext, we call
+In rv-monitor/examples/java/CFG/HasNext, we call
 	
 	rv-monitor rvm/HasNext.rvm
 	javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
@@ -435,7 +435,7 @@ HasNext_2 demonstrates RV-Monitor used to enforce safe programming practice.
 > terminal.
 
 ### Note:
-If you navigate to the directory above the rvm folder in each example and compile & run the code there, 
+If you navigate to the directory containing the rvm folder in each example and compile and run the code there, 
 you will be able to use the *same exact structure* as the commands in this example. That is,
 you will not have to manually tell javac and java the location of rvmonitorrt.jar or the directory in which your rvm directory dwells! 
 The modification you have already made to your `CLASSPATH` environment variable will accomodate this. 
