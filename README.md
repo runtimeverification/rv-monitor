@@ -1,8 +1,22 @@
-==Overview==
+# Overview
 
-RV-Monitor is a tool for generating monitoring code.  RV-Monitor for Java takes as
-input one or more specification files and generates Java classes that implement
-the monitoring functionality.  
+RV-Monitor is a software development and analysis framework aiming at reducing the 
+gap between formal specification and implementation by allowing them together to form 
+a system. With RV-Monitor, runtime monitoring is supported and encouraged as a
+fundamental principle for building reliable software: monitors are  synthesized from 
+specified properties and integrated into the original system to check its dynamic 
+behaviors during execution. When a specification is violated or validated at runtime, 
+user-defined actions will be triggered, which can be any code from information logging 
+to runtime recovery. One can understand RV-Monitor from at least three perspectives: 
+as a discipline allowing one to improve safety, reliability and dependability of a 
+system by monitoring its requirements against its implementation at runtime; as an
+extension of programming languages with logics (one can add logical statements
+anywhere in the program, referring to past or future states); and as a
+lightweight formal method.
+
+At the heart of RV-Monitor is tool for generating monitoring code.  RV-Monitor for 
+Java takes as input one or more specification files and generates Java classes that 
+implement the monitoring functionality.  
 
 Each specification defines a number of *events*, which represent abstractions
 of certain points in programs, e.g., a call to the +hasNext()+ method in Java,
@@ -26,102 +40,98 @@ a number of boolean variables that allow for external testing of the different
 RV-Monitor has the capability to generate monitors that enforce a given property
 by delaying threads in multi-threaded programs. 
 
-In the following section, we show examples of generating monitoring libraries with 
-rv-monitor.
 
-==RV-Monitor Uses==
+# Writing a Property, Instrumenting a Program, and Running It
 
-RV-Monitor has a number of uses:
-
-**RV-Monitor event methods can be manually called from code.  This allows for
+## RV-Monitor event methods can be manually called from code.  This allows for
 fine grain use of RV-Monitor monitors as a programming paradigm.
 
 For example, we can directly call the event methods generated for the
 HasNext.rvm property shown below:
 
-package rvm;
-
-HasNext(Iterator i) {
-  event hasnext(Iterator i) {}
-  event next(Iterator i) {}
-
-  ere : (hasnext hasnext* next)*
-
-  @fail {
-    System.out.println(
-             "! hasNext() has not been called"
-           + " before calling next() for an" 
-           + " iterator");
-          __RESET;
-  }
-}
-
+	package rvm;
+	
+	HasNext(Iterator i) {
+	  event hasnext(Iterator i) {}
+	  event next(Iterator i) {}
+	
+	  ere : (hasnext hasnext* next)*
+	
+	  @fail {
+	    System.out.println(
+	             "! hasNext() has not been called"
+	           + " before calling next() for an" 
+	           + " iterator");
+	          __RESET;
+	  }
+	}
+	
 The generated Java class named HasNextRuntimeMonitor for this property has two methods, 
 one for each event, with the following signatures:
 
-public void hasnextEvent(Iterator i)
+	public void hasnextEvent(Iterator i)
 
 and
 
-public void nextEvent(Iterator i)
+	public void nextEvent(Iterator i)
 
 By calling the methods directly, rather than using some sort of automatic instrumentor,
 like AspectJ, we can choose exactly which methods we wish to monitor.  For instance,
 we can add a wrapper class for Iterator that has versions of hasNext and next that
 call our monitoring code, and only use them in places where it is crucial to be correct.
-The class could be defined as follow:
+The class could be defined as follows:
 
-public class SafeIterator<E> implements java.util.Iterator<E> {
-  private java.util.Iterator<E> it;
-
-  public SafeIterator(java.util.Iterator it){
-    this.it = it;
-  }
-
-  public boolean hasNext(){
-    rvm.HasNextRuntimeMonitor.hasnextEvent(it);
-    return it.hasNext();
-  } 
-
-  public E next(){
-    rvm.HasNextRuntimeMonitor.nextEvent(it);
-    return it.next();
-  }
-
-  public  void remove(){
-    it.remove();
-  }
-}
+	  public class SafeIterator<E> implements java.util.Iterator<E> {
+	  private java.util.Iterator<E> it;
+	
+	  public SafeIterator(java.util.Iterator it){
+	    this.it = it;
+	  }
+	
+	  public boolean hasNext(){
+	    rvm.HasNextRuntimeMonitor.hasnextEvent(it);
+	    return it.hasNext();
+	  } 
+	
+	  public E next(){
+	    rvm.HasNextRuntimeMonitor.nextEvent(it);
+	    return it.next();
+	  }
+	
+	  public  void remove(){
+	    it.remove();
+	  }
+	}
 
 Now our program can distinguish between monitored and unmonitored Iterators
 by simply creating SafeIterators from Iterators.
 
 For example, consider the following program:
 
-public class Test {
-  public static void main(String[] args){
-    Vector<Integer> v = new Vector<Integer>();
-
-    v.add(1);
-    v.add(2);
-    v.add(4);
-    v.add(8);
-
-    Iterator it = v.iterator();
-    SafeIterator i = new SafeIterator(it);
-    int sum = 0;
-
-    if(i.hasNext()){
-      sum += (Integer)i.next();
-      sum += (Integer)i.next();
-      sum += (Integer)i.next();
-      sum += (Integer)i.next();
-    }
-
-    System.out.println("sum: " + sum);
-  }
-}
-
+	public class Test {
+	  public static void main(String[] args){
+	    Vector<Integer> v = new Vector<Integer>();
+	
+	    v.add(1);
+	    v.add(2);
+	    v.add(4);
+	    v.add(8);
+	
+	    Iterator it = v.iterator();
+	    SafeIterator i = new SafeIterator(it);
+	    int sum = 0;
+	
+	    if(i.hasNext()){
+	      sum += (Integer)i.next();
+	      sum += (Integer)i.next();
+	      sum += (Integer)i.next();
+	      sum += (Integer)i.next();
+	    }
+	
+	    System.out.println("sum: " + sum);
+	  }
+	}
+	
 We must compile SafeIterator.java, Test.java, and HasNextRuntimeMonitor.java and run
 Test.java.
 
@@ -131,12 +141,14 @@ The javac and java commands need rvmonitorrt.jar and the monitor directory on yo
     java -cp [rvmonitorrt.jar]:[monitor directory] TestWithMain
 
 This is why we ask you to add rv-monitor/lib/rvmonitorrt.jar:. to your CLASSPATH.
-It makes calling javac and java from above the /rvm directory in all examples simpler.
+*It makes calling javac and java from the directory above the /rvm directory in all Java examples 
+simpler. More on that in the Examples section.*
 
     javac InstrumentedProgram(s) MonitorLibrary
     java TestWithMain
 
-For instance,
+For instance, considering the existence of an rvm folder that would house HasNext.rvm and its 
+generated property library, a command to compile would be:
 
     javac Test.java SafeIterator.java rvm/HasNextRuntimeMonitor.java
 
@@ -148,22 +160,8 @@ We will successfully catch all of the bad calls to +next()+:
         ! hasNext() has not been called before calling next() for an iterator
         ! hasNext() has not been called before calling next() for an iterator
         sum: 15
-______________
 
-Another example of compiling and running rv-monitor instrumented code comes from 
-rv-monitor/examples/CFG/HasNext,
-
-1)
-    rv-monitor rvm/HasNext.rvm
-    javac HasNext_1/HasNext_1.java rvm/HasNextRuntimeMonitor.java
-    java HasNext_1.HasNext_1
-
-2)
-    javac HasNext_2/HasNext_2.java
-    java HasNext_2.HasNext_2
-______________
-
-***RV-Monitor event methods can be called form instrumentation, for instance,
+## RV-Monitor event methods can be called form instrumentation, for instance,
 one can call them using AspectJ.  It is possible to write an AspectJ file that
 calls a given event method every place that event method needs to occur.
 
@@ -173,64 +171,66 @@ of +next()+ and +hasNext()+ in the program.  This aspect can then be weaved thro
 any program to make *all* uses of Iterators safe.  What follows is an example of
 an aspect that can achieve this effect.
 
-aspect HasNextAspect {
-  after(Iterator i) : call(* Iterator.hasNext()) && target(i) {
-    rvm.HasNextRuntimeMonitor.hasnextEvent(i);
-  }
-
-  after(): before(Iterator i) : call(* Iterator.next()) && target(i) {
-    rvm.HasNextRuntimeMonitor.nextEvent(it);
-  }
-}
+	aspect HasNextAspect {
+	  after(Iterator i) : call(* Iterator.hasNext()) && target(i) {
+	    rvm.HasNextRuntimeMonitor.hasnextEvent(i);
+	  }
+	
+	  after(): before(Iterator i) : call(* Iterator.next()) && target(i) {
+	    rvm.HasNextRuntimeMonitor.nextEvent(it);
+	  }
+	}
 
 **RV-Monitor can access a whole data base of properties that may be run against
 a program as a large scale dynamic property checker.
 
-**RV-Monitor can be used as a testing framework that uses properties to
-enforce a desired thread schedule.  Any time an event occurs which could 
+## RV-Monitor can be used as a testing framework that uses properties to
+enforce a desired thread schedule.  
+
+Any time an event occurs which could 
 violate a property, that thread is put to sleep until such time that it may continue.
 A special deadlock handler is able to run when all threads become deadlocked due
 to an infeasible schedule.
 
 For example, we can modify our previous HasNext property as follows:
-
-enforce HasNext(Iterator i) {
-	event hasnext(Iterator i) {}
-	event next(Iterator i) {}
-
-	ere : (hasnext hasnext* next)*
-
-	@deadlock {
-	  System.out.println(
-             "! hasNext() has not been called"
-           + " before calling next() for an" 
-           + " iterator");
-          __RESET;
+	
+	enforce HasNext(Iterator i) {
+		event hasnext(Iterator i) {}
+		event next(Iterator i) {}
+	
+		ere : (hasnext hasnext* next)*
+	
+		@deadlock {
+		  System.out.println(
+	             "! hasNext() has not been called"
+	           + " before calling next() for an" 
+	           + " iterator");
+	          __RESET;
+		}
 	}
-}
 
 By adding the keyword enforce, we can actually delay threads when a violation
 of the specified ere is found.  As a more concrete example we can use the following
-property to insure mutual exclusion between calls to +hashcode()+ and list modification:
+property to ensure mutual exclusion between calls to +hashcode()+ and list modification:
 
-enforce SafeListCFG(List l) {
-  
-  event beforehashcode(List l) {}
-  event afterhashcode(List l) {}
-  event beforemodify(List l) {}
-  event aftermodify(List l) {}
-
-  cfg :
-    S −> A S | B S | epsilon,
-    A −> A beforehashcode A afterhashcode | epsilon,
-    B −> B beforemodify B aftermodify | epsilon
-
-@nonfail {}
-
-@deadlock { System.out.println(”Deadlock detected!”); }
-
-}
-
+	enforce SafeListCFG(List l) {
+	  
+	  event beforehashcode(List l) {}
+	  event afterhashcode(List l) {}
+	  event beforemodify(List l) {}
+	  event aftermodify(List l) {}
+	
+	  cfg :
+	    S −> A S | B S | epsilon,
+	    A −> A beforehashcode A afterhashcode | epsilon,
+	    B −> B beforemodify B aftermodify | epsilon
+	
+	@nonfail {}
+	
+	@deadlock { System.out.println(”Deadlock detected!”); }
+	
+	}
+	
 The property is parametric in the list, so operations on different list
 instances will not interfere with each other. There are four types of events in
 this property: +beforehashcode+ and +afterhashcode+ indicate the start and end
@@ -242,7 +242,7 @@ the execution of +hashCode+ or of modification methods.  While the execution of
 execution of any modification methods is not allowed (event +beforemodify+ is
 not allowed).
 
-==RV-Monitor Language==
+# RV-Monitor Language
 
 We introduce the RV-Monitor input language through the below BNF grammar,
 which is extended with {p} for zero or more and [p] for zero or one p's:
@@ -303,13 +303,13 @@ states of monitors generated for the named logic to which one can associate
 handlers (see below). The current version of RV-Monitor provides the following
 plugins:
 
-FSM     -- Finite State Machines 
-ERE     -- Extended Regular Expressions 
-CFG     -- Context Free Grammars 
-PTLTL   -- Past Time Linear Temporal Logic 
-LTL     -- Linear Temporal Logic 
-PTCARET -- Past Time LTL with Calls and Returns 
-SRS     -- String Rewriting Systems
+`FSM`     -- Finite State Machines 
+`ERE`     -- Extended Regular Expressions 
+`CFG`     -- Context Free Grammars 
+`PTLTL`   -- Past Time Linear Temporal Logic 
+`LTL`     -- Linear Temporal Logic 
+`PTCARET` -- Past Time LTL with Calls and Returns 
+`SRS`     -- String Rewriting Systems
  
 If the property is missing, then the RV-Monitor specification is called raw.
 Raw specifications are useful when no existing logic plugin is powerful or
@@ -331,7 +331,56 @@ __RESET: a special expression (evaluates to void) that resets the monitor to its
 __LOC: a string variable that evaluates to the line number generating the current event;
 
 
-==Command Line Options==
+# Command Line Basics
+
+`To call rv-monitor with ease, please add rv-monitor/bin to your PATH!`
+
+*ALL* Specification files must have the .rvm file extension.   
+
+## Linux and Mac (POSIX)
+
+The 'rv-monitor' script has the following usage:
+	
+	 rv-monitor [-v] [-d <target directory>] <specification file or dir>
+
+    	-v option is verbose mode 
+    	-d option is used to specify the target directory
+        	where the resulting java code will be saved. It is optional.
+    
+For more options, type 'rv-monitor' or 'rv-monitor -h'
+
+## Windows
+
+The script, 'rv-monitor.bat' has the following usage:
+
+	rv-monitor.bat [-v] [-d <target directory>] <specification file or dir>
+
+For more options, type 'rv-monitor.bat' or 'rv-monitor.bat -h'
+
+
+## Executing a Monitored Program
+
+When you execute a monitored program with Java, you need to include the RV-Monitor Runtime 
+Library, as well as your current directory, in your class path. The RV-Monitor 
+Runtime Library is provided in this package in the rv-monitor/lib directory. 
+A typical value of this is:
+
+In Windows,
+  rv-monitor\lib\rvmonitorrt.jar
+
+In Linux and Mac,
+  rv-monitor/lib/rvmonitorrt.jar
+
+Add this to the left end of the "CLASSPATH" followed by ";." (in Windows) or ":."
+(in Linux and Mac). The inclusion of the second part (i.e. `this` directory) is for ease of use. It
+identifies the directory which houses the monitor, or rvm, directory.
+We assume you will call java and javac from the directory which contains the rvm folder. 
+This is for uniformity and ease of use in trying the examples.
+
+*Optionally,* you can choose to include `-cp [rvmonitor.jar]:[monitor directory with .rvm and generated libraries]` when you compile
+with javac and run with java.
+
+## Command Line Options
 
     -h | -help			  print this help message
 
@@ -352,3 +401,46 @@ __LOC: a string variable that evaluates to the line number generating the curren
 
     -weakrefinterning		  use WeakReference interning in indexing trees
 
+
+# Examples
+
+Remember, before trying any examples, please ensure you've added the rv-monitor/bin directory to your PATH
+and rv-monitor/lib/rvmonitorrt.jar:. to your CLASSPATH.
+
+This ensures easy use of 1) rv-monitor to generate monitoring libraries, 2) javac to compile
+the libraries together with your instrumented program, and 3) java to run the code in all the 
+examples.
+
+To get started, here's an example of monitoring via context free grammar.
+
+    In CFG/HasNext, we call
+
+        rv-monitor rvm/HasNext.rvm
+        javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
+        java HasNext_1.HasNext_1
+
+            HasNext_1 demonstrates RV-Monitor used to detect unsafe programming practice.
+
+                In HasNext_1.java, a programmer calls next() on an Iterator without first
+                calling hasNext() to check if there is another item available. RV-Monitor
+                warns the user every time this is done.
+
+
+    Now that we've already compiled the monitor, we must only call
+
+        javac HasNext_2/HasNext_2.java
+        java HasNext_2.HasNext_2
+
+            HasNext_2 demonstrates RV-Monitor used to enforce safe programming practice.
+
+                In HasNext_2.java, a programmer correctly calls hasNext() on an Iterator
+                before calling next(). RV-Monitor does not display any warnings in the
+                terminal.
+
+* If you navigate to the directory above the rvm folder in each example and compile & run the code there, 
+you will be able to use the `same exact structure` as the commands in this example. That is,
+you will not have to manually tell javac and java the directory in which your rvm directory dwells! 
+The modification you have already made to your CLASSPATH environment variable will accomodate this. *
+
+Each directory in rv-monitor/examples/java demonstrates different logic types used to enforce 
+our monitoring.
