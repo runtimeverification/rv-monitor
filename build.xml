@@ -74,10 +74,8 @@
   </target>
 
   <target name="clean">
-    <delete verbose="false" quiet="true">
-      <fileset dir="${build}" />
-      <fileset dir="${dist}" />
-    </delete>
+   <delete dir="${build}" />
+   <delete dir="${dist}" />
     <delete verbose="false">
       <fileset dir="${lib}">
         <include name="*.jar" />
