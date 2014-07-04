@@ -20,46 +20,46 @@ public class FileClose_1 {
 			fw_5 = new FileWriter(File.createTempFile("rvmonitortest5", ".tmp"));
 
 			fw_1.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_1);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_1);
 			fw_2.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_2);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_2);
 			fw_3.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_3);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_3);
 			fw_4.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_4);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_4);
 			fw_5.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_5);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_5);
 
 			fw_1.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_1);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_1);
 			fw_2.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_2);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_2);
 			fw_4.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_4);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_4);
 			fw_5.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_5);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_5);
 
 			fw_1.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_1);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_1);
 			fw_3.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_3);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_3);
 			fw_5.write("testing\n");
-			mop.FileCloseRuntimeMonitor.writeEvent(fw_5);
+			rvm.FileCloseRuntimeMonitor.writeEvent(fw_5);
 
 			fw_1.close();
-			mop.FileCloseRuntimeMonitor.closeEvent(fw_1);
+			rvm.FileCloseRuntimeMonitor.closeEvent(fw_1);
 			fw_2.close();
-			mop.FileCloseRuntimeMonitor.closeEvent(fw_2);
+			rvm.FileCloseRuntimeMonitor.closeEvent(fw_2);
 			fw_3.close();
-			mop.FileCloseRuntimeMonitor.closeEvent(fw_3);
+			rvm.FileCloseRuntimeMonitor.closeEvent(fw_3);
 			fw_4.close();
-			mop.FileCloseRuntimeMonitor.closeEvent(fw_4);
+			rvm.FileCloseRuntimeMonitor.closeEvent(fw_4);
 			fw_5.close();
-			mop.FileCloseRuntimeMonitor.closeEvent(fw_5);
+			rvm.FileCloseRuntimeMonitor.closeEvent(fw_5);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		mop.FileCloseRuntimeMonitor.endProgEvent();
+		rvm.FileCloseRuntimeMonitor.endProgEvent();
 	}
 }
 

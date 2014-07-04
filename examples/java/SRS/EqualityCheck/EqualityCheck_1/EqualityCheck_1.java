@@ -1,6 +1,6 @@
 package EqualityCheck_1;
 
-import mop.EqualityCheckRuntimeMonitor;
+import rvm.EqualityCheckRuntimeMonitor;
 
 public class EqualityCheck_1 {
     public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class EqualityCheck_1 {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mop.EqualityCheckRuntimeMonitor.doneEvent();
+        rvm.EqualityCheckRuntimeMonitor.doneEvent();
     }
 }
 
@@ -35,7 +35,7 @@ class CThread extends Thread {
             for(int i = 0; i < times; i++) {
                 try {
                     A();
-                    mop.EqualityCheckRuntimeMonitor.aEvent();
+                    rvm.EqualityCheckRuntimeMonitor.aEvent();
                     Thread.sleep(500);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -45,7 +45,7 @@ class CThread extends Thread {
             for(int i = 0; i < times - 1 ; i++) {
                 try {
                     B();
-                    mop.EqualityCheckRuntimeMonitor.bEvent();
+                    rvm.EqualityCheckRuntimeMonitor.bEvent();
                     Thread.sleep(500);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -55,7 +55,7 @@ class CThread extends Thread {
             for(int i = 0; i < times; i++) {
                 try {
                     C();
-                    mop.EqualityCheckRuntimeMonitor.cEvent();
+                    rvm.EqualityCheckRuntimeMonitor.cEvent();
                     Thread.sleep(500);
                 } catch (Exception e) {
                     e.printStackTrace();

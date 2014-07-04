@@ -24,41 +24,41 @@ public class SafeFile_2{
 		try{
 			System.out.println("open");
 			fr = new FileReader(file);
-			mop.SafeFileRuntimeMonitor.openEvent(fr, Thread.currentThread());
+			rvm.SafeFileRuntimeMonitor.openEvent(fr, Thread.currentThread());
 		} catch (Exception e){
 		}
 		try{
 			System.out.println("close");
 			fr.close();
-			mop.SafeFileRuntimeMonitor.closeEvent(fr, Thread.currentThread());
+			rvm.SafeFileRuntimeMonitor.closeEvent(fr, Thread.currentThread());
 		} catch (Exception e){
 		}
 		System.out.println("end");
 	}
 
 	public static void sub2(){
-		mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
+		rvm.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
 		sub1();
-		mop.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
-		mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
+		rvm.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
+		rvm.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
 		sub1();
-		mop.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
+		rvm.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
 	}
 
 	public static void main(String[] args){
-                mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
+                rvm.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
 		for(int i = 0; i < 5; i++){
-			mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
+			rvm.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
 			sub1();
-			mop.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
+			rvm.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
 		}
 
 		for(int i = 0; i < 2; i++){
-			mop.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
+			rvm.SafeFileRuntimeMonitor.beginCallEvent(Thread.currentThread());
 			sub2();
-			mop.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
+			rvm.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
 		}
-		mop.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
+		rvm.SafeFileRuntimeMonitor.endCallEvent(Thread.currentThread());
 	}
 
 }

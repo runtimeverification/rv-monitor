@@ -9,11 +9,11 @@ public class HasNext_3 {
                Iterator it = v.iterator();
 		   boolean  b;
                while(b = it.hasNext()) {
-				   mop.HasNextRuntimeMonitor.hasnexttrueEvent(it, b);
-				   mop.HasNextRuntimeMonitor.hasnextfalseEvent(it, b);
-				   mop.HasNextRuntimeMonitor.nextEvent(it);
+				   rvm.HasNextRuntimeMonitor.hasnexttrueEvent(it, b);
+				   rvm.HasNextRuntimeMonitor.hasnextfalseEvent(it, b);
+				   rvm.HasNextRuntimeMonitor.nextEvent(it);
 				   final Integer next1 = (Integer) it.next();
-				   mop.HasNextRuntimeMonitor.nextEvent(it);
+				   rvm.HasNextRuntimeMonitor.nextEvent(it);
 				   int sum = next1 + (Integer)it.next();
                        System.out.println("sum = " + sum);
                }

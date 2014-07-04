@@ -1,5 +1,6 @@
 
 package HasNext_2;
+
 import java.util.*;
 
 public class HasNext_2 {
@@ -15,11 +16,11 @@ public class HasNext_2 {
 		int sum = 0;
 
 		while(i.hasNext()){
-			mop.HasNextRuntimeMonitor.hasnextEvent(i);
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.hasnextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
-		mop.HasNextRuntimeMonitor.hasnextEvent(i);
+		rvm.HasNextRuntimeMonitor.hasnextEvent(i);
 
 		System.out.println("sum: " + sum);
 	}

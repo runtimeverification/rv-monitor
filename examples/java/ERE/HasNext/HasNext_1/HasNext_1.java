@@ -2,7 +2,7 @@ package HasNext_1;
 
 import java.util.*;
 
-import mop.*;
+import rvm.*;
 
 public class HasNext_1 {
 	public static void main(String[] args){

@@ -1,5 +1,6 @@
 
 package HasNext2_2;
+
 import java.util.*;
 
 public class HasNext2_2 {
@@ -11,12 +12,12 @@ public class HasNext2_2 {
 		Iterator i = v.iterator();
 		int sum = 0;
 
-		// JavaMOP should not match "next next"
+		// should not match "next next"
 		if (i.hasNext()) {
-			mop.HasNext2RuntimeMonitor.hasnextEvent(i);
-			mop.HasNext2RuntimeMonitor.nextEvent(i);
+			rvm.HasNext2RuntimeMonitor.hasnextEvent(i);
+			rvm.HasNext2RuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-		} else mop.HasNext2RuntimeMonitor.hasnextEvent(i);
+		} else rvm.HasNext2RuntimeMonitor.hasnextEvent(i);
 
 
 		System.out.println("sum: " + sum);
