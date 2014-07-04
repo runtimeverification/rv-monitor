@@ -12,15 +12,15 @@ public class HasNext_2 {
 		v.add(8);
 
 		Iterator i = v.iterator();
-		mop.HasNextRuntimeMonitor.createEvent(v,i);
+		rvm.HasNextRuntimeMonitor.createEvent(v,i);
 		int sum = 0;
 
 		while(i.hasNext()){
-			mop.HasNextRuntimeMonitor.hasnextEvent(i);
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.hasnextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
-		mop.HasNextRuntimeMonitor.hasnextEvent(i);
+		rvm.HasNextRuntimeMonitor.hasnextEvent(i);
 
 		System.out.println("sum: " + sum);
 	}

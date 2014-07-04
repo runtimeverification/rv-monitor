@@ -12,19 +12,19 @@ public class HasNext_1 {
 		v.add(8);
 
 		Iterator i = v.iterator();
-		mop.HasNextRuntimeMonitor.createEvent(v,i);
+		rvm.HasNextRuntimeMonitor.createEvent(v,i);
 		int sum = 0;
 
 		final boolean b = i.hasNext();
-		mop.HasNextRuntimeMonitor.hasnextEvent(i);
+		rvm.HasNextRuntimeMonitor.hasnextEvent(i);
 		if(b){
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
 

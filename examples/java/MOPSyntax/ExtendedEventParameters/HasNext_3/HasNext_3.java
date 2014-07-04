@@ -7,16 +7,16 @@ public class HasNext_3 {
                Vector<Integer> v = new Vector<Integer>();
                v.add(1); v.add(2);
                Iterator it = v.iterator();
-		   mop.HasNextRuntimeMonitor.createEvent(v,it);
+		   rvm.HasNextRuntimeMonitor.createEvent(v,it);
                while(it.hasNext()) {
-				   mop.HasNextRuntimeMonitor.hasnextEvent(it);
-				   mop.HasNextRuntimeMonitor.nextEvent(it);
+				   rvm.HasNextRuntimeMonitor.hasnextEvent(it);
+				   rvm.HasNextRuntimeMonitor.nextEvent(it);
 				   final Integer next = (Integer) it.next();
-				   mop.HasNextRuntimeMonitor.nextEvent(it);
+				   rvm.HasNextRuntimeMonitor.nextEvent(it);
 				   int sum = next + (Integer)it.next();
                        System.out.println("sum = " + sum);
                }
-		   mop.HasNextRuntimeMonitor.hasnextEvent(it);
+		   rvm.HasNextRuntimeMonitor.hasnextEvent(it);
        }
 }
 
