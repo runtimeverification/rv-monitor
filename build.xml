@@ -11,15 +11,15 @@
   <property name="temp" location="tmp" />
   <property name="dist" location="dist" />
   <property name="examples" location="examples" />
-  <property name="src.tests" location="test" />
-  <property name="reports.tests" location="test-reports" />
-  <property name="build.tests" location="build" />
+  <property name="src.tests" value="test" />
+  <property name="reports.tests" value="test-reports" />
+  <property name="build.tests" value="build" />
   <property environment="env" />
-  <property name="plugins" location="lib/plugins" />
-  <property name="scala.home" location="${env.SCALA_HOME}" />
-  <property name="scala-compiler.jar" location="${scala.home}/lib/scala-compiler.jar" />
-  <property name="scala-parser.jar" location="${scala.home}/lib/scala-parser-combinators*.jar" />
-  <property name="scala-library.jar" location="${scala.home}/lib/scala-library.jar" />
+  <property name="plugins" value="lib/plugins" />
+  <property name="scala.home" value="${env.SCALA_HOME}" />
+  <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
+  <property name="scala-parser.jar" value="${scala.home}/lib/scala-parser-combinators*.jar" />
+  <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
 
    <path id="classpath.base">
       <pathelement location="lib/external/commons-io-2.4.jar" />
@@ -44,7 +44,7 @@
   </taskdef>
 
   <!-- redefined these if you change the directory names -->
-  <property name="prefix" location="com/runtimeverification/rvmonitor" />
+  <property name="prefix" value="com/runtimeverification/rvmonitor" />
   <property name="name" value="rvmonitor" />
   <property name="lr" value="logicrepository" />
   <property name="test" value="testsuite" />
