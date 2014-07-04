@@ -55,7 +55,7 @@ public class Main {
     public static boolean useFineGrainedLock = false;
     public static boolean useWeakRefInterning = false;
     
-    public static boolean generateVoidMethods = true;
+    public static boolean generateVoidMethods = false;
     public static boolean stripUnusedParameterInMonitor = true;
     public static boolean eliminatePresumablyRemnantCode = true;
     public static boolean suppressActivator = false;
@@ -319,17 +319,18 @@ public class Main {
             if (!f.exists()) {
                 throw new RVMException("[Error] Target file, " + file + ", doesn't exsit!");
             } else if (f.isDirectory()) {
-                ret.addAll(collectFiles(f.list(new JavaFileFilter()), f.getAbsolutePath()));
-                ret.addAll(collectFiles(f.list(new RVMFileFilter()), f.getAbsolutePath()));
+                ret.addAll(collectFiles(f.list(), f.getAbsolutePath()));
             } else {
                 if (Tool.isSpecFile(file)) {
                     ret.add(f);
                 } else if (Tool.isJavaFile(file)) {
                     ret.add(f);
-                } else
-                    throw new RVMException("Unrecognized file type! The RV " +
+                } else {
+                    // Just ignore it, so we can go arbitrary deep with directories.
+                    /*throw new RVMException("Unrecognized file type! The RV " +
                     "Monitor specification file should have .rvm as" +
-                    " the extension.");
+                    " the extension."); */
+                }
             }
         }
         
