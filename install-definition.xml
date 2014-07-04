@@ -48,7 +48,7 @@
     <packs>
         <pack name="RV-Monitor" required="yes" installGroups="New Application" >
             <description>Required RV-Monitor libraries and executables.</description>
-            <file src="@{base}/README" targetdir="$INSTALL_PATH"/>
+            <singlefile src="@{base}/README.md" target="$INSTALL_PATH/README"/>
             <file src="@{base}/LICENSE" targetdir="$INSTALL_PATH"/>
             <file src="@{bin}" targetdir="$INSTALL_PATH"/>
             <file src="@{lib}" targetdir="$INSTALL_PATH"/>
