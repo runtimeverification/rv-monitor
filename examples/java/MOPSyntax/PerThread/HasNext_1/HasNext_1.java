@@ -15,15 +15,15 @@ public class HasNext_1 {
 		int sum = 0;
 
 		final boolean b = i.hasNext();
-		mop.HasNextRuntimeMonitor.hasnextEvent(i);
+		rvm.HasNextRuntimeMonitor.hasnextEvent(i);
 		if(b){
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
-			mop.HasNextRuntimeMonitor.nextEvent(i);
+			rvm.HasNextRuntimeMonitor.nextEvent(i);
 			sum += (Integer)i.next();
 		}
 
