@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-#record
-echo "recording "$@
-BASEDIR=$(dirname $0)
-java -Xmx1g -cp ${PWD}/tmp/record:${BASEDIR}/rv-recorder.jar edu.uiuc.run.Main $@
