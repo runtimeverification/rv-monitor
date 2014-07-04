@@ -14,16 +14,16 @@ public class Creation_2 {
 
 		System.out.println("fun2");
 		o.fun2();
-		mop.CreationRuntimeMonitor.fun2Event(o);
+		rvm.CreationRuntimeMonitor.fun2Event(o);
 		System.out.println("fun2");
 		o.fun2();
-		mop.CreationRuntimeMonitor.fun2Event(o);
+		rvm.CreationRuntimeMonitor.fun2Event(o);
 		System.out.println("fun2");
 		o.fun2();
-		mop.CreationRuntimeMonitor.fun2Event(o);
+		rvm.CreationRuntimeMonitor.fun2Event(o);
 
 		System.out.println("main end");
-		mop.CreationRuntimeMonitor.mainendEvent();
+		rvm.CreationRuntimeMonitor.mainendEvent();
 	}
 }
 
