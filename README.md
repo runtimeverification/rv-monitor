@@ -346,7 +346,7 @@ The 'rv-monitor' script has the following usage:
     	-d option is used to specify the target directory
         	where the resulting java code will be saved. It is optional.
     
-For more options, type 'rv-monitor' or 'rv-monitor -h'
+For more options, type `rv-monitor` or `rv-monitor -h`
 
 ## Windows
 
