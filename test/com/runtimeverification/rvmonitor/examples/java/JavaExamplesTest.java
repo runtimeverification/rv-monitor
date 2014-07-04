@@ -61,7 +61,7 @@ public class JavaExamplesTest {
         File projectRoot = new File(System.getProperty("user.dir"));
         helper.testCommand(null, projectRoot + File.separator + "bin" + File.separator + "rv-monitor", rvmName + ".rvm");
         Collection<File> testCases = collectSubCases(new File(rvmDirectory));
-        String rtJar = projectRoot + File.separator + "lib" + File.separator + "rt.jar";
+        String rtJar = projectRoot + File.separator + "lib" + File.separator + "rvmonitorrt.jar";
         for(File testCase : testCases) {
             String classpathArgs = rtJar + ":mop/:" + testCase.getName() + File.separator + ":.";
             String testCaseJava = testCase.getName() + File.separator + testCase.getName() + ".java";

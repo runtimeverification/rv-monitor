@@ -41,7 +41,7 @@
   <property name="name" value="rvmonitor" />
   <property name="lr" value="logicrepository" />
   <property name="test" value="testsuite" />
-  <property name="rvmonitorrt" value="rt" />
+  <property name="rvmonitorrt" value="rvmonitorrt" />
 
   <target name="init">
     <mkdir dir="${build}" />
@@ -290,7 +290,7 @@
       <include name="${prefix}/${lr}/parser/**" />
       <include name="${prefix}/${lr}/plugins/*.class" />
     </jar>
-    <jar destfile="${lib}/${rvmonitorrt}.jar" basedir="${build}" includes="${prefix}/java/${rvmonitorrt}/**" />
+    <jar destfile="${lib}/${rvmonitorrt}.jar" basedir="${build}" includes="${prefix}/java/rt/**" />
     <jar destfile="${lib}/${test}.jar" basedir="${build}" includes="${prefix}/java/${test}/**" />
 
     <jar destfile="${plugins}/CFG.jar" basedir="${build}" includes="${prefix}/${lr}/plugins/cfg/**" />
