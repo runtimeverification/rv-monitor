@@ -11,10 +11,6 @@
     </info>
 
     <variables>
-        <!-- Z3 Dependency Info (either of z3 or z3.exe on PATH) -->
-        <variable name="DependencyPanel.aspectj.site" value="https://eclipse.org/aspectj/"/>
-        <variable name="DependencyPanel.aspectj.exe.1" value="ajc"/>
-        <variable name="DependencyPanel.aspectj.exe.2" value="ajc.exe"/>
     </variables>
 
     <!-- GUI-Specific Preferences -->
@@ -35,7 +31,6 @@
     <resources>
         <res id="CustomLangpack.xml_eng" src="@{temp}/res/izpack-rv-eng-lang.xml"/>
         <res id="LicencePanel.licence" src="@{base}/LICENSE"/>
-        <res id="DependencyPanel.aspectj.html" src="@{temp}/res/rvdependencies/ajc.html"/>
         <res id="HTMLFinishInfoPanel.finish" src="@{temp}/res/rvdependencies/finish.html"/>
         <res id="Heading.image" src="@{temp}/res/images/monitor.png"/>
     </resources>
@@ -44,7 +39,6 @@
     <panels>
         <panel classname="LicencePanel"/>
         <panel classname="TargetPanel"/>
-        <panel classname="DependencyPanel" id="aspectj" jar="@{temp}/res/panels/RVPanels.jar"/>
         <panel classname="PacksPanel"/>
         <panel classname="InstallPanel"/>
         <panel classname="HTMLFinishInfoPanel" id="finish" jar="@{temp}/res/panels/RVPanels.jar"/>
