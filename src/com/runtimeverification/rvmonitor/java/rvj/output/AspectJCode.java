@@ -49,11 +49,11 @@ public class AspectJCode {
 			enableSets.put(mopSpec, enableSet);
 			coenableSets.put(mopSpec, optimizedCoenableSet);
 
-			SuffixMonitor monitor = new SuffixMonitor(name, mopSpec, optimizedCoenableSet, true);
+			SuffixMonitor monitor = new SuffixMonitor(mopSpec.getName(), mopSpec, optimizedCoenableSet, true);
 
 			monitors.put(mopSpec, monitor);
 
-			monitorSets.put(mopSpec, new MonitorSet(name, mopSpec, monitor));
+			monitorSets.put(mopSpec, new MonitorSet(mopSpec.getName(), mopSpec, monitor));
 		}
 
 		//aspect = new Aspect(name, rvmSpecFile, monitorSets, monitors, enableSets, versionedStack);
