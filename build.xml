@@ -74,7 +74,7 @@
   </target>
 
   <target name="clean">
-    <delete verbose="false">
+    <delete verbose="false" quiet="true">
       <fileset dir="${build}" />
       <fileset dir="${dist}" />
     </delete>
