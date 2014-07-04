@@ -18,15 +18,13 @@
     </variables>
 
     <!-- GUI-Specific Preferences -->
-    <guiprefs width="580" height="650" resizable="yes">
+    <guiprefs width="630" height="700" resizable="yes">
         <modifier key="useHeadingPanel" value="yes"/>
         <modifier key="useHeadingForSummary" value="no"/>
         <modifier key="headingImageOnLeft" value="yes"/>
         <modifier key="headingLineCount" value="2"/>
         <modifier key="headingFontSize" value="1.5"/>
         <modifier key="headingBackgroundColor" value="0x00ffffff"/>
-        <modifier key="headingPanelCounter" value="text"/>
-        <modifier key="headingPanelCounterPos" value="inHeading"/>
     </guiprefs>
 
     <locale>
