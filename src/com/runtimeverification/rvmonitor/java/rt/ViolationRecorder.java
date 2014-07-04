@@ -89,8 +89,9 @@ public class ViolationRecorder {
         for(int i = 0; i < elements.length; i++) {
             final String fileName = elements[i].getFileName();
             final String className = elements[i].getClassName();
-            if(className.contains("com.runtimeverification.rvmonitor.") ||
-                    className.contains("javamop.") || fileName.contains(".aj")) {
+            if(className.startsWith("com.runtimeverification.rvmonitor.") ||
+                    className.startsWith("javamop.") || fileName.contains(".aj") ||
+                    className.startsWith("mop.")) {
             } else {
                 relevantList.add(elements[i]);
             }
