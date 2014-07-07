@@ -42,8 +42,9 @@ the libraries together with your instrumented program, and 3) java to run the co
 To get started, here’s an example of monitoring via context free grammar.
 
 In RV-Monitor/examples/java/CFG/HasNext, we call: 
-> $ rv-monitor rvm/HasNext.rvm
-> $ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
-> $ java HasNext_1.HasNext_1
+
+	$ rv-monitor rvm/HasNext.rvm
+	$ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
+	$ java HasNext_1.HasNext_1
 
 For more information on running examples, please see the web documentation.
