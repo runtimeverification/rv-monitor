@@ -35,7 +35,6 @@ public class JavaCFG extends LogicPluginShell {
 	}
 
 	private Properties getMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
-                System.out.println("running java");
 		Properties result = new Properties();
 
 		String monitor = logicOutput.getProperty().getFormula();

@@ -21,7 +21,6 @@ public class FileUtils {
     public static String extractFileFromJar(Class<?> classSource, String path) {
         String pathToClass = classSource.getPackage().getName().replace('.','/');
         String fullPath = "/" + pathToClass  + "/jar_include/" + path;
-        System.out.println(fullPath);
         InputStream input = classSource.getResourceAsStream(fullPath);
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         StringBuilder builder = new StringBuilder();
