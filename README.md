@@ -9,10 +9,10 @@ http://runtimeverification.com/monitor/docs
 Command Line Basics
 ----------------------
 
-To call rv-monitor with ease, please add RV-Monitor/bin to your `PATH`!
+To call `rv-monitor` with ease, please add `RV-Monitor/bin` to your `PATH`!
 
 Linux and Mac (POSIX)
-The 'rv-monitor' script has the following usage:
+The `rv-monitor` script has the following usage:
 	
 	 rv-monitor [-v] [-d <target directory>] <specification file or dir>
 
@@ -24,7 +24,7 @@ For more options, type `rv-monitor` or `rv-monitor -h`
 
 
 Windows
-The script, 'rv-monitor.bat' has the following usage:
+The script, `rv-monitor.bat` has the following usage:
 
 	rv-monitor.bat [-v] [-d <target directory>] <specification file or dir>
 
@@ -35,8 +35,8 @@ For more options, type `rv-monitor.bat` or `rv-monitor.bat -h`
 Running Examples
 ----------------------
 
-Before trying any examples, please ensure you’ve added the RV-Monitor/bin directory to your `PATH` 
-and RV-Monitor/lib/rvmonitorrt.jar:. to the beginning of your `CLASSPATH`.
+Before trying any examples, please ensure you’ve added the `RV-Monitor/bin` directory to your `PATH` 
+and `RV-Monitor/lib/rvmonitorrt.jar:.` to the beginning of your `CLASSPATH`.
 
 This ensures easy use of 1) rv-monitor to generate monitoring libraries, 2) javac to compile 
 the libraries together with your instrumented program, and 3) java to run the code in all the examples.
