@@ -11,8 +11,7 @@ Command Line Basics
 
 To call `rv-monitor` with ease, please add `RV-Monitor/bin` to your `PATH`!
 
-Linux and Mac (POSIX)
-The `rv-monitor` script has the following usage:
+On Linux and Mac (POSIX), the `rv-monitor` script has the following usage:
 	
 	 rv-monitor [-v] [-d <target directory>] <specification file or dir>
 
@@ -23,8 +22,7 @@ The `rv-monitor` script has the following usage:
 For more options, type `rv-monitor` or `rv-monitor -h`
 
 
-Windows
-The script, `rv-monitor.bat` has the following usage:
+On Windows, the script, `rv-monitor.bat` has the following usage:
 
 	rv-monitor.bat [-v] [-d <target directory>] <specification file or dir>
 
@@ -44,8 +42,8 @@ the libraries together with your instrumented program, and 3) java to run the co
 To get started, here’s an example of monitoring via context free grammar.
 
 In RV-Monitor/examples/java/CFG/HasNext, we call: 
-$ rv-monitor rvm/HasNext.rvm
-$ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
-$ java HasNext_1.HasNext_1
+> $ rv-monitor rvm/HasNext.rvm
+> $ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
+> $ java HasNext_1.HasNext_1
 
 For more information on running examples, please see the web documentation.
