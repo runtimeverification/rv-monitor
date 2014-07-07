@@ -56,7 +56,6 @@ public class CFSM extends LogicPluginShell {
   
 
   private Properties getNonParametricMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
-    System.out.println("running");
     String rvcPrefix = "__RVC_";
     Properties result = new Properties();
 
