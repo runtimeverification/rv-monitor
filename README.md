@@ -9,7 +9,7 @@ http://runtimeverification.com/monitor/docs
 Command Line Basics
 ----------------------
 
-To call rv-monitor with ease, please add `rv-monitor/bin` to your `PATH`!
+To call rv-monitor with ease, please add `RV-Monitor/bin` to your `PATH`!
 
 Linux and Mac (POSIX)
 The 'rv-monitor' script has the following usage:
@@ -43,7 +43,7 @@ the libraries together with your instrumented program, and 3) java to run the co
 
 To get started, here’s an example of monitoring via context free grammar.
 
-In rv-monitor/examples/java/CFG/HasNext, we call:
+In RV-Monitor/examples/java/CFG/HasNext, we call:
 $ rv-monitor rvm/HasNext.rvm
 $ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
 $ java HasNext_1.HasNext_1
