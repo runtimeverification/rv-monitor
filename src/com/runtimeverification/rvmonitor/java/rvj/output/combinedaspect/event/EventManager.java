@@ -11,7 +11,6 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefini
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 

@@ -61,8 +61,6 @@ public class MonitorSet {
 	private final SuffixMonitor monitor;
 
 	private final ArrayList<EventDefinition> events;
-	private final List<PropertyAndHandlers> properties;
-	private final boolean has__LOC;
 	private final boolean has__STATICSIG;
 	private final boolean hasThisJoinPoint;
 	private boolean existSkip = false;
@@ -70,8 +68,6 @@ public class MonitorSet {
 	private final RVMVariable loc = new RVMVariable("RVM_loc");
 	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
-
-	private final RVMonitorStatistics stat;
 	
 	private GlobalLock monitorLock;
 	
@@ -94,9 +90,7 @@ public class MonitorSet {
 		this.monitor = monitor;
 		this.setName = new RVMVariable(monitorName + "_Set");
 		this.events = new ArrayList<EventDefinition>(mopSpec.getEvents());
-		this.properties = mopSpec.getPropertiesAndHandlers();
 
-		this.has__LOC = mopSpec.has__LOC();
 		this.has__STATICSIG = mopSpec.has__STATICSIG();
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
@@ -113,8 +107,6 @@ public class MonitorSet {
 				break;
 			}
 		}
-
-		this.stat = new RVMonitorStatistics(name, mopSpec);
 		
 		this.usePartitionedSet = this.determineIfPartitionedSetApplicable();
 

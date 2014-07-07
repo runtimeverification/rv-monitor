@@ -1,28 +1,15 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event;
 
-import java.util.HashMap;
-import java.util.TreeMap;
-
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.CombinedAspect;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.advice.AdviceBody;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
-import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
-import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class StartThread {
-	private final RVMonitorSpec mopSpec;
 	private final EventDefinition event;
-	private final MonitorSet monitorSet;
-	private final SuffixMonitor monitorClass;
-	private final IndexingDeclNew indexingDecl;
-	private final TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees;
 	private final GlobalLock globalLock;
 
 	private final AdviceBody eventBody;
@@ -36,12 +23,7 @@ public class StartThread {
 		if (!event.isStartThread())
 			throw new RVMException("StartThread should be defined only for an startThread pointcut.");
 
-		this.mopSpec = mopSpec;
 		this.event = event;
-		this.monitorSet = combinedAspect.monitorSets.get(mopSpec);
-		this.monitorClass = combinedAspect.monitors.get(mopSpec);
-		this.indexingDecl = combinedAspect.indexingTreeManager.getIndexingDecl(mopSpec);
-		this.indexingTrees = indexingDecl.getIndexingTrees();
 		this.globalLock = combinedAspect.lockManager.getLock();
 		this.runnableMap = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_ThreadToRunnable");
 		this.mainThread = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_MainThread");

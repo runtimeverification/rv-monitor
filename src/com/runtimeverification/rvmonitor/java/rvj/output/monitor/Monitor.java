@@ -25,7 +25,6 @@ public abstract class Monitor {
 	boolean isDefined;
 	final boolean isOutermost;
 
-	private final boolean has__LOC;
 	final boolean has__ACTIVITY;
 	final boolean has__STATICSIG;
 	final boolean has__SKIP;
@@ -44,8 +43,6 @@ public abstract class Monitor {
 		return defaultMessage;
 	}
 
-	private final OptimizedCoenableSet coenableSet;
-
 	MonitorTermination monitorTermination = null;
 	MonitorInfo monitorInfo = null;
 
@@ -60,7 +57,6 @@ public abstract class Monitor {
 	public Monitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		this.isOutermost = isOutermost;
 
-		this.has__LOC = mopSpec.has__LOC();
 		this.has__ACTIVITY = mopSpec.has__ACTIVITY();
 		this.has__STATICSIG = mopSpec.has__STATICSIG();
 		this.has__SKIP = mopSpec.has__SKIP();
@@ -76,8 +72,6 @@ public abstract class Monitor {
 				}
 			}
 		}
-
-		this.coenableSet = coenableSet;
 
 		this.stat = new RVMonitorStatistics(name, mopSpec);
 
