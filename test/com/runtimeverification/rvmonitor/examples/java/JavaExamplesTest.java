@@ -94,7 +94,7 @@ public class JavaExamplesTest {
         Collection<Object[]> data = new ArrayList<Object[]>();
         for (File rvmFile : FileUtils.listFiles(new File("examples/java"), new String[]{"rvm"}, true)) {
             String specPath = rvmFile.getPath();
-            if(collectSubCases(rvmFile.getParentFile().getParentFile().size() > 0) {
+            if(collectSubCases(rvmFile.getParentFile().getParentFile()).size() > 0) {
                 data.add(new Object[] {specPath});
             }
         }
