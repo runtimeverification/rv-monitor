@@ -24,8 +24,8 @@ public class JavaExamplesTest {
 
     public JavaExamplesTest(String specPath) {
         rvmFile = specPath;
-        rvmDirectory = new File(rvmFile).getParent();
-        helper = new TestHelper(specPath);
+        rvmDirectory = new File(rvmFile).getParentFile().getParent();
+        helper = new TestHelper(new File(specPath).getParent());
     }
     
     /**
@@ -59,14 +59,14 @@ public class JavaExamplesTest {
         rvmName = rvmName.substring(0, rvmName.indexOf("."));
         
         File projectRoot = new File(System.getProperty("user.dir"));
-        helper.testCommand(null, projectRoot + File.separator + "bin" + File.separator + "rv-monitor", rvmName + ".rvm");
+        helper.testCommand(null, projectRoot + File.separator + "bin" + File.separator + "rv-monitor", "rvm" + File.separator + rvmName + ".rvm");
         Collection<File> testCases = collectSubCases(new File(rvmDirectory));
         String rtJar = projectRoot + File.separator + "lib" + File.separator + "rvmonitorrt.jar";
         for(File testCase : testCases) {
-            String classpathArgs = rtJar + ":mop/:" + testCase.getName() + File.separator + ":.";
+            String classpathArgs = rtJar + ":rvm/:" + testCase.getName() + File.separator + ":.";
             String testCaseJava = testCase.getName() + File.separator + testCase.getName() + ".java";
             
-            helper.testCommand(null, "javac", "-cp", classpathArgs, rvmName + "RuntimeMonitor.java", "-d", ".");
+            helper.testCommand(null, "javac", "-cp", classpathArgs, "rvm" + File.separator + rvmName + "RuntimeMonitor.java", "-d", ".");
             helper.testCommand(null, "javac", "-cp", classpathArgs, testCaseJava);
             String testCaseClass = testCase.getName() + File.separator + testCase.getName();
             helper.testCommand(testCaseClass, false, "java", "-cp", classpathArgs, testCaseClass);
@@ -74,16 +74,15 @@ public class JavaExamplesTest {
             helper.deleteFiles(true, testCaseClass + ".actual.out");
             helper.deleteFiles(true, testCaseClass + ".actual.err");
         }
-        helper.deleteFiles(true, rvmName + "RuntimeMonitor.java");
-        System.out.println("mop" + File.separator + "I" + rvmName + "Monitor.class");
-        helper.deleteFiles(false, "mop" + File.separator + "I" + rvmName + "Monitor.class");
-        helper.deleteFiles(false, "mop" + File.separator + rvmName + "Monitor.class");
-        helper.deleteFiles(false, "mop" + File.separator + rvmName + "Monitor$IntStack.class");
-        helper.deleteFiles(false, "mop" + File.separator + rvmName + "SuffixMonitor.class");
-        helper.deleteFiles(false, "mop" + File.separator + rvmName + "Monitor_Set.class");
-        helper.deleteFiles(false, "mop" + File.separator + rvmName + "SuffixMonitor_Set.class");
-        helper.deleteFiles(false, "mop" + File.separator + rvmName + "RuntimeMonitor.class");
-        helper.deleteFiles(false, "mop" + File.separator + rvmName + "DisableHolder.class");
+        helper.deleteFiles(true, "rvm" + File.separator + rvmName + "RuntimeMonitor.java");
+		helper.deleteFiles(false, "rvm" + File.separator + "I" + rvmName + "Monitor.class");
+        helper.deleteFiles(false, "rvm" + File.separator + rvmName + "Monitor.class");
+        helper.deleteFiles(false, "rvm" + File.separator + rvmName + "Monitor$IntStack.class");
+        helper.deleteFiles(false, "rvm" + File.separator + rvmName + "SuffixMonitor.class");
+        helper.deleteFiles(false, "rvm" + File.separator + rvmName + "Monitor_Set.class");
+        helper.deleteFiles(false, "rvm" + File.separator + rvmName + "SuffixMonitor_Set.class");
+        helper.deleteFiles(false, "rvm" + File.separator + rvmName + "RuntimeMonitor.class");
+        helper.deleteFiles(false, "rvm" + File.separator + rvmName + "DisableHolder.class");
     }
 
     // The method bellow creates the set of parameter instances to be used as seeds by
@@ -95,7 +94,7 @@ public class JavaExamplesTest {
         Collection<Object[]> data = new ArrayList<Object[]>();
         for (File rvmFile : FileUtils.listFiles(new File("examples/java"), new String[]{"rvm"}, true)) {
             String specPath = rvmFile.getPath();
-            if(collectSubCases(new File(new File(specPath).getParent())).size() > 0) {
+            if(collectSubCases(new File(rvmFile.getParentFile().getParentFile()).size() > 0) {
                 data.add(new Object[] {specPath});
             }
         }
