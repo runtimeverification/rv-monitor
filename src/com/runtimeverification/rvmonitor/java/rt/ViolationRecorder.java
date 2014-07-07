@@ -91,7 +91,7 @@ public class ViolationRecorder {
             final String className = elements[i].getClassName();
             if(className.startsWith("com.runtimeverification.rvmonitor.") ||
                     className.startsWith("javamop.") || fileName.contains(".aj") ||
-                    className.startsWith("mop.")) {
+                    className.startsWith("mop.") || className.startsWith("rvm.")) {
             } else {
                 relevantList.add(elements[i]);
             }
