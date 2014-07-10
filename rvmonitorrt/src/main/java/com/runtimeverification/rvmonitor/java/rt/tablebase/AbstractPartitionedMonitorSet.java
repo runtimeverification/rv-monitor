@@ -10,7 +10,6 @@ import com.runtimeverification.rvmonitor.java.rt.observable.IObservable;
 import com.runtimeverification.rvmonitor.java.rt.observable.ISetBehaviorObserver;
 import com.runtimeverification.rvmonitor.java.rt.observable.ObserverSettings;
 import com.runtimeverification.rvmonitor.java.rt.observable.SetBehaviorObserver;
-import com.runtimeverification.rvmonitor.java.rvj.output.NotImplementedException;
 
 /**
  * This class represents a set of monitors. By default, a set of monitors
@@ -595,7 +594,7 @@ public abstract class AbstractPartitionedMonitorSet<TMonitor extends IMonitor> i
 			@Override
 			public TMonitor next() {
 				if (!this.hasnext)
-					throw new NotImplementedException();
+					throw new UnsupportedOperationException();
 				TMonitor ret = this.it.getMonitor();
 				this.hasnext = this.it.moveNext();
 				return ret;
@@ -603,7 +602,7 @@ public abstract class AbstractPartitionedMonitorSet<TMonitor extends IMonitor> i
 
 			@Override
 			public void remove() {
-				throw new NotImplementedException();
+				throw new UnsupportedOperationException();
 			}
 		}
 	}
