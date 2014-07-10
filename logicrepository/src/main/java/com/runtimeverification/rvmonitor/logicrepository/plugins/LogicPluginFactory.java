@@ -4,8 +4,6 @@ import java.io.*;
 import java.util.jar.*;
 import java.util.*;
 
-import com.runtimeverification.rvmonitor.util.StreamGobbler;
-
 import com.runtimeverification.rvmonitor.logicrepository.*;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.*;
 
