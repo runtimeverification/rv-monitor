@@ -11,5 +11,6 @@
         <module>fsm</module>
         <module>ltl</module>
         <module>po</module>
+        <module>srs</module>
     </modules>
 </project>
