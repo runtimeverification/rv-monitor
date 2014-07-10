@@ -8,5 +8,6 @@
     <modules>
         <module>cfg</module>
         <module>ere</module>
+        <module>fsm</module>
     </modules>
 </project>
