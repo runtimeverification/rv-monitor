@@ -1,9 +1,0 @@
-rvmonitor.jar
-rt.jar
-rvmonitorrt.jar
-testsuite.jar
-logicrepository.jar
-scala-library.jar
-plugins/*
-log/*
-scala-parser*.jar
