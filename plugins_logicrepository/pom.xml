@@ -9,5 +9,6 @@
         <module>cfg</module>
         <module>ere</module>
         <module>fsm</module>
+        <module>ltl</module>
     </modules>
 </project>
