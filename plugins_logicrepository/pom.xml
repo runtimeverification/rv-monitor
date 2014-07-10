@@ -10,5 +10,6 @@
         <module>ere</module>
         <module>fsm</module>
         <module>ltl</module>
+        <module>po</module>
     </modules>
 </project>
