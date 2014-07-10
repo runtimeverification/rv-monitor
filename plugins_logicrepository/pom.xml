@@ -11,6 +11,7 @@
         <module>fsm</module>
         <module>ltl</module>
         <module>po</module>
+        <module>ptcaret</module>
         <module>srs</module>
         <module>tfsm</module>
     </modules>
