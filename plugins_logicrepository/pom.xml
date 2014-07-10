@@ -10,6 +10,7 @@
         <module>ere</module>
         <module>fsm</module>
         <module>ltl</module>
+        <module>pda</module>
         <module>po</module>
         <module>ptcaret</module>
         <module>srs</module>
