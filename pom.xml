@@ -5,12 +5,31 @@
     <artifactId>root</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <scm>
+        <connection>scm:git:https://github.com/runtimeverification/rv-monitor.git</connection>
+    </scm>
     <modules>
         <module>rv-monitor</module>
         <module>rvmonitorrt</module>
         <module>logicrepository</module>
         <module>plugins_logicrepository</module>
     </modules>
+    <repositories>
+        <repository>
+            <id>runtime-verification</id>
+            <name>Runtime Verification Repository</name>
+            <url>http://office.runtimeverification.com:8888/repository/internal</url>
+            <snapshots><enabled>false</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </repository>
+        <repository>
+            <id>runtime-verification.snapshots</id>
+            <name>Runtime Verification Snapshot Repository</name>
+            <url>http://office.runtimeverification.com:8888/repository/snapshots</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>false</enabled></releases>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>commons-io</groupId>
