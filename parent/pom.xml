@@ -1,0 +1,26 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.runtimeverification.rvmonitor</groupId>
+    <artifactId>parent</artifactId>
+    <version>1</version>
+    <scm>
+        <connection>scm:git:https://github.com/runtimeverification/rv-monitor.git</connection>
+    </scm>
+    <repositories>
+        <repository>
+            <id>runtime-verification</id>
+            <name>Runtime Verification Repository</name>
+            <url>http://office.runtimeverification.com:8888/repository/internal</url>
+            <snapshots><enabled>false</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </repository>
+        <repository>
+            <id>runtime-verification.snapshots</id>
+            <name>Runtime Verification Snapshot Repository</name>
+            <url>http://office.runtimeverification.com:8888/repository/snapshots</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>false</enabled></releases>
+        </repository>
+    </repositories>
+    <packaging>pom</packaging>
+</project>
