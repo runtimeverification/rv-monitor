@@ -12,6 +12,7 @@ if "%1"=="-c" (
 set RELEASE=%SRC_ROOT%\target\release\rv-monitor\lib
 
 set PLUGINS=%RELEASE%\plugins
+set LOGICPLUGINPATH=%PLUGINS%
 set CP=%RELEASE%\*;%PLUGINS%\*
 for /f %%a IN ('dir /b /s "%PLUGINS%\*.jar"') do call :concat %%a
 
