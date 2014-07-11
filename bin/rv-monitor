@@ -22,8 +22,10 @@ then
   MAINCLASS="com.runtimeverification.rvmonitor.c.rvc.Main -llvm"
 fi
 
-PLUGINS_CLASSPATH="$SRC_ROOT/lib/*":"$SRC_ROOT/lib/plugins/*"
+RELEASE="$SRC_ROOT/target/release/rv-monitor/lib"
 
-java -cp "$SRC_ROOT/lib/rvmonitorrt.jar:$SRC_ROOT/lib/rvmonitor.jar":$PLUGINS_CLASSPATH:"$SRC_ROOT/lib/mysql-connector-java-3.0.9-stable-bin.jar" $MAINCLASS $@
+PLUGINS_CLASSPATH="$RELEASE/plugins/*"
+
+LOGICPLUGINPATH="$RELEASE/plugins/" java -cp "$RELEASE/*":$PLUGINS_CLASSPATH $MAINCLASS $@
 
 

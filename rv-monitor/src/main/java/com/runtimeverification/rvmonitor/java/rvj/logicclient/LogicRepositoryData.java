@@ -130,7 +130,7 @@ public class LogicRepositoryData {
 			Unmarshaller unmarshaller = logicRequest.createUnmarshaller();
 			xmlData = ((JAXBElement<LogicRepositoryType>) unmarshaller.unmarshal(parserInput)).getValue();
 		} catch (Exception e) {
-			throw new RVMException(e.getMessage());
+			throw new RVMException(e.getMessage(), e);
 		}
 
 		return xmlData;

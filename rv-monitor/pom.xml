@@ -35,51 +35,6 @@
             <artifactId>logicrepository</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>cfg</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>ere</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>fsm</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>ltl</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>ptcaret</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>pda</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>po</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>srs</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>tfsm</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

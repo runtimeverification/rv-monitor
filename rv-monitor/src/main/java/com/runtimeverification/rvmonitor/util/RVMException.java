@@ -15,4 +15,7 @@ public class RVMException extends Exception {
     public RVMException(String str){
         super(str);
     }
+    public RVMException(String str, Exception e){
+        super(str, e);
+    }
 }

@@ -54,3 +54,5 @@ examples/llvmmop/safety_critical/six_steps/lib/six_steps.bc*
 examples/llvmmop/safety_critical/six_steps/test1*
 examples/llvmmop/safety_critical/six_steps/test2*
 examples/llvmmop/safety_critical/six_steps/test_*/test*.bc*
+
+target/**
