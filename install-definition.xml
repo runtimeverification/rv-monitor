@@ -31,8 +31,9 @@
     <resources>
         <res id="CustomLangpack.xml_eng" src="@{temp}/res/izpack-rv-eng-lang.xml"/>
         <res id="LicencePanel.licence" src="@{base}/LICENSE"/>
-        <res id="HTMLFinishInfoPanel.finish" src="@{temp}/res/rvdependencies/finish.html"/>
+        <res id="HTMLFinishInfoPanel.finish" src="@{temp}/res/rvdependencies/finish_rvm_classpath.html"/>
         <res id="Heading.image" src="@{temp}/res/images/monitor.png"/>
+        <res id="TargetPanel.dir.windows" src="@{temp}/res/windows-installpath.txt"/>
     </resources>
 
     <!-- Installer Panel Sequence -->
