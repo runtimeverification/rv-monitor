@@ -22,7 +22,7 @@
                 <include>com.runtimeverification.rvmonitor:logicrepository</include>
             </includes>
             <binaries>
-                <includeDependencies>false</includeDependencies>
+                <includeDependencies>true</includeDependencies>
                 <outputDirectory>/lib</outputDirectory>
                 <unpack>false</unpack>
                 <includes>
@@ -35,7 +35,7 @@
                 <include>com.runtimeverification.rvmonitor.logicrepository.plugins:*</include>
             </includes>
             <binaries>
-                <includeDependencies>false</includeDependencies>
+                <includeDependencies>true</includeDependencies>
                 <outputDirectory>/lib/plugins</outputDirectory>
                 <unpack>false</unpack>
                 <includes>
