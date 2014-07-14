@@ -14,14 +14,37 @@
             </includes>
         </dependencySet>
     </dependencySets>
-    <fileSets>
-        <fileSet>
-            <directory>${basedir}/plugins_logicrepository/target/plugins</directory>
-            <outputDirectory>/lib/plugins</outputDirectory>
+    <moduleSets>
+        <moduleSet>
             <includes>
-                <include>*.jar</include>
+                <include>com.runtimeverification.rvmonitor:rvmonitorrt</include>
+                <include>com.runtimeverification.rvmonitor:rv-monitor</include>
+                <include>com.runtimeverification.rvmonitor:logicrepository</include>
             </includes>
-        </fileSet>
-    </fileSets>
+            <binaries>
+                <includeDependencies>false</includeDependencies>
+                <outputDirectory>/lib</outputDirectory>
+                <unpack>false</unpack>
+                <includes>
+                    <include>*:jar:*</include>
+                </includes>
+            </binaries>
+        </moduleSet>
+        <moduleSet>
+            <includes>
+                <include>com.runtimeverification.rvmonitor.logicrepository.plugins:*</include>
+            </includes>
+            <binaries>
+                <includeDependencies>false</includeDependencies>
+                <outputDirectory>/lib/plugins</outputDirectory>
+                <unpack>false</unpack>
+                <includes>
+                    <include>*:jar:*</include>
+                </includes>
+                <!-- RV-Monitor loads these jars at runtime, and has strict requirements on their names. -->
+                <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+            </binaries>
+        </moduleSet>
+    </moduleSets>
 </assembly>
 
