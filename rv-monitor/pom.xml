@@ -49,9 +49,6 @@
                         <goals>
                             <goal>javacc</goal>
                         </goals>
-                        <configuration>
-                            <sourceDirectory>src/main/java/</sourceDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
