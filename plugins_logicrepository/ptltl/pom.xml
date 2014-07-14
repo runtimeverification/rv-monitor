@@ -38,9 +38,6 @@
                             <goal>add-source</goal>
                             <goal>compile</goal>
                         </goals>
-                        <configuration>
-                            <sourceDirectory>src/main/java/</sourceDirectory>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>scala-test-compile</id>
