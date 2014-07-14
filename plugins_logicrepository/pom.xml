@@ -30,4 +30,12 @@
         <module>srs</module>
         <module>tfsm</module>
     </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>javacc-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -6,18 +6,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
     <artifactId>ltl</artifactId>
-    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>ltl</name>
-    <url>http://www.runtimeverification.com</url>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>javacc-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>
