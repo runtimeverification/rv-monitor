@@ -107,10 +107,6 @@ public class AndTest {
             assertEquals(False.get(), withFalse.reduce());
         }
         {
-            And solitary = makeAnd(a);
-            assertEquals(a, solitary.reduce());
-        }
-        {
             And solitaryWithTrue = makeAnd(a, True.get());
             assertEquals(a, solitaryWithTrue.reduce());
         }

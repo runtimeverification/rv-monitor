@@ -107,10 +107,6 @@ public class OrTest {
             Or withFalse = makeOr(a, b, False.get());
             assertEquals(a_or_b, withFalse.reduce());
         }
-        {
-            Or solitary = makeOr(a);
-            assertEquals(a, solitary.reduce());
-        }
     }
     
     /**
