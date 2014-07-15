@@ -48,8 +48,9 @@
                             <formats>
                                 <format>dir</format>
                             </formats>
-                            <finalName>release</finalName>
+                            <finalName>rv-monitor</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
+                            <outputDirectory>release</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

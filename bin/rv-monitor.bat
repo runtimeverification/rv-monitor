@@ -9,7 +9,7 @@ if "%1"=="-c" (
   set MAINCLASS=com.runtimeverification.rvmonitor.c.rvc.Main
 ) 
 
-set RELEASE=%SRC_ROOT%\target\release\rv-monitor\lib
+set RELEASE=%SRC_ROOT%\release\rv-monitor\lib
 
 set PLUGINS=%RELEASE%\plugins
 set LOGICPLUGINPATH=%PLUGINS%

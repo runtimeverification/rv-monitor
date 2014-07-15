@@ -22,7 +22,7 @@ then
   MAINCLASS="com.runtimeverification.rvmonitor.c.rvc.Main -llvm"
 fi
 
-RELEASE="$SRC_ROOT/target/release/rv-monitor/lib"
+RELEASE="$SRC_ROOT/release/rv-monitor/lib"
 
 PLUGINS_CLASSPATH="$RELEASE/plugins/*"
 

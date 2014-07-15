@@ -4,16 +4,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
     <id>lib</id>
-    <baseDirectory>rv-monitor</baseDirectory>
-    <dependencySets>
-        <dependencySet>
-            <outputDirectory>/lib</outputDirectory>
-            <useProjectArtifact>true</useProjectArtifact>
-            <includes>
-                <include>*:jar:*</include>
-            </includes>
-        </dependencySet>
-    </dependencySets>
+    <includeBaseDirectory>false</includeBaseDirectory>
     <moduleSets>
         <moduleSet>
             <includes>
@@ -23,7 +14,7 @@
             </includes>
             <binaries>
                 <includeDependencies>true</includeDependencies>
-                <outputDirectory>/lib</outputDirectory>
+                <outputDirectory>lib</outputDirectory>
                 <unpack>false</unpack>
                 <includes>
                     <include>*:jar:*</include>
@@ -36,7 +27,7 @@
             </includes>
             <binaries>
                 <includeDependencies>true</includeDependencies>
-                <outputDirectory>/lib/plugins</outputDirectory>
+                <outputDirectory>lib/plugins</outputDirectory>
                 <unpack>false</unpack>
                 <includes>
                     <include>*:jar:*</include>
