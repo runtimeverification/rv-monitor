@@ -55,7 +55,7 @@
                 </executions>
                 <configuration>
                     <descriptors>
-                        <descriptor>assembly.xml</descriptor>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
             </plugin>
