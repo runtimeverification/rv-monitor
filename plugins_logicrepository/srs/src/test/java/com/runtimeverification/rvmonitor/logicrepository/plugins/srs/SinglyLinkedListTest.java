@@ -1,7 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.srs;
-
-import com.runtimeverification.rvmonitor.logicrepository.plugins.srs.SinglyLinkedList;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.srs.SLIterator;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.srs;
 
 import java.util.ArrayList;
 import java.util.Arrays;

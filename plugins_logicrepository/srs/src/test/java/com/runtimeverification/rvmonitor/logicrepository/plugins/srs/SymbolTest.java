@@ -1,6 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.srs;
-
-import com.runtimeverification.rvmonitor.logicrepository.plugins.srs.Symbol;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.srs;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,9 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.srs;
-
-import com.runtimeverification.rvmonitor.logicrepository.plugins.srs.Rule;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.srs.Sequence;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.srs.SRS;
-import com.runtimeverification.rvmonitor.logicrepository.plugins.srs.Symbol;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.srs;
 
 import java.util.ArrayList;
 import java.util.Arrays;

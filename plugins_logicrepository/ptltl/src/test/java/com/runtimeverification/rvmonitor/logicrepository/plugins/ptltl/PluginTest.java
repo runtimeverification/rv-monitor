@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.logicrepository.ptltl;
+package com.runtimeverification.rvmonitor.logicrepository.plugins.ptltl;
 
 import com.runtimeverification.rvmonitor.logicrepository.PluginHelper;
 
