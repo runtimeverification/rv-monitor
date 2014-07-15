@@ -17,6 +17,22 @@
         <module>plugins_logicrepository</module>
         <module>rv-monitor</module>
     </modules>
+    <dependencies>
+        <!-- Examples tests use commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Examples tests depend on rv-monitor classes -->
+        <dependency>
+            <groupId>com.runtimeverification.rvmonitor</groupId>
+            <artifactId>rv-monitor</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -42,6 +58,29 @@
                         <descriptor>assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <!-- To include the dependencies -->
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

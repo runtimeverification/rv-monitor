@@ -18,7 +18,7 @@ import java.util.Collection;
  * @author TraianSF
  */
 @RunWith(Parameterized.class)
-public class LlvmMopExamplesTest {
+public class LlvmMopExamplesIT {
     public static final String RVC = "__RVC_";
     public static final String MONITOR_BC = "_Monitor.bc";
     private final String specPath;
@@ -26,26 +26,22 @@ public class LlvmMopExamplesTest {
     private final TestHelper helper;
 
 
-    public LlvmMopExamplesTest(String specPath, String specName) {
+    public LlvmMopExamplesIT(String specPath, String specName) {
         this.specName = specName;
         this.specPath = specPath;
         helper = new TestHelper(specPath);
     }
 
-    private void createMonitor() throws IOException {
+    private void createMonitor() throws Exception {
         helper.deleteFiles(false,
                 RVC + specName + MONITOR_BC,
                 "Makefile",
                 "Makefile.instrument",
                 "aspect.map"
         );
-        Main.main(new String[]{"-llvm", specPath});
-        helper.relocateFiles(
-                RVC + specName + MONITOR_BC,
-                "Makefile.instrument",
-                "Makefile.new",
-                "aspect.map"
-        );
+        File projectRoot = new File(System.getProperty("user.dir"));
+        helper.testCommand(null, projectRoot + File.separator + "bin" + File.separator +
+            "rv-monitor", "-llvm", new File(specPath).getName());
 
         Files.move(
                 helper.getPath("Makefile.new"),

@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.examples.c;
+package com.runtimeverification.rvmonitor.examples.llvm;
 
 import com.runtimeverification.rvmonitor.examples.TestHelper;
 import org.apache.commons.io.FileUtils;
@@ -11,15 +11,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Base class for C examples JUnit tests.
+ * Base class for LLVM examples JUnit tests.
  * @author TraianSF
+ * @author A. Cody Schuffelen
  */
 @RunWith(Parameterized.class)
-public class CExamplesTest {
+public class LlvmExamplesIT {
     TestHelper helper;
 
 
-    public CExamplesTest(String specPath) {
+    public LlvmExamplesIT(String specPath) {
         helper = new TestHelper(specPath);
     }
 
@@ -48,7 +49,7 @@ public class CExamplesTest {
     @Parameterized.Parameters(name="{0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> data = new ArrayList<Object[]>();
-        for (File rvmFile : FileUtils.listFiles(new File("examples/c"), new String[]{"rvm"}, true)) {
+        for (File rvmFile : FileUtils.listFiles(new File("examples/llvm"), new String[]{"rvm"}, true)) {
             String specPath = rvmFile.getPath();
             data.add(new Object[] {specPath});
         }

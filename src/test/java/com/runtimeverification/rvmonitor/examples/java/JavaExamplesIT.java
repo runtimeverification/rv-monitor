@@ -17,12 +17,12 @@ import java.util.Collection;
  * @author A. Cody Schuffelen
  */
 @RunWith(Parameterized.class)
-public class JavaExamplesTest {
+public class JavaExamplesIT {
     private TestHelper helper;
     private String rvmFile;
     private String rvmDirectory;
 
-    public JavaExamplesTest(String specPath) {
+    public JavaExamplesIT(String specPath) {
         rvmFile = specPath;
         rvmDirectory = new File(rvmFile).getParentFile().getParent();
         helper = new TestHelper(new File(specPath).getParent());
@@ -61,7 +61,8 @@ public class JavaExamplesTest {
         File projectRoot = new File(System.getProperty("user.dir"));
         helper.testCommand(null, projectRoot + File.separator + "bin" + File.separator + "rv-monitor", "rvm" + File.separator + rvmName + ".rvm");
         Collection<File> testCases = collectSubCases(new File(rvmDirectory));
-        String rtJar = projectRoot + File.separator + "lib" + File.separator + "rvmonitorrt.jar";
+        String rtJar = projectRoot + File.separator + "target" + File.separator + "release" + 
+            File.separator + "rv-monitor" + File.separator + "lib" + File.separator + "*";
         for(File testCase : testCases) {
             String classpathArgs = rtJar + ":rvm/:" + testCase.getName() + File.separator + ":.";
             String testCaseJava = testCase.getName() + File.separator + testCase.getName() + ".java";
