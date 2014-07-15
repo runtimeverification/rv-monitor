@@ -65,7 +65,6 @@
                 <version>3.1</version>
                 <executions>
                     <execution>
-                        <id>testCompile</id>
                         <goals>
                             <goal>testCompile</goal>
                         </goals>

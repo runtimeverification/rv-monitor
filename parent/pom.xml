@@ -42,12 +42,14 @@
                     <version>2.6</version>
                     <executions>
                         <execution>
-                            <id>javacc</id>
                             <goals>
                                 <goal>javacc</goal>
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <jdkVersion>1.6</jdkVersion>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
