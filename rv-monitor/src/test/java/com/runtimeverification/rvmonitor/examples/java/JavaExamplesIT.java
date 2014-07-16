@@ -58,10 +58,10 @@ public class JavaExamplesIT {
         String rvmName = new File(rvmFile).getName();
         rvmName = rvmName.substring(0, rvmName.indexOf("."));
         
-        File projectRoot = new File(System.getProperty("user.dir"));
+        File projectRoot = new File(System.getProperty("user.dir")).getParentFile();
         helper.testCommand(null, projectRoot + File.separator + "bin" + File.separator + "rv-monitor", "rvm" + File.separator + rvmName + ".rvm");
         Collection<File> testCases = collectSubCases(new File(rvmDirectory));
-        String rtJar = projectRoot + File.separator + "target" + File.separator + "release" + 
+        String rtJar = projectRoot + File.separator + "release" + 
             File.separator + "rv-monitor" + File.separator + "lib" + File.separator + "*";
         for(File testCase : testCases) {
             String classpathArgs = rtJar + ":rvm/:" + testCase.getName() + File.separator + ":.";
@@ -93,7 +93,7 @@ public class JavaExamplesIT {
     @Parameterized.Parameters(name="{0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> data = new ArrayList<Object[]>();
-        for (File rvmFile : FileUtils.listFiles(new File("examples/java"), new String[]{"rvm"}, true)) {
+        for (File rvmFile : FileUtils.listFiles(new File("../examples/java"), new String[]{"rvm"}, true)) {
             String specPath = rvmFile.getPath();
             if(collectSubCases(rvmFile.getParentFile().getParentFile()).size() > 0) {
                 data.add(new Object[] {specPath});

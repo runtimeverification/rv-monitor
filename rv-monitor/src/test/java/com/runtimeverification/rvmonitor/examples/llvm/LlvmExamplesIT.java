@@ -49,7 +49,7 @@ public class LlvmExamplesIT {
     @Parameterized.Parameters(name="{0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> data = new ArrayList<Object[]>();
-        for (File rvmFile : FileUtils.listFiles(new File("examples/llvm"), new String[]{"rvm"}, true)) {
+        for (File rvmFile : FileUtils.listFiles(new File("../examples/llvm"), new String[]{"rvm"}, true)) {
             String specPath = rvmFile.getPath();
             data.add(new Object[] {specPath});
         }

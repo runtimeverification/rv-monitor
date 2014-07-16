@@ -39,7 +39,7 @@ public class LlvmMopExamplesIT {
                 "Makefile.instrument",
                 "aspect.map"
         );
-        File projectRoot = new File(System.getProperty("user.dir"));
+        File projectRoot = new File(System.getProperty("user.dir")).getParentFile();
         helper.testCommand(null, projectRoot + File.separator + "bin" + File.separator +
             "rv-monitor", "-llvm", new File(specPath).getName());
 
@@ -87,7 +87,7 @@ public class LlvmMopExamplesIT {
     @Parameterized.Parameters(name="{0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> data = new ArrayList<Object[]>();
-        for (File rvmFile : FileUtils.listFiles(new File("examples/llvmmop"), new String[]{"rvm"}, true)) {
+        for (File rvmFile : FileUtils.listFiles(new File("../examples/llvmmop"), new String[]{"rvm"}, true)) {
             String rvmFileName = rvmFile.getName();
             String fileName = rvmFileName.substring(0, rvmFileName.lastIndexOf('.'));
             String[] parts = fileName.split("_");
