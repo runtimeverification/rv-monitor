@@ -5,6 +5,11 @@ import com.runtimeverification.rvmonitor.logicrepository.PluginHelper;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.PropertyType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,6 +20,46 @@ import static org.junit.Assert.*;
  * @author A. Cody Schuffelen
  */
 public class PluginTest {
+    
+    /**
+     * A list of comma-separated strings containing the permutations of the input strings.
+     * @param strings The strings to permute.
+     * @return The permutations as comma-separated strings.
+     */
+    private List<String> generatePermutations(List<String> strings) {
+        if(strings.size() == 0) {
+            return new ArrayList<String>();
+        } else if(strings.size() == 1) {
+            return strings;
+        }
+        ArrayList<String> permutations = new ArrayList<String>();
+        for(String str : strings) {
+            List<String> withoutStr = new ArrayList<String>(strings);
+            withoutStr.remove(str);
+            List<String> innerPermutations = generatePermutations(withoutStr);
+            for(String innerPermutation : innerPermutations) {
+                permutations.add(str + ", " + innerPermutation);
+            }
+        }
+        return permutations;
+    }
+    
+    /**
+     * Whether a string contains a permutation of some number of strings when separated by
+     * commas.
+     * @param search The string to search.
+     * @param strings The strings to permute.
+     * @return If {@code search} contains a permutation of {@code strings}.
+     */
+    private boolean containsPermutationOf(String search, String... strings) {
+        List<String> permutations = generatePermutations(Arrays.asList(strings));
+        for(String permutation : permutations) {
+            if(search.contains("[" + permutation + "]")) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     /**
      * Tests code generation for CFG code containing a Safe File property.
@@ -43,7 +88,25 @@ public class PluginTest {
         "[open, endCall, close, beginCall], [close, open], [beginCall, open], " +
         "[open, endCall, close], [open, endCall, beginCall], [beginCall], [endCall, beginCall]]";
         
-        assertTrue(output.getEnableSets().contains(powerSet));
+        String enableSets = output.getEnableSets();
+        
+        assertTrue(enableSets.contains("[]"));
+        assertTrue(containsPermutationOf(enableSets, "open"));
+        assertTrue(containsPermutationOf(enableSets, "open", "close"));
+        assertTrue(containsPermutationOf(enableSets, "open", "beginCall"));
+        assertTrue(containsPermutationOf(enableSets, "open", "endCall"));
+        assertTrue(containsPermutationOf(enableSets, "open", "beginCall", "endCall"));
+        assertTrue(containsPermutationOf(enableSets, "open", "close", "beginCall"));
+        assertTrue(containsPermutationOf(enableSets, "open", "close", "endCall"));
+        assertTrue(containsPermutationOf(enableSets, "open", "close", "beginCall", "endCall"));
+        assertTrue(containsPermutationOf(enableSets, "close"));
+        assertTrue(containsPermutationOf(enableSets, "close", "beginCall"));
+        assertTrue(containsPermutationOf(enableSets, "close", "endCall"));
+        assertTrue(containsPermutationOf(enableSets, "close", "beginCall", "endCall"));
+        assertTrue(containsPermutationOf(enableSets, "beginCall"));
+        assertTrue(containsPermutationOf(enableSets, "beginCall", "endCall"));
+        assertTrue(containsPermutationOf(enableSets, "endCall"));
+        
         assertEquals(input.getEvents(), output.getCreationEvents());
     }
     
