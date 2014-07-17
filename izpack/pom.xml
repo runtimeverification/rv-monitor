@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>com.runtimeverification.rvmonitor</groupId>
+        <artifactId>root</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <!-- Based on guide at http://docs.codehaus.org/display/IZPACK/Compiling+Using+Maven -->
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>izpack</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>izpack</name>
+    <!-- Launch IzPack automatically -->
+    <packaging>izpack-jar</packaging>
+    <properties>
+        <!-- Installer variables -->
+        <staging.dir>${project.build.directory}/staging</staging.dir>
+        <info.appName>RV-Monitor</info.appName>
+        <izpack.dir.app>${basedir}/src/main/izpack</izpack.dir.app>
+        <staging.dir.app>${staging.dir}/rv-monitor</staging.dir.app>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.runtimeverification.rvmonitor</groupId>
+            <artifactId>rv-monitor</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- Populate staging area -->
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <copy todir="${staging.dir.app}">
+                                    <fileset dir="${basedir}/src/main/izpack"/>
+                                    <filelist dir="${basedir}/.." files="LICENSE,README.md"/>
+                                </copy>
+                                <copy todir="${staging.dir.app}/bin">
+                                    <fileset dir="${basedir}/../bin"/>
+                                </copy>
+                                <copy todir="${staging.dir.app}/release">
+                                    <fileset dir="${basedir}/../release/"/>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.izpack</groupId>
+                <artifactId>izpack-maven-plugin</artifactId>
+                <version>5.0.0-rc2</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <baseDir>${staging.dir.app}</baseDir>
+                    <installFile>${izpack.dir.app}/install.xml</installFile>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                    <finalName>${project.build.finalName}</finalName>
+                    <enableOverrideArtifact>true</enableOverrideArtifact>
+                    <mkdirs>true</mkdirs>
+                    <autoIncludeUrl>false</autoIncludeUrl>
+                    <autoIncludeDevelopers>false</autoIncludeDevelopers>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

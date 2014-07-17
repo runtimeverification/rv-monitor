@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
 
-<installation version="1.0">
+<installation version="5.0">
 
     <!-- General Application Information -->
     <info>
@@ -29,11 +29,10 @@
 
     <!-- Installer Resources -->
     <resources>
-        <res id="CustomLangpack.xml_eng" src="@{temp}/res/izpack-rv-eng-lang.xml"/>
-        <res id="LicencePanel.licence" src="@{base}/LICENSE"/>
-        <res id="HTMLFinishInfoPanel.finish" src="@{temp}/res/rvdependencies/finish_rvm_classpath.html"/>
-        <res id="Heading.image" src="@{temp}/res/images/monitor.png"/>
-        <res id="TargetPanel.dir.windows" src="@{temp}/res/windows-installpath.txt"/>
+        <res id="CustomLangpack.xml_eng" src="res/izpack-rv-eng-lang.xml"/>
+        <res id="LicencePanel.licence" src="LICENSE"/>
+        <res id="HTMLFinishInfoPanel.finish" src="res/rvdependencies/finish.html"/>
+        <res id="Heading.image" src="res/images/monitor.png"/>
     </resources>
 
     <!-- Installer Panel Sequence -->
@@ -42,18 +41,17 @@
         <panel classname="TargetPanel"/>
         <panel classname="PacksPanel"/>
         <panel classname="InstallPanel"/>
-        <panel classname="HTMLFinishInfoPanel" id="finish" jar="@{temp}/res/panels/RVPanels.jar"/>
+        <!--<panel classname="HTMLFinishInfoPanel" id="finish" jar="izpack/target/staging/rv-monitor/res/panels/RVPanels.jar"/>-->
     </panels>
 
     <!-- Installable Package Tasks -->
     <packs>
         <pack name="RV-Monitor" required="yes" installGroups="New Application" >
             <description>Required RV-Monitor libraries and executables.</description>
-            <singlefile src="@{base}/README.md" target="$INSTALL_PATH/README"/>
-            <file src="@{base}/LICENSE" targetdir="$INSTALL_PATH"/>
-            <file src="@{bin}" targetdir="$INSTALL_PATH"/>
-            <file src="@{lib}" targetdir="$INSTALL_PATH"/>
-            <file src="@{examples}" targetdir="$INSTALL_PATH"/>
+            <singlefile src="README.md" target="$INSTALL_PATH/README"/>
+            <file src="LICENSE" targetdir="$INSTALL_PATH"/>
+            <file src="release" targetdir="$INSTALL_PATH"/>
+            <file src="bin" targetdir="$INSTALL_PATH"/>
             <executable targetfile="$INSTALL_PATH/bin/rv-monitor" keep="true" stage="never" />
             <executable targetfile="$INSTALL_PATH/bin/rv-monitor.bat" keep="true" stage="never" />
             <executable targetfile="$INSTALL_PATH/bin/logicrepository" keep="true" stage="never" />
@@ -61,7 +59,7 @@
         </pack>
         <pack name="Examples" required="no" installGroups="New Application" >
             <description>Example programs illustrating RV-Monitor's features.</description>
-            <fileset dir="@{examples}" casesensitive="yes" targetdir="$INSTALL_PATH/examples">
+            <fileset dir="../../../../examples" casesensitive="yes" targetdir="$INSTALL_PATH/examples">
                 <exclude name="bin/*"/>
                 <exclude name="log/*"/>
             </fileset>
