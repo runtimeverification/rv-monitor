@@ -10,22 +10,7 @@ SRC_ROOT=`dirname "$SRC_ROOT"`
 # Move up into the actual source root directory
 SRC_ROOT="$SRC_ROOT/../"
 
-MAINCLASS=com.runtimeverification.rvmonitor.java.rvj.Main
+# This file exists to make running the tests the same as running the examples produced
+# by the installer.
 
-if [ "$1" = "-c" ];
-then 
-  shift 1;      
-  MAINCLASS=com.runtimeverification.rvmonitor.c.rvc.Main
-elif [ "$1" = "-llvm" ];
-then 
-  shift 1;
-  MAINCLASS="com.runtimeverification.rvmonitor.c.rvc.Main -llvm"
-fi
-
-RELEASE="$SRC_ROOT/release/rv-monitor/lib"
-
-PLUGINS_CLASSPATH="$RELEASE/plugins/*"
-
-LOGICPLUGINPATH="$RELEASE/plugins/" java -cp "$RELEASE/*":$PLUGINS_CLASSPATH $MAINCLASS $@
-
-
+$SRC_ROOT/target/release/rv-monitor/bin/rv-monitor $@

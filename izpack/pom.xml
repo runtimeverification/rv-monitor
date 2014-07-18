@@ -10,14 +10,12 @@
     <artifactId>izpack</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>izpack</name>
-    <!-- Launch IzPack automatically -->
-    <packaging>izpack-jar</packaging>
+    <packaging>pom</packaging>
     <properties>
         <!-- Installer variables -->
-        <staging.dir>${project.build.directory}/staging</staging.dir>
         <info.appName>RV-Monitor</info.appName>
         <izpack.dir.app>${basedir}/src/main/izpack</izpack.dir.app>
-        <staging.dir.app>${staging.dir}/rv-monitor</staging.dir.app>
+        <staging.dir.app>${basedir}/../target/release/rv-monitor</staging.dir.app>
     </properties>
     <dependencies>
         <dependency>
@@ -28,28 +26,38 @@
     </dependencies>
     <build>
         <plugins>
+            <!-- Install project jars before generating the izpack install jar. -->
             <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.3.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
                 <executions>
                     <execution>
-                        <!-- Populate staging area -->
-                        <phase>process-resources</phase>
+                        <id>unpack</id>
+                        <phase>install</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>unpack</goal>
                         </goals>
                         <configuration>
-                            <tasks>
-                                <copy todir="${staging.dir.app}">
-                                    <fileset dir="${basedir}/src/main/izpack"/>
-                                    <filelist dir="${basedir}/.." files="LICENSE,README.md"/>
-                                </copy>
-                                <copy todir="${staging.dir.app}/bin">
-                                    <fileset dir="${basedir}/../bin"/>
-                                </copy>
-                                <copy todir="${staging.dir.app}/release">
-                                    <fileset dir="${basedir}/../release/"/>
-                                </copy>
-                            </tasks>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.runtimeverification.install</groupId>
+                                    <artifactId>rv-install</artifactId>
+                                    <version>0.2</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>../target/release/rv-monitor/</outputDirectory>
+                                    <includes>res/**</includes>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
                     </execution>
                 </executions>
@@ -69,6 +77,14 @@
                     <autoIncludeUrl>false</autoIncludeUrl>
                     <autoIncludeDevelopers>false</autoIncludeDevelopers>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>izpack</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
