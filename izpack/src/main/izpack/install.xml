@@ -2,6 +2,8 @@
 
 <installation version="5.0">
 
+    <jar src="res/panels/RVPanels.jar" />
+
     <!-- General Application Information -->
     <info>
         <appname>RV-Monitor</appname>
@@ -29,7 +31,7 @@
 
     <!-- Installer Resources -->
     <resources>
-        <res id="CustomLangpack.xml_eng" src="res/izpack-rv-eng-lang.xml"/>
+        <res id="CustomLangPack.xml_eng" src="res/izpack-rv-eng-lang.xml"/>
         <res id="LicencePanel.licence" src="LICENSE"/>
         <res id="HTMLFinishInfoPanel.finish" src="res/rvdependencies/finish.html"/>
         <res id="Heading.image" src="res/images/monitor.png"/>
@@ -41,7 +43,7 @@
         <panel classname="TargetPanel"/>
         <panel classname="PacksPanel"/>
         <panel classname="InstallPanel"/>
-        <!--<panel classname="HTMLFinishInfoPanel" id="finish" jar="izpack/target/staging/rv-monitor/res/panels/RVPanels.jar"/>-->
+        <panel classname="com.izforge.izpack.panels.htmlfinishinfo.HTMLFinishInfoPanel" id="finish" />
     </panels>
 
     <!-- Installable Package Tasks -->
