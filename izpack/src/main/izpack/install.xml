@@ -13,6 +13,7 @@
     </info>
 
     <variables>
+        <variable name="TargetPanel.dir.windows" value="C:\$APP_NAME"/>
     </variables>
 
     <!-- GUI-Specific Preferences -->
