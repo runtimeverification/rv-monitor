@@ -1,5 +1,5 @@
 build/*
-.idea/copyright/profiles_settings.xml
+release/**
 src/com/runtimeverification/rvmonitor/c/rvc/parser/*.java
 src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/*.java
 !src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/Token.java
@@ -54,3 +54,5 @@ examples/llvmmop/safety_critical/six_steps/lib/six_steps.bc*
 examples/llvmmop/safety_critical/six_steps/test1*
 examples/llvmmop/safety_critical/six_steps/test2*
 examples/llvmmop/safety_critical/six_steps/test_*/test*.bc*
+
+target/**

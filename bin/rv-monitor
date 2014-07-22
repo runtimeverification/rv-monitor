@@ -10,20 +10,7 @@ SRC_ROOT=`dirname "$SRC_ROOT"`
 # Move up into the actual source root directory
 SRC_ROOT="$SRC_ROOT/../"
 
-MAINCLASS=com.runtimeverification.rvmonitor.java.rvj.Main
+# This file exists to make running the tests the same as running the examples produced
+# by the installer.
 
-if [ "$1" = "-c" ];
-then 
-  shift 1;      
-  MAINCLASS=com.runtimeverification.rvmonitor.c.rvc.Main
-elif [ "$1" = "-llvm" ];
-then 
-  shift 1;
-  MAINCLASS="com.runtimeverification.rvmonitor.c.rvc.Main -llvm"
-fi
-
-PLUGINS_CLASSPATH="$SRC_ROOT/lib/*":"$SRC_ROOT/lib/plugins/*"
-
-java -cp "$SRC_ROOT/lib/rvmonitorrt.jar:$SRC_ROOT/lib/rvmonitor.jar":$PLUGINS_CLASSPATH:"$SRC_ROOT/lib/mysql-connector-java-3.0.9-stable-bin.jar" $MAINCLASS $@
-
-
+$SRC_ROOT/target/release/rv-monitor/bin/rv-monitor $@
