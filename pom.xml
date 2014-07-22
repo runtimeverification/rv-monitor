@@ -65,6 +65,7 @@
                     <configuration>
                         <source>1.7</source>
                         <target>1.7</target>
+                        <useIncrementalCompilation>false</useIncrementalCompilation>
                     </configuration>
                 </plugin>
             </plugins>
