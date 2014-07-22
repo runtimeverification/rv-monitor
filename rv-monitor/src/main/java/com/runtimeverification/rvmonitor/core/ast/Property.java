@@ -20,7 +20,7 @@ public class Property {
      * @param syntax The code describing the property.
      * @param handlers Handlers used to respond to states in the property.
      */
-    public Property(String name, String syntax, List<PropertyHandler> handlers) {
+    public Property(final String name, final String syntax, final List<PropertyHandler> handlers) {
         this.name = name;
         this.syntax = syntax;
         this.handlers = Collections.unmodifiableList(new ArrayList<PropertyHandler>(handlers));

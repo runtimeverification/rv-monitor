@@ -27,9 +27,9 @@ public class Specification {
      * @param events The events to monitor in the code.
      * @param properties Properties and handlers on the sequence of events.
      */
-    public Specification(String preDeclarations, List<String> languageModifiers, String name, 
-            String languageParameters, String languageDeclarations, List<Event> events, 
-            List<Property> properties) {
+    public Specification(final String preDeclarations, final List<String> languageModifiers, 
+            final String name, final String languageParameters, final String languageDeclarations, 
+            final List<Event> events, final List<Property> properties) {
         this.preDeclarations = preDeclarations;
         this.languageModifiers = 
             Collections.unmodifiableList(new ArrayList<String>(languageModifiers));

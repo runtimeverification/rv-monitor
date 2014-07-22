@@ -14,7 +14,7 @@ public class PropertyHandler {
      * @param state The state to invoke the handler on.
      * @param action The language-specific action to take on entering the state.
      */
-    public PropertyHandler(String state, String action) {
+    public PropertyHandler(final String state, final String action) {
         this.state = state;
         this.action = action;
     }

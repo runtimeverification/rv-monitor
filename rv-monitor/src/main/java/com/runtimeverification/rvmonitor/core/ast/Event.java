@@ -21,7 +21,8 @@ public class Event {
      * @param definition The descrption of what the event is on, e.g. its parameters.
      * @param action The action to take on encountering the event.
      */
-    public Event(List<String> modifiers, String name, String definition, String action) {
+    public Event(final List<String> modifiers, final String name, final String definition, 
+            final String action) {
         this.modifiers = Collections.unmodifiableList(new ArrayList<String>(modifiers));
         this.name = name;
         this.definition = definition;

@@ -17,7 +17,7 @@ public class MonitorFile {
      * Construct a MonitorFile out of the preamble and some specifications.
      * @param preamble Declarations at the beginning of the file, e.g. imports.
      */
-    public MonitorFile(String preamble, List<Specification> specifications) {
+    public MonitorFile(final String preamble, final List<Specification> specifications) {
         this.preamble = preamble;
         if(specifications.size() == 0) {
             throw new RuntimeException("RVM files must have at least one specification.");

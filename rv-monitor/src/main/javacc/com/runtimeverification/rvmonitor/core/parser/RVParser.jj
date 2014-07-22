@@ -21,11 +21,11 @@ import com.runtimeverification.rvmonitor.core.ast.Specification;
 
 public class RVParser {
     
-    public static MonitorFile parse(String s) {
+    public static MonitorFile parse(final String s) {
         return parse(new BufferedReader(new StringReader(s)));
     }
     
-    public static MonitorFile parse(Reader reader) {
+    public static MonitorFile parse(final Reader reader) {
         RVParser parser = new RVParser(reader);
         try {
             return parser.rvmFile();
@@ -70,7 +70,8 @@ public class RVParser {
         }
     }
     
-    private String parseMatchingSegment(char open, char close, int depth) throws ParseException {
+    private String parseMatchingSegment(final char open, final char close, int depth)
+            throws ParseException {
         try {
             StringBuilder innerSegment = new StringBuilder();
             for(int i = 0; i < depth; i++) {
@@ -100,26 +101,26 @@ public class RVParser {
         return parseMatchingSegment('{', '}', 1);
     }
     
-    private String parseUntil(String s) throws ParseException {
+    private String parseUntil(final String end) throws ParseException {
         try {
             StringBuilder innerSegment = new StringBuilder();
             while(true) {
                 char c;
-                while((c = jj_input_stream.readChar()) != s.charAt(0)) {
+                while((c = jj_input_stream.readChar()) != end.charAt(0)) {
                     innerSegment.append(c);
                 }
                 StringBuilder partialMatch = new StringBuilder();
                 partialMatch.append(c);
-                for(int i = 1; i < s.length(); i++) {
+                for(int i = 1; i < end.length(); i++) {
                     c = jj_input_stream.readChar();
-                    if(c == s.charAt(i)) {
+                    if(c == end.charAt(i)) {
                         partialMatch.append(c);
                     } else {
                         break;
                     }
                 }
-                if(partialMatch.toString().equals(s)) {
-                    jj_input_stream.backup(s.length());
+                if(partialMatch.toString().equals(end)) {
+                    jj_input_stream.backup(end.length());
                     return innerSegment.toString();
                 } else {
                     innerSegment.append(partialMatch);
@@ -131,7 +132,7 @@ public class RVParser {
         }
     }
     
-    private String parseUntilLineMatches(Pattern pattern) {
+    private String parseUntilLineMatches(final Pattern pattern) {
         try {
             StringBuilder allText = new StringBuilder();
             StringBuilder line = new StringBuilder();
@@ -152,7 +153,7 @@ public class RVParser {
         }
     }
     
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
             parse(new InputStreamReader(new FileInputStream(args[0])));
             System.out.println("Success : " + args[0]);
