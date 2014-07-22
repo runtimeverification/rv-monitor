@@ -19,12 +19,26 @@ import com.runtimeverification.rvmonitor.core.ast.Property;
 import com.runtimeverification.rvmonitor.core.ast.PropertyHandler;
 import com.runtimeverification.rvmonitor.core.ast.Specification;
 
+/**
+ * Language-agnostic RVM file parser.
+ * @author A. Cody Schuffelen
+ */
 public class RVParser {
     
+    /**
+     * Parse a complete RVM file specification.
+     * @param s The text of the file.
+     * @return The parsed file as a Java object.
+     */
     public static MonitorFile parse(final String s) {
         return parse(new BufferedReader(new StringReader(s)));
     }
     
+    /**
+     * Parse a complete RVM file specification.
+     * @param reader The place to read the specification from.
+     * @return The parsed file as a Java object.
+     */
     public static MonitorFile parse(final Reader reader) {
         RVParser parser = new RVParser(reader);
         try {
@@ -36,6 +50,11 @@ public class RVParser {
         }
     }
     
+    /**
+     * Read a backtick segment with matched backticks, e.g. `a`, ``a``, ```a```, or ``a`b``.
+     * Assumes the first backtick has already been read.
+     * @return The text inside the backticks.
+     */
     private String parseBacktickSegment() throws ParseException {
         try {
             int backtickDepth = 1;
@@ -70,6 +89,14 @@ public class RVParser {
         }
     }
     
+    /**
+     * Reads a segment from the character stream with matching open and close characters, 
+     * e.g. (((--)--(--))--).
+     * @param open The opening character.
+     * @param close The closing character.
+     * @param depth The number of open parentheses already parsed.
+     * @return The full text, including the first open and close parentheses.
+     */
     private String parseMatchingSegment(final char open, final char close, int depth)
             throws ParseException {
         try {
@@ -93,14 +120,28 @@ public class RVParser {
         }
     }
     
+    /**
+     * Parse matching parentheses from the character stream, assuming one is already read.
+     * @return The string read, including the first and last parentheses.
+     */
     private String parseMatchingParens() throws ParseException {
         return parseMatchingSegment('(', ')', 1);
     }
     
+    /**
+     * Parse matching curly brackets from the character stream, assuming one is already read.
+     * @return The string read, including the first and last curly brackets.
+     */
     private String parseMatchingCurlyBrackets() throws ParseException {
         return parseMatchingSegment('{', '}', 1);
     }
     
+    /**
+     * Read characters from the character stream until a string is exactly matched. Pushes the
+     * matched text back onto the character stream.
+     * @param end The string to match.
+     * @return All the text until the matched string.
+     */
     private String parseUntil(final String end) throws ParseException {
         try {
             StringBuilder innerSegment = new StringBuilder();
@@ -132,6 +173,12 @@ public class RVParser {
         }
     }
     
+    /**
+     * Read lines from the character stream until a regular expression matches the line. Pushes
+     * the matching line back into the character stream.
+     * @param pattern The regular expression to match against each line.
+     * @return The text until the matching line.
+     */
     private String parseUntilLineMatches(final Pattern pattern) {
         try {
             StringBuilder allText = new StringBuilder();
@@ -150,16 +197,6 @@ public class RVParser {
         } catch(IOException ioe) {
             ioe.printStackTrace();
             return "";
-        }
-    }
-    
-    public static void main(final String[] args) {
-        try {
-            parse(new InputStreamReader(new FileInputStream(args[0])));
-            System.out.println("Success : " + args[0]);
-        } catch(Exception e) {
-            System.out.println("Failure : " + args[0]);
-            e.printStackTrace();
         }
     }
 }
