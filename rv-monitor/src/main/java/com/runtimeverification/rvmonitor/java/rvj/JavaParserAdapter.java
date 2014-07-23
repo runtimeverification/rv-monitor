@@ -164,7 +164,6 @@ public final class JavaParserAdapter {
             final Specification spec) throws ParseException {
         final List<String> modifierList = spec.getLanguageModifiers();
         final boolean isPublic = modifierList.contains("public");
-        System.err.println("hello");
         final int modifierBitfield = extractModifierBitfield(modifierList);
         final String name = spec.getName();
         final List<RVMParameter> parameters = convertParameters(spec.getLanguageParameters());

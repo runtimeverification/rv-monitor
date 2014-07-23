@@ -11,7 +11,9 @@ public class Event {
     
     private final List<String> modifiers;
     private final String name;
+    private final List<String> definitionModifiers;
     private final String definition;
+	private final String pointcut;
     private final String action;
     
     /**
@@ -21,11 +23,15 @@ public class Event {
      * @param definition The descrption of what the event is on, e.g. its parameters.
      * @param action The action to take on encountering the event.
      */
-    public Event(final List<String> modifiers, final String name, final String definition, 
+    public Event(final List<String> modifiers, final String name, 
+            final List<String> definitionModifiers, final String definition, final String pointcut, 
             final String action) {
         this.modifiers = Collections.unmodifiableList(new ArrayList<String>(modifiers));
         this.name = name;
+        this.definitionModifiers = Collections.unmodifiableList(
+            new ArrayList<String>(definitionModifiers));
         this.definition = definition;
+        this.pointcut = pointcut;
         this.action = action;
     }
     
@@ -46,11 +52,27 @@ public class Event {
     }
     
     /**
+     * Modifiers after the event, but before the event definition/parameters.
+     * @return The event modifiers applying to the parameters.
+     */
+    public List<String> getDefinitionModifiers() {
+        return definitionModifiers;
+    }
+    
+    /**
      * The event's parameters.
      * @return The parameters of the event, described in a language-specific way.
      */
     public String getDefinition() {
         return definition;
+    }
+    
+    /**
+     * The language-specific pointcut describing where the event occurs. May be empty or
+     * just whitespace.
+     */
+    public String getPointcut() {
+        return pointcut;
     }
     
     /**

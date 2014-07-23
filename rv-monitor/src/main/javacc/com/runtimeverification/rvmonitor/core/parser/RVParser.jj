@@ -267,16 +267,22 @@ Event event() : {
     ArrayList<String> modifiers = new ArrayList<String>();
     Token modifier;
     Token name;
+    ArrayList<String> definitionModifiers = new ArrayList<String>();
+    Token definitionModifier;
     String eventDefinition = "";
+    String eventPointcut = "";
     String eventAction = "";
 }
 {
     (modifier = <ID> { modifiers.add(modifier.image); })*
     <EVENT>
     (name = <ID>)
+    (definitionModifier = <ID> { definitionModifiers.add(definitionModifier.image); })*
     (eventDefinition = delimitedSegment())
-    ((eventAction = delimitedSegment()) | ";")
-    {return new Event(modifiers, name.image, eventDefinition, eventAction);}
+    {eventPointcut = parseUntil("{");}
+    "{" {eventAction = parseMatchingCurlyBrackets();}
+    {return new Event(modifiers, name.image, definitionModifiers, eventDefinition, eventPointcut, 
+        eventAction);}
 }
 
 Property propertyAndHandlers() : {
