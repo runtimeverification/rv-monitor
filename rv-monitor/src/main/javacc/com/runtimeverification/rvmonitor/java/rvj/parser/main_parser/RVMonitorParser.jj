@@ -87,181 +87,25 @@ MORE :
 
 TOKEN :
 {
-  < ABSTRACT: "abstract" >
-| < ASSERT: "assert" >
-| < BOOLEAN: "boolean" >
-| < BREAK: "break" >
+ < BOOLEAN: "boolean" >
 | < BYTE: "byte" >
-| < CASE: "case" >
-| < CATCH: "catch" >
 | < CHAR: "char" >
-| < CLASS: "class" >
-| < CONST: "const" >
-| < CONTINUE: "continue" >
-| < _DEFAULT: "default" >
-| < DO: "do" >
 | < DOUBLE: "double" >
-| < ELSE: "else" >
-| < ENUM: "enum" >
-| < EXTENDS: "extends" >
-| < FALSE: "false" >
-| < FINAL: "final" >
-| < FINALLY: "finally" >
 | < FLOAT: "float" >
-| < FOR: "for" >
-| < GOTO: "goto" >
-| < IF: "if" >
-| < IMPLEMENTS: "implements" >
 | < IMPORT: "import" >
-| < INSTANCEOF: "instanceof" >
 | < INT: "int" >
-| < INTERFACE: "interface" >
 | < LONG: "long" >
-| < NATIVE: "native" >
-| < NEW: "new" >
-| < NULL: "null" >
 | < PACKAGE: "package">
-| < PRIVATE: "private" >
-| < PROTECTED: "protected" >
-| < PUBLIC: "public" >
-| < RETURN: "return" >
 | < SHORT: "short" >
 | < STATIC: "static" >
-| < STRICTFP: "strictfp" >
-| < SUPER: "super" >
-| < SWITCH: "switch" >
-| < SYNCHRONIZED: "synchronized" >
-| < THIS: "this" >
-| < THROW: "throw" >
-| < THROWS: "throws" >
-| < TRANSIENT: "transient" >
-| < TRUE: "true" >
-| < TRY: "try" >
-| < VOID: "void" >
-| < VOLATILE: "volatile" >
-| < WHILE: "while" >
 }
 
 /* RESERVED WORDS AND LITERALS for AspectJ and RVMonitor */
 
 TOKEN :
 {
-	<EVENT: "event">
-|	<BLOCKINGEVENT: "blocking">
-| 	<CREATION: "creation">
-|	<UNSYNC: "unsynchronized">
-|	<DECENT: "decentralized">
-|	<FULLBIND: "full-binding">
-|       <AVOID: "avoid">
-|       <ENFORCE: "enforce">
-|       <PERTHREAD: "perthread">
-|       <SUFFIX: "suffix">
-|	<CONNECTED: "connected">
-|	<BEFORE: "before">
-|	<AFTER: "after">
-|	<AROUND: "around">
-|	<CALL: "call">
-|	<EXEC: "execution">
-|	<GET: "get">
+	<GET: "get">
 |	<SET: "set">
-|	<TARGET: "target">
-|	<WITHIN: "within">
-|	<ARGS: "args">
-|	<THREAD: "thread">
-|	<THREADNAME: "threadName">
-|	<THREADBLOCKED: "threadBlocked">
-|	<CONDITION: "condition">
-|	<CFLOW: "cflow">
-|	<CFLOWBELOW: "cflowbelow">
-|	<RETURNING: "returning">
-|	<THROWING: "throwing">
-|	<ENDPROGRAM: "endProgram" >
-|	<ENDTHREAD: "endThread" >
-|	<ENDOBJECT: "endObject" >
-|   <EXTEND: "extend">
-|   <INCLUDES: "includes">
-}
-
-/* LITERALS */
-
-TOKEN :
-{
-  < LONG_LITERAL:
-        <DECIMAL_LITERAL> (["l","L"])
-      | <HEX_LITERAL> (["l","L"])
-      | <OCTAL_LITERAL> (["l","L"])
-  >
-|
-  < INTEGER_LITERAL:
-        <DECIMAL_LITERAL>
-      | <HEX_LITERAL>
-      | <OCTAL_LITERAL>
-  >
-|
-  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
-|
-  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
-|
-  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
-|
-  < FLOATING_POINT_LITERAL:
-        <DECIMAL_FLOATING_POINT_LITERAL>
-      | <HEXADECIMAL_FLOATING_POINT_LITERAL>
-  >
-|
-  < #DECIMAL_FLOATING_POINT_LITERAL:
-        (["0"-"9"])+ "." (["0"-"9"])* (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
-      | "." (["0"-"9"])+ (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
-      | (["0"-"9"])+ <DECIMAL_EXPONENT> (["f","F","d","D"])?
-      | (["0"-"9"])+ (<DECIMAL_EXPONENT>)? ["f","F","d","D"]
-  >
-|
-  < #DECIMAL_EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
-|
-  < #HEXADECIMAL_FLOATING_POINT_LITERAL:
-        "0" ["x", "X"] (["0"-"9","a"-"f","A"-"F"])+ (".")? <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
-      | "0" ["x", "X"] (["0"-"9","a"-"f","A"-"F"])* "." (["0"-"9","a"-"f","A"-"F"])+ <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
-  >
-|
-  < #HEXADECIMAL_EXPONENT: ["p","P"] (["+","-"])? (["0"-"9"])+ >
-|
-  < CHARACTER_LITERAL:
-      "'"
-      (   (~["'","\\","\n","\r"])
-        | ("\\"
-            ( ["n","t","b","r","f","\\","'","\""]
-            | ["0"-"7"] ( ["0"-"7"] )?
-            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
-            )
-          )
-        | ("\\u"
-        	["0"-"9","A"-"F","a"-"f"]
-        	["0"-"9","A"-"F","a"-"f"]
-        	["0"-"9","A"-"F","a"-"f"]
-        	["0"-"9","A"-"F","a"-"f"]
-          )
-      )
-      "'"
-  >
-|
-  < STRING_LITERAL:
-      "\""
-      (   (~["\"","\\","\n","\r"])
-        | ("\\"
-            ( ["n","t","b","r","f","\\","'","\""]
-            | ["0"-"7"] ( ["0"-"7"] )?
-            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
-            )
-          )
-        | ("\\u"
-        	["0"-"9","A"-"F","a"-"f"]
-        	["0"-"9","A"-"F","a"-"f"]
-        	["0"-"9","A"-"F","a"-"f"]
-        	["0"-"9","A"-"F","a"-"f"]
-          )
-      )*
-      "\""
-  >
 }
 
 /* IDENTIFIERS */
@@ -981,47 +825,6 @@ TOKEN :
 | < COMMA: "," >
 | < AT: "@" >
 | < DOT: "." >
-}
-
-/* OPERATORS */
-
-TOKEN :
-{
-  < ASSIGN: "=" >
-| < LT: "<" >
-| < BANG: "!" >
-| < TILDE: "~" >
-| < HOOK: "?" >
-| < COLON: ":" >
-| < EQ: "==" >
-| < LE: "<=" >
-| < GE: ">=" >
-| < NE: "!=" >
-| < SC_OR: "||" >
-| < SC_AND: "&&" >
-| < INCR: "++" >
-| < DECR: "--" >
-| < PLUS: "+" >
-| < MINUS: "-" >
-| < STAR: "*" >
-| < SLASH: "/" >
-| < BIT_AND: "&" >
-| < BIT_OR: "|" >
-| < XOR: "^" >
-| < REM: "%" >
-| < LSHIFT: "<<" >
-| < PLUSASSIGN: "+=" >
-| < MINUSASSIGN: "-=" >
-| < STARASSIGN: "*=" >
-| < SLASHASSIGN: "/=" >
-| < ANDASSIGN: "&=" >
-| < ORASSIGN: "|=" >
-| < XORASSIGN: "^=" >
-| < REMASSIGN: "%=" >
-| < LSHIFTASSIGN: "<<=" >
-| < RSIGNEDSHIFTASSIGN: ">>=" >
-| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
-| < ELLIPSIS: "..." >
 }
 
 /* >'s need special attention due to generics syntax. */
