@@ -169,8 +169,7 @@ public final class JavaParserAdapter {
         final List<RVMParameter> parameters = convertParameters(spec.getLanguageParameters());
         final String inMethod = null;
         final List<ExtendedSpec> extensions = null;
-        final List<BodyDeclaration> declarations = 
-            convertDeclarations(spec.getLanguageDeclarations());
+        final String declarations = spec.getLanguageDeclarations();
         final List<EventDefinitionExt> events = new ArrayList<EventDefinitionExt>();
         for(Event e : spec.getEvents()) {
             events.add(convert(e));
@@ -228,21 +227,6 @@ public final class JavaParserAdapter {
     private static List<RVMParameter> convertParameters(final String paramString) {
         try {
             return parseJavaBubble(paramString).RVMParameters();
-        } catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
-    /**
-     * Convert a {@link String} of declarations into a list of Java {@link BodyDeclaration}
-     * elements.
-     * @param declarations A language-specific bubble with declarations.
-     * @return A list of Java declaration objects.
-     */
-    private static List<BodyDeclaration> convertDeclarations(final String declarations) {
-        try {
-            return parseJavaBubble(declarations).ClassOrInterfaceBody(false);
         } catch(Exception e) {
             e.printStackTrace();
             return null;

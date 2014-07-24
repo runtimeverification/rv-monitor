@@ -43,12 +43,6 @@ public class RVMProcessor {
 			RVMNameSpace.addUserVariable(param.getName());
 		}
 		RVMNameSpace.addUserVariable(mopSpec.getName());
-		for (BodyDeclaration bd : mopSpec.getDeclarations()) {
-			List<String> vars = bd.accept(new CollectUserVarVisitor(), null);
-
-			if (vars != null)
-				RVMNameSpace.addUserVariables(vars);
-		}
 	}
 
 	public String process(RVMSpecFile rvmSpecFile) throws RVMException {

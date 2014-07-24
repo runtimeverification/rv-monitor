@@ -22,7 +22,7 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 	private final PackageDeclaration packageDeclaration;
 	private final RVMParameters parameters;
 	private final String inMethod;
-	private final List<BodyDeclaration> declarations;
+	private final String declarations;
 	private final List<EventDefinition> events;
 	private final List<PropertyAndHandlers> properties;
 	private final List<String> eventNames;
@@ -30,7 +30,7 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 	private final RVMParameters commonParamInEvents;
 	private final RVMParameters varsToSave;
 
-	public RVMonitorSpec(PackageDeclaration packageDeclaration, int line, int column, int modifiers, String name, List<RVMParameter> parameters, String inMethod, List<BodyDeclaration> declarations,
+	public RVMonitorSpec(PackageDeclaration packageDeclaration, int line, int column, int modifiers, String name, List<RVMParameter> parameters, String inMethod, String declarations,
 						 List<EventDefinition> events, List<PropertyAndHandlers> properties) throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
 		super(line, column);
 		this.packageDeclaration = packageDeclaration;
@@ -168,20 +168,8 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 		return inMethod;
 	}
 
-	public List<BodyDeclaration> getDeclarations() {
-		return declarations;
-	}
-
 	public String getDeclarationsStr(){
-		String ret = "";
-
-		if (declarations == null)
-			return ret;
-
-		for(BodyDeclaration decl : declarations)
-			ret += decl.toString() + "\n";
-
-		return ret;
+		return declarations;
 	}
 
 	public List<EventDefinition> getEvents() {

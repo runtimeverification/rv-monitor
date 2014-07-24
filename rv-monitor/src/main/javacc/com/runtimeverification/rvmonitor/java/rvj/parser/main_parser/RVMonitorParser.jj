@@ -1276,7 +1276,13 @@ RVMonitorSpecExt RVMonitorSpec(PackageDeclaration packageName):
 	(event = Event() { events.add(event); } )+
 	(prop = PropertyAndHandlers(propId++) {props.add(prop);})*
 	"}"
-	{return new RVMonitorSpecExt(packageName, line, column, isPublic, modifiers, name, parameters, inMethod, extendedSpecList, declarations, events, props);}
+	{
+		String declarationsStr = "";
+		for(BodyDeclaration dec : declarations) {
+			declarationsStr += dec + "\n";
+		}
+	}
+	{return new RVMonitorSpecExt(packageName, line, column, isPublic, modifiers, name, parameters, inMethod, extendedSpecList, declarationsStr, events, props);}
 }
 
 int SpecModifier():

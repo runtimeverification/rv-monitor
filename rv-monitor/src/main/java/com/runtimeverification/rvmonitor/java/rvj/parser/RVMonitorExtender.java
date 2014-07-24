@@ -53,7 +53,7 @@ public class RVMonitorExtender {
 
 	protected static RVMonitorSpec translateJavaMopSpec(RVMonitorSpecExt spec, RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
 			throws RVMException {
-		List<BodyDeclaration> declarations;
+		String declarations;
 		List<EventDefinition> events;
 		List<PropertyAndHandlers> props = new ArrayList<PropertyAndHandlers>();
 
@@ -288,14 +288,14 @@ public class RVMonitorExtender {
 		throw new RVMException("cannot find a parent specification: " + name);
 	}
 
-	private static List<BodyDeclaration> collectDeclarations(RVMonitorSpecExt spec, RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
+	private static String collectDeclarations(RVMonitorSpecExt spec, RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
 			throws RVMException {
-		List<BodyDeclaration> ret;
+		String ret;
 
 		if (!spec.hasExtend())
-			return spec.getDeclarations();
+			return spec.getDeclarationsStr();
 
-		ret = new ArrayList<BodyDeclaration>();
+		ret = "";
 
 		for (ExtendedSpec parentSpecName : spec.getExtendedSpec()) {
 			Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), currentFile, depFiles);
@@ -303,12 +303,12 @@ public class RVMonitorExtender {
 			RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
 			RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
 
-			List<BodyDeclaration> declOfParents = collectDeclarations(parentSpec, parentSpecFile, depFiles);
+			String declOfParents = collectDeclarations(parentSpec, parentSpecFile, depFiles);
 
-			ret.addAll(declOfParents);
+			ret += declOfParents + System.lineSeparator();
 		}
 
-		ret.addAll(spec.getDeclarations());
+		ret += spec.getDeclarationsStr();
 
 		return ret;
 	}

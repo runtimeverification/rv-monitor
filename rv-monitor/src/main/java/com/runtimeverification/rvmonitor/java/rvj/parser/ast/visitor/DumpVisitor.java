@@ -245,8 +245,8 @@ public class DumpVisitor implements VoidVisitor<Object> {
 		printer.printLn(" {");
 		printer.indent();
 
-		if (s.getDeclarations() != null) {
-			printMembers(s.getDeclarations(), arg);
+		if (s.getDeclarationsStr() != null) {
+			printer.printLn(s.getDeclarationsStr());
 		}
 
 		if (s.getEvents() != null) {
