@@ -5,7 +5,6 @@ import com.runtimeverification.rvmonitor.java.rvj.RVMNameSpace;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.CheckThisJoinPointVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
@@ -64,7 +63,7 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 		for (EventDefinition event : this.events) {
 			RVMParameters param = event.getRVMParametersOnSpec();
 
-			commonParamInEvents = RVMParameters.intersectionSet(param, commonParamInEvents);
+			//commonParamInEvents = RVMParameters.intersectionSet(param, commonParamInEvents);
 		}
 		this.commonParamInEvents = commonParamInEvents;
 
@@ -298,8 +297,8 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 			}
 		}
 		for (PropertyAndHandlers prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__LOC") != -1
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__LOC") != -1
 						|| handler.toString().indexOf("__DEFAULT_MESSAGE") != -1){
 					cachedHas__LOC = new Boolean(true);
 					return true;
@@ -326,8 +325,8 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 			}
 		}
 		for (PropertyAndHandlers prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__ACTIVITY") != -1){
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__ACTIVITY") != -1){
 					cachedHas__ACTIVITY = new Boolean(true);
 					return true;
 				}
@@ -351,8 +350,8 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 			}
 		}
 		for (PropertyAndHandlers prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__STATICSIG") != -1){
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__STATICSIG") != -1){
 					cachedHas__STATICSIG = new Boolean(true);
 					return true;
 				}
@@ -379,8 +378,8 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 			}
 		}
 		for (PropertyAndHandlers prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__SKIP") != -1){
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__SKIP") != -1){
 					cachedHas__SKIP = new Boolean(true);
 					return true;
 				}
@@ -399,16 +398,16 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 		for (EventDefinition event : this.events) {
 			if(event.getAction() == null)
 				continue;
-			BlockStmt block = event.getAction();
-			if (block.accept(new CheckThisJoinPointVisitor(), null)){
+			String block = event.getAction();
+			if (block.contains("thisJoinPoint")){
 				cachedHasThisJoinPoint = new Boolean(true);
 				return true;
 			}
 		}
 
 		for (PropertyAndHandlers prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.accept(new CheckThisJoinPointVisitor(), null)){
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.contains("thisJoinPoint")){
 					cachedHasThisJoinPoint = new Boolean(true);
 					return true;
 				}

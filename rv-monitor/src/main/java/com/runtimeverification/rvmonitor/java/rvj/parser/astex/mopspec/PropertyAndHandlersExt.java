@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.CollectRVMVarVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
@@ -18,7 +17,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisit
 public class PropertyAndHandlersExt extends ExtNode {
 	
 	private final PropertyExt property;
-	private final HashMap<String, BlockStmt> handlers;
+	private final HashMap<String, String> handlers;
 	private final HashMap<String, RVMParameters> usedParameters = new HashMap<String, RVMParameters>();
 
 	private final List<HandlerExt> handlerList;
@@ -32,7 +31,7 @@ public class PropertyAndHandlersExt extends ExtNode {
 	
 	private boolean versionedStack = false;
 
-	public PropertyAndHandlersExt(int line, int column, PropertyExt property, HashMap<String, BlockStmt> handlers, List<HandlerExt> handlerList) {
+	public PropertyAndHandlersExt(int line, int column, PropertyExt property, HashMap<String, String> handlers, List<HandlerExt> handlerList) {
 		super(line, column);
 		this.property = property;
 		this.handlers = handlers;
@@ -55,24 +54,14 @@ public class PropertyAndHandlersExt extends ExtNode {
 		return property;
 	}
 
-	public HashMap<String, BlockStmt> getHandlers() {
+	public HashMap<String, String> getHandlers() {
 		return handlers;
 	}
 	
 	public RVMParameters getUsedParametersIn(String category, RVMParameters specParam){
-		RVMParameters ret;
-		
-		//if cached, return it.
-		if((ret = usedParameters.get(category)) != null)
-			return ret;
-		
-		BlockStmt handler = handlers.get(category);
-		
-		ret = handler.accept(new CollectRVMVarVisitor(), specParam);
-		
-		usedParameters.put(category, ret);
-		
-		return ret;
+        // All of them. If you want to have a property that doesn't use all the parameters,
+        // put it in another specification.
+        return specParam;
 	}
 	
 	public int getPropertyId(){

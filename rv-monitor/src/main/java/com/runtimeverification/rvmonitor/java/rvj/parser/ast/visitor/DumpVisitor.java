@@ -273,9 +273,7 @@ public class DumpVisitor implements VoidVisitor<Object> {
 	public void visit(EventDefinition e, Object arg) {
 		printer.print("event " + e.getId() + " ");
 		printSpecParameters(e.getParameters(), arg);
-		if (e.getAction() != null) {
-			e.getAction().accept(this, arg);
-		}
+        printer.printLn(e.getAction());
 		printer.printLn();
 	}
 
@@ -283,10 +281,10 @@ public class DumpVisitor implements VoidVisitor<Object> {
 		p.getProperty().accept(this, arg);
 		printer.printLn();
 		for (String event : p.getHandlers().keySet()) {
-			BlockStmt stmt = p.getHandlers().get(event);
+			String stmt = p.getHandlers().get(event);
 			printer.printLn("@" + event);
 			printer.indent();
-			stmt.accept(this, arg);
+			printer.printLn(stmt);
 			printer.unindent();
 			printer.printLn();
 		}

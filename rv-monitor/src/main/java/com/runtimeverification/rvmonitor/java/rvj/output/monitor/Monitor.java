@@ -13,7 +13,6 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefini
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -66,8 +65,8 @@ public abstract class Monitor {
 
 		this.handlersHave__SKIP = false;
 		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__SKIP") != -1){
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__SKIP") != -1){
 					this.handlersHave__SKIP = true;
 				}
 			}

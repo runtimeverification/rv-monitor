@@ -4,7 +4,6 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.RVMonitorParser;
@@ -129,7 +128,7 @@ public class RVMonitorExtender {
 			HashMap<String, HandlerExt> handlers = propAndHandlers.get(prop);
 
 			Property translatedProp = new Formula(prop.getBeginLine(), prop.getBeginColumn(), prop.getType(), f.getFormula());
-			HashMap<String, BlockStmt> translatedHandlers = new HashMap<String, BlockStmt>();
+			HashMap<String, String> translatedHandlers = new HashMap<String, String>();
 			for (String state : handlers.keySet()) {
 				HandlerExt handler = handlers.get(state);
 

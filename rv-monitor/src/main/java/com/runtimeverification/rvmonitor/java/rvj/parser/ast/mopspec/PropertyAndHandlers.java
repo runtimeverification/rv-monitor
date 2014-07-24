@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.CollectRVMVarVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
@@ -15,7 +14,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor
 public class PropertyAndHandlers extends Node {
 	
 	private final Property property;
-	private final HashMap<String, BlockStmt> handlers;
+	private final HashMap<String, String> handlers;
 	private final HashMap<String, RVMParameters> usedParameters = new HashMap<String, RVMParameters>();
 
 	//things that should be defined afterward
@@ -27,7 +26,7 @@ public class PropertyAndHandlers extends Node {
 	
 	boolean versionedStack = false;
 
-	public PropertyAndHandlers(int line, int column, Property property, HashMap<String, BlockStmt> handlers) {
+	public PropertyAndHandlers(int line, int column, Property property, HashMap<String, String> handlers) {
 		super(line, column);
 		this.property = property;
 		this.handlers = handlers;
@@ -45,24 +44,14 @@ public class PropertyAndHandlers extends Node {
 		return property;
 	}
 
-	public HashMap<String, BlockStmt> getHandlers() {
+	public HashMap<String, String> getHandlers() {
 		return handlers;
 	}
 	
 	public RVMParameters getUsedParametersIn(String category, RVMParameters specParam){
-		RVMParameters ret;
-		
-		//if cached, return it.
-		if((ret = usedParameters.get(category)) != null)
-			return ret;
-		
-		BlockStmt handler = handlers.get(category);
-		
-		ret = handler.accept(new CollectRVMVarVisitor(), specParam);
-		
-		usedParameters.put(category, ret);
-		
-		return ret;
+        // All of them. If you want to have a property that doesn't use all the parameters,
+        // put it in another specification.
+		return specParam;
 	}
 	
 	public int getPropertyId(){

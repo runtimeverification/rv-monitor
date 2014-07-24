@@ -114,10 +114,7 @@ public final class DumpVisitor extends com.runtimeverification.rvmonitor.java.rv
 	public void visit(EventDefinitionExt e, Object arg) {
 		printer.print("event " + e.getId() + " ");
 		printSpecParameters(e.getParameters(), arg);
-		if (e.getAction() != null) {
-			e.getAction().accept(this, arg);
-		}
-
+        printer.printLn(e.getAction());
 		printer.printLn();
 	}
 
@@ -140,10 +137,10 @@ public final class DumpVisitor extends com.runtimeverification.rvmonitor.java.rv
 					h.accept(this, arg);
 				}
 			}
-			BlockStmt stmt = p.getHandlers().get(event);
+			String stmt = p.getHandlers().get(event);
 			printer.printLn("@" + event);
 			printer.indent();
-			stmt.accept(this, arg);
+			printer.printLn(stmt);
 			printer.unindent();
 			printer.printLn();
 		}

@@ -1403,7 +1403,7 @@ EventDefinitionExt Event():
   parameters = AdviceParameters()
   ( block = Block() | ";" )
 
-	{ return new EventDefinitionExt(line, column, name, parameters, block, startEvent, blockingEvent); }
+	{ return new EventDefinitionExt(line, column, name, parameters, block.toString(), startEvent, blockingEvent); }
 }
 
 
@@ -1474,7 +1474,7 @@ PropertyAndHandlersExt PropertyAndHandlers(int propId):
 	PropertyExt prop = null;
 	BlockStmt handler = null;
 	String id;
-	HashMap<String, BlockStmt> handlers = new HashMap<String, BlockStmt>();
+	HashMap<String, String> handlers = new HashMap<String, String>();
 	int line, column;
 	HandlerExt h = null;
 	List<HandlerExt> handlerList = new ArrayList<HandlerExt>();
@@ -1495,8 +1495,8 @@ PropertyAndHandlersExt PropertyAndHandlers(int propId):
     ]
     handler = Block() 
     {
-      handlers.put(id.toLowerCase(), handler); 
-      h = new HandlerExt(line, column, id, handler, specReference, propertyReference);
+      handlers.put(id.toLowerCase(), handler.toString()); 
+      h = new HandlerExt(line, column, id, handler.toString(), specReference, propertyReference);
       handlerList.add(h);
     }
   )+

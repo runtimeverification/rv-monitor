@@ -7,7 +7,6 @@ import com.runtimeverification.rvmonitor.java.rvj.output.Util;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 
 import java.util.HashMap;
 
@@ -29,13 +28,11 @@ public class HandlerMethod {
 	private final boolean has__SKIP;
 
 	public HandlerMethod(PropertyAndHandlers prop, String category, RVMParameters specParam, RVMParameters commonParamInEvents,
-			HashMap<RVMParameter, RVMVariable> savedParams, BlockStmt body, RVMVariable categoryVar, Monitor monitor) {
+			HashMap<RVMParameter, RVMVariable> savedParams, String handlerBody, RVMVariable categoryVar, Monitor monitor) {
 		this.prop = prop;
 		this.category = category;
 		this.methodName = new RVMVariable("Prop_" + prop.getPropertyId() + "_handler_" + category);
-		if(body != null){
-			String handlerBody = body.toString();
-
+		if(handlerBody != null){
 			has__SKIP = handlerBody.indexOf("__SKIP") != -1;
 
 			handlerBody = handlerBody.replaceAll("__RESET", "this.reset()");

@@ -10,7 +10,6 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLo
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 
 /***
  * 
@@ -22,15 +21,15 @@ public class EnforceMonitor extends BaseMonitor {
 	/**
 	 * Deadlock handler code for enforcement monitor
 	 * */
-	private BlockStmt deadlockHandler = null;
+	private String deadlockHandler = null;
 
 	public EnforceMonitor(String name, RVMonitorSpec mopSpec,
 			OptimizedCoenableSet coenableSet, boolean isOutermost)
 			throws RVMException {
 		super(name, mopSpec, coenableSet, isOutermost, "Enforcement");
 		for (PropertyAndHandlers prop : props) {
-			HashMap<String, BlockStmt> handlerBodies = prop.getHandlers();
-			BlockStmt handlerBody = handlerBodies.get("deadlock");
+			HashMap<String, String> handlerBodies = prop.getHandlers();
+			String handlerBody = handlerBodies.get("deadlock");
 			if (handlerBody != null) {
 				// For now we assume there's only one deadlock handler.
 				this.deadlockHandler = handlerBody;

@@ -7,7 +7,6 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaratio
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.SpecModifierSet;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisitor;
@@ -243,10 +242,10 @@ public class RVMonitorSpecExt extends ExtNode {
 			}
 		}
 		for (PropertyAndHandlersExt prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__LOC") != -1 
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__LOC") != -1 
           || 
-          handler.toString().indexOf("__DEFAULT_MESSAGE") != -1) {
+          handler.indexOf("__DEFAULT_MESSAGE") != -1) {
 					cachedHas__LOC = new Boolean(true);
 					return true;
 				}
@@ -272,8 +271,8 @@ public class RVMonitorSpecExt extends ExtNode {
 			}
 		}
 		for (PropertyAndHandlersExt prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__SKIP") != -1) {
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__SKIP") != -1) {
 					cachedHas__SKIP = new Boolean(true);
 					return true;
 				}

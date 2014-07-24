@@ -45,7 +45,6 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,8 +94,8 @@ public class MonitorSet {
 		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
 		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__SKIP") != -1) {
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__SKIP") != -1) {
 					existSkip = true;
 				}
 			}

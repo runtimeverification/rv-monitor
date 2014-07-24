@@ -192,7 +192,6 @@ public final class JavaParserAdapter {
      * @return A bitfield with the appropriate bits for each modifier set.
      */
     private static int extractModifierBitfield(final List<String> modifierList) {
-        System.out.println("modifier list: " + modifierList);
         int modifierBitfield = 0;
         if(modifierList.contains("unsynchronized")) {
             modifierBitfield |= SpecModifierSet.UNSYNC;
@@ -230,7 +229,7 @@ public final class JavaParserAdapter {
         try {
             return parseJavaBubble(paramString).RVMParameters();
         } catch(Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             return null;
         }
     }
@@ -245,7 +244,7 @@ public final class JavaParserAdapter {
         try {
             return parseJavaBubble(declarations).ClassOrInterfaceBody(false);
         } catch(Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             return null;
         }
     }
@@ -266,16 +265,11 @@ public final class JavaParserAdapter {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        BlockStmt block = null;
-        try {
-            block = parseJavaBubble(event.getAction()).Block();
-        } catch(Exception e) {
-            //e.printStackTrace();
-        }
+        String block = event.getAction();
         try {
             return new EventDefinitionExt(0, 0, name, parameters, block, startEvent, blockingEvent);
         } catch(Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             return null;
         }
     }
@@ -293,7 +287,7 @@ public final class JavaParserAdapter {
         final PropertyExt propertyExt = new FormulaExt(0, 0, logicId, formula, propertyName);
         
         final List<HandlerExt> handlerList = new ArrayList<HandlerExt>();
-        final HashMap<String, BlockStmt> handlerMap = new HashMap<String, BlockStmt>();
+        final HashMap<String, String> handlerMap = new HashMap<String, String>();
         for(PropertyHandler handler : property.getHandlers()) {
             HandlerExt converted = convert(handler);
             handlerList.add(converted);
@@ -311,12 +305,7 @@ public final class JavaParserAdapter {
         final String id = handler.getState();
         final String propertyReference = null;
         final String specReference = null;
-        BlockStmt action = null;
-        try {
-            action = parseJavaBubble(handler.getAction()).Block();
-        } catch(Exception e) {
-            //e.printStackTrace();
-        }
+        final String action = handler.getAction();
         return new HandlerExt(0, 0, id, action, propertyReference, specReference);
     }
 }

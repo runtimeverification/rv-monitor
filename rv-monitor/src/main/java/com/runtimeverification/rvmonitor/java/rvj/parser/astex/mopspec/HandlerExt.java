@@ -1,6 +1,5 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
@@ -8,10 +7,10 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 public class HandlerExt extends ExtNode {
 
 	private final String state;
-	private final BlockStmt blockStmt;
+	private final String blockStmt;
 	private ReferenceSpec r;
 
-	public HandlerExt(int line, int column, String state, BlockStmt blockStmt, String specReference, String propertyReference) {
+	public HandlerExt(int line, int column, String state, String blockStmt, String specReference, String propertyReference) {
 		super(line, column);
 		this.state = state;
 		this.blockStmt = blockStmt;
@@ -22,7 +21,7 @@ public class HandlerExt extends ExtNode {
 		return state;
 	}
 
-	public BlockStmt getBlockStmt() {
+	public String getBlockStmt() {
 		return blockStmt;
 	}
 
