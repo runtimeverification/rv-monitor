@@ -25,10 +25,7 @@ package com.runtimeverification.rvmonitor.java.rvj.parser.main_parser;
 import java.io.*;
 import java.util.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.*;
@@ -1138,15 +1135,13 @@ RVMParameter AdviceParameter():
 
 PackageDeclaration PackageDeclaration():
 {
-	List annotations = null;
-	AnnotationExpr ann;
 	NameExpr name;
 	int line;
 	int column;
 }
 {
   "package" {line=token.beginLine; column=token.beginColumn;}  name = Name() ";"
-  { return new PackageDeclaration(line, column, annotations, name); }
+  { return new PackageDeclaration(line, column, name); }
 }
 
 ImportDeclaration ImportDeclaration():

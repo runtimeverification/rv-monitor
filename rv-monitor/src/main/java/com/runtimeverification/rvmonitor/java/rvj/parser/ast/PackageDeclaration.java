@@ -24,7 +24,6 @@ package com.runtimeverification.rvmonitor.java.rvj.parser.ast;
 
 import java.util.List;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.AnnotationExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
@@ -34,18 +33,11 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor
  */
 public final class PackageDeclaration extends Node {
 
-    private final List<AnnotationExpr> annotations;
-
     private final NameExpr name;
 
-    public PackageDeclaration(int line, int column, List<AnnotationExpr> annotations, NameExpr name) {
+    public PackageDeclaration(int line, int column, NameExpr name) {
         super(line, column);
-        this.annotations = annotations;
         this.name = name;
-    }
-
-    public List<AnnotationExpr> getAnnotations() {
-        return annotations;
     }
 
     public NameExpr getName() {

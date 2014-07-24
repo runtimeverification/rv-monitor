@@ -20,10 +20,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.EventPointCut;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.HandlerPointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.RVMonitorSpecExt;
 
@@ -168,20 +165,5 @@ public final class DumpVisitor extends com.runtimeverification.rvmonitor.java.rv
 
 			printer.print(")");
 		}
-	}
-
-	// - AspectJ components --------------------
-
-	public void visit(EventPointCut p, Object arg) {
-		printer.print("event" + "(");
-		p.getReferenceSpec().accept(this, arg);
-		printer.print(")");
-	}
-
-	public void visit(HandlerPointCut p, Object arg) {
-		printer.print("handler" + "(");
-		p.getReferenceSpec().accept(this, arg);
-		printer.print("@" + p.getState());
-		printer.print(")");
 	}
 }

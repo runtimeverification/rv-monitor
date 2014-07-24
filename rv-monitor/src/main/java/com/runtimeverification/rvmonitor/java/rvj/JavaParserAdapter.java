@@ -18,16 +18,11 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.ModifierSet;
-
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.SpecModifierSet;
-
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 

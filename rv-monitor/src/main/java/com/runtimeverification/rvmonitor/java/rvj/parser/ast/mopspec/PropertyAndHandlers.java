@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.CollectRVMVarVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 

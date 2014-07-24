@@ -2,7 +2,6 @@ package com.runtimeverification.rvmonitor.java.rvj.parser;
 
 import com.runtimeverification.rvmonitor.java.rvj.JavaParserAdapter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;

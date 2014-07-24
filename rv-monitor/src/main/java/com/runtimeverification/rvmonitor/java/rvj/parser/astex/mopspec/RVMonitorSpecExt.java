@@ -3,7 +3,6 @@ package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.RVMNameSpace;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.SpecModifierSet;

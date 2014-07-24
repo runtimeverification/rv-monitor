@@ -1,6 +1,5 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.PointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.TypePattern;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;

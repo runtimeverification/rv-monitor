@@ -4,8 +4,6 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.RVMNameSpace;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.CheckThisJoinPointVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 
