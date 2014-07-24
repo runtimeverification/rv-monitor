@@ -1,12 +1,14 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser;
 
-import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.JavaParserAdapter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.RVMonitorParser;
+
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Pair;
 import com.runtimeverification.rvmonitor.util.Tool;
 
@@ -242,7 +244,7 @@ public class RVMonitorExtender {
 			if (!parentFile.exists())
 				throw new RVMException("cannot find the specification: " + extSpec.getName() + ".");
 			try {
-				parentSpecFile = RVMonitorParser.parse(parentFile);
+				parentSpecFile = JavaParserAdapter.parse(parentFile);
 			} catch (Exception e) {
 				throw new RVMException("Error when parsing a specification file:\n" + e.getMessage());
 			}
