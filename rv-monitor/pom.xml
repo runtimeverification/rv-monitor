@@ -19,7 +19,7 @@
             <artifactId>logicrepository</artifactId>
             <version>${version}</version>
         </dependency>
-        <!-- Dependency on all the plugins in the logic repository so the assembly plugin sees them. -->
+        <!-- Dependency on all the plugins and docs in the logic repository so the assembly plugin sees them. -->
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>cfg</artifactId>
@@ -68,6 +68,11 @@
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>tfsm</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.runtimeverification.rvmonitor</groupId>
+            <artifactId>docs</artifactId>
             <version>${version}</version>
         </dependency>
         <!-- Examples tests use commons-io -->

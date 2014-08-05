@@ -23,6 +23,13 @@
     </dependencySets>
     <fileSets>
         <fileSet>
+            <directory>../docs/target/docs/text</directory>
+            <outputDirectory>/docs</outputDirectory>
+            <excludes>
+                <exclude>index.txt</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
             <directory>..</directory>
             <outputDirectory>/</outputDirectory>
             <includes>

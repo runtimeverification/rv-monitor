@@ -11,6 +11,7 @@
         <module>plugins_logicrepository</module>
         <module>rv-monitor</module>
         <module>izpack</module>
+        <module>docs</module>
     </modules>
     <url>http://www.runtimeverification.com</url>
     <scm>
