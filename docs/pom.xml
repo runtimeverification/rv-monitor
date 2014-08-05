@@ -9,6 +9,13 @@
     <artifactId>docs</artifactId>
     <name>documentation</name>
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>1.0-beta-5</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -58,7 +65,7 @@
                             <goal>generate</goal>
                         </goals>
                     </execution>
-                        <execution>
+                    <execution>
                         <id>textdocs</id>
                         <configuration>
                             <sourceDirectory>${basedir}/src/docs</sourceDirectory>
@@ -66,10 +73,30 @@
                             <builder>text</builder> 
                             <fork>true</fork> 
                         </configuration>
-                        <phase>package</phase>
+                        <phase>pa</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0-beta-5</version>
+                <executions>
+                    <execution>
+                        <id>upload-docs</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <url>sftp://grigore@runtimeverification.com/</url>
+                            <fromDir>target/docs</fromDir>
+                            <includes>**</includes>
+                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor/docs/${version}</toDir>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
