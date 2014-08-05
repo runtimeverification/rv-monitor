@@ -4,7 +4,7 @@
     <groupId>com.runtimeverification.rvmonitor</groupId>
     <artifactId>root</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1</version>
     <modules>
         <module>rvmonitorrt</module>
         <module>logicrepository</module>

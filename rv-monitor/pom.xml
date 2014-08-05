@@ -3,73 +3,72 @@
     <parent>
         <groupId>com.runtimeverification.rvmonitor</groupId>
         <artifactId>root</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>rv-monitor</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>rv-monitor</name>
     <dependencies>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>rvmonitorrt</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>logicrepository</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <!-- Dependency on all the plugins in the logic repository so the assembly plugin sees them. -->
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>cfg</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>ere</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>fsm</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>ltl</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>pda</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>po</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>ptcaret</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>ptltl</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>srs</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
             <artifactId>tfsm</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
         <!-- Examples tests use commons-io -->
         <dependency>
