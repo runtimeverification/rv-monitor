@@ -80,6 +80,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Upload over SFTP during deploy phase -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>wagon-maven-plugin</artifactId>
@@ -92,6 +93,7 @@
                             <goal>upload</goal>
                         </goals>
                         <configuration>
+                            <siteId>rv-site</siteId>
                             <url>sftp://grigore@runtimeverification.com/</url>
                             <fromDir>target/docs</fromDir>
                             <includes>**</includes>
