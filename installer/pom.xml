@@ -112,7 +112,7 @@
                             <url>sftp://grigore@runtimeverification.com/</url>
                             <fromDir>target</fromDir>
                             <includes>rv-monitor-installer*.jar</includes>
-                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor</toDir>
+                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor/${version}</toDir>
                         </configuration>
                     </execution>
                 </executions>
