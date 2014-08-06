@@ -7,8 +7,8 @@
     </parent>
     <!-- Based on guide at http://docs.codehaus.org/display/IZPACK/Compiling+Using+Maven -->
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>izpack</artifactId>
-    <name>izpack</name>
+    <artifactId>rv-monitor-installer</artifactId>
+    <name>rv-monitor-installer</name>
     <packaging>pom</packaging>
     <properties>
         <!-- Installer variables -->
@@ -111,8 +111,8 @@
                             <serverId>rv-site</serverId>
                             <url>sftp://grigore@runtimeverification.com/</url>
                             <fromDir>target</fromDir>
-                            <includes>izpack*.jar</includes>
-                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor/rv-monitor-install-${version}.jar</toDir>
+                            <includes>rv-monitor-installer*.jar</includes>
+                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor</toDir>
                         </configuration>
                     </execution>
                 </executions>
