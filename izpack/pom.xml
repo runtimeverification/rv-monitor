@@ -108,7 +108,7 @@
                             <goal>upload</goal>
                         </goals>
                         <configuration>
-                            <siteId>rv-site</siteId>
+                            <serverId>rv-site</serverId>
                             <url>sftp://grigore@runtimeverification.com/</url>
                             <fromDir>target</fromDir>
                             <includes>izpack*.jar</includes>

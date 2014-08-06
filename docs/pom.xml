@@ -73,7 +73,7 @@
                             <builder>text</builder> 
                             <fork>true</fork> 
                         </configuration>
-                        <phase>pa</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -93,7 +93,7 @@
                             <goal>upload</goal>
                         </goals>
                         <configuration>
-                            <siteId>rv-site</siteId>
+                            <serverId>rv-site</serverId>
                             <url>sftp://grigore@runtimeverification.com/</url>
                             <fromDir>target/docs</fromDir>
                             <includes>**</includes>
