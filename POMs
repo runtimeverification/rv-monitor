@@ -1,5 +1,5 @@
 docs/pom.xml
-izpack/pom.xml
+installer/pom.xml
 logicrepository/pom.xml
 plugins_logicrepository/cfg/pom.xml
 plugins_logicrepository/ere/pom.xml
