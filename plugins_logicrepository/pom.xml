@@ -13,12 +13,12 @@
         <dependency>
             <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>logicrepository</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>logicrepository</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

@@ -97,7 +97,7 @@
                             <url>sftp://grigore@runtimeverification.com/</url>
                             <fromDir>target/docs</fromDir>
                             <includes>**</includes>
-                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor/docs/${version}</toDir>
+                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor/docs/${project.version}</toDir>
                         </configuration>
                     </execution>
                 </executions>
