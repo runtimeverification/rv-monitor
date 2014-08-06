@@ -55,6 +55,7 @@
             <file src="LICENSE" targetdir="$INSTALL_PATH"/>
             <file src="bin" targetdir="$INSTALL_PATH"/>
             <fileset dir="lib" targetdir="$INSTALL_PATH/lib"/>
+            <fileset dir="docs" targetdir="$INSTALL_PATH/docs"/>
             <executable targetfile="$INSTALL_PATH/bin/rv-monitor" keep="true" stage="never" />
             <executable targetfile="$INSTALL_PATH/bin/rv-monitor.bat" keep="true" stage="never" />
             <executable targetfile="$INSTALL_PATH/bin/logicrepository" keep="true" stage="never" />

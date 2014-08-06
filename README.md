@@ -2,8 +2,8 @@ Detailed Documentation
 ----------------------
 
 For detailed information on RV-Monitor and its use, please see
-http://runtimeverification.com/monitor/docs
-
+http://runtimeverification.com/monitor/docs (also included in text form in the docs/
+subfolder of this install).
 
 
 Command Line Basics
@@ -40,4 +40,5 @@ $ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
 $ java HasNext_1.HasNext_1
 
 For more information on running examples, please see the web documentation at 
-http://runtimeverification.com/monitor/docs/runningexamples.html
+http://runtimeverification.com/monitor/docs/runningexamples.html, also included in text form in the docs/
+subfolder of this install.

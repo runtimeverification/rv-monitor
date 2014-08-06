@@ -3,13 +3,12 @@
     <parent>
         <groupId>com.runtimeverification.rvmonitor</groupId>
         <artifactId>root</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1-SNAPSHOT</version>
     </parent>
     <!-- Based on guide at http://docs.codehaus.org/display/IZPACK/Compiling+Using+Maven -->
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>izpack</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>izpack</name>
+    <artifactId>rv-monitor-installer</artifactId>
+    <name>rv-monitor-installer</name>
     <packaging>pom</packaging>
     <properties>
         <!-- Installer variables -->
@@ -21,10 +20,17 @@
         <dependency>
             <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>rv-monitor</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${version}</version>
         </dependency>
     </dependencies>
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>1.0-beta-5</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -88,6 +94,28 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.3.1</version>
+            </plugin>
+            <!-- Upload the installer to SFTP during deployment -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0-beta-5</version>
+                <executions>
+                    <execution>
+                        <id>upload-docs</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <serverId>rv-site</serverId>
+                            <url>sftp://grigore@runtimeverification.com/</url>
+                            <fromDir>target</fromDir>
+                            <includes>rv-monitor-installer*.jar</includes>
+                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor</toDir>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
