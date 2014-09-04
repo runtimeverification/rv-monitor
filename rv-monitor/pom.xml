@@ -81,6 +81,12 @@
             <version>2.4</version>
             <scope>test</scope>
         </dependency>
+        <!-- docs required for assembly -->
+        <dependency>
+            <groupId>com.runtimeverification.rvpredict</groupId>
+            <artifactId>docs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
