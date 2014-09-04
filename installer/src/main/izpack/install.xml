@@ -63,7 +63,7 @@
         </pack>
         <pack name="Examples" required="no" installGroups="New Application" >
             <description>Example programs illustrating RV-Monitor's features.</description>
-            <fileset dir="examples" casesensitive="yes" targetdir="$INSTALL_PATH/examples">
+            <fileset dir="examples/java" casesensitive="yes" targetdir="$INSTALL_PATH/examples">
                 <exclude name="bin/*"/>
                 <exclude name="log/*"/>
             </fileset>
