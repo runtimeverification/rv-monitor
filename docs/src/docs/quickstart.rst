@@ -1,60 +1,80 @@
 Quickstart
 ==========
 
+.. note:: Here we only discuss RV-Monitor for Java.
+    Variants of RV-Monitor for C and for LLVM are also available.
+    Please contact us if interested in those.
+
 Overview
 --------
 
-RV-Monitor is a software development and analysis framework aiming at reducing the 
-gap between formal specification and implementation by allowing them to form 
-a system together. With RV-Monitor, runtime monitoring is supported and encouraged as a
-fundamental principle for building reliable software: monitors are  synthesized from 
-specified properties and integrated into the original system to check its dynamic 
-behaviors during execution. When a specification is violated or validated at runtime, 
-user-defined actions will be triggered, which can be any code from information logging 
-to runtime recovery. One can understand RV-Monitor from at least three perspectives: 
-as a discipline allowing one to improve safety, reliability and dependability of a 
-system by monitoring its requirements against its implementation at runtime; as an
-extension of programming languages with logics (one can add logical statements
-anywhere in the program, referring to past or future states); and as a
-lightweight formal method.
+At its core, RV-Monitor allows you to specify properties that your system
+should satisfy at runtime (safety or security properties, API protocols, etc.)
+and then to generate efficient monitoring libraries from them.
+The generated libraries can then be used either manually, by calling the
+monitoring methods at the desired places in your application code, or
+automatically, by inserting calls to the monitoring methods using
+instrumentation mechanisms.
+As an example of the latter, the RV-Monitor distribution also includes
+a Java agent that incorporates an RV-Monitor library generated from more
+than 200 Java API protocol properties, as well as a command, ``rv-monitor-all``,
+that can be used as a drop in replacement of ``java`` when you want the
+executed program to be checked against all those properties.
 
-RV-Monitor is a tool for generating monitoring code.  We will mainly discuss RV-Monitor for 
-Java, which takes as input one or more specification files and generates Java classes that 
-implement the monitoring functionality defined therein.  RV-Monitor is also available for
-C and LLVM, with examples bundled with the RV-Monitor distribution.  Documentation on
-these RV-Monitor flavors is coming soon.
+.. note:: If you want to just quickly use RV-Monitor out-of-the-box and
+    spend no time on learning how to customize it to your specific needs,
+    then just replace ``java`` in your command line
+    with ``rv-monitor-all``.  Your program should execute normally
+    (but slightly slower) and violations to any of the 200 bundled Java API
+    protocols will be reported during the execution of the program.
+    While revising the reported violations, remember that you can
+    fully configure the properties to be checked and the actions to take
+    when they are violated.
+    
 
-Each RV-Monitor specification defines a number of *events*, which represent abstractions
-of certain points in programs, e.g., a call to the `hasNext()` method in Java,
-or closing a file.  With these event abstractions in mind, a user can define
+When a specification is violated or validated at runtime, user-defined actions
+will be triggered, which can be any code from information logging to runtime
+recovery.
+One can understand RV-Monitor from at least three perspectives: 
+(1) as a discipline allowing one to improve safety, reliability and
+dependability of a system by monitoring its requirements against its
+implementation at runtime;
+(2) as an extension of programming languages with logics (one can add
+logical statements anywhere in the program, referring to past or future
+states);
+and (3) as a lightweight formal method.
+
+RV-Monitor takes as input one or more specification files and generates Java
+classes that  implement the monitoring functionality defined therein.
+Each RV-Monitor specification defines a number of *events*, which represent
+abstractions of certain points in programs, e.g., a call to the `hasNext()`
+method in Java, or closing a file.
+With these event abstractions in mind, a user can define
 one or more properties over the events, taking the events as either atoms in
 logical formulae or as symbols in formal language descriptions.  For example,
 one may use these events as symbols in a regular expression or as atoms in a
-linear temporal logic formula. In the generated Java class, each event becomes
-a method that can be either called manually by a user or by using some means of
-instrumentation, such as AspectJ.  
+linear temporal logic formula.
+In the generated Java class, each event becomes a method that can be either
+called manually by a user or by using some means of instrumentation,
+such as AspectJ.  
 
 Each specification also has a number of handlers associated with each property
-that run when their associated property matches some specific conditions.  For
-instance, when a regular expression pattern matches, we run a handler
-designated with the keyword `@match`, and when an LTL formula is violated, we
-run a handler designated with the keyword `@violation`. 
-
-As mentioned, handlers are run by the Java class as needed, however, we also export
-a number of boolean variables that allow for external testing of the different 
-*categories* (e.g., match or violation) that a property may flag.  Additionally,
-RV-Monitor has the capability to generate monitors that enforce a given property
-by delaying threads in multi-threaded programs. 
+that are run when their associated property matches some specific conditions.
+For instance, when a regular expression pattern matches, we run a handler
+designated with the keyword ``@match``, and when an LTL formula is violated, we
+run a handler designated with the keyword ``@violation``.
+Additionally, RV-Monitor has the capability to generate monitors that enforce
+a given property by delaying threads in multi-threaded programs.
 
 First Steps
 --------------------------------
 
-RV-Monitor event methods can be manually called from your code to add monitoring
-code to it, or *instrument* it.  
-This allows for fine grain use of RV-Monitor monitors as a programming paradigm.
+The event methods generated by RV-Monitor can be manually called from your
+code, or you can automatically *instrument* your code to call them.
+Manual calls may look tedious at first, but they allow for fine grain use
+of RV-Monitor monitors as a programming paradigm.
 
-For example, we can directly call the event methods generated for the
-HasNext.rvm property shown below: ::
+For example, consider the RV-Monitor ``HasNext.rvm`` property shown below: ::
 
     package rvm;
 	
@@ -73,8 +93,9 @@ HasNext.rvm property shown below: ::
         }
     }
 	
-The generated Java monitoring library (named HasNextRuntimeMonitor after the property) has two methods, 
-one for each event, with the following signatures::
+The generated Java monitoring library (named ``HasNextRuntimeMonitor`` after
+the property) has two methods, one for each event, with the following
+signatures::
 
     public void nextEvent(Iterator i)
 
@@ -82,10 +103,11 @@ and ::
 
     public void nextEvent(Iterator i)
 
-By calling the methods directly rather than using some sort of automatic instrumentor,
-like AspectJ, we can control exactly what we wish to monitor.  For instance,
-we can add a wrapper class for Iterator that has versions of hasNext and next that
-call our monitoring code, and only use them in places where it is crucial to be correct.
+By calling the methods directly rather than using some sort of automatic
+instrumentor, like AspectJ, we can control exactly what we wish to monitor.
+For instance, we can add a wrapper class for ``Iterator`` that has versions
+of ``hasNext`` and ``next`` that call our monitoring code, and only use them
+in places where your code is crucial to be correct.
 The class could be defined as follows::
 
     public class SafeIterator<E> implements java.util.Iterator<E> {
@@ -110,8 +132,8 @@ The class could be defined as follows::
         }
     }
 
-Now our program can distinguish between monitored and unmonitored Iterators
-by simply creating SafeIterators from Iterators.
+Now our program can distinguish between monitored and unmonitored
+``Iterators`` by simply creating ``SafeIterators`` from ``Iterators``.
 
 For example, consider the following program::
 
@@ -139,12 +161,14 @@ For example, consider the following program::
         }
     }
 	
-We compile `SafeIterator.java`, `Test.java`, and `HasNextRuntimeMonitor.java` and run
-`Test.java`.
+Now let us compile ``SafeIterator.java``, ``Test.java``, and
+``HasNextRuntimeMonitor.java``, and then run ``Test.java``.
+The ``javac`` and ``java`` commands need ``rvmonitorrt.jar`` and the monitor
+directory on your ``CLASSPATH``.
+This allows for the use of the RV-Monitor runtime, required by the libraries
+generated by the ``rv-monitor`` command.
 
-The javac and java commands need `rvmonitorrt.jar` and the monitor directory on your CLASSPATH
-This allows for the use of the RV-Monitor runtime, required by the libraries generated
-by the rv-monitor command.  The commands are structured as follows:
+The commands are structured as follows:
 
 .. code-block:: none
 
@@ -161,8 +185,10 @@ to run programs as follows:
     $ javac InstrumentedProgram(s) MonitorLibrary
     $ java TestWithMain
 
-As an example, considering the existence of an rvm folder housing HasNext.rvm and its 
-generated property library, HasNextRuntimeMonitor.java.  A command to compile would be:
+As an example, considering the existence of an ``rvm`` folder housing
+``HasNext.rvm`` and its generated property library,
+``HasNextRuntimeMonitor.java``.
+A command to compile would be:
 
 .. code-block:: none
 
@@ -183,17 +209,21 @@ See the `Examples`_ section for more information on running the bundled examples
 AspectJ Instrumentation
 -----------------------
 
-Frequently, it is not desirable to manually insert calls to the monitoring library in
-your source.  For reasons of separation of concerns, correctness, ease of use, or 
-maintainability, it is very common in the monitoring oriented programming community
-to use `Aspect-Oriented programming <https://en.wikipedia.org/wiki/Aspect-oriented_programming>`_
+Frequently, it is not desirable to manually insert calls to the monitoring
+library in your source.
+For reasons of separation of concerns, correctness, ease of use, or 
+maintainability, it is very common in the runtime verification community to
+use `Aspect-Oriented programming 
+<https://en.wikipedia.org/wiki/Aspect-oriented_programming>`_
 to instrument large codebases automatically.
 
-Rather than including our calls to the HasNextRuntimeMonitor events in our
-Java source manually, we can create an `AspectJ <https://eclipse.org/aspectj/>`_ aspect that calls 
-them for all instances of `next()` and `hasNext()` in the program.  This aspect can then be weaved 
-throughout any program to make *all* uses of Iterators safe.  What follows is an example of
-an aspect that can achieve this effect. ::
+Rather than including our calls to the ``HasNextRuntimeMonitor`` events
+in our Java source manually, we can create an
+`AspectJ <https://eclipse.org/aspectj/>`_ aspect that calls 
+them for all instances of ``next()`` and ``hasNext()`` in the program.
+This aspect can then be weaved throughout any program to make *all* uses
+of ``Iterators`` safe.
+What follows is an example of an aspect that can achieve this effect. ::
 
     aspect HasNextAspect {
         after(Iterator i) : call(* Iterator.hasNext()) && target(i) {
@@ -205,24 +235,32 @@ an aspect that can achieve this effect. ::
         }
     }
 
-.. note:: RV-Monitor can access a whole data base of properties that may be run against
-    a program as a large scale dynamic property checker.
+.. note:: RV-Monitor can access a whole data base of properties that may be
+    configured using AspectJ and run against a program as a large scale
+    dynamic property checker.
+    For your convenience, we have precompiled a suite of common Java API
+    protocol properties together in an agent that is automatically invoked
+    when you replace ``java`` with ``rv-monitor-all`` in your command line.
 
-.. note:: For more information on using RV-Monitor with Aspects, we recommend the JavaMOP project,
-    which provides automatic instrumentation through AspectJ for your RV-Monitor properties
-    and allows you to write a single file which contains both the desired properties and the
-    desired instrumentation.
+
+.. note:: For more information on using RV-Monitor with Aspects, we
+    recommend the `JavaMOP <http://fsl.cs.illinois.edu/javamop/>`_ project, which
+    provides automatic instrumentation through AspectJ for your RV-Monitor
+    properties and allows you to write a single file which contains both the
+    desired properties and the desired instrumentation.
 
 Testing with RV-Monitor
 -----------------------
-There are several ways to use RV-Monitor.  One is to insert code to recovery from safety errors
-in your monitoring library, increasing the safety of your program and providing lightweight
-formal guarantees.  RV-Monitor can also be used as a debugger, logging errors when they
-occur and giving a developer increased insight as to the execution of their program and
-the order of their events.
+There are several ways to use RV-Monitor.
+One is to insert code to recovery from safety errors in your monitoring
+library, increasing the safety of your program and providing lightweight
+formal guarantees.
+RV-Monitor can also be used as a debugger, logging errors when they
+occur and giving a developer increased insight as to the execution of
+their program and the order of their events.
 
-For example, we can use the following property to ensure mutual exclusion between calls to 
-`hashcode()` and list modification::
+For example, we can use the following property to ensure mutual exclusion
+between calls to `hashcode()` and list modification::
 
 	enforce SafeListCFG(List l) {
 	  

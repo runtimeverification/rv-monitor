@@ -6,14 +6,13 @@
 Welcome!
 ========
 
-Welcome to RV-Monitor's documentation!
---------------------------------------
-
-RV-Monitor is a software development and analysis framework aiming at reducing the gap between 
-formal specification and implementation by allowing them together to form a system. With RV-Monitor, 
-runtime monitoring is supported and encouraged as a fundamental principle for building reliable 
-software: monitors are synthesized from specified properties and integrated into the original 
-system to check its dynamic behaviors during execution. 
+RV-Monitor is a software analysis and development framework and tool that
+aims at reducing the gap between specification and implementation by allowing
+them together to form a system.
+With RV-Monitor, runtime monitoring is supported and encouraged as a
+fundamental principle for building reliable software: monitors are
+synthesized from specifications and integrated into the original 
+system to check its behavior during execution.
 
 
 Contents
