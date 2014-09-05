@@ -1,32 +1,53 @@
 Quickstart
 ==========
 
+.. note:: Here we only discuss RV-Monitor for Java.
+    Variants of RV-Monitor for C and for LLVM are also available.
+    Please contact us if interested in those.
+
 Overview
 --------
 
-RV-Monitor is a software development and analysis framework aiming at reducing the 
-gap between formal specification and implementation by allowing them to form 
-a system together. With RV-Monitor, runtime monitoring is supported and encouraged as a
-fundamental principle for building reliable software: monitors are  synthesized from 
-specified properties and integrated into the original system to check its dynamic 
-behaviors during execution. When a specification is violated or validated at runtime, 
-user-defined actions will be triggered, which can be any code from information logging 
-to runtime recovery. One can understand RV-Monitor from at least three perspectives: 
-as a discipline allowing one to improve safety, reliability and dependability of a 
-system by monitoring its requirements against its implementation at runtime; as an
-extension of programming languages with logics (one can add logical statements
-anywhere in the program, referring to past or future states); and as a
-lightweight formal method.
+At its core, RV-Monitor allows you to specify properties that your system
+should satisfy at runtime (safety or security properties, API protocols, etc.)
+and then to generate efficient monitoring libraries from them.
+The generated libraries can then be used either manually, by calling the
+monitoring methods at the desired places in your application code, or
+automatically, by inserting calls to the monitoring methods using
+instrumentation mechanisms.
+As an example of the latter, the RV-Monitor distribution also includes
+a Java agent that incorporates an RV-Monitor library generated from more
+than 200 Java API protocol properties, as well as a command, ``rv-monitor-all``,
+that can be used as a drop in replacement of ``java`` when you want the
+executed program to be checked against all those properties.
 
-RV-Monitor is a tool for generating monitoring code.  We will mainly discuss RV-Monitor for 
-Java, which takes as input one or more specification files and generates Java classes that 
-implement the monitoring functionality defined therein.  RV-Monitor is also available for
-C and LLVM, with examples bundled with the RV-Monitor distribution.  Documentation on
-these RV-Monitor flavors is coming soon.
+.. note:: If you want to just quickly use RV-Monitor out-of-the-box and
+    spend no time on learning how to customize it to your specific needs,
+    then just replace ``java`` in your command line
+    with ``rv-monitor-all``.  Your program should execute normally
+    (but slightly slower) and violations to any of the 200 bundled Java API
+    protocols will be reported during the execution of the program.
+    While revising the reported violations, remember that you can
+    fully configure the properties to be checked and the actions to take
+    when they are violated.
+    
 
-Each RV-Monitor specification defines a number of *events*, which represent abstractions
-of certain points in programs, e.g., a call to the `hasNext()` method in Java,
-or closing a file.  With these event abstractions in mind, a user can define
+When a specification is violated or validated at runtime, user-defined actions
+will be triggered, which can be any code from information logging to runtime
+recovery.
+One can understand RV-Monitor from at least three perspectives: 
+as a discipline allowing one to improve safety, reliability and dependability
+of a system by monitoring its requirements against its implementation at
+runtime; as an extension of programming languages with logics (one can add
+logical statements anywhere in the program, referring to past or future
+states); and as a lightweight formal method.
+
+RV-Monitor takes as input one or more specification files and generates Java
+classes that  implement the monitoring functionality defined therein.
+Each RV-Monitor specification defines a number of *events*, which represent
+abstractions of certain points in programs, e.g., a call to the `hasNext()`
+method in Java, or closing a file.
+With these event abstractions in mind, a user can define
 one or more properties over the events, taking the events as either atoms in
 logical formulae or as symbols in formal language descriptions.  For example,
 one may use these events as symbols in a regular expression or as atoms in a
