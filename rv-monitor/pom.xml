@@ -69,11 +69,6 @@
             <artifactId>tfsm</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>docs</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- Examples tests use commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -83,7 +78,7 @@
         </dependency>
         <!-- docs required for assembly -->
         <dependency>
-            <groupId>com.runtimeverification.rvpredict</groupId>
+            <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>docs</artifactId>
             <version>${project.version}</version>
         </dependency>

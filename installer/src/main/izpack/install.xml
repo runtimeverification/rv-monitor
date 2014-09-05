@@ -58,6 +58,8 @@
             <fileset dir="docs" targetdir="$INSTALL_PATH/docs"/>
             <executable targetfile="$INSTALL_PATH/bin/rv-monitor" keep="true" stage="never" />
             <executable targetfile="$INSTALL_PATH/bin/rv-monitor.bat" keep="true" stage="never" />
+            <executable targetfile="$INSTALL_PATH/bin/rv-monitor-all" keep="true" stage="never" />
+            <executable targetfile="$INSTALL_PATH/bin/rv-monitor-all.bat" keep="true" stage="never" />
             <executable targetfile="$INSTALL_PATH/bin/logicrepository" keep="true" stage="never" />
             <executable targetfile="$INSTALL_PATH/bin/logicrepository.bat" keep="true" stage="never" />
         </pack>

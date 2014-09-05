@@ -43,6 +43,7 @@
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>bin/</include>
+                <include>lib/</include>
             </includes>
         </fileSet>
     </fileSets>
