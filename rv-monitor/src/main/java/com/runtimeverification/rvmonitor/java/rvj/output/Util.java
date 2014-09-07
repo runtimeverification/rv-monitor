@@ -8,8 +8,7 @@ public class Util {
         + "ViolationRecorder.getLineOfCode()";
 
   public static String packageAndNameToUrl(PackageDeclaration packageDeclaration, String name){
-    return "http://fsl.cs.uiuc.edu/annotated-java/__properties/html/" +
-            packageToUrlFragment(packageDeclaration) + "/" + name + ".html"; 
+    return "http://runtimeverification.com/monitor/annotated-java/" + name + ".html"; 
   }
 
   public static String packageToUrlFragment(PackageDeclaration packageDeclaration){
