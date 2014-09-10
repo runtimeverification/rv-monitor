@@ -1,10 +1,8 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.PointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.TypePattern;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisitor;
@@ -24,7 +22,7 @@ public class EventDefinitionExt extends ExtNode {
 
 	final RVMParameters rvmParameters;
 
-	private final BlockStmt block;
+	private final String block;
 
 	// will be modified by RVMonitorSpec when creation events are not specified
 	boolean startEvent = false;
@@ -67,7 +65,7 @@ EventDefinitionExt Event()
 	 * A new constructor for blocking event
 	 * 
 	 * */
-	public EventDefinitionExt(int line, int column, String id, List<RVMParameter> parameters, BlockStmt block, boolean startEvent, boolean isBlockingEvent)
+	public EventDefinitionExt(int line, int column, String id, List<RVMParameter> parameters, String block, boolean startEvent, boolean isBlockingEvent)
 			throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
 		super(line, column);
 		this.id = id;
@@ -163,7 +161,7 @@ EventDefinitionExt Event()
 		return rvmParametersOnSpec;
 	}
 
-	public BlockStmt getAction() {
+	public String getAction() {
 		return block;
 	}
 
@@ -255,7 +253,7 @@ EventDefinitionExt Event()
 		return v.visit(this, arg);
 	}
 
-	public BlockStmt getBlock() {
+	public String getBlock() {
 		return this.block;
 	}
 

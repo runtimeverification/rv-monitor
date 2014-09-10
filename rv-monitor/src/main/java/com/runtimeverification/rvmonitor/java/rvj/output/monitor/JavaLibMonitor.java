@@ -50,8 +50,8 @@ public class JavaLibMonitor extends BaseMonitor {
 			}
 		}
 
-		if (event.getAction() != null && event.getAction().getStmts() != null && event.getAction().getStmts().size() != 0) {
-			String eventActionStr = event.getAction().toString();
+		if (event.getAction() != null) {
+			String eventActionStr = event.getAction();
 
 			eventActionStr = eventActionStr.replaceAll("return;", "return true;");
 			eventActionStr = eventActionStr.replaceAll("__RESET", "this.reset()");

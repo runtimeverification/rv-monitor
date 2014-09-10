@@ -1,13 +1,13 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser;
 
-import com.runtimeverification.rvmonitor.util.RVMException;
+import com.runtimeverification.rvmonitor.java.rvj.JavaParserAdapter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.RVMonitorParser;
+
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Pair;
 import com.runtimeverification.rvmonitor.util.Tool;
 
@@ -54,7 +54,7 @@ public class RVMonitorExtender {
 
 	protected static RVMonitorSpec translateJavaMopSpec(RVMonitorSpecExt spec, RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
 			throws RVMException {
-		List<BodyDeclaration> declarations;
+		String declarations;
 		List<EventDefinition> events;
 		List<PropertyAndHandlers> props = new ArrayList<PropertyAndHandlers>();
 
@@ -129,7 +129,7 @@ public class RVMonitorExtender {
 			HashMap<String, HandlerExt> handlers = propAndHandlers.get(prop);
 
 			Property translatedProp = new Formula(prop.getBeginLine(), prop.getBeginColumn(), prop.getType(), f.getFormula());
-			HashMap<String, BlockStmt> translatedHandlers = new HashMap<String, BlockStmt>();
+			HashMap<String, String> translatedHandlers = new HashMap<String, String>();
 			for (String state : handlers.keySet()) {
 				HandlerExt handler = handlers.get(state);
 
@@ -243,7 +243,7 @@ public class RVMonitorExtender {
 			if (!parentFile.exists())
 				throw new RVMException("cannot find the specification: " + extSpec.getName() + ".");
 			try {
-				parentSpecFile = RVMonitorParser.parse(parentFile);
+				parentSpecFile = JavaParserAdapter.parse(parentFile);
 			} catch (Exception e) {
 				throw new RVMException("Error when parsing a specification file:\n" + e.getMessage());
 			}
@@ -289,14 +289,14 @@ public class RVMonitorExtender {
 		throw new RVMException("cannot find a parent specification: " + name);
 	}
 
-	private static List<BodyDeclaration> collectDeclarations(RVMonitorSpecExt spec, RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
+	private static String collectDeclarations(RVMonitorSpecExt spec, RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
 			throws RVMException {
-		List<BodyDeclaration> ret;
+		String ret;
 
 		if (!spec.hasExtend())
-			return spec.getDeclarations();
+			return spec.getDeclarationsStr();
 
-		ret = new ArrayList<BodyDeclaration>();
+		ret = "";
 
 		for (ExtendedSpec parentSpecName : spec.getExtendedSpec()) {
 			Pair<RVMonitorSpecExt, RVMSpecFileExt> parentSpecPair = findRVMonitorSpec(parentSpecName.getName(), currentFile, depFiles);
@@ -304,12 +304,12 @@ public class RVMonitorExtender {
 			RVMonitorSpecExt parentSpec = parentSpecPair.getLeft();
 			RVMSpecFileExt parentSpecFile = parentSpecPair.getRight();
 
-			List<BodyDeclaration> declOfParents = collectDeclarations(parentSpec, parentSpecFile, depFiles);
+			String declOfParents = collectDeclarations(parentSpec, parentSpecFile, depFiles);
 
-			ret.addAll(declOfParents);
+			ret += declOfParents + System.lineSeparator();
 		}
 
-		ret.addAll(spec.getDeclarations());
+		ret += spec.getDeclarationsStr();
 
 		return ret;
 	}

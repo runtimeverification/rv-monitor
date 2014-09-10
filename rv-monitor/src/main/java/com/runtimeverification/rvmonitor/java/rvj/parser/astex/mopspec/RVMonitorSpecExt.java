@@ -3,11 +3,9 @@ package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.RVMNameSpace;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.body.BodyDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.SpecModifierSet;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisitor;
@@ -23,14 +21,14 @@ public class RVMonitorSpecExt extends ExtNode {
 	private final RVMParameters parameters;
 	private final String inMethod;
 	private final PackageDeclaration packageDeclaration;
-	private final List<BodyDeclaration> declarations;
+	private final String declarations;
 	private final List<EventDefinitionExt> events;
 	private final List<PropertyAndHandlersExt> properties;
 	private final List<String> eventNames;
 	private final List<ExtendedSpec> extendedSpecs;
 
 	public RVMonitorSpecExt(PackageDeclaration packageDeclaration, int line, int column, boolean isPublic, int modifiers, String name, List<RVMParameter> parameters, String inMethod, List<ExtendedSpec> extendedSpecs,
-							List<BodyDeclaration> declarations, List<EventDefinitionExt> events, List<PropertyAndHandlersExt> properties) throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+							String declarations, List<EventDefinitionExt> events, List<PropertyAndHandlersExt> properties) throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
 		super(line, column);
 		this.packageDeclaration = packageDeclaration;
 		this.modifiers = modifiers;
@@ -128,20 +126,8 @@ public class RVMonitorSpecExt extends ExtNode {
 		return inMethod;
 	}
 
-	public List<BodyDeclaration> getDeclarations() {
-		return declarations;
-	}
-
 	public String getDeclarationsStr() {
-		String ret = "";
-
-		if (declarations == null)
-			return ret;
-
-		for (BodyDeclaration decl : declarations)
-			ret += decl.toString() + "\n";
-
-		return ret;
+		return declarations;
 	}
 
 	public List<EventDefinitionExt> getEvents() {
@@ -243,10 +229,10 @@ public class RVMonitorSpecExt extends ExtNode {
 			}
 		}
 		for (PropertyAndHandlersExt prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__LOC") != -1 
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__LOC") != -1 
           || 
-          handler.toString().indexOf("__DEFAULT_MESSAGE") != -1) {
+          handler.indexOf("__DEFAULT_MESSAGE") != -1) {
 					cachedHas__LOC = new Boolean(true);
 					return true;
 				}
@@ -272,8 +258,8 @@ public class RVMonitorSpecExt extends ExtNode {
 			}
 		}
 		for (PropertyAndHandlersExt prop : this.properties) {
-			for (BlockStmt handler : prop.getHandlers().values()) {
-				if (handler.toString().indexOf("__SKIP") != -1) {
+			for (String handler : prop.getHandlers().values()) {
+				if (handler.indexOf("__SKIP") != -1) {
 					cachedHas__SKIP = new Boolean(true);
 					return true;
 				}

@@ -77,8 +77,8 @@ public class RawMonitor extends Monitor{
 		RVMJavaCode condition = new RVMJavaCode(event.getCondition(), monitorName);
 		RVMJavaCode eventAction = null;
 
-		if (event.getAction() != null && event.getAction().getStmts() != null && event.getAction().getStmts().size() != 0) {
-			String eventActionStr = event.getAction().toString();
+		if (event.getAction() != null) {
+			String eventActionStr = event.getAction();
 
 			if (!Main.generateVoidMethods) {
 				eventActionStr = eventActionStr.replaceAll("return;", "return true;");

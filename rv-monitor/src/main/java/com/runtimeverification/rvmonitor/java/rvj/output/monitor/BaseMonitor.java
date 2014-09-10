@@ -30,7 +30,6 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -113,7 +112,7 @@ public class BaseMonitor extends Monitor {
 	private String systemAspectName;
 	private boolean existCondition = false;
 	private boolean existSkip = false;
-	private HashMap<RVMParameter, RVMVariable> varsToSave;
+	private HashMap<RVMParameter, RVMVariable> varsToSave = new HashMap<RVMParameter, RVMVariable>();
 
 	final HashMap<PropertyAndHandlers, PropMonitor> propMonitors = new HashMap<PropertyAndHandlers, PropMonitor>();
 
@@ -185,14 +184,14 @@ public class BaseMonitor extends Monitor {
 			propMonitor.equalsCode = new RVMJavaCode(prop, prop.getLogicProperty("equals"), monitorName);
 			propMonitor.initilization = new RVMJavaCode(prop, prop.getLogicProperty("initialization"), monitorName);
 
-			HashMap<String, BlockStmt> handlerBodies = prop.getHandlers();
+			HashMap<String, String> handlerBodies = prop.getHandlers();
 			for (String category : prop.getHandlers().keySet()) {
 				if (category.equals("deadlock"))
 					continue;
 				RVMVariable categoryVar = new RVMVariable(prefix + "Prop_" + prop.getPropertyId() + "_Category_" + category);
 				propMonitor.categoryVars.put(category, categoryVar);
 
-				BlockStmt handlerBody = handlerBodies.get(category);
+				String handlerBody = handlerBodies.get(category);
 
 				if (handlerBody.toString().length() != 0) {
 					propMonitor.handlerMethods.put(category, new HandlerMethod(prop, category, specParam, mopSpec.getCommonParamInEvents(), varsToSave, handlerBody, categoryVar, this));
@@ -220,8 +219,8 @@ public class BaseMonitor extends Monitor {
 		
 		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
 			if(!existSkip){
-				for (BlockStmt handler : prop.getHandlers().values()) {
-					if (handler.toString().indexOf("__SKIP") != -1){
+				for (String handler : prop.getHandlers().values()) {
+					if (handler.indexOf("__SKIP") != -1){
 						existSkip = true;
 						break;
 					}
@@ -299,8 +298,8 @@ public class BaseMonitor extends Monitor {
 		}
 
 		if(prop == props.get(props.size() - 1)){
-			if (event.getAction() != null && event.getAction().getStmts() != null && event.getAction().getStmts().size() != 0) {
-				String eventActionStr = event.getAction().toString();
+			if (event.getAction() != null) {
+				String eventActionStr = event.getAction();
 	
 				if (!Main.generateVoidMethods) {
 					eventActionStr = eventActionStr.replaceAll("return;", "return true;");

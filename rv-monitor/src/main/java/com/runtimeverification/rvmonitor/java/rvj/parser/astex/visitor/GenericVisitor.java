@@ -22,8 +22,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.EventPointCut;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.HandlerPointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.RVMonitorSpecExt;
 
@@ -49,11 +47,4 @@ public interface GenericVisitor<R, A> extends com.runtimeverification.rvmonitor.
     public R visit(FormulaExt f, A arg);
     
     public R visit(ExtendedSpec extendedSpec, A arg);
-    
-    //- AspectJ components --------------------
-    
-    public R visit(EventPointCut p, A arg);
-    
-    public R visit(HandlerPointCut p, A arg);
-
 }

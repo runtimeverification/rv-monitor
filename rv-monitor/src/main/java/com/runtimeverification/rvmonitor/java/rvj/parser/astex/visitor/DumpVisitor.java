@@ -20,10 +20,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.stmt.BlockStmt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.EventPointCut;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.HandlerPointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.RVMonitorSpecExt;
 
@@ -91,8 +88,8 @@ public final class DumpVisitor extends com.runtimeverification.rvmonitor.java.rv
 		printer.printLn(" {");
 		printer.indent();
 
-		if (s.getDeclarations() != null) {
-			printMembers(s.getDeclarations(), arg);
+		if (s.getDeclarationsStr() != null) {
+			printer.printLn(s.getDeclarationsStr());
 		}
 
 		if (s.getEvents() != null) {
@@ -114,10 +111,7 @@ public final class DumpVisitor extends com.runtimeverification.rvmonitor.java.rv
 	public void visit(EventDefinitionExt e, Object arg) {
 		printer.print("event " + e.getId() + " ");
 		printSpecParameters(e.getParameters(), arg);
-		if (e.getAction() != null) {
-			e.getAction().accept(this, arg);
-		}
-
+        printer.printLn(e.getAction());
 		printer.printLn();
 	}
 
@@ -140,10 +134,10 @@ public final class DumpVisitor extends com.runtimeverification.rvmonitor.java.rv
 					h.accept(this, arg);
 				}
 			}
-			BlockStmt stmt = p.getHandlers().get(event);
+			String stmt = p.getHandlers().get(event);
 			printer.printLn("@" + event);
 			printer.indent();
-			stmt.accept(this, arg);
+			printer.printLn(stmt);
 			printer.unindent();
 			printer.printLn();
 		}
@@ -171,20 +165,5 @@ public final class DumpVisitor extends com.runtimeverification.rvmonitor.java.rv
 
 			printer.print(")");
 		}
-	}
-
-	// - AspectJ components --------------------
-
-	public void visit(EventPointCut p, Object arg) {
-		printer.print("event" + "(");
-		p.getReferenceSpec().accept(this, arg);
-		printer.print(")");
-	}
-
-	public void visit(HandlerPointCut p, Object arg) {
-		printer.print("handler" + "(");
-		p.getReferenceSpec().accept(this, arg);
-		printer.print("@" + p.getState());
-		printer.print(")");
 	}
 }

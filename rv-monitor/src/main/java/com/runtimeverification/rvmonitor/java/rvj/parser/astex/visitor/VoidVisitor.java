@@ -19,8 +19,6 @@
 
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.EventPointCut;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.aspectj.HandlerPointCut;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.EventDefinitionExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.ExtendedSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.FormulaExt;
@@ -48,11 +46,4 @@ public interface VoidVisitor<A> extends com.runtimeverification.rvmonitor.java.r
     public void visit(FormulaExt f, A arg);
     
     public void visit(ExtendedSpec extendedSpec, A arg);
-    
-    //- AspectJ components --------------------
-    
-    public void visit(EventPointCut p, A arg);
-    
-    public void visit(HandlerPointCut p, A arg);
-
 }
