@@ -116,7 +116,7 @@ class RVMBitmap {
         bitmap = new boolean[totalsize];
         
         this.totalsize = totalsize;
-        if (this.truesize > this.totalsize) {
+        if (truesize > this.totalsize) {
             this.truesize = this.totalsize;
         } else {
         	this.truesize = truesize;
