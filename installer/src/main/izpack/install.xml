@@ -14,6 +14,9 @@
 
     <variables>
         <variable name="TargetPanel.dir.windows" value="C:\$APP_NAME"/>
+        <!-- Variables required for adding RV key to installer -->
+        <variable name="rvFullProductName" value="RV-Monitor"/>
+        <variable name="rvProductId" value="monitor"/>
     </variables>
 
     <!-- GUI-Specific Preferences -->
@@ -33,6 +36,8 @@
     <!-- Installer Resources -->
     <resources>
         <res id="CustomLangPack.xml_eng" src="res/izpack-rv-eng-lang.xml"/>
+        <!-- User input spec defining RV key inputs -->
+        <res id="userInputSpec.xml" src="res/userInputSpec.xml"/>
         <res id="LicencePanel.licence" src="LICENSE"/>
         <res id="HTMLFinishInfoPanel.finish" src="res/rvdependencies/finish.html"/>
         <res id="Heading.image" src="res/images/monitor.png"/>
@@ -40,6 +45,10 @@
 
     <!-- Installer Panel Sequence -->
     <panels>
+        <!-- First, check RV key and make sure it validates properly -->
+        <panel classname="UserInputPanel" id="rvkey">
+            <validator classname="com.izforge.izpack.panels.rvkey.RVKeyValidator"/> 
+        </panel>
         <panel classname="LicencePanel"/>
         <panel classname="TargetPanel"/>
         <panel classname="PacksPanel"/>
