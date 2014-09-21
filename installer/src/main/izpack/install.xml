@@ -20,7 +20,7 @@
     </variables>
 
     <!-- GUI-Specific Preferences -->
-    <guiprefs width="630" height="700" resizable="yes">
+    <guiprefs width="630" height="450" resizable="yes">
         <modifier key="useHeadingPanel" value="yes"/>
         <modifier key="useHeadingForSummary" value="no"/>
         <modifier key="headingImageOnLeft" value="yes"/>
