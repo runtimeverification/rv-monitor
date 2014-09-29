@@ -32,7 +32,7 @@
                                 <artifactItem>
                                     <groupId>com.runtimeverification.docs</groupId>
                                     <artifactId>rv-docs</artifactId>
-                                    <version>0.1</version>
+                                    <version>0.1-SNAPSHOT</version>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target/rv-docs/</outputDirectory>
