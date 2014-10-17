@@ -93,7 +93,7 @@
                         </goals>
                         <configuration>
                             <serverId>rv-site</serverId>
-                            <url>sftp://grigore@runtimeverification.com/</url>
+                            <url>sftp://grigore@ftp.runtimeverification.com/</url>
                             <fromDir>target/docs</fromDir>
                             <includes>**</includes>
                             <toDir>/home/grigore/public_html/runtimeverification.com/monitor/${project.version}/docs</toDir>
