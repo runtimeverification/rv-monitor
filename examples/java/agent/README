@@ -10,6 +10,6 @@ properties should be displayed to the screen, along with an explanation of
 the violated property.
 
 To run the agent manually (without the included script) simply add
--javaagent:all-java-api-properties.jar to the Java command required
+-javaagent:rv-monitor-all.jar to the Java command required
 to run any program.  Make sure the RV-Monitor lib folder is added to
 your classpath.

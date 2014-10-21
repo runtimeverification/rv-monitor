@@ -2,4 +2,4 @@
 
 BASE_PATH="$(dirname "$0")/.."
 
-java -cp "$BASE_PATH/lib/*:." -javaagent:"$BASE_PATH/examples/agent/all-java-api-properties.jar" "$@"
+java -cp "$BASE_PATH/lib/*:." -javaagent:"$BASE_PATH/examples/agent/rv-monitor-all.jar" "$@"
