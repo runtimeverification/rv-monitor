@@ -1,29 +1,8 @@
-build/*
-release/**
-src/com/runtimeverification/rvmonitor/c/rvc/parser/*.java
-src/com/runtimeverification/rvmonitor/core/parser/*.java
-src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/*.java
-!src/com/runtimeverification/rvmonitor/java/rvj/parser/main_parser/Token.java
-src/com/runtimeverification/rvmonitor/logicpluginshells/cfg/parser/*.java
-src/com/runtimeverification/rvmonitor/logicpluginshells/fsm/parser/*.java
-src/com/runtimeverification/rvmonitor/logicpluginshells/pda/parser/*.java
-src/com/runtimeverification/rvmonitor/logicpluginshells/po/parser/*.java
-src/com/runtimeverification/rvmonitor/logicpluginshells/ptcaret/parser/*.java
-src/com/runtimeverification/rvmonitor/logicpluginshells/srs/pma/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/cfg/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/ere/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/fsm/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/ltl/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/pda/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/po/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/ptcaret/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/srs/parser/*.java
-src/com/runtimeverification/rvmonitor/logicpluginshells/tfsm/parser/*.java
-src/com/runtimeverification/rvmonitor/logicrepository/plugins/tfsm/parser/*.java
-*.class
 *.swp
 
-test-reports/
+.classpath
+.project
+.settings
 
 examples/**/__RVC_*.h
 examples/**/__RVC_*.c
