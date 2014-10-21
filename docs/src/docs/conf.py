@@ -114,7 +114,7 @@ html_theme_path = ["themes",]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = "Runtime Verification Monitor Documentation"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -157,7 +157,7 @@ html_last_updated_fmt = '%b %d, %Y'
 #html_domain_indices = True
 
 # If false, no index is generated.
-#html_use_index = True
+html_use_index = False
 
 # If true, the index is split into individual pages for each letter.
 #html_split_index = False
