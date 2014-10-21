@@ -69,7 +69,7 @@ UserSessionLog(String sourceHost) {
 
     @fail {
         System.err.println("Unknown state reached for " + sourceHost + " at " + time +
-            ".  Please inspect the logs manually (disconnect-before-connect detected).");
+            ".  Please inspect the logs manually (Property: UserSessionLog.rvm).");
     }
 
 }
