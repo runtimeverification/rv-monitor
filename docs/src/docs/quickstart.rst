@@ -330,7 +330,7 @@ This ensures easy use of
 
 To get started, here's an example of monitoring via context free grammar.
 
-In examples/java/CFG/HasNext, we call
+In examples/CFG/HasNext, we call
 
 .. code-block:: none
 
