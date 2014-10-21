@@ -1,8 +1,8 @@
 import java.io.*;
 import java.util.*;
 
-// This property specifies that a program does
-// not call the hasnext method  before the next
+// This property detects whether a user connects multiple
+// times simultaneously to a Postfix server
 
 MultipleConnectionCheck(String sourceHost) {
     
