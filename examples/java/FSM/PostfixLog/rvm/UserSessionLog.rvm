@@ -1,3 +1,5 @@
+package rvm;
+
 // This property logs every time a user finishes a session and
 // also tracks the cumulative number of message send attempts and
 // failures they have had based on e-mail server logs.

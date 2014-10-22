@@ -6,6 +6,9 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.HashMap;
 
+import rvm.MultipleConnectionCheckRuntimeMonitor;
+import rvm.UserSessionLogRuntimeMonitor;
+
 /**
  * Adapter to translate Postfix sample log into RV-Monitor event trace line-by-line.
  *
