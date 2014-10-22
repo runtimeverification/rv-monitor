@@ -100,7 +100,7 @@ you can and should explore), use the following commands:
 
 .. code-block:: none
 
-    $ cd examples/java/FSM/HasNext
+    $ cd examples/FSM/HasNext
     $ rv-monitor rvm/HasNext.rvm
     $ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
     $ java HasNext_1.HasNext_1
@@ -165,7 +165,7 @@ To run SafeFileWriter from the RV-Monitor root:
 
 .. code-block:: none
 
-    $ cd examples/java/ERE/SafeFileWriter
+    $ cd examples/ERE/SafeFileWriter
     $ rv-monitor rvm/SafeFileWriter.rvm
     $ javac rvm/SafeFileWriterRuntimeMonitor.java SafeFileWriter_1/SafeFileWriter_1.java
     $ java SafeFileWriter_1.SafeFileWriter_1
@@ -186,7 +186,7 @@ above from the RV-Monitor root, replacing the first command with:
 
 .. code-block:: none
 
-    $ cd examples/java/LTL/SafeFileWriter
+    $ cd examples/LTL/SafeFileWriter
 
 Note that the specification is identical, other than the property, which is now::
 
@@ -196,6 +196,41 @@ This linear temporal logic means that at a write, there should not have been in 
 a close, and that open must have occured after the start.  This represents the same property
 as the regular expression, and demonstrates the ability to use multiple formalisms depending
 on the knowledge and desires of the property developer.
+
+As an agent
+~~~~~~~~~~~
+
+As part of the RV-Monitor distribution, we also provide an agent that is pre-compiled with over 200
+formal properties of four packages in the Java API (see the propertydb section below).  It is possible
+to use this agent with any Java application.
+
+All of the above Java examples can also be run with the provided RV-Monitor Java agent.  The
+``examples/agent`` directory contains several Java files similar to those in the above examples
+but with no instrumentation or RV-Monitor related code whatsoever.  It is possible to automatically 
+instrument and monitor all of these programs through the following commands:
+
+.. code-block:: none
+
+    $ cd examples/agent
+    $ javac [program].java
+    $ java -javaagent:rv-monitor-all.jar [program]
+
+
+You can also replace Java with the ``rv-monitor-all`` command in any Java program execution as follows:
+
+.. code-block:: none
+
+    $ cd examples/agent
+    $ javac [program].java
+    $ rv-monitor-all [program]
+
+to automatically add and execute the agent.
+
+No changes to the CLASSPATH or PATH are required with this method, which bundles all required
+dependencies in the agent.  Any of these programs can also be run unmonitored without the agent by simply
+omitting the ``javaagent`` flag above.  To generate such agents with configurable sets of properties, we
+use the JavaMOP tool (see below).
+
 
 RV-Monitor + C
 --------------
@@ -229,18 +264,18 @@ The seatbelt property is as follows::
     }
 
 
-To run the C example basic_car, use the following commands:
+To run the C example basic_car, use following commands would be used:
 
 .. note:: This example may not run on Windows without gcc and make installed.
 
 .. code-block:: none
 
-    $ cd examples/c/safety_critical/basic_car
     $ make
     $ ./test1
     $ ./test2
 
-Observe that the output is consistent with the source files the example represents.
+Note that we do not currently bundle C capabilities as part of the free RV-Monitor.  If you are interested
+in RV-Monitor for C, `contact us <http://runtimeverification.com/support>`_.
 
 propertydb
 --------------

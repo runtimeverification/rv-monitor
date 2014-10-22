@@ -26,10 +26,3 @@ Contents
    :maxdepth: 2
    quickstart
    runningexamples
-
-Indices and tables
---------------------------------------
-
-* :ref:`genindex`
-* :ref:`search`
-
