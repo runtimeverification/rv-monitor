@@ -10,18 +10,15 @@ Preparation
 There are several steps required to prepare to run the RV-Monitor examples.
 
 First, the JDK and JRE must both be installed and on the path.  javac and
-java must be able to run without errors.  Then, RV-Monitor and JavaMOP must
-be downloaded and installed from runtimeverification.com, in that order.
-Both need to be added to the system PATH, and the rv-monitor and javamop
-commands must be able to run without error.
+java must be able to run without errors.  Then, `RV-Monitor <http://runtimeverification.com/monitor>`_ 
+must be downloaded, installed, and added to the system PATH, with the rv-monitor 
+command able to run without error.
 
-Lastly, aspectjrt.jar and rvmonitorrt.jar must both be added to your Java
+Lastly, ``rvmonitorrt.jar`` must both be added to your Java
 System classpath.  See an article on modifying the system CLASSPATH (not the PATH)
-`here <http://docs.oracle.com/javase/tutorial/essential/environment/paths.html>`_
-aspectjrt.jar can be found in the JavaMOP installation folder, under lib/aspectj,
-and rvmonitorrt.jar can be found in the lib directory of the RV-Monitor install
-folder.  
-On bash, the change would look something like appending to your ~/.bashrc:
+`here <http://docs.oracle.com/javase/tutorial/essential/environment/paths.html>`_.
+``rvmonitorrt.jar`` can be found in the lib directory of the RV-Monitor install
+folder.  On bash, the change would look something like appending to your ~/.bashrc:
 
 .. code-block:: none
 
@@ -39,7 +36,7 @@ something like:
 
 .. code-block:: none
 
-    $ javac HasNext_1/HasNext_1.java rvm/HasNextRuntimeMonitor.java -cp ~/RV-Monitor/lib/rvmonitorrt.jar:~/JavaMOP/lib/aspectj/aspectjrt.jar
+    $ javac HasNext_1/HasNext_1.java rvm/HasNextRuntimeMonitor.java -cp ~/RV-Monitor/lib/rvmonitorrt.jar
 
 instead of
 
@@ -51,7 +48,7 @@ and
 
 .. code-block:: none
 
-    $ java HasNext_1.HasNext_1 -cp ~/RV-Monitor/lib/rvmonitorrt.jar:~/JavaMOP/lib/aspectj/aspectjrt.jar:.
+    $ java HasNext_1.HasNext_1 -cp ~/RV-Monitor/lib/rvmonitorrt.jar:.
 
 instead of 
 
@@ -226,10 +223,10 @@ You can also replace Java with the ``rv-monitor-all`` command in any Java progra
 
 to automatically add and execute the agent.
 
-No changes to the CLASSPATH or PATH are required with this method, which bundles all required
-dependencies in the agent.  Any of these programs can also be run unmonitored without the agent by simply
-omitting the ``javaagent`` flag above.  To generate such agents with configurable sets of properties, we
-use the JavaMOP tool (see below).
+No changes to the CLASSPATH or PATH are required with this method, which bundles all required dependencies in 
+the agent.  Any of these programs can also be run unmonitored without the agent by simply omitting the 
+``javaagent`` flag above.  To generate such agents with configurable sets of properties, we use the JavaMOP 
+tool (see below).
 
 
 RV-Monitor + C
@@ -317,7 +314,7 @@ complete separation of monitoring and instrumentation.
 
 .. code-block:: none
 
-    $ cd examples/FSM/HasNext
+    $ cd JavaMOP/examples/FSM/HasNext
     $ javamop HasNext.mop
     $ ajc HasNextMonitorAspect.aj HasNext_1/HasNext_1.java -1.6 -d HasNext_1/
     $ cd HasNext_1
@@ -328,7 +325,7 @@ complete separation of monitoring and instrumentation.
     $ cd HasNext_2
     $ java HasNext_2
 
-    $ cd examples/ERE/SafeFileWriter
+    $ cd JavaMOP/examples/ERE/SafeFileWriter
     $ javamop SafeFileWriter.mop
     $ ajc SafeFileWriterMonitorAspect.aj SafeFileWriter_1/SafeFileWriter_1.java -1.6 -d SafeFileWriter_1/
     $ cd SafeFileWriter_1/
@@ -338,6 +335,8 @@ complete separation of monitoring and instrumentation.
     $ ajc SafeFileWriterMonitorAspect.aj SafeFileWriter_2/SafeFileWriter_2.java -1.6 -d SafeFileWriter_2/
     $ cd SafeFileWriter_2/
     $ java SafeFileWriter_2
+
+Refer to the JavaMOP README for more information on using JavaMOP.
 
 Analyzing logs
 --------------
