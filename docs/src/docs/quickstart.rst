@@ -97,11 +97,11 @@ The generated Java monitoring library (named ``HasNextRuntimeMonitor`` after
 the property) has two methods, one for each event, with the following
 signatures::
 
-    public void nextEvent(Iterator i)
+    public static final void hasNextEvent(Iterator i)
 
 and ::
 
-    public void nextEvent(Iterator i)
+    public static final void nextEvent(Iterator i)
 
 By calling the methods directly rather than using some sort of automatic
 instrumentor, like AspectJ, we can control exactly what we wish to monitor.
