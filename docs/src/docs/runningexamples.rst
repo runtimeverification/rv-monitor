@@ -307,7 +307,7 @@ complete separation of monitoring and instrumentation.
 Analyzing logs
 --------------
 
-In addition to monitoring software execution, RV-Monitor is able to check formal properties over text-based log files.
+In addition to monitoring software execution, RV-Monitor is able to check logical properties over text-based log files.
 These properties can be anything that is Turing computable, and do not require storing the entire log files.  This makes 
 RV-Monitor ideal for in-depth analysis of large logfiles which may be impractical to analyze with traditional techniques
 like grep.
