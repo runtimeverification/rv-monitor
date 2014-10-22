@@ -4,7 +4,7 @@
     <groupId>com.runtimeverification.rvmonitor</groupId>
     <artifactId>root</artifactId>
     <packaging>pom</packaging>
-    <version>1.2</version>
+    <version>1.3-SNAPSHOT</version>
     <modules>
         <module>rvmonitorrt</module>
         <module>logicrepository</module>
@@ -16,7 +16,7 @@
     <url>http://www.runtimeverification.com</url>
     <scm>
         <connection>scm:git:https://github.com/runtimeverification/rv-monitor.git</connection>
-      <tag>root-1.2</tag>
+      <tag>HEAD</tag>
   </scm>
     <repositories>
         <repository>
