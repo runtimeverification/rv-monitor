@@ -304,4 +304,46 @@ complete separation of monitoring and instrumentation.
     $ cd SafeFileWriter_2/
     $ java SafeFileWriter_2
 
+Analyzing logs
+--------------
 
+In addition to monitoring software execution, RV-Monitor is able to check logical properties over text-based log files.
+These properties can be anything that is Turing computable, and do not require storing the entire log files.  This makes 
+RV-Monitor ideal for in-depth analysis of large logfiles which may be impractical to analyze with traditional techniques
+like grep.
+
+An example of RV-Monitor being used to analyze log files is bundled with the distribution.  To compile and run the example,
+use the following commands:
+
+.. code-block:: none
+
+    $ cd examples/FSM/PostfixLog
+    $ rv-monitor rvm/MultipleConnectionCheck.rvm
+    $ rv-monitor rvm/UserSessionLog.rvm
+    $ javac PostfixLogAdapter.java rvm/*.java
+    $ java PostfixLogAdapter
+
+PostfixLogAdapter contains the logic for turning log lines into RV-Monitor events, capturing the useful information therein with
+a regular expression and calling the appropriate event with the correct parameters as follows::
+
+    // Define a pattern for each RV-Monitor event
+    Pattern connectPattern = Pattern.compile("(.*?)( " + username + 
+        ")(.*)(\\[\\d+\\]: connect from )(.*)");
+    Pattern disconnectPattern = Pattern.compile("(.*?)( " + username + 
+        ")(.*)(\\[\\d+\\]: disconnect from )(.*)");
+    Pattern submitMessagePattern = Pattern.compile("(.*?)( " + username + 
+        ")(.*)(\\[\\d+\\]: )(.*)(: client=)(.*)");
+    Pattern failToSendPattern = Pattern.compile("(.*?)( " + username + 
+        ")(.*)(\\[\\d+\\]: )(.*)(reject: RCPT from )(.*?)(: )(.*)");
+    // If any pattern matches the line being processed, fire the RV-Monitor event with appropriate parameters
+    Matcher connectLineMatcher = connectPattern.matcher(line);
+    while (connectLineMatcher.find()) {
+        UserSessionLogRuntimeMonitor.connectEvent(getUser(connectLineMatcher.group(5)), 
+            connectLineMatcher.group(1));
+        MultipleConnectionCheckRuntimeMonitor.connectEvent(getUser(connectLineMatcher.group(5)),
+            connectLineMatcher.group(1));
+    }
+    ...
+
+If needed, such files can also be generated (though not with our provided tools) from simple configuration files defining a regular 
+expression and the location of the parameters of each RV-Monitor event therein.
