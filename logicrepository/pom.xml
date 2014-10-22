@@ -2,7 +2,7 @@
     <parent>
         <groupId>com.runtimeverification.rvmonitor</groupId>
         <artifactId>root</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>logicrepository</artifactId>
