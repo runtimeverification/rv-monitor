@@ -338,8 +338,10 @@ a regular expression and calling the appropriate event with the correct paramete
     // If any pattern matches the line being processed, fire the RV-Monitor event with appropriate parameters
     Matcher connectLineMatcher = connectPattern.matcher(line);
     while (connectLineMatcher.find()) {
-        UserSessionLogRuntimeMonitor.connectEvent(getUser(connectLineMatcher.group(5)), connectLineMatcher.group(1));
-        MultipleConnectionCheckRuntimeMonitor.connectEvent(getUser(connectLineMatcher.group(5)), connectLineMatcher.group(1));
+        UserSessionLogRuntimeMonitor.connectEvent(getUser(connectLineMatcher.group(5)), 
+            connectLineMatcher.group(1));
+        MultipleConnectionCheckRuntimeMonitor.connectEvent(getUser(connectLineMatcher.group(5)),
+            connectLineMatcher.group(1));
     }
     ...
 
