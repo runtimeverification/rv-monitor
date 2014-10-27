@@ -9,7 +9,7 @@ public class SafeSyncMap_2 {
       testMap = Collections.synchronizedMap(testMap);
 		rvm.SafeSyncMapRuntimeMonitor.syncEvent(testMap);
       testMap.put("Foo", "Bar");
-      testMap.put("Bar", "Foo");
+      testMap.put("Bar", "Bar");
 	  Set<String> keys = testMap.keySet();
 		rvm.SafeSyncMapRuntimeMonitor.createSetEvent(testMap, keys);
 		Iterator i = keys.iterator();
