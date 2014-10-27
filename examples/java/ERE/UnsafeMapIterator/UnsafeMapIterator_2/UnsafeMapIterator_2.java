@@ -8,7 +8,7 @@ import java.util.*;
     try{
         Map<String, String> testMap = new HashMap<String,String>();
         testMap.put("Foo", "Bar");
-        testMap.put("Bar", "Foo");
+        testMap.put("Foo", "Bar");
         Set<String> keys = testMap.keySet();
 		rvm.UnsafeMapIteratorRuntimeMonitor.createCollEvent(testMap,keys);
         Iterator i = keys.iterator();
