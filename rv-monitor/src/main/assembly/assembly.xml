@@ -11,6 +11,8 @@
             <excludes>
                 <exclude>com.runtimeverification.rvmonitor.logicrepository.plugins:*</exclude>
             </excludes>
+            <!-- Remove version numbers from names to remove need for CLASSPATH changes between updates. -->
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
         </dependencySet>
         <dependencySet>
             <outputDirectory>/lib/plugins</outputDirectory>

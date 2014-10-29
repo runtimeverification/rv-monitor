@@ -26,8 +26,8 @@ Running Examples
 ----------------------
 
 Before trying any examples, please ensure you’ve added the RV-Monitor/bin directory to your PATH 
-and RV-Monitor/lib/rvmonitorrt.jar:. to the beginning of your CLASSPATH (with ; as a separator
-on Windows, making the CLASSPATH  RV-Monitor/lib/rvmonitorrt.jar;. on Windows).
+and RV-Monitor/lib/rv-monitor-rt.jar:. to the beginning of your CLASSPATH (with ; as a separator
+on Windows, making the CLASSPATH  RV-Monitor/lib/rv-monitor-rt.jar;. on Windows).
 
 This ensures easy use of 1) rv-monitor to generate monitoring libraries, 2) javac to compile 
 the libraries together with your instrumented program, and 3) java to run the code in all the examples.
