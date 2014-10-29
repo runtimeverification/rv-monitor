@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect;
+package com.runtimeverification.rvmonitor.java.rvj.output;
 
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
@@ -10,8 +10,6 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSp
 import java.util.HashMap;
 
 public class RVMonitorStatistics {
-	private final String aspectName;
-
 	private final RVMVariable numMonitor;
 	private final RVMVariable collectedMonitor;
 	private final RVMVariable terminatedMonitor;
@@ -22,7 +20,6 @@ public class RVMonitorStatistics {
 	private final String specName;
 	
 	public RVMonitorStatistics(String name, RVMonitorSpec mopSpec) {
-		this.aspectName = name + "MonitorAspect";
 		this.specName = mopSpec.getName();
 		this.numMonitor = new RVMVariable(mopSpec.getName() + "_Monitor_num");
 		this.collectedMonitor = new RVMVariable(mopSpec.getName() + "_CollectedMonitor_num");
@@ -53,17 +50,17 @@ public class RVMonitorStatistics {
 		if (!Main.statistics)
 			return ret;
 
-		ret += "static long " + numMonitor + " = 0;\n";
-		ret += "static long " + collectedMonitor + " = 0;\n";
-		ret += "static long " + terminatedMonitor + " = 0;\n";
+		ret += "protected static long " + numMonitor + " = 0;\n";
+		ret += "protected static long " + collectedMonitor + " = 0;\n";
+		ret += "protected static long " + terminatedMonitor + " = 0;\n";
 
 		for (RVMVariable eventVar : eventVars.values()) {
-			ret += "static long " + eventVar + " = 0;\n";
+			ret += "protected static long " + eventVar + " = 0;\n";
 		}
 
 		for (HashMap<String, RVMVariable> categoryVarsforProp : categoryVars.values()) {
 			for (RVMVariable categoryVar : categoryVarsforProp.values()) {
-				ret += "static long " + categoryVar + " = 0;\n";
+				ret += "protected static long " + categoryVar + " = 0;\n";
 			}
 		}
 
@@ -73,6 +70,46 @@ public class RVMonitorStatistics {
 		// }
 
 		return ret;
+	}
+
+    /**
+     * Get public method declarations required for RV-Monitor statistics code
+     *
+     * @return  method declaration bodies
+    **/
+	public String methodDecl() {
+        String ret = "";
+        if (!Main.statistics)
+            return ret;
+
+        // Generate getters for main statistics (total, collected, terminated monitor count)
+        ret += "\n\npublic long getTotalMonitorCount() {\n"
+                + "return " + numMonitor + ";\n}\n";
+        ret += "public long getCollectedMonitorCount() {\n"
+                + "return " + collectedMonitor + ";\n}\n";
+        ret += "public long getTerminatedMonitorCount() {\n"
+                + "return " + terminatedMonitor + ";\n}\n";
+
+        // Create a getter for statistics on each event's occurences as
+        // HashMap from event name to number of occurences
+        ret += "public static Map<String, Long> getEventCounters() {\n";
+        ret += "HashMap<String, Long> eventCounters = new HashMap<String, Long>();\n";
+        for (String eventId : eventVars.keySet()) {
+            ret += "eventCounters.put(\"" + eventId + "\", " + eventVars.get(eventId) + ");\n";
+        }
+        ret += "return eventCounters;\n}\n";
+
+        // Same as above for categories rather than events
+        ret += "public static Map<String, Long> getCategoryCounters() {\n";
+        ret += "HashMap<String, Long> categoryCounters = new HashMap<String, Long>();\n";
+		for (HashMap<String, RVMVariable> categoryVarsforProp : categoryVars.values()) {
+			for (String categoryId : categoryVarsforProp.keySet()) {
+                ret += "categoryCounters.put(\"" + categoryId + "\", " + categoryVarsforProp.get(categoryId) + ");\n";
+            }
+        }
+        ret += "return categoryCounters;\n}\n";
+
+        return ret;
 	}
 
 	public String paramInc(RVMParameter param) {
@@ -101,7 +138,7 @@ public class RVMonitorStatistics {
 
 		RVMVariable eventVar = eventVars.get(eventName);
 
-		ret += aspectName + "." + eventVar + "++;\n";
+		ret += specName + "Monitor." + eventVar + "++;\n";
 
 		return ret;
 	}
@@ -113,7 +150,7 @@ public class RVMonitorStatistics {
 
 		RVMVariable categoryVar = categoryVars.get(prop).get(category);
 
-		ret += aspectName + "." + categoryVar + "++;\n";
+		ret += categoryVar + "++;\n";
 
 		return ret;
 	}
@@ -123,7 +160,7 @@ public class RVMonitorStatistics {
 		if (!Main.statistics)
 			return ret;
 
-		ret += aspectName + "." + numMonitor + "++;\n";
+		ret += numMonitor + "++;\n";
 
 		return ret;
 	}
@@ -133,7 +170,7 @@ public class RVMonitorStatistics {
 		if (!Main.statistics)
 			return ret;
 
-		ret += aspectName + "." + collectedMonitor + "++;\n";
+		ret += collectedMonitor + "++;\n";
 
 		return ret;
 	}
@@ -143,7 +180,7 @@ public class RVMonitorStatistics {
 		if (!Main.statistics)
 			return ret;
 
-		ret += aspectName + "." + terminatedMonitor + "++;\n";
+		ret += terminatedMonitor + "++;\n";
 
 		return ret;
 	}

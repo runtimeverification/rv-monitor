@@ -721,6 +721,10 @@ public class BaseMonitor extends Monitor {
 			ret += activityCode();
 //		if (this.has__LOC)
 //			ret += "String " + loc + ";\n";
+        // monitor statistics variables
+        if (Main.statistics) {
+            ret += stat.fieldDecl() + "\n";
+        }
 		if (this.has__STATICSIG)
 			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 		if (this.hasThisJoinPoint)
@@ -828,7 +832,10 @@ public class BaseMonitor extends Monitor {
 		}
 		ret += "}\n";
 		ret += "\n";
-		
+
+		if (Main.statistics) {
+            ret += stat.methodDecl() + "\n";
+        }
 		// implements getState(), getLastEvent() and other related things
 		if (isOutermost) {
 			if (this.isAtomicMoniorUsed())

@@ -1,6 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.monitorset;
 
 import com.runtimeverification.rvmonitor.java.rvj.Main;
+import com.runtimeverification.rvmonitor.java.rvj.output.RVMonitorStatistics;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeAssignStmt;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeClassDef;
@@ -29,7 +30,6 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFor
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.RVMonitorStatistics;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.WeakReferenceVariables;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTreeManager;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
