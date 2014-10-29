@@ -5,6 +5,6 @@
         <version>1.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>rvmonitorrt</artifactId>
-    <name>rvmonitorrt</name>
+    <artifactId>rv-monitor-rt</artifactId>
+    <name>rv-monitor-rt</name>
 </project>

@@ -10,7 +10,7 @@
     <dependencies>
         <dependency>
             <groupId>com.runtimeverification.rvmonitor</groupId>
-            <artifactId>rvmonitorrt</artifactId>
+            <artifactId>rv-monitor-rt</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

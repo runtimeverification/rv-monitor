@@ -14,15 +14,15 @@ java must be able to run without errors.  Then, `RV-Monitor <http://runtimeverif
 must be downloaded, installed, and added to the system PATH, with the rv-monitor 
 command able to run without error.
 
-Lastly, ``rvmonitorrt.jar`` must both be added to your Java
+Lastly, ``rv-monitor-rt.jar`` must both be added to your Java
 System classpath.  See an article on modifying the system CLASSPATH (not the PATH)
 `here <http://docs.oracle.com/javase/tutorial/essential/environment/paths.html>`_.
-``rvmonitorrt.jar`` can be found in the lib directory of the RV-Monitor install
+``rv-monitor-rt.jar`` can be found in the lib directory of the RV-Monitor install
 folder.  On bash, the change would look something like appending to your ~/.bashrc:
 
 .. code-block:: none
 
-    CLASSPATH=$CLASSPATH:[aspectjrt.jar path]:[rvmonitorrt.jar path]:.
+    CLASSPATH=$CLASSPATH:[aspectjrt.jar path]:[rv-monitor-rt.jar path]:.
 
 Make sure you add a "." to the classpath as well, making sure that Java also looks
 for sources in whatever your current working directory is.  This is required to run
@@ -36,7 +36,7 @@ something like:
 
 .. code-block:: none
 
-    $ javac HasNext_1/HasNext_1.java rvm/HasNextRuntimeMonitor.java -cp ~/RV-Monitor/lib/rvmonitorrt.jar
+    $ javac HasNext_1/HasNext_1.java rvm/HasNextRuntimeMonitor.java -cp ~/RV-Monitor/lib/rv-monitor-rt.jar
 
 instead of
 
@@ -48,7 +48,7 @@ and
 
 .. code-block:: none
 
-    $ java HasNext_1.HasNext_1 -cp ~/RV-Monitor/lib/rvmonitorrt.jar:.
+    $ java HasNext_1.HasNext_1 -cp ~/RV-Monitor/lib/rv-monitor-rt.jar:.
 
 instead of 
 
