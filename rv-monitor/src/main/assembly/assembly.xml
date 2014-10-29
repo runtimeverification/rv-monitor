@@ -12,7 +12,7 @@
                 <exclude>com.runtimeverification.rvmonitor.logicrepository.plugins:*</exclude>
             </excludes>
             <!-- Remove version numbers from names to remove need for CLASSPATH changes between updates. -->
-            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
         </dependencySet>
         <dependencySet>
             <outputDirectory>/lib/plugins</outputDirectory>
@@ -20,7 +20,7 @@
                 <include>com.runtimeverification.rvmonitor.logicrepository.plugins:*</include>
             </includes>
             <!-- RV-Monitor loads these jars at runtime, and has strict requirements on their names. -->
-            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
         </dependencySet>
     </dependencySets>
     <fileSets>
