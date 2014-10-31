@@ -290,7 +290,7 @@ We assume you will call java and javac from the directory which contains
 the rvm folder. 
 
 .. note:: Optionally, you can choose to include
-    `-cp [rvmonitor.jar]:[monitor directory with .rvm and generated libraries]` 
+    `-cp [rv-monitor-rt.jar]:[monitor directory with .rvm and generated libraries]` 
     when you compile with javac and run with java to avoid editing your CLASSPATH.
 
 .. code-block:: none
