@@ -99,7 +99,7 @@ public class Main {
         String cmgPath;
         if (mainClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class") && mainClassPath.startsWith("jar:")) {
             cmgPath = mainClassPath.substring("jar:file:".length(), mainClassPath.length()
-            - "rvmonitor.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
+            - "rv-monitor.jar!/com/runtimeverification/rvmonitor/c/rvc/Main.class".length());
             cmgPath = Tool.polishPath(cmgPath);
         }
         else {
