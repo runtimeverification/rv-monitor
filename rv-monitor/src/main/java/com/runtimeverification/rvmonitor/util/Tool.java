@@ -1,15 +1,14 @@
-/*
- * Created on 2004-10-6
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package com.runtimeverification.rvmonitor.util;
 
 import java.io.*;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.util.Date;
+import java.util.jar.Manifest;
 
 /**
  * @author fengchen
+ * @author pdaian
  *
  * A set of tool functions
  */
@@ -302,5 +301,25 @@ public class Tool {
             return null;
         }
     }
-    
+
+    /**
+     * Print version information from Jar MANIFEST to console
+     */
+    public static void printVersionMessage() {
+        try {
+            Class currentClass = Tool.class;
+            URL url = currentClass.getResource('/'+currentClass.getName().replace('.', '/')+".class");
+            JarURLConnection conn = (JarURLConnection)url.openConnection();
+            Manifest mf = conn.getManifest();
+            String revision = mf.getMainAttributes().getValue("Implementation-Revision");
+            String branch = mf.getMainAttributes().getValue("Implementation-Branch");
+            Date date = new Date(Long.parseLong(mf.getMainAttributes().getValue("Implementation-Date")));
+            System.out.println("RV-Monitor version " + currentClass.getPackage().getImplementationVersion());
+            System.out.println("Git revision: " + revision);
+            System.out.println("Git branch: " + branch);
+            System.out.println("Build date: " + date);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not load version info. Check your build system?");
+        }
+    }
 }

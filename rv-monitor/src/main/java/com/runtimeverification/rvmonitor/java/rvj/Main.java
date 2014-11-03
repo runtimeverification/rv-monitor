@@ -386,6 +386,7 @@ public class Main {
         System.out.println("where options include:");
         System.out.println(" Options enabled by default are prefixed with \'+\'");
         System.out.println("    -h -help\t\t\t  print this help message");
+        System.out.println("    -version\t\t\t  display RV-Monitor version information");
         System.out.println("    -v | -verbose\t\t  enable verbose output");
         System.out.println("    -debug\t\t\t  enable verbose error message");
         System.out.println();
@@ -490,6 +491,9 @@ public class Main {
                 Main.useAtomicMonitor = true;
             } else if ("-noatomicmonitor".equals(args[i])) {
                 Main.useAtomicMonitor = false;
+            } else if ("-version".equals(args[i])) {
+                Tool.printVersionMessage();
+                return;
             } else {
                 if (files.length() != 0)
                     files += ";";
