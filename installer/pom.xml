@@ -2,7 +2,7 @@
     <parent>
         <groupId>com.runtimeverification.rvmonitor</groupId>
         <artifactId>root</artifactId>
-        <version>1.3</version>
+        <version>1.4-SNAPSHOT</version>
     </parent>
     <!-- Based on guide at http://docs.codehaus.org/display/IZPACK/Compiling+Using+Maven -->
     <modelVersion>4.0.0</modelVersion>
