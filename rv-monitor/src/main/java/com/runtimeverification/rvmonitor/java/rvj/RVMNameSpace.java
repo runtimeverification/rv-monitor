@@ -2,7 +2,12 @@ package com.runtimeverification.rvmonitor.java.rvj;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Collection;
 
 public class RVMNameSpace {
 

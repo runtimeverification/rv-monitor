@@ -15,20 +15,7 @@ import com.runtimeverification.rvmonitor.util.Tool;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-
-class JavaFileFilter implements FilenameFilter {
-    public boolean accept(File dir, String name) {
-        return name.endsWith(".java");
-    }
-}
-
-class RVMFileFilter implements FilenameFilter {
-    public boolean accept(File dir, String name) {
-        return name.endsWith(Tool.getSpecFileDotExt());
-    }
-}
 
 public class Main {
     
@@ -198,6 +185,8 @@ public class Main {
      * @param javaContent The Java code to write to the file.
      * @param location The place to write the Java code into.
      */
+    /*
+    NOT USED, TO DEPRECATE?
     protected static void writeJavaFile(String javaContent, String location) throws RVMException {
         if ((javaContent == null) || (javaContent.length() == 0))
             throw new RVMException("Nothing to write as a java file");
@@ -212,6 +201,7 @@ public class Main {
             throw new RVMException(e.getMessage());
         }
     }
+    */
     
     /**
      * Write an aspect file with the given content and name.
@@ -278,6 +268,8 @@ public class Main {
      * @param pluginOutput The output of the plugin files.
      * @param location The place to write the plugin output to.
      */
+    /*
+    NOT USED, TO DEPRECATE?
     protected static void writePluginOutputFile(String pluginOutput, String location) throws RVMException {
         int i = location.lastIndexOf(File.separator);
         
@@ -290,6 +282,7 @@ public class Main {
         }
         System.out.println(" " + Tool.getFileName(location) + "PluginOutput.txt is generated");
     }
+    */
     
     /**
      * Reformat a path to deal with platform-specific oddities.
@@ -317,7 +310,7 @@ public class Main {
             File f = new File(fPath);
             
             if (!f.exists()) {
-                throw new RVMException("[Error] Target file, " + file + ", doesn't exsit!");
+                throw new RVMException("[Error] Target file, " + file + ", doesn't exist!");
             } else if (f.isDirectory()) {
                 ret.addAll(collectFiles(f.list(), f.getAbsolutePath()));
             } else {

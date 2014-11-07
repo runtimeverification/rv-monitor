@@ -10,16 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.runtimeverification.rvmonitor.util.RVMException;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
-
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.SpecModifierSet;
@@ -216,7 +210,7 @@ public final class JavaParserAdapter {
     
     /**
      * Convert a specification parameter string into a parameter object.
-     * @param paramString The string witht he specification parameters.
+     * @param paramString The string with the specification parameters.
      * @return A list of Java specification parameter objects.
      */
     private static List<RVMParameter> convertParameters(final String paramString) {
