@@ -19,8 +19,6 @@ import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorys
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Tool;
 
-import java.util.List;
-
 public class RVMProcessor {
 	public static boolean verbose = false;
 

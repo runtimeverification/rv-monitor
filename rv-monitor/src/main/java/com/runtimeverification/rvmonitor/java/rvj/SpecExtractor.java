@@ -8,7 +8,6 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Tool;
 
 import java.io.File;
-import java.io.ByteArrayInputStream;
 
 public class SpecExtractor {
 
