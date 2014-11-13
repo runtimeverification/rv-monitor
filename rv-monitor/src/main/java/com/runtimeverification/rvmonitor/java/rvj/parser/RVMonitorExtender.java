@@ -12,7 +12,11 @@ import com.runtimeverification.rvmonitor.util.Pair;
 import com.runtimeverification.rvmonitor.util.Tool;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 class SpecContext {
 	RVMonitorSpecExt spec;
