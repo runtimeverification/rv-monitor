@@ -371,25 +371,24 @@ public class Main {
     }
     
     /**
-     * Print the command line options usable with Java RV-Monitor.
+     * Print the command line options (extended version) usable with Java RV-Monitor.
      */
-    public static void print_help() {
+    public static void print_help_ext() {
         System.out.println("Usage: java [-cp rv_monitor_classpath] com.runtimeverification.rvmonitor.java.rvj.Main [-options] files");
         System.out.println("");
-        System.out.println("where options include:");
         System.out.println(" Options enabled by default are prefixed with \'+\'");
         System.out.println("    -h --help\t\t\t  print this help message");
-        System.out.println("    -version\t\t\t  display RV-Monitor version information");
+        System.out.println("    --version\t\t\t  display RV-Monitor version information");
         System.out.println("    -v | --verbose\t\t  enable verbose output");
-        System.out.println("    -debug\t\t\t  enable verbose error message");
+        System.out.println("    --debug\t\t\t  enable verbose error message");
         System.out.println();
         
-        System.out.println("    -local\t\t\t+ use local logic engine");
-        System.out.println("    -remote\t\t\t  use default remote logic engine");
+        System.out.println("    --local\t\t\t+ use local logic engine");
+        System.out.println("    --remote\t\t\t  use default remote logic engine");
         System.out.println("\t\t\t\t  " + Configuration.getServerAddr());
         System.out.println("\t\t\t\t  (You can change the default address");
         System.out.println("\t\t\t\t   in com/runtimeverification/rvmonitor/java/rvj/config/remote_server_addr.properties)");
-        System.out.println("    -remote:<server address>\t  use remote logic engine");
+        System.out.println("    --remote:<server address>\t  use remote logic engine");
         System.out.println();
         
         System.out.println("    -d <output path>\t\t  select directory to store output files");
@@ -397,14 +396,28 @@ public class Main {
         System.out.println();
         
         System.out.println("    -s | --statistics\t\t  generate monitor with statistics");
-        System.out.println("    -noopt1\t\t\t  don't use the enable set optimization");
+        System.out.println("    --noopt1\t\t\t  don't use the enable set optimization");
         System.out.println();
         
-        System.out.println("    -finegrainedlock\t\t  use fine-grained lock for internal data structure");
-        System.out.println("    -weakrefinterning\t\t  use WeakReference interning in indexing trees");
+        System.out.println("    --finegrainedlock\t\t  use fine-grained lock for internal data structure");
+        System.out.println("    --weakrefinterning\t\t  use WeakReference interning in indexing trees");
         System.out.println();
         
     }
+
+    /**
+     * Print the command line options usable with Java RV-Monitor.
+     */
+    public static void print_help() {
+        System.out.println("Usage: java [-cp rv_monitor_classpath] com.runtimeverification.rvmonitor.java.rvj.Main [-options] files");
+        System.out.println("\n");
+        System.out.println("    -h --help\t\t\t  print this help message\n");
+        System.out.println("    --version\t\t\t  display RV-Monitor version information\n");
+        System.out.println("    -v | --verbose\t\t  enable verbose output\n");
+        System.out.println("    --debug\t\t\t  enable verbose error message");
+        System.out.println();
+    }
+
     
     /**
      * Run Java RV-Monitor on some files.
@@ -422,30 +435,32 @@ public class Main {
         
         int i = 0;
         String files = "";
+        boolean help=false;
+        boolean verbose=false;
         
         while (i < args.length) {
             if ("-h".equals(args[i]) || "--help".equals(args[i])) {
-                print_help();
-                return;
+                help=true;
             }
             
             if ("-d".equals(args[i])) {
                 i++;
                 outputDir = new File(args[i]);
-            } else if ("-local".equals(args[i])) {
+            } else if ("--local".equals(args[i])) {
                 LogicRepositoryConnector.serverName = "local";
-            } else if ("-remote".equals(args[i])) {
+            } else if ("--remote".equals(args[i])) {
                 LogicRepositoryConnector.serverName = "default";
-            } else if (args[i].startsWith("-remote:")) {
+            } else if (args[i].startsWith("--remote:")) {
                 LogicRepositoryConnector.serverName = args[i].substring(8);
             } else if ("-v".equals(args[i]) || "--verbose".equals(args[i])) {
+                verbose=true;
                 LogicRepositoryConnector.verbose = true;
                 RVMProcessor.verbose = true;
-            } else if ("-javalib".equals(args[i])) {
+            } else if ("--javalib".equals(args[i])) {
                 toJavaLib = true;
-            } else if ("-debug".equals(args[i])) {
+            } else if ("--debug".equals(args[i])) {
                 Main.debug = true;
-            } else if ("-noopt1".equals(args[i])) {
+            } else if ("--noopt1".equals(args[i])) {
                 Main.noopt1 = true;
             } else if ("-s".equals(args[i]) || "--statistics".equals(args[i])) {
                 Main.statistics = true;
@@ -454,37 +469,37 @@ public class Main {
             } else if ("-n".equals(args[i]) || "--aspectname".equals(args[i])) {
                 i++;
                 Main.aspectname = args[i];
-            } else if ("-dacapo".equals(args[i])) {
+            } else if ("--dacapo".equals(args[i])) {
                 Main.dacapo = true;
-            } else if ("-dacapo2".equals(args[i])) {
+            } else if ("--dacapo2".equals(args[i])) {
                 Main.dacapo2 = true;
-            } else if ("-silent".equals(args[i])) {
+            } else if ("--silent".equals(args[i])) {
                 Main.silent = true;
             } else if ("-merge".equals(args[i])) {
                 Main.merge = true;
-            } else if ("-inline".equals(args[i])) {
+            } else if ("--inline".equals(args[i])) {
                 Main.inline = true;
-            } else if ("-noadvicebody".equals(args[i])) {
+            } else if ("--noadvicebody".equals(args[i])) {
                 Main.empty_advicebody = true;
-            } else if ("-internalbehavior".equals(args[i])) {
+            } else if ("--internalbehavior".equals(args[i])) {
                 Main.internalBehaviorObserving = true;
-            } else if ("-finegrainedlock".equals(args[i])) {
+            } else if ("--finegrainedlock".equals(args[i])) {
                 Main.useFineGrainedLock = true;
-            } else if ("-nofinegrainedlock".equals(args[i])) {
+            } else if ("--nofinegrainedlock".equals(args[i])) {
                 Main.useFineGrainedLock = false;
-            } else if ("-weakrefinterning".equals(args[i])) {
+            } else if ("--weakrefinterning".equals(args[i])) {
                 Main.useWeakRefInterning = true;
-            } else if ("-noweakrefinterning".equals(args[i])) {
+            } else if ("--noweakrefinterning".equals(args[i])) {
                 Main.useWeakRefInterning = false;
-            } else if ("-partitionedset".equals(args[i])) {
+            } else if ("--partitionedset".equals(args[i])) {
                 Main.usePartitionedSet = true;
-            } else if ("-nopartitionedset".equals(args[i])) {
+            } else if ("--nopartitionedset".equals(args[i])) {
                 Main.usePartitionedSet = false;
-            } else if ("-atomicmonitor".equals(args[i])) {
+            } else if ("--atomicmonitor".equals(args[i])) {
                 Main.useAtomicMonitor = true;
-            } else if ("-noatomicmonitor".equals(args[i])) {
+            } else if ("--noatomicmonitor".equals(args[i])) {
                 Main.useAtomicMonitor = false;
-            } else if ("-version".equals(args[i])) {
+            } else if ("--version".equals(args[i])) {
                 Tool.printVersionMessage();
                 return;
             } else {
@@ -495,8 +510,11 @@ public class Main {
             ++i;
         }
         
-        if (files.length() == 0) {
-            print_help();
+        if (help || files.length() == 0) {
+            if(verbose)
+                print_help_ext();
+            else
+                print_help();
             return;
         }
         
