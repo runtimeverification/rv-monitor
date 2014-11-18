@@ -378,9 +378,9 @@ public class Main {
         System.out.println("");
         System.out.println("where options include:");
         System.out.println(" Options enabled by default are prefixed with \'+\'");
-        System.out.println("    -h -help\t\t\t  print this help message");
+        System.out.println("    -h --help\t\t\t  print this help message");
         System.out.println("    -version\t\t\t  display RV-Monitor version information");
-        System.out.println("    -v | -verbose\t\t  enable verbose output");
+        System.out.println("    -v | --verbose\t\t  enable verbose output");
         System.out.println("    -debug\t\t\t  enable verbose error message");
         System.out.println();
         
@@ -396,7 +396,7 @@ public class Main {
         System.out.println("    -n <name>\t\t\t  use the given class name instead of source code name");
         System.out.println();
         
-        System.out.println("    -s | -statistics\t\t  generate monitor with statistics");
+        System.out.println("    -s | --statistics\t\t  generate monitor with statistics");
         System.out.println("    -noopt1\t\t\t  don't use the enable set optimization");
         System.out.println();
         
@@ -424,7 +424,7 @@ public class Main {
         String files = "";
         
         while (i < args.length) {
-            if ("-h".equals(args[i]) || "-help".equals(args[i])) {
+            if ("-h".equals(args[i]) || "--help".equals(args[i])) {
                 print_help();
                 return;
             }
@@ -438,7 +438,7 @@ public class Main {
                 LogicRepositoryConnector.serverName = "default";
             } else if (args[i].startsWith("-remote:")) {
                 LogicRepositoryConnector.serverName = args[i].substring(8);
-            } else if ("-v".equals(args[i]) || "-verbose".equals(args[i])) {
+            } else if ("-v".equals(args[i]) || "--verbose".equals(args[i])) {
                 LogicRepositoryConnector.verbose = true;
                 RVMProcessor.verbose = true;
             } else if ("-javalib".equals(args[i])) {
@@ -447,11 +447,11 @@ public class Main {
                 Main.debug = true;
             } else if ("-noopt1".equals(args[i])) {
                 Main.noopt1 = true;
-            } else if ("-s".equals(args[i]) || "-statistics".equals(args[i])) {
+            } else if ("-s".equals(args[i]) || "--statistics".equals(args[i])) {
                 Main.statistics = true;
-            } else if ("-s2".equals(args[i]) || "-statistics2".equals(args[i])) {
+            } else if ("-s2".equals(args[i]) || "--statistics2".equals(args[i])) {
                 Main.statistics2 = true;
-            } else if ("-n".equals(args[i]) || "-aspectname".equals(args[i])) {
+            } else if ("-n".equals(args[i]) || "--aspectname".equals(args[i])) {
                 i++;
                 Main.aspectname = args[i];
             } else if ("-dacapo".equals(args[i])) {
