@@ -40,5 +40,5 @@ $ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
 $ java HasNext_1.HasNext_1
 
 For more information on running examples, please see the web documentation at 
-http://runtimeverification.com/monitor/docs/runningexamples.html, also included in text form in the docs/
+https://runtimeverification.com/monitor/1.3/docs/runningexamples also included in text form in the docs/
 subfolder of this install.
