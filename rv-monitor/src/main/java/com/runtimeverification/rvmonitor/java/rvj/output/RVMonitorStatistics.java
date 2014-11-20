@@ -83,11 +83,11 @@ public class RVMonitorStatistics {
             return ret;
 
         // Generate getters for main statistics (total, collected, terminated monitor count)
-        ret += "\n\npublic long getTotalMonitorCount() {\n"
+        ret += "\n\npublic static long getTotalMonitorCount() {\n"
                 + "return " + numMonitor + ";\n}\n";
-        ret += "public long getCollectedMonitorCount() {\n"
+        ret += "public static long getCollectedMonitorCount() {\n"
                 + "return " + collectedMonitor + ";\n}\n";
-        ret += "public long getTerminatedMonitorCount() {\n"
+        ret += "public static long getTerminatedMonitorCount() {\n"
                 + "return " + terminatedMonitor + ";\n}\n";
 
         // Create a getter for statistics on each event's occurences as
