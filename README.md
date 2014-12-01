@@ -58,6 +58,6 @@ $ rv-monitor rvm/HasNext.rvm
 $ javac rvm/HasNextRuntimeMonitor.java HasNext_1/HasNext_1.java
 $ java HasNext_1.HasNext_1
 
-For more information on running examples, please see the web documentation at 
-https://runtimeverification.com/monitor/1.3/docs/runningexamples also included in text form 
-in the docs/ subfolder of this install.
+For more information on running examples, please see the web documentation on 
+running examples at https://runtimeverification.com/monitor/docs (also included
+in text form in the docs/ subfolder of this install).
