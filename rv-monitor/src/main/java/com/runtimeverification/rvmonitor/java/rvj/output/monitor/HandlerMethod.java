@@ -3,6 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMJavaCode;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
+import com.runtimeverification.rvmonitor.java.rvj.output.monitor.Monitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.Util;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
