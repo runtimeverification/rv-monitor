@@ -24,7 +24,7 @@ public class Main {
     public static boolean noopt1 = false;
     public static boolean statistics = false;
     public static boolean statistics2 = false;
-    public static String aspectname = null;
+    public static String outputName = null;
     public static boolean isJarFile = false;
     public static String jarFilePath = null;
 
@@ -97,7 +97,7 @@ public class Main {
         String specStr = SpecExtractor.process(file);
         RVMSpecFile spec =  SpecExtractor.parse(specStr);
         
-        RVMProcessor processor = new RVMProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
+        RVMProcessor processor = new RVMProcessor(Main.outputName == null ? Tool.getFileName(file.getAbsolutePath()) : Main.outputName);
         
         String output = processor.process(spec);
         writeAspectFile(output, location);
@@ -114,8 +114,8 @@ public class Main {
             outputDir = getTargetDir(specFiles);
         }
         
-        if(Main.aspectname != null) {
-            aspectName = Main.aspectname;
+        if(Main.outputName != null) {
+            aspectName = Main.outputName;
         } else {
             if(specFiles.size() == 1) {
                 aspectName = Tool.getFileName(specFiles.get(0).getAbsolutePath());
@@ -176,7 +176,7 @@ public class Main {
     protected static void writeAspectFile(String aspectContent, String location) throws RVMException {
         if (aspectContent == null || aspectContent.length() == 0)
             return;
-        String name = (Main.aspectname == null?Tool.getFileName(location):Main.aspectname); 
+        String name = (Main.outputName == null?Tool.getFileName(location):Main.outputName); 
         
         int i = location.lastIndexOf(File.separator);
         try {
@@ -264,7 +264,7 @@ public class Main {
     public static void process(String[] files, String path) throws RVMException {
         ArrayList<File> specFiles = collectFiles(files, path);
         
-        if(Main.aspectname != null && files.length > 1) {
+        if(Main.outputName != null && files.length > 1) {
             Main.merge = true;
         }
         
@@ -386,9 +386,9 @@ public class Main {
                 Main.statistics = true;
             } else if ("-s2".equals(args[i]) || "--statistics2".equals(args[i])) {
                 Main.statistics2 = true;
-            } else if ("-n".equals(args[i]) || "--aspectname".equals(args[i])) {
+            } else if ("-n".equals(args[i]) || "--name".equals(args[i])) {
                 i++;
-                Main.aspectname = args[i];
+                Main.outputName = args[i];
             } else if ("--silent".equals(args[i])) {
                 Main.silent = true;
             } else if ("-merge".equals(args[i])) {
