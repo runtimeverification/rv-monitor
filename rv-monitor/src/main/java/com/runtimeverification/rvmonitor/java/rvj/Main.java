@@ -305,14 +305,6 @@ public class Main {
         System.out.println("    --debug\t\t\t  enable verbose error message");
         System.out.println();
         
-        System.out.println("    --local\t\t\t+ use local logic engine");
-        System.out.println("    --remote\t\t\t  use default remote logic engine");
-        System.out.println("\t\t\t\t  " + Configuration.getServerAddr());
-        System.out.println("\t\t\t\t  (You can change the default address");
-        System.out.println("\t\t\t\t   in com/runtimeverification/rvmonitor/java/rvj/config/remote_server_addr.properties)");
-        System.out.println("    --remote:<server address>\t  use remote logic engine");
-        System.out.println();
-        
         System.out.println("    -d <output path>\t\t  select directory to store output files");
         System.out.println("    -n <name>\t\t\t  use the given class name instead of source code name");
         System.out.println();
@@ -368,12 +360,6 @@ public class Main {
             if ("-d".equals(args[i])) {
                 i++;
                 outputDir = new File(args[i]);
-            } else if ("--local".equals(args[i])) {
-                LogicRepositoryConnector.serverName = "local";
-            } else if ("--remote".equals(args[i])) {
-                LogicRepositoryConnector.serverName = "default";
-            } else if (args[i].startsWith("--remote:")) {
-                LogicRepositoryConnector.serverName = args[i].substring(8);
             } else if ("-v".equals(args[i]) || "--verbose".equals(args[i])) {
                 verbose=true;
                 LogicRepositoryConnector.verbose = true;
