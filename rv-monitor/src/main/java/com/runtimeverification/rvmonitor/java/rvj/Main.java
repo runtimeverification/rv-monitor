@@ -22,7 +22,6 @@ public class Main {
     static File outputDir = null;
     public static boolean debug = false;
     public static boolean noopt1 = false;
-    public static boolean toJavaLib = false;
     public static boolean statistics = false;
     public static boolean statistics2 = false;
     public static String aspectname = null;
@@ -82,29 +81,6 @@ public class Main {
         }
     }
     
-    
-    /**
-     * Process a java file including mop annotations to generate a runtime
-     * monitor file. The file argument should be an initialized file object.
-     * The location argument should contain the original file name, but it
-     * may have a different directory.
-     * 
-     * @param file
-     *            a File object containing the specification file
-     * @param location
-     *            an absolute path for result file
-     */
-    public static void processJavaFile(File file, String location) throws RVMException {
-        RVMNameSpace.init();
-        String specStr = SpecExtractor.process(file);
-        RVMSpecFile spec =  SpecExtractor.parse(specStr);
-        
-        RVMProcessor processor = new RVMProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
-        
-        String aspect = processor.process(spec);
-        writeAspectFile(aspect, location);
-    }
-    
     /**
      * Process a specification file to generate a runtime monitor file.
      * The file argument should be an initialized file object. The location
@@ -124,12 +100,7 @@ public class Main {
         RVMProcessor processor = new RVMProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
         
         String output = processor.process(spec);
-        
-        if (toJavaLib) {
-            writeJavaLibFile(output, location);
-        } else {
-            writeAspectFile(output, location);
-        }
+        writeAspectFile(output, location);
     }
     
     /**
@@ -179,29 +150,6 @@ public class Main {
     }
     
     /**
-     * Output some text into a Java file.
-     * @param javaContent The Java code to write to the file.
-     * @param location The place to write the Java code into.
-     */
-    /*
-    NOT USED, TO DEPRECATE?
-    protected static void writeJavaFile(String javaContent, String location) throws RVMException {
-        if ((javaContent == null) || (javaContent.length() == 0))
-            throw new RVMException("Nothing to write as a java file");
-        if (!Tool.isJavaFile(location))
-            throw new RVMException(location + "should be a Java file!");
-        
-        try {
-            FileWriter f = new FileWriter(location);
-            f.write(javaContent);
-            f.close();
-        } catch (Exception e) {
-            throw new RVMException(e.getMessage());
-        }
-    }
-    */
-    
-    /**
      * Write an aspect file with the given content and name.
      * @param aspectContent The text to write into the file.
      * @param aspectName The name of the aspect being written.
@@ -239,26 +187,6 @@ public class Main {
             throw new RVMException(e.getMessage());
         }
         System.out.println(" " + name + "RuntimeMonitor.java is generated");
-    }
-    
-    /**
-     * Write the code needed to produce a monitor as a java library. to a file.
-     * @param javaLibContent The text of the file to write.
-     * @param location The place to write the file to.
-     */
-    protected static void writeJavaLibFile(String javaLibContent, String location) throws RVMException {
-        if (javaLibContent == null || javaLibContent.length() == 0)
-            return;
-        
-        int i = location.lastIndexOf(File.separator);
-        try {
-            FileWriter f = new FileWriter(location.substring(0, i + 1) + Tool.getFileName(location) + "JavaLibMonitor.java");
-            f.write(javaLibContent);
-            f.close();
-        } catch (Exception e) {
-            throw new RVMException(e.getMessage());
-        }
-        System.out.println(" " + Tool.getFileName(location) + "JavaLibMonitor.java is generated");
     }
     
     /**
@@ -348,11 +276,7 @@ public class Main {
                 String location = outputDir == null ? file.getAbsolutePath() : outputDir.getAbsolutePath() + File.separator + file.getName();
                 
                 System.out.println("-Processing " + file.getPath());
-                if (Tool.isSpecFile(file.getName())) {
-                    processSpecFile(file, location);
-                } else if (Tool.isJavaFile(file.getName())) {
-                    processJavaFile(file, location);
-                }
+                processSpecFile(file, location);
             }
         }
     }
@@ -454,8 +378,6 @@ public class Main {
                 verbose=true;
                 LogicRepositoryConnector.verbose = true;
                 RVMProcessor.verbose = true;
-            } else if ("--javalib".equals(args[i])) {
-                toJavaLib = true;
             } else if ("--debug".equals(args[i])) {
                 Main.debug = true;
             } else if ("--noopt1".equals(args[i])) {
