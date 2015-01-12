@@ -218,16 +218,6 @@ public class RVMJavaCode {
 		if (ret.length() != 0 && !ret.endsWith("\n"))
 			ret += "\n";
 
-		if (Main.dacapo) {
-			if(Main.silent){
-				ret = ret.replaceAll("System.out.println\\(", "{}//System.out.println\\(");
-				ret = ret.replaceAll("System.err.println\\(", "{}//System.err.println\\(");
-			} else {
-				ret = ret.replaceAll("System.out.println\\(\"", "System.out.println\\(\"VIOLATION:");
-				ret = ret.replaceAll("System.err.println\\(\"", "System.err.println\\(\"VIOLATION:");
-			}
-		}
-
 		return ret;
 		
 	}

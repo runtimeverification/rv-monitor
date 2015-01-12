@@ -32,11 +32,7 @@ public class SystemAspect {
 		
 		
 		ret += "pointcut sysbegin() : execution(* *(..)) && ";
-		if(Main.dacapo){
-			ret += "!within(com.runtimeverification.rvmonitor.java.rt.RVMObject+) && !adviceexecution() && BaseAspect.notwithin();\n";
-		} else {
-			ret += "!within(com.runtimeverification.rvmonitor.java.rt.RVMObject+) && !adviceexecution();\n";
-		}
+		ret += "!within(com.runtimeverification.rvmonitor.java.rt.RVMObject+) && !adviceexecution();\n";
 		ret += "before () : sysbegin() {\n";
 		ret += "((int[])t_version.get())[++((int[])t_global_depth.get())[0]]++;\n";
 		ret += "}\n";
@@ -44,11 +40,7 @@ public class SystemAspect {
 		
 		ret += "aspect " + name + "2 implements com.runtimeverification.rvmonitor.java.rt.RVMObject {\n";
 		ret += "pointcut sysend() : execution(* *(..)) && ";
-		if(Main.dacapo){
-			ret += "!within(com.runtimeverification.rvmonitor.java.rt.RVMObject+) && !adviceexecution() && BaseAspect.notwithin();\n";
-		} else {
-			ret += "!within(com.runtimeverification.rvmonitor.java.rt.RVMObject+) && !adviceexecution();\n";
-		}
+		ret += "!within(com.runtimeverification.rvmonitor.java.rt.RVMObject+) && !adviceexecution();\n";
 		ret += "after () : sysend() {\n";
 		ret += "((int[])" + name + ".t_global_depth.get())[0]--;\n";
 		ret += "}\n";

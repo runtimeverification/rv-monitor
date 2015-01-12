@@ -28,9 +28,7 @@ public class Main {
     public static String aspectname = null;
     public static boolean isJarFile = false;
     public static String jarFilePath = null;
-    
-    public static boolean dacapo = false;
-    public static boolean dacapo2 = false;
+
     public static boolean silent = false;
     public static boolean empty_advicebody = false;
     
@@ -469,10 +467,6 @@ public class Main {
             } else if ("-n".equals(args[i]) || "--aspectname".equals(args[i])) {
                 i++;
                 Main.aspectname = args[i];
-            } else if ("--dacapo".equals(args[i])) {
-                Main.dacapo = true;
-            } else if ("--dacapo2".equals(args[i])) {
-                Main.dacapo2 = true;
             } else if ("--silent".equals(args[i])) {
                 Main.silent = true;
             } else if ("-merge".equals(args[i])) {
