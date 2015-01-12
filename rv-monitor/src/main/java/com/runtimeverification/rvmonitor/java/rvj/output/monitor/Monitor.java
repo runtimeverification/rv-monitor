@@ -7,8 +7,8 @@ import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.OptimizedCoenableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.Util;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
@@ -20,6 +20,7 @@ import java.util.TreeMap;
 
 public abstract class Monitor {
 	RVMVariable monitorName;
+	// @todo add output name variable
 
 	boolean isDefined;
 	final boolean isOutermost;

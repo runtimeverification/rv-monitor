@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output;
 
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTree.IndexingTreeType;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.IndexingTree.IndexingTreeType;
 
 /*
  * This class is similar to RVMVariable, but this class has a type. This was introduced

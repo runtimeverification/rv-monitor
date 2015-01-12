@@ -9,8 +9,8 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeStmtCollect
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarRefExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;

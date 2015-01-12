@@ -6,7 +6,7 @@ import java.util.HashMap;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.OptimizedCoenableSet;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;

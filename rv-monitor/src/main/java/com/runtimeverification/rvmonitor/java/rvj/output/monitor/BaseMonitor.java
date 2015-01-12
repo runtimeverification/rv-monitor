@@ -27,8 +27,8 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVari
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
 
 import java.util.*;

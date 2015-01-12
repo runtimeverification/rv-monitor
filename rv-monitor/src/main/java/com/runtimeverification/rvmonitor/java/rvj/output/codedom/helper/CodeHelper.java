@@ -9,7 +9,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeMemberField
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeNewExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Level;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.newindexingtree.IndexingTreeImplementation.Level;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
@@ -161,19 +161,19 @@ public class CodeHelper {
 		}
 
 		public static CodeType getInternalBehaviorMultiplexer() {
-			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.observable";
+			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.event.observable";
 			String clsname = "InternalBehaviorMultiplexer";
 			return new CodeType(pkgname, clsname);
 		}
 
 		public static CodeType getObserverable(CodeType observer) {
-			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.observable";
+			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.event.observable";
 			String clsname = "IObservable";
 			return new CodeType(pkgname, clsname, observer);
 		}
 
 		public static CodeType getInternalBehaviorObserver() {
-			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.observable";
+			String pkgname = "com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.event.observable";
 			String clsname = "IInternalBehaviorObserver";
 			return new CodeType(pkgname, clsname);
 		}

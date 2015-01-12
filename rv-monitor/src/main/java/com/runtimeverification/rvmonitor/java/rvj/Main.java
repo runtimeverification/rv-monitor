@@ -97,10 +97,18 @@ public class Main {
         String specStr = SpecExtractor.process(file);
         RVMSpecFile spec =  SpecExtractor.parse(specStr);
         
-        RVMProcessor processor = new RVMProcessor(Main.outputName == null ? Tool.getFileName(file.getAbsolutePath()) : Main.outputName);
+    	if (outputDir == null) {
+    		ArrayList<File> specList = new ArrayList<File>();
+    		specList.add(file);
+    		outputDir = getTargetDir(specList);
+    	}
+        
+        String outputName = Main.outputName == null ? Tool.getFileName(file.getAbsolutePath()) : Main.outputName;
+        
+        RVMProcessor processor = new RVMProcessor(outputName);
         
         String output = processor.process(spec);
-        writeAspectFile(output, location);
+        writeCombinedOutputFile(output, outputName);
     }
     
     /**
@@ -108,28 +116,28 @@ public class Main {
      * @param specFiles All the file objects used to construct the monitor object.
      */
     public static void processMultipleFiles(ArrayList<File> specFiles) throws RVMException {
-        String aspectName;
+        String outputName;
         
         if(outputDir == null) {
             outputDir = getTargetDir(specFiles);
         }
         
         if(Main.outputName != null) {
-            aspectName = Main.outputName;
+            outputName = Main.outputName;
         } else {
             if(specFiles.size() == 1) {
-                aspectName = Tool.getFileName(specFiles.get(0).getAbsolutePath());
+                outputName = Tool.getFileName(specFiles.get(0).getAbsolutePath());
             } else {
                 int suffixNumber = 0;
                 // generate auto name like 'MultiMonitorApsect.aj'
                 
-                File aspectFile;
+                File outputFile;
                 do{
                     suffixNumber++;
-                    aspectFile = new File(outputDir.getAbsolutePath() + File.separator + "MultiSpec_" + suffixNumber + "RuntimeMonitor.java");
-                } while(aspectFile.exists());
+                    outputFile = new File(outputDir.getAbsolutePath() + File.separator + "MultiSpec_" + suffixNumber + "RuntimeMonitor.java");
+                } while(outputFile.exists());
                 
-                aspectName = "MultiSpec_" + suffixNumber;
+                outputName = "MultiSpec_" + suffixNumber;
             }
         }
         
@@ -143,72 +151,30 @@ public class Main {
         }
         RVMSpecFile combinedSpec = SpecCombiner.process(specs);
         
-        RVMProcessor processor = new RVMProcessor(aspectName);
+        RVMProcessor processor = new RVMProcessor(outputName);
         String output = processor.process(combinedSpec);
         
-        writeCombinedAspectFile(output, aspectName);
+        writeCombinedOutputFile(output, outputName);
     }
     
     /**
-     * Write an aspect file with the given content and name.
-     * @param aspectContent The text to write into the file.
-     * @param aspectName The name of the aspect being written.
+     * Write an output file with the given content and name.
+     * @param outputContent The text to write into the file.
+     * @param outputName The name of the output being written.
      */
-    protected static void writeCombinedAspectFile(String aspectContent, String aspectName) throws RVMException {
-        if (aspectContent == null || aspectContent.length() == 0)
+    protected static void writeCombinedOutputFile(String outputContent, String outputName) throws RVMException {
+    	if (outputContent == null || outputContent.length() == 0)
             return;
         
         try {
-            FileWriter f = new FileWriter(outputDir.getAbsolutePath() + File.separator + aspectName + "RuntimeMonitor.java");
-            f.write(aspectContent);
+            FileWriter f = new FileWriter(outputDir.getAbsolutePath() + File.separator + outputName + "RuntimeMonitor.java");
+            f.write(outputContent);
             f.close();
         } catch (Exception e) {
             throw new RVMException(e.getMessage());
         }
-        System.out.println(" " + aspectName + "RuntimeMonitor.java is generated");
+        System.out.println(" " + outputName + "RuntimeMonitor.java is generated");
     }
-    
-    /**
-     * Write an aspect file targeting a particular destination file.
-     * @param aspectContent The text of the file to write.
-     * @param location The place to write the file to.
-     */
-    protected static void writeAspectFile(String aspectContent, String location) throws RVMException {
-        if (aspectContent == null || aspectContent.length() == 0)
-            return;
-        String name = (Main.outputName == null?Tool.getFileName(location):Main.outputName); 
-        
-        int i = location.lastIndexOf(File.separator);
-        try {
-            FileWriter f = new FileWriter(location.substring(0, i + 1) + name + "RuntimeMonitor.java");
-            f.write(aspectContent);
-            f.close();
-        } catch (Exception e) {
-            throw new RVMException(e.getMessage());
-        }
-        System.out.println(" " + name + "RuntimeMonitor.java is generated");
-    }
-    
-    /**
-     * Write the output of a plugin to a file.
-     * @param pluginOutput The output of the plugin files.
-     * @param location The place to write the plugin output to.
-     */
-    /*
-    NOT USED, TO DEPRECATE?
-    protected static void writePluginOutputFile(String pluginOutput, String location) throws RVMException {
-        int i = location.lastIndexOf(File.separator);
-        
-        try {
-            FileWriter f = new FileWriter(location.substring(0, i + 1) + Tool.getFileName(location) + "PluginOutput.txt");
-            f.write(pluginOutput);
-            f.close();
-        } catch (Exception e) {
-            throw new RVMException(e.getMessage());
-        }
-        System.out.println(" " + Tool.getFileName(location) + "PluginOutput.txt is generated");
-    }
-    */
     
     /**
      * Reformat a path to deal with platform-specific oddities.

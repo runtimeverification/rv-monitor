@@ -8,7 +8,7 @@ package com.runtimeverification.rvmonitor.java.rvj;
 import com.runtimeverification.rvmonitor.java.rvj.logicclient.LogicRepositoryConnector;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellFactory;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
-import com.runtimeverification.rvmonitor.java.rvj.output.AspectJCode;
+import com.runtimeverification.rvmonitor.java.rvj.output.RVMOutputCode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
@@ -74,7 +74,7 @@ public class RVMProcessor {
 		}
 
 		// Generate output code
-		result = (new AspectJCode(name, rvmSpecFile)).toString();
+		result = (new RVMOutputCode(name, rvmSpecFile)).toString();
 
 
 		// Do indentation
