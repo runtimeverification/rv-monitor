@@ -20,8 +20,8 @@ import java.util.TreeMap;
 
 public abstract class Monitor {
 	RVMVariable monitorName;
-	// @todo add output name variable
-
+	private String outputName;
+	
 	boolean isDefined;
 	final boolean isOutermost;
 
@@ -54,7 +54,8 @@ public abstract class Monitor {
 
 	TreeMap<String, RefTree> refTrees;
 
-	public Monitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+	public Monitor(String outputName, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+		this.outputName = outputName;
 		this.isOutermost = isOutermost;
 
 		this.has__ACTIVITY = mopSpec.has__ACTIVITY();
@@ -73,11 +74,11 @@ public abstract class Monitor {
 			}
 		}
 
-		this.stat = new RVMonitorStatistics(name, mopSpec);
+		this.stat = new RVMonitorStatistics(outputName, mopSpec);
 
-		this.defaultMessage += name + " has been violated on line \" + "
+		this.defaultMessage += outputName + " has been violated on line \" + "
 				+ "__LOC" +" + \". Documentation for this property can be found at "
-				+ Util.packageAndNameToUrl(mopSpec.getPackage(), name) + "\"";
+				+ Util.packageAndNameToUrl(mopSpec.getPackage(), outputName) + "\"";
 
 		for (RVMParameter p : mopSpec.getParameters()) {
 			mopRefs.put(p.getName(), new RVMVariable("RVMRef_" + p.getName()));
@@ -108,6 +109,14 @@ public abstract class Monitor {
 	public RVMVariable getActivityName() {
 		return activity;
 	}
+	
+	public String getOutputName() {
+		return outputName;
+	}
+	
+	public void setOutputName(String outputName) {
+		this.outputName = outputName;
+	}
 
 	public abstract void setRefTrees(TreeMap<String, RefTree> refTrees);
 
@@ -117,7 +126,7 @@ public abstract class Monitor {
 
 	public abstract Set<RVMVariable> getCategoryVars();
 
-	public abstract String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet);
+	public abstract String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String outputName, boolean inMonitorSet);
 
 	public abstract MonitorInfo getMonitorInfo();
 

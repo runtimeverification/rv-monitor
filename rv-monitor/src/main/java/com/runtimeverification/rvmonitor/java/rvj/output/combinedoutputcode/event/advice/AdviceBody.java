@@ -45,7 +45,7 @@ public abstract class AdviceBody {
 		this.eventParams = event.getRVMParametersOnSpec();
 		this.monitorSet = combinedOutput.monitorSets.get(mopSpec);
 		this.monitorClass = combinedOutput.monitors.get(mopSpec);
-		this.monitorClass.setAspectName(combinedOutput.getName());
+		this.monitorClass.setOutputName(combinedOutput.getName());
 		this.monitorName = monitorClass.getOutermostName();
 		this.indexingDecl = combinedOutput.indexingTreeManager.getIndexingDecl(mopSpec);
 		this.indexingTrees = indexingDecl.getIndexingTrees();

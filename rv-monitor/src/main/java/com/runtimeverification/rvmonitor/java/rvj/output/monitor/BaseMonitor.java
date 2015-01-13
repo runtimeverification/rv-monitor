@@ -109,7 +109,6 @@ public class BaseMonitor extends Monitor {
 	List<EventDefinition> events;
 	private RVMParameters specParam;
 	private UserJavaCode monitorDeclaration;
-	private String systemAspectName;
 	private boolean existCondition = false;
 	private boolean existSkip = false;
 	private HashMap<RVMParameter, RVMVariable> varsToSave = new HashMap<RVMParameter, RVMVariable>();
@@ -153,7 +152,6 @@ public class BaseMonitor extends Monitor {
 	public void initialize(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) {
 		this.isDefined = true;
 		this.monitorName = new RVMVariable(mopSpec.getName() + monitorNameSuffix + "Monitor");
-		this.systemAspectName = name + "SystemAspect";
 		this.events = mopSpec.getEvents();
 		this.props = mopSpec.getPropertiesAndHandlers();
 		this.monitorDeclaration = new UserJavaCode(mopSpec.getDeclarationsStr());
@@ -409,7 +407,7 @@ public class BaseMonitor extends Monitor {
 		return this.printEventMethod(prop, event, "");	
 	}
 	
-	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock lock, String aspectName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock lock, String outputName, boolean inMonitorSet) {
 		String ret = "";
 
 //		if (has__LOC) {
@@ -438,7 +436,7 @@ public class BaseMonitor extends Monitor {
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			
-			ret += this.beforeEventMethod(monitorVar, prop, event, lock, aspectName, inMonitorSet);
+			ret += this.beforeEventMethod(monitorVar, prop, event, lock, outputName, inMonitorSet);
 			
 			RVMVariable finalMonitor = new RVMVariable(monitorVar + "finalMonitor");
 			ret += "final " + this.monitorName + " " + finalMonitor +
@@ -525,7 +523,7 @@ public class BaseMonitor extends Monitor {
 			
 			if (!event.isBlockingEvent()) {
 				ret += this.afterEventMethod(monitorVar, prop, event, lock,
-						aspectName);
+						outputName);
 				ret += handlerCode;
 			}
 		}
@@ -580,7 +578,7 @@ public class BaseMonitor extends Monitor {
 		return ret;
 	}
 	
-	public String afterEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String aspectName) {
+	public String afterEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String outputName) {
 		return "";
 	}
 

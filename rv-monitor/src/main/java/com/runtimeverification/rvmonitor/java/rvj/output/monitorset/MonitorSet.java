@@ -718,7 +718,7 @@ public class MonitorSet {
 				ret += "elements[" + numAlive + "] = " + monitor + ";\n";
 				ret += numAlive + "++;\n";
 				ret += "\n";
-				ret += this.monitor.Monitoring(monitor, event, loc, staticsig, this.monitorLock, this.monitor.getAspectName(), true);
+				ret += this.monitor.Monitoring(monitor, event, loc, staticsig, this.monitorLock, this.monitor.getOutputName(), true);
 				ret += "}\n";
 				ret += "}\n";
 	

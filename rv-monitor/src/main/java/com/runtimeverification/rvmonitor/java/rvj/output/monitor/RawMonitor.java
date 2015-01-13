@@ -25,16 +25,16 @@ public class RawMonitor extends Monitor{
 	
 	private final UserJavaCode monitorDeclaration;
 
-	public RawMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
-		super(name, mopSpec, coenableSet, isOutermost);
+	public RawMonitor(String outputName, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+		super(outputName, mopSpec, coenableSet, isOutermost);
 		
 		this.isDefined = true;
 
 		this.monitorName = new RVMVariable(mopSpec.getName() + "RawMonitor");
 
 		if (isOutermost) {
-			varInOutermostMonitor = new VarInOutermostMonitor(name, mopSpec, mopSpec.getEvents());
-			monitorTermination = new MonitorTermination(name, mopSpec, mopSpec.getEvents(), coenableSet);
+			varInOutermostMonitor = new VarInOutermostMonitor(outputName, mopSpec, mopSpec.getEvents());
+			monitorTermination = new MonitorTermination(outputName, mopSpec, mopSpec.getEvents(), coenableSet);
 		}
 
 		monitorDeclaration = new UserJavaCode(mopSpec.getDeclarationsStr());
@@ -135,7 +135,7 @@ public class RawMonitor extends Monitor{
 		return ret;
 	}
 
-	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String outputName, boolean inMonitorSet) {
 		String ret = "";
 
 //		if (has__LOC) {
