@@ -14,7 +14,6 @@ public class PropertyAndHandlers extends Node {
 	
 	private final Property property;
 	private final HashMap<String, String> handlers;
-	private final HashMap<String, RVMParameters> usedParameters = new HashMap<String, RVMParameters>();
 
 	//things that should be defined afterward
 	int propertyId; //will be defined in RVMonitorSpec
@@ -23,8 +22,6 @@ public class PropertyAndHandlers extends Node {
 	private final HashMap<String, String> eventMonitoringCodes = new HashMap<String, String>();
 	private final HashMap<String, String> aftereventMonitoringCodes = new HashMap<String, String>();
 	
-	boolean versionedStack = false;
-
 	public PropertyAndHandlers(int line, int column, Property property, HashMap<String, String> handlers) {
 		super(line, column);
 		this.property = property;
@@ -107,14 +104,6 @@ public class PropertyAndHandlers extends Node {
 
 	public String getAfterEventMonitoringCode(String eventName){
 		return aftereventMonitoringCodes.get(eventName);
-	}
-	
-	public void setVersionedStack(){
-		versionedStack = true;
-	}
-
-	public boolean getVersionedStack(){
-		return versionedStack;
 	}
 
 	@Override

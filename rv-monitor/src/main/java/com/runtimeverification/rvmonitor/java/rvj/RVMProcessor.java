@@ -55,10 +55,6 @@ public class RVMProcessor {
 				// get the monitor from the logic shell
 				LogicPluginShellResult logicShellOutput = LogicPluginShellFactory.process(logicOutput, mopSpec.getEventStr(), "java");
 				prop.setLogicShellOutput(logicShellOutput);
-				
-				if(logicOutput.getMessage().contains("versioned stack")){
-					prop.setVersionedStack();
-				}
 
 				if (verbose) {
 					System.out.println("== result from logic shell ==");

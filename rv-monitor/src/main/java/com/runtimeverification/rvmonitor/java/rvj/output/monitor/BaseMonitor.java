@@ -132,10 +132,6 @@ public class BaseMonitor extends Monitor {
 		if (Main.useAtomicMonitor) {
 			boolean simple = true;
 			for (PropertyAndHandlers prop : props) {
-				if (prop.getVersionedStack()) {
-					simple = false;
-					break;
-				}
 				PropMonitor propMonitor = propMonitors.get(prop);
 				if (!propMonitor.isSimpleFSM()) {
 					simple = false;
@@ -375,14 +371,6 @@ public class BaseMonitor extends Monitor {
 			ret += monitorInfo.union(event.getRVMParametersOnSpec());
 
 		ret += propMonitors.get(prop).localDeclaration;
-
-		if (prop.getVersionedStack()) {
-			RVMVariable global_depth = new RVMVariable("global_depth");
-			RVMVariable version = new RVMVariable("version");
-
-			ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
-			ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
-		}
 
 		ret += stackManage + "\n";
 
@@ -791,16 +779,6 @@ public class BaseMonitor extends Monitor {
 		if (feature.isTimeTrackingNeeded())
 			ret += "this.tau = tau;\n";
 		for(PropertyAndHandlers prop : props){
-			if (prop.getVersionedStack()) {
-				RVMVariable global_depth = new RVMVariable("global_depth");
-				RVMVariable version = new RVMVariable("version");
-	
-				ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
-				ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
-				break;
-			}
-		}
-		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			ret += propMonitor.localDeclaration;
 			if (this.isAtomicMoniorUsed()) {
@@ -893,15 +871,6 @@ public class BaseMonitor extends Monitor {
 		ret += "final" + synch + "void reset() {\n";
 		if (monitorInfo != null)
 			ret += monitorInfo.initConnected();
-		for(PropertyAndHandlers prop : props){
-			if (prop.getVersionedStack()) {
-				RVMVariable global_depth = new RVMVariable("global_depth");
-				RVMVariable version = new RVMVariable("version");
-	
-				ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
-				ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
-			}
-		}
 		if (isOutermost) {
 			if (!this.isAtomicMoniorUsed())
 				ret += lastevent + " = -1;\n";

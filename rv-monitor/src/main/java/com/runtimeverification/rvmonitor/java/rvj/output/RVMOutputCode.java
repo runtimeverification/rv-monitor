@@ -22,8 +22,6 @@ public class RVMOutputCode {
 	private final CombinedOutput output;
 	private final TreeMap<RVMonitorSpec, EnableSet> enableSets = new TreeMap<RVMonitorSpec, EnableSet>();
 	private final TreeMap<RVMonitorSpec, CoEnableSet> coenableSets = new TreeMap<RVMonitorSpec, CoEnableSet>();
-	private boolean versionedStack = false;
-	private SystemAspect systemAspect;
 	private boolean isCodeGenerated = false;
 	
 	public RVMOutputCode(String name, RVMSpecFile rvmSpecFile) throws RVMException {
@@ -38,7 +36,6 @@ public class RVMOutputCode {
 			for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
 				enableSet.add(new EnableSet(prop, mopSpec.getEvents(), mopSpec.getParameters()));
 				coenableSet.add(new CoEnableSet(prop, mopSpec.getEvents(), mopSpec.getParameters()));
-				versionedStack |= prop.getVersionedStack();
 			}
 
 			OptimizedCoenableSet optimizedCoenableSet = new OptimizedCoenableSet(coenableSet);
@@ -53,7 +50,7 @@ public class RVMOutputCode {
 			monitorSets.put(mopSpec, new MonitorSet(mopSpec.getName(), mopSpec, monitor));
 		}
 
-		output = new CombinedOutput(name, rvmSpecFile, monitorSets, monitors, enableSets, versionedStack);
+		output = new CombinedOutput(name, rvmSpecFile, monitorSets, monitors, enableSets);
 
 		// Set monitor lock for each monitor set
 		for (MonitorSet monitorSet : monitorSets.values()) {
@@ -66,9 +63,6 @@ public class RVMOutputCode {
 		for(SuffixMonitor monitor : monitors.values()){
 			monitor.setRefTrees(refTrees);
 		}
-		
-		if(versionedStack)
-			systemAspect = new SystemAspect(name);
 	}
 	
 	public void generateCode() {
@@ -108,26 +102,7 @@ public class RVMOutputCode {
 			ret += monitor;
 		ret += "\n";
 
-
-		// The order of these two is really important.
-		if(systemAspect != null){
-			ret += "aspect " + name + "OrderAspect {\n";
-			ret += "declare precedence : ";
-			ret += systemAspect.getSystemAspectName() + ""; 
-			ret += ", ";
-			ret += systemAspect.getSystemAspectName() + "2";
-			ret += ", ";
-			ret += output.getName();
-			ret += ";\n";
-			
-			ret += "}\n";
-			ret += "\n";
-		}
-
 		ret += output;
-
-		if(systemAspect != null)
-			ret += "\n" + systemAspect;
 
 		return ret;
 	}

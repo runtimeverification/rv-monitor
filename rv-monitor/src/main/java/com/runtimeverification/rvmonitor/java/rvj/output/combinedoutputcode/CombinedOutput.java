@@ -31,7 +31,6 @@ public class CombinedOutput {
 	public HashMap<RVMonitorSpec, HashSet<RVMParameter>> setOfParametersForDisable;
 
 	final RVMVariable mapManager;
-	final boolean versionedStack;
 	private final RuntimeServiceManager runtimeServiceManager;
 
 	final List<RVMonitorSpec> specs;
@@ -50,12 +49,11 @@ public class CombinedOutput {
 	}
 
 	public CombinedOutput(String name, RVMSpecFile rvmSpecFile, TreeMap<RVMonitorSpec, MonitorSet> monitorSets, TreeMap<RVMonitorSpec, SuffixMonitor> monitors,
-			TreeMap<RVMonitorSpec, EnableSet> enableSets, boolean versionedStack) throws RVMException {
+			TreeMap<RVMonitorSpec, EnableSet> enableSets) throws RVMException {
 		this.name = name + "RuntimeMonitor";
 		this.monitorSets = monitorSets;
 		this.monitors = monitors;
 		this.enableSets = enableSets;
-		this.versionedStack = versionedStack;
 		this.runtimeServiceManager = new RuntimeServiceManager();
 
 		this.specs = rvmSpecFile.getSpecs();
