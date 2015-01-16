@@ -105,7 +105,7 @@ public class EnforceMonitor extends BaseMonitor {
 
 		RVMVariable enforceCategory = (RVMVariable) propMonitor.categoryVars
 				.values().toArray()[0];
-		ret += "cloned_monitor_condition_satisfied = " + clonedMonitor + "."
+		ret += "boolean cloned_monitor_condition_satisfied = " + clonedMonitor + "."
 				+ methodName + "("
 				// Because of CL's change
 				+ /*event.getRVMParameters().parameterInvokeString() +*/ ");\n";
