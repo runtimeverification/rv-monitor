@@ -25,7 +25,6 @@ public class Advice {
 	private final RVMVariable pointcutName;
 	private final RVMParameters parameters;
 
-	private final boolean hasThisJoinPoint;
 	public boolean beCounted = false;
 	public RVMParameters threadVars = new RVMParameters();
 	private final GlobalLock globalLock;
@@ -42,7 +41,6 @@ public class Advice {
 	private boolean isCodeGenerated = false;
 
 	public Advice(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedAspect) throws RVMException {
-		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
 		String prefix = Main.merge ? mopSpec.getName() + "_" : "";
 		this.pointcutName = new RVMVariable(prefix + event.getId() + "Event");
@@ -244,11 +242,6 @@ public class Advice {
 
 		if(Main.inline){
 			ret += "void " + inlineFuncName + "(" + inlineParameters.parameterDeclString();
-			if(hasThisJoinPoint){
-				if(inlineParameters.size() > 0) 
-					ret += ", ";
-				ret += "JoinPoint thisJoinPoint";
-			}
 			ret += ") {\n";
 
 			ret += adviceBody();
@@ -264,11 +257,6 @@ public class Advice {
 
 		if(Main.inline){
 			ret += inlineFuncName + "(" + inlineParameters.parameterString();
-			if(hasThisJoinPoint){
-				if(inlineParameters.size() > 0) 
-					ret += ", ";
-				ret += "thisJoinPoint";
-			}
 			ret += ");\n";
 		} else {
 			ret += adviceBody();

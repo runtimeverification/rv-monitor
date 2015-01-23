@@ -322,32 +322,6 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 		return false;
 	}
 
-	private Boolean cachedHas__STATICSIG = null;
-
-	public boolean has__STATICSIG() {
-		if (cachedHas__STATICSIG != null)
-			return cachedHas__STATICSIG.booleanValue();
-
-		for (EventDefinition event : this.events) {
-			String eventAction = event.getAction().toString();
-			if (eventAction.indexOf("__STATICSIG") != -1){
-				cachedHas__STATICSIG = new Boolean(true);
-				return true;
-			}
-		}
-		for (PropertyAndHandlers prop : this.properties) {
-			for (String handler : prop.getHandlers().values()) {
-				if (handler.indexOf("__STATICSIG") != -1){
-					cachedHas__STATICSIG = new Boolean(true);
-					return true;
-				}
-			}
-		}
-		cachedHas__STATICSIG = new Boolean(false);
-		return false;
-	}
-
-
 	private Boolean cachedHas__SKIP = null;
 
 	public boolean has__SKIP() {
@@ -372,34 +346,6 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec>{
 			}
 		}
 		cachedHas__SKIP = new Boolean(false);
-		return false;
-	}
-
-	private Boolean cachedHasThisJoinPoint = null;
-
-	public boolean hasThisJoinPoint() {
-		if(cachedHasThisJoinPoint != null)
-			return cachedHasThisJoinPoint;
-
-		for (EventDefinition event : this.events) {
-			if(event.getAction() == null)
-				continue;
-			String block = event.getAction();
-			if (block.contains("thisJoinPoint")){
-				cachedHasThisJoinPoint = new Boolean(true);
-				return true;
-			}
-		}
-
-		for (PropertyAndHandlers prop : this.properties) {
-			for (String handler : prop.getHandlers().values()) {
-				if (handler.contains("thisJoinPoint")){
-					cachedHasThisJoinPoint = new Boolean(true);
-					return true;
-				}
-			}
-		}
-		cachedHasThisJoinPoint = new Boolean(false);
 		return false;
 	}
 

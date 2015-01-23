@@ -89,11 +89,9 @@ class PropMonitor {
 
 public class BaseMonitor extends Monitor {
 	// fields
-	final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 	final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
 	public static RVMVariable skipEvent = new RVMVariable("skipEvent");
 	private final RVMVariable conditionFail = new RVMVariable("RVM_conditionFail");
-	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 	
 	private boolean atomicMonitorTried = false;
 	private CodeMemberField pairValueField;
@@ -306,7 +304,6 @@ public class BaseMonitor extends Monitor {
 						Util.defaultLocation);
 //						"this." + loc);
 				eventActionStr = eventActionStr.replaceAll("__ACTIVITY", "this." + activity);
-				eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 				eventActionStr = eventActionStr.replaceAll("__SKIP", "this." + skipEvent + " = true");
 	
 				eventAction = new RVMJavaCode(eventActionStr);
@@ -407,7 +404,7 @@ public class BaseMonitor extends Monitor {
 		return this.printEventMethod(prop, event, "");	
 	}
 	
-	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock lock, String outputName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, GlobalLock lock, String outputName, boolean inMonitorSet) {
 		String ret = "";
 
 //		if (has__LOC) {
@@ -418,17 +415,6 @@ public class BaseMonitor extends Monitor {
 //						"Thread.currentThread().getStackTrace()[2].toString()"
 //					+ ";\n";
 //		}
-
-		if (has__STATICSIG) {
-			if(staticsig != null)
-				ret += monitorVar + "." + this.staticsig + " = " + staticsig + ";\n";
-			else
-				ret += monitorVar + "." + this.staticsig + " = " + "thisJoinPoint.getStaticPart().getSignature()" + ";\n";
-		}
-
-		if (this.hasThisJoinPoint){
-			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
-		}
 
 		if (event.isBlockingEvent())
 			ret += "boolean cloned_monitor_condition_satisfied = true;\n";
@@ -527,11 +513,6 @@ public class BaseMonitor extends Monitor {
 				ret += handlerCode;
 			}
 		}
-		
-		if (this.hasThisJoinPoint){
-			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
-		}
-
 		
 		return ret;
 	}
@@ -711,10 +692,6 @@ public class BaseMonitor extends Monitor {
         if (Main.statistics) {
             ret += stat.fieldDecl() + "\n";
         }
-		if (this.has__STATICSIG)
-			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
-		if (this.hasThisJoinPoint)
-			ret += "org.aspectj.lang.JoinPoint " + thisJoinPoint + " = null;\n";
 
 		// references for saved parameters
 		for (RVMVariable v : varsToSave.values()) {

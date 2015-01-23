@@ -26,10 +26,8 @@ public abstract class Monitor {
 	final boolean isOutermost;
 
 	final boolean has__ACTIVITY;
-	final boolean has__STATICSIG;
 	final boolean has__SKIP;
 	boolean handlersHave__SKIP;
-	final boolean hasThisJoinPoint;
 	
 	private final MonitorFeatures features;
 	
@@ -59,9 +57,7 @@ public abstract class Monitor {
 		this.isOutermost = isOutermost;
 
 		this.has__ACTIVITY = mopSpec.has__ACTIVITY();
-		this.has__STATICSIG = mopSpec.has__STATICSIG();
 		this.has__SKIP = mopSpec.has__SKIP();
-		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 	
 		this.features = new MonitorFeatures(mopSpec.getParameters());
 
@@ -126,7 +122,7 @@ public abstract class Monitor {
 
 	public abstract Set<RVMVariable> getCategoryVars();
 
-	public abstract String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String outputName, boolean inMonitorSet);
+	public abstract String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, GlobalLock l, String outputName, boolean inMonitorSet);
 
 	public abstract MonitorInfo getMonitorInfo();
 

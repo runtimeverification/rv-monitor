@@ -19,11 +19,6 @@ public class RefTree {
 	public final ArrayList<RVMonitorSpec> generalProperties = new ArrayList<RVMonitorSpec>();
 	
 	private IndexingTreeInterface hostIndexingTree = null;
-	
-	// rv-monitor cannot assume that 'thisJoinPoint' exists, unlike JavaMOP.
-	// The joinpoint ids can be passed from the .aj code but it seems using 1-level
-	// cache based on these ids is not that beneficial.
-	private final boolean useJoinPointId = false;
 
 	public RefTree(String aspectName, RVMParameter param) {
 		this.type = param.getType().toString();
@@ -80,10 +75,6 @@ public class RefTree {
 			name = new RVMVariable(hostIndexingTree.getImplementation().getName());
 		
 		ret += name + ".findOrCreateWeakRef(" + p.getName();
-		
-		if(this.useJoinPointId && properties.size() > 1)
-			ret += ", thisJoinPoint.getStaticPart().getId()";
-		
 		ret += ")";
 		return ret;
 	}
@@ -106,10 +97,6 @@ public class RefTree {
 			name = new RVMVariable(hostIndexingTree.getImplementation().getName());
 
 		ret += name + ".findWeakRef(" + p.getName();
-
-		if(this.useJoinPointId && properties.size() > 1)
-			ret += ", thisJoinPoint.getStaticPart().getId()";
-		
 		ret += ")";
 
 		return ret;

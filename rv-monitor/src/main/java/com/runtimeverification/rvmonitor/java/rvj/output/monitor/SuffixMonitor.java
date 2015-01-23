@@ -21,9 +21,7 @@ import java.util.*;
 public class SuffixMonitor extends Monitor {
 	private final RVMVariable activity = new RVMVariable("RVM_activity");
 	private final RVMVariable loc = new RVMVariable("RVM_loc");
-	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 	private final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
-	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 
 	private List<EventDefinition> events;
 
@@ -196,7 +194,7 @@ public class SuffixMonitor extends Monitor {
 		ret += "while (" + it + ".hasNext()){\n";
 		ret += innerMonitor.getOutermostName() + " " + monitor + " = (" + innerMonitor.getOutermostName() + ")" + it + ".next();\n";
 
-		ret += innerMonitor.Monitoring(monitor, event, loc, staticsig, null, this.getOutputName(), false);
+		ret += innerMonitor.Monitoring(monitor, event, loc, null, this.getOutputName(), false);
 
 		ret += "if(" + monitorSet + ".contains(" + monitor + ")";
 		for (RVMVariable categoryVar : categoryVars) {
@@ -215,11 +213,11 @@ public class SuffixMonitor extends Monitor {
 		return ret;
 	}
 
-	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String outputName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, GlobalLock l, String outputName, boolean inMonitorSet) {
 		String ret = "";
 
 		if (!isDefined)
-			return innerMonitor.Monitoring(monitorVar, event, loc, staticsig, l, outputName, inMonitorSet);
+			return innerMonitor.Monitoring(monitorVar, event, loc, l, outputName, inMonitorSet);
 
 //		if (has__LOC) {
 //			if(loc != null)
@@ -228,20 +226,8 @@ public class SuffixMonitor extends Monitor {
 //				ret += monitorVar + "." + this.loc + " = " +
 //						"Thread.currentThread().getStackTrace()[2].toString()"
 //						+ ";\n";
-//			else
-//				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
 //		}
-		if (has__STATICSIG) {
-			if(staticsig != null)
-				ret += monitorVar + "." + this.staticsig + " = " + staticsig + ";\n";
-			else
-				ret += monitorVar + "." + this.staticsig + " = " + "thisJoinPoint.getStaticPart().getSignature()" + ";\n";
-		}
-
-		if (this.hasThisJoinPoint){
-			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
-		}
-
+		
 		ret += monitorVar + ".event_" + event.getId() + "(";
 		{
 			RVMParameters passing;
@@ -266,10 +252,7 @@ public class SuffixMonitor extends Monitor {
 					monitorVar + "." + BaseMonitor.skipEvent + ";\n";
 			ret += monitorVar + "." + BaseMonitor.skipEvent + " = false;\n";
 		}
-		if (this.hasThisJoinPoint) {
-			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
-		}
-
+		
 		return ret;
 	}
 
@@ -365,7 +348,7 @@ public class SuffixMonitor extends Monitor {
 		
 		// Modernizing the monitoring code takes too much effort. Maybe later.
 		RVMVariable monitorvar = affectedref.getVariable().toLegacy();
-		String mntcode = this.Monitoring(monitorvar, event, null, null, enforcelock, this.getOutputName(), false);
+		String mntcode = this.Monitoring(monitorvar, event, null, enforcelock, this.getOutputName(), false);
 		stmts.add(CodeStmtCollection.fromLegacy(mntcode));
 
 		// The referred variable is marked so that the dead-code elimination step
