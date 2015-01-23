@@ -37,7 +37,7 @@ public abstract class IndexingTree {
 	public IndexingTree parentTree = null;
 	public final ArrayList<IndexingTree> childTrees = new ArrayList<IndexingTree>();
 	
-	public IndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
+	public IndexingTree(String outputName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
 		this.queryParam = queryParam;
 		this.contentParam = contentParam;
 		this.fullParam = fullParam;

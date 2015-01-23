@@ -40,7 +40,7 @@ public class Advice {
 
 	private boolean isCodeGenerated = false;
 
-	public Advice(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedAspect) throws RVMException {
+	public Advice(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
 
 		String prefix = Main.merge ? mopSpec.getName() + "_" : "";
 		this.pointcutName = new RVMVariable(prefix + event.getId() + "Event");
@@ -55,14 +55,14 @@ public class Advice {
 			this.threadVars.add(event.getParameters().getParam(event.getThreadVar()));
 		}
 
-		this.statManager = combinedAspect.statManager;
+		this.statManager = combinedOutput.statManager;
 		
-		this.activatorsManager = combinedAspect.activatorsManager;
+		this.activatorsManager = combinedOutput.activatorsManager;
 		
-		this.globalLock = combinedAspect.lockManager.getLock();
+		this.globalLock = combinedOutput.lockManager.getLock();
 		this.isSync = mopSpec.isSync();
 
-		this.advices.put(event, AdviceBody.createAdviceBody(mopSpec, event, combinedAspect));
+		this.advices.put(event, AdviceBody.createAdviceBody(mopSpec, event, combinedOutput));
 
 		this.events.add(event);
 		if (event.getCountCond() != null && event.getCountCond().length() != 0) {
@@ -74,14 +74,14 @@ public class Advice {
 		else
 			specsForChecking.add(mopSpec);
 		
-		this.internalBehaviorObservableGenerator = combinedAspect.getInternalBehaviorObservableGenerator();
+		this.internalBehaviorObservableGenerator = combinedOutput.getInternalBehaviorObservableGenerator();
 	}
 
 	public String getPointCutName() {
 		return pointcutName.getVarName();
 	}
 	
-	public boolean addEvent(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedAspect) throws RVMException {
+	public boolean addEvent(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
 
 		// Parameter Conflict Check
 		for(RVMParameter param : event.getParametersWithoutThreadVar()){
@@ -105,7 +105,7 @@ public class Advice {
 		}
 
 		// add an advice body.
-		this.advices.put(event, AdviceBody.createAdviceBody(mopSpec, event, combinedAspect));
+		this.advices.put(event, AdviceBody.createAdviceBody(mopSpec, event, combinedOutput));
 		
 		this.events.add(event);
 		if (event.getCountCond() != null && event.getCountCond().length() != 0) {

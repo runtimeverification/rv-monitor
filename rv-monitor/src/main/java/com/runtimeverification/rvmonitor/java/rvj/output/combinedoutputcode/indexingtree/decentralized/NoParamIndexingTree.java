@@ -9,9 +9,9 @@ import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
 
 public class NoParamIndexingTree extends com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.centralized.NoParamIndexingTree {
-	public NoParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
+	public NoParamIndexingTree(String outputName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
 			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
-		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+		super(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 	}
 	
 	

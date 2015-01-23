@@ -58,8 +58,8 @@ public abstract class AdviceBody {
 	public abstract String toString();
 	public abstract void generateCode();
 	
-	public static AdviceBody createAdviceBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedAspect) throws RVMException {
-//		return new GeneralAdviceBody(mopSpec, event, combinedAspect);
-		return new EventMethodBody(mopSpec, event, combinedAspect);
+	public static AdviceBody createAdviceBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
+//		return new GeneralAdviceBody(mopSpec, event, combinedOutput);
+		return new EventMethodBody(mopSpec, event, combinedOutput);
 	}
 }

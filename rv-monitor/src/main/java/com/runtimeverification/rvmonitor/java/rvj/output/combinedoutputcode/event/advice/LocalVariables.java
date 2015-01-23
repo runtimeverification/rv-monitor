@@ -29,12 +29,12 @@ public class LocalVariables {
 	private final HashMap<String, RVMTypedVariable> varUniqueIdMaps = new HashMap<String, RVMTypedVariable>();
 	
 	
-	public LocalVariables(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedAspect){
-		this.refTrees = combinedAspect.indexingTreeManager.refTrees;
+	public LocalVariables(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput){
+		this.refTrees = combinedOutput.indexingTreeManager.refTrees;
 		
-		SuffixMonitor monitorClass = combinedAspect.monitors.get(mopSpec);
+		SuffixMonitor monitorClass = combinedOutput.monitors.get(mopSpec);
 		String monitorName = monitorClass.getOutermostName().toString(); 
-		String monitorSetName = combinedAspect.monitorSets.get(mopSpec).getName().toString();
+		String monitorSetName = combinedOutput.monitorSets.get(mopSpec).getName().toString();
 		
 		// default variables
 		addVar("boolean", "cacheHit", "true");

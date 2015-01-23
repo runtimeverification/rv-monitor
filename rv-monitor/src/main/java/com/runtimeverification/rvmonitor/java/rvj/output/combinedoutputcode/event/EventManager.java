@@ -28,41 +28,41 @@ public class EventManager {
 	
 	private boolean isCodeGenerated = false;
 	
-	public EventManager(String name, List<RVMonitorSpec> specs, CombinedOutput combinedAspect) throws RVMException {
-		this.monitorSets = combinedAspect.monitorSets;
-		this.monitors = combinedAspect.monitors;
-		this.enableSets = combinedAspect.enableSets;
+	public EventManager(String name, List<RVMonitorSpec> specs, CombinedOutput combinedOutput) throws RVMException {
+		this.monitorSets = combinedOutput.monitorSets;
+		this.monitors = combinedOutput.monitors;
+		this.enableSets = combinedOutput.enableSets;
 
 		this.endProgramEvent = new EndProgram(name);
 
 		for (RVMonitorSpec spec : specs) {
 			if (spec.isEnforce()) {
-				endThreadEvents.add(new ThreadStatusMonitor(spec, combinedAspect));
+				endThreadEvents.add(new ThreadStatusMonitor(spec, combinedOutput));
 			}
 			for (EventDefinition event : spec.getEvents()) {
 				// normal event
 				if (!event.isEndObject() && !event.isEndProgram() && !event.isEndThread() && !event.isStartThread()) {
-					advices.add(new Advice(spec, event, combinedAspect));
+					advices.add(new Advice(spec, event, combinedOutput));
 				}
 
 				// endObject
 				if (event.isEndObject()) {
-					endObjectEvents.add(new EndObject(spec, event, combinedAspect));
+					endObjectEvents.add(new EndObject(spec, event, combinedOutput));
 				}
 
 				// endThread
 				if (event.isEndThread()) {
-					endThreadEvents.add(new EndThread(spec, event, combinedAspect));
+					endThreadEvents.add(new EndThread(spec, event, combinedOutput));
 				}
 
 				// startThread
 				if (event.isStartThread()) {
-					startThreadEvents.add(new StartThread(spec, event, combinedAspect));
+					startThreadEvents.add(new StartThread(spec, event, combinedOutput));
 				}
 
 				// endProgram
 				if (event.isEndProgram()) {
-					endProgramEvent.addEndProgramEvent(spec, event, combinedAspect);
+					endProgramEvent.addEndProgramEvent(spec, event, combinedOutput);
 				}
 
 			} // end of for event

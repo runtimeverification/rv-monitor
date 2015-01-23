@@ -17,9 +17,9 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 
 public class FullParamIndexingTree extends IndexingTree {
 
-	public FullParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
+	public FullParamIndexingTree(String outputName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
 			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
-		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+		super(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (!isFullParam)
 			throw new RVMException("FullParamIndexingTree can be created only when queryParam equals to fullParam.");
@@ -28,12 +28,12 @@ public class FullParamIndexingTree extends IndexingTree {
 			throw new RVMException("FullParamIndexingTree should contain at least one parameter.");
 
 		if (anycontent) {
-			this.name = new RVMVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "_Map");
+			this.name = new RVMVariable(outputName + "_" + queryParam.parameterStringUnderscore() + "_Map");
 		} else {
 			if (!contentParam.contains(queryParam))
 				throw new RVMException("[Internal] contentParam should contain queryParam");
 
-			this.name = new RVMVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
+			this.name = new RVMVariable(outputName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
 		}
 	
 		if (anycontent){

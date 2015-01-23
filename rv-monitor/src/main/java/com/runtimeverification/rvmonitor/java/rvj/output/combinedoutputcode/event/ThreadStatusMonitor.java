@@ -19,13 +19,13 @@ public class ThreadStatusMonitor extends EndThread{
 	
 	private boolean hasDeadlockHandler = false;
 	
-	public ThreadStatusMonitor(RVMonitorSpec mopSpec, CombinedOutput combinedAspect) {
-		this.monitorClass = combinedAspect.monitors.get(mopSpec);
+	public ThreadStatusMonitor(RVMonitorSpec mopSpec, CombinedOutput combinedOutput) {
+		this.monitorClass = combinedOutput.monitors.get(mopSpec);
 		this.monitorName = monitorClass.getOutermostName();
 		this.runnableMap = new RVMVariable(mopSpec.getName() + "_" + eventName + "_ThreadToRunnable");
 		this.mainThread = new RVMVariable(mopSpec.getName() + "_" + eventName + "_MainThread");
 		this.threadSet = new RVMVariable(mopSpec.getName() + "_" + eventName + "_ThreadSet");
-		this.globalLock = combinedAspect.lockManager.getLock();
+		this.globalLock = combinedOutput.lockManager.getLock();
 		
 		List<PropertyAndHandlers> props = mopSpec.getPropertiesAndHandlers();
 		for (PropertyAndHandlers p : props) {

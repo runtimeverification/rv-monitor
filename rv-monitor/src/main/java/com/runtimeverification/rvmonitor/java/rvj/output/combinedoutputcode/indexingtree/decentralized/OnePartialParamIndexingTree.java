@@ -16,16 +16,16 @@ public class OnePartialParamIndexingTree extends IndexingTree {
 	private RVMParameter firstKey;
 	public RVMVariable oneParamNode;
 
-	public OnePartialParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet,
+	public OnePartialParamIndexingTree(String outputName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet,
 			SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
-		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+		super(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (anycontent) {
-			this.name = new RVMVariable(aspectName + "_Set");
+			this.name = new RVMVariable(outputName + "_Set");
 			if (isGeneral)
-				this.oneParamNode = new RVMVariable(aspectName + "_Monitor");
+				this.oneParamNode = new RVMVariable(outputName + "_Monitor");
 		} else {
-			this.name = new RVMVariable(aspectName + "__To__" + contentParam.parameterStringUnderscore() + "_Set");
+			this.name = new RVMVariable(outputName + "__To__" + contentParam.parameterStringUnderscore() + "_Set");
 		}
 
 		this.firstKey = queryParam.get(0);

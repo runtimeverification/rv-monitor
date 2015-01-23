@@ -19,16 +19,16 @@ public class StartThread {
 
 	private final RVMVariable commonPointcut = new RVMVariable("RVM_CommonPointCut");
 
-	public StartThread(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedAspect) throws RVMException {
+	public StartThread(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
 		if (!event.isStartThread())
 			throw new RVMException("StartThread should be defined only for an startThread pointcut.");
 
 		this.event = event;
-		this.globalLock = combinedAspect.lockManager.getLock();
+		this.globalLock = combinedOutput.lockManager.getLock();
 		this.runnableMap = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_ThreadToRunnable");
 		this.mainThread = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_MainThread");
 
-		this.eventBody = AdviceBody.createAdviceBody(mopSpec, event, combinedAspect);
+		this.eventBody = AdviceBody.createAdviceBody(mopSpec, event, combinedOutput);
 	}
 
 	public String printDataStructures() {

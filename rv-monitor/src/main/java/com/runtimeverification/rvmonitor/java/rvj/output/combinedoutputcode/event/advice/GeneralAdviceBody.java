@@ -42,33 +42,33 @@ public class GeneralAdviceBody extends AdviceBody {
 	
 	GlobalLock lock;
 	
-	String aspectName;
+	String outputName;
 
 	// assumes: mopSpec.getParameters().size() != 0
-	GeneralAdviceBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedAspect) throws RVMException {
-		super(mopSpec, event, combinedAspect);
+	GeneralAdviceBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
+		super(mopSpec, event, combinedOutput);
 
 		this.isFullBinding = mopSpec.isFullBinding();
 		this.isConnected = mopSpec.isConnected();
 
 		this.monitorInfo = monitorClass.getMonitorInfo();
 
-		this.timestamp = combinedAspect.timestampManager.getTimestamp(mopSpec);
+		this.timestamp = combinedOutput.timestampManager.getTimestamp(mopSpec);
 		this.indexingTree = indexingTrees.get(eventParams);
 		this.cache = this.indexingTree.getCache();
-		this.parametersForDisable = combinedAspect.setOfParametersForDisable.get(mopSpec);
+		this.parametersForDisable = combinedOutput.setOfParametersForDisable.get(mopSpec);
 
 		this.indexingTreesForCopy = indexingDecl.getIndexingTreesForCopy();
 
-		this.localVars = new LocalVariables(mopSpec, event, combinedAspect);
+		this.localVars = new LocalVariables(mopSpec, event, combinedOutput);
 
 		this.paramPairsForCopy = indexingDecl.getCopyParamForEvent(event);
 		
 		this.doDisable = doDisable();
 		
-		this.statManager = combinedAspect.statManager;
-		this.aspectName = combinedAspect.getAspectName();
-		lock = new GlobalLock(new RVMVariable(this.aspectName + "." + combinedAspect.lockManager.getLock().getName()));
+		this.statManager = combinedOutput.statManager;
+		this.outputName = combinedOutput.getAspectName();
+		lock = new GlobalLock(new RVMVariable(this.outputName + "." + combinedOutput.lockManager.getLock().getName()));
 	}
 
 	public boolean doDisable(){
@@ -839,13 +839,13 @@ public class GeneralAdviceBody extends AdviceBody {
 		} else if (event.isStartEvent() && isFullParam) {
 			RVMVariable mainMonitor = localVars.get("mainMonitor");
 			
-			ret += monitorClass.Monitoring(mainMonitor, event, null, null, this.lock, this.aspectName, false);
+			ret += monitorClass.Monitoring(mainMonitor, event, null, null, this.lock, this.outputName, false);
 		} else {
 			RVMVariable mainMonitor = localVars.get("mainMonitor");
 
 			ret += "if (" + mainMonitor + " != null " + ") {\n";
 			{
-				ret += monitorClass.Monitoring(mainMonitor, event, null, null, this.lock, this.aspectName, false);
+				ret += monitorClass.Monitoring(mainMonitor, event, null, null, this.lock, this.outputName, false);
 			}
 			ret += "}\n";
 		}

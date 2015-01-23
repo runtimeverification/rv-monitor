@@ -11,25 +11,25 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 
 public class DecentralizedIndexingTree {
 
-	static public IndexingTree defineIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet,
+	static public IndexingTree defineIndexingTree(String outputName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet,
 			SuffixMonitor monitor, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
 
 		if (perthread)
 			throw new RVMException("decentralized perthread specification is not supported");
 
 		if (queryParam.size() == 0)
-			return new NoParamIndexingTree(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+			return new NoParamIndexingTree(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (queryParam.size() == 1) {
 			if (fullParam.size() == 1)
-				return new OneFullParamIndexingTree(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+				return new OneFullParamIndexingTree(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 			else
-				return new OnePartialParamIndexingTree(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+				return new OnePartialParamIndexingTree(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 		}
 
 		if (queryParam.equals(fullParam) || queryParam.equals(contentParam))
-			return new FullParamIndexingTree(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+			return new FullParamIndexingTree(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
-		return new PartialParamIndexingTree(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+		return new PartialParamIndexingTree(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 	}
 }

@@ -20,9 +20,9 @@ public class PartialParamIndexingTree extends IndexingTree {
 	private final static int SETONLY = 1;
 	private final static int NODEANDSET = 2;
 
-	public PartialParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
+	public PartialParamIndexingTree(String outputName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
 			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
-		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+		super(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
 		if (isFullParam)
 			throw new RVMException("PartialParamIndexingTree can be created only when queryParam does not equal to fullParam.");
@@ -31,7 +31,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 			throw new RVMException("PartialParamIndexingTree should contain at least two parameter.");
 
 		if (anycontent) {
-			this.name = new RVMVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "_Map");
+			this.name = new RVMVariable(outputName + "_" + queryParam.parameterStringUnderscore() + "_Map");
 			
 			this.cache = new IndexingCache(this.name, this.queryParam, this.fullParam, this.monitorClass, this.monitorSet, refTrees, perthread, isGeneral);
 			//this.cache = new LocalityIndexingCache(this.name, this.queryParam, this.fullParam, this.monitorClass, this.monitorSet, refTrees, perthread, isGeneral);
@@ -41,7 +41,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 			if (contentParam.size() <= queryParam.size())
 				throw new RVMException("[Internal] contentParam should be larger than queryParam");
 
-			this.name = new RVMVariable(aspectName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
+			this.name = new RVMVariable(outputName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
 		}
 
 		this.firstKey = queryParam.get(0);

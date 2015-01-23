@@ -95,16 +95,16 @@ public class IndexingTreeInterface implements ICodeGenerator {
 		return params.size() > 0;
 	}
 	
-	public IndexingTreeInterface(String aspectName, RVMParameters specParams, RVMParameters queryParams, RVMParameters contentParams) {
+	public IndexingTreeInterface(String outputName, RVMParameters specParams, RVMParameters queryParams, RVMParameters contentParams) {
 		this.specParams = specParams;
 		this.queryParams = queryParams;
 		this.contentParams = contentParams;
 
-		this.name = IndexingTreeNameMangler.fieldName(aspectName, queryParams, contentParams);
+		this.name = IndexingTreeNameMangler.fieldName(outputName, queryParams, contentParams);
 	}
 	
-	public void initializeImplementation(String aspectName, MonitorSet set, SuffixMonitor monitor, EventKind evttype, boolean timetrack) {
-		IndexingTreeImplementation impl = new IndexingTreeImplementation(this, aspectName, specParams, queryParams, contentParams, set, monitor, evttype, timetrack);
+	public void initializeImplementation(String outputName, MonitorSet set, SuffixMonitor monitor, EventKind evttype, boolean timetrack) {
+		IndexingTreeImplementation impl = new IndexingTreeImplementation(this, outputName, specParams, queryParams, contentParams, set, monitor, evttype, timetrack);
 		this.switchImplementation(impl);
 	}
 	
@@ -197,8 +197,8 @@ public class IndexingTreeInterface implements ICodeGenerator {
 }
 
 class IndexingTreeNameMangler {
-	public static String fieldName(String aspectName, RVMParameters queryParams, RVMParameters contentParams) {
-		String name = aspectName + "_";
+	public static String fieldName(String outputName, RVMParameters queryParams, RVMParameters contentParams) {
+		String name = outputName + "_";
 		if (contentParams == null)
 			name += queryParams.parameterStringUnderscore();
 		else

@@ -98,7 +98,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 	/**
 	 * Creates an instance of IndexingTreeImplementation.
 	 * @param master master interface
-	 * @param aspectName aspect name
+	 * @param outputName output name
 	 * @param specParams parameters defined in the specification
 	 * @param queryParams parameters used for query
 	 * @param contentParams parameters provided by this tree
@@ -107,7 +107,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 	 * @param evttype specifies whether this event always, possibly or never creates a monitor
 	 * @param timetrack specifies whether time tracking (keeping the 'disable' and 't' fields) is necessary
 	 */
-	IndexingTreeImplementation(IndexingTreeInterface master, String aspectName, RVMParameters specParams, RVMParameters queryParams, RVMParameters contentParams, MonitorSet set, SuffixMonitor monitor, EventKind evttype, boolean timetrack) {
+	IndexingTreeImplementation(IndexingTreeInterface master, String outputName, RVMParameters specParams, RVMParameters queryParams, RVMParameters contentParams, MonitorSet set, SuffixMonitor monitor, EventKind evttype, boolean timetrack) {
 		this.master = master;
 	
 		{
@@ -117,7 +117,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 			this.topEntry = Entry.determine(queryParams, settype, monitortype, fullbinding, evttype, timetrack);
 		}
 	
-		String name = IndexingTreeNameMangler.fieldName(aspectName, queryParams, contentParams);
+		String name = IndexingTreeNameMangler.fieldName(outputName, queryParams, contentParams);
 		this.field = this.topEntry.generateField(name, specParams, queryParams);
 	}
 

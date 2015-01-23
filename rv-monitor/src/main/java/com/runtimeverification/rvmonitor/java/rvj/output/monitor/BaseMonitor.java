@@ -563,7 +563,7 @@ public class BaseMonitor extends Monitor {
 		return "";
 	}
 
-	public String beforeEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String aspectName, boolean inMonitorSet) {
+	public String beforeEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String outputName, boolean inMonitorSet) {
 		return "";
 	}
 

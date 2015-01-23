@@ -20,7 +20,7 @@ public class RefTree {
 	
 	private IndexingTreeInterface hostIndexingTree = null;
 
-	public RefTree(String aspectName, RVMParameter param) {
+	public RefTree(String outputName, RVMParameter param) {
 		this.type = param.getType().toString();
 
 		String typeStr = type;
@@ -40,7 +40,7 @@ public class RefTree {
 				typeStr += dim;
 		}
 
-		this.name = new RVMVariable(aspectName + "_" + typeStr + "_RefMap");
+		this.name = new RVMVariable(outputName + "_" + typeStr + "_RefMap");
 	}
 
 	public void addProperty(RVMonitorSpec spec) {

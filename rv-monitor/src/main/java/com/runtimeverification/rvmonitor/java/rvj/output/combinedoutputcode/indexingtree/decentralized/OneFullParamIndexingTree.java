@@ -15,11 +15,11 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParamete
 public class OneFullParamIndexingTree extends IndexingTree {
 	private final RVMParameter firstKey;
 
-	public OneFullParamIndexingTree(String aspectName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
+	public OneFullParamIndexingTree(String outputName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
 			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
-		super(aspectName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+		super(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
 
-		this.name = new RVMVariable(aspectName + "_Monitor");
+		this.name = new RVMVariable(outputName + "_Monitor");
 		this.firstKey = queryParam.get(0);
 	}
 
