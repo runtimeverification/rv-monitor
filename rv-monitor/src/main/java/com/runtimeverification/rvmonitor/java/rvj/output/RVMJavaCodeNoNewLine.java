@@ -1,6 +1,6 @@
 package com.runtimeverification.rvmonitor.java.rvj.output;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
 
 public class RVMJavaCodeNoNewLine extends RVMJavaCode {
 

@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
+package com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec;
 
 import java.util.*;
 

@@ -1,20 +1,18 @@
-package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
+package com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
+import java.util.*;
+
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 
-public abstract class Property extends Node {
+public class CombinedProperty extends Property {
 	
-	private final String type;
-	
-	public Property (int line, int column, String type){
-		super(line, column);
-		this.type = type;
+    private final List<Property> properties;
+
+	public CombinedProperty(int line, int column, String type, List<Property> properties) {
+		super(line, column, type);
+		this.properties = properties;
 	}
-	
-	public String getType() { return type; }
-	
     @Override
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);
@@ -24,5 +22,5 @@ public abstract class Property extends Node {
     public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
         return v.visit(this, arg);
     }
-	
+
 }

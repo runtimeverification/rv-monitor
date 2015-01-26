@@ -29,7 +29,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 
 import java.util.*;
 import java.util.Map.Entry;

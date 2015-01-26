@@ -15,7 +15,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.monitor.Monitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 
 import java.util.HashMap;
 import java.util.HashSet;

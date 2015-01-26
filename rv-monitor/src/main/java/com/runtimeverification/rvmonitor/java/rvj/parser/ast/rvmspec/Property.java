@@ -1,18 +1,19 @@
-package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
+package com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec;
 
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 
-public class Formula extends Property {
+public abstract class Property extends Node {
 	
-	private final String formula;
-
-	public Formula(int line, int column, String type, String formula) {
-		super(line, column, type);
-		this.formula = formula;
+	private final String type;
+	
+	public Property (int line, int column, String type){
+		super(line, column);
+		this.type = type;
 	}
 	
-	public String getFormula() { return formula; }
+	public String getType() { return type; }
 	
     @Override
     public <A> void accept(VoidVisitor<A> v, A arg) {
@@ -23,5 +24,5 @@ public class Formula extends Property {
     public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
         return v.visit(this, arg);
     }
-
+	
 }

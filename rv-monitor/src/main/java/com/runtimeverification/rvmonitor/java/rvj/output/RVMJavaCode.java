@@ -1,7 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output;
 
 import com.runtimeverification.rvmonitor.java.rvj.Main;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
 
 import java.util.Set;
 import java.util.regex.Matcher;

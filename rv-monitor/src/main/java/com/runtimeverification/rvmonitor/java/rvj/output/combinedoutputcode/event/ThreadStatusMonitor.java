@@ -3,8 +3,8 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.eve
 import java.util.List;
 
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.CombinedOutput;
 
 /**

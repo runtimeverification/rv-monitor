@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
+package com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.RVMNameSpace;

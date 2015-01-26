@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeHelper;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.newindexingtree.IndexingTreeInterface;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
 
 /**
  * This class (or its subclasses) represents a specialized CodeType for two purposes.

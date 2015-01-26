@@ -23,7 +23,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;;
 
 /**

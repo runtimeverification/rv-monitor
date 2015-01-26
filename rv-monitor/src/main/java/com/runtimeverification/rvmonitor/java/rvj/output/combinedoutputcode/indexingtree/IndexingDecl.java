@@ -8,7 +8,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.inde
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

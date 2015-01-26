@@ -1,18 +1,19 @@
-package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
-
-import java.util.*;
+package com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 
-public class CombinedProperty extends Property {
+public class Formula extends Property {
 	
-    private final List<Property> properties;
+	private final String formula;
 
-	public CombinedProperty(int line, int column, String type, List<Property> properties) {
+	public Formula(int line, int column, String type, String formula) {
 		super(line, column, type);
-		this.properties = properties;
+		this.formula = formula;
 	}
+	
+	public String getFormula() { return formula; }
+	
     @Override
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);
