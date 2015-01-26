@@ -26,8 +26,8 @@ import java.io.*;
 import java.util.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
 
