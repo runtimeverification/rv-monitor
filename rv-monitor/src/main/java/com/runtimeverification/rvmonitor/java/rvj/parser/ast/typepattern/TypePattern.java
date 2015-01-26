@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj;
+package com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
 

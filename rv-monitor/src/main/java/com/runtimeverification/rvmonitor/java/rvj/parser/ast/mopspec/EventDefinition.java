@@ -1,7 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.TypePattern;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.TypePattern;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.*;
 
 import java.util.ArrayList;

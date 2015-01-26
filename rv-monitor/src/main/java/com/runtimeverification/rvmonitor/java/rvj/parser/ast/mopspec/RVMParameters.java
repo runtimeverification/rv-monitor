@@ -2,7 +2,7 @@ package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
 
 import java.util.*;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.BaseTypePattern;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.BaseTypePattern;
 
 public class RVMParameters implements Iterable<RVMParameter>, Comparable<RVMParameters> {
 

@@ -3,7 +3,7 @@ package com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;
 
 public class SpecParameter extends Node{
     private final TypePattern type;
