@@ -1,6 +1,9 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.event;
 
-import com.runtimeverification.rvmonitor.util.RVMException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.EnableSet;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.CombinedOutput;
@@ -9,125 +12,129 @@ import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import com.runtimeverification.rvmonitor.util.RVMException;
 
 public class EventManager {
 
-	public ArrayList<Advice> advices = new ArrayList<Advice>();
-	public ArrayList<EndObject> endObjectEvents = new ArrayList<EndObject>();
-	public ArrayList<EndThread> endThreadEvents = new ArrayList<EndThread>();
-	public ArrayList<StartThread> startThreadEvents = new ArrayList<StartThread>();
-	public EndProgram endProgramEvent = null;
+    public ArrayList<Advice> advices = new ArrayList<Advice>();
+    public ArrayList<EndObject> endObjectEvents = new ArrayList<EndObject>();
+    public ArrayList<EndThread> endThreadEvents = new ArrayList<EndThread>();
+    public ArrayList<StartThread> startThreadEvents = new ArrayList<StartThread>();
+    public EndProgram endProgramEvent = null;
 
-	public TreeMap<RVMonitorSpec, MonitorSet> monitorSets;
-	public TreeMap<RVMonitorSpec, SuffixMonitor> monitors;
-	public TreeMap<RVMonitorSpec, EnableSet> enableSets;
-	
-	private boolean isCodeGenerated = false;
-	
-	public EventManager(String name, List<RVMonitorSpec> specs, CombinedOutput combinedOutput) throws RVMException {
-		this.monitorSets = combinedOutput.monitorSets;
-		this.monitors = combinedOutput.monitors;
-		this.enableSets = combinedOutput.enableSets;
+    public TreeMap<RVMonitorSpec, MonitorSet> monitorSets;
+    public TreeMap<RVMonitorSpec, SuffixMonitor> monitors;
+    public TreeMap<RVMonitorSpec, EnableSet> enableSets;
 
-		this.endProgramEvent = new EndProgram(name);
+    private boolean isCodeGenerated = false;
 
-		for (RVMonitorSpec spec : specs) {
-			if (spec.isEnforce()) {
-				endThreadEvents.add(new ThreadStatusMonitor(spec, combinedOutput));
-			}
-			for (EventDefinition event : spec.getEvents()) {
-				// normal event
-				if (!event.isEndObject() && !event.isEndProgram() && !event.isEndThread() && !event.isStartThread()) {
-					advices.add(new Advice(spec, event, combinedOutput));
-				}
+    public EventManager(String name, List<RVMonitorSpec> specs,
+            CombinedOutput combinedOutput) throws RVMException {
+        this.monitorSets = combinedOutput.monitorSets;
+        this.monitors = combinedOutput.monitors;
+        this.enableSets = combinedOutput.enableSets;
 
-				// endObject
-				if (event.isEndObject()) {
-					endObjectEvents.add(new EndObject(spec, event, combinedOutput));
-				}
+        this.endProgramEvent = new EndProgram(name);
 
-				// endThread
-				if (event.isEndThread()) {
-					endThreadEvents.add(new EndThread(spec, event, combinedOutput));
-				}
+        for (RVMonitorSpec spec : specs) {
+            if (spec.isEnforce()) {
+                endThreadEvents.add(new ThreadStatusMonitor(spec,
+                        combinedOutput));
+            }
+            for (EventDefinition event : spec.getEvents()) {
+                // normal event
+                if (!event.isEndObject() && !event.isEndProgram()
+                        && !event.isEndThread() && !event.isStartThread()) {
+                    advices.add(new Advice(spec, event, combinedOutput));
+                }
 
-				// startThread
-				if (event.isStartThread()) {
-					startThreadEvents.add(new StartThread(spec, event, combinedOutput));
-				}
+                // endObject
+                if (event.isEndObject()) {
+                    endObjectEvents.add(new EndObject(spec, event,
+                            combinedOutput));
+                }
 
-				// endProgram
-				if (event.isEndProgram()) {
-					endProgramEvent.addEndProgramEvent(spec, event, combinedOutput);
-				}
+                // endThread
+                if (event.isEndThread()) {
+                    endThreadEvents.add(new EndThread(spec, event,
+                            combinedOutput));
+                }
 
-			} // end of for event
+                // startThread
+                if (event.isStartThread()) {
+                    startThreadEvents.add(new StartThread(spec, event,
+                            combinedOutput));
+                }
 
-		} // end of for spec
+                // endProgram
+                if (event.isEndProgram()) {
+                    endProgramEvent.addEndProgramEvent(spec, event,
+                            combinedOutput);
+                }
 
-		endProgramEvent.registerEndThreadEvents(endThreadEvents);
+            } // end of for event
 
-	}
+        } // end of for spec
 
-	public String printConstructor() {
-		String ret = "";
+        endProgramEvent.registerEndThreadEvents(endThreadEvents);
 
-		if (endProgramEvent != null) {
-			ret += endProgramEvent.printAddStatement();
-		}
+    }
 
-		return ret;
-	}
+    public String printConstructor() {
+        String ret = "";
 
-	public String advices() {
-		String ret = "";
+        if (endProgramEvent != null) {
+            ret += endProgramEvent.printAddStatement();
+        }
 
-		int numAdvice = 1;
-		for (Advice advice : advices) {
-			if(Main.empty_advicebody){
-				ret += "// " + numAdvice++ + "\n";
-			}
+        return ret;
+    }
 
-			ret += advice;
-			ret += "\n";
-			if (advice.beCounted) {
-				ret += "\n";
-				ret += "// Declaration of the count variable for above pointcut\n";
-				ret += "static int " + advice.getPointCutName() + "_count = 0;";
-				ret += "\n\n\n";
-			}
-		}
+    public String advices() {
+        String ret = "";
 
-		for (EndObject endObject : endObjectEvents) {
-			ret += endObject;
-			ret += "\n";
-		}
+        int numAdvice = 1;
+        for (Advice advice : advices) {
+            if (Main.empty_advicebody) {
+                ret += "// " + numAdvice++ + "\n";
+            }
 
-		for (EndThread endThread : endThreadEvents) {
-			ret += endThread.printAdvices();
-			ret += "\n";
-		}
+            ret += advice;
+            ret += "\n";
+            if (advice.beCounted) {
+                ret += "\n";
+                ret += "// Declaration of the count variable for above pointcut\n";
+                ret += "static int " + advice.getPointCutName() + "_count = 0;";
+                ret += "\n\n\n";
+            }
+        }
 
-		for (StartThread startThread : startThreadEvents) {
-			ret += startThread.printAdvices();
-			ret += "\n";
-		}
+        for (EndObject endObject : endObjectEvents) {
+            ret += endObject;
+            ret += "\n";
+        }
 
-		ret += endProgramEvent.printHookThread();
+        for (EndThread endThread : endThreadEvents) {
+            ret += endThread.printAdvices();
+            ret += "\n";
+        }
 
-		return ret;
-	}
+        for (StartThread startThread : startThreadEvents) {
+            ret += startThread.printAdvices();
+            ret += "\n";
+        }
 
-	public void generateCode() {
-		if (!this.isCodeGenerated) {
-			for (Advice advice : this.advices)
-				advice.generateCode();
-		}
-	
-		this.isCodeGenerated = true;
-	}
+        ret += endProgramEvent.printHookThread();
+
+        return ret;
+    }
+
+    public void generateCode() {
+        if (!this.isCodeGenerated) {
+            for (Advice advice : this.advices)
+                advice.generateCode();
+        }
+
+        this.isCodeGenerated = true;
+    }
 }

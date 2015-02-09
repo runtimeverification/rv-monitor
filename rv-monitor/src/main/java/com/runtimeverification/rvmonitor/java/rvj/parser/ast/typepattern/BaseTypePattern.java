@@ -5,11 +5,11 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor
 
 public class BaseTypePattern extends TypePattern {
 
-	public BaseTypePattern(int line, int column, String op) {
-		super(line, column, op);
-	}
-	
-	@Override
+    public BaseTypePattern(int line, int column, String op) {
+        super(line, column, op);
+    }
+
+    @Override
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);
     }

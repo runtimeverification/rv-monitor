@@ -1,18 +1,19 @@
 package com.runtimeverification.rvmonitor.java.rvj.output;
 
 public class UserJavaCode {
-	private final String code;
+    private final String code;
 
-	public UserJavaCode(String code) {
-		this.code = code;
-	}
+    public UserJavaCode(String code) {
+        this.code = code;
+    }
 
-	public String toString() {
-		String ret = "";
+    @Override
+    public String toString() {
+        String ret = "";
 
-		if (code != null)
-			ret += code;
+        if (code != null)
+            ret += code;
 
-		return ret;
-	}
+        return ret;
+    }
 }

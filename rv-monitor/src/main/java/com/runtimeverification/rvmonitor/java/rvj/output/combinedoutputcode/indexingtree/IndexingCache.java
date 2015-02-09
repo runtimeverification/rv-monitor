@@ -12,306 +12,319 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
 
 public class IndexingCache {
-	final RVMParameters param;
-	final boolean perthread;
+    final RVMParameters param;
+    final boolean perthread;
 
-	public final boolean hasSet;
-	public final boolean hasNode;
-	final RVMVariable setType;
-	final RVMVariable set;
+    public final boolean hasSet;
+    public final boolean hasNode;
+    final RVMVariable setType;
+    final RVMVariable set;
 
-	final RVMVariable nodeType;
-	final RVMVariable node;
+    final RVMVariable nodeType;
+    final RVMVariable node;
 
-	final HashMap<String, RVMVariable> keys = new HashMap<String, RVMVariable>();
-	final HashMap<String, RefTree> refTrees;
+    final HashMap<String, RVMVariable> keys = new HashMap<String, RVMVariable>();
+    final HashMap<String, RefTree> refTrees;
 
-	public IndexingCache(RVMVariable name, RVMParameters param, RVMParameters fullParam, SuffixMonitor monitor, MonitorSet monitorSet, HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) {
-		this.param = param;
-		this.perthread = perthread;
+    public IndexingCache(RVMVariable name, RVMParameters param,
+            RVMParameters fullParam, SuffixMonitor monitor,
+            MonitorSet monitorSet, HashMap<String, RefTree> refTrees,
+            boolean perthread, boolean isGeneral) {
+        this.param = param;
+        this.perthread = perthread;
 
-		for (int i = 0; i < param.size(); i++) {
-			this.keys.put(param.get(i).getName(), new RVMVariable(name + "_cachekey_" + fullParam.getIdnum(param.get(i))));
-		}
+        for (int i = 0; i < param.size(); i++) {
+            this.keys.put(param.get(i).getName(), new RVMVariable(name
+                    + "_cachekey_" + fullParam.getIdnum(param.get(i))));
+        }
 
-		this.hasSet = !fullParam.equals(param);
-		this.hasNode = !hasSet || isGeneral;
-		
-		this.setType = monitorSet.getName();
-		this.set = new RVMVariable(name + "_cacheset");
-		this.nodeType = monitor.getOutermostName();
-		this.node = new RVMVariable(name + "_cachenode");
-		this.refTrees = refTrees;
-	}
+        this.hasSet = !fullParam.equals(param);
+        this.hasNode = !hasSet || isGeneral;
 
-	public String getKeyType(RVMParameter p) {
-		return refTrees.get(p.getType().toString()).getResultType();
-	}
+        this.setType = monitorSet.getName();
+        this.set = new RVMVariable(name + "_cacheset");
+        this.nodeType = monitor.getOutermostName();
+        this.node = new RVMVariable(name + "_cachenode");
+        this.refTrees = refTrees;
+    }
 
-	public String getTreeType(RVMParameter p) {
-		return refTrees.get(p.getType().toString()).getType();
-	}
+    public String getKeyType(RVMParameter p) {
+        return refTrees.get(p.getType().toString()).getResultType();
+    }
 
-	public RVMVariable getKey(RVMParameter p) {
-		return keys.get(p.getName());
-	}
+    public String getTreeType(RVMParameter p) {
+        return refTrees.get(p.getType().toString()).getType();
+    }
 
-	public RVMVariable getKey(int i) {
-		return keys.get(param.get(i).getName());
-	}
+    public RVMVariable getKey(RVMParameter p) {
+        return keys.get(p.getName());
+    }
 
-	public String getKeyComparison() {
-		String ret = "";
+    public RVMVariable getKey(int i) {
+        return keys.get(param.get(i).getName());
+    }
 
-		for (int i = 0; i < param.size(); i++) {
-			if (i > 0) {
-				ret += " && ";
-			}
-			if (perthread) {
-				ret += getKey(i) + ".get() != null && ";
-				ret += param.get(i).getName() + " == " + getKey(i) + ".get().get()";
-			} else {
-				if (Main.useFineGrainedLock) {
-					ret += getKey(i) + ".get() != null && ";
-					ret += param.get(i).getName() + " == " + getKey(i) + ".get().get()";
-				}
-				else {
-					ret += getKey(i) + " != null && ";
-					ret += param.get(i).getName() + " == " + getKey(i) + ".get()";				
-				}
-			}
-		}
+    public String getKeyComparison() {
+        String ret = "";
 
-		return ret;
-	}
+        for (int i = 0; i < param.size(); i++) {
+            if (i > 0) {
+                ret += " && ";
+            }
+            if (perthread) {
+                ret += getKey(i) + ".get() != null && ";
+                ret += param.get(i).getName() + " == " + getKey(i)
+                        + ".get().get()";
+            } else {
+                if (Main.useFineGrainedLock) {
+                    ret += getKey(i) + ".get() != null && ";
+                    ret += param.get(i).getName() + " == " + getKey(i)
+                            + ".get().get()";
+                } else {
+                    ret += getKey(i) + " != null && ";
+                    ret += param.get(i).getName() + " == " + getKey(i)
+                            + ".get()";
+                }
+            }
+        }
 
-	public String getCacheKeys(LocalVariables localVars) {
-		String ret = "";
+        return ret;
+    }
 
-		for (RVMParameter p : param) {
-			RVMVariable tempRef = localVars.getTempRef(p);
+    public String getCacheKeys(LocalVariables localVars) {
+        String ret = "";
 
-			ret += tempRef + " = ";
+        for (RVMParameter p : param) {
+            RVMVariable tempRef = localVars.getTempRef(p);
 
-			if (perthread) {
-				ret += getKey(p) + ".get();\n";
-			} else {
-				if (Main.useFineGrainedLock)
-					ret += getKey(p) + ".get();\n";
-				else
-					ret += getKey(p) + ";\n";
-			}
-		}
+            ret += tempRef + " = ";
 
-		return ret;
-	}
+            if (perthread) {
+                ret += getKey(p) + ".get();\n";
+            } else {
+                if (Main.useFineGrainedLock)
+                    ret += getKey(p) + ".get();\n";
+                else
+                    ret += getKey(p) + ";\n";
+            }
+        }
 
-	public String getCacheSet(RVMVariable obj) {
-		String ret = "";
+        return ret;
+    }
 
-		if (!hasSet)
-			return ret;
+    public String getCacheSet(RVMVariable obj) {
+        String ret = "";
 
-		if (perthread) {
-			ret += obj + " = " + set + ".get();\n";
-		} else {
-			if (Main.useFineGrainedLock)
-				ret += obj + " = " + set + ".get();\n";
-			else
-				ret += obj + " = " + set + ";\n";
-		}
+        if (!hasSet)
+            return ret;
 
-		return ret;
-	}
+        if (perthread) {
+            ret += obj + " = " + set + ".get();\n";
+        } else {
+            if (Main.useFineGrainedLock)
+                ret += obj + " = " + set + ".get();\n";
+            else
+                ret += obj + " = " + set + ";\n";
+        }
 
-	public String getCacheNode(RVMVariable obj) {
-		String ret = "";
+        return ret;
+    }
 
-		if (perthread) {
-			ret += obj + " = " + node + ".get();\n";
-		} else {
-			if (Main.useFineGrainedLock)
-				ret += obj + " = " + node + ".get();\n";
-			else
-				ret += obj + " = " + node + ";\n";
-		}
+    public String getCacheNode(RVMVariable obj) {
+        String ret = "";
 
-		return ret;
-	}
+        if (perthread) {
+            ret += obj + " = " + node + ".get();\n";
+        } else {
+            if (Main.useFineGrainedLock)
+                ret += obj + " = " + node + ".get();\n";
+            else
+                ret += obj + " = " + node + ";\n";
+        }
 
-	public String setCacheKeys(LocalVariables localVars) {
-		String ret = "";
+        return ret;
+    }
 
-		for (RVMParameter p : param) {
-			RVMVariable tempRef = localVars.getTempRef(p);
+    public String setCacheKeys(LocalVariables localVars) {
+        String ret = "";
 
-			if (perthread) {
-				ret += getKey(p) + ".set(" + tempRef + ");\n";
-			} else {
-				if (Main.useFineGrainedLock)
-					ret += getKey(p) + ".set(" + tempRef + ");\n";
-				else
-					ret += getKey(p) + " = " + tempRef + ";\n";
-			}
-		}
+        for (RVMParameter p : param) {
+            RVMVariable tempRef = localVars.getTempRef(p);
 
-		return ret;
-	}
+            if (perthread) {
+                ret += getKey(p) + ".set(" + tempRef + ");\n";
+            } else {
+                if (Main.useFineGrainedLock)
+                    ret += getKey(p) + ".set(" + tempRef + ");\n";
+                else
+                    ret += getKey(p) + " = " + tempRef + ";\n";
+            }
+        }
 
-	public String setCacheSet(RVMVariable obj) {
-		String ret = "";
+        return ret;
+    }
 
-		if (!hasSet)
-			return ret;
+    public String setCacheSet(RVMVariable obj) {
+        String ret = "";
 
-		if (perthread) {
-			ret += set + ".set(" + obj + ");\n";
-		} else {
-			if (Main.useFineGrainedLock)
-				ret += set + ".set(" + obj + ");\n";
-			else
-				ret += set + " = " + obj + ";\n";
-		}
+        if (!hasSet)
+            return ret;
 
-		return ret;
-	}
+        if (perthread) {
+            ret += set + ".set(" + obj + ");\n";
+        } else {
+            if (Main.useFineGrainedLock)
+                ret += set + ".set(" + obj + ");\n";
+            else
+                ret += set + " = " + obj + ";\n";
+        }
 
-	public String setCacheNode(RVMVariable obj) {
-		String ret = "";
+        return ret;
+    }
 
-		if(!hasNode)
-			return ret;
-		
-		if (perthread) {
-			ret += node + ".set(" + obj + ");\n";
-		} else {
-			if (Main.useFineGrainedLock)
-				ret += node + ".set(" + obj + ");\n";
-			else
-				ret += node + " = " + obj + ";\n";
-		}
+    public String setCacheNode(RVMVariable obj) {
+        String ret = "";
 
-		return ret;
-	}
-	
-	public String init(){
-		return "";
-	}
+        if (!hasNode)
+            return ret;
 
-	public String toString() {
-		String ret = "";
+        if (perthread) {
+            ret += node + ".set(" + obj + ");\n";
+        } else {
+            if (Main.useFineGrainedLock)
+                ret += node + ".set(" + obj + ");\n";
+            else
+                ret += node + " = " + obj + ";\n";
+        }
 
-		if (perthread) {
-			for (RVMParameter p : param) {
-				RVMVariable key = keys.get(p.getName());
+        return ret;
+    }
 
-				ret += "static final ThreadLocal<"+ getKeyType(p) + "> " + key + " = new ThreadLocal<" + getKeyType(p) + ">() {\n";
-				ret += "protected " + getKeyType(p) + " initialValue(){\n";
-				ret += "return null;\n";
-				ret += "}\n";
-				ret += "};\n";
-			}
-			
-			if (hasSet) {
-				ret += "static final ThreadLocal<" + setType + "> " + set + " = new ThreadLocal<" + setType + ">() {\n";
-				ret += "protected " + setType + " initialValue(){\n";
-				ret += "return null;\n";
-				ret += "}\n";
-				ret += "};\n";
-			}
+    public String init() {
+        return "";
+    }
 
-			if (hasNode) {
-				ret += "static final ThreadLocal<"+ nodeType + "> " + node + " = new ThreadLocal<" + nodeType + ">() {\n";
-				ret += "protected " + nodeType + " initialValue(){\n";
-				ret += "return null;\n";
-				ret += "}\n";
-				ret += "};\n";
-			}
-		} else {
-		// ---	
-			if (Main.useFineGrainedLock) {
-				for (RVMParameter p : param) {
-					String type = getKeyType(p);
-					RVMVariable name = keys.get(p.getName());
-					ret += this.createStaticThreadLocal(type, name, "null");
-				}
-				if (hasSet) {
-					ret += this.createStaticThreadLocal(setType.toString(), set, "null");
-				}
-				if (hasNode) {
-					ret += this.createStaticThreadLocal(nodeType.toString(), node, "null");
-				}
-			}
-			else {
-				for (RVMParameter p : param) {
-					RVMVariable key = keys.get(p.getName());
-					ret += "static " + getKeyType(p) + " " + key + " = null;\n";
-				}
-				if (hasSet) {
-					ret += "static " + setType + " " + set + " = null;\n";
-				}
-				if (hasNode) {
-					ret += "static " + nodeType + " " + node + " = null;\n";
-				}			
-			}
-		}
+    @Override
+    public String toString() {
+        String ret = "";
 
-		return ret;
-	}
-	
-	private String createStaticThreadLocal(String type, RVMVariable name, String initvalue) {
-		String ret = "";
-		ret += "static final ThreadLocal<" + type + "> " + name + " = new ThreadLocal<" + type + ">() {\n";
-		ret += "@Override protected " + type + " initialValue() {\n";
-		ret += "return " + initvalue + ";\n";
-		ret += "}\n";
-		ret += "};\n";
-		return ret;
-	}
+        if (perthread) {
+            for (RVMParameter p : param) {
+                RVMVariable key = keys.get(p.getName());
 
-	public String reset() {
-		String ret = "";
+                ret += "static final ThreadLocal<" + getKeyType(p) + "> " + key
+                        + " = new ThreadLocal<" + getKeyType(p) + ">() {\n";
+                ret += "protected " + getKeyType(p) + " initialValue(){\n";
+                ret += "return null;\n";
+                ret += "}\n";
+                ret += "};\n";
+            }
 
-		if (perthread) {
-			for (RVMParameter p : param) {
-				RVMVariable key = keys.get(p.getName());
+            if (hasSet) {
+                ret += "static final ThreadLocal<" + setType + "> " + set
+                        + " = new ThreadLocal<" + setType + ">() {\n";
+                ret += "protected " + setType + " initialValue(){\n";
+                ret += "return null;\n";
+                ret += "}\n";
+                ret += "};\n";
+            }
 
-				ret += key + " = new ThreadLocal() {\n";
-				ret += "protected " + getKeyType(p) + " initialValue(){\n";
-				ret += "return " + getTreeType(p) + ".NULRef;\n";
-				ret += "}\n";
-				ret += "};\n";
-			}
-			
-			if (hasSet) {
-				ret += set + " = new ThreadLocal() {\n";
-				ret += "protected " + setType + " initialValue(){\n";
-				ret += "return null;\n";
-				ret += "}\n";
-				ret += "};\n";
-			}
+            if (hasNode) {
+                ret += "static final ThreadLocal<" + nodeType + "> " + node
+                        + " = new ThreadLocal<" + nodeType + ">() {\n";
+                ret += "protected " + nodeType + " initialValue(){\n";
+                ret += "return null;\n";
+                ret += "}\n";
+                ret += "};\n";
+            }
+        } else {
+            // ---
+            if (Main.useFineGrainedLock) {
+                for (RVMParameter p : param) {
+                    String type = getKeyType(p);
+                    RVMVariable name = keys.get(p.getName());
+                    ret += this.createStaticThreadLocal(type, name, "null");
+                }
+                if (hasSet) {
+                    ret += this.createStaticThreadLocal(setType.toString(),
+                            set, "null");
+                }
+                if (hasNode) {
+                    ret += this.createStaticThreadLocal(nodeType.toString(),
+                            node, "null");
+                }
+            } else {
+                for (RVMParameter p : param) {
+                    RVMVariable key = keys.get(p.getName());
+                    ret += "static " + getKeyType(p) + " " + key + " = null;\n";
+                }
+                if (hasSet) {
+                    ret += "static " + setType + " " + set + " = null;\n";
+                }
+                if (hasNode) {
+                    ret += "static " + nodeType + " " + node + " = null;\n";
+                }
+            }
+        }
 
-			if (hasNode) {
-				ret += node + " = new ThreadLocal() {\n";
-				ret += "protected " + nodeType + " initialValue(){\n";
-				ret += "return null;\n";
-				ret += "}\n";
-				ret += "};\n";
-			}
-		} else {
-			for (RVMParameter p : param) {
-				RVMVariable key = keys.get(p.getName());
-				ret += key + " = " + getTreeType(p) + ".NULRef;\n";
-			}
-			if (hasSet) {
-				ret += set + " = null;\n";
-			}
-			if (hasNode) {
-				ret += node + " = null;\n";
-			}
-		}
+        return ret;
+    }
 
-		return ret;
-	}
+    private String createStaticThreadLocal(String type, RVMVariable name,
+            String initvalue) {
+        String ret = "";
+        ret += "static final ThreadLocal<" + type + "> " + name
+                + " = new ThreadLocal<" + type + ">() {\n";
+        ret += "@Override protected " + type + " initialValue() {\n";
+        ret += "return " + initvalue + ";\n";
+        ret += "}\n";
+        ret += "};\n";
+        return ret;
+    }
+
+    public String reset() {
+        String ret = "";
+
+        if (perthread) {
+            for (RVMParameter p : param) {
+                RVMVariable key = keys.get(p.getName());
+
+                ret += key + " = new ThreadLocal() {\n";
+                ret += "protected " + getKeyType(p) + " initialValue(){\n";
+                ret += "return " + getTreeType(p) + ".NULRef;\n";
+                ret += "}\n";
+                ret += "};\n";
+            }
+
+            if (hasSet) {
+                ret += set + " = new ThreadLocal() {\n";
+                ret += "protected " + setType + " initialValue(){\n";
+                ret += "return null;\n";
+                ret += "}\n";
+                ret += "};\n";
+            }
+
+            if (hasNode) {
+                ret += node + " = new ThreadLocal() {\n";
+                ret += "protected " + nodeType + " initialValue(){\n";
+                ret += "return null;\n";
+                ret += "}\n";
+                ret += "};\n";
+            }
+        } else {
+            for (RVMParameter p : param) {
+                RVMVariable key = keys.get(p.getName());
+                ret += key + " = " + getTreeType(p) + ".NULRef;\n";
+            }
+            if (hasSet) {
+                ret += set + " = null;\n";
+            }
+            if (hasNode) {
+                ret += node + " = null;\n";
+            }
+        }
+
+        return ret;
+    }
 
 }

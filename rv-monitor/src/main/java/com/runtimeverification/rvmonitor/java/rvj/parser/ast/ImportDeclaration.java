@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Julio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -36,7 +36,8 @@ public final class ImportDeclaration extends Node {
 
     private final boolean isAsterisk;
 
-    public ImportDeclaration(int line, int column, NameExpr name, boolean isStatic, boolean isAsterisk) {
+    public ImportDeclaration(int line, int column, NameExpr name,
+            boolean isStatic, boolean isAsterisk) {
         super(line, column);
         this.name = name;
         this.isStatic = isStatic;

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008 Feng Chen.
- * 
+ *
  * This file is part of RV Monitor parser.
  *
  * RV Monitor is free software: you can redistribute it and/or modify
@@ -29,21 +29,23 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.Reference
 /**
  * @author Julio Vilmar Gesser
  */
-public interface VoidVisitor<A> extends com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor<A> {
+public interface VoidVisitor<A>
+        extends
+        com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor<A> {
 
-	// All extended componenets
-	
-    //- RV Monitor components
-    
-	public void visit(ReferenceSpec r, A arg);
+    // All extended componenets
+
+    // - RV Monitor components
+
+    public void visit(ReferenceSpec r, A arg);
 
     public void visit(RVMonitorSpecExt s, A arg);
-    
+
     public void visit(EventDefinitionExt e, A arg);
-    
+
     public void visit(PropertyAndHandlersExt p, A arg);
-    
+
     public void visit(FormulaExt f, A arg);
-    
+
     public void visit(ExtendedSpec extendedSpec, A arg);
 }

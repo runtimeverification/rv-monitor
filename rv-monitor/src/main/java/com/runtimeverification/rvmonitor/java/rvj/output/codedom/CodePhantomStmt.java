@@ -19,25 +19,25 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFor
  *
  */
 public class CodePhantomStmt extends CodeStmt {
-	private final List<CodeVariable> referred;
-	
-	public CodePhantomStmt(CodeVariable ... referred) {
-		this.referred = Arrays.asList(referred);
-	}
+    private final List<CodeVariable> referred;
 
-	@Override
-	public void getCode(ICodeFormatter fmt) {
-		// Nothing to print.
-	}
+    public CodePhantomStmt(CodeVariable... referred) {
+        this.referred = Arrays.asList(referred);
+    }
 
-	@Override
-	public void accept(ICodeVisitor visitor) {
-		for (CodeVariable var : this.referred)
-			visitor.referVariable(var);
-	}
+    @Override
+    public void getCode(ICodeFormatter fmt) {
+        // Nothing to print.
+    }
 
-	@Override
-	public boolean isBlock() {
-		return false;
-	}
+    @Override
+    public void accept(ICodeVisitor visitor) {
+        for (CodeVariable var : this.referred)
+            visitor.referVariable(var);
+    }
+
+    @Override
+    public boolean isBlock() {
+        return false;
+    }
 }

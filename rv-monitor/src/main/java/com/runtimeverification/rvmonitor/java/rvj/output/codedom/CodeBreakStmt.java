@@ -9,18 +9,18 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFor
  * @author Choonghwan Lee <clee83@illinois.edu>
  */
 public class CodeBreakStmt extends CodeStmt {
-	@Override
-	public void getCode(ICodeFormatter fmt) {
-		fmt.keyword("break");
-	}
+    @Override
+    public void getCode(ICodeFormatter fmt) {
+        fmt.keyword("break");
+    }
 
-	@Override
-	public void accept(ICodeVisitor visitor) {
-	}
+    @Override
+    public void accept(ICodeVisitor visitor) {
+    }
 
-	@Override
-	public boolean isBlock() {
-		return false;
-	}
+    @Override
+    public boolean isBlock() {
+        return false;
+    }
 
 }
