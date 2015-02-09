@@ -113,13 +113,13 @@ public class BaseMonitor extends Monitor {
 
 	final HashMap<PropertyAndHandlers, PropMonitor> propMonitors = new HashMap<PropertyAndHandlers, PropMonitor>();
 
-	public BaseMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
-		this(name, mopSpec, coenableSet, isOutermost, "");
+	public BaseMonitor(String name, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+		this(name, rvmSpec, coenableSet, isOutermost, "");
 	}
 	
-	public BaseMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) throws RVMException {
-		super(name, mopSpec, coenableSet, isOutermost);
-		this.initialize(name, mopSpec, coenableSet, isOutermost, monitorNameSuffix);
+	public BaseMonitor(String name, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) throws RVMException {
+		super(name, rvmSpec, coenableSet, isOutermost);
+		this.initialize(name, rvmSpec, coenableSet, isOutermost, monitorNameSuffix);
 	}
 	
 	private void checkIfAtomicMonitorCanBeEnabled() {
@@ -147,17 +147,17 @@ public class BaseMonitor extends Monitor {
 		feature.setSelfSynchroniztionNeeded(Main.useFineGrainedLock && !this.isAtomicMoniorUsed());
 	}
 	
-	public void initialize(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) {
+	public void initialize(String name, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) {
 		this.isDefined = true;
-		this.monitorName = new RVMVariable(mopSpec.getName() + monitorNameSuffix + "Monitor");
-		this.events = mopSpec.getEvents();
-		this.props = mopSpec.getPropertiesAndHandlers();
-		this.monitorDeclaration = new UserJavaCode(mopSpec.getDeclarationsStr());
-		this.specParam = mopSpec.getParameters();
+		this.monitorName = new RVMVariable(getOutputName() + monitorNameSuffix + "Monitor");
+		this.events = rvmSpec.getEvents();
+		this.props = rvmSpec.getPropertiesAndHandlers();
+		this.monitorDeclaration = new UserJavaCode(rvmSpec.getDeclarationsStr());
+		this.specParam = rvmSpec.getParameters();
 
 		if (isOutermost) {
-			varInOutermostMonitor = new VarInOutermostMonitor(name, mopSpec, mopSpec.getEvents());
-			monitorTermination = new MonitorTermination(name, mopSpec, mopSpec.getEvents(), coenableSet);
+			varInOutermostMonitor = new VarInOutermostMonitor(name, rvmSpec, rvmSpec.getEvents());
+			monitorTermination = new MonitorTermination(name, rvmSpec, rvmSpec.getEvents(), coenableSet);
 		}
 		
 		String prefix = Main.merge ? this.monitorName + "_" : "";
@@ -186,7 +186,7 @@ public class BaseMonitor extends Monitor {
 				String handlerBody = handlerBodies.get(category);
 
 				if (handlerBody.toString().length() != 0) {
-					propMonitor.handlerMethods.put(category, new HandlerMethod(prop, category, specParam, mopSpec.getCommonParamInEvents(), varsToSave, handlerBody, categoryVar, this));
+					propMonitor.handlerMethods.put(category, new HandlerMethod(prop, category, specParam, rvmSpec.getCommonParamInEvents(), varsToSave, handlerBody, categoryVar, this));
 			
 				}
 			}
@@ -200,16 +200,16 @@ public class BaseMonitor extends Monitor {
 		}
 
 		varsToSave = new HashMap<RVMParameter, RVMVariable>();
-		for (RVMParameter p : mopSpec.getVarsToSave()) {
+		for (RVMParameter p : rvmSpec.getVarsToSave()) {
 			varsToSave.put(p, new RVMVariable("Ref_" + p.getName()));
 		}
 
-		if (this.isDefined && mopSpec.isGeneral()) {
-			if (mopSpec.isFullBinding() || mopSpec.isConnected())
-				monitorInfo = new MonitorInfo(mopSpec);
+		if (this.isDefined && rvmSpec.isGeneral()) {
+			if (rvmSpec.isFullBinding() || rvmSpec.isConnected())
+				monitorInfo = new MonitorInfo(rvmSpec);
 		}
 		
-		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
+		for (PropertyAndHandlers prop : rvmSpec.getPropertiesAndHandlers()) {
 			if(!existSkip){
 				for (String handler : prop.getHandlers().values()) {
 					if (handler.indexOf("__SKIP") != -1){

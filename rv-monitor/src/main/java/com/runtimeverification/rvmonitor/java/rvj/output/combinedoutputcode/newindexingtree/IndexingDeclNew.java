@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class IndexingDeclNew {
-	private final RVMonitorSpec mopSpec;
+	private final RVMonitorSpec rvmSpec;
 	private final RVMParameters specParam;
 	private final TreeMap<RVMParameters, IndexingTreeInterface> indexingTrees = new TreeMap<RVMParameters, IndexingTreeInterface>();
 	private final TreeMap<RVMonitorParameterPair, IndexingTreeInterface> indexingTreesForCopy = new TreeMap<RVMonitorParameterPair, IndexingTreeInterface>();
@@ -36,20 +36,20 @@ public class IndexingDeclNew {
 	
 	public final RVMParameters endObjectParameters = new RVMParameters();
 
-	public IndexingDeclNew(RVMonitorSpec mopSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, TreeMap<String, RefTree> refTrees) throws RVMException {
-		this.mopSpec = mopSpec;
-		this.specParam = mopSpec.getParameters();
+	public IndexingDeclNew(RVMonitorSpec rvmSpec, MonitorSet monitorSet, SuffixMonitor monitor, EnableSet enableSet, TreeMap<String, RefTree> refTrees) throws RVMException {
+		this.rvmSpec = rvmSpec;
+		this.specParam = rvmSpec.getParameters();
 		this.refTrees = refTrees;
 
 		RVMParameterSet indexingParameterSet = new RVMParameterSet();
 		RVMParameterPairSet indexingRestrictedParameterSet = new RVMParameterPairSet();
 
-		for (EventDefinition event : mopSpec.getEvents()) {
+		for (EventDefinition event : rvmSpec.getEvents()) {
 			if (event.isEndObject() && event.getRVMParameters().size() != 0)
 				endObjectParameters.addAll(event.getRVMParameters());
 		}
 
-		for (EventDefinition event : mopSpec.getEvents()) {
+		for (EventDefinition event : rvmSpec.getEvents()) {
 			RVMParameters param = event.getRVMParametersOnSpec();
 
 			indexingParameterSet.add(param);
@@ -64,15 +64,15 @@ public class IndexingDeclNew {
 			}
 		}
 
-		if(mopSpec.isGeneral()){
-			for (EventDefinition event : mopSpec.getEvents()) {
+		if(rvmSpec.isGeneral()){
+			for (EventDefinition event : rvmSpec.getEvents()) {
 				ArrayList<RVMonitorParameterPair> pairs = new ArrayList<RVMonitorParameterPair>();
 	
 				RVMParameters param = event.getRVMParametersOnSpec();
 				RVMParameterSet enable = enableSet.getEnable(event.getId());
 	
 				for (RVMParameters enableEntity : enable) {
-					if (enableEntity.size() == 0 && !mopSpec.hasNoParamEvent()) {
+					if (enableEntity.size() == 0 && !rvmSpec.hasNoParamEvent()) {
 						continue;
 					}
 	
@@ -100,32 +100,32 @@ public class IndexingDeclNew {
 			}
 		}
 
-		if (mopSpec.isCentralized()) {
+		if (rvmSpec.isCentralized()) {
 			for (RVMParameters param : indexingParameterSet) {
 				if (param.size() == 1 && this.endObjectParameters.getParam(param.get(0).getName()) != null) {
 					throw new NotImplementedException();
 					/*
-					IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
-							mopSpec.isPerThread(), mopSpec.isGeneral());
+					IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(rvmSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
+							rvmSpec.isPerThread(), rvmSpec.isGeneral());
 					indexingTrees.put(param, indexingTree);
 					*/
 				} else {
-					IndexingTreeInterface indexingTree = new IndexingTreeInterface(mopSpec.getName(), specParam, param, null);
+					IndexingTreeInterface indexingTree = new IndexingTreeInterface(rvmSpec.getName(), specParam, param, null);
 					/*
-					IndexingTree indexingTree = CentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
-							mopSpec.isPerThread(), mopSpec.isGeneral());
+					IndexingTree indexingTree = CentralizedIndexingTree.defineIndexingTree(rvmSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
+							rvmSpec.isPerThread(), rvmSpec.isGeneral());
 							*/
 					indexingTrees.put(param, indexingTree);
 				}
 			}
 			
-			if (mopSpec.isGeneral()) {
+			if (rvmSpec.isGeneral()) {
 				for (RVMonitorParameterPair paramPair : indexingRestrictedParameterSet) {
 					/*
-					indexingTreesForCopy.put(paramPair, CentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), paramPair.getParam1(), paramPair.getParam2(), specParam,
-							monitorSet, monitor, refTrees, mopSpec.isPerThread(), mopSpec.isGeneral()));
+					indexingTreesForCopy.put(paramPair, CentralizedIndexingTree.defineIndexingTree(rvmSpec.getName(), paramPair.getParam1(), paramPair.getParam2(), specParam,
+							monitorSet, monitor, refTrees, rvmSpec.isPerThread(), rvmSpec.isGeneral()));
 							*/
-					IndexingTreeInterface indexingTree = new IndexingTreeInterface(mopSpec.getName(), specParam, paramPair.getParam1(), paramPair.getParam2());
+					IndexingTreeInterface indexingTree = new IndexingTreeInterface(rvmSpec.getName(), specParam, paramPair.getParam1(), paramPair.getParam2());
 					indexingTreesForCopy.put(paramPair, indexingTree);
 				}
 			}
@@ -135,15 +135,15 @@ public class IndexingDeclNew {
 			for (RVMParameters param : indexingParameterSet) {
 				IndexingTreeInterface itf = this.indexingTrees.get(param);
 				EventKind evttype = this.calculateEventType(param);
-				boolean needsTimeTracking = mopSpec.isGeneral();
-				itf.initializeImplementation(mopSpec.getName(), monitorSet, monitor, evttype, needsTimeTracking);
+				boolean needsTimeTracking = rvmSpec.isGeneral();
+				itf.initializeImplementation(rvmSpec.getName(), monitorSet, monitor, evttype, needsTimeTracking);
 			}
 
 			for (RVMonitorParameterPair paramPair : indexingRestrictedParameterSet) {
 				IndexingTreeInterface itf = this.indexingTreesForCopy.get(paramPair);
 				EventKind evttype = EventKind.AlwaysCreate;
-				boolean needsTimeTracking = mopSpec.isGeneral();
-				itf.initializeImplementation(mopSpec.getName(), monitorSet, monitor, evttype, needsTimeTracking);
+				boolean needsTimeTracking = rvmSpec.isGeneral();
+				itf.initializeImplementation(rvmSpec.getName(), monitorSet, monitor, evttype, needsTimeTracking);
 			}
 			
 			combineCentralIndexingTrees();
@@ -154,15 +154,15 @@ public class IndexingDeclNew {
 			/* TODO: Decentralized RefTree which does not require any mapping.
 			
 			for (RVMParameters param : indexingParameterSet) {
-				IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
-						mopSpec.isPerThread(), mopSpec.isGeneral());
+				IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(rvmSpec.getName(), param, null, specParam, monitorSet, monitor, refTrees,
+						rvmSpec.isPerThread(), rvmSpec.isGeneral());
 
 				indexingTrees.put(param, indexingTree);
 			}
-			if (mopSpec.isGeneral()) {
+			if (rvmSpec.isGeneral()) {
 				for (RVMonitorParameterPair paramPair : indexingRestrictedParameterSet) {
-					IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(mopSpec.getName(), paramPair.getParam1(), paramPair.getParam2(), specParam,
-							monitorSet, monitor, refTrees, mopSpec.isPerThread(), mopSpec.isGeneral());
+					IndexingTree indexingTree = DecentralizedIndexingTree.defineIndexingTree(rvmSpec.getName(), paramPair.getParam1(), paramPair.getParam2(), specParam,
+							monitorSet, monitor, refTrees, rvmSpec.isPerThread(), rvmSpec.isGeneral());
 
 					indexingTreesForCopy.put(paramPair, indexingTree);
 				}
@@ -176,7 +176,7 @@ public class IndexingDeclNew {
 		int numCreationEvent = 0;
 		int numNonCreationEvent = 0;
 	
-		for (EventDefinition event : this.mopSpec.getEvents()) {
+		for (EventDefinition event : this.rvmSpec.getEvents()) {
 			RVMParameters param = event.getRVMParametersOnSpec();
 			if (param.equals(treeParams)) {
 				if (event.isStartEvent())
@@ -208,7 +208,7 @@ public class IndexingDeclNew {
 	}
 
 	protected void combineCentralIndexingTrees() {
-		if (!mopSpec.isCentralized())
+		if (!rvmSpec.isCentralized())
 			return;
 	
 		Set<IndexingTreeInterface> candidates = new HashSet<IndexingTreeInterface>();
@@ -260,11 +260,11 @@ public class IndexingDeclNew {
 	}
 
 	private void combineRefTreesIntoIndexingTrees(){
-		if (mopSpec.isPerThread())
+		if (rvmSpec.isPerThread())
 			return;
 		
 		// It seems JavaMOP 3.0 only cares about most common cases.
-		if (mopSpec.isGeneral())
+		if (rvmSpec.isGeneral())
 			return;
 		
 		// If weak-ref interning is disabled, GWRT does not exist.

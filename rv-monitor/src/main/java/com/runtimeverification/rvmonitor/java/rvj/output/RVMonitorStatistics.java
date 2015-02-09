@@ -19,28 +19,28 @@ public class RVMonitorStatistics {
 
 	private final String specName;
 	
-	public RVMonitorStatistics(String name, RVMonitorSpec mopSpec) {
-		this.specName = mopSpec.getName();
-		this.numMonitor = new RVMVariable(mopSpec.getName() + "_Monitor_num");
-		this.collectedMonitor = new RVMVariable(mopSpec.getName() + "_CollectedMonitor_num");
-		this.terminatedMonitor = new RVMVariable(mopSpec.getName() + "_TerminatedMonitor_num");
+	public RVMonitorStatistics(String name, RVMonitorSpec rvmSpec) {
+		this.specName = rvmSpec.getName();
+		this.numMonitor = new RVMVariable(rvmSpec.getName() + "_Monitor_num");
+		this.collectedMonitor = new RVMVariable(rvmSpec.getName() + "_CollectedMonitor_num");
+		this.terminatedMonitor = new RVMVariable(rvmSpec.getName() + "_TerminatedMonitor_num");
 
-		for (EventDefinition event : mopSpec.getEvents()) {
-			RVMVariable eventVar = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_num");
+		for (EventDefinition event : rvmSpec.getEvents()) {
+			RVMVariable eventVar = new RVMVariable(rvmSpec.getName() + "_" + event.getId() + "_num");
 			this.eventVars.put(event.getId(), eventVar);
 		}
 
-		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
+		for (PropertyAndHandlers prop : rvmSpec.getPropertiesAndHandlers()) {
 			HashMap<String, RVMVariable> categoryVarsforProp = new HashMap<String, RVMVariable>();
 			for (String key : prop.getHandlers().keySet()) {
-				RVMVariable categoryVar = new RVMVariable(mopSpec.getName() + "_" + prop.getPropertyId() + "_" + key + "_num");
+				RVMVariable categoryVar = new RVMVariable(rvmSpec.getName() + "_" + prop.getPropertyId() + "_" + key + "_num");
 				categoryVarsforProp.put(key, categoryVar);
 			}
 			this.categoryVars.put(prop, categoryVarsforProp);
 		}
 
-		for (RVMParameter param : mopSpec.getParameters()) {
-			RVMVariable paramVar = new RVMVariable(mopSpec.getName() + "_" + param.getName() + "_set");
+		for (RVMParameter param : rvmSpec.getParameters()) {
+			RVMVariable paramVar = new RVMVariable(rvmSpec.getName() + "_" + param.getName() + "_set");
 			this.paramVars.put(param, paramVar);
 		}
 	}

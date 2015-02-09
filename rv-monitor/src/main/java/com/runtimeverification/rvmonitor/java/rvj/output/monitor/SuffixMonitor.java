@@ -38,24 +38,24 @@ public class SuffixMonitor extends Monitor {
 		return this.innerMonitor.getFeatures();
 	}
 	
-	public SuffixMonitor(String outputName, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
-		super(outputName, mopSpec, coenableSet, isOutermost);
+	public SuffixMonitor(String outputName, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+		super(outputName, rvmSpec, coenableSet, isOutermost);
 
-		this.isDefined = mopSpec.isSuffixMatching();
+		this.isDefined = rvmSpec.isSuffixMatching();
 
 		if (this.isDefined) {
-			monitorName = new RVMVariable(mopSpec.getName() + "SuffixMonitor");
+			monitorName = new RVMVariable(rvmSpec.getName() + "SuffixMonitor");
 
 			if (isOutermost) {
-				varInOutermostMonitor = new VarInOutermostMonitor(outputName, mopSpec, mopSpec.getEvents());
-				monitorTermination = new MonitorTermination(outputName, mopSpec, mopSpec.getEvents(), coenableSet);
+				varInOutermostMonitor = new VarInOutermostMonitor(outputName, rvmSpec, rvmSpec.getEvents());
+				monitorTermination = new MonitorTermination(outputName, rvmSpec, rvmSpec.getEvents(), coenableSet);
 			}
 			
-			if (mopSpec.isEnforce())
+			if (rvmSpec.isEnforce())
 			{
 				// TODO Do we need raw monitor for enforcing properties?
-				innerMonitor = new EnforceMonitor(outputName, mopSpec, coenableSet, false);
-				for (PropertyAndHandlers p : mopSpec.getPropertiesAndHandlers()) {
+				innerMonitor = new EnforceMonitor(outputName, rvmSpec, coenableSet, false);
+				for (PropertyAndHandlers p : rvmSpec.getPropertiesAndHandlers()) {
 					int totalHandlers = p.getHandlers().size();
 					if (p.getHandlers().containsKey("deadlock"))
 						totalHandlers--;
@@ -67,14 +67,14 @@ public class SuffixMonitor extends Monitor {
 			}
 			else
 			{
-				if (mopSpec.getPropertiesAndHandlers().size() == 0)
-					innerMonitor = new RawMonitor(outputName, mopSpec, coenableSet, false);
+				if (rvmSpec.getPropertiesAndHandlers().size() == 0)
+					innerMonitor = new RawMonitor(outputName, rvmSpec, coenableSet, false);
 				else		
-					innerMonitor = new BaseMonitor(outputName, mopSpec, coenableSet, false);
+					innerMonitor = new BaseMonitor(outputName, rvmSpec, coenableSet, false);
 			}
-			events = mopSpec.getEvents();
+			events = rvmSpec.getEvents();
 			
-			for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
+			for (PropertyAndHandlers prop : rvmSpec.getPropertiesAndHandlers()) {
 				if(!existSkip){
 					for (String handler : prop.getHandlers().values()) {
 						if (handler.indexOf("__SKIP") != -1){
@@ -92,11 +92,11 @@ public class SuffixMonitor extends Monitor {
 				}
 			}
 		} else {
-			if (mopSpec.isEnforce())
+			if (rvmSpec.isEnforce())
 			{
 				// TODO Do we need raw monitor for enforcing properties?
-				innerMonitor = new EnforceMonitor(outputName, mopSpec, coenableSet, isOutermost);
-				for (PropertyAndHandlers p : mopSpec.getPropertiesAndHandlers()) {
+				innerMonitor = new EnforceMonitor(outputName, rvmSpec, coenableSet, isOutermost);
+				for (PropertyAndHandlers p : rvmSpec.getPropertiesAndHandlers()) {
 					int totalHandlers = p.getHandlers().size();
 					if (p.getHandlers().containsKey("deadlock"))
 						totalHandlers--;
@@ -107,16 +107,16 @@ public class SuffixMonitor extends Monitor {
 			}
 			else
 			{
-				if (mopSpec.getPropertiesAndHandlers().size() == 0)
-					innerMonitor = new RawMonitor(outputName, mopSpec, coenableSet, isOutermost);
+				if (rvmSpec.getPropertiesAndHandlers().size() == 0)
+					innerMonitor = new RawMonitor(outputName, rvmSpec, coenableSet, isOutermost);
 				else		
-					innerMonitor = new BaseMonitor(outputName, mopSpec, coenableSet, isOutermost);
+					innerMonitor = new BaseMonitor(outputName, rvmSpec, coenableSet, isOutermost);
 			}
 		}
 
-		if (this.isDefined && mopSpec.isGeneral()){
-			if(mopSpec.isFullBinding() || mopSpec.isConnected())
-				monitorInfo = new MonitorInfo(mopSpec);
+		if (this.isDefined && rvmSpec.isGeneral()){
+			if(rvmSpec.isFullBinding() || rvmSpec.isConnected())
+				monitorInfo = new MonitorInfo(rvmSpec);
 		}
 	}
 	

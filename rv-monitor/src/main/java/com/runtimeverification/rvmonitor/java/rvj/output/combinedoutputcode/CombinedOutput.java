@@ -128,12 +128,12 @@ public class CombinedOutput {
 	public String categoryVarsDecl() {
 		boolean skipEvent = false;
 		Set<RVMVariable> categoryVars = new HashSet<RVMVariable>();
-		for (RVMonitorSpec mopSpec : this.specs) {
-			if (mopSpec.has__SKIP()) {
+		for (RVMonitorSpec rvmSpec : this.specs) {
+			if (rvmSpec.has__SKIP()) {
 				skipEvent = true;
 			}
-			MonitorSet monitorSet =  monitorSets.get(mopSpec);
-			Monitor monitorClass = monitors.get(mopSpec);
+			MonitorSet monitorSet =  monitorSets.get(rvmSpec);
+			Monitor monitorClass = monitors.get(rvmSpec);
 			categoryVars.addAll(monitorSet.getCategoryVars());
 			categoryVars.addAll(monitorClass.getCategoryVars());
 		}

@@ -40,11 +40,11 @@ public class Advice {
 
 	private boolean isCodeGenerated = false;
 
-	public Advice(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
+	public Advice(RVMonitorSpec rvmSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
 
-		String prefix = Main.merge ? mopSpec.getName() + "_" : "";
+		String prefix = Main.merge ? rvmSpec.getName() + "_" : "";
 		this.pointcutName = new RVMVariable(prefix + event.getId() + "Event");
-		this.inlineFuncName = new RVMVariable("RVMInline" + mopSpec.getName() + "_" + event.getUniqueId());
+		this.inlineFuncName = new RVMVariable("RVMInline" + rvmSpec.getName() + "_" + event.getUniqueId());
 		this.parameters = event.getParametersWithoutThreadVar();
 		this.inlineParameters = event.getRVMParametersWithoutThreadVar();
 
@@ -60,9 +60,9 @@ public class Advice {
 		this.activatorsManager = combinedOutput.activatorsManager;
 		
 		this.globalLock = combinedOutput.lockManager.getLock();
-		this.isSync = mopSpec.isSync();
+		this.isSync = rvmSpec.isSync();
 
-		this.advices.put(event, AdviceBody.createAdviceBody(mopSpec, event, combinedOutput));
+		this.advices.put(event, AdviceBody.createAdviceBody(rvmSpec, event, combinedOutput));
 
 		this.events.add(event);
 		if (event.getCountCond() != null && event.getCountCond().length() != 0) {
@@ -70,9 +70,9 @@ public class Advice {
 		}
 
 		if(event.isStartEvent())
-			specsForActivation.add(mopSpec);
+			specsForActivation.add(rvmSpec);
 		else
-			specsForChecking.add(mopSpec);
+			specsForChecking.add(rvmSpec);
 		
 		this.internalBehaviorObservableGenerator = combinedOutput.getInternalBehaviorObservableGenerator();
 	}
@@ -81,7 +81,7 @@ public class Advice {
 		return pointcutName.getVarName();
 	}
 	
-	public boolean addEvent(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
+	public boolean addEvent(RVMonitorSpec rvmSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
 
 		// Parameter Conflict Check
 		for(RVMParameter param : event.getParametersWithoutThreadVar()){
@@ -105,16 +105,16 @@ public class Advice {
 		}
 
 		// add an advice body.
-		this.advices.put(event, AdviceBody.createAdviceBody(mopSpec, event, combinedOutput));
+		this.advices.put(event, AdviceBody.createAdviceBody(rvmSpec, event, combinedOutput));
 		
 		this.events.add(event);
 		if (event.getCountCond() != null && event.getCountCond().length() != 0) {
 			this.beCounted = true;
 		}
 		if(event.isStartEvent())
-			specsForActivation.add(mopSpec);
+			specsForActivation.add(rvmSpec);
 		else
-			specsForChecking.add(mopSpec);
+			specsForChecking.add(rvmSpec);
 		return true;
 	}
 	
@@ -137,7 +137,7 @@ public class Advice {
 				AdviceBody advice = advices.get(event);
 	
 				if(advices.size() > 1){
-					ret += "//" + advice.mopSpec.getName() + "_" + event.getUniqueId() + "\n";
+					ret += "//" + advice.rvmSpec.getName() + "_" + event.getUniqueId() + "\n";
 				}
 			}
 		} else {
@@ -175,26 +175,26 @@ public class Advice {
 				AdviceBody advice = advices.get(event);
 
 				ret += this.internalBehaviorObservableGenerator.generateEventMethodEnterCode(event);
-				ret += this.statManager.incEvent(advice.mopSpec, event);
+				ret += this.statManager.incEvent(advice.rvmSpec, event);
 
-				if(specsForChecking.contains(advice.mopSpec)){
+				if(specsForChecking.contains(advice.rvmSpec)){
 					if(advices.size() > 1){
-						ret += "//" + advice.mopSpec.getName() + "_" + event.getUniqueId() + "\n";
+						ret += "//" + advice.rvmSpec.getName() + "_" + event.getUniqueId() + "\n";
 					}
 
 					if (Main.suppressActivator)
 						ret += "{\n";
 					else
-						ret += "if (" + activatorsManager.getValue(advice.mopSpec) + ") {\n";
+						ret += "if (" + activatorsManager.getValue(advice.rvmSpec) + ") {\n";
 				} else {
 					if(advices.size() > 1){
-						ret += "//" + advice.mopSpec.getName() + "_" + event.getUniqueId() + "\n";
+						ret += "//" + advice.rvmSpec.getName() + "_" + event.getUniqueId() + "\n";
 						ret += "{\n";
 					}
 				}
 
 				if (Main.statistics) {
-					RVMonitorStatistics stat = this.statManager.getStat(advice.mopSpec);
+					RVMonitorStatistics stat = this.statManager.getStat(advice.rvmSpec);
 					
 					ret += stat.eventInc(event.getId());
 	
@@ -218,7 +218,7 @@ public class Advice {
 					ret += "}\n";
 				}
 				
-				if(specsForChecking.contains(advice.mopSpec)){
+				if(specsForChecking.contains(advice.rvmSpec)){
 					ret += "}\n";
 				} else {
 					if(advices.size() > 1){

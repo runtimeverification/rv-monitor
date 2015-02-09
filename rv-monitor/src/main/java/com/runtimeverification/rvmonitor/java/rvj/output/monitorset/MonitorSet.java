@@ -66,7 +66,7 @@ public class MonitorSet {
 	
 	private GlobalLock monitorLock;
 	
-	private final RVMonitorSpec mopSpec;
+	private final RVMonitorSpec rvmSpec;
 	private IndexingTreeManager indexingTreeManager;
 	private final boolean usePartitionedSet;
 	private TreeMap<RVMParameter, IndexingTreeInterface> treemap;
@@ -78,15 +78,15 @@ public class MonitorSet {
 		return this.usePartitionedSet;
 	}
 
-	public MonitorSet(String name, RVMonitorSpec mopSpec, SuffixMonitor monitor) {
-		this.mopSpec = mopSpec;
+	public MonitorSet(String name, RVMonitorSpec rvmSpec, SuffixMonitor monitor) {
+		this.rvmSpec = rvmSpec;
 
 		this.monitorName = monitor.getOutermostName();
 		this.monitor = monitor;
 		this.setName = new RVMVariable(monitorName + "_Set");
-		this.events = new ArrayList<EventDefinition>(mopSpec.getEvents());
+		this.events = new ArrayList<EventDefinition>(rvmSpec.getEvents());
 
-		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
+		for (PropertyAndHandlers prop : rvmSpec.getPropertiesAndHandlers()) {
 			for (String handler : prop.getHandlers().values()) {
 				if (handler.indexOf("__SKIP") != -1) {
 					existSkip = true;
@@ -200,14 +200,14 @@ public class MonitorSet {
 		
 		// This checks whether each starting event carries all the parameters,
 		// which is necessary to apply the partitioned set.
-		if (this.mopSpec.isGeneral())
+		if (this.rvmSpec.isGeneral())
 			return false;
 		
 		// Probably, partitioned sets can be used for a specification that uses
 		// more than two parameters, but, at this moment, its use is restricted
 		// to a very special case, when there are exactly two parameters. When
 		// there is only one parameter, a set is unnecessary, anyway.
-		RVMParameters params = this.mopSpec.getParameters();
+		RVMParameters params = this.rvmSpec.getParameters();
 		if (params.size() != 2)
 			return false;
 		
@@ -236,7 +236,7 @@ public class MonitorSet {
 					}
 				}
 			}
-			if (accumulated == null || !accumulated.equals(this.mopSpec.getParameters()))
+			if (accumulated == null || !accumulated.equals(this.rvmSpec.getParameters()))
 				return false;
 		}
 		

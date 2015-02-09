@@ -29,25 +29,25 @@ public class RVMOutputCode {
 		packageDecl = new Package(rvmSpecFile);
 		imports = new Imports(rvmSpecFile);
 
-		for (RVMonitorSpec mopSpec : rvmSpecFile.getSpecs()) {
-			EnableSet enableSet = new EnableSet(mopSpec.getEvents(), mopSpec.getParameters());
-			CoEnableSet coenableSet = new CoEnableSet(mopSpec.getEvents(), mopSpec.getParameters());
+		for (RVMonitorSpec rvmSpec : rvmSpecFile.getSpecs()) {
+			EnableSet enableSet = new EnableSet(rvmSpec.getEvents(), rvmSpec.getParameters());
+			CoEnableSet coenableSet = new CoEnableSet(rvmSpec.getEvents(), rvmSpec.getParameters());
 
-			for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
-				enableSet.add(new EnableSet(prop, mopSpec.getEvents(), mopSpec.getParameters()));
-				coenableSet.add(new CoEnableSet(prop, mopSpec.getEvents(), mopSpec.getParameters()));
+			for (PropertyAndHandlers prop : rvmSpec.getPropertiesAndHandlers()) {
+				enableSet.add(new EnableSet(prop, rvmSpec.getEvents(), rvmSpec.getParameters()));
+				coenableSet.add(new CoEnableSet(prop, rvmSpec.getEvents(), rvmSpec.getParameters()));
 			}
 
 			OptimizedCoenableSet optimizedCoenableSet = new OptimizedCoenableSet(coenableSet);
 
-			enableSets.put(mopSpec, enableSet);
-			coenableSets.put(mopSpec, optimizedCoenableSet);
+			enableSets.put(rvmSpec, enableSet);
+			coenableSets.put(rvmSpec, optimizedCoenableSet);
 
-			SuffixMonitor monitor = new SuffixMonitor(mopSpec.getName(), mopSpec, optimizedCoenableSet, true);
+			SuffixMonitor monitor = new SuffixMonitor(rvmSpec.getName(), rvmSpec, optimizedCoenableSet, true);
 
-			monitors.put(mopSpec, monitor);
+			monitors.put(rvmSpec, monitor);
 
-			monitorSets.put(mopSpec, new MonitorSet(mopSpec.getName(), mopSpec, monitor));
+			monitorSets.put(rvmSpec, new MonitorSet(rvmSpec.getName(), rvmSpec, monitor));
 		}
 
 		output = new CombinedOutput(name, rvmSpecFile, monitorSets, monitors, enableSets);

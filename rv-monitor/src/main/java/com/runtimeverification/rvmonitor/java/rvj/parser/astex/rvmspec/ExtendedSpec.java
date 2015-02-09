@@ -19,7 +19,7 @@
 /*
  * Created on 05/10/2006
  */
-package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
+package com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec;
 
 import java.util.ArrayList;
 import java.util.List;

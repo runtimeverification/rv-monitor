@@ -23,20 +23,20 @@ public class EndThread {
 
 	final RVMVariable commonPointcut = new RVMVariable("RVM_CommonPointCut");
 
-	public EndThread(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
+	public EndThread(RVMonitorSpec rvmSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
 		if (!event.isEndThread())
 			throw new RVMException("EndThread should be defined only for an endThread pointcut.");
 
 		this.event = event;
-		this.monitorClass = combinedOutput.monitors.get(mopSpec);
+		this.monitorClass = combinedOutput.monitors.get(rvmSpec);
 		this.globalLock = combinedOutput.lockManager.getLock();
 		
-		this.runnableMap = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_ThreadToRunnable");
-		this.mainThread = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_MainThread");
-		this.mainCounter = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_MainCounter");
-		this.threadSet = new RVMVariable(mopSpec.getName() + "_" + event.getId() + "_ThreadSet");
+		this.runnableMap = new RVMVariable(rvmSpec.getName() + "_" + event.getId() + "_ThreadToRunnable");
+		this.mainThread = new RVMVariable(rvmSpec.getName() + "_" + event.getId() + "_MainThread");
+		this.mainCounter = new RVMVariable(rvmSpec.getName() + "_" + event.getId() + "_MainCounter");
+		this.threadSet = new RVMVariable(rvmSpec.getName() + "_" + event.getId() + "_ThreadSet");
 
-		this.eventBody = AdviceBody.createAdviceBody(mopSpec, event, combinedOutput);
+		this.eventBody = AdviceBody.createAdviceBody(rvmSpec, event, combinedOutput);
 	}
 
 	public EndThread() {

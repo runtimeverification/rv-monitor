@@ -12,10 +12,10 @@ public class MonitorInfo {
 	private final boolean isFullBinding;
 	private final boolean isConnected;
 
-	public MonitorInfo(RVMonitorSpec mopSpec) {
-		this.parameters = mopSpec.getParameters();
-		this.isFullBinding = mopSpec.isFullBinding();
-		this.isConnected = mopSpec.isConnected();
+	public MonitorInfo(RVMonitorSpec rvmSpec) {
+		this.parameters = rvmSpec.getParameters();
+		this.isFullBinding = rvmSpec.isFullBinding();
+		this.isConnected = rvmSpec.isConnected();
 	}
 
 	public String newInfo(RVMVariable monitorVar, RVMParameters vars) {

@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
+package com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisitor;

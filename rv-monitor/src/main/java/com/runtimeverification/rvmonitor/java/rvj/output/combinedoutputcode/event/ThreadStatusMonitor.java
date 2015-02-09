@@ -19,15 +19,15 @@ public class ThreadStatusMonitor extends EndThread{
 	
 	private boolean hasDeadlockHandler = false;
 	
-	public ThreadStatusMonitor(RVMonitorSpec mopSpec, CombinedOutput combinedOutput) {
-		this.monitorClass = combinedOutput.monitors.get(mopSpec);
+	public ThreadStatusMonitor(RVMonitorSpec rvmSpec, CombinedOutput combinedOutput) {
+		this.monitorClass = combinedOutput.monitors.get(rvmSpec);
 		this.monitorName = monitorClass.getOutermostName();
-		this.runnableMap = new RVMVariable(mopSpec.getName() + "_" + eventName + "_ThreadToRunnable");
-		this.mainThread = new RVMVariable(mopSpec.getName() + "_" + eventName + "_MainThread");
-		this.threadSet = new RVMVariable(mopSpec.getName() + "_" + eventName + "_ThreadSet");
+		this.runnableMap = new RVMVariable(rvmSpec.getName() + "_" + eventName + "_ThreadToRunnable");
+		this.mainThread = new RVMVariable(rvmSpec.getName() + "_" + eventName + "_MainThread");
+		this.threadSet = new RVMVariable(rvmSpec.getName() + "_" + eventName + "_ThreadSet");
 		this.globalLock = combinedOutput.lockManager.getLock();
 		
-		List<PropertyAndHandlers> props = mopSpec.getPropertiesAndHandlers();
+		List<PropertyAndHandlers> props = rvmSpec.getPropertiesAndHandlers();
 		for (PropertyAndHandlers p : props) {
 			if (p.getHandlers().containsKey("deadlock"))
 				this.hasDeadlockHandler = true;

@@ -199,7 +199,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	}
 	
 	private Timestamp getTimestamp() {
-		RVMVariable var = this.output.timestampManager.getTimestamp(mopSpec);
+		RVMVariable var = this.output.timestampManager.getTimestamp(rvmSpec);
 		return Timestamp.create(var.getVarName());
 	}
 
@@ -221,18 +221,18 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	private boolean isFullyBound() {
 		// The following is the definition of 'isFullParam' in AdviceBody,
 		// which seems little bit suspicious.
-		// this.isFullParam = eventParams.equals(mopSpec.getParameters());
+		// this.isFullParam = eventParams.equals(rvmSpec.getParameters());
 		
 		// Instead, I'm using the following.
-		return this.event.getParameters().contains(this.mopSpec.getParameters());
+		return this.event.getParameters().contains(this.rvmSpec.getParameters());
 	}
 	
 	private IndexingCacheNew getIndexingTreeCache() {
 		return this.getMatchedIndexingTree().getCache();
 	}
 	
-	public EventMethodBody(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) {
-		super(mopSpec, event, combinedOutput);
+	public EventMethodBody(RVMonitorSpec rvmSpec, EventDefinition event, CombinedOutput combinedOutput) {
+		super(rvmSpec, event, combinedOutput);
 	
 		this.indexingTreesForCopy = indexingDecl.getIndexingTreesForCopy();
 		this.paramPairsForCopy = indexingDecl.getCopyParamForEvent(event);
@@ -241,13 +241,13 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			// Only enforcing case requires a global lock. Here we do not create any lock in
 			// other cases, so that any wrong assumption results in a visible failure.
 			GlobalLock lock = null;
-			if (mopSpec.isEnforce())
+			if (rvmSpec.isEnforce())
 				lock = new GlobalLock(new RVMVariable(combinedOutput.getName() + "." + combinedOutput.lockManager.getLock().getName()));
 			this.enforceLock = lock;
 		}
 
 		{
-			HashSet<RVMParameter> disableprms = this.output.setOfParametersForDisable.get(mopSpec);
+			HashSet<RVMParameter> disableprms = this.output.setOfParametersForDisable.get(rvmSpec);
 			this.strategy = new Strategy(this.event.isStartEvent(), this.isGeneral, this.isFullyBound(), this.eventParams, disableprms);
 		}
 	
@@ -798,7 +798,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 	
 			{
 				RVMParameters sourceprms = pair.getParam2();
-				RVMParameters targetprms = this.mopSpec.getParameters().sortParam(RVMParameters.unionSet(sourceprms, this.eventParams));
+				RVMParameters targetprms = this.rvmSpec.getParameters().sortParam(RVMParameters.unionSet(sourceprms, this.eventParams));
 
 				CodeExpr ifcond = CodeBinOpExpr.isNotNull(sourceresult.getSetOrLeafRef());
 				CodeStmtCollection ifbody;
@@ -899,7 +899,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 			CodeExpr arg = null;
 			if (this.strategy.needsTimeTracking)
 				arg = this.getTimestamp().generateGetAndIncrementCode();
-			MonitorCreationLazyCode create = new MonitorCreationLazyCode(this.getMonitorFeatures(), this.mopSpec.getParameters(), transition.getWeakRefs(), this.getMonitorType(), arg);
+			MonitorCreationLazyCode create = new MonitorCreationLazyCode(this.getMonitorFeatures(), this.rvmSpec.getParameters(), transition.getWeakRefs(), this.getMonitorType(), arg);
 			monitorref = create.getDeclaredMonitorRef();
 			stmts.add(create);
 			

@@ -21,11 +21,11 @@ public class EndProgram {
 		this.className = name + "RuntimeMonitor";
 	}
 
-	public void addEndProgramEvent(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
+	public void addEndProgramEvent(RVMonitorSpec rvmSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
 		if (!event.isEndProgram())
 			throw new RVMException("EndProgram should be defined only for an endProgram pointcut.");
 
-		this.eventBodies.add(AdviceBody.createAdviceBody(mopSpec, event, combinedOutput));
+		this.eventBodies.add(AdviceBody.createAdviceBody(rvmSpec, event, combinedOutput));
 	}
 
 	public void registerEndThreadEvents(ArrayList<EndThread> endThreadEvents) {

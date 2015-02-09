@@ -19,12 +19,12 @@
 
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.EventDefinitionExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.ExtendedSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.FormulaExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.RVMonitorSpecExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.PropertyAndHandlersExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.ReferenceSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.EventDefinitionExt;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ExtendedSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.FormulaExt;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.PropertyAndHandlersExt;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.RVMonitorSpecExt;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ReferenceSpec;
 
 /**
  * @author Julio Vilmar Gesser

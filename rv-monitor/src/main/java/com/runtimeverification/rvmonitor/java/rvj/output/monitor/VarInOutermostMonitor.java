@@ -10,7 +10,7 @@ public class VarInOutermostMonitor {
 //	RVMVariable tau = new RVMVariable("tau");
 //	private final RVMVariable disable;
 
-	public VarInOutermostMonitor(String name, RVMonitorSpec mopSpec, List<EventDefinition> events){
+	public VarInOutermostMonitor(String name, RVMonitorSpec rvmSpec, List<EventDefinition> events){
 		
 		// If weak-reference interning is disabled, we cannot use weak-reference's
 		// 'disable' flag because there can be multiple weak references for the same

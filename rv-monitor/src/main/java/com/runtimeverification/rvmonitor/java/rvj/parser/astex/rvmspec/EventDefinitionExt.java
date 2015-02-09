@@ -1,4 +1,4 @@
-package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
+package com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;

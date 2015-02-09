@@ -23,12 +23,12 @@ public class MonitorTermination {
 	final HashMap<RVMParameter, RVMVariable> references = new HashMap<RVMParameter, RVMVariable>();
 	private TreeMap<String, RefTree> refTrees;
 
-	public MonitorTermination(String name, RVMonitorSpec mopSpec, List<EventDefinition> events, OptimizedCoenableSet coenableSet){
-		this.parameters = mopSpec.getParameters();
+	public MonitorTermination(String name, RVMonitorSpec rvmSpec, List<EventDefinition> events, OptimizedCoenableSet coenableSet){
+		this.parameters = rvmSpec.getParameters();
 		this.events = events;
 		this.coenableSet = coenableSet;
 		
-		this.stat = new RVMonitorStatistics(name, mopSpec);
+		this.stat = new RVMonitorStatistics(name, rvmSpec);
 	}
 	
 	public String getRefType(RVMParameter p){

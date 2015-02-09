@@ -4,7 +4,7 @@ import com.runtimeverification.rvmonitor.java.rvj.JavaParserAdapter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.RVMonitorParser;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Pair;
@@ -30,7 +30,7 @@ class SpecContext {
 }
 
 public class RVMonitorExtender {
-	public static RVMSpecFile translateMopSpecFile(RVMSpecFileExt currentFile) throws RVMException {
+	public static RVMSpecFile translateExtendedSpecFile(RVMSpecFileExt currentFile) throws RVMException {
 		HashMap<String, RVMSpecFileExt> depFiles = new HashMap<String, RVMSpecFileExt>();
 
 		// retrieve all extended parent specification files
@@ -47,7 +47,7 @@ public class RVMonitorExtender {
 		// extend all specifications that the given file contains
 		List<RVMonitorSpec> specList = new ArrayList<RVMonitorSpec>();
 		for (RVMonitorSpecExt spec : currentFile.getSpecs()) {
-			RVMonitorSpec spec2 = translateJavaMopSpec(spec, currentFile, depFiles);
+			RVMonitorSpec spec2 = translateExtendedSpec(spec, currentFile, depFiles);
 			specList.add(spec2);
 		}
 
@@ -55,7 +55,7 @@ public class RVMonitorExtender {
 		return new RVMSpecFile(currentFile.getBeginLine(), currentFile.getBeginColumn(), currentFile.getPakage(), currentFile.getImports(), specList);
 	}
 
-	protected static RVMonitorSpec translateJavaMopSpec(RVMonitorSpecExt spec, RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
+	protected static RVMonitorSpec translateExtendedSpec(RVMonitorSpecExt spec, RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
 			throws RVMException {
 		String declarations;
 		List<EventDefinition> events;

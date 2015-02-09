@@ -52,17 +52,17 @@ public abstract class Monitor {
 
 	TreeMap<String, RefTree> refTrees;
 
-	public Monitor(String outputName, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+	public Monitor(String outputName, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
 		this.outputName = outputName;
 		this.isOutermost = isOutermost;
 
-		this.has__ACTIVITY = mopSpec.has__ACTIVITY();
-		this.has__SKIP = mopSpec.has__SKIP();
+		this.has__ACTIVITY = rvmSpec.has__ACTIVITY();
+		this.has__SKIP = rvmSpec.has__SKIP();
 	
-		this.features = new MonitorFeatures(mopSpec.getParameters());
+		this.features = new MonitorFeatures(rvmSpec.getParameters());
 
 		this.handlersHave__SKIP = false;
-		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
+		for (PropertyAndHandlers prop : rvmSpec.getPropertiesAndHandlers()) {
 			for (String handler : prop.getHandlers().values()) {
 				if (handler.indexOf("__SKIP") != -1){
 					this.handlersHave__SKIP = true;
@@ -70,13 +70,13 @@ public abstract class Monitor {
 			}
 		}
 
-		this.stat = new RVMonitorStatistics(outputName, mopSpec);
+		this.stat = new RVMonitorStatistics(outputName, rvmSpec);
 
 		this.defaultMessage += outputName + " has been violated on line \" + "
 				+ "__LOC" +" + \". Documentation for this property can be found at "
-				+ Util.packageAndNameToUrl(mopSpec.getPackage(), outputName) + "\"";
+				+ Util.packageAndNameToUrl(rvmSpec.getPackage(), outputName) + "\"";
 
-		for (RVMParameter p : mopSpec.getParameters()) {
+		for (RVMParameter p : rvmSpec.getParameters()) {
 			mopRefs.put(p.getName(), new RVMVariable("RVMRef_" + p.getName()));
 		}
 

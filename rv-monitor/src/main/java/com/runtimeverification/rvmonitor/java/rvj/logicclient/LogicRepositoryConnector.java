@@ -19,8 +19,8 @@ import com.runtimeverification.rvmonitor.util.Tool;
 public class LogicRepositoryConnector {
 	public static boolean verbose = false;
 
-	public static LogicRepositoryType process(RVMonitorSpec mopSpec, PropertyAndHandlers prop) throws RVMException {
-		if (mopSpec == null || prop == null)
+	public static LogicRepositoryType process(RVMonitorSpec rvmSpec, PropertyAndHandlers prop) throws RVMException {
+		if (rvmSpec == null || prop == null)
 			throw new RVMException("No annotation specified");
 
 		String formula = "";
@@ -39,7 +39,7 @@ public class LogicRepositoryConnector {
 		logicProperty.setLogic(prop.getProperty().getType());
 
 		logicInputXML.setClient("RVMonitor");
-		logicInputXML.setEvents(mopSpec.getEventStr());
+		logicInputXML.setEvents(rvmSpec.getEventStr());
 		logicInputXML.setCategories(categories);
 		logicInputXML.setProperty(logicProperty);
 

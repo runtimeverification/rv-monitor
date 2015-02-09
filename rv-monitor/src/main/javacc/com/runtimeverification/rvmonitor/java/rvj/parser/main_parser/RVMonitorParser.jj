@@ -29,7 +29,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.*;
 
 /**
  * Grammar to parse Java version 1.5

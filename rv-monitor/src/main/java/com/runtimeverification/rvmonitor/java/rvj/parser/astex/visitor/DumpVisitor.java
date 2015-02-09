@@ -21,8 +21,7 @@ package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.RVMonitorSpecExt;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.*;
 
 /**
  * @author Julio Vilmar Gesser

@@ -23,10 +23,10 @@ public class EnforceMonitor extends BaseMonitor {
 	 * */
 	private String deadlockHandler = null;
 
-	public EnforceMonitor(String outputName, RVMonitorSpec mopSpec,
+	public EnforceMonitor(String outputName, RVMonitorSpec rvmSpec,
 			OptimizedCoenableSet coenableSet, boolean isOutermost)
 			throws RVMException {
-		super(outputName, mopSpec, coenableSet, isOutermost, "Enforcement");
+		super(outputName, rvmSpec, coenableSet, isOutermost, "Enforcement");
 		for (PropertyAndHandlers prop : props) {
 			HashMap<String, String> handlerBodies = prop.getHandlers();
 			String handlerBody = handlerBodies.get("deadlock");

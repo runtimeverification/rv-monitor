@@ -27,33 +27,33 @@ public class RVMProcessor {
 		this.name = name;
 	}
 
-	private void registerUserVar(RVMonitorSpec mopSpec) throws RVMException {
-		for (EventDefinition event : mopSpec.getEvents()) {
+	private void registerUserVar(RVMonitorSpec rvmSpec) throws RVMException {
+		for (EventDefinition event : rvmSpec.getEvents()) {
 			RVMNameSpace.addUserVariable(event.getId());
 			for(RVMParameter param : event.getRVMParameters()){
 				RVMNameSpace.addUserVariable(param.getName());
 			}
 		}
-		for (RVMParameter param : mopSpec.getParameters()) {
+		for (RVMParameter param : rvmSpec.getParameters()) {
 			RVMNameSpace.addUserVariable(param.getName());
 		}
-		RVMNameSpace.addUserVariable(mopSpec.getName());
+		RVMNameSpace.addUserVariable(rvmSpec.getName());
 	}
 
 	public String process(RVMSpecFile rvmSpecFile) throws RVMException {
 		String result;
 
 		// register all user variables to RVMNameSpace to avoid conflicts
-		for(RVMonitorSpec mopSpec : rvmSpecFile.getSpecs())
-			registerUserVar(mopSpec);
+		for(RVMonitorSpec rvmSpec : rvmSpecFile.getSpecs())
+			registerUserVar(rvmSpec);
 
 		// Connect to Logic Repository
-		for(RVMonitorSpec mopSpec : rvmSpecFile.getSpecs()){
-			for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
+		for(RVMonitorSpec rvmSpec : rvmSpecFile.getSpecs()){
+			for (PropertyAndHandlers prop : rvmSpec.getPropertiesAndHandlers()) {
 				// connect to the logic repository and get the logic output
-				LogicRepositoryType logicOutput = LogicRepositoryConnector.process(mopSpec, prop);
+				LogicRepositoryType logicOutput = LogicRepositoryConnector.process(rvmSpec, prop);
 				// get the monitor from the logic shell
-				LogicPluginShellResult logicShellOutput = LogicPluginShellFactory.process(logicOutput, mopSpec.getEventStr(), "java");
+				LogicPluginShellResult logicShellOutput = LogicPluginShellFactory.process(logicOutput, rvmSpec.getEventStr(), "java");
 				prop.setLogicShellOutput(logicShellOutput);
 
 				if (verbose) {
@@ -65,8 +65,8 @@ public class RVMProcessor {
 		}
 
 		// Error Checker
-		for(RVMonitorSpec mopSpec : rvmSpecFile.getSpecs()){
-			RVMErrorChecker.verify(mopSpec);
+		for(RVMonitorSpec rvmSpec : rvmSpecFile.getSpecs()){
+			RVMErrorChecker.verify(rvmSpec);
 		}
 
 		// Generate output code

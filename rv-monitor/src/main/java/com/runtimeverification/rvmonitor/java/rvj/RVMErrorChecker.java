@@ -56,16 +56,16 @@ public class RVMErrorChecker {
     
     /**
      * Verify no two events have the same name and parameter signature.
-     * @param mopSpec The specification object.
+     * @param rvmSpec The specification object.
      * @throws RVMException If two events have the same name and parameter signature.
      */
-    public static void verifySameEventName(RVMonitorSpec mopSpec) throws RVMException {
+    public static void verifySameEventName(RVMonitorSpec rvmSpec) throws RVMException {
         HashMap<String, RVMParameters> nameToParam = new HashMap<String, RVMParameters>();
         
-        for(EventDefinition event : mopSpec.getEvents()){
+        for(EventDefinition event : rvmSpec.getEvents()){
             if(nameToParam.get(event.getId()) != null){
                 if(event.getParameters().equals(nameToParam.get(event.getId()))){
-                    String prettyname = mopSpec.getName() + "." + event.getId();
+                    String prettyname = rvmSpec.getName() + "." + event.getId();
                     throw new RVMException("An event that has the same name and signature has been already defined: " + prettyname);
                 }
             } else {
@@ -76,13 +76,13 @@ public class RVMErrorChecker {
     
     /**
      * Verify there is only one endProgram event.
-     * @param mopSpec The specification object.
+     * @param rvmSpec The specification object.
      * @throws RVMException If there are two endProgram events.
      */
-    public static void verifyUniqueEndProgram(RVMonitorSpec mopSpec) throws RVMException {
+    public static void verifyUniqueEndProgram(RVMonitorSpec rvmSpec) throws RVMException {
         boolean found = false;
         
-        for(EventDefinition event : mopSpec.getEvents()){
+        for(EventDefinition event : rvmSpec.getEvents()){
             if(event.isEndProgram()){
                 if(found)
                     throw new RVMException("There can be only one endProgram event");
@@ -94,11 +94,11 @@ public class RVMErrorChecker {
     
     /**
      * Verify parametric specifications have parameters.
-     * @param mopSpec The specification object.
+     * @param rvmSpec The specification object.
      * @throws RVMException If there is a parametric specification without a parameter.
      */
-    public static void verifyGeneralParametric(RVMonitorSpec mopSpec) throws RVMException {
-        if(mopSpec.isGeneral() && mopSpec.getParameters().size() == 0)
+    public static void verifyGeneralParametric(RVMonitorSpec rvmSpec) throws RVMException {
+        if(rvmSpec.isGeneral() && rvmSpec.getParameters().size() == 0)
             throw new RVMException("[Internal Error] It cannot use general parameteric algorithm when there is no parameter");
     }
     

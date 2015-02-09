@@ -22,25 +22,25 @@ public class RawMonitor extends Monitor{
 	
 	private final UserJavaCode monitorDeclaration;
 
-	public RawMonitor(String outputName, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
-		super(outputName, mopSpec, coenableSet, isOutermost);
+	public RawMonitor(String outputName, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+		super(outputName, rvmSpec, coenableSet, isOutermost);
 		
 		this.isDefined = true;
 
-		this.monitorName = new RVMVariable(mopSpec.getName() + "RawMonitor");
+		this.monitorName = new RVMVariable(rvmSpec.getName() + "RawMonitor");
 
 		if (isOutermost) {
-			varInOutermostMonitor = new VarInOutermostMonitor(outputName, mopSpec, mopSpec.getEvents());
-			monitorTermination = new MonitorTermination(outputName, mopSpec, mopSpec.getEvents(), coenableSet);
+			varInOutermostMonitor = new VarInOutermostMonitor(outputName, rvmSpec, rvmSpec.getEvents());
+			monitorTermination = new MonitorTermination(outputName, rvmSpec, rvmSpec.getEvents(), coenableSet);
 		}
 
-		monitorDeclaration = new UserJavaCode(mopSpec.getDeclarationsStr());
+		monitorDeclaration = new UserJavaCode(rvmSpec.getDeclarationsStr());
 
-		events = mopSpec.getEvents();
+		events = rvmSpec.getEvents();
 		
-		if (this.isDefined && mopSpec.isGeneral()){
-			if(mopSpec.isFullBinding() || mopSpec.isConnected())
-				monitorInfo = new MonitorInfo(mopSpec);
+		if (this.isDefined && rvmSpec.isGeneral()){
+			if(rvmSpec.isFullBinding() || rvmSpec.isConnected())
+				monitorInfo = new MonitorInfo(rvmSpec);
 		}
 	}
 

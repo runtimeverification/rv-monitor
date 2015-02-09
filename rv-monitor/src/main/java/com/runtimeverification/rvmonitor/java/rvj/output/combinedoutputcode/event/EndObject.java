@@ -19,7 +19,7 @@ public class EndObject {
 	
 	private final RVMVariable endObjectSupportType;
 
-	public EndObject(RVMonitorSpec mopSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
+	public EndObject(RVMonitorSpec rvmSpec, EventDefinition event, CombinedOutput combinedOutput) throws RVMException {
 		if (!event.isEndObject())
 			throw new RVMException("EndObject should be defined only for endObject pointcut.");
 
@@ -36,7 +36,7 @@ public class EndObject {
 		if (endParam != null)
 			endParams.add(endParam);
 
-		this.eventBody = AdviceBody.createAdviceBody(mopSpec, event, combinedOutput);
+		this.eventBody = AdviceBody.createAdviceBody(rvmSpec, event, combinedOutput);
 	}
 
 	public String printDecl() {
