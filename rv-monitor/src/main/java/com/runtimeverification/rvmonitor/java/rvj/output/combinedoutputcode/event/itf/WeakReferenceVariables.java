@@ -123,7 +123,7 @@ public class WeakReferenceVariables {
                     .getKey());
             CodeMemberField wrfield = new CodeMemberField(
                     wrfieldname.getVarName(), false, false, false, entry
-                            .getValue().getType());
+                    .getValue().getType());
             CodeFieldRefExpr wrfieldref = new CodeFieldRefExpr(monitorref,
                     wrfield);
 

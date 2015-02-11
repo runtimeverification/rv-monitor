@@ -54,7 +54,7 @@ public abstract class Monitor {
 
     public Monitor(String outputName, RVMonitorSpec rvmSpec,
             OptimizedCoenableSet coenableSet, boolean isOutermost)
-            throws RVMException {
+                    throws RVMException {
         this.outputName = outputName;
         this.isOutermost = isOutermost;
 

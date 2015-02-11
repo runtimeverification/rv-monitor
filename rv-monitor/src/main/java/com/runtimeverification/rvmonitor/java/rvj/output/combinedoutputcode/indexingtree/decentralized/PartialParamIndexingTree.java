@@ -231,7 +231,7 @@ public class PartialParamIndexingTree extends IndexingTree {
     @Override
     public String lookupSet(LocalVariables localVars, String monitorStr,
             String lastMapStr, String lastSetStr, boolean creative)
-            throws RVMException {
+                    throws RVMException {
         String ret = "";
 
         RVMVariable lastMap = localVars.get(lastMapStr);

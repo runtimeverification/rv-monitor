@@ -114,8 +114,8 @@ public class LogicRepositoryConnector {
                     .substring(
                             "jar:file:".length(),
                             logicClassPath.length()
-                            - "!/com/runtimeverification/rvmonitor/logicrepository/Main.class"
-                            .length());
+                                    - "!/com/runtimeverification/rvmonitor/logicrepository/Main.class"
+                                            .length());
             logicJarFilePath = Tool.polishPath(logicJarFilePath);
         } else {
             logicPackageFilePath = logicClassPath.substring("file:".length(),
@@ -135,11 +135,11 @@ public class LogicRepositoryConnector {
                     "java",
                     "-cp",
                     Tool.polishPath(logicJarFilePath) + File.pathSeparator
-                    + logicPluginFarFilePath + File.pathSeparator
-                    + mysqlConnectorPath + File.pathSeparator
-                    + new File(Main.jarFilePath).getParent()
-                    + "/scala-library.jar",
-            "com.runtimeverification.rvmonitor.logicrepository.Main" };
+                            + logicPluginFarFilePath + File.pathSeparator
+                            + mysqlConnectorPath + File.pathSeparator
+                            + new File(Main.jarFilePath).getParent()
+                            + "/scala-library.jar",
+                    "com.runtimeverification.rvmonitor.logicrepository.Main" };
 
             logicOutput_OutputStream = executeProgram(cmdarray, executePath,
                     logicInput_InputStream);
@@ -166,9 +166,9 @@ public class LogicRepositoryConnector {
                     "java",
                     "-cp",
                     Tool.polishPath(executePath) + File.pathSeparator
-                    + mysqlConnectorPath + File.pathSeparator
-                    + scalaPath,
-                    "com.runtimeverification.rvmonitor.logicrepository.Main" };
+                            + mysqlConnectorPath + File.pathSeparator
+                            + scalaPath,
+            "com.runtimeverification.rvmonitor.logicrepository.Main" };
 
             logicOutput_OutputStream = executeProgram(cmdarray, executePath,
                     logicInput_InputStream);

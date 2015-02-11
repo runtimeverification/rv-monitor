@@ -65,7 +65,7 @@ public class CodeStmtCollection implements ICodeGenerator, ICodeVisitable {
     /**
      * Since adding comments is so frequently performed, a shortcut has been
      * created.
-     * 
+     *
      * @param cmt
      *            comment
      */

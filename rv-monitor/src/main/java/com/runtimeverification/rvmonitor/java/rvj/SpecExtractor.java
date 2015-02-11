@@ -30,7 +30,7 @@ public class SpecExtractor {
 
             if (end > -1)
                 content += input.substring(start + 3, end); // 4 means /*@ + a
-                                                            // space
+            // space
             else
                 throw new RVMException("annotation block didn't end");
 

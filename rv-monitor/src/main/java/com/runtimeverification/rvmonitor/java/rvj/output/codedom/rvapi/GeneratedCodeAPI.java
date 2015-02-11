@@ -17,7 +17,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 public class GeneratedCodeAPI {
     /**
      * Generates code that inserts the newly created monitor into the given map.
-     * 
+     *
      * @param mapref
      *            the map where the monitor is inserted
      * @param keyref

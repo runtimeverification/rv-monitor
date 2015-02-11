@@ -14,7 +14,7 @@ public class ActivatorManager {
     public ActivatorManager(String name, List<RVMonitorSpec> specs) {
         for (RVMonitorSpec spec : specs) {
             activators
-                    .put(spec, new RVMVariable(spec.getName() + "_activated"));
+            .put(spec, new RVMVariable(spec.getName() + "_activated"));
         }
     }
 

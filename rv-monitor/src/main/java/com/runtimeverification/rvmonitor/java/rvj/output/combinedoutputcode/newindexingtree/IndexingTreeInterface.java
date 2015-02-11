@@ -128,7 +128,7 @@ public class IndexingTreeInterface implements ICodeGenerator {
      * because combining trees among different specifications has not been
      * implemented and can be tricky. 2. two trees share the same prefixes;
      * e.g., [C,I] and [C] can be merged, but [C,I] and [I] cannot be.
-     * 
+     *
      * @param that
      *            the other indexing tree that can be possibly part of this tree
      * @return true if the passed tree can be part of this tree
@@ -146,7 +146,7 @@ public class IndexingTreeInterface implements ICodeGenerator {
 
     /**
      * Embeds the global weak reference table (GWRT) into this indexing tree.
-     * 
+     *
      * @param refTree
      *            unused
      */
@@ -202,7 +202,7 @@ public class IndexingTreeInterface implements ICodeGenerator {
     /**
      * Retrieves the entry that results from accessing this indexing tree using
      * the provided parameters.
-     * 
+     *
      * @param params
      *            parameters for accessing this indexing tree
      * @return resulting entry

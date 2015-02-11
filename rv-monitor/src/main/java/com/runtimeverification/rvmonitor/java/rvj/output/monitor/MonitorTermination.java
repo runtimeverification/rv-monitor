@@ -88,7 +88,7 @@ public class MonitorTermination {
                             + ";";
                 } else
                     ret += "// " + references.get(param)
-                            + " was suppressed to reduce memory overhead";
+                    + " was suppressed to reduce memory overhead";
                 ret += "\n";
             }
         }
@@ -98,7 +98,7 @@ public class MonitorTermination {
             ret += "//alive_parameters_" + j + " = "
                     + coenableSet.getParameterGroups().get(j) + "\n";
             ret += "boolean " + new RVMVariable("alive_parameters_" + j)
-                    + " = true;\n";
+            + " = true;\n";
         }
         ret += "\n";
 
@@ -117,7 +117,7 @@ public class MonitorTermination {
                 if (coenableSet.getParameterGroups().get(j)
                         .contains(parameters.get(i)))
                     ret += RVMNameSpace.getRVMVar("alive_parameters_" + j)
-                            + " = false;\n";
+                    + " = false;\n";
             }
 
             ret += "break;\n";

@@ -24,7 +24,7 @@ public class EnforceMonitor extends BaseMonitor {
 
     public EnforceMonitor(String outputName, RVMonitorSpec rvmSpec,
             OptimizedCoenableSet coenableSet, boolean isOutermost)
-            throws RVMException {
+                    throws RVMException {
         super(outputName, rvmSpec, coenableSet, isOutermost, "Enforcement");
         for (PropertyAndHandlers prop : props) {
             HashMap<String, String> handlerBodies = prop.getHandlers();
@@ -38,9 +38,9 @@ public class EnforceMonitor extends BaseMonitor {
     }
 
     /**
-     * 
+     *
      * Print callback class declaration
-     * 
+     *
      * */
     @Override
     public String printExtraDeclMethods() {
@@ -61,9 +61,9 @@ public class EnforceMonitor extends BaseMonitor {
     }
 
     /**
-     * 
+     *
      * notify all the other waiting threads after an event was executed
-     * 
+     *
      * */
     @Override
     public String afterEventMethod(RVMVariable monitor,
@@ -77,10 +77,10 @@ public class EnforceMonitor extends BaseMonitor {
     }
 
     /**
-     * 
+     *
      * Clone the main monitor, and check whether executing current event on the
      * cloned monitor will incur failure or not
-     * 
+     *
      * */
     @Override
     public String beforeEventMethod(RVMVariable monitor,

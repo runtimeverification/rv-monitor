@@ -23,7 +23,7 @@ public class EndProgram {
 
     public void addEndProgramEvent(RVMonitorSpec rvmSpec,
             EventDefinition event, CombinedOutput combinedOutput)
-            throws RVMException {
+                    throws RVMException {
         if (!event.isEndProgram())
             throw new RVMException(
                     "EndProgram should be defined only for an endProgram pointcut.");

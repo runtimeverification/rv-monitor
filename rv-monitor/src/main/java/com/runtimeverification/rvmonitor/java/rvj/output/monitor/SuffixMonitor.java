@@ -45,7 +45,7 @@ public class SuffixMonitor extends Monitor {
 
     public SuffixMonitor(String outputName, RVMonitorSpec rvmSpec,
             OptimizedCoenableSet coenableSet, boolean isOutermost)
-            throws RVMException {
+                    throws RVMException {
         super(outputName, rvmSpec, coenableSet, isOutermost);
 
         this.isDefined = rvmSpec.isSuffixMatching();

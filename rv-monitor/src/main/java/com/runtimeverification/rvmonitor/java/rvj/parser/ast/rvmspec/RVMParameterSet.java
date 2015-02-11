@@ -18,7 +18,7 @@ public class RVMParameterSet implements Iterable<RVMParameters> {
 
     /**
      * Find a parameter set with the same parameters in paramSet
-     * 
+     *
      * @param set
      *            a list of parameters
      */

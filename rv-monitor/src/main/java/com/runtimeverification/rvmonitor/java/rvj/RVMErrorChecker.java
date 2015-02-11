@@ -16,7 +16,7 @@ public class RVMErrorChecker {
 
     /**
      * Verify some properties about a {@link RVMonitorSpec}.
-     * 
+     *
      * @param rvMonitorSpec
      *            The specification to verify.
      * @throws RVMException
@@ -49,7 +49,7 @@ public class RVMErrorChecker {
 
     /**
      * Verify every proprety has an associated handler.
-     * 
+     *
      * @param prop
      *            The object containing properties and handlers.
      * @throws RVMException
@@ -68,7 +68,7 @@ public class RVMErrorChecker {
 
     /**
      * Verify no two events have the same name and parameter signature.
-     * 
+     *
      * @param rvmSpec
      *            The specification object.
      * @throws RVMException
@@ -95,7 +95,7 @@ public class RVMErrorChecker {
 
     /**
      * Verify there is only one endProgram event.
-     * 
+     *
      * @param rvmSpec
      *            The specification object.
      * @throws RVMException
@@ -118,7 +118,7 @@ public class RVMErrorChecker {
 
     /**
      * Verify parametric specifications have parameters.
-     * 
+     *
      * @param rvmSpec
      *            The specification object.
      * @throws RVMException
@@ -133,7 +133,7 @@ public class RVMErrorChecker {
 
     /**
      * Verify endProgram events don't have parameters.
-     * 
+     *
      * @param event
      *            The event to verify.
      * @throws RVMException
@@ -149,7 +149,7 @@ public class RVMErrorChecker {
     /**
      * Verify endThread parameters only can include the associated Thread
      * variable.
-     * 
+     *
      * @param event
      *            The event to verify.
      * @throws RVMException

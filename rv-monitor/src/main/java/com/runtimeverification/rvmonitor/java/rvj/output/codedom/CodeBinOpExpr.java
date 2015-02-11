@@ -112,7 +112,7 @@ public class CodeBinOpExpr extends CodeExpr {
         case IDENTICAL:
         case NOTIDENTICAL:
             if (this.lhs != CodeLiteralExpr.nul()
-                    && this.rhs != CodeLiteralExpr.nul()) {
+            && this.rhs != CodeLiteralExpr.nul()) {
                 if (!this.lhs.type.equals(this.rhs.type))
                     throw new NotImplementedException();
             }

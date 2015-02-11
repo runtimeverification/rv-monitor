@@ -6,23 +6,22 @@ import com.runtimeverification.rvmonitor.logicpluginshells.pda.visitor.DumpVisit
 import com.runtimeverification.rvmonitor.logicpluginshells.pda.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.logicpluginshells.pda.visitor.VoidVisitor;
 
-
 public class State {
-	String state;
-	ArrayList<StackSymbol> queue;
+    String state;
+    ArrayList<StackSymbol> queue;
 
-	public State(String state, ArrayList<StackSymbol> queue) {
-		this.state = state;
-		this.queue = queue;
-	}
+    public State(String state, ArrayList<StackSymbol> queue) {
+        this.state = state;
+        this.queue = queue;
+    }
 
-	public String getState() {
-		return state;
-	}
-	
-	public ArrayList<StackSymbol> getQueue(){
-		return queue;
-	}
+    public String getState() {
+        return state;
+    }
+
+    public ArrayList<StackSymbol> getQueue() {
+        return queue;
+    }
 
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);
@@ -39,14 +38,14 @@ public class State {
         return formula;
     }
 
-	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof State))
-			return false;
-		if (!state.equals(((State) o).getState()))
-			return false;
-		
-		return queue.equals(((State) o).getQueue());
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof State))
+            return false;
+        if (!state.equals(((State) o).getState()))
+            return false;
+
+        return queue.equals(((State) o).getQueue());
+    }
 
 }

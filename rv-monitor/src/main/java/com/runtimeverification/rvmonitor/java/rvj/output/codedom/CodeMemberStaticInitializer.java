@@ -14,7 +14,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeGen
  * @author Choonghwan Lee <clee83@illinois.edu>
  */
 public class CodeMemberStaticInitializer extends CodeMember implements
-        ICodeGenerator {
+ICodeGenerator {
     private CodeStmtCollection body;
 
     public CodeMemberStaticInitializer(CodeStmtCollection body) {

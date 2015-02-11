@@ -9,7 +9,7 @@ import java.util.List;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.BaseTypePattern;
 
 public class RVMParameters implements Iterable<RVMParameter>,
-        Comparable<RVMParameters> {
+Comparable<RVMParameters> {
 
     private final ArrayList<RVMParameter> parameters;
 
@@ -90,7 +90,7 @@ public class RVMParameters implements Iterable<RVMParameter>,
 
     /**
      * Find a parameter with the given name
-     * 
+     *
      * @param name
      *            a parameter name
      */
@@ -166,7 +166,7 @@ public class RVMParameters implements Iterable<RVMParameter>,
     /**
      * Compare a list of parameters with this one to see if they contains the
      * same parameters
-     * 
+     *
      * @param set
      *            MoPParameters
      */

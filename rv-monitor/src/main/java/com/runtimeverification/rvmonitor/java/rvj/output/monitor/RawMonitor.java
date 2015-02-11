@@ -28,7 +28,7 @@ public class RawMonitor extends Monitor {
 
     public RawMonitor(String outputName, RVMonitorSpec rvmSpec,
             OptimizedCoenableSet coenableSet, boolean isOutermost)
-            throws RVMException {
+                    throws RVMException {
         super(outputName, rvmSpec, coenableSet, isOutermost);
 
         this.isDefined = true;

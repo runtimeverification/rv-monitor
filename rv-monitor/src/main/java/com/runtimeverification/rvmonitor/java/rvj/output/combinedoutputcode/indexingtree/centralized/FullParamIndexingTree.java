@@ -72,7 +72,7 @@ public class FullParamIndexingTree extends IndexingTree {
         return ret;
         /*
          * RefTree tree = this.refTrees.get(ref.getType().getOp());
-         * 
+         *
          * String ret = ""; ret += "{\n"; ret +=
          * "rvmonitorrt.map.hashentry.EntryPair pair = " + map +
          * ".getMapStrong(" + ref.getName() + ");\n"; ret +=
@@ -99,7 +99,7 @@ public class FullParamIndexingTree extends IndexingTree {
 
         if (Main.useWeakRefInterning)
             ret += obj.getType() + " " + obj.getName() + " = " + tempMap
-                    + ".getMap(" + tempRef + ");\n";
+            + ".getMap(" + tempRef + ");\n";
         else
             ret += getGetMapStrongRefCode(obj, tempMap, p, tempRef,
                     localVars.getTempRefType(p));
@@ -146,7 +146,7 @@ public class FullParamIndexingTree extends IndexingTree {
 
         if (Main.useWeakRefInterning)
             ret += obj.getType() + " " + obj.getName() + " = " + tempMap
-                    + ".getMap(" + tempRef + ");\n";
+            + ".getMap(" + tempRef + ");\n";
         else
             ret += this.getGetMapStrongRefCode(obj, tempMap, p, tempRef, null);
 
@@ -193,7 +193,7 @@ public class FullParamIndexingTree extends IndexingTree {
                 weakref.getVarName(), createWeakRef);
         /*
          * RefTree tree = this.refTrees.get(ref.getType().getOp());
-         * 
+         *
          * String ret = ""; ret += "{\n"; ret +=
          * "rvmonitorrt.map.hashentry.EntryPair pair = " + map +
          * ".getNodeStrong(" + ref.getName() + ");\n"; ret +=

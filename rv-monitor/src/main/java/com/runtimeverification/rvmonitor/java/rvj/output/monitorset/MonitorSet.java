@@ -130,7 +130,7 @@ public class MonitorSet {
      * Initializes the 'treemap' field based on the provided argument. This
      * method does not assume that each indexing tree has its own
      * implementation. Thus, what this method can do is restricted.
-     * 
+     *
      * @param indexingTreeDecl
      */
     public void feedIndexingTreeInterface(IndexingDeclNew indexingTreeDecl) {
@@ -155,7 +155,7 @@ public class MonitorSet {
     /**
      * Initializes the 'treefields' field based on the provided argument. This
      * method assumes that implementations of indexing trees are initialized.
-     * 
+     *
      * @param indexingTreeDecl
      */
     public void feedIndexingTreeImplementation(IndexingDeclNew indexingTreeDecl) {
@@ -367,15 +367,15 @@ public class MonitorSet {
         CodeExpr invokesuper = new CodeMethodInvokeExpr(CodeType.foid(), null,
                 "super", new CodeMethodInvokeExpr(CodeType.integer(),
                         monitortype, null, "getNumberOfStates"),
-                new CodeMethodInvokeExpr(CodeType.integer(), monitortype, null,
-                        "getNumberOfEvents"));
+                        new CodeMethodInvokeExpr(CodeType.integer(), monitortype, null,
+                                "getNumberOfEvents"));
         stmts.add(new CodeExprStmt(invokesuper));
 
         // Keep the maps that point to the pair set.
         for (CodeMemberField field : this.treefields.values()) {
             CodeStmt assign = new CodeAssignStmt(new CodeFieldRefExpr(
                     new CodeThisRefExpr(settype), field), new CodeVarRefExpr(
-                    new CodeVariable(field.getType(), field.getName())));
+                            new CodeVariable(field.getType(), field.getName())));
             stmts.add(assign);
         }
 

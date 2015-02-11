@@ -51,7 +51,7 @@ public class Main {
      * specification files. If {@link outputDir} is already set, use that. If
      * the input files are all in the same directory, return that directory.
      * Otherwise, return the current directory.
-     * 
+     *
      * @param specFiles
      *            The specification files used in the input.
      * @return The place to put the output files.
@@ -120,7 +120,7 @@ public class Main {
     /**
      * Aggregate and process multiple specification files to generate a runtime
      * monitor file.
-     * 
+     *
      * @param specFiles
      *            All the file objects used to construct the monitor object.
      */
@@ -172,7 +172,7 @@ public class Main {
 
     /**
      * Write an output file with the given content and name.
-     * 
+     *
      * @param outputContent
      *            The text to write into the file.
      * @param outputName
@@ -197,7 +197,7 @@ public class Main {
 
     /**
      * Reformat a path to deal with platform-specific oddities.
-     * 
+     *
      * @param path
      *            The path to clean up.
      * @return A cleaned up path.
@@ -211,7 +211,7 @@ public class Main {
 
     /**
      * Filter to Java and RVM files and construct their full paths.
-     * 
+     *
      * @param files
      *            An array of files that might be involved.
      * @param path
@@ -254,7 +254,7 @@ public class Main {
 
     /**
      * Process an array of files at a base path.
-     * 
+     *
      * @param files
      *            All the files to consider when producing output.
      * @param path
@@ -275,7 +275,7 @@ public class Main {
             for (File file : specFiles) {
                 String location = outputDir == null ? file.getAbsolutePath()
                         : outputDir.getAbsolutePath() + File.separator
-                                + file.getName();
+                        + file.getName();
 
                 System.out.println("-Processing " + file.getPath());
                 processSpecFile(file, location);
@@ -285,7 +285,7 @@ public class Main {
 
     /**
      * Process a semicolon-separated list of files.
-     * 
+     *
      * @param arg
      *            A list of files, separated by semicolons.
      */
@@ -303,33 +303,33 @@ public class Main {
      */
     public static void print_help_ext() {
         System.out
-                .println("Usage: java [-cp rv_monitor_classpath] com.runtimeverification.rvmonitor.java.rvj.Main [-options] files");
+        .println("Usage: java [-cp rv_monitor_classpath] com.runtimeverification.rvmonitor.java.rvj.Main [-options] files");
         System.out.println("");
         System.out
-                .println(" Options enabled by default are prefixed with \'+\'");
+        .println(" Options enabled by default are prefixed with \'+\'");
         System.out.println("    -h --help\t\t\t  print this help message");
         System.out
-                .println("    --version\t\t\t  display RV-Monitor version information");
+        .println("    --version\t\t\t  display RV-Monitor version information");
         System.out.println("    -v | --verbose\t\t  enable verbose output");
         System.out.println("    --debug\t\t\t  enable verbose error message");
         System.out.println();
 
         System.out
-                .println("    -d <output path>\t\t  select directory to store output files");
+        .println("    -d <output path>\t\t  select directory to store output files");
         System.out
-                .println("    -n <name>\t\t\t  use the given class name instead of source code name");
+        .println("    -n <name>\t\t\t  use the given class name instead of source code name");
         System.out.println();
 
         System.out
-                .println("    -s | --statistics\t\t  generate monitor with statistics");
+        .println("    -s | --statistics\t\t  generate monitor with statistics");
         System.out
-                .println("    --noopt1\t\t\t  don't use the enable set optimization");
+        .println("    --noopt1\t\t\t  don't use the enable set optimization");
         System.out.println();
 
         System.out
-                .println("    --finegrainedlock\t\t  use fine-grained lock for internal data structure");
+        .println("    --finegrainedlock\t\t  use fine-grained lock for internal data structure");
         System.out
-                .println("    --weakrefinterning\t\t  use WeakReference interning in indexing trees");
+        .println("    --weakrefinterning\t\t  use WeakReference interning in indexing trees");
         System.out.println();
 
     }
@@ -339,11 +339,11 @@ public class Main {
      */
     public static void print_help() {
         System.out
-                .println("Usage: java [-cp rv_monitor_classpath] com.runtimeverification.rvmonitor.java.rvj.Main [-options] files");
+        .println("Usage: java [-cp rv_monitor_classpath] com.runtimeverification.rvmonitor.java.rvj.Main [-options] files");
         System.out.println("\n");
         System.out.println("    -h --help\t\t\t  print this help message\n");
         System.out
-                .println("    --version\t\t\t  display RV-Monitor version information\n");
+        .println("    --version\t\t\t  display RV-Monitor version information\n");
         System.out.println("    -v | --verbose\t\t  enable verbose output\n");
         System.out.println("    --debug\t\t\t  enable verbose error message");
         System.out.println();
@@ -351,7 +351,7 @@ public class Main {
 
     /**
      * Run Java RV-Monitor on some files.
-     * 
+     *
      * @param args
      *            The command-line arguments.
      */
@@ -369,8 +369,8 @@ public class Main {
                     .substring(
                             "jar:file:".length(),
                             mainClassPath.length()
-                                    - "!/com/runtimeverification/rvmonitor/java/rvj/Main.class"
-                                            .length());
+                            - "!/com/runtimeverification/rvmonitor/java/rvj/Main.class"
+                            .length());
             jarFilePath = polishPath(jarFilePath);
         }
 

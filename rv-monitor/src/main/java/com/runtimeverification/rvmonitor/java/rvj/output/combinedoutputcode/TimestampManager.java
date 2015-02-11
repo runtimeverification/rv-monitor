@@ -35,7 +35,7 @@ public class TimestampManager {
         for (RVMVariable timestamp : timestamps.values()) {
             if (Main.useFineGrainedLock)
                 ret += "private static final AtomicLong " + timestamp
-                        + " = new AtomicLong(1);\n";
+                + " = new AtomicLong(1);\n";
             else
                 ret += "private static long " + timestamp + " = 1;\n";
         }

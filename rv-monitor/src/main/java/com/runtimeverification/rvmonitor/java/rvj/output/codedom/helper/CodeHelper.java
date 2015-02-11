@@ -38,7 +38,7 @@ public class CodeHelper {
         /**
          * This method creates a variable used to store all the intermediate
          * nodes while reaching the needed entry.
-         * 
+         *
          * @param type
          *            the type of the resulting variable
          * @param query

@@ -81,7 +81,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 
         if (Main.useWeakRefInterning)
             ret += obj.getType() + " " + obj.getName() + " = " + tempMap
-                    + ".getMap(" + tempRef + ");\n";
+            + ".getMap(" + tempRef + ");\n";
         else
             ret += this.getGetMapStrongRefCode(p, tempRef, tempMap, obj);
 
@@ -134,7 +134,7 @@ public class PartialParamIndexingTree extends IndexingTree {
 
         if (Main.useWeakRefInterning)
             ret += obj.getType() + " " + obj.getName() + " = " + tempMap
-                    + ".getMap(" + tempRef + ");\n";
+            + ".getMap(" + tempRef + ");\n";
         else
             ret += this.getGetMapStrongRefCode(p, tempRef, tempMap, obj);
 
@@ -441,7 +441,7 @@ public class PartialParamIndexingTree extends IndexingTree {
         return ret;
         /*
          * RefTree tree = this.refTrees.get(p.getType().getOp());
-         * 
+         *
          * String ret = ""; ret += "{\n"; ret +=
          * "rvmonitorrt.map.hashentry.EntryPair pair = " + tempMap + "." +
          * methodname + "(" + p.getName() + ");\n"; ret +=

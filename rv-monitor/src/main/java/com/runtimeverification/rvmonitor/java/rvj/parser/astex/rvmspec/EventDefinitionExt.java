@@ -50,14 +50,14 @@ public class EventDefinitionExt extends ExtNode {
      * block, startEvent); } }
      */
     /**
-     * 
+     *
      * A new constructor for blocking event
-     * 
+     *
      * */
     public EventDefinitionExt(int line, int column, String id,
             List<RVMParameter> parameters, String block, boolean startEvent,
             boolean isBlockingEvent)
-            throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+                    throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
         super(line, column);
         this.id = id;
         this.parameters = new RVMParameters(parameters);
@@ -89,8 +89,8 @@ public class EventDefinitionExt extends ExtNode {
         this.duplicated = e.isDuplicated(); // will be defined in RVMonitorSpec
         this.uniqueId = e.getUniqueId(); // will be defined in RVMonitorSpec
         this.rvmParametersOnSpec = e.getRVMParametersOnSpec(); // will be
-                                                               // defined in
-                                                               // RVMonitorSpec
+        // defined in
+        // RVMonitorSpec
 
         this.parametersWithoutThreadVar = e.getParametersWithoutThreadVar();
         this.cachedHas__SKIP = e.isCashedHas__SKIP();

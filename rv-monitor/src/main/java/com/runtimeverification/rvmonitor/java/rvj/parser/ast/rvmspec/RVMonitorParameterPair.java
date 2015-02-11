@@ -1,7 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec;
 
 public class RVMonitorParameterPair implements
-        Comparable<RVMonitorParameterPair> {
+Comparable<RVMonitorParameterPair> {
     private final RVMParameters param1;
     private final RVMParameters param2;
 

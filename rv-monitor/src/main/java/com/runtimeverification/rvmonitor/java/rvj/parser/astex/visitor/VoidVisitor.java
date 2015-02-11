@@ -30,8 +30,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.Reference
  * @author Julio Vilmar Gesser
  */
 public interface VoidVisitor<A>
-        extends
-        com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor<A> {
+extends
+com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor<A> {
 
     // All extended componenets
 

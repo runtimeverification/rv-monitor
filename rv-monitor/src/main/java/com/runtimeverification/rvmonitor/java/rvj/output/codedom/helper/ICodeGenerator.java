@@ -12,7 +12,7 @@ public interface ICodeGenerator {
      * have any side-effect. Although the current implementation does not invoke
      * this method multiple times, it would be great to conform to the
      * convention.
-     * 
+     *
      * @param fmt
      *            formatter to be used to dump code
      */

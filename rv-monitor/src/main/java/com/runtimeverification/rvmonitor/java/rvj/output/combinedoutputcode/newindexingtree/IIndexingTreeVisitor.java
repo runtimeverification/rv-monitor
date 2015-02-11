@@ -45,7 +45,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParamete
 public interface IIndexingTreeVisitor {
     /**
      * Invoked when a node is about to be visited.
-     * 
+     *
      * @param entry
      *            entry that is about to be visited
      * @param parentref
@@ -63,7 +63,7 @@ public interface IIndexingTreeVisitor {
 
     /**
      * Invoked when a node has been visited.
-     * 
+     *
      * @param entry
      *            entry that has been visited
      * @param entryref
@@ -82,7 +82,7 @@ public interface IIndexingTreeVisitor {
      * Invoked when the second-last node is reached. This moment may be
      * important to insert a new monitor into a set or map because the last
      * entry would be the monitor itself.
-     * 
+     *
      * @param entry
      *            the second-last node
      * @param entryref
@@ -94,7 +94,7 @@ public interface IIndexingTreeVisitor {
     /**
      * Invoked when the last node is reached. This moment may be important to
      * insert a new monitor into a tuple at the leaf.
-     * 
+     *
      * @param entry
      *            the second-last node
      * @param entryref

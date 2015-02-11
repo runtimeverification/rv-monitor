@@ -9,8 +9,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParamete
 import com.runtimeverification.rvmonitor.util.RVMException;
 
 public class NoParamIndexingTree
-        extends
-        com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.centralized.NoParamIndexingTree {
+extends
+com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.centralized.NoParamIndexingTree {
     public NoParamIndexingTree(String outputName, RVMParameters queryParam,
             RVMParameters contentParam, RVMParameters fullParam,
             MonitorSet monitorSet, SuffixMonitor monitor,

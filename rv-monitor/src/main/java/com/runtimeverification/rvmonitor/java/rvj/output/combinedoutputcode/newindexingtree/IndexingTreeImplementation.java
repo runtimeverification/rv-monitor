@@ -96,7 +96,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 
     /**
      * Creates an instance of IndexingTreeImplementation.
-     * 
+     *
      * @param master
      *            master interface
      * @param outputName
@@ -148,7 +148,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
     /**
      * Creates a new implementation by combining two existing implementations.
      * The caller should guarantee that the two implementations are combined.
-     * 
+     *
      * @param superimpl
      *            implementation that subsumes the subimpl
      * @param subimpl
@@ -166,7 +166,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
     /**
      * Tells this implementation that global weak reference table (GWRT) should
      * be embeded.
-     * 
+     *
      * @param refTree
      *            unused
      * @param specParams
@@ -197,7 +197,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
     /**
      * This method creates an empty block and puts the provided body into it, in
      * order to avoid potential name clashes.
-     * 
+     *
      * @param body
      *            the body that will be put inside of the empty block
      * @param comment
@@ -296,7 +296,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
     /**
      * Returns the exact type of this indexing tree. The returned type can be
      * used to declare this tree in the generated code.
-     * 
+     *
      * @return the type of this indexing tree
      */
     public CodeType getCodeType() {
@@ -306,7 +306,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
     /**
      * Retrieves the entry that results from accessing this indexing tree using
      * the provided parameters.
-     * 
+     *
      * @param params
      *            parameters for accessing this indexing tree
      * @return resulting entry
@@ -325,7 +325,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
      * indexing tree. What the user typically needs to do is to create an
      * anonymous class from this class and overrides methods if some code should
      * be inserted at that particular moment.
-     * 
+     *
      * In RV-Monitor, this class (or its subclass) is invoked by an
      * implementation of IIndexingTreeVisitor while it is visiting nodes. The
      * separation of the visitor and the inserter was made because visiting
@@ -341,7 +341,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          * Allows the user to insert code at the second last map. By the second
          * last map, we mean the map that lies right before the leaf node; i.e.,
          * there is no more map below this.
-         * 
+         *
          * @param mapref
          *            reference to the second last map
          * @return code to be added
@@ -354,7 +354,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          * Allows the user to insert code at the last entry. By the last entry,
          * we mean there is no entry below this. This also implies that this
          * entry does not contain any map.
-         * 
+         *
          * @param entry
          *            the last entry
          * @param entryref
@@ -368,7 +368,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
         /**
          * Allows the user to insert code at the last field (such as map, set or
          * leaf).
-         * 
+         *
          * @param entry
          *            the last entry that includes the provided field
          * @param contextref
@@ -382,7 +382,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 
     /**
      * This enumeration represents the kind of an access in an indexing tree.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      * @see Entry
      */
@@ -392,7 +392,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 
     /**
      * This enumeration represents the kind of a leaf.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      * @see Entry
      */
@@ -403,7 +403,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
     /**
      * This enumeration indiciates whether an event always, possibly or never
      * creates a monitor.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      * @see Entry
      */
@@ -490,7 +490,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          * bound, event type and whether time tracking is needed. This method
          * calls Level.determine(), which can call this method recursively, to
          * construct all the necessary entries and levels.
-         * 
+         *
          * @param params
          *            parameter list used to query the indexing tree
          * @param set
@@ -569,7 +569,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
         /**
          * Joins two entries. The caller should guarantee that two entries can
          * be joined. This method is used when two indexing trees are combined.
-         * 
+         *
          * @param entry1
          *            one entry
          * @param entry2
@@ -676,7 +676,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          * starts from 1, which corresponds to the getValue1() method. When a
          * tuple is not used, because the value holds a single object, this
          * method returns 0.
-         * 
+         *
          * @param access
          *            access kind
          * @return 0 if no tuples are used; or a non-zero index in a tuple for
@@ -765,7 +765,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          * Generates code for accessing a specific field from the given entry.
          * If the entry has only a single field (i.e., the type is not Tuple2 or
          * Tuple3), this method does not do anything.
-         * 
+         *
          * @param entryref
          *            entry where the field is retrieved
          * @param access
@@ -798,7 +798,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
         /**
          * Generates code for accessing a specific field from the given entry
          * without introducing any variable.
-         * 
+         *
          * @param entryref
          *            entry where the field is retrieved
          * @param access
@@ -823,7 +823,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
 
         /**
          * Generates code for setting a value in the field.
-         * 
+         *
          * @param entryref
          *            entry where the field is retrieved
          * @param access
@@ -853,7 +853,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
         /**
          * Generates code for retrieving the node that corresponds to the given
          * parameter in the indexing tree.
-         * 
+         *
          * @param usestrongref
          *            true if one wants to look up using a strong reference
          *            rather than a weak reference
@@ -896,7 +896,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          * tree. Typically, this method is used to generate code by visiting
          * each node. One can customize the generated code by providing
          * different visitors.
-         * 
+         *
          * @param queryprms
          *            parameters for the query
          * @param index
@@ -965,7 +965,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          * tree. Typically, this method is used to generate code by visiting
          * each node. One can customize the generated code by providing
          * different visitors.
-         * 
+         *
          * @param queryprms
          *            parameters for the query
          * @param specprms
@@ -1164,7 +1164,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
      * levels. For example, consider a two-level indexing map: the first level
      * being [Collection -> {Map, Set}] and the second level being [Iterator ->
      * Monitor]. Then, two levels will be created as follows:
-     * 
+     *
      * <pre>
      *              Level
      * +-----------------+
@@ -1210,7 +1210,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          * bound, event type and whether time tracking is needed. This method
          * calls Entry.determine(), which can call this method recursively, to
          * construct all the necessary levels and entries.
-         * 
+         *
          * @param params
          *            parameter list used to query the indexing tree
          * @param set
@@ -1241,7 +1241,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
         /**
          * Joins two levels. The caller should guarantee that two levels can be
          * joined. This method is used when two indexing trees are combined.
-         * 
+         *
          * @param level1
          *            one level
          * @param level2

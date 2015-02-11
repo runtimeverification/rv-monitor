@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008 Feng Chen.
- * 
+ *
  * This file is part of RV Monitor parser.
  *
  * RV Monitor is free software: you can redistribute it and/or modify
@@ -19,8 +19,11 @@
 
 package com.runtimeverification.rvmonitor.logicpluginshells.tfsm.visitor;
 
-
-import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.ast.*;
+import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.ast.FSMAlias;
+import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.ast.FSMInput;
+import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.ast.FSMItem;
+import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.ast.FSMTransition;
+import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.ast.Node;
 
 /**
  * @author Julio Vilmar Gesser
@@ -28,13 +31,13 @@ import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.ast.*;
 public interface VoidVisitor<A> {
 
     public void visit(Node n, A arg);
-    
+
     public void visit(FSMInput f, A arg);
-    
+
     public void visit(FSMItem i, A arg);
-    
+
     public void visit(FSMAlias a, A arg);
-    
+
     public void visit(FSMTransition t, A arg);
 
 }

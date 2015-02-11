@@ -142,9 +142,9 @@ public class ThreadStatusMonitor extends EndThread {
     }
 
     /**
-     * 
+     *
      * Print a helper method used to check whether a thread is blocked or not.
-     * 
+     *
      * */
     public String printContainsBlockedThread() {
         String ret = "";
@@ -164,10 +164,10 @@ public class ThreadStatusMonitor extends EndThread {
     }
 
     /**
-     * 
+     *
      * Print a helper method used to check whether a thread is contained in the
      * threadSet.
-     * 
+     *
      * */
     public String printContainsThread() {
         String ret = "";

@@ -69,7 +69,7 @@ public class CodeRVType extends CodeType {
 
     /**
      * This class represents an object that can be used as a leaf.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      */
     public static abstract class Leaf extends CodeRVType {
@@ -81,7 +81,7 @@ public class CodeRVType extends CodeType {
     /**
      * This class corresponds to an interface generated when a leaf can hold
      * either a Monitor instance or a DisableHolder instance.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      */
     public static class Interface extends Leaf {
@@ -106,7 +106,7 @@ public class CodeRVType extends CodeType {
 
     /**
      * This class corresponds the DisableHolder class in the runtime library.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      * @see com.runtimeverification.rvmonitor.java.rt.tablebase.DisableHolder
      */
@@ -119,7 +119,7 @@ public class CodeRVType extends CodeType {
     /**
      * This class represents a generated monitor class. The generated monitor
      * code implements the IMonitor interface in the runtime library.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      * @see com.runtimeverification.rvmonitor.java.rt.tablebase.IMonitor
      */
@@ -131,7 +131,7 @@ public class CodeRVType extends CodeType {
 
     /**
      * This class represents a generated monitor set class. e
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      */
     public static abstract class MonitorSet extends CodeRVType {
@@ -182,7 +182,7 @@ public class CodeRVType extends CodeType {
     /**
      * This class represents a tuple. An instance of this class corresponds to
      * Tuple2 or Tuple3 in the runtime library.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      * @see com.runtimeverification.rvmonitor.java.rt.tablebase.TableAdopter.Tuple2
      * @see com.runtimeverification.rvmonitor.java.rt.tablebase.TableAdopter.Tuple3

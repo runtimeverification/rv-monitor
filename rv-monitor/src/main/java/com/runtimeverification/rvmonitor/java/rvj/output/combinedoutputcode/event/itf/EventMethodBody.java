@@ -206,7 +206,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
     /**
      * Returns the monitor features, which tell what features of the monitor
      * implement and expect.
-     * 
+     *
      * @return a MonitorFeatures object, owned by the monitor class
      * @see com.runtimeverification.rvmonitor.java.rvj.output.monitor.MonitorFeatures
      */
@@ -295,7 +295,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
      * Generates code for looking up the indexing tree cache. If the cache hits,
      * the corresponding node can be retrieved without accessing the indexing
      * tree, which can be relatively expensive.
-     * 
+     *
      * @param weakrefs
      *            weak references, each of which corresponds to one parameter in
      *            the event
@@ -329,7 +329,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
     /**
      * Generates code for creating or retrieving weak references.
-     * 
+     *
      * @param weakrefs
      *            weak references, each of which corresponds to one parameter in
      *            the event
@@ -393,7 +393,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
     /**
      * Generates code for updating the indexing tree cache. The generated code
      * should be reached, at runtime, only if cache misses.
-     * 
+     *
      * @param matched
      *            information for accessing indexing trees, weak references and
      *            so forth
@@ -423,7 +423,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
      * Generates code for looking up the indexing tree. The generated code
      * should be reached, at runtime, only if there is no indexing tree cache or
      * the cache does not hit.
-     * 
+     *
      * @param matched
      *            information for accessing indexing trees, weak references and
      *            so forth
@@ -574,7 +574,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
     /**
      * Generates the code for comparing the timestamp.
-     * 
+     *
      * @param source
      *            theta' in 'defineTo' in Algorithm D(X)
      * @param candidate
@@ -606,7 +606,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
      * weak references in a monitor instance. That code should be lazily
      * generated because what parameters need to be kept in a monitor instance
      * is determined during the first stage of code generation.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      */
     static class MonitorWeakRefSetLazyCode extends CodeLazyStmt {
@@ -747,8 +747,8 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
                 ifbody.comment("D(X) defineTo:6");
                 CodeVarDeclStmt decl = new CodeVarDeclStmt(new CodeVariable(
                         this.getMonitorType(), "created"), new CodeCastExpr(
-                        this.getMonitorType(), new CodeMethodInvokeExpr(
-                                CodeType.object(), sourcemonref, "clone")));
+                                this.getMonitorType(), new CodeMethodInvokeExpr(
+                                        CodeType.object(), sourcemonref, "clone")));
                 ifbody.add(decl);
                 monitorref = new CodeVarRefExpr(decl.getVariable());
 
@@ -780,7 +780,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
      * Generates code that corresponds to createNewMonitorStates:6 in D(X) when
      * one or multiple new monitors should be created from a set of existing
      * monitors.
-     * 
+     *
      * @param sourceprms
      *            theta'' in createNewMonitorStates, and theta' in defineTo
      * @param targetprms
@@ -822,7 +822,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
             CodeVarDeclStmt declsize = new CodeVarDeclStmt(new CodeVariable(
                     CodeType.integer(), "setlen"), new CodeMethodInvokeExpr(
-                    CodeType.integer(), source.getSetRef(), "getSize"));
+                            CodeType.integer(), source.getSetRef(), "getSize"));
             stmts.add(declsize);
             CodeVarRefExpr sizeref = new CodeVarRefExpr(declsize.getVariable());
             CodeVarDeclStmt decli = new CodeVarDeclStmt(new CodeVariable(
@@ -839,8 +839,8 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
                 CodeVarDeclStmt declsrcmon = new CodeVarDeclStmt(
                         new CodeVariable(this.getMonitorType(),
                                 "sourceMonitor", "theta''"),
-                        new CodeMethodInvokeExpr(this.getMonitorType(), source
-                                .getSetRef(), "get", iref));
+                                new CodeMethodInvokeExpr(this.getMonitorType(), source
+                                        .getSetRef(), "get", iref));
                 loopbody.add(declsrcmon);
                 CodeVarRefExpr srcmonref = new CodeVarRefExpr(
                         declsrcmon.getVariable());
@@ -967,7 +967,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
     /**
      * Generates code that corresponds to createNewMonitorState in D(X).
-     * 
+     *
      * @param transition
      *            information for accessing indexing trees, weak references and
      *            so forth
@@ -1041,7 +1041,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
      * This class is used to lazily generate code for creating a monitor. That
      * code should be lazily generated because what parameters are expected by
      * the constructor is determined during the first stage of code generation.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      */
     static class MonitorCreationLazyCode extends CodeLazyStmt {
@@ -1113,7 +1113,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
     /**
      * Generates code that corresponds to defineNew in Algorithm D(X).
-     * 
+     *
      * @param transition
      *            information for accessing indexing trees, weak references and
      *            so forth
@@ -1159,7 +1159,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
     /**
      * Generates code that inserts the newly created monitor into all the
      * affected sets and indexing trees.
-     * 
+     *
      * @param created
      *            indexing tree information for the parameter list of the
      *            created monitor
@@ -1233,7 +1233,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
     /**
      * Generated code that corresponds to main:1--6 in Algorithm D(X).
-     * 
+     *
      * @param transition
      *            information for accessing indexing trees, weak references and
      *            so forth
@@ -1283,7 +1283,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
     /**
      * Generates code that corresponds to main:6 in Algorithm D(X).
-     * 
+     *
      * @param transition
      *            information for accessing indexing trees, weak references and
      *            so forth
@@ -1323,7 +1323,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
             }
             CodeVarDeclStmt create = new CodeVarDeclStmt(new CodeVariable(
                     dhtype, "holder"), new CodeNewExpr(dhtype,
-                    CodeLiteralExpr.integer(-1)));
+                            CodeLiteralExpr.integer(-1)));
             CodeVarRefExpr createdref = new CodeVarRefExpr(create.getVariable());
             ifbody.add(create);
             ifbody.add(transition.generateLeafUpdateCode(createdref, false));
@@ -1344,7 +1344,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
 
     /**
      * Generates code that corresponds to main:8--9 in Algorithm D(X).
-     * 
+     *
      * @param matched
      *            information for accessing indexing trees, weak references and
      *            so forth
@@ -1535,7 +1535,7 @@ public class EventMethodBody extends AdviceBody implements ICodeGenerator {
     /**
      * This class is used when synchronization is guaranteed by callers and,
      * therfore, no additional synchronization is needed.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      */
     static class OrdinaryTimestamp extends Timestamp {

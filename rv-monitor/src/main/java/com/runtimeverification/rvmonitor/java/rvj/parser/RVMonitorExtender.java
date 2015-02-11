@@ -73,7 +73,7 @@ public class RVMonitorExtender {
 
     protected static RVMonitorSpec translateExtendedSpec(RVMonitorSpecExt spec,
             RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
-            throws RVMException {
+                    throws RVMException {
         String declarations;
         List<EventDefinition> events;
         List<PropertyAndHandlers> props = new ArrayList<PropertyAndHandlers>();
@@ -111,7 +111,7 @@ public class RVMonitorExtender {
             ret = new RVMonitorSpec(currentFile.getPakage(),
                     spec.getBeginLine(), spec.getBeginColumn(),
                     spec.getModifiers(), spec.getName(), spec.getParameters()
-                            .toList(), spec.getInMethod(), declarations,
+                    .toList(), spec.getInMethod(), declarations,
                     events, props);
         } catch (Exception e) {
             throw new RVMException(e.getMessage());
@@ -255,7 +255,7 @@ public class RVMonitorExtender {
         try {
             ret = new EventDefinition(event.getBeginLine(),
                     event.getBeginColumn(), event.getId(), event
-                            .getParameters().toList(), event.getBlock(),
+                    .getParameters().toList(), event.getBlock(),
                     event.isStartEvent(), event.isBlockingEvent());
         } catch (Exception e) {
             throw new RVMException(e.getMessage());
@@ -275,7 +275,7 @@ public class RVMonitorExtender {
 
     private static HashMap<String, RVMSpecFileExt> retrieveParentFiles(
             RVMonitorSpecExt spec, RVMSpecFileExt currentFile)
-            throws RVMException {
+                    throws RVMException {
         HashMap<String, RVMSpecFileExt> ret = new HashMap<String, RVMSpecFileExt>();
 
         // if the spec has no parent, nothing to do.
@@ -351,7 +351,7 @@ public class RVMonitorExtender {
 
     private static String collectDeclarations(RVMonitorSpecExt spec,
             RVMSpecFileExt currentFile, HashMap<String, RVMSpecFileExt> depFiles)
-            throws RVMException {
+                    throws RVMException {
         String ret;
 
         if (!spec.hasExtend())
@@ -438,7 +438,7 @@ public class RVMonitorExtender {
                         .getPropertiesAndHandlers()) {
                     if (pnh.getProperty() != null
                             && pnh.getProperty().getName()
-                                    .equals(ref.getReferenceElement())) {
+                            .equals(ref.getReferenceElement())) {
                         return new Pair<PropertyAndHandlersExt, SpecContext>(
                                 pnh, context);
                     }

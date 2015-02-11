@@ -74,7 +74,7 @@ public class RVMJavaCode {
      * partitioned-set optimization cannot be used. Since it seems JavaMOP does
      * not parse the given string, I do a similar unreliable and dirty string
      * manipulation here.
-     * 
+     *
      * @return the name of the variable for holding the state
      */
     public String extractStateVariable() {

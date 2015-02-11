@@ -34,7 +34,7 @@ import com.runtimeverification.rvmonitor.util.RVMException;
 /**
  * A class with static methods to convert the language-independent syntax into
  * Java-specific RVMSpecFileExt objects.
- * 
+ *
  * @author A. Cody Schuffelen
  */
 public final class JavaParserAdapter {
@@ -49,7 +49,7 @@ public final class JavaParserAdapter {
     /**
      * Produce a RVMSpecFileExt by reading a file through the
      * language-independent RVM parser.
-     * 
+     *
      * @param file
      *            The file to read from.
      * @return A Java-specific RVM specification object.
@@ -68,7 +68,7 @@ public final class JavaParserAdapter {
     /**
      * Produce a RVMSpecFileExt by reading a string through the
      * language-independent RVM parser.
-     * 
+     *
      * @param str
      *            The string to read from.
      * @return A Java-specific RVM specification object.
@@ -86,7 +86,7 @@ public final class JavaParserAdapter {
     /**
      * Convert a language-independent specification into one with Java-specific
      * information.
-     * 
+     *
      * @param spec
      *            The specification to convert.
      * @return The Java-specific specification.
@@ -108,7 +108,7 @@ public final class JavaParserAdapter {
 
     /**
      * Extract the package from the package statement in the preamble.
-     * 
+     *
      * @param preamble
      *            The beginning of the specification file.
      * @return The package the class should be in.
@@ -124,7 +124,7 @@ public final class JavaParserAdapter {
 
     /**
      * Extract the imports from the import statements in the preamble.
-     * 
+     *
      * @param preamble
      *            The beginning of the specification file.
      * @return The package the class should be in.
@@ -153,7 +153,7 @@ public final class JavaParserAdapter {
 
     /**
      * Convert a {@link Specification} into a {@link RVMonitorSpecExt}.
-     * 
+     *
      * @param pack
      *            The package declaration of the file the specification is in.
      * @param spec
@@ -189,7 +189,7 @@ public final class JavaParserAdapter {
     /**
      * Produce the integer bitfield representing the different Java-specific
      * specification modifiers.
-     * 
+     *
      * @param modifierList
      *            A list of modifiers.
      * @return A bitfield with the appropriate bits for each modifier set.
@@ -225,7 +225,7 @@ public final class JavaParserAdapter {
 
     /**
      * Convert a specification parameter string into a parameter object.
-     * 
+     *
      * @param paramString
      *            The string with the specification parameters.
      * @return A list of Java specification parameter objects.
@@ -241,7 +241,7 @@ public final class JavaParserAdapter {
 
     /**
      * Convert a language-independent event into a Java event.
-     * 
+     *
      * @param event
      *            The language-independent event object.
      * @return A Java-specific event object.
@@ -270,7 +270,7 @@ public final class JavaParserAdapter {
 
     /**
      * Convert a language-independent property into a Java property object.
-     * 
+     *
      * @param index
      *            The index of this property in the specification.
      * @param property
@@ -299,7 +299,7 @@ public final class JavaParserAdapter {
 
     /**
      * Convert a language-independent handler into a Java handler object.
-     * 
+     *
      * @param handler
      *            The handler to convert.
      * @return A Java-specific handler object.

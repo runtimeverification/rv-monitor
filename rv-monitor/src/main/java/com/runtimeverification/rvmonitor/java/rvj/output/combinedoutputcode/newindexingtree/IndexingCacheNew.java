@@ -104,7 +104,7 @@ public class IndexingCacheNew implements ICodeGenerator {
      * Generates code for comparing the key of this cache with the parameters
      * carried by the event. The generated code can be used to check whether the
      * cache hits.
-     * 
+     *
      * @return generated code
      */
     public CodeExpr getKeyCompareCode() {
@@ -138,7 +138,7 @@ public class IndexingCacheNew implements ICodeGenerator {
 
     /**
      * Generates code for retrieving the cached value.
-     * 
+     *
      * @param weakrefs
      *            weak references, each of which corresponds to one parameter in
      *            the event
@@ -177,7 +177,7 @@ public class IndexingCacheNew implements ICodeGenerator {
      * Generates code that stores the keys and the value of the cache. The
      * generated code should guarantee that the stored value is always non-null.
      * At the time of writing this code, non-null is guaranteed by the caller.
-     * 
+     *
      * @param valueref
      *            reference to the value to be stored
      * @return generated code
@@ -250,7 +250,7 @@ public class IndexingCacheNew implements ICodeGenerator {
      * This class stores a sub-key or associated value at a typical field, which
      * is shared among all the threads. Any code that reads or updates this
      * field should be careful about data race.
-     * 
+     *
      * @author Choonghwan Lee <clee83@illinois.edu>
      */
     static class CodeOrdinaryCacheField extends CodeCacheField {

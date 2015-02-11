@@ -53,7 +53,7 @@ public abstract class IndexingTree {
         isFullParam = (queryParam != null && fullParam != null && queryParam
                 .equals(fullParam))
                 || (queryParam != null && contentParam != null && queryParam
-                        .equals(contentParam));
+                .equals(contentParam));
 
         this.refTrees = refTrees;
 
@@ -94,11 +94,11 @@ public abstract class IndexingTree {
 
     public abstract String attachNode(LocalVariables localVars,
             String monitorStr, String lastMapStr, String lastSetStr)
-            throws RVMException;
+                    throws RVMException;
 
     public abstract String attachSet(LocalVariables localVars,
             String monitorStr, String lastMapStr, String lastSetStr)
-            throws RVMException;
+                    throws RVMException;
 
     public String addMonitor(LocalVariables localVars, String monitorStr)
             throws RVMException {
@@ -107,7 +107,7 @@ public abstract class IndexingTree {
 
     public abstract String addMonitor(LocalVariables localVars,
             String monitorStr, String tempMapStr, String tempSetStr)
-            throws RVMException;
+                    throws RVMException;
 
     public abstract String retrieveTree();
 
@@ -290,9 +290,9 @@ public abstract class IndexingTree {
 
         /*
          * public IndexingTreeType getNestedMap() { return this.map; }
-         * 
+         *
          * public IndexingTreeType getNestedSet() { return this.set; }
-         * 
+         *
          * public IndexingTreeType getNestedLeaf() { return this.leaf; }
          */
 
@@ -469,7 +469,7 @@ public abstract class IndexingTree {
             boolean l = this.leaf != null;
             if (m && s && l)
                 str += "<" + this.map + ", " + this.set + ", " + this.leaf
-                        + ">";
+                + ">";
             else if (m && s)
                 str += "<" + this.map + ", " + this.set + ">";
             else if (s && l)

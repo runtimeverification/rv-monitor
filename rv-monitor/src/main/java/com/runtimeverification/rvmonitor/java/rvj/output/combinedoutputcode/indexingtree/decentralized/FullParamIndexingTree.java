@@ -61,7 +61,7 @@ public class FullParamIndexingTree extends IndexingTree {
 
     protected String lookupIntermediateCreative(LocalVariables localVars,
             RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i)
-            throws RVMException {
+                    throws RVMException {
         String ret = "";
 
         RVMVariable obj = localVars.get("obj");
@@ -98,7 +98,7 @@ public class FullParamIndexingTree extends IndexingTree {
 
     protected String lookupIntermediateNonCreative(LocalVariables localVars,
             RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i)
-            throws RVMException {
+                    throws RVMException {
         String ret = "";
 
         RVMVariable obj = localVars.get("obj");

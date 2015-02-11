@@ -34,9 +34,9 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.Reference
  */
 
 public final class DumpVisitor
-        extends
-        com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.DumpVisitor
-        implements VoidVisitor<Object> {
+extends
+com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.DumpVisitor
+implements VoidVisitor<Object> {
 
     // All extended componenets
 
@@ -133,14 +133,14 @@ public final class DumpVisitor
         printer.printLn();
         for (String event : p.getHandlers().keySet()) {
             for (HandlerExt h : p.getHandlerList()) { // i need to remove that
-                                                      // later, i'm using it
-                                                      // now to just make sure
-                                                      // that things are
-                                                      // parsed correctly.
-                                                      // Soha.
+                // later, i'm using it
+                // now to just make sure
+                // that things are
+                // parsed correctly.
+                // Soha.
                 if (h.getState() == event) { // Soha: printing out the new
-                                             // syntax of the handler and
-                                             // property
+                    // syntax of the handler and
+                    // property
                     if ((h.getReferenceSpec().getSpecName() != null)
                             || (h.getReferenceSpec().getReferenceElement() != null))
                         printer.print("@");

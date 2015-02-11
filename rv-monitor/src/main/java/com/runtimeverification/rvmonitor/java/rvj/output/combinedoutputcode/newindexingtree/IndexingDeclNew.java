@@ -101,7 +101,7 @@ public class IndexingDeclNew {
                         if (!param.contains(enableEntity)) {
                             indexingRestrictedParameterSet.add(paramPair);
                             indexingParameterSet
-                                    .add(unionOfEnableEntityAndParam);
+                            .add(unionOfEnableEntityAndParam);
                         } else {
                             if (!indexingParameterSet.contains(enableEntity)) {
                                 indexingRestrictedParameterSet.add(paramPair);
@@ -186,13 +186,13 @@ public class IndexingDeclNew {
         } else {
             /*
              * TODO: Decentralized RefTree which does not require any mapping.
-             * 
+             *
              * for (RVMParameters param : indexingParameterSet) { IndexingTree
              * indexingTree =
              * DecentralizedIndexingTree.defineIndexingTree(rvmSpec.getName(),
              * param, null, specParam, monitorSet, monitor, refTrees,
              * rvmSpec.isPerThread(), rvmSpec.isGeneral());
-             * 
+             *
              * indexingTrees.put(param, indexingTree); } if
              * (rvmSpec.isGeneral()) { for (RVMonitorParameterPair paramPair :
              * indexingRestrictedParameterSet) { IndexingTree indexingTree =
@@ -200,7 +200,7 @@ public class IndexingDeclNew {
              * paramPair.getParam1(), paramPair.getParam2(), specParam,
              * monitorSet, monitor, refTrees, rvmSpec.isPerThread(),
              * rvmSpec.isGeneral());
-             * 
+             *
              * indexingTreesForCopy.put(paramPair, indexingTree); } }
              */
             throw new NotImplementedException();

@@ -101,7 +101,7 @@ public class EnableSet {
 
                     if (parametersOnSpec.get(aLine3.trim()) != null) {
                         enableEntity
-                                .addAll(parametersOnSpec.get(aLine3.trim()));
+                        .addAll(parametersOnSpec.get(aLine3.trim()));
                     }
                 }
 

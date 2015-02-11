@@ -33,7 +33,7 @@ public class RVMonitorSpecExt extends ExtNode {
             List<ExtendedSpec> extendedSpecs, String declarations,
             List<EventDefinitionExt> events,
             List<PropertyAndHandlersExt> properties)
-            throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+                    throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
         super(line, column);
         this.packageDeclaration = packageDeclaration;
         this.modifiers = modifiers;
@@ -278,7 +278,7 @@ public class RVMonitorSpecExt extends ExtNode {
 
     /**
      * returns if the specification is extending other specifications.
-     * 
+     *
      */
     public boolean hasExtend() {
         if (this.extendedSpecs == null)

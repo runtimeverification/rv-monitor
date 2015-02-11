@@ -4,71 +4,73 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Rule {
-  private static int counter = 0;
-  private int number;
-  private Set<Symbol> terminals = new HashSet<Symbol>();
-  
-  private Sequence lhs;
-  private AbstractSequence rhs; 
+    private static int counter = 0;
+    private int number;
+    private Set<Symbol> terminals = new HashSet<Symbol>();
 
-  public Sequence getLhs(){
-    return lhs;
-  }
+    private Sequence lhs;
+    private AbstractSequence rhs;
 
-  public AbstractSequence getRhs(){
-    return rhs;
-  }
-
-  protected Rule() {}
-
-  public Rule(Sequence lhs, AbstractSequence rhs){
-    number = counter++;
-    this.lhs = lhs;
-    this.rhs = rhs;
-    computeTerminals();
-  }
-
-  private void computeTerminals(){
-    for(Symbol s : lhs){
-      terminals.add(s);
+    public Sequence getLhs() {
+        return lhs;
     }
-    if(rhs instanceof Sequence){
-      for(Symbol s : (Sequence) rhs){
-        terminals.add(s);
-      }
+
+    public AbstractSequence getRhs() {
+        return rhs;
     }
-  }
 
-  public int getNumber(){
-    return number;
-  }
+    protected Rule() {
+    }
 
-  public Set<Symbol> getTerminals(){
-    return terminals;
-  }
+    public Rule(Sequence lhs, AbstractSequence rhs) {
+        number = counter++;
+        this.lhs = lhs;
+        this.rhs = rhs;
+        computeTerminals();
+    }
 
-  @Override
-  public String toString(){
-    return lhs.toString() + " -> " + rhs.toString();
-  }
+    private void computeTerminals() {
+        for (Symbol s : lhs) {
+            terminals.add(s);
+        }
+        if (rhs instanceof Sequence) {
+            for (Symbol s : (Sequence) rhs) {
+                terminals.add(s);
+            }
+        }
+    }
 
-  public String toDotString(){
-    return lhs.toDotString() + " \\rightarrow " + rhs.toDotString(); 
-  }
+    public int getNumber() {
+        return number;
+    }
 
-  public int dotLength(){
-    return lhs.dotLength() + rhs.dotLength() + 3;
-  }
+    public Set<Symbol> getTerminals() {
+        return terminals;
+    }
 
-  @Override
-  public boolean equals(Object o){
-    if(!(o instanceof Rule)) return false;
-    Rule r = (Rule) o;
-    return (lhs.equals(r.lhs) && rhs.equals(r.rhs));
-  }
+    @Override
+    public String toString() {
+        return lhs.toString() + " -> " + rhs.toString();
+    }
 
-  @Override
-  public int hashCode(){
-    return lhs.hashCode() ^ rhs.hashCode();
-  }
+    public String toDotString() {
+        return lhs.toDotString() + " \\rightarrow " + rhs.toDotString();
+    }
+
+    public int dotLength() {
+        return lhs.dotLength() + rhs.dotLength() + 3;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Rule))
+            return false;
+        Rule r = (Rule) o;
+        return (lhs.equals(r.lhs) && rhs.equals(r.rhs));
+    }
+
+    @Override
+    public int hashCode() {
+        return lhs.hashCode() ^ rhs.hashCode();
+    }
 }

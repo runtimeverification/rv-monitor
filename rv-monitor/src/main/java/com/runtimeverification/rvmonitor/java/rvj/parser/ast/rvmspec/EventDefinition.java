@@ -9,7 +9,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisi
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 
 public class EventDefinition extends Node implements
-        Comparable<EventDefinition> {
+Comparable<EventDefinition> {
 
     private final String id;
 

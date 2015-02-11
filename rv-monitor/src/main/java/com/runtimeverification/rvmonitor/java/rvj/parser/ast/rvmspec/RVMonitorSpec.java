@@ -33,7 +33,7 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec> {
             List<RVMParameter> parameters, String inMethod,
             String declarations, List<EventDefinition> events,
             List<PropertyAndHandlers> properties)
-            throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+                    throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
         super(line, column);
         this.packageDeclaration = packageDeclaration;
         this.modifiers = modifiers;

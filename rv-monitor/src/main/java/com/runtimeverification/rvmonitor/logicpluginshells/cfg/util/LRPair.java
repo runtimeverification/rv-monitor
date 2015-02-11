@@ -1,58 +1,83 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.cfg.util;
 
 class LRPair implements java.io.Serializable {
-   Production prod;
-   Terminal look;
-   LRPair(Production p, Terminal t) { prod = new Production(p); look = t;}
-   LRPair(LRPair l) {this(new Production(l.prod),l.look);}
-   public int hashCode() { return prod.hashCode() + look.hashCode();}
-   public boolean equals(Object o) {
-      if (o == null) return false;
-      if (!(o instanceof LRPair)) return false;
-      return look.equals(((LRPair)o).look) && prod.equals(((LRPair)o).prod);
-   }
-   public String toString() { return "[ "+prod.toString()+" , "+look.toString()+" ]";}
-   boolean isAfterCursor(Symbol s) {
-      int cursor = prod.rhs.indexOf(new Cursor());
-      return cursor+1 < prod.rhs.size() && prod.rhs.get(cursor+1).equals(s);
-   }
+    Production prod;
+    Terminal look;
 
-   int indexOfCursor() { return prod.rhs.indexOf(new Cursor());}
+    LRPair(Production p, Terminal t) {
+        prod = new Production(p);
+        look = t;
+    }
 
-   boolean isAnyAfterCursor() {
-      return indexOfCursor()+1 < prod.rhs.size();
-   }
+    LRPair(LRPair l) {
+        this(new Production(l.prod), l.look);
+    }
 
-   boolean isTwoAfterCursor() {
-      return indexOfCursor()+2 < prod.rhs.size();
-   }
+    @Override
+    public int hashCode() {
+        return prod.hashCode() + look.hashCode();
+    }
 
-   boolean isTAfterCursor() {
-      int cursor = prod.rhs.indexOf(new Cursor());
-      return cursor+1 < prod.rhs.size() && prod.rhs.get(cursor+1) instanceof Terminal;
-   }
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+        if (!(o instanceof LRPair))
+            return false;
+        return look.equals(((LRPair) o).look) && prod.equals(((LRPair) o).prod);
+    }
 
-   boolean isNTAfterCursor() {
-      return isAnyAfterCursor() && prod.rhs.get(indexOfCursor()+1) instanceof NonTerminal;
-   }
+    @Override
+    public String toString() {
+        return "[ " + prod.toString() + " , " + look.toString() + " ]";
+    }
 
-   boolean isNTBeforeCursor() {
-      int cursor = prod.rhs.indexOf(new Cursor());
-      return cursor > 0 && prod.rhs.get(cursor-1) instanceof NonTerminal;
-   }
+    boolean isAfterCursor(Symbol s) {
+        int cursor = prod.rhs.indexOf(new Cursor());
+        return cursor + 1 < prod.rhs.size()
+                && prod.rhs.get(cursor + 1).equals(s);
+    }
 
-   // This is unsafe if the cursor is at the end
-   Symbol getAfterCursor() {
-      return prod.rhs.get(indexOfCursor()+1);
-   }
+    int indexOfCursor() {
+        return prod.rhs.indexOf(new Cursor());
+    }
 
-   Symbol getBeforeCursor() {
-      return prod.rhs.get(indexOfCursor()-1);
-   }
+    boolean isAnyAfterCursor() {
+        return indexOfCursor() + 1 < prod.rhs.size();
+    }
 
-   Production prodWithoutCursor() {
-      Production ret = new Production(prod);
-      ret.rhs.remove(new Cursor());
-      return ret;
-   }
+    boolean isTwoAfterCursor() {
+        return indexOfCursor() + 2 < prod.rhs.size();
+    }
+
+    boolean isTAfterCursor() {
+        int cursor = prod.rhs.indexOf(new Cursor());
+        return cursor + 1 < prod.rhs.size()
+                && prod.rhs.get(cursor + 1) instanceof Terminal;
+    }
+
+    boolean isNTAfterCursor() {
+        return isAnyAfterCursor()
+                && prod.rhs.get(indexOfCursor() + 1) instanceof NonTerminal;
+    }
+
+    boolean isNTBeforeCursor() {
+        int cursor = prod.rhs.indexOf(new Cursor());
+        return cursor > 0 && prod.rhs.get(cursor - 1) instanceof NonTerminal;
+    }
+
+    // This is unsafe if the cursor is at the end
+    Symbol getAfterCursor() {
+        return prod.rhs.get(indexOfCursor() + 1);
+    }
+
+    Symbol getBeforeCursor() {
+        return prod.rhs.get(indexOfCursor() - 1);
+    }
+
+    Production prodWithoutCursor() {
+        Production ret = new Production(prod);
+        ret.rhs.remove(new Cursor());
+        return ret;
+    }
 }

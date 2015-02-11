@@ -130,7 +130,7 @@ public class BaseMonitor extends Monitor {
 
     public BaseMonitor(String name, RVMonitorSpec rvmSpec,
             OptimizedCoenableSet coenableSet, boolean isOutermost)
-            throws RVMException {
+                    throws RVMException {
         this(name, rvmSpec, coenableSet, isOutermost, "");
     }
 
@@ -223,10 +223,10 @@ public class BaseMonitor extends Monitor {
 
                 if (handlerBody.toString().length() != 0) {
                     propMonitor.handlerMethods
-                            .put(category, new HandlerMethod(prop, category,
-                                    specParam,
-                                    rvmSpec.getCommonParamInEvents(),
-                                    varsToSave, handlerBody, categoryVar, this));
+                    .put(category, new HandlerMethod(prop, category,
+                            specParam,
+                            rvmSpec.getCommonParamInEvents(),
+                            varsToSave, handlerBody, categoryVar, this));
 
                 }
             }
@@ -1152,7 +1152,7 @@ public class BaseMonitor extends Monitor {
                     CodeBinOpExpr.add(new CodeVarRefExpr(levtvar),
                             CodeLiteralExpr.integer(1)), CodeLiteralExpr
                             .integer(numStateBits)), new CodeVarRefExpr(
-                    statevar));
+                                    statevar));
         }
         CodeReturnStmt ret = new CodeReturnStmt(result);
 
@@ -1199,8 +1199,8 @@ public class BaseMonitor extends Monitor {
             CodeMethodInvokeExpr calculate = new CodeMethodInvokeExpr(
                     CodeType.integer(), new CodeThisRefExpr(
                             this.getRuntimeType()), "calculatePairValue",
-                    CodeLiteralExpr.integer(initialLastEvent),
-                    CodeLiteralExpr.integer(newState));
+                            CodeLiteralExpr.integer(initialLastEvent),
+                            CodeLiteralExpr.integer(newState));
             CodeFieldRefExpr fieldref = new CodeFieldRefExpr(
                     new CodeThisRefExpr(this.getRuntimeType()),
                     this.pairValueField);
@@ -1292,7 +1292,7 @@ public class BaseMonitor extends Monitor {
             CodeMethodInvokeExpr invoke = new CodeMethodInvokeExpr(
                     CodeType.integer(), new CodeThisRefExpr(
                             this.getRuntimeType()), "handleEvent",
-                    CodeLiteralExpr.integer(eventid), tableRef);
+                            CodeLiteralExpr.integer(eventid), tableRef);
             CodeVarDeclStmt decl = new CodeVarDeclStmt(new CodeVariable(
                     CodeType.integer(), "nextstate"), invoke);
             stmts.add(decl);
@@ -1363,9 +1363,9 @@ public class BaseMonitor extends Monitor {
     }
 
     /***
-     * 
+     *
      * Extra methods could be defined in subclasses.
-     * 
+     *
      * @return
      */
     public String printExtraDeclMethods() {
