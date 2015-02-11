@@ -58,7 +58,7 @@ public class SpecExtractor {
             // ByteArrayInputStream(input.getBytes()));
             RVMSpecFileExt rvmSpecFileExt = JavaParserAdapter.parse(input);
             rvmSpecFile = RVMonitorExtender
-                    .translateCombinedSpecFile(rvmSpecFileExt);
+                    .translateExtendedSpecFile(rvmSpecFileExt);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RVMException("Error when parsing a specification file:\n"
