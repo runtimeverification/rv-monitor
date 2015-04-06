@@ -79,7 +79,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Upload over SFTP during deploy phase -->
+            <!-- Upload over SCP during deploy phase -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>wagon-maven-plugin</artifactId>
@@ -93,10 +93,10 @@
                         </goals>
                         <configuration>
                             <serverId>rv-site</serverId>
-                            <url>sftp://grigore@ftp.runtimeverification.com/</url>
+                            <url>scp://grigore@ftp.runtimeverification.com/</url>
                             <fromDir>target/docs</fromDir>
                             <includes>**</includes>
-                            <toDir>/home/grigore/public_html/runtimeverification.com/monitor/${project.version}/docs</toDir>
+                            <toDir>/var/www/monitor/${project.version}/docs</toDir>
                         </configuration>
                     </execution>
                 </executions>
