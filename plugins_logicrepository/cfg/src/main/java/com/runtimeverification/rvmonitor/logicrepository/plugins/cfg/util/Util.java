@@ -144,7 +144,7 @@ public class Util {
      * @return The union of the two HashSets.
      */
     public static HashSet<Terminal> termUnion(HashSet<Terminal> a, HashSet<Terminal> b){
-        HashSet<Terminal> ret = (HashSet<Terminal>)DeepCopy.copy(a);
+        HashSet<Terminal> ret = DeepCopy.copy(a);
         ret.addAll(b);
         return ret;
     }

@@ -82,7 +82,7 @@ public class RVMVersionedBooleanArrayStack implements RVMObject {
 		ret.curr_index = curr_index;
 
 		for (int i = 0; i < ret.curr_index; i++) {
-			ret.data[i] = ((boolean[]) this.data[i]).clone();
+			ret.data[i] = this.data[i].clone();
 		}
 		System.arraycopy(version, 0, ret.version, 0, curr_index);
 

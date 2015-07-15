@@ -37,7 +37,7 @@ public class SinglyLinkedList<E> implements Iterable<E> {
         protected boolean legalState = false;
         
         protected SLLIterator() {
-            nextNode = (Node) head;
+            nextNode = head;
             previousNode = null;
             currentNode = null;
         } 
@@ -85,7 +85,7 @@ public class SinglyLinkedList<E> implements Iterable<E> {
                 return;
             }
             if(currentNode == tail) {
-                tail = (Node) previousNode;
+                tail = previousNode;
             }
             previousNode.next = nextNode;
             --size;

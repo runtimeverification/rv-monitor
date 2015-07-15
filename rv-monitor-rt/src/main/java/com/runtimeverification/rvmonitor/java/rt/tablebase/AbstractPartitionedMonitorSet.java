@@ -60,7 +60,7 @@ public abstract class AbstractPartitionedMonitorSet<TMonitor extends IMonitor> i
 		this.invalidated = new HashSet<TMonitor>();
 		
 		if (ObserverSettings.observeSetBehavior)
-			this.observer = SetBehaviorObserver.<AbstractPartitionedMonitorSet<?>>nil();
+			this.observer = SetBehaviorObserver.nil();
 	}
 	
 	public final Set<TMonitor> getInvalidatedMonitors() {
