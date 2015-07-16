@@ -1,9 +1,10 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.cfg.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Production implements java.io.Serializable {
+public class Production implements Serializable, Cloneable {
     public NonTerminal lhs;
     public ArrayList<Symbol> rhs;
 
