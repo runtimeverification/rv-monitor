@@ -110,7 +110,7 @@ public class EventManager {
         }
 
         for (EndObject endObject : endObjectEvents) {
-            ret += endObject;
+            ret += endObject.printDecl();
             ret += "\n";
         }
 
