@@ -172,7 +172,7 @@ public class LogicPluginShellFactory {
             LogicPluginShellResult result = logicShellPlugin.process(
                     logicOutput, events);
             // Support deadlock detection since deadlock is not a state.
-            result.properties.put("deadlock condition", "");
+            result.properties.setProperty("deadlock condition", "");
             return result;
         } else
             return null;

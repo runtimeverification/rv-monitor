@@ -258,9 +258,9 @@ public class Main {
         LogicPluginShellResult sr = evaluateLogicPluginShell(logicOutputXML,
                 rvcParser, parametric);
 
-        String rvcPrefix = (String) sr.properties.get("rvcPrefix");
-        String specName = (String) sr.properties.get("specName");
-        String constSpecName = (String) sr.properties.get("constSpecName");
+        String rvcPrefix = (String) sr.properties.getProperty("rvcPrefix");
+        String specName = (String) sr.properties.getProperty("specName");
+        String constSpecName = (String) sr.properties.getProperty("constSpecName");
 
         String cFile = rvcPrefix + specName + "Monitor.c";
         String aFile = "aspect.map";
@@ -279,18 +279,18 @@ public class Main {
             PrintStream hos = new PrintStream(hfos);
             hos.println("#ifndef " + hDef);
             hos.println("#define " + hDef);
-            hos.println(sr.properties.get("header declarations"));
+            hos.println(sr.properties.getProperty("header declarations"));
             hos.println("#endif");
         }
 
         cos.println(rvcParser.getIncludes());
         cos.println("#include <stdlib.h>");
-        cos.println(sr.properties.get("state declaration"));
+        cos.println(sr.properties.getProperty("state declaration"));
         cos.println(rvcParser.getDeclarations());
-        cos.println(sr.properties.get("categories"));
-        cos.println(sr.properties.get("reset"));
-        cos.println(sr.properties.get("monitoring body"));
-        cos.println(sr.properties.get("event functions"));
+        cos.println(sr.properties.getProperty("categories"));
+        cos.println(sr.properties.getProperty("reset"));
+        cos.println(sr.properties.getProperty("monitoring body"));
+        cos.println(sr.properties.getProperty("event functions"));
         /*
          * // Adding the aspect functions ArrayList<CSpecification.CutPoint>
          * cutpoints = rvcParser.getCutpoints(); if (!cutpoints.isEmpty()) {

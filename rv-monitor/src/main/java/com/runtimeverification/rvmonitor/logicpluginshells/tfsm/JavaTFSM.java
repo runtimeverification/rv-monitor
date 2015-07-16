@@ -91,7 +91,7 @@ public class JavaTFSM extends LogicPluginShell {
             }
         }
 
-        result.put("monitored events", monitoredEventsStr);
+        result.setProperty("monitored events", monitoredEventsStr);
 
         String monitoredEventsStrForSet = "";
         for (String event : monitoredEvents) {
@@ -99,7 +99,7 @@ public class JavaTFSM extends LogicPluginShell {
                     + ":{\n  $monitor$.$state$ = $transition_" + event
                     + "$[$monitor$.$state$];\n}\n\n";
         }
-        result.put("monitored events for set", monitoredEventsStrForSet);
+        result.setProperty("monitored events for set", monitoredEventsStrForSet);
 
         String transitionArray = "";
 
@@ -144,19 +144,19 @@ public class JavaTFSM extends LogicPluginShell {
             transitionArray += "};;\n";
         }
 
-        result.put("state declaration", "int $state$;\n" + transitionArray);
-        result.put("state declaration for set", transitionArray);
-        result.put("reset", "$state$ = 0;\n");
-        result.put("initialization", "$state$ = 0;\n");
+        result.setProperty("state declaration", "int $state$;\n" + transitionArray);
+        result.setProperty("state declaration for set", transitionArray);
+        result.setProperty("reset", "$state$ = 0;\n");
+        result.setProperty("initialization", "$state$ = 0;\n");
 
-        result.put("monitoring body", "");
+        result.setProperty("monitoring body", "");
 
         for (String state : StateNum.keySet()) {
-            result.put(state.toLowerCase() + " condition", "$state$ == "
+            result.setProperty(state.toLowerCase() + " condition", "$state$ == "
                     + StateNum.get(state));
         }
-        result.put("fail condition", "$state$ == " + countState + "\n");
-        result.put("nonfail condition", "$state$ != " + countState + "\n");
+        result.setProperty("fail condition", "$state$ == " + countState + "\n");
+        result.setProperty("nonfail condition", "$state$ != " + countState + "\n");
         if (fsmInput.getAliases() != null) {
             for (FSMAlias a : fsmInput.getAliases()) {
                 String stateName = a.getGroupName();
@@ -174,7 +174,7 @@ public class JavaTFSM extends LogicPluginShell {
                 if (a.getStates().size() == 0)
                     conditionStr = "false";
 
-                result.put(stateName.toLowerCase() + " condition", conditionStr);
+                result.setProperty(stateName.toLowerCase() + " condition", conditionStr);
             }
         }
 
