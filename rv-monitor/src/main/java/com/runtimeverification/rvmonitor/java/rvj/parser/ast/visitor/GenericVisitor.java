@@ -23,8 +23,8 @@ package com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.*;;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;;
 
 /**
  * @author Julio Vilmar Gesser

@@ -2,9 +2,9 @@ package com.runtimeverification.rvmonitor.java.rvj.output;
 
 import java.util.List;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
 
 public class CoEnableSet extends EnableSet{
 

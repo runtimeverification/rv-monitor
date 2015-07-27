@@ -3,11 +3,11 @@ package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.*;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,24 +17,21 @@ import java.util.TreeMap;
 public class RawMonitor extends Monitor{
 
 	private final RVMVariable activity = new RVMVariable("RVM_activity");
-	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
-	private final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
-	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
-	
+	private final RVMVariable lastevent = new RVMVariable("RVM_lastevent");	
 	private final List<EventDefinition> events;
 	
 	private final UserJavaCode monitorDeclaration;
 
-	public RawMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
-		super(name, mopSpec, coenableSet, isOutermost);
+	public RawMonitor(String outputName, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+		super(outputName, mopSpec, coenableSet, isOutermost);
 		
 		this.isDefined = true;
 
 		this.monitorName = new RVMVariable(mopSpec.getName() + "RawMonitor");
 
 		if (isOutermost) {
-			varInOutermostMonitor = new VarInOutermostMonitor(name, mopSpec, mopSpec.getEvents());
-			monitorTermination = new MonitorTermination(name, mopSpec, mopSpec.getEvents(), coenableSet);
+			varInOutermostMonitor = new VarInOutermostMonitor(outputName, mopSpec, mopSpec.getEvents());
+			monitorTermination = new MonitorTermination(outputName, mopSpec, mopSpec.getEvents(), coenableSet);
 		}
 
 		monitorDeclaration = new UserJavaCode(mopSpec.getDeclarationsStr());
@@ -89,7 +86,6 @@ public class RawMonitor extends Monitor{
       // -P
 			eventActionStr = eventActionStr.replaceAll("__LOC", Util.defaultLocation);
 			eventActionStr = eventActionStr.replaceAll("__ACTIVITY", "this." + activity);
-			eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 			eventActionStr = eventActionStr.replaceAll("__SKIP",
 					BaseMonitor.skipEvent + " = true");
 
@@ -135,7 +131,7 @@ public class RawMonitor extends Monitor{
 		return ret;
 	}
 
-	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, GlobalLock l, String outputName, boolean inMonitorSet) {
 		String ret = "";
 
 //		if (has__LOC) {
@@ -145,21 +141,8 @@ public class RawMonitor extends Monitor{
 //				ret += monitorVar + "." + this.loc + " = " +
 //						"Thread.currentThread().getStackTrace()[2].toString()"
 //					+ ";\n";
-//				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
 //		}
 		
-		if (has__STATICSIG) {
-			if(staticsig != null)
-				ret += monitorVar + "." + this.staticsig + " = " + staticsig + ";\n";
-			else
-				ret += monitorVar + "." + this.staticsig + " = " + "thisJoinPoint.getStaticPart().getSignature()" + ";\n";
-		}
-
-		
-		if (this.hasThisJoinPoint){
-			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
-		}
-
 		ret += monitorVar + ".event_" + event.getId() + "(";
 		{
 			RVMParameters params;
@@ -170,10 +153,6 @@ public class RawMonitor extends Monitor{
 			ret += params.parameterString();
 		}
 		ret += ");\n";
-		
-		if (this.hasThisJoinPoint){
-			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
-		}
 		
 		return ret;
 	}
@@ -212,12 +191,6 @@ public class RawMonitor extends Monitor{
 			ret += activityCode();
 //		if (this.has__LOC)
 //			ret += "String " + loc + ";\n";
-		if (this.has__STATICSIG)
-			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
-
-		if (this.hasThisJoinPoint)
-			ret += "org.aspectj.lang.JoinPoint " + thisJoinPoint + " = null;\n";
-		
 		// implements getState(), which returns -1
 		{
 			ret += "@Override\n";

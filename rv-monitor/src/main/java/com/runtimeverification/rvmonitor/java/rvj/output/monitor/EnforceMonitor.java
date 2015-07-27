@@ -6,10 +6,10 @@ import java.util.HashMap;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.OptimizedCoenableSet;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 
 /***
  * 
@@ -23,10 +23,10 @@ public class EnforceMonitor extends BaseMonitor {
 	 * */
 	private String deadlockHandler = null;
 
-	public EnforceMonitor(String name, RVMonitorSpec mopSpec,
+	public EnforceMonitor(String outputName, RVMonitorSpec mopSpec,
 			OptimizedCoenableSet coenableSet, boolean isOutermost)
 			throws RVMException {
-		super(name, mopSpec, coenableSet, isOutermost, "Enforcement");
+		super(outputName, mopSpec, coenableSet, isOutermost, "Enforcement");
 		for (PropertyAndHandlers prop : props) {
 			HashMap<String, String> handlerBodies = prop.getHandlers();
 			String handlerBody = handlerBodies.get("deadlock");
@@ -68,7 +68,7 @@ public class EnforceMonitor extends BaseMonitor {
 	@Override
 	public String afterEventMethod(RVMVariable monitor,
 			PropertyAndHandlers prop, EventDefinition event, GlobalLock lock,
-			String aspectName) {
+			String outputName) {
 		String ret = "";
 		if (lock != null) {
 			ret += lock.getName() + "_cond.signalAll();\n";
@@ -85,7 +85,7 @@ public class EnforceMonitor extends BaseMonitor {
 	@Override
 	public String beforeEventMethod(RVMVariable monitor,
 			PropertyAndHandlers prop, EventDefinition event, GlobalLock lock,
-			String aspectName, boolean inMonitorSet) {
+			String outputName, boolean inMonitorSet) {
 
 		// If it is a blocking event, then it cannot be enforced.
 		// TODO
@@ -122,32 +122,6 @@ public class EnforceMonitor extends BaseMonitor {
 		ret += "break;\n";
 		ret += "}\n";
 		ret += "} while (true);\n\n";
-
-		// If there is blocking event point cut, wait for the thread to be
-		// blocked
-		
-		// we don't need that in rv-monitor because we have separate blockingEvent
-
-//		if (blockedThreads != null) {
-//			ret += "if (!cloned_monitor_condition_satisfied){\n";
-//			for (String var : blockedThreads) {
-//
-//				if (!(var.startsWith("\"") && var.endsWith("\"")))
-//					var = monitor + "." + var;
-//				ret += "while (!" + aspectName + ".containsBlockedThread("
-//						+ var + ")) {\n";
-//				ret += "if (!" + aspectName + ".containsThread(" + var
-//						+ ")) {\n";
-//				if (lock != null)
-//					ret += lock.getName() + "_cond.await();\n";
-//				ret += "}\n";
-//				if (lock != null)
-//					ret += lock.getName()
-//							+ "_cond.await(50L, TimeUnit.MILLISECONDS);\n";
-//				ret += "}\n";
-//			}
-//			ret += "}\n";
-//		}
 
 		ret += "} catch (Exception e) {\n";
 		ret += "e.printStackTrace();\n";

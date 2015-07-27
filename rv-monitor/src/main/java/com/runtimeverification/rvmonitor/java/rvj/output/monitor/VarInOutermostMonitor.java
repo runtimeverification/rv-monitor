@@ -1,7 +1,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.output.monitor;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 
 import java.util.List;
 

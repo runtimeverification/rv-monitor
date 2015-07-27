@@ -5,9 +5,9 @@ import com.runtimeverification.rvmonitor.java.rvj.output.RVMJavaCode;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.Monitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.Util;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
 
 import java.util.HashMap;
 
@@ -24,8 +24,6 @@ public class HandlerMethod {
 	private final HashMap<RVMParameter, RVMVariable> savedParams;
 
 	// local variables for now
-	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
-
 	private final boolean has__SKIP;
 
 	public HandlerMethod(PropertyAndHandlers prop, String category, RVMParameters specParam, RVMParameters commonParamInEvents,
@@ -41,7 +39,6 @@ public class HandlerMethod {
       //__DEFAULT_MESSAGE may contain __LOC, make sure to sub in __DEFAULT_MESSAGE first
       // -P
 			handlerBody = handlerBody.replaceAll("__LOC", Util.defaultLocation);
-			handlerBody = handlerBody.replaceAll("__STATICSIG", "this." + staticsig);
 			handlerBody = handlerBody.replaceAll("__SKIP",
 					BaseMonitor.skipEvent + " = true");
 			

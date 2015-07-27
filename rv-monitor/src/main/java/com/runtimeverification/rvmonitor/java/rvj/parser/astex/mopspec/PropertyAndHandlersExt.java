@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisitor;
@@ -27,8 +27,6 @@ public class PropertyAndHandlersExt extends ExtNode {
 	
 	private final HashMap<String, String> eventMonitoringCodes = new HashMap<String, String>();
 	private final HashMap<String, String> aftereventMonitoringCodes = new HashMap<String, String>();
-	
-	private boolean versionedStack = false;
 
 	public PropertyAndHandlersExt(int line, int column, PropertyExt property, HashMap<String, String> handlers, List<HandlerExt> handlerList) {
 		super(line, column);
@@ -117,14 +115,6 @@ public class PropertyAndHandlersExt extends ExtNode {
 
 	public String getAfterEventMonitoringCode(String eventName){
 		return aftereventMonitoringCodes.get(eventName);
-	}
-	
-	public void setVersionedStack(){
-		versionedStack = true;
-	}
-
-	public boolean getVersionedStack(){
-		return versionedStack;
 	}
 
 	@Override

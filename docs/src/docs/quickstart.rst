@@ -300,13 +300,6 @@ the rvm folder.
     -v | -verbose         enable verbose output
     -debug            enable verbose error message
 
-    -local          + use local logic engine
-    -remote           use default remote logic engine
-                  http://fsl.cs.uiuc.edu/jsps/logic-2.2.php
-                  (You can change the default address
-                   in com/runtimeverification/rvmonitor/java/rvj/config/remote_server_addr.properties)
-    -remote:<server address>      use remote logic engine
-
     -d <output path>          select directory to store output files
     -n <name>             use the given class name instead of source code name
 
@@ -315,6 +308,7 @@ the rvm folder.
 
     -finegrainedlock          use fine-grained lock for internal data structure
     -weakrefinterning         use WeakReference interning in indexing trees
+    --version                 display RV-Monitor version information
 
 Examples
 --------

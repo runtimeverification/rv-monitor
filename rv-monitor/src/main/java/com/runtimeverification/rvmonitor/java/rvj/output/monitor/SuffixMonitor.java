@@ -9,21 +9,19 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeStmtCollect
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.CodeVarRefExpr;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 
 import java.util.*;
 
 public class SuffixMonitor extends Monitor {
 	private final RVMVariable activity = new RVMVariable("RVM_activity");
 	private final RVMVariable loc = new RVMVariable("RVM_loc");
-	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 	private final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
-	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 
 	private List<EventDefinition> events;
 
@@ -32,7 +30,6 @@ public class SuffixMonitor extends Monitor {
 	private ArrayList<String> categories;
 	private final RVMVariable monitorList = new RVMVariable("monitorList");
 	private boolean existSkip = false;
-	private String aspectName;
 	
 	@Override
 	public MonitorFeatures getFeatures() {
@@ -41,8 +38,8 @@ public class SuffixMonitor extends Monitor {
 		return this.innerMonitor.getFeatures();
 	}
 	
-	public SuffixMonitor(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
-		super(name, mopSpec, coenableSet, isOutermost);
+	public SuffixMonitor(String outputName, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost) throws RVMException {
+		super(outputName, mopSpec, coenableSet, isOutermost);
 
 		this.isDefined = mopSpec.isSuffixMatching();
 
@@ -50,14 +47,14 @@ public class SuffixMonitor extends Monitor {
 			monitorName = new RVMVariable(mopSpec.getName() + "SuffixMonitor");
 
 			if (isOutermost) {
-				varInOutermostMonitor = new VarInOutermostMonitor(name, mopSpec, mopSpec.getEvents());
-				monitorTermination = new MonitorTermination(name, mopSpec, mopSpec.getEvents(), coenableSet);
+				varInOutermostMonitor = new VarInOutermostMonitor(outputName, mopSpec, mopSpec.getEvents());
+				monitorTermination = new MonitorTermination(outputName, mopSpec, mopSpec.getEvents(), coenableSet);
 			}
 			
 			if (mopSpec.isEnforce())
 			{
 				// TODO Do we need raw monitor for enforcing properties?
-				innerMonitor = new EnforceMonitor(name, mopSpec, coenableSet, false);
+				innerMonitor = new EnforceMonitor(outputName, mopSpec, coenableSet, false);
 				for (PropertyAndHandlers p : mopSpec.getPropertiesAndHandlers()) {
 					int totalHandlers = p.getHandlers().size();
 					if (p.getHandlers().containsKey("deadlock"))
@@ -71,9 +68,9 @@ public class SuffixMonitor extends Monitor {
 			else
 			{
 				if (mopSpec.getPropertiesAndHandlers().size() == 0)
-					innerMonitor = new RawMonitor(name, mopSpec, coenableSet, false);
+					innerMonitor = new RawMonitor(outputName, mopSpec, coenableSet, false);
 				else		
-					innerMonitor = new BaseMonitor(name, mopSpec, coenableSet, false);
+					innerMonitor = new BaseMonitor(outputName, mopSpec, coenableSet, false);
 			}
 			events = mopSpec.getEvents();
 			
@@ -98,7 +95,7 @@ public class SuffixMonitor extends Monitor {
 			if (mopSpec.isEnforce())
 			{
 				// TODO Do we need raw monitor for enforcing properties?
-				innerMonitor = new EnforceMonitor(name, mopSpec, coenableSet, isOutermost);
+				innerMonitor = new EnforceMonitor(outputName, mopSpec, coenableSet, isOutermost);
 				for (PropertyAndHandlers p : mopSpec.getPropertiesAndHandlers()) {
 					int totalHandlers = p.getHandlers().size();
 					if (p.getHandlers().containsKey("deadlock"))
@@ -111,9 +108,9 @@ public class SuffixMonitor extends Monitor {
 			else
 			{
 				if (mopSpec.getPropertiesAndHandlers().size() == 0)
-					innerMonitor = new RawMonitor(name, mopSpec, coenableSet, isOutermost);
+					innerMonitor = new RawMonitor(outputName, mopSpec, coenableSet, isOutermost);
 				else		
-					innerMonitor = new BaseMonitor(name, mopSpec, coenableSet, isOutermost);
+					innerMonitor = new BaseMonitor(outputName, mopSpec, coenableSet, isOutermost);
 			}
 		}
 
@@ -131,13 +128,6 @@ public class SuffixMonitor extends Monitor {
 			monitorTermination.setRefTrees(refTrees);
 	}
 	
-	public void setAspectName(String name) {
-		this.aspectName = name;
-	}
-	
-	public String getAspectName() {
-		return this.aspectName;
-	}
 
 	public RVMVariable getOutermostName() {
 		if (isDefined)
@@ -204,7 +194,7 @@ public class SuffixMonitor extends Monitor {
 		ret += "while (" + it + ".hasNext()){\n";
 		ret += innerMonitor.getOutermostName() + " " + monitor + " = (" + innerMonitor.getOutermostName() + ")" + it + ".next();\n";
 
-		ret += innerMonitor.Monitoring(monitor, event, loc, staticsig, null, this.aspectName, false);
+		ret += innerMonitor.Monitoring(monitor, event, loc, null, this.getOutputName(), false);
 
 		ret += "if(" + monitorSet + ".contains(" + monitor + ")";
 		for (RVMVariable categoryVar : categoryVars) {
@@ -223,11 +213,11 @@ public class SuffixMonitor extends Monitor {
 		return ret;
 	}
 
-	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock l, String aspectName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, GlobalLock l, String outputName, boolean inMonitorSet) {
 		String ret = "";
 
 		if (!isDefined)
-			return innerMonitor.Monitoring(monitorVar, event, loc, staticsig, l, aspectName, inMonitorSet);
+			return innerMonitor.Monitoring(monitorVar, event, loc, l, outputName, inMonitorSet);
 
 //		if (has__LOC) {
 //			if(loc != null)
@@ -236,20 +226,8 @@ public class SuffixMonitor extends Monitor {
 //				ret += monitorVar + "." + this.loc + " = " +
 //						"Thread.currentThread().getStackTrace()[2].toString()"
 //						+ ";\n";
-//			else
-//				ret += monitorVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
 //		}
-		if (has__STATICSIG) {
-			if(staticsig != null)
-				ret += monitorVar + "." + this.staticsig + " = " + staticsig + ";\n";
-			else
-				ret += monitorVar + "." + this.staticsig + " = " + "thisJoinPoint.getStaticPart().getSignature()" + ";\n";
-		}
-
-		if (this.hasThisJoinPoint){
-			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
-		}
-
+		
 		ret += monitorVar + ".event_" + event.getId() + "(";
 		{
 			RVMParameters passing;
@@ -274,10 +252,7 @@ public class SuffixMonitor extends Monitor {
 					monitorVar + "." + BaseMonitor.skipEvent + ";\n";
 			ret += monitorVar + "." + BaseMonitor.skipEvent + " = false;\n";
 		}
-		if (this.hasThisJoinPoint) {
-			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
-		}
-
+		
 		return ret;
 	}
 
@@ -312,12 +287,6 @@ public class SuffixMonitor extends Monitor {
 
 			if (this.has__ACTIVITY)
 				ret += activityCode();
-//			if (this.has__LOC)
-//				ret += "String " + loc + ";\n";
-			if (this.has__STATICSIG)
-				ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
-			if (this.hasThisJoinPoint)
-				ret += "org.aspectj.lang.JoinPoint " + thisJoinPoint + " = null;\n";
 			if (existSkip)
 				ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
 
@@ -379,7 +348,7 @@ public class SuffixMonitor extends Monitor {
 		
 		// Modernizing the monitoring code takes too much effort. Maybe later.
 		RVMVariable monitorvar = affectedref.getVariable().toLegacy();
-		String mntcode = this.Monitoring(monitorvar, event, null, null, enforcelock, this.getAspectName(), false);
+		String mntcode = this.Monitoring(monitorvar, event, null, enforcelock, this.getOutputName(), false);
 		stmts.add(CodeStmtCollection.fromLegacy(mntcode));
 
 		// The referred variable is marked so that the dead-code elimination step

@@ -1,7 +1,7 @@
 package com.runtimeverification.rvmonitor.util;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameterSet;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameterSet;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
 
 class RVMonitorTruthTable {
     private final int level;

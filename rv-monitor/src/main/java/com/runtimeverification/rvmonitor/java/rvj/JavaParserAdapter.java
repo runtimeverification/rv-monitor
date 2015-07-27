@@ -5,21 +5,16 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
 import com.runtimeverification.rvmonitor.util.RVMException;
-
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
-
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.SpecModifierSet;
-
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.SpecModifierSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
-
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.EventDefinitionExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.ExtendedSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.FormulaExt;
@@ -27,16 +22,13 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.HandlerEx
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.PropertyExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.PropertyAndHandlersExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec.RVMonitorSpecExt;
-
 import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException;
 import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.RVMonitorParser;
-
 import com.runtimeverification.rvmonitor.core.ast.Event;
 import com.runtimeverification.rvmonitor.core.ast.MonitorFile;
 import com.runtimeverification.rvmonitor.core.ast.Property;
 import com.runtimeverification.rvmonitor.core.ast.PropertyHandler;
 import com.runtimeverification.rvmonitor.core.ast.Specification;
-
 import com.runtimeverification.rvmonitor.core.parser.RVParser;
 
 /**

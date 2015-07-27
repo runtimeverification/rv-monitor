@@ -1,8 +1,8 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.aspectj.TypePattern;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.TypePattern;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisitor;

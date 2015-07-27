@@ -27,9 +27,9 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVari
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.reftree.RefTree;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.*;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -89,11 +89,9 @@ class PropMonitor {
 
 public class BaseMonitor extends Monitor {
 	// fields
-	final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
 	final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
 	public static RVMVariable skipEvent = new RVMVariable("skipEvent");
 	private final RVMVariable conditionFail = new RVMVariable("RVM_conditionFail");
-	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 	
 	private boolean atomicMonitorTried = false;
 	private CodeMemberField pairValueField;
@@ -109,7 +107,6 @@ public class BaseMonitor extends Monitor {
 	List<EventDefinition> events;
 	private RVMParameters specParam;
 	private UserJavaCode monitorDeclaration;
-	private String systemAspectName;
 	private boolean existCondition = false;
 	private boolean existSkip = false;
 	private HashMap<RVMParameter, RVMVariable> varsToSave = new HashMap<RVMParameter, RVMVariable>();
@@ -132,10 +129,6 @@ public class BaseMonitor extends Monitor {
 		if (Main.useAtomicMonitor) {
 			boolean simple = true;
 			for (PropertyAndHandlers prop : props) {
-				if (prop.getVersionedStack()) {
-					simple = false;
-					break;
-				}
 				PropMonitor propMonitor = propMonitors.get(prop);
 				if (!propMonitor.isSimpleFSM()) {
 					simple = false;
@@ -157,7 +150,6 @@ public class BaseMonitor extends Monitor {
 	public void initialize(String name, RVMonitorSpec mopSpec, OptimizedCoenableSet coenableSet, boolean isOutermost, String monitorNameSuffix) {
 		this.isDefined = true;
 		this.monitorName = new RVMVariable(mopSpec.getName() + monitorNameSuffix + "Monitor");
-		this.systemAspectName = name + "SystemAspect";
 		this.events = mopSpec.getEvents();
 		this.props = mopSpec.getPropertiesAndHandlers();
 		this.monitorDeclaration = new UserJavaCode(mopSpec.getDeclarationsStr());
@@ -312,7 +304,6 @@ public class BaseMonitor extends Monitor {
 						Util.defaultLocation);
 //						"this." + loc);
 				eventActionStr = eventActionStr.replaceAll("__ACTIVITY", "this." + activity);
-				eventActionStr = eventActionStr.replaceAll("__STATICSIG", "this." + staticsig);
 				eventActionStr = eventActionStr.replaceAll("__SKIP", "this." + skipEvent + " = true");
 	
 				eventAction = new RVMJavaCode(eventActionStr);
@@ -376,14 +367,6 @@ public class BaseMonitor extends Monitor {
 
 		ret += propMonitors.get(prop).localDeclaration;
 
-		if (prop.getVersionedStack()) {
-			RVMVariable global_depth = new RVMVariable("global_depth");
-			RVMVariable version = new RVMVariable("version");
-
-			ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
-			ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
-		}
-
 		ret += stackManage + "\n";
 
 		if (!this.isAtomicMoniorUsed())
@@ -421,7 +404,7 @@ public class BaseMonitor extends Monitor {
 		return this.printEventMethod(prop, event, "");	
 	}
 	
-	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock lock, String aspectName, boolean inMonitorSet) {
+	public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc, GlobalLock lock, String outputName, boolean inMonitorSet) {
 		String ret = "";
 
 //		if (has__LOC) {
@@ -433,24 +416,13 @@ public class BaseMonitor extends Monitor {
 //					+ ";\n";
 //		}
 
-		if (has__STATICSIG) {
-			if(staticsig != null)
-				ret += monitorVar + "." + this.staticsig + " = " + staticsig + ";\n";
-			else
-				ret += monitorVar + "." + this.staticsig + " = " + "thisJoinPoint.getStaticPart().getSignature()" + ";\n";
-		}
-
-		if (this.hasThisJoinPoint){
-			ret += monitorVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
-		}
-
 		if (event.isBlockingEvent())
 			ret += "boolean cloned_monitor_condition_satisfied = true;\n";
 
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			
-			ret += this.beforeEventMethod(monitorVar, prop, event, lock, aspectName, inMonitorSet);
+			ret += this.beforeEventMethod(monitorVar, prop, event, lock, outputName, inMonitorSet);
 			
 			RVMVariable finalMonitor = new RVMVariable(monitorVar + "finalMonitor");
 			ret += "final " + this.monitorName + " " + finalMonitor +
@@ -537,15 +509,10 @@ public class BaseMonitor extends Monitor {
 			
 			if (!event.isBlockingEvent()) {
 				ret += this.afterEventMethod(monitorVar, prop, event, lock,
-						aspectName);
+						outputName);
 				ret += handlerCode;
 			}
 		}
-		
-		if (this.hasThisJoinPoint){
-			ret += monitorVar + "." + this.thisJoinPoint + " = null;\n";
-		}
-
 		
 		return ret;
 	}
@@ -592,11 +559,11 @@ public class BaseMonitor extends Monitor {
 		return ret;
 	}
 	
-	public String afterEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String aspectName) {
+	public String afterEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String outputName) {
 		return "";
 	}
 
-	public String beforeEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String aspectName, boolean inMonitorSet) {
+	public String beforeEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event, GlobalLock l, String outputName, boolean inMonitorSet) {
 		return "";
 	}
 
@@ -725,10 +692,6 @@ public class BaseMonitor extends Monitor {
         if (Main.statistics) {
             ret += stat.fieldDecl() + "\n";
         }
-		if (this.has__STATICSIG)
-			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
-		if (this.hasThisJoinPoint)
-			ret += "org.aspectj.lang.JoinPoint " + thisJoinPoint + " = null;\n";
 
 		// references for saved parameters
 		for (RVMVariable v : varsToSave.values()) {
@@ -790,16 +753,6 @@ public class BaseMonitor extends Monitor {
 		ret += ") {\n";
 		if (feature.isTimeTrackingNeeded())
 			ret += "this.tau = tau;\n";
-		for(PropertyAndHandlers prop : props){
-			if (prop.getVersionedStack()) {
-				RVMVariable global_depth = new RVMVariable("global_depth");
-				RVMVariable version = new RVMVariable("version");
-	
-				ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
-				ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
-				break;
-			}
-		}
 		for(PropertyAndHandlers prop : props){
 			PropMonitor propMonitor = propMonitors.get(prop);
 			ret += propMonitor.localDeclaration;
@@ -893,15 +846,6 @@ public class BaseMonitor extends Monitor {
 		ret += "final" + synch + "void reset() {\n";
 		if (monitorInfo != null)
 			ret += monitorInfo.initConnected();
-		for(PropertyAndHandlers prop : props){
-			if (prop.getVersionedStack()) {
-				RVMVariable global_depth = new RVMVariable("global_depth");
-				RVMVariable version = new RVMVariable("version");
-	
-				ret += "int[] " + global_depth + " = (int[])(" + systemAspectName + ".t_global_depth.get());\n";
-				ret += "int[] " + version + " = (int[])(" + systemAspectName + ".t_version.get());\n";
-			}
-		}
 		if (isOutermost) {
 			if (!this.isAtomicMoniorUsed())
 				ret += lastevent + " = -1;\n";

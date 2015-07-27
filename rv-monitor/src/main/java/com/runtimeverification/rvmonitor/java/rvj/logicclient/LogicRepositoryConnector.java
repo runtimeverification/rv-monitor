@@ -1,31 +1,22 @@
 package com.runtimeverification.rvmonitor.java.rvj.logicclient;
 
-import com.runtimeverification.rvmonitor.java.rvj.Configuration;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.OutputStream;
+
 import com.runtimeverification.rvmonitor.java.rvj.Main;
-import com.runtimeverification.rvmonitor.util.RVMException;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.Formula;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.PropertyType;
+import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.StreamGobbler;
 import com.runtimeverification.rvmonitor.util.Tool;
 
-import java.io.File;
-import java.io.DataOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-
 public class LogicRepositoryConnector {
-	public static String serverName = "local";
 	public static boolean verbose = false;
 
 	public static LogicRepositoryType process(RVMonitorSpec mopSpec, PropertyAndHandlers prop) throws RVMException {
@@ -98,108 +89,57 @@ public class LogicRepositoryConnector {
 		}
 
 		ByteArrayOutputStream logicOutput_OutputStream;
-		if (LogicRepositoryConnector.serverName.compareTo("local") == 0) {
-//            System.out.println(System.getProperty("java.class.path"));
-			Class<?> logicClass = Class.forName("com.runtimeverification.rvmonitor.logicrepository.Main");
-			ClassLoader loader = logicClass.getClassLoader();
-			String logicClassPath = loader.getResource("com/runtimeverification/rvmonitor/logicrepository/Main.class").toString();
+		Class<?> logicClass = Class.forName("com.runtimeverification.rvmonitor.logicrepository.Main");
+		ClassLoader loader = logicClass.getClassLoader();
+		String logicClassPath = loader.getResource("com/runtimeverification/rvmonitor/logicrepository/Main.class").toString();
 
-			boolean isLogicRepositoryInJar = false;
-			String logicJarFilePath = "";
-			String logicPackageFilePath = "";
+		boolean isLogicRepositoryInJar = false;
+		String logicJarFilePath = "";
+		String logicPackageFilePath = "";
 
-//            System.out.println("LogicClassPath: " + logicClassPath);
-			if (logicClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/logicrepository/Main.class") && logicClassPath.startsWith("jar:")) {
-				isLogicRepositoryInJar = true;
+		if (logicClassPath.endsWith(".jar!/com/runtimeverification/rvmonitor/logicrepository/Main.class") && logicClassPath.startsWith("jar:")) {
+			isLogicRepositoryInJar = true;
 
-				logicJarFilePath = logicClassPath.substring("jar:file:".length(), logicClassPath.length() - "!/com/runtimeverification/rvmonitor/logicrepository/Main.class".length());
-				logicJarFilePath = Tool.polishPath(logicJarFilePath);
-//                System.out.println("LogicJarPath: " + logicJarFilePath);
-			} else {
-				logicPackageFilePath = logicClassPath.substring("file:".length(), logicClassPath.length() - "/Main.class".length());
-				logicPackageFilePath = Tool.polishPath(logicPackageFilePath);
-			}
-
-			String logicPluginFarFilePath = new File(logicJarFilePath).getParent() + File.separator + "plugins" + File.separator + "*";
-//            System.out.println("LogicPluginPath: " + logicPluginFarFilePath);
-
-			if (isLogicRepositoryInJar) {
-				String mysqlConnectorPath = new File(Main.jarFilePath).getParent() + "/lib/mysql-connector-java-3.0.9-stable-bin.jar";
-//                System.out.println("MysqlConPath: " + mysqlConnectorPath);
-				String executePath = new File(logicJarFilePath).getParent();
-//                System.out.println("ExecutePath: " + executePath);
-
-				String[] cmdarray = {
-						"java",
-						"-cp",
-						Tool.polishPath(logicJarFilePath) + File.pathSeparator + logicPluginFarFilePath + File.pathSeparator + mysqlConnectorPath
-								+ File.pathSeparator + new File(Main.jarFilePath).getParent() + "/scala-library.jar", "com.runtimeverification.rvmonitor.logicrepository.Main" };
-
-				logicOutput_OutputStream = executeProgram(cmdarray, executePath, logicInput_InputStream);
-			} else {
-				// The following didn't work at least under Windows.
-				// String executePath = new File(logicPackageFilePath).getParent();
-				String executePath = null;
-				{
-					File logic = new File(logicPackageFilePath);
-					File rvmonitor = logic.getParentFile();
-					File runtimeverification = rvmonitor.getParentFile();
-					File com = runtimeverification.getParentFile();
-					File root = com.getParentFile();
-					executePath = root.getAbsolutePath();
-				}
-				
-				String mysqlConnectorPath = executePath + File.separator + "lib" + File.separator + "mysql-connector-java-3.0.9-stable-bin.jar";
-				String scalaPath = executePath + File.separator + "lib" + File.separator + "scala-library.jar";
-
-				String[] cmdarray = { "java", "-cp",
-						Tool.polishPath(executePath) + File.pathSeparator + mysqlConnectorPath + File.pathSeparator + scalaPath, "com.runtimeverification.rvmonitor.logicrepository.Main" };
-
-				logicOutput_OutputStream = executeProgram(cmdarray, executePath, logicInput_InputStream);
-			}
+			logicJarFilePath = logicClassPath.substring("jar:file:".length(), logicClassPath.length() - "!/com/runtimeverification/rvmonitor/logicrepository/Main.class".length());
+			logicJarFilePath = Tool.polishPath(logicJarFilePath);
 		} else {
-			URL url;
-			URLConnection urlConn;
-			DataOutputStream printout;
-			BufferedReader input;
-			String result = "";
+			logicPackageFilePath = logicClassPath.substring("file:".length(), logicClassPath.length() - "/Main.class".length());
+			logicPackageFilePath = Tool.polishPath(logicPackageFilePath);
+		}
 
-			if (LogicRepositoryConnector.serverName.compareTo("default") == 0) {
-				if(Configuration.getServerAddr() == null)
-					throw new RVMException("remote server address configuration file not found");
-				
-				url = new URL(Configuration.getServerAddr());
-			} else
-				url = new URL(LogicRepositoryConnector.serverName);
+		String logicPluginFarFilePath = new File(logicJarFilePath).getParent() + File.separator + "plugins" + File.separator + "*";
 
-			// URL connection channel.
-			urlConn = url.openConnection();
-			((HttpURLConnection) urlConn).setRequestMethod("POST");
-			// Let the run-time system (RTS) know that we want input.
-			urlConn.setDoInput(true);
-			// Let the RTS know that we want to do output.
-			urlConn.setDoOutput(true);
-			// No caching, we want the real thing.
-			urlConn.setUseCaches(false);
-			// Specify the content type.
-			urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			// Send POST output.
-			printout = new DataOutputStream(urlConn.getOutputStream());
-			String request = URLEncoder.encode("input", "UTF-8") + "=" + URLEncoder.encode(logicinputstr, "UTF-8");
-			printout.writeBytes(request);
-			printout.flush();
-			printout.close();
+		if (isLogicRepositoryInJar) {
+			String mysqlConnectorPath = new File(Main.jarFilePath).getParent() + "/lib/mysql-connector-java-3.0.9-stable-bin.jar";
+			String executePath = new File(logicJarFilePath).getParent();
 
-			// Get response data.
-			input = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
-			String str;
-			while (null != ((str = input.readLine()))) {
-				result += str + "\n";
+			String[] cmdarray = {
+					"java",
+					"-cp",
+					Tool.polishPath(logicJarFilePath) + File.pathSeparator + logicPluginFarFilePath + File.pathSeparator + mysqlConnectorPath
+							+ File.pathSeparator + new File(Main.jarFilePath).getParent() + "/scala-library.jar", "com.runtimeverification.rvmonitor.logicrepository.Main" };
+
+			logicOutput_OutputStream = executeProgram(cmdarray, executePath, logicInput_InputStream);
+		} else {
+			// The following didn't work at least under Windows.
+			// String executePath = new File(logicPackageFilePath).getParent();
+			String executePath = null;
+			{
+				File logic = new File(logicPackageFilePath);
+				File rvmonitor = logic.getParentFile();
+				File runtimeverification = rvmonitor.getParentFile();
+				File com = runtimeverification.getParentFile();
+				File root = com.getParentFile();
+				executePath = root.getAbsolutePath();
 			}
-			input.close();
+			
+			String mysqlConnectorPath = executePath + File.separator + "lib" + File.separator + "mysql-connector-java-3.0.9-stable-bin.jar";
+			String scalaPath = executePath + File.separator + "lib" + File.separator + "scala-library.jar";
 
-			logicOutput_OutputStream = new ByteArrayOutputStream();
-			logicOutput_OutputStream.write(result.getBytes());
+			String[] cmdarray = { "java", "-cp",
+					Tool.polishPath(executePath) + File.pathSeparator + mysqlConnectorPath + File.pathSeparator + scalaPath, "com.runtimeverification.rvmonitor.logicrepository.Main" };
+
+			logicOutput_OutputStream = executeProgram(cmdarray, executePath, logicInput_InputStream);
 		}
 
 		if (verbose) {
@@ -214,7 +154,6 @@ public class LogicRepositoryConnector {
 	static public ByteArrayOutputStream executeProgram(String[] cmdarray, String path, ByteArrayInputStream input) throws RVMException {
 		Process child;
 		String output = "";
-//        System.out.println("Execute options: \n\n\n" + cmdarray.toString() + "\n" + path + "\n\n");
 		try {
 			child = Runtime.getRuntime().exec(cmdarray, null, new File(path));
 			OutputStream out = child.getOutputStream();

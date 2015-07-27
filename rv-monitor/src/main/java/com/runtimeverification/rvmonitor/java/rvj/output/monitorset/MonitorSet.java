@@ -29,22 +29,22 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.CodeVari
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFormatter;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeRVType;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.GlobalLock;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.event.itf.WeakReferenceVariables;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.indexingtree.IndexingTreeManager;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingDeclNew;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Entry;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.StmtCollectionInserter;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeInterface;
-import com.runtimeverification.rvmonitor.java.rvj.output.combinedaspect.newindexingtree.IndexingTreeImplementation.Access;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.event.itf.WeakReferenceVariables;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.IndexingTreeManager;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.newindexingtree.IndexingDeclNew;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.newindexingtree.IndexingTreeInterface;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.newindexingtree.IndexingTreeImplementation.Access;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.newindexingtree.IndexingTreeImplementation.Entry;
+import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.newindexingtree.IndexingTreeImplementation.StmtCollectionInserter;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.BaseMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.MonitorFeatures;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameters;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,13 +60,9 @@ public class MonitorSet {
 	private final SuffixMonitor monitor;
 
 	private final ArrayList<EventDefinition> events;
-	private final boolean has__STATICSIG;
-	private final boolean hasThisJoinPoint;
 	private boolean existSkip = false;
 
 	private final RVMVariable loc = new RVMVariable("RVM_loc");
-	private final RVMVariable staticsig = new RVMVariable("RVM_staticsig");
-	private final RVMVariable thisJoinPoint = new RVMVariable("thisJoinPoint");
 	
 	private GlobalLock monitorLock;
 	
@@ -89,9 +85,6 @@ public class MonitorSet {
 		this.monitor = monitor;
 		this.setName = new RVMVariable(monitorName + "_Set");
 		this.events = new ArrayList<EventDefinition>(mopSpec.getEvents());
-
-		this.has__STATICSIG = mopSpec.has__STATICSIG();
-		this.hasThisJoinPoint = mopSpec.hasThisJoinPoint();
 
 		for (PropertyAndHandlers prop : mopSpec.getPropertiesAndHandlers()) {
 			for (String handler : prop.getHandlers().values()) {
@@ -269,7 +262,7 @@ public class MonitorSet {
 		*/
 
 		RVMVariable monitorvar = setref.getVariable().toLegacy();
-		String mntcode = this.Monitoring(monitorvar, event, null, null, enforcelock);
+		String mntcode = this.Monitoring(monitorvar, event, null, enforcelock);
 		stmts.add(CodeStmtCollection.fromLegacy(mntcode));
 
 		// The referred variable is marked so that the dead-code elimination step
@@ -279,7 +272,7 @@ public class MonitorSet {
 		return stmts;
 	}
 
-	public String Monitoring(RVMVariable monitorSetVar, EventDefinition event, RVMVariable loc, RVMVariable staticsig, GlobalLock lock) {
+	public String Monitoring(RVMVariable monitorSetVar, EventDefinition event, RVMVariable loc, GlobalLock lock) {
 		this.monitorLock = lock;
 		String ret = "";
 
@@ -293,20 +286,7 @@ public class MonitorSet {
 //				ret += monitorSetVar + "." + this.loc + " = " +
 //						"Thread.currentThread().getStackTrace()[2].toString()"
 //						+ ";\n";
-//			else
-//				ret += monitorSetVar + "." + this.loc + " = " + "thisJoinPoint.getSourceLocation().toString()" + ";\n";
 //		}
-		
-		if (has__STATICSIG) {
-			if(staticsig != null)
-				ret +=  monitorSetVar + "." + this.staticsig + " = " + staticsig + ";\n";
-			else
-				ret +=  monitorSetVar + "." + this.staticsig + " = " + "thisJoinPoint.getStaticPart().getSignature()" + ";\n";
-		}
-
-		if (this.hasThisJoinPoint) {
-			ret += monitorSetVar + "." + this.thisJoinPoint + " = " + this.thisJoinPoint + ";\n";
-		}
 
 		ret += monitorSetVar + ".event_" + event.getId() + "(";
 		{
@@ -328,10 +308,6 @@ public class MonitorSet {
 		}
 
 		// ret += "}\n";
-
-		if (this.hasThisJoinPoint) {
-			ret += monitorSetVar + "." + this.thisJoinPoint + " = null;\n";
-		}
 		
 		return ret;
 	}
@@ -602,14 +578,9 @@ public class MonitorSet {
 
 //		if (has__LOC)
 //			ret += "String " + loc + " = null;\n";
-		if (this.has__STATICSIG)
-			ret += "org.aspectj.lang.Signature " + staticsig + ";\n";
 
 		if (existSkip)
 			ret += "boolean " + BaseMonitor.skipEvent + " = false;\n";
-
-		if (hasThisJoinPoint)
-			ret += "org.aspectj.lang.JoinPoint " + this.thisJoinPoint + " = null;\n";
 
 		if (!Main.eliminatePresumablyRemnantCode) {
 			for (RVMVariable var : this.monitor.getCategoryVars()) {
@@ -718,7 +689,7 @@ public class MonitorSet {
 				ret += "elements[" + numAlive + "] = " + monitor + ";\n";
 				ret += numAlive + "++;\n";
 				ret += "\n";
-				ret += this.monitor.Monitoring(monitor, event, loc, staticsig, this.monitorLock, this.monitor.getAspectName(), true);
+				ret += this.monitor.Monitoring(monitor, event, loc, this.monitorLock, this.monitor.getOutputName(), true);
 				ret += "}\n";
 				ret += "}\n";
 	

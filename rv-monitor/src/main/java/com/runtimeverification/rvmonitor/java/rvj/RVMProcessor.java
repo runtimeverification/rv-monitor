@@ -8,13 +8,12 @@ package com.runtimeverification.rvmonitor.java.rvj;
 import com.runtimeverification.rvmonitor.java.rvj.logicclient.LogicRepositoryConnector;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellFactory;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
-import com.runtimeverification.rvmonitor.java.rvj.output.AspectJCode;
-import com.runtimeverification.rvmonitor.java.rvj.output.JavaLibCode;
+import com.runtimeverification.rvmonitor.java.rvj.output.RVMOutputCode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.EventDefinition;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMParameter;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.RVMonitorSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.mopspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.util.Tool;
@@ -56,10 +55,6 @@ public class RVMProcessor {
 				// get the monitor from the logic shell
 				LogicPluginShellResult logicShellOutput = LogicPluginShellFactory.process(logicOutput, mopSpec.getEventStr(), "java");
 				prop.setLogicShellOutput(logicShellOutput);
-				
-				if(logicOutput.getMessage().contains("versioned stack")){
-					prop.setVersionedStack();
-				}
 
 				if (verbose) {
 					System.out.println("== result from logic shell ==");
@@ -75,10 +70,7 @@ public class RVMProcessor {
 		}
 
 		// Generate output code
-		if (Main.toJavaLib)
-			result = (new JavaLibCode(name, rvmSpecFile)).toString();
-		else
-			result = (new AspectJCode(name, rvmSpecFile)).toString();
+		result = (new RVMOutputCode(name, rvmSpecFile)).toString();
 
 
 		// Do indentation

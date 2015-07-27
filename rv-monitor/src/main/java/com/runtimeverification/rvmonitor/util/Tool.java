@@ -220,13 +220,6 @@ public class Tool {
         int j = path.lastIndexOf(".");
         return path.substring(i+1, j);        
     }
-    public static String replacePredefinedKeywords(String str){
-        return str.replaceAll("\\@LINENUM", "thisJoinPoint.getSourceLocation().getLine()").replaceAll("\\@LOC", "thisJoinPoint.getSourceLocation().toString()");
-    }
-    
-    public static boolean containsKeywords(String str){
-        return str.indexOf("@LINENUM")>-1 || str.indexOf("@LOC")>-1;
-    }
     
     public static String convertFileToString(File file) throws IOException{
         FileInputStream fileInputStream = new FileInputStream(file);

@@ -22,15 +22,12 @@ public class Main {
     static File outputDir = null;
     public static boolean debug = false;
     public static boolean noopt1 = false;
-    public static boolean toJavaLib = false;
     public static boolean statistics = false;
     public static boolean statistics2 = false;
-    public static String aspectname = null;
+    public static String outputName = null;
     public static boolean isJarFile = false;
     public static String jarFilePath = null;
-    
-    public static boolean dacapo = false;
-    public static boolean dacapo2 = false;
+
     public static boolean silent = false;
     public static boolean empty_advicebody = false;
     
@@ -84,29 +81,6 @@ public class Main {
         }
     }
     
-    
-    /**
-     * Process a java file including mop annotations to generate a runtime
-     * monitor file. The file argument should be an initialized file object.
-     * The location argument should contain the original file name, but it
-     * may have a different directory.
-     * 
-     * @param file
-     *            a File object containing the specification file
-     * @param location
-     *            an absolute path for result file
-     */
-    public static void processJavaFile(File file, String location) throws RVMException {
-        RVMNameSpace.init();
-        String specStr = SpecExtractor.process(file);
-        RVMSpecFile spec =  SpecExtractor.parse(specStr);
-        
-        RVMProcessor processor = new RVMProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
-        
-        String aspect = processor.process(spec);
-        writeAspectFile(aspect, location);
-    }
-    
     /**
      * Process a specification file to generate a runtime monitor file.
      * The file argument should be an initialized file object. The location
@@ -123,15 +97,18 @@ public class Main {
         String specStr = SpecExtractor.process(file);
         RVMSpecFile spec =  SpecExtractor.parse(specStr);
         
-        RVMProcessor processor = new RVMProcessor(Main.aspectname == null ? Tool.getFileName(file.getAbsolutePath()) : Main.aspectname);
+    	if (outputDir == null) {
+    		ArrayList<File> specList = new ArrayList<File>();
+    		specList.add(file);
+    		outputDir = getTargetDir(specList);
+    	}
+        
+        String outputName = Main.outputName == null ? Tool.getFileName(file.getAbsolutePath()) : Main.outputName;
+        
+        RVMProcessor processor = new RVMProcessor(outputName);
         
         String output = processor.process(spec);
-        
-        if (toJavaLib) {
-            writeJavaLibFile(output, location);
-        } else {
-            writeAspectFile(output, location);
-        }
+        writeCombinedOutputFile(output, outputName);
     }
     
     /**
@@ -139,28 +116,28 @@ public class Main {
      * @param specFiles All the file objects used to construct the monitor object.
      */
     public static void processMultipleFiles(ArrayList<File> specFiles) throws RVMException {
-        String aspectName;
+        String outputName;
         
         if(outputDir == null) {
             outputDir = getTargetDir(specFiles);
         }
         
-        if(Main.aspectname != null) {
-            aspectName = Main.aspectname;
+        if(Main.outputName != null) {
+            outputName = Main.outputName;
         } else {
             if(specFiles.size() == 1) {
-                aspectName = Tool.getFileName(specFiles.get(0).getAbsolutePath());
+                outputName = Tool.getFileName(specFiles.get(0).getAbsolutePath());
             } else {
                 int suffixNumber = 0;
                 // generate auto name like 'MultiMonitorApsect.aj'
                 
-                File aspectFile;
+                File outputFile;
                 do{
                     suffixNumber++;
-                    aspectFile = new File(outputDir.getAbsolutePath() + File.separator + "MultiSpec_" + suffixNumber + "RuntimeMonitor.java");
-                } while(aspectFile.exists());
+                    outputFile = new File(outputDir.getAbsolutePath() + File.separator + "MultiSpec_" + suffixNumber + "RuntimeMonitor.java");
+                } while(outputFile.exists());
                 
-                aspectName = "MultiSpec_" + suffixNumber;
+                outputName = "MultiSpec_" + suffixNumber;
             }
         }
         
@@ -174,115 +151,30 @@ public class Main {
         }
         RVMSpecFile combinedSpec = SpecCombiner.process(specs);
         
-        RVMProcessor processor = new RVMProcessor(aspectName);
+        RVMProcessor processor = new RVMProcessor(outputName);
         String output = processor.process(combinedSpec);
         
-        writeCombinedAspectFile(output, aspectName);
+        writeCombinedOutputFile(output, outputName);
     }
     
     /**
-     * Output some text into a Java file.
-     * @param javaContent The Java code to write to the file.
-     * @param location The place to write the Java code into.
+     * Write an output file with the given content and name.
+     * @param outputContent The text to write into the file.
+     * @param outputName The name of the output being written.
      */
-    /*
-    NOT USED, TO DEPRECATE?
-    protected static void writeJavaFile(String javaContent, String location) throws RVMException {
-        if ((javaContent == null) || (javaContent.length() == 0))
-            throw new RVMException("Nothing to write as a java file");
-        if (!Tool.isJavaFile(location))
-            throw new RVMException(location + "should be a Java file!");
-        
-        try {
-            FileWriter f = new FileWriter(location);
-            f.write(javaContent);
-            f.close();
-        } catch (Exception e) {
-            throw new RVMException(e.getMessage());
-        }
-    }
-    */
-    
-    /**
-     * Write an aspect file with the given content and name.
-     * @param aspectContent The text to write into the file.
-     * @param aspectName The name of the aspect being written.
-     */
-    protected static void writeCombinedAspectFile(String aspectContent, String aspectName) throws RVMException {
-        if (aspectContent == null || aspectContent.length() == 0)
+    protected static void writeCombinedOutputFile(String outputContent, String outputName) throws RVMException {
+    	if (outputContent == null || outputContent.length() == 0)
             return;
         
         try {
-            FileWriter f = new FileWriter(outputDir.getAbsolutePath() + File.separator + aspectName + "RuntimeMonitor.java");
-            f.write(aspectContent);
+            FileWriter f = new FileWriter(outputDir.getAbsolutePath() + File.separator + outputName + "RuntimeMonitor.java");
+            f.write(outputContent);
             f.close();
         } catch (Exception e) {
             throw new RVMException(e.getMessage());
         }
-        System.out.println(" " + aspectName + "RuntimeMonitor.java is generated");
+        System.out.println(" " + outputName + "RuntimeMonitor.java is generated");
     }
-    
-    /**
-     * Write an aspect file targeting a particular destination file.
-     * @param aspectContent The text of the file to write.
-     * @param location The place to write the file to.
-     */
-    protected static void writeAspectFile(String aspectContent, String location) throws RVMException {
-        if (aspectContent == null || aspectContent.length() == 0)
-            return;
-        String name = (Main.aspectname == null?Tool.getFileName(location):Main.aspectname); 
-        
-        int i = location.lastIndexOf(File.separator);
-        try {
-            FileWriter f = new FileWriter(location.substring(0, i + 1) + name + "RuntimeMonitor.java");
-            f.write(aspectContent);
-            f.close();
-        } catch (Exception e) {
-            throw new RVMException(e.getMessage());
-        }
-        System.out.println(" " + name + "RuntimeMonitor.java is generated");
-    }
-    
-    /**
-     * Write the code needed to produce a monitor as a java library. to a file.
-     * @param javaLibContent The text of the file to write.
-     * @param location The place to write the file to.
-     */
-    protected static void writeJavaLibFile(String javaLibContent, String location) throws RVMException {
-        if (javaLibContent == null || javaLibContent.length() == 0)
-            return;
-        
-        int i = location.lastIndexOf(File.separator);
-        try {
-            FileWriter f = new FileWriter(location.substring(0, i + 1) + Tool.getFileName(location) + "JavaLibMonitor.java");
-            f.write(javaLibContent);
-            f.close();
-        } catch (Exception e) {
-            throw new RVMException(e.getMessage());
-        }
-        System.out.println(" " + Tool.getFileName(location) + "JavaLibMonitor.java is generated");
-    }
-    
-    /**
-     * Write the output of a plugin to a file.
-     * @param pluginOutput The output of the plugin files.
-     * @param location The place to write the plugin output to.
-     */
-    /*
-    NOT USED, TO DEPRECATE?
-    protected static void writePluginOutputFile(String pluginOutput, String location) throws RVMException {
-        int i = location.lastIndexOf(File.separator);
-        
-        try {
-            FileWriter f = new FileWriter(location.substring(0, i + 1) + Tool.getFileName(location) + "PluginOutput.txt");
-            f.write(pluginOutput);
-            f.close();
-        } catch (Exception e) {
-            throw new RVMException(e.getMessage());
-        }
-        System.out.println(" " + Tool.getFileName(location) + "PluginOutput.txt is generated");
-    }
-    */
     
     /**
      * Reformat a path to deal with platform-specific oddities.
@@ -338,7 +230,7 @@ public class Main {
     public static void process(String[] files, String path) throws RVMException {
         ArrayList<File> specFiles = collectFiles(files, path);
         
-        if(Main.aspectname != null && files.length > 1) {
+        if(Main.outputName != null && files.length > 1) {
             Main.merge = true;
         }
         
@@ -350,11 +242,7 @@ public class Main {
                 String location = outputDir == null ? file.getAbsolutePath() : outputDir.getAbsolutePath() + File.separator + file.getName();
                 
                 System.out.println("-Processing " + file.getPath());
-                if (Tool.isSpecFile(file.getName())) {
-                    processSpecFile(file, location);
-                } else if (Tool.isJavaFile(file.getName())) {
-                    processJavaFile(file, location);
-                }
+                processSpecFile(file, location);
             }
         }
     }
@@ -381,14 +269,6 @@ public class Main {
         System.out.println("    --version\t\t\t  display RV-Monitor version information");
         System.out.println("    -v | --verbose\t\t  enable verbose output");
         System.out.println("    --debug\t\t\t  enable verbose error message");
-        System.out.println();
-        
-        System.out.println("    --local\t\t\t+ use local logic engine");
-        System.out.println("    --remote\t\t\t  use default remote logic engine");
-        System.out.println("\t\t\t\t  " + Configuration.getServerAddr());
-        System.out.println("\t\t\t\t  (You can change the default address");
-        System.out.println("\t\t\t\t   in com/runtimeverification/rvmonitor/java/rvj/config/remote_server_addr.properties)");
-        System.out.println("    --remote:<server address>\t  use remote logic engine");
         System.out.println();
         
         System.out.println("    -d <output path>\t\t  select directory to store output files");
@@ -446,18 +326,10 @@ public class Main {
             if ("-d".equals(args[i])) {
                 i++;
                 outputDir = new File(args[i]);
-            } else if ("--local".equals(args[i])) {
-                LogicRepositoryConnector.serverName = "local";
-            } else if ("--remote".equals(args[i])) {
-                LogicRepositoryConnector.serverName = "default";
-            } else if (args[i].startsWith("--remote:")) {
-                LogicRepositoryConnector.serverName = args[i].substring(8);
             } else if ("-v".equals(args[i]) || "--verbose".equals(args[i])) {
                 verbose=true;
                 LogicRepositoryConnector.verbose = true;
                 RVMProcessor.verbose = true;
-            } else if ("--javalib".equals(args[i])) {
-                toJavaLib = true;
             } else if ("--debug".equals(args[i])) {
                 Main.debug = true;
             } else if ("--noopt1".equals(args[i])) {
@@ -466,13 +338,9 @@ public class Main {
                 Main.statistics = true;
             } else if ("-s2".equals(args[i]) || "--statistics2".equals(args[i])) {
                 Main.statistics2 = true;
-            } else if ("-n".equals(args[i]) || "--aspectname".equals(args[i])) {
+            } else if ("-n".equals(args[i]) || "--name".equals(args[i])) {
                 i++;
-                Main.aspectname = args[i];
-            } else if ("--dacapo".equals(args[i])) {
-                Main.dacapo = true;
-            } else if ("--dacapo2".equals(args[i])) {
-                Main.dacapo2 = true;
+                Main.outputName = args[i];
             } else if ("--silent".equals(args[i])) {
                 Main.silent = true;
             } else if ("-merge".equals(args[i])) {

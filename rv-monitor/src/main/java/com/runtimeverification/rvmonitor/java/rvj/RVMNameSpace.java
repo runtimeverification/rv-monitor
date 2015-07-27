@@ -22,9 +22,7 @@ public class RVMNameSpace {
 		keywords.add("this");
 		keywords.add("null");
 		keywords.add("RVM_lastevent");
-		keywords.add("RVM_terminated");
-		keywords.add("thisJoinPoint");
-		
+		keywords.add("RVM_terminated");		
 	}
 	
 	static public void init(){
