@@ -5,13 +5,25 @@
     <artifactId>root</artifactId>
     <packaging>pom</packaging>
     <version>1.4-SNAPSHOT</version>
+    <profiles>
+        <profile>
+            <id>generate-docs</id>
+            <modules>
+                <module>docs</module>
+            </modules>
+            <activation>
+                <property>
+                    <name>!skipDocs</name>
+                </property>
+            </activation>
+        </profile>
+    </profiles>
     <modules>
         <module>rv-monitor-rt</module>
         <module>logicrepository</module>
         <module>plugins_logicrepository</module>
         <module>rv-monitor</module>
         <module>installer</module>
-        <module>docs</module>
     </modules>
     <url>http://www.runtimeverification.com</url>
     <scm>
