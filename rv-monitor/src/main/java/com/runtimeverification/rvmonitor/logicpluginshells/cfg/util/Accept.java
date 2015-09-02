@@ -1,12 +1,27 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.cfg.util;
 
 class Accept extends LRAction {
-   public int hashCode() { return 1;}
-   public boolean equals(Object o) {
-      if (o == null) return false;
-      if (!(o instanceof Accept)) return false;
-      return true;
-   }
-   public String toString() { return "Accept";}
-   ActType type() { return ActType.ACCEPT; }
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+        if (!(o instanceof Accept))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Accept";
+    }
+
+    @Override
+    ActType type() {
+        return ActType.ACCEPT;
+    }
 }

@@ -2,7 +2,6 @@ package com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.ind
 
 import java.util.HashMap;
 
-import com.runtimeverification.rvmonitor.util.RVMException;
 import com.runtimeverification.rvmonitor.java.rvj.output.RVMVariable;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.event.advice.LocalVariables;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.IndexingCache;
@@ -12,307 +11,376 @@ import com.runtimeverification.rvmonitor.java.rvj.output.monitor.SuffixMonitor;
 import com.runtimeverification.rvmonitor.java.rvj.output.monitorset.MonitorSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
+import com.runtimeverification.rvmonitor.util.RVMException;
 
 public class FullParamIndexingTree extends IndexingTree {
-	private final RVMParameter firstKey;
+    private final RVMParameter firstKey;
 
-	public FullParamIndexingTree(String outputName, RVMParameters queryParam, RVMParameters contentParam, RVMParameters fullParam, MonitorSet monitorSet, SuffixMonitor monitor,
-			HashMap<String, RefTree> refTrees, boolean perthread, boolean isGeneral) throws RVMException {
-		super(outputName, queryParam, contentParam, fullParam, monitorSet, monitor, refTrees, perthread, isGeneral);
+    public FullParamIndexingTree(String outputName, RVMParameters queryParam,
+            RVMParameters contentParam, RVMParameters fullParam,
+            MonitorSet monitorSet, SuffixMonitor monitor,
+            HashMap<String, RefTree> refTrees, boolean perthread,
+            boolean isGeneral) throws RVMException {
+        super(outputName, queryParam, contentParam, fullParam, monitorSet,
+                monitor, refTrees, perthread, isGeneral);
 
-		if (!isFullParam)
-			throw new RVMException("FullParamIndexingTree can be created only when queryParam equals to fullParam.");
+        if (!isFullParam)
+            throw new RVMException(
+                    "FullParamIndexingTree can be created only when queryParam equals to fullParam.");
 
-		if (queryParam.size() <= 1)
-			throw new RVMException("Decentralized FullParamIndexingTree should contain at least two parameter.");
+        if (queryParam.size() <= 1)
+            throw new RVMException(
+                    "Decentralized FullParamIndexingTree should contain at least two parameter.");
 
-		if (anycontent) {
-			this.name = new RVMVariable(outputName + "_" + queryParam.parameterStringUnderscore() + "_Map");
-			
-			this.cache = new IndexingCache(this.name, this.queryParam, this.fullParam, this.monitorClass, this.monitorSet, refTrees, perthread, isGeneral);
-			//this.cache = new LocalityIndexingCache(this.name, this.queryParam, this.fullParam, this.monitorClass, this.monitorSet, refTrees, perthread, isGeneral);
-		} else {
-			if (!contentParam.contains(queryParam))
-				throw new RVMException("[Internal] contentParam should contain queryParam");
-			
-			this.name = new RVMVariable(outputName + "_" + queryParam.parameterStringUnderscore() + "__To__" + contentParam.parameterStringUnderscore() + "_Map");
-		}
-		
-		this.firstKey = queryParam.get(0);
-	}
+        if (anycontent) {
+            this.name = new RVMVariable(outputName + "_"
+                    + queryParam.parameterStringUnderscore() + "_Map");
 
-	public RVMParameter getLastParam(){
-		return queryParam.get(queryParam.size() - 1);
-	}
+            this.cache = new IndexingCache(this.name, this.queryParam,
+                    this.fullParam, this.monitorClass, this.monitorSet,
+                    refTrees, perthread, isGeneral);
+            // this.cache = new LocalityIndexingCache(this.name,
+            // this.queryParam, this.fullParam, this.monitorClass,
+            // this.monitorSet, refTrees, perthread, isGeneral);
+        } else {
+            if (!contentParam.contains(queryParam))
+                throw new RVMException(
+                        "[Internal] contentParam should contain queryParam");
 
-	protected String lookupIntermediateCreative(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i) throws RVMException {
-		String ret = "";
+            this.name = new RVMVariable(outputName + "_"
+                    + queryParam.parameterStringUnderscore() + "__To__"
+                    + contentParam.parameterStringUnderscore() + "_Map");
+        }
 
-		RVMVariable obj = localVars.get("obj");
-		RVMVariable tempMap = localVars.get("tempMap");
+        this.firstKey = queryParam.get(0);
+    }
 
-		RVMParameter p = queryParam.get(i);
-		RVMVariable tempRef = localVars.getTempRef(p);
+    public RVMParameter getLastParam() {
+        return queryParam.get(queryParam.size() - 1);
+    }
 
-		ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+    protected String lookupIntermediateCreative(LocalVariables localVars,
+            RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i)
+                    throws RVMException {
+        String ret = "";
 
-		ret += "if (" + obj + " == null) {\n";
+        RVMVariable obj = localVars.get("obj");
+        RVMVariable tempMap = localVars.get("tempMap");
 
-		ret += createNewMap(i + 1) + ";\n";
-		
-		ret += tempMap + ".putMap(" + tempRef + ", " + obj + ");\n";
-		ret += "}\n";
+        RVMParameter p = queryParam.get(i);
+        RVMVariable tempRef = localVars.getTempRef(p);
 
-		if (i == queryParam.size() - 2) {
-			ret += lastMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
-			ret += lookupNodeLast(localVars, monitor, lastMap, lastSet, i + 1, true);
-		} else {
-			ret += tempMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
-			ret += lookupIntermediateCreative(localVars, monitor, lastMap, lastSet, i + 1);
-		}
+        ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
-		return ret;
-	}
-	
-	protected String lookupIntermediateNonCreative(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i) throws RVMException {
-		String ret = "";
+        ret += "if (" + obj + " == null) {\n";
 
-		RVMVariable obj = localVars.get("obj");
-		RVMVariable tempMap = localVars.get("tempMap");
+        ret += createNewMap(i + 1) + ";\n";
 
-		RVMParameter p = queryParam.get(i);
-		RVMVariable tempRef = localVars.getTempRef(p);
+        ret += tempMap + ".putMap(" + tempRef + ", " + obj + ");\n";
+        ret += "}\n";
 
-		ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+        if (i == queryParam.size() - 2) {
+            ret += lastMap
+                    + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)"
+                    + obj + ";\n";
+            ret += lookupNodeLast(localVars, monitor, lastMap, lastSet, i + 1,
+                    true);
+        } else {
+            ret += tempMap
+                    + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)"
+                    + obj + ";\n";
+            ret += lookupIntermediateCreative(localVars, monitor, lastMap,
+                    lastSet, i + 1);
+        }
 
-		ret += "if (" + obj + " != null) {\n";
+        return ret;
+    }
 
-		if (i == queryParam.size() - 2) {
-			ret += lastMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
-			ret += lookupNodeLast(localVars, monitor, lastMap, lastSet, i + 1, false);
-		} else {
-			ret += tempMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
-			ret += lookupIntermediateNonCreative(localVars, monitor, lastMap, lastSet, i + 1);
-		}
+    protected String lookupIntermediateNonCreative(LocalVariables localVars,
+            RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i)
+                    throws RVMException {
+        String ret = "";
 
-		ret += "}\n";
+        RVMVariable obj = localVars.get("obj");
+        RVMVariable tempMap = localVars.get("tempMap");
 
-		return ret;
-	}
-	
-	protected String lookupNodeLast(LocalVariables localVars, RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet, int i, boolean creative) {
-		String ret = "";
+        RVMParameter p = queryParam.get(i);
+        RVMVariable tempRef = localVars.getTempRef(p);
 
-		RVMParameter p = queryParam.get(i);
-		RVMVariable tempRef = localVars.getTempRef(p);
+        ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
-		ret += monitor + " = " + "(" + monitorClass.getOutermostName() + ")" + lastMap + ".getNode(" + tempRef + ");\n";
+        ret += "if (" + obj + " != null) {\n";
 
-		return ret;
-	}
-	
-	public String lookupNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) throws RVMException {
-		String ret = "";
+        if (i == queryParam.size() - 2) {
+            ret += lastMap
+                    + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)"
+                    + obj + ";\n";
+            ret += lookupNodeLast(localVars, monitor, lastMap, lastSet, i + 1,
+                    false);
+        } else {
+            ret += tempMap
+                    + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)"
+                    + obj + ";\n";
+            ret += lookupIntermediateNonCreative(localVars, monitor, lastMap,
+                    lastSet, i + 1);
+        }
 
-		RVMVariable monitor = localVars.get(monitorStr);
-		RVMVariable lastMap = localVars.get(lastMapStr);
+        ret += "}\n";
 
-		if (creative){
-			ret += createTree();
-		}
+        return ret;
+    }
 
-		if (queryParam.size() == 2) {
-			ret += lastMap + " = " + retrieveTree() + ";\n";
-			if(creative){
-				ret += lookupNodeLast(localVars, monitor, lastMap, null, 1, creative);
-			} else {
-				ret += "if (" + lastMap + " != null) {\n";
-				ret += lookupNodeLast(localVars, monitor, lastMap, null, 1, creative);
-				ret += "}\n";
-			}
-		} else {
-			RVMVariable tempMap = localVars.get("tempMap");
-			ret += tempMap + " = " + retrieveTree() + ";\n";
+    protected String lookupNodeLast(LocalVariables localVars,
+            RVMVariable monitor, RVMVariable lastMap, RVMVariable lastSet,
+            int i, boolean creative) {
+        String ret = "";
 
-			if (creative) {
-				ret += lookupIntermediateCreative(localVars, monitor, lastMap, null, 1);
-			} else {
-				ret += "if (" + lastMap + " != null) {\n";
-				ret += lookupIntermediateNonCreative(localVars, monitor, lastMap, null, 1);
-				ret += "}\n";
-			}
-		}
+        RVMParameter p = queryParam.get(i);
+        RVMVariable tempRef = localVars.getTempRef(p);
 
-		return ret;
-	}
+        ret += monitor + " = " + "(" + monitorClass.getOutermostName() + ")"
+                + lastMap + ".getNode(" + tempRef + ");\n";
 
-	public String lookupSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative) {
-		return "";
-	}
-	
-	public String lookupNodeAndSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr, boolean creative, String monitorType) throws RVMException {
-		return lookupNode(localVars, monitorStr, lastMapStr, lastSetStr, creative, monitorType);
-	}
+        return ret;
+    }
 
-	public String attachNode(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr){
-		String ret = "";
+    @Override
+    public String lookupNode(LocalVariables localVars, String monitorStr,
+            String lastMapStr, String lastSetStr, boolean creative,
+            String monitorType) throws RVMException {
+        String ret = "";
 
-		RVMVariable monitor = localVars.get(monitorStr);
+        RVMVariable monitor = localVars.get(monitorStr);
+        RVMVariable lastMap = localVars.get(lastMapStr);
 
-		RVMVariable tempRef = localVars.getTempRef(getLastParam());
+        if (creative) {
+            ret += createTree();
+        }
 
-		if (queryParam.size() == 2) {
-			ret += retrieveTree() + ".putNode(" + tempRef + ", " + monitor + ");\n";
-		} else {
-			RVMVariable lastMap = localVars.get(lastMapStr);
+        if (queryParam.size() == 2) {
+            ret += lastMap + " = " + retrieveTree() + ";\n";
+            if (creative) {
+                ret += lookupNodeLast(localVars, monitor, lastMap, null, 1,
+                        creative);
+            } else {
+                ret += "if (" + lastMap + " != null) {\n";
+                ret += lookupNodeLast(localVars, monitor, lastMap, null, 1,
+                        creative);
+                ret += "}\n";
+            }
+        } else {
+            RVMVariable tempMap = localVars.get("tempMap");
+            ret += tempMap + " = " + retrieveTree() + ";\n";
 
-			ret += lastMap + ".putNode(" + tempRef + ", " + monitor + ");\n";
-		}
+            if (creative) {
+                ret += lookupIntermediateCreative(localVars, monitor, lastMap,
+                        null, 1);
+            } else {
+                ret += "if (" + lastMap + " != null) {\n";
+                ret += lookupIntermediateNonCreative(localVars, monitor,
+                        lastMap, null, 1);
+                ret += "}\n";
+            }
+        }
 
-		return ret;
-	}
+        return ret;
+    }
 
-	public String attachSet(LocalVariables localVars, String monitorStr, String lastMapStr, String lastSetStr){
-		return "";
-	}
-	
-	public String addMonitor(LocalVariables localVars, String monitorStr, String tempMapStr, String tempSetStr) throws RVMException {
-		String ret = "";
+    @Override
+    public String lookupSet(LocalVariables localVars, String monitorStr,
+            String lastMapStr, String lastSetStr, boolean creative) {
+        return "";
+    }
 
-		RVMVariable obj = localVars.get("obj");
-		RVMVariable tempMap = localVars.get(tempMapStr);
-		RVMVariable monitor = localVars.get(monitorStr);
+    @Override
+    public String lookupNodeAndSet(LocalVariables localVars, String monitorStr,
+            String lastMapStr, String lastSetStr, boolean creative,
+            String monitorType) throws RVMException {
+        return lookupNode(localVars, monitorStr, lastMapStr, lastSetStr,
+                creative, monitorType);
+    }
 
-		ret += createTree();
+    @Override
+    public String attachNode(LocalVariables localVars, String monitorStr,
+            String lastMapStr, String lastSetStr) {
+        String ret = "";
 
-		ret += tempMap + " = " + retrieveTree() + ";\n";
+        RVMVariable monitor = localVars.get(monitorStr);
 
-		for (int i = 1; i < queryParam.size() - 1; i++) {
-			RVMParameter p = queryParam.get(i);
-			RVMVariable tempRef = localVars.getTempRef(p);
+        RVMVariable tempRef = localVars.getTempRef(getLastParam());
 
-			ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
+        if (queryParam.size() == 2) {
+            ret += retrieveTree() + ".putNode(" + tempRef + ", " + monitor
+                    + ");\n";
+        } else {
+            RVMVariable lastMap = localVars.get(lastMapStr);
 
-			ret += "if (" + obj + " == null) {\n";
+            ret += lastMap + ".putNode(" + tempRef + ", " + monitor + ");\n";
+        }
 
-			ret += createNewMap(i + 1) + ";\n";
+        return ret;
+    }
 
-			ret += tempMap + ".putMap(" + tempRef + ", " + obj + ");\n";
-			ret += "}\n";
+    @Override
+    public String attachSet(LocalVariables localVars, String monitorStr,
+            String lastMapStr, String lastSetStr) {
+        return "";
+    }
 
-			ret += tempMap + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)" + obj + ";\n";
- 		}
+    @Override
+    public String addMonitor(LocalVariables localVars, String monitorStr,
+            String tempMapStr, String tempSetStr) throws RVMException {
+        String ret = "";
 
-		RVMParameter p = getLastParam();
-		RVMVariable tempRef = localVars.getTempRef(p);
+        RVMVariable obj = localVars.get("obj");
+        RVMVariable tempMap = localVars.get(tempMapStr);
+        RVMVariable monitor = localVars.get(monitorStr);
 
-		ret += tempMap + ".putNode(" + tempRef + ", " + monitor + ");\n";
+        ret += createTree();
 
-		return ret;
-	}
+        ret += tempMap + " = " + retrieveTree() + ";\n";
 
+        for (int i = 1; i < queryParam.size() - 1; i++) {
+            RVMParameter p = queryParam.get(i);
+            RVMVariable tempRef = localVars.getTempRef(p);
 
-	public boolean containsSet() {
-		return false;
-	}
+            ret += obj + " = " + tempMap + ".getMap(" + tempRef + ");\n";
 
-	public String retrieveTree() {
-		if(parentTree != null)
-			return parentTree.retrieveTree();
-		
-		return firstKey.getName() + "." + name.toString();
-	}
+            ret += "if (" + obj + " == null) {\n";
 
-	protected String createTree() throws RVMException {
-		String ret = "";
-		
-		ret += "if (" + retrieveTree() + " == null) {\n";
-		ret += retrieveTree() + " = " + createNewMap(1) + ";\n";
-		ret += "}\n";
+            ret += createNewMap(i + 1) + ";\n";
 
-		return ret;
-	}
+            ret += tempMap + ".putMap(" + tempRef + ", " + obj + ");\n";
+            ret += "}\n";
 
-	protected String createNewMap(int paramIndex) throws RVMException {
-		String ret = "";
+            ret += tempMap
+                    + " = (com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap)"
+                    + obj + ";\n";
+        }
 
-		if(paramIndex < 1)
-			throw new RVMException("The first parameter cannot use getMapType(int).");
-		
-		if(isGeneral){
-			if (paramIndex == queryParam.size() - 1) {
-				ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(paramIndex)) + ")";
-			} else {
-				ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfAll(" + fullParam.getIdnum(queryParam.get(paramIndex)) + ")";
-			}
-		} else {
-			if (paramIndex == queryParam.size() - 1) {
-				ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor(" + fullParam.getIdnum(queryParam.get(paramIndex)) + ")";
-			} else {
-				ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMapSet(" + fullParam.getIdnum(queryParam.get(paramIndex)) + ")";
-			}
-		}
+        RVMParameter p = getLastParam();
+        RVMVariable tempRef = localVars.getTempRef(p);
 
-		return ret;
-	}
+        ret += tempMap + ".putNode(" + tempRef + ", " + monitor + ");\n";
 
-	public String getRefTreeType(){
-		String ret = "";
-		
-		if(parentTree != null)
-			return parentTree.getRefTreeType();
+        return ret;
+    }
 
-		return ret;
-	}
+    @Override
+    public boolean containsSet() {
+        return false;
+    }
 
-	public String toString() {
-		String ret = "";
+    @Override
+    public String retrieveTree() {
+        if (parentTree != null)
+            return parentTree.retrieveTree();
 
-		if(parentTree == null){
-			if(isGeneral){
-				if (queryParam.size() == 1) {
-					ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap " + name + " = null;\n";
-				} else {
-					ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap " + name + " = null;\n";
-				}
-			} else {
-				if (queryParam.size() == 1) {
-					ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap " + name + " = null;\n";
-				} else {
-					ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap " + name + " = null;\n";
-				}
-			}
-		}
-		
-		if (cache != null)
-			ret += cache;
+        return firstKey.getName() + "." + name.toString();
+    }
 
-		return ret;
-	}
-	
-	public String reset() {
-		String ret = "";
+    protected String createTree() throws RVMException {
+        String ret = "";
 
-		if(parentTree == null){
-			if(isGeneral){
-				if (queryParam.size() == 1) {
-					ret += name + " = null;\n";
-				} else {
-					ret += name + " = null;\n";
-				}
-			} else {
-				if (queryParam.size() == 1) {
-					ret += name + " = null;\n";
-				} else {
-					ret += name + " = null;\n";
-				}
-			}
-		}
-		
-		if (cache != null)
-			ret += cache.reset();
+        ret += "if (" + retrieveTree() + " == null) {\n";
+        ret += retrieveTree() + " = " + createNewMap(1) + ";\n";
+        ret += "}\n";
 
-		return ret;
-	}
+        return ret;
+    }
+
+    protected String createNewMap(int paramIndex) throws RVMException {
+        String ret = "";
+
+        if (paramIndex < 1)
+            throw new RVMException(
+                    "The first parameter cannot use getMapType(int).");
+
+        if (isGeneral) {
+            if (paramIndex == queryParam.size() - 1) {
+                ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor("
+                        + fullParam.getIdnum(queryParam.get(paramIndex)) + ")";
+            } else {
+                ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfAll("
+                        + fullParam.getIdnum(queryParam.get(paramIndex)) + ")";
+            }
+        } else {
+            if (paramIndex == queryParam.size() - 1) {
+                ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMonitor("
+                        + fullParam.getIdnum(queryParam.get(paramIndex)) + ")";
+            } else {
+                ret += "new com.runtimeverification.rvmonitor.java.rt.map.RVMMapOfMapSet("
+                        + fullParam.getIdnum(queryParam.get(paramIndex)) + ")";
+            }
+        }
+
+        return ret;
+    }
+
+    @Override
+    public String getRefTreeType() {
+        String ret = "";
+
+        if (parentTree != null)
+            return parentTree.getRefTreeType();
+
+        return ret;
+    }
+
+    @Override
+    public String toString() {
+        String ret = "";
+
+        if (parentTree == null) {
+            if (isGeneral) {
+                if (queryParam.size() == 1) {
+                    ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap "
+                            + name + " = null;\n";
+                } else {
+                    ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap "
+                            + name + " = null;\n";
+                }
+            } else {
+                if (queryParam.size() == 1) {
+                    ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap "
+                            + name + " = null;\n";
+                } else {
+                    ret += "static com.runtimeverification.rvmonitor.java.rt.map.RVMAbstractMap "
+                            + name + " = null;\n";
+                }
+            }
+        }
+
+        if (cache != null)
+            ret += cache;
+
+        return ret;
+    }
+
+    @Override
+    public String reset() {
+        String ret = "";
+
+        if (parentTree == null) {
+            if (isGeneral) {
+                if (queryParam.size() == 1) {
+                    ret += name + " = null;\n";
+                } else {
+                    ret += name + " = null;\n";
+                }
+            } else {
+                if (queryParam.size() == 1) {
+                    ret += name + " = null;\n";
+                } else {
+                    ret += name + " = null;\n";
+                }
+            }
+        }
+
+        if (cache != null)
+            ret += cache.reset();
+
+        return ret;
+    }
 
 }

@@ -4,18 +4,17 @@ import com.runtimeverification.rvmonitor.logicpluginshells.pda.visitor.DumpVisit
 import com.runtimeverification.rvmonitor.logicpluginshells.pda.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.logicpluginshells.pda.visitor.VoidVisitor;
 
-
 public class StackSymbol {
-	String symbol;
-	
-	public StackSymbol(String symbol){
-		this.symbol = symbol;
-	}
-	
-	public String getSymbol(){
-		return symbol;
-	}
-	
+    String symbol;
+
+    public StackSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);
     }
@@ -31,10 +30,10 @@ public class StackSymbol {
         return formula;
     }
 
-	@Override
-	public boolean equals(Object o){
-		if(!(o instanceof StackSymbol))
-			return false;
-		return symbol.equals(((StackSymbol)o).getSymbol());
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof StackSymbol))
+            return false;
+        return symbol.equals(((StackSymbol) o).getSymbol());
+    }
 }

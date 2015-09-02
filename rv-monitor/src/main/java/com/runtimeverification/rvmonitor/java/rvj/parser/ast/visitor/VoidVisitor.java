@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008 Feng Chen.
- * 
+ *
  * This file is part of RV Monitor parser.
  *
  * RV Monitor is free software: you can redistribute it and/or modify
@@ -19,12 +19,18 @@
 
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.BaseTypePattern;
 
 /**
  * @author Julio Vilmar Gesser
@@ -32,34 +38,34 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;;
 public interface VoidVisitor<A> {
 
     public void visit(Node n, A arg);
-    
-    //- RV Monitor components
-    
+
+    // - RV Monitor components
+
     public void visit(RVMSpecFile f, A arg);
-    
+
     public void visit(RVMonitorSpec s, A arg);
-    
+
     public void visit(RVMParameter p, A arg);
-    
+
     public void visit(EventDefinition e, A arg);
-    
+
     public void visit(PropertyAndHandlers p, A arg);
-    
+
     public void visit(Formula f, A arg);
-    
-    //- AspectJ components --------------------
-    
+
+    // - AspectJ components --------------------
+
     public void visit(BaseTypePattern p, A arg);
 
-    //- Compilation Unit ----------------------------------
+    // - Compilation Unit ----------------------------------
 
     public void visit(PackageDeclaration n, A arg);
 
     public void visit(ImportDeclaration n, A arg);
 
-    //- Expression ----------------------------------------
+    // - Expression ----------------------------------------
 
     public void visit(NameExpr n, A arg);
-    
+
     public void visit(QualifiedNameExpr n, A arg);
 }

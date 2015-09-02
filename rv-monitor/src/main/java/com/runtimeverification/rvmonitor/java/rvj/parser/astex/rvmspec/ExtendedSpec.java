@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Julio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -19,11 +19,11 @@
 /*
  * Created on 05/10/2006
  */
-package com.runtimeverification.rvmonitor.java.rvj.parser.astex.mopspec;
+package com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.ExtNode;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.GenericVisitor;
@@ -40,13 +40,15 @@ public final class ExtendedSpec extends ExtNode {
 
     private final List<String> parameters;
 
-    public ExtendedSpec(int line, int column, String specName, boolean isParametric, List<String> parameters) {
+    public ExtendedSpec(int line, int column, String specName,
+            boolean isParametric, List<String> parameters) {
         super(line, column);
         this.specName = specName;
         this.isParametric = isParametric;
-        this.parameters = Collections.unmodifiableList(new ArrayList<String>(parameters));
+        this.parameters = Collections.unmodifiableList(new ArrayList<String>(
+                parameters));
     }
-    
+
     public String getName() {
         return specName;
     }

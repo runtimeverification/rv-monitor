@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Julio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -29,16 +29,15 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor.VoidVisit
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class ExtNode extends Node{
+public abstract class ExtNode extends Node {
 
     public ExtNode(int line, int column) {
-    	super(line, column);
+        super(line, column);
     }
 
     public ExtNode(int beginLine, int beginColumn, int endLine, int endColumn) {
-    	super(beginLine, beginColumn, endLine, endColumn);
+        super(beginLine, beginColumn, endLine, endColumn);
     }
-
 
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);

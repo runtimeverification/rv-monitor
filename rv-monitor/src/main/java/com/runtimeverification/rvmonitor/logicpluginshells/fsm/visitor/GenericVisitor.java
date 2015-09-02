@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Julio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -21,8 +21,11 @@
  */
 package com.runtimeverification.rvmonitor.logicpluginshells.fsm.visitor;
 
-
-import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.*;
+import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.FSMAlias;
+import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.FSMInput;
+import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.FSMItem;
+import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.FSMTransition;
+import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.Node;
 
 /**
  * @author Julio Vilmar Gesser
@@ -30,13 +33,13 @@ import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.*;
 public interface GenericVisitor<R, A> {
 
     public R visit(Node n, A arg);
-    
+
     public R visit(FSMInput f, A arg);
-    
+
     public R visit(FSMItem i, A arg);
-    
+
     public R visit(FSMAlias a, A arg);
-    
+
     public R visit(FSMTransition t, A arg);
 
 }

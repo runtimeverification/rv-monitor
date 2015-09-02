@@ -4,16 +4,18 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisi
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 
 public class Formula extends Property {
-	
-	private final String formula;
 
-	public Formula(int line, int column, String type, String formula) {
-		super(line, column, type);
-		this.formula = formula;
-	}
-	
-	public String getFormula() { return formula; }
-	
+    private final String formula;
+
+    public Formula(int line, int column, String type, String formula) {
+        super(line, column, type);
+        this.formula = formula;
+    }
+
+    public String getFormula() {
+        return formula;
+    }
+
     @Override
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);

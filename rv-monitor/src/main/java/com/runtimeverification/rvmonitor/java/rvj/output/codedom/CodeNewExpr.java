@@ -8,14 +8,12 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.helper.ICodeFor
 import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 
 /**
- * This class represents a 'new' expression; e.g.,
- * <code>
+ * This class represents a 'new' expression; e.g., <code>
  * new type(arguments)
  * </code>
  *
- * Additionally, this class can represent a creation of an
- * anonymous class; e.g.,
- * <code>
+ * Additionally, this class can represent a creation of an anonymous class;
+ * e.g., <code>
  * new type(arguments) {
  *   anonymous-class
  * };
@@ -25,50 +23,53 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
  *
  */
 public class CodeNewExpr extends CodeExpr {
-	private final List<CodeExpr> arguments;
-	private final CodeClassDef anonymousclass;
-	
-	public CodeNewExpr(CodeType type, CodeExpr ... args) {
-		this(type, null, Arrays.asList(args));
-	}
-	
-	public CodeNewExpr(CodeType type, List<CodeExpr> args) {
-		this(type, null, args);
-	}
-	
-	public CodeNewExpr(CodeType type, CodeClassDef anonklass, CodeExpr ... args) {
-		this(type, anonklass, Arrays.asList(args));
-	}
+    private final List<CodeExpr> arguments;
+    private final CodeClassDef anonymousclass;
 
-	public CodeNewExpr(CodeType type, CodeClassDef anonklass, List<CodeExpr> args) {
-		super(type);
-		
-		this.arguments = args;
-		this.anonymousclass = anonklass;
-	}
-	
-	@Override
-	public void getCode(ICodeFormatter fmt) {
-		fmt.keyword("new");
-		fmt.type(this.type);
-		fmt.operator("(");
-		{
-			boolean first = true;
-			for (CodeExpr arg : this.arguments) {
-				if (first) first = false;
-				else fmt.operator(",");
-				arg.getCode(fmt);
-			}
-		}
-		fmt.operator(")");
-		
-		if (this.anonymousclass != null)
-			this.anonymousclass.getCode(fmt);
-	}
+    public CodeNewExpr(CodeType type, CodeExpr... args) {
+        this(type, null, Arrays.asList(args));
+    }
 
-	@Override
-	public void accept(ICodeVisitor visitor) {
-		for (CodeExpr arg : this.arguments)
-			arg.accept(visitor);
-	}
+    public CodeNewExpr(CodeType type, List<CodeExpr> args) {
+        this(type, null, args);
+    }
+
+    public CodeNewExpr(CodeType type, CodeClassDef anonklass, CodeExpr... args) {
+        this(type, anonklass, Arrays.asList(args));
+    }
+
+    public CodeNewExpr(CodeType type, CodeClassDef anonklass,
+            List<CodeExpr> args) {
+        super(type);
+
+        this.arguments = args;
+        this.anonymousclass = anonklass;
+    }
+
+    @Override
+    public void getCode(ICodeFormatter fmt) {
+        fmt.keyword("new");
+        fmt.type(this.type);
+        fmt.operator("(");
+        {
+            boolean first = true;
+            for (CodeExpr arg : this.arguments) {
+                if (first)
+                    first = false;
+                else
+                    fmt.operator(",");
+                arg.getCode(fmt);
+            }
+        }
+        fmt.operator(")");
+
+        if (this.anonymousclass != null)
+            this.anonymousclass.getCode(fmt);
+    }
+
+    @Override
+    public void accept(ICodeVisitor visitor) {
+        for (CodeExpr arg : this.arguments)
+            arg.accept(visitor);
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Julio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -21,45 +21,53 @@
  */
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.BaseTypePattern;
 
 /**
  * @author Julio Vilmar Gesser
  */
 public interface GenericVisitor<R, A> {
 
-	public R visit(Node n, A arg);
+    public R visit(Node n, A arg);
 
-	// - RV Monitor components
+    // - RV Monitor components
 
-	public R visit(RVMSpecFile f, A arg);
+    public R visit(RVMSpecFile f, A arg);
 
-	public R visit(RVMonitorSpec s, A arg);
+    public R visit(RVMonitorSpec s, A arg);
 
-	public R visit(RVMParameter p, A arg);
+    public R visit(RVMParameter p, A arg);
 
-	public R visit(EventDefinition e, A arg);
+    public R visit(EventDefinition e, A arg);
 
-	public R visit(PropertyAndHandlers p, A arg);
+    public R visit(PropertyAndHandlers p, A arg);
 
-	public R visit(Formula f, A arg);
+    public R visit(Formula f, A arg);
 
-	// - AspectJ components --------------------
+    // - AspectJ components --------------------
 
-	public R visit(BaseTypePattern p, A arg);
+    public R visit(BaseTypePattern p, A arg);
 
-	// - Compilation Unit ----------------------------------
+    // - Compilation Unit ----------------------------------
 
-	public R visit(PackageDeclaration n, A arg);
+    public R visit(PackageDeclaration n, A arg);
 
-	public R visit(ImportDeclaration n, A arg);
+    public R visit(ImportDeclaration n, A arg);
 
-	// - Expression ----------------------------------------
+    // - Expression ----------------------------------------
 
-	public R visit(NameExpr n, A arg);
+    public R visit(NameExpr n, A arg);
 
-	public R visit(QualifiedNameExpr n, A arg);
+    public R visit(QualifiedNameExpr n, A arg);
 }

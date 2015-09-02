@@ -10,73 +10,78 @@ import com.runtimeverification.rvmonitor.logicpluginshells.pda.ast.State;
 
 public class DumpVisitor implements GenericVisitor<String, Object> {
 
-	private String printTransition(HashMap<Event, State> tran, Object arg){
-		String ret = "";
-		
-		ret += "[\n";
-		
-		State def = null;
-		for (Event event : tran.keySet()) {
-			State state = tran.get(event);
-			
-			if(event.isDefault()){
-				if(def == null)
-					def = state;
-			} else {
-				ret += event.accept(this, arg) + " -> " + state.accept(this, arg);
-				ret += ",\n";
-			}
-		}
-		
-		if(def != null){
-			ret += "default " + def.accept(this, arg);
-			ret += "\n";
-		}
-		
-		ret += "]\n";
-		
-		return ret;
-	}
-	
-	public String visit(PDA n, Object arg) {
-		String ret = "";
-		Set<State> allState = n.getTransitions().keySet(); 
+    private String printTransition(HashMap<Event, State> tran, Object arg) {
+        String ret = "";
 
-		ret += n.getFirstState().accept(this, arg);
-		ret += printTransition(n.getTransitions().get(n.getFirstState()), arg);
-		
-		for (State state : allState){
-			if(state.equals(n.getFirstState()))
-				continue;
-			
-			ret += state.accept(this, arg);
-			ret += printTransition(n.getTransitions().get(state), arg);
-		}
+        ret += "[\n";
 
-		return ret;
-	}
+        State def = null;
+        for (Event event : tran.keySet()) {
+            State state = tran.get(event);
 
-	public String visit(State n, Object arg) {
-		String ret = "";
-		
-		ret += n.getState();
-		
-		if(n.getQueue().size() != 0){
-			ret += " * ";
-			for(StackSymbol s : n.getQueue()){
-				ret += s.accept(this, arg);
-			}
-		}
-		
-		return ret;
-	}
+            if (event.isDefault()) {
+                if (def == null)
+                    def = state;
+            } else {
+                ret += event.accept(this, arg) + " -> "
+                        + state.accept(this, arg);
+                ret += ",\n";
+            }
+        }
 
-	public String visit(StackSymbol n, Object arg) {
-		return n.getSymbol();
-	}
+        if (def != null) {
+            ret += "default " + def.accept(this, arg);
+            ret += "\n";
+        }
 
-	public String visit(Event n, Object arg) {
-		return n.getName();
-	}
+        ret += "]\n";
+
+        return ret;
+    }
+
+    @Override
+    public String visit(PDA n, Object arg) {
+        String ret = "";
+        Set<State> allState = n.getTransitions().keySet();
+
+        ret += n.getFirstState().accept(this, arg);
+        ret += printTransition(n.getTransitions().get(n.getFirstState()), arg);
+
+        for (State state : allState) {
+            if (state.equals(n.getFirstState()))
+                continue;
+
+            ret += state.accept(this, arg);
+            ret += printTransition(n.getTransitions().get(state), arg);
+        }
+
+        return ret;
+    }
+
+    @Override
+    public String visit(State n, Object arg) {
+        String ret = "";
+
+        ret += n.getState();
+
+        if (n.getQueue().size() != 0) {
+            ret += " * ";
+            for (StackSymbol s : n.getQueue()) {
+                ret += s.accept(this, arg);
+            }
+        }
+
+        return ret;
+    }
+
+    @Override
+    public String visit(StackSymbol n, Object arg) {
+        return n.getSymbol();
+    }
+
+    @Override
+    public String visit(Event n, Object arg) {
+        return n.getName();
+    }
 
 }

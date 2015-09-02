@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Julio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -20,9 +20,6 @@
  * Created on 17/10/2007
  */
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast;
-
-
-import java.util.List;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;

@@ -4,30 +4,33 @@ import java.util.Map;
 
 public class Succeed implements AbstractSequence {
 
-  private Succeed(){}
+    private Succeed() {
+    }
 
-  public String toString(){
-    return "#succeed";
-  }
+    @Override
+    public String toString() {
+        return "#succeed";
+    }
 
-  public String toDotString(){
-    return "\\#succeed";
-  }
+    @Override
+    public String toDotString() {
+        return "\\#succeed";
+    }
 
-  public static Succeed theSucceed = new Succeed();
+    public static Succeed theSucceed = new Succeed();
 
-  public static Succeed get(){
-    return theSucceed;
-  }
+    public static Succeed get() {
+        return theSucceed;
+    }
 
-  @Override 
-  public int dotLength(){
-    return 8;
-  }
+    @Override
+    public int dotLength() {
+        return 8;
+    }
 
- @Override
-  public void getImpl(StringBuilder sb, Map<Symbol, Integer> symToNum){
-    sb.append(", ");
-    sb.append(1);
-  }
+    @Override
+    public void getImpl(StringBuilder sb, Map<Symbol, Integer> symToNum) {
+        sb.append(", ");
+        sb.append(1);
+    }
 }

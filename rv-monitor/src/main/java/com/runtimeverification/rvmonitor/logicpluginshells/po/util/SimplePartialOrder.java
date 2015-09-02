@@ -1,27 +1,27 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.po.util;
 
 public class SimplePartialOrder {
-	private String before;
-	private String after;
-	
-	public SimplePartialOrder(String before, String after){
-		this.setBefore(before);
-		this.setAfter(after);
-	}
+    private String before;
+    private String after;
 
-	void setBefore(String before) {
-		this.before = before;
-	}
+    public SimplePartialOrder(String before, String after) {
+        this.setBefore(before);
+        this.setAfter(after);
+    }
 
-	String getBefore() {
-		return before;
-	}
+    void setBefore(String before) {
+        this.before = before;
+    }
 
-	void setAfter(String after) {
-		this.after = after;
-	}
+    String getBefore() {
+        return before;
+    }
 
-	String getAfter() {
-		return after;
-	}
+    void setAfter(String after) {
+        this.after = after;
+    }
+
+    String getAfter() {
+        return after;
+    }
 }

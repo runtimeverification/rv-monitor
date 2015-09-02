@@ -15,27 +15,27 @@ import com.runtimeverification.rvmonitor.logicpluginshells.ptcaret.ast.PseudoCod
 
 public interface VoidVisitor<A> {
 
-	public void visit(PseudoCode_Expr n, A arg);
+    public void visit(PseudoCode_Expr n, A arg);
 
-	public void visit(PseudoCode_TrueExpr n, A arg);
+    public void visit(PseudoCode_TrueExpr n, A arg);
 
-	public void visit(PseudoCode_FalseExpr n, A arg);
-	
-	public void visit(PseudoCode_VarExpr n, A arg);
-	
-	public void visit(PseudoCode_EventExpr n, A arg);
-	
-	public void visit(PseudoCode_BinExpr n, A arg);
-	
-	public void visit(PseudoCode_NotExpr n, A arg);
+    public void visit(PseudoCode_FalseExpr n, A arg);
 
-	public void visit(PseudoCode_Assignments n, A arg);
-	
-	public void visit(PseudoCode_Assignment n, A arg);
-	
-	public void visit(PseudoCode_Output n, A arg);
-	
-	public void visit(PseudoCode n, A arg);
-	
-	public void visit(PseudoCode_Node n, A arg);
+    public void visit(PseudoCode_VarExpr n, A arg);
+
+    public void visit(PseudoCode_EventExpr n, A arg);
+
+    public void visit(PseudoCode_BinExpr n, A arg);
+
+    public void visit(PseudoCode_NotExpr n, A arg);
+
+    public void visit(PseudoCode_Assignments n, A arg);
+
+    public void visit(PseudoCode_Assignment n, A arg);
+
+    public void visit(PseudoCode_Output n, A arg);
+
+    public void visit(PseudoCode n, A arg);
+
+    public void visit(PseudoCode_Node n, A arg);
 }
