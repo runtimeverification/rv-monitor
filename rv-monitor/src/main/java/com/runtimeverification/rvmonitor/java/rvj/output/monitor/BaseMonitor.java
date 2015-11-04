@@ -773,6 +773,9 @@ public class BaseMonitor extends Monitor {
             ret += "ret.trace = new ArrayList<String>();\n";
             ret += "ret.trace.addAll(this.trace);\n";
         }
+        if (this.isAtomicMoniorUsed()) {
+            ret += "ret.pairValue = new AtomicInteger(pairValue.get());\n";
+        }
         ret += "return ret;\n";
         ret += "}\n";
         ret += "catch (CloneNotSupportedException e) {\n";
