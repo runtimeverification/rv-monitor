@@ -159,7 +159,7 @@ public class BaseMonitor extends Monitor {
             // It seems lastEvent is changed here only if isOutermost is true.
             if (simple && isOutermost && monitorInfo == null
                     && !feature.isTimeTrackingNeeded())
-                pair = new CodeMemberField("pairValue", false, false, true,
+                pair = new CodeMemberField("pairValue", false, false, false,
                         CodeType.AtomicInteger());
         }
         this.pairValueField = pair;
@@ -772,6 +772,9 @@ public class BaseMonitor extends Monitor {
             ret += "ret.monitorid = ++nextid;\n";
             ret += "ret.trace = new ArrayList<String>();\n";
             ret += "ret.trace.addAll(this.trace);\n";
+        }
+        if (this.isAtomicMoniorUsed()) {
+            ret += "ret.pairValue = new AtomicInteger(pairValue.get());\n";
         }
         ret += "return ret;\n";
         ret += "}\n";
