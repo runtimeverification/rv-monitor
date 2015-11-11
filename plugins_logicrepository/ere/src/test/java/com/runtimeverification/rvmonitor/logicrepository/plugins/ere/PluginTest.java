@@ -37,14 +37,14 @@ public class PluginTest {
         assertEquals("testing", output.getClient());
         assertEquals("hasnext next", output.getEvents());
         String expectedFormula =
-        "s0 [\n" +
-        "   hasnext -> s1\n" +
-        "]\n" +
-        "s1 [\n" +
-        "   hasnext -> s1\n" +
-        "   next -> s0\n" +
-        "]\n" +
-        "alias match = s0 \n";
+        "s0 [" + FSMTest.NEWLINE +
+        "   hasnext -> s1" + FSMTest.NEWLINE +
+        "]" + FSMTest.NEWLINE +
+        "s1 [" + FSMTest.NEWLINE +
+        "   hasnext -> s1" + FSMTest.NEWLINE +
+        "   next -> s0" + FSMTest.NEWLINE +
+        "]" + FSMTest.NEWLINE +
+        "alias match = s0 " + FSMTest.NEWLINE;
         assertEquals(expectedFormula, output.getProperty().getFormula());
         assertEquals("fail", output.getCategories());
         
