@@ -3,6 +3,7 @@
 .classpath
 .project
 .settings
+.idea
 
 examples/**/__RVC_*.h
 examples/**/__RVC_*.c

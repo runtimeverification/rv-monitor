@@ -90,18 +90,17 @@ public class JavaSRS extends LogicPluginShell {
             }
             monitoredEventsStr.append("int out = rewrite($l$);\n}}\n\n");
         }
-        result.put("monitored events", monitoredEventsStr.toString());
-        result.put("state declaration",
-                "RVMIntSpliceList $l$;\n" + pmaInput.toImplString()
-                        + rewriteStr);
-        result.put("state declaration for set", "RVMIntSpliceList $l$;\n"
+        result.setProperty("monitored events", monitoredEventsStr.toString());
+        result.setProperty("state declaration", "RVMIntSpliceList $l$;\n" + pmaInput.toImplString()
+                + rewriteStr);
+        result.setProperty("state declaration for set", "RVMIntSpliceList $l$;\n"
                 + pmaInput.toImplString() + rewriteStr);
-        result.put("reset", "$l$ = new RVMIntSpliceList();\n");
-        result.put("initialization", "$l$ = new RVMIntSpliceList();\n");
-        result.put("monitoring body", "");
-        result.put("fail condition", "out == 0\n");
-        result.put("nonfail condition", "out != 0\n");
-        result.put("succeed condition", "out == 1\n");
+        result.setProperty("reset", "$l$ = new RVMIntSpliceList();\n");
+        result.setProperty("initialization", "$l$ = new RVMIntSpliceList();\n");
+        result.setProperty("monitoring body", "");
+        result.setProperty("fail condition", "out == 0\n");
+        result.setProperty("nonfail condition", "out != 0\n");
+        result.setProperty("succeed condition", "out == 1\n");
         return result;
     }
 

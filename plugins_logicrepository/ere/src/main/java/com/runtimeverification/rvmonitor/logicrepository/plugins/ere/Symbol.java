@@ -52,7 +52,7 @@ public class Symbol extends ERE {
         }
         ERE E = (ERE) o;
         if(E.getEREType() == EREType.S) {
-            return refToString.get(this).compareTo(refToString.get((Symbol)o));
+            return refToString.get(this).compareTo(refToString.get(o));
         }
         return EREType.S.compareTo(E.getEREType());
     }

@@ -77,8 +77,8 @@ public class JavaPTCARET extends LogicPluginShell {
             stateDecl += "boolean[] $beta$;\n";
             reset += "$beta$ = new boolean[" + beta_size + "];\n";
         }
-        result.put("state declaration", stateDecl);
-        result.put("state declaration for set", "");
+        result.setProperty("state declaration", stateDecl);
+        result.setProperty("state declaration for set", "");
 
         if (beta_size > 0) {
             reset += "$current_depth$ = $global_depth$[0];\n";
@@ -86,8 +86,8 @@ public class JavaPTCARET extends LogicPluginShell {
             reset += "$stack$ = new com.runtimeverification.rvmonitor.java.rt.RVMVersionedBooleanArrayStack();\n";
             reset += "$stack$.push($beta$, $version$[$current_depth$]);\n";
         }
-        result.put("reset", reset);
-        result.put("initialization", reset);
+        result.setProperty("reset", reset);
+        result.setProperty("initialization", reset);
 
         if (beta_size > 0) {
             String stackManage = "";
@@ -125,7 +125,7 @@ public class JavaPTCARET extends LogicPluginShell {
             stackManage += "}\n";
             stackManage += "\n";
 
-            result.put("stack manage", stackManage);
+            result.setProperty("stack manage", stackManage);
         }
 
         /*
@@ -172,12 +172,12 @@ public class JavaPTCARET extends LogicPluginShell {
             violationCondStr += "\n}\n";
 
         }
-        result.put("monitored events", monitoredEventsStr);
-        result.put("after monitored events", aftermonitoredEventsStr);
-        result.put("validation condition", validationCondStr);
-        result.put("violation condition", violationCondStr);
+        result.setProperty("monitored events", monitoredEventsStr);
+        result.setProperty("after monitored events", aftermonitoredEventsStr);
+        result.setProperty("validation condition", validationCondStr);
+        result.setProperty("violation condition", violationCondStr);
 
-        result.put("monitoring body", "");
+        result.setProperty("monitoring body", "");
 
         String cloneCode = "";
         if (beta_size > 0) {
@@ -192,7 +192,7 @@ public class JavaPTCARET extends LogicPluginShell {
         if (beta_size > 0) {
             cloneCode += "$ret$.$beta$ = $ret$.$stack$.peek();\n";
         }
-        result.put("clone", cloneCode);
+        result.setProperty("clone", cloneCode);
 
         return result;
     }

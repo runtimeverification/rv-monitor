@@ -57,7 +57,6 @@
                             <sourceDirectory>${basedir}/src/docs</sourceDirectory>
                             <outputDirectory>target/docs</outputDirectory>
                             <builder>dirhtml</builder> 
-                            <fork>true</fork> 
                        </configuration>
                         <phase>package</phase>
                         <goals>
@@ -70,7 +69,6 @@
                             <sourceDirectory>${basedir}/src/docs</sourceDirectory>
                             <outputDirectory>target/docs/text</outputDirectory>
                             <builder>text</builder> 
-                            <fork>true</fork> 
                         </configuration>
                         <phase>package</phase>
                         <goals>

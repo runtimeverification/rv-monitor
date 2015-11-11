@@ -61,9 +61,9 @@ public class CCFG extends LogicPluginShell {
         String specName = logicOutput.getSpecName() + "_";
         String constSpecName = specName.toUpperCase();
 
-        result.put("rvcPrefix", rvcPrefix);
-        result.put("specName", specName);
-        result.put("constSpecName", constSpecName);
+        result.setProperty("rvcPrefix", rvcPrefix);
+        result.setProperty("specName", specName);
+        result.setProperty("constSpecName", constSpecName);
 
         CFG g = null;
         try {
@@ -112,19 +112,15 @@ public class CCFG extends LogicPluginShell {
 
         // result.put("monitored events", monitoredEventsStr);
 
-        result.put(
-                "state declaration",
-                FileUtils.extractFileFromJar(this, "int_stack.h")
-                        + GLRGen.cstate(lr) + "\n");
+        result.setProperty("state declaration", FileUtils.extractFileFromJar(this, "int_stack.h")
+                + GLRGen.cstate(lr) + "\n");
 
         String resetName = rvcPrefix + specName + "reset";
-        result.put("reset",
-                "void\n" + resetName + "(void){\n" + GLRGen.creset(lr) + "}\n"
+        result.setProperty("reset", "void\n" + resetName + "(void){\n" + GLRGen.creset(lr) + "}\n"
                 + "void\n __RV_init(void){\n" + GLRGen.cinit(lr)
                 + "}\n");
 
-        result.put("monitoring body",
-                FileUtils.extractFileFromJar(this, "monitor.h"));
+        result.setProperty("monitoring body", FileUtils.extractFileFromJar(this, "monitor.h"));
 
         String catString = "int " + rvcPrefix + specName + "match = 0;\n"
                 + "int " + rvcPrefix + specName + "fail = 0;\n";
@@ -132,7 +128,7 @@ public class CCFG extends LogicPluginShell {
         String condString = rvcPrefix + specName + "match = __RV_cat == 0;\n"
                 + rvcPrefix + specName + "fail = __RV_cat == 2;\n";
 
-        result.put("categories", catString);
+        result.setProperty("categories", catString);
 
         // result.put("match condition", "__RV_cat == 0\n");
         // result.put("fail condition", "__RV_cat == 2\n");
@@ -168,8 +164,8 @@ public class CCFG extends LogicPluginShell {
             eventFuncs.append("}\n\n");
         }
 
-        result.put("header declarations", headerDecs.toString());
-        result.put("event functions", eventFuncs.toString());
+        result.setProperty("header declarations", headerDecs.toString());
+        result.setProperty("event functions", eventFuncs.toString());
 
         return result;
     }

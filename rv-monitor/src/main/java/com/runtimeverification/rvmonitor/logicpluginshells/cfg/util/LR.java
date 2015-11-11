@@ -1,10 +1,7 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.cfg.util;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 // NB this does not generate LR tables in their full generality merely for epsilon free CFGs
 public class LR implements java.io.Serializable {
@@ -27,7 +24,7 @@ public class LR implements java.io.Serializable {
 
     @Override
     public int hashCode() {
-        return at.hashCode() + gt.hashCode();
+        return Arrays.deepHashCode(at) + Arrays.deepHashCode(gt);
     }
 
     @Override

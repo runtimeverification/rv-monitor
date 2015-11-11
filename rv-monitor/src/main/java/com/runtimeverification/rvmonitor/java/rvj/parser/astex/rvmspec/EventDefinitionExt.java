@@ -94,7 +94,7 @@ public class EventDefinitionExt extends ExtNode {
 
         this.parametersWithoutThreadVar = e.getParametersWithoutThreadVar();
         this.cachedHas__SKIP = e.isCashedHas__SKIP();
-        // this.cachedHas__LOC = e.isCachedHas__LOC();
+        this.cachedHas__LOC = e.isCachedHas__LOC();
 
     }
 
@@ -261,12 +261,11 @@ public class EventDefinitionExt extends ExtNode {
     }
 
     public Boolean isCashedHas__SKIP() {
-
         return this.cachedHas__SKIP;
     }
 
     public Boolean isCachedHas__LOC() {
-        return this.isCachedHas__LOC();
+        return this.cachedHas__LOC;
     }
 
     public boolean isImplementing(EventDefinitionExt absEvent) {

@@ -1,5 +1,6 @@
 package com.runtimeverification.rvmonitor.logicrepository.plugins.cfg.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * An expansion/production from a nonterminal symbol to several other symbols in a context-free grammar.
  */
-public class Production implements java.io.Serializable {
+public class Production implements Serializable, Cloneable {
     private NonTerminal lhs;
     private ArrayList<Symbol> rhs;
     

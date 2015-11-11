@@ -373,7 +373,7 @@ public class RVMMapCleaner extends Thread {
 	protected void cleanup(RVMBasicRefMap map) {
 		int numDeleted = 0;
 		if (map instanceof RVMBasicRefMap){
-			RVMBasicRefMap mapRefMap = (RVMBasicRefMap) map;
+			RVMBasicRefMap mapRefMap = map;
 			cleanupMapBasicRefMap(mapRefMap);
 		}
 	}

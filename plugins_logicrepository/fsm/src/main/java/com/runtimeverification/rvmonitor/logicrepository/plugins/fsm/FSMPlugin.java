@@ -31,11 +31,11 @@ public class FSMPlugin extends LogicPlugin {
         ArrayList<Symbol> events = new ArrayList<Symbol>();
         ArrayList<State> categories = new ArrayList<State>();
         
-        for (String event : (((String) logicInputXML.getEvents()).trim()).split("\\s+")){
+        for (String event : (logicInputXML.getEvents().trim()).split("\\s+")){
             events.add(Symbol.get(event));
         }
         
-        for (String category : (((String) logicInputXML.getCategories()).trim()).split("\\s+")){
+        for (String category : (logicInputXML.getCategories().trim()).split("\\s+")){
             categories.add(State.get(category));
         }
         

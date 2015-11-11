@@ -150,9 +150,6 @@
                     <descriptors>
                         <descriptor>src/main/assembly/assembly.xml</descriptor>
                     </descriptors>
-                    <environmentVariables> 
-                        <PATH>/usr/local/ACC/bin;${java.library.path}</PATH> 
-                    </environmentVariables> 
                 </configuration>
             </plugin>
             <plugin>

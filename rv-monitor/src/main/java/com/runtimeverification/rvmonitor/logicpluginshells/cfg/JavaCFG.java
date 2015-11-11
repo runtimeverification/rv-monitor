@@ -88,44 +88,38 @@ public class JavaCFG extends LogicPluginShell {
             throw new RVMException(
                     "Terminals in CFG differ from declared events");
 
-        result.put("monitored events", monitoredEventsStr);
+        result.setProperty("monitored events", monitoredEventsStr);
 
-        result.put(
-                "state declaration",
-                GLRGen.state(lr) + "\n"
-                        + FileUtils.extractFileFromJar(this, "IntStack.jva"));
-        result.put("reset", GLRGen.reset(lr));
-        result.put("initialization", GLRGen.init(lr));
+        result.setProperty("state declaration", GLRGen.state(lr) + "\n"
+                + FileUtils.extractFileFromJar(this, "IntStack.jva"));
+        result.setProperty("reset", GLRGen.reset(lr));
+        result.setProperty("initialization", GLRGen.init(lr));
 
-        result.put("monitoring body", GLRGen.body());
+        result.setProperty("monitoring body", GLRGen.body());
 
-        result.put("match condition", "$cat$ == 0\n");
-        result.put("fail condition", "$cat$ == 2\n");
+        result.setProperty("match condition", "$cat$ == 0\n");
+        result.setProperty("fail condition", "$cat$ == 2\n");
 
-        result.put("nonfail condition", "$cat$ != 2\n");
+        result.setProperty("nonfail condition", "$cat$ != 2\n");
 
-        result.put("clone", "$ret$.$stacks$ = new ArrayList<IntStack>();\n"
+        result.setProperty("clone", "$ret$.$stacks$ = new ArrayList<IntStack>();\n"
                 + "for(int $i$ = 0; $i$ < this.$stacks$.size(); $i$++){\n"
                 + "IntStack $stack$ = this.$stacks$.get($i$);\n"
                 + "$ret$.$stacks$.add($stack$.fclone());\n" + "}\n");
 
-        result.put(
-                "hashcode",
-                "if($stacks$.size() == 0) return 0;\n"
-                        + "return $stacks$.size() ^ $stacks$.get($stacks$.size() - 1).hashCode();");
-        result.put(
-                "equals",
-                "if(o == null) return false;\n"
-                        + "if(! (o instanceof @MONITORCLASS)) return false ;\n"
-                        + "@MONITORCLASS m = (@MONITORCLASS) o;\n"
-                        + "if ($stacks$.size() != m.$stacks$.size()) return false;\n"
-                        + "for(int $i$ = 0; $i$ < $stacks$.size(); $i$++){\n"
-                        + "IntStack $stack$ = $stacks$.get($i$);\n"
-                        + "IntStack $stack2$ = m.$stacks$.get($i$);\n"
-                        + "if($stack$.curr_index != $stack2$.curr_index) return false;\n"
-                        + "for(int $j$ = 0; $j$ < $stack$.curr_index; $j$++){\n"
-                        + "if($stack$.data[$j$] != $stack2$.data[$j$]) return false;\n"
-                        + "}\n" + "}\n" + "return true;\n");
+        result.setProperty("hashcode", "if($stacks$.size() == 0) return 0;\n"
+                + "return $stacks$.size() ^ $stacks$.get($stacks$.size() - 1).hashCode();");
+        result.setProperty("equals", "if(o == null) return false;\n"
+                + "if(! (o instanceof @MONITORCLASS)) return false ;\n"
+                + "@MONITORCLASS m = (@MONITORCLASS) o;\n"
+                + "if ($stacks$.size() != m.$stacks$.size()) return false;\n"
+                + "for(int $i$ = 0; $i$ < $stacks$.size(); $i$++){\n"
+                + "IntStack $stack$ = $stacks$.get($i$);\n"
+                + "IntStack $stack2$ = m.$stacks$.get($i$);\n"
+                + "if($stack$.curr_index != $stack2$.curr_index) return false;\n"
+                + "for(int $j$ = 0; $j$ < $stack$.curr_index; $j$++){\n"
+                + "if($stack$.data[$j$] != $stack2$.data[$j$]) return false;\n"
+                + "}\n" + "}\n" + "return true;\n");
 
         return result;
     }

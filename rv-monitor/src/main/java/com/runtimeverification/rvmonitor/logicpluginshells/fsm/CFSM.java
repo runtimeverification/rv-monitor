@@ -71,9 +71,9 @@ public class CFSM extends LogicPluginShell {
         String specName = logicOutput.getSpecName() + "_";
         String constSpecName = specName.toUpperCase();
 
-        result.put("rvcPrefix", rvcPrefix);
-        result.put("specName", specName);
-        result.put("constSpecName", constSpecName);
+        result.setProperty("rvcPrefix", rvcPrefix);
+        result.setProperty("specName", specName);
+        result.setProperty("constSpecName", constSpecName);
 
         FSMInput fsmInput = null;
         try {
@@ -119,7 +119,7 @@ public class CFSM extends LogicPluginShell {
             }
         }
 
-        result.put("reset", "void\n" + rvcPrefix + specName
+        result.setProperty("reset", "void\n" + rvcPrefix + specName
                 + "reset(void)\n{\n  __RVC_state = 0;\n }\n");
 
         for (FSMItem i : fsmInput.getItems()) {
@@ -240,11 +240,11 @@ public class CFSM extends LogicPluginShell {
             eventFuncs.append("}\n\n");
         }
 
-        result.put("header declarations", headerDecs.toString());
-        result.put("event functions", eventFuncs.toString());
-        result.put("monitoring body", monitoringbodyString);
+        result.setProperty("header declarations", headerDecs.toString());
+        result.setProperty("event functions", eventFuncs.toString());
+        result.setProperty("monitoring body", monitoringbodyString);
 
-        result.put("categories", catString);
+        result.setProperty("categories", catString);
 
         return result;
     }
@@ -258,9 +258,9 @@ public class CFSM extends LogicPluginShell {
         String specName = logicOutput.getSpecName() + "_";
         String constSpecName = specName.toUpperCase();
 
-        result.put("rvcPrefix", rvcPrefix);
-        result.put("specName", specName);
-        result.put("constSpecName", constSpecName);
+        result.setProperty("rvcPrefix", rvcPrefix);
+        result.setProperty("specName", specName);
+        result.setProperty("constSpecName", constSpecName);
 
         FSMInput fsmInput = null;
         try {
@@ -306,12 +306,10 @@ public class CFSM extends LogicPluginShell {
             }
         }
 
-        result.put(
-                "reset",
-                "void\n"
-                        + rvcPrefix
-                        + specName
-                        + "reset(void *key)\n{\n__RV_monitor * temp = __RV_find(list,key);\nif(temp != NULL) {\ntemp->__RVC_state = 0;}\n }\n");
+        result.setProperty("reset", "void\n"
+                + rvcPrefix
+                + specName
+                + "reset(void *key)\n{\n__RV_monitor * temp = __RV_find(list,key);\nif(temp != NULL) {\ntemp->__RVC_state = 0;}\n }\n");
 
         for (FSMItem i : fsmInput.getItems()) {
             Set<String> unseenEvents = new HashSet<String>(monitoredEvents);
@@ -434,31 +432,31 @@ public class CFSM extends LogicPluginShell {
             eventFuncs.append("}\n\n");
         }
 
-        result.put("header declarations", headerDecs.toString());
-        result.put("event functions", eventFuncs.toString());
-        result.put("monitoring body", monitoringbodyString);
+        result.setProperty("header declarations", headerDecs.toString());
+        result.setProperty("event functions", eventFuncs.toString());
+        result.setProperty("monitoring body", monitoringbodyString);
 
-        result.put("categories", catString);
+        result.setProperty("categories", catString);
 
         return result;
     }
 
     static private void addStateDeclaration(Properties p) {
         String stateDecl = "static int __RVC_state = 0; \n";
-        p.put("state declaration", stateDecl);
+        p.setProperty("state declaration", stateDecl);
     }
 
     static private void addParametricStateDeclaration(Properties p,
             HashSet<String> cats) {
-        String specName = (String) p.get("specName");
-        String rvcPrefix = (String) p.get("rvcPrefix");
+        String specName = (String) p.getProperty("specName");
+        String rvcPrefix = (String) p.getProperty("rvcPrefix");
         String ret = "typedef struct monitor {\n" + "  int __RVC_state;\n";
         for (String cat : cats) {
             ret += "int " + rvcPrefix + specName + cat + ";\n";
         }
         ret += "} __RV_monitor;\n" + "\n";
         ret += FileUtils.extractFileFromJar(CFSM.class, "cfg_monitor.h");
-        p.put("state declaration", ret);
+        p.setProperty("state declaration", ret);
     }
 
     @Override

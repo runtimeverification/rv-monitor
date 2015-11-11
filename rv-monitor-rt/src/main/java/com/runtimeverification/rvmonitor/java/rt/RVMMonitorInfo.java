@@ -6,7 +6,7 @@ public class RVMMonitorInfo implements Cloneable, RVMObject {
 	public boolean isFullParam = false;
 	public int[] connected = null;
 	
-	public Object clone(){
+	public RVMMonitorInfo clone(){
 		try{
 			RVMMonitorInfo ret = (RVMMonitorInfo)super.clone();
 			if(this.connected != null)

@@ -87,9 +87,8 @@ public class JavaPO extends LogicPluginShell {
          */
 
         if (partialOrders.getName() != null)
-            result.put("constructor",
-                    "edu.illinois.imunit.asserts.ScheduleAssert.currentSchedule = \""
-                            + partialOrders.getName() + "\";\n");
+            result.setProperty("constructor", "edu.illinois.imunit.asserts.ScheduleAssert.currentSchedule = \""
+                    + partialOrders.getName() + "\";\n");
 
         /*
          * declare all needed fields
@@ -103,7 +102,7 @@ public class JavaPO extends LogicPluginShell {
                 }
             }
         }
-        result.put("state declaration", fieldDecl);
+        result.setProperty("state declaration", fieldDecl);
 
         // no initialization code
         // result.put("initialization", "");
@@ -122,7 +121,7 @@ public class JavaPO extends LogicPluginShell {
         }
 
         reset += "notifyAll();\n";
-        result.put("reset", reset);
+        result.setProperty("reset", reset);
 
         /*
          * monitor specific codes
@@ -180,7 +179,7 @@ public class JavaPO extends LogicPluginShell {
 
             monitoredEventsStr += "}\n\n";
         }
-        result.put("monitored events", monitoredEventsStr);
+        result.setProperty("monitored events", monitoredEventsStr);
 
         // no need
         // result.put("monitoring body", "");
