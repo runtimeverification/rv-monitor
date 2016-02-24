@@ -37,3 +37,4 @@ examples/llvmmop/safety_critical/six_steps/test2*
 examples/llvmmop/safety_critical/six_steps/test_*/test*.bc*
 
 target/**
+*.iml
