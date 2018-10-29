@@ -148,7 +148,7 @@ public class CCFG extends LogicPluginShell {
             headerDecs.append(funcDecl + ";\n");
             eventFuncs.append(funcDecl + "\n");
             eventFuncs.append("{\n");
-            eventFuncs.append(cSpec.getEvents().get(eventName) + "\n");
+            eventFuncs.append(cSpec.getEvents().get(eventName).getAction() + "\n");
             eventFuncs.append("if(__RV_stacks_inst == NULL){\n");
             eventFuncs
                     .append("__RV_stacks_inst = __RV_new_RV_stacks(5);\n __RV_init();\n}\n");

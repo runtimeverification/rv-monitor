@@ -226,7 +226,7 @@ public class CFSM extends LogicPluginShell {
             headerDecs.append(funcDecl + ";\n");
             eventFuncs.append(funcDecl + "\n");
             eventFuncs.append("{\n");
-            eventFuncs.append(cSpec.getEvents().get(eventName) + "\n");
+            eventFuncs.append(cSpec.getEvents().get(eventName).getAction() + "\n");
             eventFuncs.append("__RVC_state = " + constEventNames.get(eventName)
                     + "[__RVC_state];\n");
             eventFuncs.append(condString);
@@ -408,7 +408,7 @@ public class CFSM extends LogicPluginShell {
             headerDecs.append(funcDecl + ";\n");
             eventFuncs.append(funcDecl + "\n");
             eventFuncs.append("{\n");
-            eventFuncs.append(cSpec.getEvents().get(eventName) + "\n");
+            eventFuncs.append(cSpec.getEvents().get(eventName).getAction() + "\n");
             eventFuncs.append("if(list == NULL){\n");
             eventFuncs.append("  list = __RV_new_RV_list(10);\n");
             eventFuncs.append("}\n");

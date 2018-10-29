@@ -1,5 +1,7 @@
 package com.runtimeverification.rvmonitor.c.rvc;
 
+import com.runtimeverification.rvmonitor.core.ast.Event;
+
 import java.util.HashMap;
 
 public interface CSpecification {
@@ -24,7 +26,7 @@ public interface CSpecification {
      * 
      * @return A mapping from event names to action code.
      */
-    public HashMap<String, String> getEvents();
+    public HashMap<String, Event> getEvents();
 
     /**
      * A mapping from event names to Strings with the complete parameters of the
