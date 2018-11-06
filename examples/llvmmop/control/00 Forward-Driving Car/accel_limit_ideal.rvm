@@ -1,0 +1,28 @@
+#include <stdio.h>
+int failsafe_mode = 0;
+
+accel_limit {
+#include "forward_driving_car.h"
+  event control_ok() {}
+  event control_high() {}
+
+  event post_control(state result, state curr, const parameters* const params)
+    after calling ctrlStep {
+    if (result.a < 0.05) {
+      @control_ok();
+    } else {
+      @control_high();
+    }
+    return;
+  }
+
+  fsm : start [ control_high -> failsafe
+                control_ok -> safe ]
+        failsafe [ control_ok -> safe
+                   control_high -> failsafe ]
+        safe [ control_high -> failsafe
+               control_ok -> safe ]
+
+  @failsafe{ failsafe_mode = 1; }
+  @safe{ failsafe_mode = 0; }
+}

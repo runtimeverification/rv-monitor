@@ -1,0 +1,36 @@
+#include <stdio.h>
+int failsafe_mode = 0;
+
+/*
+This monitor imposes an upper bound on the commanded acceleration.
+This limit is purposely less that the acceleration limit from
+the KeYmaera-generated controller that we are instrumenting, so
+we can see this monitor triggering.
+ */
+
+accel_limit {
+#include "forward_driving_car.h"
+#include "__RVC_accel_limit_Monitor.h"
+  event control_ok() {}
+  event control_high() {}
+
+  event post_control(state* result, state curr, const parameters* const params)
+    after calling ctrlStep {
+    if (result->a < 0.05) {
+      __RVC_accel_limit_control_ok();
+    } else {
+      __RVC_accel_limit_control_high();
+    }
+    return;
+  }
+
+  fsm : start [ control_high -> failsafe
+                control_ok -> safe ]
+        failsafe [ control_ok -> safe
+                   control_high -> failsafe ]
+        safe [ control_high -> failsafe
+               control_ok -> safe ]
+
+  @failsafe{ failsafe_mode = 1; }
+  @safe{ failsafe_mode = 0; }
+}
