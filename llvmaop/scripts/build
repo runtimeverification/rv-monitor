@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -ue
+
+base=$(cd $(dirname $0)/..; pwd)
+build="$base/.build"
+
+mkdir -p "$build"
+( cd "$build" ; CC=clang-6.0 CXX=clang++-6.0 cmake "$base" ; make )

@@ -9,25 +9,28 @@
     <name>llvmaop</name>
     <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>make</id>
-                <phase>compile</phase>
-                <goals><goal>run</goal></goals>
-                <configuration>
-                  <target>
-                    <exec executable="cmake" dir="${project.build.directory}" failonerror="true">
-                      <arg line="${project.basedir}"/>
-                    </exec>
-                    <exec executable="make" dir="${project.build.directory}" failonerror="true">
-                    </exec>
-                  </target>
-                </configuration>
-              </execution>
-            </executions>
+	  <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>exec-maven-plugin</artifactId>
+             <version>1.6.0</version>
+             <executions>
+               <execution>
+                 <id>make-llvmaop</id>
+                 <phase>compile</phase>
+                 <goals><goal>exec</goal></goals>
+                 <configuration>
+			 <executable> ${basedir}/scripts/build </executable>
+                 </configuration>
+               </execution>
+               <execution>
+                 <id>clean-llvmaop</id>
+                 <phase>clean</phase>
+                 <goals><goal>exec</goal></goals>
+                 <configuration>
+			 <executable> ${basedir}/scripts/clean </executable>
+                 </configuration>
+               </execution>
+             </executions>
           </plugin>
         </plugins>
     </build>
