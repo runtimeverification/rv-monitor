@@ -34,6 +34,7 @@
         <module>ptltl</module>
         <module>srs</module>
         <module>tfsm</module>
+        <module>dl</module>
     </modules>
     <build>
         <plugins>

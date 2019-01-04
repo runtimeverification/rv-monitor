@@ -69,6 +69,11 @@
             <artifactId>tfsm</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
+            <artifactId>dl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- Examples tests use commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
