@@ -111,7 +111,6 @@ public class Main {
         } else {
             cmgPath = Main.class.getResource(".").getFile();
         }
-        cmgPath = "/home/brandon/code/monitoring/rv-monitor/target/release/rv-monitor/lib";
         return cmgPath;
     }
 
