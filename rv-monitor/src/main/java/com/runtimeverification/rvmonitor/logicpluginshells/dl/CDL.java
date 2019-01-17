@@ -1,27 +1,14 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.dl;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import com.runtimeverification.rvmonitor.c.rvc.CSpecification;
 import com.runtimeverification.rvmonitor.core.ast.Event;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
-import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.FSMAlias;
-import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.FSMInput;
-import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.FSMItem;
-import com.runtimeverification.rvmonitor.logicpluginshells.fsm.ast.FSMTransition;
-import com.runtimeverification.rvmonitor.logicpluginshells.fsm.parser.FSMParser;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
-import com.runtimeverification.rvmonitor.util.FileUtils;
 import com.runtimeverification.rvmonitor.util.RVMException;
-
+import com.runtimeverification.rvmonitor.logicpluginshells.dl.*;
 public class CDL extends LogicPluginShell {
     private CSpecification cSpec;
     private boolean parametric;
@@ -51,11 +38,11 @@ public class CDL extends LogicPluginShell {
     }
 
     private String modelMonitorFromModelPlex(String keymaeraFile) {
-        return "void monitorSatisfied();";
+        return ModelPlexConnector$.MODULE$.synthesizeCFromFile(keymaeraFile);
     }
 
     private String toCFunctionDecl(String fName, Event fEvent) {
-        return "void " + fName + "(" + fEvent.getDefinition() + ")";
+        return "void " + fName + fEvent.getDefinition();
     }
 
     private String toCFunction(String fName, Event fEvent) {
