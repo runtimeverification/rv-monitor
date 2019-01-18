@@ -96,12 +96,11 @@ object ModelPlexConnector {
       })._2
   }
 
-  def synthesizeCFromFile(fileName:String):String = {
+  def synthesizeCModelMonitor(keymaeraxModel:String):String = {
      init()
-     val modelKyx = io.Source.fromFile(fileName.filter(_>=' ').trim()).mkString
-     val model = KeYmaeraXArchiveParser.parseAsProblemOrFormula(modelKyx)
+     val model = KeYmaeraXArchiveParser.parseAsProblemOrFormula(keymaeraxModel)
      val Imply(_, Box(prg, _)) = model
-     val stateVars = getVariablesFromModelKyx(modelKyx.split("\n")
+     val stateVars = getVariablesFromModelKyx(keymaeraxModel.split("\n")
                       .toList.filter(!_.equals("")))
                       .map(_.asVariable.asInstanceOf[BaseVariable])
      val (modelplexInput, assumptions) = createMonitorSpecificationConjecture(model, stateVars:_*)

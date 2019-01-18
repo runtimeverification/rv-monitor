@@ -8,7 +8,7 @@ import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorysyntax.LogicRepositoryType;
 import com.runtimeverification.rvmonitor.util.RVMException;
-import com.runtimeverification.rvmonitor.logicpluginshells.dl.*;
+
 public class CDL extends LogicPluginShell {
     private CSpecification cSpec;
     private boolean parametric;
@@ -37,8 +37,8 @@ public class CDL extends LogicPluginShell {
         }
     }
 
-    private String modelMonitorFromModelPlex(String keymaeraFile) {
-        return ModelPlexConnector$.MODULE$.synthesizeCFromFile(keymaeraFile);
+    private String modelMonitorFromModelPlex(String keymaeraxModel) {
+        return ModelPlexConnector$.MODULE$.synthesizeCModelMonitor(keymaeraxModel);
     }
 
     private String toCFunctionDecl(String fName, Event fEvent) {

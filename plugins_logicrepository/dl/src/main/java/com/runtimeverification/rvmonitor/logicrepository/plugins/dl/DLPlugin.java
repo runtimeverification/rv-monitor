@@ -13,7 +13,7 @@ public class DLPlugin extends LogicPlugin {
     public LogicRepositoryType process(LogicRepositoryType logicInputXML) {
         LogicRepositoryType logicOutputXML = logicInputXML;
         logicOutputXML.getMessage().add("done");
-        
+
         return logicOutputXML;
     }
     
