@@ -77,6 +77,25 @@ object ModelPlexConnector {
     })._2
   }
 
+  /**
+    * The LLVM instrumentation fails due to this function.
+    * Since it's unused during monitoring, it's removed from the synthesized monitoring code.
+    */
+
+  def sanitizeC(unsanitizedInput:String):String = {
+    unsanitizedInput.split("(?<=\\n)").foldLeft(Tuple2(false, ""))(
+      {(tup2, line) => if(tup2._1 && line.contains("}")) {
+                          Tuple2(false, tup2._2)
+                       } else if(!tup2._1 && line.contains("Run controller")) {
+                          Tuple2(true, tup2._2)
+                       } else if(!tup2._1) {
+                          Tuple2(false, tup2._2 + line)
+                       } else {
+                          tup2
+                       }
+      })._2
+  }
+
   def synthesizeCFromFile(fileName:String):String = {
      init()
      val modelKyx = io.Source.fromFile(fileName.filter(_>=' ').trim()).mkString
@@ -94,7 +113,7 @@ object ModelPlexConnector {
      CPrettyPrinter.printer = new CExpressionPlainPrettyPrinter()
      val code = (new CMonitorGenerator())(result.subgoals.head.succ.head, stateVars.toSet, inputs, "Monitor")
      shutdown()
-     return code._1
+     sanitizeC(code._1)
   }
 
 }
