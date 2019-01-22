@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+level_limit {
+#include "waterTankSimulation.h"
+#include "__RVC_level_limit_Monitor.h"
+
+
+  event post_control(state* result, state curr, const parameters* const params)
+    after calling ctrlStep {
+    if (!monitorSatisfied(curr, *result, par_ptr)) {
+      printf("-- dL Violation --\n");
+    }
+    return;
+  }
+
+  dL :
+      Functions.
+        R m.
+        R ep.
+      End.
+
+      ProgramVariables.
+        R f.
+        R l.
+        R c.
+      End.
+
+      Problem.
+           (0 <= l & l <= m & 0 < ep)
+        -> [
+            { f :=*;
+              ?-1 <= f & f <= (m-l)/ep;
+              c := 0;
+              { l' = f, c' = 1 & 0 <= l & c <= ep }
+            }*
+           ](0 <= l & l <= m)
+      End.
+
+  @dL-violation { printf("dL Model Violation!;") }
+}
