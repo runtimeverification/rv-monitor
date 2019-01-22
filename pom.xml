@@ -71,6 +71,16 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>com.googlecode.maven-download-plugin</groupId>
+                    <artifactId>download-maven-plugin</artifactId>
+                    <version>1.4.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>javacc-maven-plugin</artifactId>
                     <version>2.6</version>
@@ -115,6 +125,48 @@
                </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <version>1.4.1</version>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>wget-keymaerax</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <uri>https://github.com/LS-Lab/KeYmaeraX-release/releases/download/4.6.3/keymaerax.jar</uri>
+                            <outputDirectory>${project.basedir}/rv-monitor/src/main/resources</outputDirectory>
+                            <md5>83a5526d45f1dbc884e8128d06050bba</md5>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+                        <id>install-KeYmaeraX</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/rv-monitor/src/main/resources/keymaerax.jar</file>
+                            <groupId>edu.cmu.cs.ls</groupId>
+                            <artifactId>keymaerax</artifactId>
+                            <version>4.6.3</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

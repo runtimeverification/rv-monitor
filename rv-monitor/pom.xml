@@ -9,6 +9,16 @@
     <name>rv-monitor</name>
     <dependencies>
         <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.12.8</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.cmu.cs.ls</groupId>
+            <artifactId>keymaerax</artifactId>
+            <version>4.6.3</version>
+        </dependency>
+        <dependency>
             <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>rv-monitor-rt</artifactId>
             <version>${project.version}</version>
@@ -69,6 +79,11 @@
             <artifactId>tfsm</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.runtimeverification.rvmonitor.logicrepository.plugins</groupId>
+            <artifactId>dl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- Examples tests use commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -85,6 +100,28 @@
     </dependencies>
     <build>
         <plugins>
+         <plugin>
+            <groupId>net.alchim31.maven</groupId>
+            <artifactId>scala-maven-plugin</artifactId>
+            <version>3.4.4</version>
+            <executions>
+                <execution>
+                    <id>scala-compile-first</id>
+                    <phase>process-resources</phase>
+                    <goals>
+                        <goal>add-source</goal>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>scala-test-compile</id>
+                    <phase>process-test-resources</phase>
+                    <goals>
+                        <goal>testCompile</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
         <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>buildnumber-maven-plugin</artifactId>
