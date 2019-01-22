@@ -5,6 +5,35 @@ For detailed information on RV-Monitor and its use, please see
 http://runtimeverification.com/monitor/docs (also included in text form in the docs/
 subfolder of this install).
 
+Build and Installation
+----------------------
+
+rv-monitor builds with maven (3.6 or newer),
+which will download other Java dependencies.
+Native code instrumentation is built with CMake,
+and requires the LLVM 6 development libraries and
+LLVM6 version of clang.
+
+To build, run the command
+
+mvn package
+
+This puts the compiled tools in the directory
+target/release/rv-monitor
+You can move that directory elsewhere if you do not
+want to keep the source code unpacked.
+For convenience, please add target/release/rv-monitor/bin to your PATH.
+
+The dL plugin additionally depends at runtime on Mathematica
+(it can be compiled without Mathematica installed),
+and also needs the connection between KeYmaeraX and Mathematica
+to be configured before the plugin can be used.
+To do this start the KeYmaeraX web interface by running
+
+java -jar target/release/rv-monitor/lib/keymaerax.jar
+
+Select the "Help > Tool Configuration" menu to open the
+settings page, and provide the required paths.
 
 Command Line Basics
 ----------------------
