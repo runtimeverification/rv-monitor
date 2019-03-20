@@ -34,14 +34,14 @@
         <repository>
             <id>runtime-verification</id>
             <name>Runtime Verification Repository</name>
-            <url>https://s3.amazonaws.com/repo.runtime.verification/repository/internal</url>
+            <url>https://s3.us-east-2.amazonaws.com/runtimeverificationmaven/internal</url>
             <snapshots><enabled>false</enabled></snapshots>
             <releases><enabled>true</enabled></releases>
         </repository>
         <repository>
             <id>runtime-verification.snapshots</id>
             <name>Runtime Verification Snapshot Repository</name>
-            <url>https://s3.amazonaws.com/repo.runtime.verification/repository/snapshots</url>
+            <url>https://s3.us-east-2.amazonaws.com/runtimeverificationmaven/snapshots</url>
             <snapshots><enabled>true</enabled></snapshots>
             <releases><enabled>false</enabled></releases>
         </repository>
@@ -50,12 +50,12 @@
         <repository>
             <id>runtime-verification</id>
             <name>Runtime Verification Repository</name>
-            <url>https://s3.amazonaws.com/repo.runtime.verification/repository/internal</url>
+            <url>https://s3.us-east-2.amazonaws.com/runtimeverificationmaven/internal</url>
         </repository>
         <snapshotRepository>
             <id>runtime-verification.snapshots</id>
             <name>Runtime Verification Snapshot Repository</name>
-            <url>https://s3.amazonaws.com/repo.runtime.verification/repository/snapshots</url>
+            <url>https://s3.us-east-2.amazonaws.com/runtimeverificationmaven/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <dependencies>
