@@ -1,6 +1,10 @@
 package com.runtimeverification.rvmonitor.logicpluginshells.dl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import com.runtimeverification.rvmonitor.c.rvc.CSpecification;
 import com.runtimeverification.rvmonitor.core.ast.Event;
@@ -37,9 +41,10 @@ public class CDL extends LogicPluginShell {
         }
     }
 
-    private String modelMonitorFromModelPlex(String keymaeraxModel) {
-        return ModelPlexConnector$.MODULE$.synthesizeCModelMonitor(keymaeraxModel);
+    private String monitorFromModelPlex(String keymaeraxModel) {
+        return ModelPlexConnector$.MODULE$.genCControllerMonitor(keymaeraxModel);
     }
+
 
     private String toCFunctionDecl(String fName, Event fEvent) {
         return "void " + fName + fEvent.getDefinition();
@@ -52,6 +57,7 @@ public class CDL extends LogicPluginShell {
         functionDef.append("}\n");
         return functionDef.toString();
     }
+
 
     private Properties getNonParametricMonitorCode(LogicRepositoryType logicOutput) throws RVMException {
         String rvcPrefix = "__RVC_";
@@ -69,17 +75,33 @@ public class CDL extends LogicPluginShell {
 
 
         String[] monitoredEvents = logicOutput.getEvents().trim().split("\\s+");
+        List<CPrinters.Param> paramsList = new ArrayList<>();
+        String formula = logicOutput.getProperty().getFormula();
+        StringBuilder updateFunctions = new StringBuilder();
 
         for (String eventName : monitoredEvents) {
             Event event = cSpec.getEvents().get(eventName);
+            String paramStr = event.getDefinition();
+            paramStr = paramStr.substring(1, paramStr.length() - 1);
+            List<String> params = Arrays.asList(paramStr.split(","));
+            paramsList = params.stream()
+                    .map(String::trim)
+                    .map(x -> x.split(" "))
+                    .map((arr) -> new CPrinters.Param(arr[0], arr[1]))
+                    .collect(Collectors.toList());
+
             String funcName = rvcPrefix + specName + eventName;
+            updateFunctions.append(CPrinters.generateDlStateUpdatesFromModel(formula, paramsList) + "\n");
             headerDecs.append(toCFunctionDecl(funcName, event) + ";\n");
             eventFuncs.append(toCFunction(funcName, event));
         }
 
-        result.setProperty("header declarations", headerDecs.toString());
+
+        // TODO: Remove these or add tests for LLVM instrumentation
+        result.setProperty("prefixed header declarations", headerDecs.toString());
         result.setProperty("event functions", eventFuncs.toString());
-        result.setProperty("monitoring body", modelMonitorFromModelPlex(logicOutput.getProperty().getFormula()));
+        result.setProperty("state update functions", updateFunctions.toString());
+        result.setProperty("monitoring body", monitorFromModelPlex(formula));
 
         return result;
     }

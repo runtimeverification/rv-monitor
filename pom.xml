@@ -139,9 +139,9 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <uri>https://github.com/LS-Lab/KeYmaeraX-release/releases/download/4.6.3/keymaerax.jar</uri>
+                            <uri>https://github.com/LS-Lab/KeYmaeraX-release/releases/download/4.7.4/keymaerax.jar</uri>
                             <outputDirectory>${project.basedir}/rv-monitor/src/main/resources</outputDirectory>
-                            <md5>83a5526d45f1dbc884e8128d06050bba</md5>
+                            <md5>75394b4c1ecced8150f5836a2aca89c1</md5>
                         </configuration>
                     </execution>
                 </executions>
@@ -162,7 +162,7 @@
                             <file>${project.basedir}/rv-monitor/src/main/resources/keymaerax.jar</file>
                             <groupId>edu.cmu.cs.ls</groupId>
                             <artifactId>keymaerax</artifactId>
-                            <version>4.6.3</version>
+                            <version>4.7.4</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>

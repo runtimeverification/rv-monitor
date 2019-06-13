@@ -1,0 +1,4 @@
+void foobar()
+{
+    printf("foobar");
+}
