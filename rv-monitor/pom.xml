@@ -9,6 +9,12 @@
     <name>rv-monitor</name>
     <dependencies>
         <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.12</artifactId>
+            <version>3.0.8</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>2.12.8</version>
@@ -201,6 +207,24 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.scalatest</groupId>
+              <artifactId>scalatest-maven-plugin</artifactId>
+              <version>1.0</version>
+              <configuration>
+                <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                <junitxml>.</junitxml>
+                <filereports>WDF TestSuite.txt</filereports>
+              </configuration>
+              <executions>
+                <execution>
+                  <id>test</id>
+                  <goals>
+                    <goal>test</goal>
+                  </goals>
+                </execution>
+              </executions>
             </plugin>
         </plugins>
     </build>
