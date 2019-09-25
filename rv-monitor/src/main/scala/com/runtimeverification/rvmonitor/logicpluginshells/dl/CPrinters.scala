@@ -18,7 +18,7 @@ object CPrinters {
 
       modifier match {
         case None => template
-        case Some(mod) => mod + " "
+        case Some(mod) => mod + " " + template
       }
     }
   }
