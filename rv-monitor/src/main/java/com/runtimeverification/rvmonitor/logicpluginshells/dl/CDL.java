@@ -75,32 +75,24 @@ public class CDL extends LogicPluginShell {
 
 
         String[] monitoredEvents = logicOutput.getEvents().trim().split("\\s+");
-        List<CPrinters.Param> paramsList = new ArrayList<>();
         String formula = logicOutput.getProperty().getFormula();
         StringBuilder updateFunctions = new StringBuilder();
+        StringBuilder constructorFunction = new StringBuilder();
 
         for (String eventName : monitoredEvents) {
             Event event = cSpec.getEvents().get(eventName);
-            String paramStr = event.getDefinition();
-            paramStr = paramStr.substring(1, paramStr.length() - 1);
-            List<String> params = Arrays.asList(paramStr.split(","));
-            paramsList = params.stream()
-                    .map(String::trim)
-                    .map(x -> x.split(" "))
-                    .map((arr) -> new CPrinters.Param(arr[0], arr[1]))
-                    .collect(Collectors.toList());
-
             String funcName = rvcPrefix + specName + eventName;
-            updateFunctions.append(CPrinters.generateDlStateUpdatesFromModel(formula, paramsList) + "\n");
             headerDecs.append(toCFunctionDecl(funcName, event) + ";\n");
             eventFuncs.append(toCFunction(funcName, event));
         }
-
+        updateFunctions.append(CPrinters.generateDlStateUpdatesFromModel(formula) + "\n");
+        constructorFunction.append(CPrinters.generateDlConstructorFromModel(logicOutput.getSpecName(), formula) + "\n");
 
         // TODO: Remove these or add tests for LLVM instrumentation
         result.setProperty("prefixed header declarations", headerDecs.toString());
         result.setProperty("event functions", eventFuncs.toString());
         result.setProperty("state update functions", updateFunctions.toString());
+        result.setProperty("state constructor", constructorFunction.toString());
         result.setProperty("monitoring body", monitorFromModelPlex(formula));
 
         return result;

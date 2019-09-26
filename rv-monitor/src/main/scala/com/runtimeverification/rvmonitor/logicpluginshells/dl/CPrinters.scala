@@ -27,10 +27,10 @@ object CPrinters {
     val Param(_, field) = param
     val template = s"""
          |    if(monitorState.prevStateExists()) {
-         |        monitorState.currState.$field = static_cast<long double>($field);
+         |        monitorState.currState.$field = $field;
          |        monitorState.currStateMap["$field"] = true;
          |    } else {
-         |        monitorState.prevState.$field = static_cast<long double>($field);
+         |        monitorState.prevState.$field = $field;
          |        monitorState.prevStateMap["$field"] = true;
          |    }
          |""".stripMargin
@@ -38,11 +38,31 @@ object CPrinters {
     CFunction(None, "void", "update_" + param.pName, param :: Nil, template).toString
   }
 
-  def generateDlStateUpdatesFromModel(model:String, javaParamList: java.util.List[Param]): String = {
-    val paramsList = javaParamList.asScala
-    val logicalVariables: Set[String] = ModelPlexConnector.getStateVarsFromModel(model).map(_.toString()).toSet
-    val variables: List[Param] = paramsList.filter(param => logicalVariables.contains(param.pName)).toList
-    variables.map(generateDlStateUpdate).mkString("\n")
+  def generateDlStateUpdatesFromModel(model:String): String = {
+    val logicalVariables: List[Param] = ModelPlexConnector.getStateVarsFromModel(model)
+                                                         .map(_.toString())
+                                                         .map(v => Param("long double", v))
+    logicalVariables.map(generateDlStateUpdate).mkString("\n")
+  }
+
+  def generateDlConstructorFromModel(specName:String, model:String): String = {
+    val logicalVariables = ModelPlexConnector.getStateVarsFromModel(model).map(v => "\"" + v.toString() + "\"")
+    val template =
+      s"""
+         |/**
+         | * RV-Monitor Generated Constructor
+         | * Function "initializeParams" must be present in spec
+         | * And initialize state "monitorState.params"
+         | **/
+         |$specName() {
+         |    initializeParams();
+         |    vector<string> logicalVariables {${logicalVariables.mkString(",")}};
+         |    monitorState.initialize(params, logicalVariables);
+         |}
+         |
+         |""".stripMargin
+
+    template.toString
   }
 
 }
