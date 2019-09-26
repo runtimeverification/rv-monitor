@@ -52,6 +52,7 @@ object ModelPlexConnector {
     tempModelFile.delete()
     tempConditionFile.delete()
 
+    ToolProvider.shutdown()
     val cMonitorSource = Source.fromFile(tempCFile)
     val cMonitorStr = cMonitorSource.mkString
     cMonitorSource.close()
