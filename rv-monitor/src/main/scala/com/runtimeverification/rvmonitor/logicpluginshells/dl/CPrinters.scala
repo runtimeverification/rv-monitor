@@ -26,6 +26,7 @@ object CPrinters {
   def generateDlStateUpdate(param: Param): String = {
     val Param(_, field) = param
     val template = s"""
+         |
          |    if(monitorState.prevStateExists()) {
          |        monitorState.currState.$field = $field;
          |        monitorState.currStateMap["$field"] = true;
@@ -33,9 +34,10 @@ object CPrinters {
          |        monitorState.prevState.$field = $field;
          |        monitorState.prevStateMap["$field"] = true;
          |    }
+         |
          |""".stripMargin
 
-    CFunction(None, "void", "update_" + param.pName, param :: Nil, template).toString
+    CFunction(None, "void", "update_" + param.pName, param :: Nil, template).toString + "\n"
   }
 
   def generateDlStateUpdatesFromModel(model:String): String = {
@@ -43,6 +45,27 @@ object CPrinters {
                                                          .map(_.toString())
                                                          .map(v => Param("long double", v))
     logicalVariables.map(generateDlStateUpdate).mkString("\n")
+  }
+
+  def generateViolationCheckFunction(specName: String): String = {
+      s"""
+         |/* Violation check function */
+         |bool check_violation( void ($specName::*pre_check)()
+         |                    , void ($specName::*post_check)(bool)
+         |                    ) {
+         |    if(monitorState.isInitialized()) {
+         |        (this->*pre_check)();
+         |        bool verdict = modelplex_generated::monitorSatisfied( monitorState.prevState
+         |                                                            , monitorState.currState
+         |                                                            , &monitorState.params );
+         |        monitorState.prevState = monitorState.currState;
+         |        (this->*post_check)(verdict);
+         |        return verdict;
+         |    }
+         |    return true;
+         |}
+         |
+         |""".stripMargin.toString
   }
 
   def generateDlConstructorFromModel(specName:String, model:String): String = {
@@ -57,7 +80,7 @@ object CPrinters {
          |$specName() {
          |    initializeParams();
          |    vector<string> logicalVariables {${logicalVariables.mkString(",")}};
-         |    monitorState.initialize(params, logicalVariables);
+         |    monitorState.initialize(logicalVariables);
          |}
          |
          |""".stripMargin
