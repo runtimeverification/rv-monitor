@@ -68,20 +68,13 @@ object CPrinters {
          |""".stripMargin.toString
   }
 
-  def generateDlConstructorFromModel(specName:String, model:String): String = {
+  def generateDlConstructorContentFromModel(specName:String, model:String): String = {
     val logicalVariables = ModelPlexConnector.getStateVarsFromModel(model).map(v => "\"" + v.toString() + "\"")
     val template =
       s"""
-         |/**
-         | * RV-Monitor Generated Constructor
-         | * Function "initializeParams" must be present in spec
-         | * And initialize state "monitorState.params"
-         | **/
-         |$specName() {
          |    initializeParams();
          |    vector<string> logicalVariables {${logicalVariables.mkString(",")}};
          |    monitorState.initialize(logicalVariables);
-         |}
          |
          |""".stripMargin
 

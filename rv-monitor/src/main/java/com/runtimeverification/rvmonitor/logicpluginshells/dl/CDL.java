@@ -85,7 +85,7 @@ public class CDL extends LogicPluginShell {
             eventFuncs.append(toCFunction(funcName, event));
         }
         // Constructor
-        generatedFunctions.append(CPrinters.generateDlConstructorFromModel(logicOutput.getSpecName(), formula) + "\n\n");
+        String constructorContent = CPrinters.generateDlConstructorContentFromModel(logicOutput.getSpecName(), formula) + "\n\n";
         // State Updates
         generatedFunctions.append(CPrinters.generateDlStateUpdatesFromModel(formula) + "\n\n");
         // Violation Check
@@ -95,6 +95,7 @@ public class CDL extends LogicPluginShell {
         result.setProperty("prefixed header declarations", headerDecs.toString());
         result.setProperty("event functions", eventFuncs.toString());
         result.setProperty("generated functions", generatedFunctions.toString());
+        result.setProperty("constructor content", constructorContent);
         result.setProperty("monitoring body", monitorFromModelPlex(formula));
 
         return result;
