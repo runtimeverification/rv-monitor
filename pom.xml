@@ -130,6 +130,7 @@
                 <version>1.4.1</version>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
+                <inherited>false</inherited>
                 <executions>
                     <execution>
                         <id>wget-keymaerax</id>
@@ -152,6 +153,7 @@
                 <executions>
                     <execution>
                         <id>install-KeYmaeraX</id>
+                        <inherited>false</inherited>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>install-file</goal>
