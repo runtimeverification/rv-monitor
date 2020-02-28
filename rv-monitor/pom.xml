@@ -14,11 +14,6 @@
             <version>2.12.8</version>
         </dependency>
         <dependency>
-            <groupId>edu.cmu.cs.ls</groupId>
-            <artifactId>keymaerax</artifactId>
-            <version>4.6.3</version>
-        </dependency>
-        <dependency>
             <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>rv-monitor-rt</artifactId>
             <version>${project.version}</version>
