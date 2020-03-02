@@ -24,7 +24,6 @@ import com.runtimeverification.rvmonitor.core.parser.RVParser;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShell;
 import com.runtimeverification.rvmonitor.logicpluginshells.LogicPluginShellResult;
 import com.runtimeverification.rvmonitor.logicpluginshells.cfg.CCFG;
-import com.runtimeverification.rvmonitor.logicpluginshells.dl.CDL;
 import com.runtimeverification.rvmonitor.logicpluginshells.fsm.CFSM;
 import com.runtimeverification.rvmonitor.logicpluginshells.tfsm.CTFSM;
 import com.runtimeverification.rvmonitor.logicrepository.LogicException;
@@ -236,8 +235,6 @@ public class Main {
             shell = new CTFSM(rvcParser, parametric);
         } else if ("cfg".equals(logic)) {
             shell = new CCFG(rvcParser, parametric);
-        } else if ("dl".equals(logic)) {
-            shell = new CDL(rvcParser, parametric);
         } else {
             throw new LogicException(
                     "Only finite logics and CFG are currently supported");

@@ -24,17 +24,6 @@ You can move that directory elsewhere if you do not
 want to keep the source code unpacked.
 For convenience, please add target/release/rv-monitor/bin to your PATH.
 
-The dL plugin additionally depends at runtime on Mathematica
-(it can be compiled without Mathematica installed),
-and also needs the connection between KeYmaeraX and Mathematica
-to be configured before the plugin can be used.
-To do this start the KeYmaeraX web interface by running
-
-java -jar target/release/rv-monitor/lib/keymaerax.jar
-
-Select the "Help > Tool Configuration" menu to open the
-settings page, and provide the required paths.
-
 Command Line Basics
 ----------------------
 
