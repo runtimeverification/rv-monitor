@@ -10,4 +10,4 @@ SRC_ROOT=`dirname "$SRC_ROOT"`
 # Move up into the actual source root directory
 SRC_ROOT="$SRC_ROOT/../"
 
-clang-6.0 -Xclang -load -Xclang $SRC_ROOT/llvmaop/target/lib/LLVMAOP.so "$@"
+clang-6.0 -Xclang -load -Xclang $SRC_ROOT/llvmaop/.build/lib/LLVMAOP.so "$@"
