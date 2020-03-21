@@ -10,29 +10,38 @@ Build and Installation
 
 rv-monitor builds with maven (3.6 or newer),
 which will download other Java dependencies.
-Native code instrumentation is built with CMake,
-and requires the LLVM 6 development libraries and
-LLVM6 version of clang.
 
-To build, run the command
+LLVM-based native code instrumentation requires
+CMake, the LLVM 6 development libraries, and
+the LLVM6 version of clang.
 
-mvn package
+To build without requiring LLVM run
+
+mvn package --projects '!llvmaop,!installer' -DskipTests
 
 This puts the compiled tools in the directory
 target/release/rv-monitor
-You can move that directory elsewhere if you do not
-want to keep the source code unpacked.
-For convenience, please add target/release/rv-monitor/bin to your PATH.
+and also makes the packaged jar available in your
+local maven cache, for use by ROSRV or other
+tools that use rv-monitor internally.
+If you with to run rv-monitor directly,
+please add target/release/rv-monitor/bin to your PATH.
 
 The dL plugin additionally depends at runtime on Mathematica
-(it can be compiled without Mathematica installed),
-and also needs the connection between KeYmaeraX and Mathematica
-to be configured before the plugin can be used.
-To do this start the KeYmaeraX web interface by running
+(it can be compiled without Mathematica installed).
+Because we have updated to KeYmaeraX 4.7.4, KeYmaeraX must be able
+to find Mathematica at one of
+/usr/local/Wolfram/Mathematica/12.0
+/usr/local/Wolfram/Mathematica/11.0
+To use 11.3, 12.1, or other point releases you may create a symlink.
+
+To test the connection between KeYmaeraX and Mathematica
+without involving rv-monitor,
+start the KeYmaeraX web interface by running
 
 java -jar target/release/rv-monitor/lib/keymaerax.jar
 
-Select the "Help > Tool Configuration" menu to open the
+Select the "KeYmaeraX > Preferences" menu to open the
 settings page, and provide the required paths.
 
 Command Line Basics
