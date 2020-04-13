@@ -156,6 +156,20 @@ public class Advice {
                 }
             }
         } else {
+            boolean isSyncBeginEvent = false;
+            boolean isSyncEndEvent = false;
+            Iterator<EventDefinition> eventIter;
+            eventIter = this.events.iterator();
+            while (eventIter.hasNext()) {
+                EventDefinition event = eventIter.next();
+                if(event.isSyncBeginEvent()) {
+                   isSyncBeginEvent = true;
+                }
+                if(event.isSyncEndEvent()) {
+                   isSyncEndEvent = true;
+                }
+            }
+
             for (RVMParameter threadVar : threadVars) {
                 ret += "Thread " + threadVar.getName()
                         + " = Thread.currentThread();\n";
@@ -173,7 +187,7 @@ public class Advice {
                     ret += activatorsManager.setValue(spec, true);
                     ret += ";\n";
                 }
-                if (isSync)
+                if (this.isSync && !isSyncEndEvent)
                     ret += this.globalLock.getAcquireCode();
             }
 
@@ -252,7 +266,7 @@ public class Advice {
             }
 
             if (!Main.useFineGrainedLock) {
-                if (isSync)
+                if (this.isSync && !isSyncBeginEvent)
                     ret += this.globalLock.getReleaseCode();
             }
         }

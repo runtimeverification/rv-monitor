@@ -24,6 +24,8 @@ public class EventDefinitionExt extends ExtNode {
     // will be modified by RVMonitorSpec when creation events are not specified
     boolean startEvent = false;
     boolean blockingEvent = false;
+    boolean syncBeginEvent = false;
+    boolean syncEndEvent = false;
 
     private String condition;
     private String threadVar;
@@ -56,7 +58,7 @@ public class EventDefinitionExt extends ExtNode {
      * */
     public EventDefinitionExt(int line, int column, String id,
             List<RVMParameter> parameters, String block, boolean startEvent,
-            boolean isBlockingEvent)
+            boolean isBlockingEvent, boolean syncBeginEvent, boolean syncEndEvent)
                     throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
         super(line, column);
         this.id = id;
@@ -66,6 +68,8 @@ public class EventDefinitionExt extends ExtNode {
         this.rvmParameters = new RVMParameters();
         this.rvmParameters.addAll(this.parameters);
         this.blockingEvent = isBlockingEvent;
+        this.syncBeginEvent = syncBeginEvent;
+        this.syncEndEvent = syncEndEvent;
     }
 
     public EventDefinitionExt(int line, int column, EventDefinitionExt e) {
@@ -75,6 +79,8 @@ public class EventDefinitionExt extends ExtNode {
         this.block = e.getBlock();
         this.startEvent = e.getStartEvent();
         this.blockingEvent = e.isBlockingEvent();
+        this.syncBeginEvent = e.isSyncBeginEvent();
+        this.syncEndEvent = e.isSyncEndEvent();
         this.rvmParameters = e.getRVMParameters();
         this.condition = e.getCondition();
         this.threadVar = e.getThreadVar();
@@ -189,6 +195,14 @@ public class EventDefinitionExt extends ExtNode {
 
     public boolean isBlockingEvent() {
         return this.blockingEvent;
+    }
+
+    public boolean isSyncBeginEvent() {
+        return this.syncBeginEvent;
+    }
+
+    public boolean isSyncEndEvent() {
+        return this.syncEndEvent;
     }
 
     public boolean isEndProgram() {

@@ -254,9 +254,10 @@ public class RVMonitorExtender {
         EventDefinition ret;
         try {
             ret = new EventDefinition(event.getBeginLine(),
-                    event.getBeginColumn(), event.getId(), event
-                    .getParameters().toList(), event.getBlock(),
-                    event.isStartEvent(), event.isBlockingEvent());
+                    event.getBeginColumn(), event.getId(),
+                    event.getParameters().toList(), event.getBlock(),
+                    event.isStartEvent(), event.isBlockingEvent(),
+                    event.isSyncBeginEvent(), event.isSyncEndEvent());
         } catch (Exception e) {
             throw new RVMException(e.getMessage());
         }

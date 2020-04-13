@@ -27,6 +27,9 @@ Comparable<EventDefinition> {
 
     boolean blockingEvent = false;
 
+    boolean syncBeginEvent = false;
+    boolean syncEndEvent = false;
+
     private String condition;
     private String threadVar;
     private ArrayList<String> threadBlockedVars;
@@ -46,7 +49,7 @@ Comparable<EventDefinition> {
 
     public EventDefinition(int beginLine, int beginColumn, String id,
             List<RVMParameter> rvmParameters, String block, boolean startEvent,
-            boolean blockingEvent) {
+            boolean blockingEvent, boolean syncBeginEvent, boolean syncEndEvent) {
         super(beginLine, beginColumn);
         this.id = id;
         this.parameters = new RVMParameters(rvmParameters);
@@ -54,6 +57,8 @@ Comparable<EventDefinition> {
         this.block = block;
         this.startEvent = startEvent;
         this.blockingEvent = blockingEvent;
+        this.syncBeginEvent = syncBeginEvent;
+        this.syncEndEvent = syncEndEvent;
     }
 
     public String getId() {
@@ -164,6 +169,14 @@ Comparable<EventDefinition> {
 
     public boolean isBlockingEvent() {
         return this.blockingEvent;
+    }
+
+    public boolean isSyncBeginEvent() {
+        return this.syncBeginEvent;
+    }
+
+    public boolean isSyncEndEvent() {
+        return this.syncEndEvent;
     }
 
     public boolean isEndProgram() {
