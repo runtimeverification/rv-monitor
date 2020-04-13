@@ -46,7 +46,6 @@ public class Advice {
 
     public Advice(RVMonitorSpec rvmSpec, EventDefinition event,
             CombinedOutput combinedOutput) throws RVMException {
-
         String prefix = Main.merge ? rvmSpec.getName() + "_" : "";
         this.pointcutName = new RVMVariable(prefix + event.getId() + "Event");
         this.inlineFuncName = new RVMVariable("RVMInline" + rvmSpec.getName()
@@ -156,6 +155,16 @@ public class Advice {
                 }
             }
         } else {
+            boolean isSyncEvent = this.isSync;
+            Iterator<EventDefinition> eventIter;
+            eventIter = this.events.iterator();
+            while (eventIter.hasNext()) {
+                EventDefinition event = eventIter.next();
+                if(event.isAsyncEvent()) {
+                   isSyncEvent = false;
+                }
+            }
+
             for (RVMParameter threadVar : threadVars) {
                 ret += "Thread " + threadVar.getName()
                         + " = Thread.currentThread();\n";
@@ -173,7 +182,7 @@ public class Advice {
                     ret += activatorsManager.setValue(spec, true);
                     ret += ";\n";
                 }
-                if (isSync)
+                if (isSyncEvent)
                     ret += this.globalLock.getAcquireCode();
             }
 
@@ -252,7 +261,7 @@ public class Advice {
             }
 
             if (!Main.useFineGrainedLock) {
-                if (isSync)
+                if (isSyncEvent)
                     ret += this.globalLock.getReleaseCode();
             }
         }

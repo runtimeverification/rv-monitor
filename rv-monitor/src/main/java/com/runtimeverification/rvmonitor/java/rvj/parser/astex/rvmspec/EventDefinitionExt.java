@@ -24,6 +24,7 @@ public class EventDefinitionExt extends ExtNode {
     // will be modified by RVMonitorSpec when creation events are not specified
     boolean startEvent = false;
     boolean blockingEvent = false;
+    boolean asyncEvent = false;
 
     private String condition;
     private String threadVar;
@@ -56,7 +57,7 @@ public class EventDefinitionExt extends ExtNode {
      * */
     public EventDefinitionExt(int line, int column, String id,
             List<RVMParameter> parameters, String block, boolean startEvent,
-            boolean isBlockingEvent)
+            boolean isBlockingEvent, boolean asyncEvent)
                     throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
         super(line, column);
         this.id = id;
@@ -66,6 +67,7 @@ public class EventDefinitionExt extends ExtNode {
         this.rvmParameters = new RVMParameters();
         this.rvmParameters.addAll(this.parameters);
         this.blockingEvent = isBlockingEvent;
+        this.asyncEvent = asyncEvent;
     }
 
     public EventDefinitionExt(int line, int column, EventDefinitionExt e) {
@@ -75,6 +77,7 @@ public class EventDefinitionExt extends ExtNode {
         this.block = e.getBlock();
         this.startEvent = e.getStartEvent();
         this.blockingEvent = e.isBlockingEvent();
+        this.asyncEvent = e.isAsyncEvent();
         this.rvmParameters = e.getRVMParameters();
         this.condition = e.getCondition();
         this.threadVar = e.getThreadVar();
@@ -189,6 +192,10 @@ public class EventDefinitionExt extends ExtNode {
 
     public boolean isBlockingEvent() {
         return this.blockingEvent;
+    }
+
+    public boolean isAsyncEvent() {
+        return this.asyncEvent;
     }
 
     public boolean isEndProgram() {
