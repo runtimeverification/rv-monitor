@@ -169,8 +169,7 @@ public class LogicPluginShellFactory {
                 "com.runtimeverification.rvmonitor.logicpluginshells",
                 logicOutput.getProperty().getLogic(), outputLanguage);
         if (logicShellPlugin != null) {
-            LogicPluginShellResult result = logicShellPlugin.process(
-                    logicOutput, events);
+            LogicPluginShellResult result = logicShellPlugin.process(logicOutput, events);
             // Support deadlock detection since deadlock is not a state.
             result.properties.setProperty("deadlock condition", "");
             return result;

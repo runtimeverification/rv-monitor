@@ -26,6 +26,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.InternalEvent;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
@@ -48,6 +49,8 @@ public interface VoidVisitor<A> {
     public void visit(RVMParameter p, A arg);
 
     public void visit(EventDefinition e, A arg);
+
+    public void visit(InternalEvent ie, A arg);
 
     public void visit(PropertyAndHandlers p, A arg);
 

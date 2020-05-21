@@ -28,6 +28,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.InternalEvent;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
@@ -50,6 +51,8 @@ public interface GenericVisitor<R, A> {
     public R visit(RVMParameter p, A arg);
 
     public R visit(EventDefinition e, A arg);
+
+    public R visit(InternalEvent ie, A arg);
 
     public R visit(PropertyAndHandlers p, A arg);
 

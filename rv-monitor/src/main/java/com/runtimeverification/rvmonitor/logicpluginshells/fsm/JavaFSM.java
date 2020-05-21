@@ -19,15 +19,34 @@ import com.runtimeverification.rvmonitor.logicrepository.parser.logicrepositorys
 import com.runtimeverification.rvmonitor.util.RVMException;
 
 public class JavaFSM extends LogicPluginShell {
+
+    private class InternalEventInfo {
+        private final String name;
+        private final String source;
+        private final String target;
+
+        public InternalEventInfo(String name, String source, String target) {
+            this.name = name;
+            this.source = source;
+            this.target = target;
+        }
+
+        public String getName() { return this.name; }
+
+        public String getSource() { return this.source; }
+
+        public String getTarget() { return this.target; }
+    }
+
     public JavaFSM() {
         super();
         monitorType = "FSM";
         outputLanguage = "java";
     }
 
-    ArrayList<String> allEvents;
+    List<String> allEvents;
 
-    private ArrayList<String> getEvents(String eventStr) throws RVMException {
+    private List<String> getEvents(String eventStr) {
         ArrayList<String> events = new ArrayList<String>();
 
         for (String event : eventStr.trim().split(" ")) {
@@ -38,6 +57,33 @@ public class JavaFSM extends LogicPluginShell {
         return events;
     }
 
+    private Map<String, List<InternalEventInfo>> processInternalEvents(String internalEventStr) {
+        Map<String, List<InternalEventInfo>> res = new HashMap<>();
+
+        List<String> internalEvents = getEvents(internalEventStr);
+
+        for (String ie : internalEvents) {
+            String[] infoStr = ie.trim().split("__");
+            if(infoStr.length == 3) {
+                String name = ie;
+                String source = infoStr[0];
+                String transition = infoStr[1];
+                String target = infoStr[2];
+                InternalEventInfo info = new InternalEventInfo(name, source, target);
+                if (res.containsKey(transition)) {
+                    List<InternalEventInfo> infoList = res.get(transition);
+                    infoList.add(info);
+                } else {
+                    List<InternalEventInfo> infoList = new ArrayList<>();
+                    infoList.add(info);
+                    res.put(transition, infoList);
+                }
+            }
+        }
+
+        return res;
+    }
+
     private Properties getMonitorCode(LogicRepositoryType logicOutput)
             throws RVMException {
         Properties result = new Properties();
@@ -46,8 +92,8 @@ public class JavaFSM extends LogicPluginShell {
 
         FSMInput fsmInput = null;
         try {
-            fsmInput = FSMParser.parse(new ByteArrayInputStream(monitor
-                    .getBytes()));
+            fsmInput = FSMParser.parse(
+                    new ByteArrayInputStream(monitor.getBytes()));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RVMException(
@@ -89,6 +135,23 @@ public class JavaFSM extends LogicPluginShell {
                 StateName.put(new Integer(countState), i);
                 countState++;
             }
+        }
+
+        Map<String, List<InternalEventInfo>> eventToInternalEvents =
+                processInternalEvents(logicOutput.getInternalEvents());
+
+        for (String event : eventToInternalEvents.keySet()) {
+            List<InternalEventInfo> infoList = eventToInternalEvents.get(event);
+            String internalString = "";
+            for (InternalEventInfo info : infoList) {
+                String name = String.format("$%s$", info.getName());
+                Integer sourceInteger = StateNum.get(info.getSource());
+                Integer targetInteger = StateNum.get(info.getTarget());
+                String code = String.format("if (curstate == %d && nextstate == %d) { %s; }\n",
+                        sourceInteger, targetInteger, name);
+                internalString += code;
+            }
+            result.setProperty(event+"_internal", internalString);
         }
 
         result.setProperty("monitored events", monitoredEventsStr);
@@ -191,9 +254,7 @@ public class JavaFSM extends LogicPluginShell {
         allEvents = getEvents(events);
 
         LogicPluginShellResult logicShellResult = new LogicPluginShellResult();
-        logicShellResult.startEvents = getEvents(logicOutputXML
-                .getCreationEvents());
-        // logicShellResult.startEvents = allEvents;
+        logicShellResult.startEvents = getEvents(logicOutputXML.getCreationEvents());
         logicShellResult.properties = getMonitorCode(logicOutputXML);
         logicShellResult.properties = addEnableSets(
                 logicShellResult.properties, logicOutputXML);

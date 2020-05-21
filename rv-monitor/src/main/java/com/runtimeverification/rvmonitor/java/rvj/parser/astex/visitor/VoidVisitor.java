@@ -19,12 +19,8 @@
 
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.EventDefinitionExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ExtendedSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.FormulaExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.PropertyAndHandlersExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.RVMonitorSpecExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ReferenceSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.*;
 
 /**
  * @author Julio Vilmar Gesser
@@ -37,13 +33,19 @@ com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor<A> {
 
     // - RV Monitor components
 
+    public void visit(RVMSpecFileExt f, A arg);
+
     public void visit(ReferenceSpec r, A arg);
 
     public void visit(RVMonitorSpecExt s, A arg);
 
     public void visit(EventDefinitionExt e, A arg);
 
+    public void visit(InternalEventExt ie, A arg);
+
     public void visit(PropertyAndHandlersExt p, A arg);
+
+    public void visit(HandlerExt h, A arg);
 
     public void visit(FormulaExt f, A arg);
 

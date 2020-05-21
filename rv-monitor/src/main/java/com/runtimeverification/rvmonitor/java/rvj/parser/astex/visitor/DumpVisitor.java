@@ -19,29 +19,22 @@
 
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
+import com.runtimeverification.rvmonitor.core.ast.InternalEvent;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.EventDefinitionExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ExtendedSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.FormulaExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.HandlerExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.PropertyAndHandlersExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.RVMonitorSpecExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ReferenceSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.*;
 
 /**
  * @author Julio Vilmar Gesser
  */
 
-public final class DumpVisitor
-extends
-com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.DumpVisitor
-implements VoidVisitor<Object> {
+public final class DumpVisitor extends com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.DumpVisitor
+        implements VoidVisitor<Object> {
 
     // All extended componenets
 
     // - RV Monitor components
-
+    @Override
     public void visit(RVMSpecFileExt f, Object arg) {
         if (f.getPakage() != null)
             f.getPakage().accept(this, arg);
@@ -108,6 +101,12 @@ implements VoidVisitor<Object> {
             }
         }
 
+        if (s.getInternalEvents() != null) {
+            for (InternalEventExt ie : s.getInternalEvents()) {
+                ie.accept(this, arg);
+            }
+        }
+
         if (s.getPropertiesAndHandlers() != null) {
             for (PropertyAndHandlersExt p : s.getPropertiesAndHandlers()) {
                 p.accept(this, arg);
@@ -123,6 +122,14 @@ implements VoidVisitor<Object> {
         printer.print("event " + e.getId() + " ");
         printSpecParameters(e.getParameters(), arg);
         printer.printLn(e.getAction());
+        printer.printLn();
+    }
+
+    @Override
+    public void visit(InternalEventExt ie, Object arg) {
+        printer.print("internal " + ie.getName() + " ");
+        printSpecParameters(ie.getParameters(), arg);
+        printer.printLn(ie.getBlock());
         printer.printLn();
     }
 
@@ -161,6 +168,7 @@ implements VoidVisitor<Object> {
         printer.print(f.getType() + " " + f.getName() + ": " + f.getFormula());
     }
 
+    @Override
     public void visit(HandlerExt h, Object arg) {
         h.getReferenceSpec().accept(this, arg);
     }

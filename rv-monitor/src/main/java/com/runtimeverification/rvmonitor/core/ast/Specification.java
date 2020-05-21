@@ -17,6 +17,7 @@ public class Specification {
     private final String languageParameters;
     private final String languageDeclarations;
     private final List<Event> events;
+    private final List<InternalEvent> internalEvents;
     private final List<Property> properties;
 
     /**
@@ -35,10 +36,10 @@ public class Specification {
      * @param properties
      *            Properties and handlers on the sequence of events.
      */
-    public Specification(final String preDeclarations,
-            final List<String> languageModifiers, final String name,
-            final String languageParameters, final String languageDeclarations,
-            final List<Event> events, final List<Property> properties) {
+    public Specification(final String preDeclarations, final List<String> languageModifiers, final String name,
+                         final String languageParameters, final String languageDeclarations,
+                         final List<Event> events, final List<InternalEvent> internalEvents,
+                         final List<Property> properties) {
         this.preDeclarations = preDeclarations;
         this.languageModifiers = Collections
                 .unmodifiableList(new ArrayList<String>(languageModifiers));
@@ -47,6 +48,7 @@ public class Specification {
         this.languageDeclarations = languageDeclarations;
         this.events = Collections
                 .unmodifiableList(new ArrayList<Event>(events));
+        this.internalEvents = internalEvents;
         this.properties = Collections.unmodifiableList(new ArrayList<Property>(
                 properties));
     }
@@ -95,6 +97,8 @@ public class Specification {
     public List<Event> getEvents() {
         return events;
     }
+
+    public List<InternalEvent> getInternalEvents() { return this.internalEvents; }
 
     /**
      * An unmodifiable list with the logic properties and their handlers.

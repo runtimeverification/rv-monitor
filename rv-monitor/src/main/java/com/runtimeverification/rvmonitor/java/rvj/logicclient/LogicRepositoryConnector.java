@@ -41,11 +41,11 @@ public class LogicRepositoryConnector {
 
         logicInputXML.setClient("RVMonitor");
         logicInputXML.setEvents(rvmSpec.getEventStr());
+        logicInputXML.setInternalEvents(rvmSpec.getInternalEVentStr());
         logicInputXML.setCategories(categories);
         logicInputXML.setProperty(logicProperty);
 
-        LogicRepositoryData logicInputData = new LogicRepositoryData(
-                logicInputXML);
+        LogicRepositoryData logicInputData = new LogicRepositoryData(logicInputXML);
 
         ByteArrayOutputStream logicOutput_OutputStream;
         LogicRepositoryData logicOutputData;

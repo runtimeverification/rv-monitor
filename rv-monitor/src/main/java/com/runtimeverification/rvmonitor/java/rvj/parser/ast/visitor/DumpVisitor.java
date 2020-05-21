@@ -28,6 +28,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.InternalEvent;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
@@ -138,6 +139,12 @@ public class DumpVisitor implements VoidVisitor<Object> {
             }
         }
 
+        if (s.getInternalEvents() != null) {
+            for (InternalEvent ie : s.getInternalEvents()) {
+                ie.accept(this, arg);
+            }
+        }
+
         if (s.getPropertiesAndHandlers() != null) {
             for (PropertyAndHandlers p : s.getPropertiesAndHandlers()) {
                 p.accept(this, arg);
@@ -159,6 +166,14 @@ public class DumpVisitor implements VoidVisitor<Object> {
         printer.print("event " + e.getId() + " ");
         printSpecParameters(e.getParameters(), arg);
         printer.printLn(e.getAction());
+        printer.printLn();
+    }
+
+    @Override
+    public void visit(InternalEvent ie, Object arg) {
+        printer.print("internal " + ie.getName() + " ");
+        printSpecParameters(ie.getParameters(), arg);
+        printer.printLn(ie.getBlock());
         printer.printLn();
     }
 

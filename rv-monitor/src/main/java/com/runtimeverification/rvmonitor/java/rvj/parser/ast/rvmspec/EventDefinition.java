@@ -8,8 +8,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.TypePat
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 
-public class EventDefinition extends Node implements
-Comparable<EventDefinition> {
+public class EventDefinition extends Node implements Comparable<EventDefinition> {
 
     private final String id;
 

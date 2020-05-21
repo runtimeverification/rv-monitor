@@ -46,6 +46,7 @@ import java.util.List;
         "specName",
         "client",
         "events",
+        "internalEvents",
         "property",
         "categories",
         "creationEvents",
@@ -61,6 +62,8 @@ public class LogicRepositoryType {
     protected String client;
     @XmlElement(name = "Events")
     protected String events;
+    @XmlElement(name = "InternalEvents")
+    protected String internalEvents;
     @XmlElement(name = "Property")
     protected PropertyType property;
     @XmlElement(name = "Categories")
@@ -133,6 +136,10 @@ public class LogicRepositoryType {
     public void setEvents(String value) {
         this.events = value;
     }
+
+    public String getInternalEvents() { return internalEvents; }
+
+    public void setInternalEvents(String value) { this.internalEvents =  value; }
 
     /**
      * Gets the value of the property property.

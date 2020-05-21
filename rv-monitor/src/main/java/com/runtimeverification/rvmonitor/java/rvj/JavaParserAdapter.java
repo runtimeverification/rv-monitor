@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.runtimeverification.rvmonitor.core.ast.Event;
-import com.runtimeverification.rvmonitor.core.ast.MonitorFile;
-import com.runtimeverification.rvmonitor.core.ast.Property;
-import com.runtimeverification.rvmonitor.core.ast.PropertyHandler;
-import com.runtimeverification.rvmonitor.core.ast.Specification;
+import com.runtimeverification.rvmonitor.core.ast.*;
 import com.runtimeverification.rvmonitor.core.parser.RVParser;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
@@ -21,6 +17,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.SpecModifierSet;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.EventDefinitionExt;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.InternalEventExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ExtendedSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.FormulaExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.HandlerExt;
@@ -175,15 +172,18 @@ public final class JavaParserAdapter {
         for (Event e : spec.getEvents()) {
             events.add(convert(e));
         }
+        final List<InternalEventExt> internalEvents = new ArrayList<>();
+        for(InternalEvent ie : spec.getInternalEvents()) {
+            internalEvents.add(convert(ie));
+        }
         final List<PropertyAndHandlersExt> properties = new ArrayList<PropertyAndHandlersExt>();
         int index = 0;
         for (Property property : spec.getProperties()) {
             properties.add(convert(index, property));
             index++;
         }
-        return new RVMonitorSpecExt(pack, 0, 0, isPublic, modifierBitfield,
-                name, parameters, inMethod, extensions, declarations, events,
-                properties);
+        return new RVMonitorSpecExt(pack, 0, 0, isPublic, modifierBitfield, name, parameters,
+                inMethod, extensions, declarations, events, internalEvents, properties);
     }
 
     /**
@@ -266,6 +266,18 @@ public final class JavaParserAdapter {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static InternalEventExt convert(final InternalEvent ie) {
+        final String name = ie.getName();
+        List<RVMParameter> parameters = null;
+        try {
+            parameters = parseJavaBubble(ie.getParameters()).AdviceParameters();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String block = ie.getBlock();
+        return new InternalEventExt(0, 0, name, parameters, block);
     }
 
     /**

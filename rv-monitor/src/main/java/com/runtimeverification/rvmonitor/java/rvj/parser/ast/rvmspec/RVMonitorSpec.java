@@ -22,18 +22,19 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec> {
     private final String inMethod;
     private final String declarations;
     private final List<EventDefinition> events;
+    private final List<InternalEvent> internalEvents;
     private final List<PropertyAndHandlers> properties;
     private final List<String> eventNames;
+    private final List<String> internalEventNames;
 
     private final RVMParameters commonParamInEvents;
     private final RVMParameters varsToSave;
 
-    public RVMonitorSpec(PackageDeclaration packageDeclaration, int line,
-            int column, int modifiers, String name,
-            List<RVMParameter> parameters, String inMethod,
-            String declarations, List<EventDefinition> events,
-            List<PropertyAndHandlers> properties)
-                    throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+    public RVMonitorSpec(PackageDeclaration packageDeclaration, int line, int column, int modifiers,
+                         String name, List<RVMParameter> parameters, String inMethod, String declarations,
+                         List<EventDefinition> events, List<InternalEvent> internalEvents,
+                         List<PropertyAndHandlers> properties)
+            throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
         super(line, column);
         this.packageDeclaration = packageDeclaration;
         this.modifiers = modifiers;
@@ -42,13 +43,20 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec> {
         this.inMethod = inMethod;
         this.declarations = declarations;
         this.events = events;
+        this.internalEvents = internalEvents;
         this.properties = properties;
         this.eventNames = new ArrayList<String>();
+        this.internalEventNames = new ArrayList<>();
         RVMParameters commonParamInEvents = new RVMParameters(this.parameters);
 
         for (EventDefinition event : this.events) {
             if (!this.eventNames.contains(event.getId()))
                 this.eventNames.add(event.getId());
+        }
+
+        for (InternalEvent ie : this.internalEvents) {
+            if (!this.internalEventNames.contains(ie.getName()))
+                this.internalEventNames.add(ie.getName());
         }
 
         int idnum = 1;
@@ -184,6 +192,8 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec> {
         return events;
     }
 
+    public List<InternalEvent> getInternalEvents() { return this.internalEvents; }
+
     private String cachedEventStr = null;
 
     public String getEventStr() {
@@ -196,6 +206,19 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec> {
         cachedEventStr = cachedEventStr.trim();
 
         return cachedEventStr;
+    }
+
+    private String cachedInternalEventStr = null;
+
+    public String getInternalEVentStr() {
+        if (cachedInternalEventStr != null)
+            return cachedInternalEventStr;
+        cachedInternalEventStr = "";
+        for (String ieName : internalEventNames) {
+            cachedInternalEventStr += " " + ieName;
+        }
+        cachedInternalEventStr = cachedInternalEventStr.trim();
+        return cachedInternalEventStr;
     }
 
     public List<PropertyAndHandlers> getPropertiesAndHandlers() {

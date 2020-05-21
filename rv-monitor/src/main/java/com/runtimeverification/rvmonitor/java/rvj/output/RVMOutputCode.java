@@ -58,8 +58,7 @@ public class RVMOutputCode {
                     monitor));
         }
 
-        output = new CombinedOutput(name, rvmSpecFile, monitorSets, monitors,
-                enableSets);
+        output = new CombinedOutput(name, rvmSpecFile, monitorSets, monitors, enableSets);
 
         // Set monitor lock for each monitor set
         for (MonitorSet monitorSet : monitorSets.values()) {

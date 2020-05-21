@@ -22,12 +22,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.astex.visitor;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.EventDefinitionExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ExtendedSpec;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.FormulaExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.PropertyAndHandlersExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.RVMonitorSpecExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ReferenceSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.*;
 
 /**
  * @author Julio Vilmar Gesser
@@ -47,6 +42,8 @@ com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor<R, 
     public R visit(RVMonitorSpecExt s, A arg);
 
     public R visit(EventDefinitionExt e, A arg);
+
+    public R visit(InternalEventExt ie, A arg);
 
     public R visit(PropertyAndHandlersExt p, A arg);
 

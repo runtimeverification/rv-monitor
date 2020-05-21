@@ -1,11 +1,11 @@
 package com.runtimeverification.rvmonitor.logicpluginshells;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class LogicPluginShellResult {
     public Properties properties;
-    public ArrayList<String> startEvents;
+    public List<String> startEvents;
 
     @Override
     public String toString() {

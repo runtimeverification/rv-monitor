@@ -9,13 +9,10 @@ import java.util.Set;
 
 import com.runtimeverification.rvmonitor.java.rvj.JavaParserAdapter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Property;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.RVMSpecFileExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.EventDefinitionExt;
+import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.InternalEventExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.ExtendedSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.FormulaExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.HandlerExt;
@@ -41,14 +38,12 @@ class SpecContext {
 }
 
 public class RVMonitorExtender {
-    public static RVMSpecFile translateExtendedSpecFile(
-            RVMSpecFileExt currentFile) throws RVMException {
+    public static RVMSpecFile translateExtendedSpecFile(RVMSpecFileExt currentFile) throws RVMException {
         HashMap<String, RVMSpecFileExt> depFiles = new HashMap<String, RVMSpecFileExt>();
 
         // retrieve all extended parent specification files
         for (RVMonitorSpecExt spec : currentFile.getSpecs()) {
-            HashMap<String, RVMSpecFileExt> temp = retrieveParentFiles(spec,
-                    currentFile);
+            HashMap<String, RVMSpecFileExt> temp = retrieveParentFiles(spec, currentFile);
             depFiles.putAll(temp);
         }
 
@@ -60,8 +55,7 @@ public class RVMonitorExtender {
         // extend all specifications that the given file contains
         List<RVMonitorSpec> specList = new ArrayList<RVMonitorSpec>();
         for (RVMonitorSpecExt spec : currentFile.getSpecs()) {
-            RVMonitorSpec spec2 = translateExtendedSpec(spec, currentFile,
-                    depFiles);
+            RVMonitorSpec spec2 = translateExtendedSpec(spec, currentFile, depFiles);
             specList.add(spec2);
         }
 
@@ -76,6 +70,7 @@ public class RVMonitorExtender {
                     throws RVMException {
         String declarations;
         List<EventDefinition> events;
+        List<InternalEvent> internalEvents;
         List<PropertyAndHandlers> props = new ArrayList<PropertyAndHandlers>();
 
         // collect all monitor variable declarations
@@ -99,20 +94,18 @@ public class RVMonitorExtender {
         }
 
         // collect and translate event definitions
-        events = collectAndTranslateEvents(new SpecContext(spec, currentFile,
-                depFiles));
+        events = collectAndTranslateEvents(new SpecContext(spec, currentFile, depFiles));
+
+        internalEvents = translateInternalEvents(new SpecContext(spec, currentFile, depFiles));
 
         // collect and translate properties and handlers
-        props = collectAndTranslateProps(new SpecContext(spec, currentFile,
-                depFiles));
+        props = collectAndTranslateProps(new SpecContext(spec, currentFile, depFiles));
 
         RVMonitorSpec ret;
         try {
-            ret = new RVMonitorSpec(currentFile.getPakage(),
-                    spec.getBeginLine(), spec.getBeginColumn(),
-                    spec.getModifiers(), spec.getName(), spec.getParameters()
-                    .toList(), spec.getInMethod(), declarations,
-                    events, props);
+            ret = new RVMonitorSpec(currentFile.getPakage(), spec.getBeginLine(), spec.getBeginColumn(),
+                    spec.getModifiers(), spec.getName(), spec.getParameters().toList(), spec.getInMethod(),
+                    declarations, events, internalEvents, props);
         } catch (Exception e) {
             throw new RVMException(e.getMessage());
         }
@@ -146,6 +139,18 @@ public class RVMonitorExtender {
             ret.add(translatedEvent);
         }
 
+        return ret;
+    }
+
+    private static List<InternalEvent> translateInternalEvents(SpecContext context) throws RVMException {
+        List<InternalEvent> ret = new ArrayList<>();
+
+        for (InternalEventExt ie : context.spec.getInternalEvents()) {
+
+            InternalEvent translatedIe = new InternalEvent(ie.getBeginLine(), ie.getBeginColumn(), ie.getName(),
+                    ie.getParameters().toList(), ie.getBlock());
+            ret.add(translatedIe);
+        }
         return ret;
     }
 
