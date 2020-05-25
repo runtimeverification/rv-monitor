@@ -120,7 +120,7 @@ public class BaseMonitor extends Monitor {
     // info about spec
     List<PropertyAndHandlers> props;
     List<EventDefinition> events;
-    List<InternalEvent> interalEvents;
+    List<InternalEvent> internalEvents;
     private RVMParameters specParam;
     private UserJavaCode monitorDeclaration;
     private boolean existCondition = false;
@@ -174,7 +174,7 @@ public class BaseMonitor extends Monitor {
         this.monitorName = new RVMVariable(getOutputName() + monitorNameSuffix
                 + "Monitor");
         this.events = rvmSpec.getEvents();
-        this.interalEvents = rvmSpec.getInternalEvents();
+        this.internalEvents = rvmSpec.getInternalEvents();
         this.props = rvmSpec.getPropertiesAndHandlers();
         this.monitorDeclaration = new UserJavaCode(rvmSpec.getDeclarationsStr());
         this.specParam = rvmSpec.getParameters();
@@ -777,6 +777,8 @@ public class BaseMonitor extends Monitor {
 
         // monitor variables
         ret += monitorDeclaration + "\n";
+        // internal events declaration
+        ret += generateInternalEventDecls();
         if (this.has__ACTIVITY)
             ret += activityCode();
         // if (this.has__LOC)
@@ -1087,6 +1089,17 @@ public class BaseMonitor extends Monitor {
             ret = ret.replaceAll("__ACTIVITY", "this." + activity);
         }
 
+        return ret;
+    }
+
+    private String generateInternalEventDecls() {
+        String ret = "";
+        for (InternalEvent ie : this.internalEvents) {
+            String codeTemplate = "public void %s(%s) %s\n\n";
+            String code = String.format(codeTemplate, ie.getName(),
+                    ie.getParameters().parameterDeclString(), ie.getBlock());
+            ret += code;
+        }
         return ret;
     }
 
