@@ -43,6 +43,7 @@ import com.runtimeverification.rvmonitor.java.rvj.output.codedom.type.CodeType;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.GlobalLock;
 import com.runtimeverification.rvmonitor.java.rvj.output.combinedoutputcode.indexingtree.reftree.RefTree;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.InternalEvent;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
@@ -105,8 +106,7 @@ public class BaseMonitor extends Monitor {
     // fields
     final RVMVariable lastevent = new RVMVariable("RVM_lastevent");
     public static RVMVariable skipEvent = new RVMVariable("skipEvent");
-    private final RVMVariable conditionFail = new RVMVariable(
-            "RVM_conditionFail");
+    private final RVMVariable conditionFail = new RVMVariable("RVM_conditionFail");
 
     private boolean atomicMonitorTried = false;
     private CodeMemberField pairValueField;
@@ -120,6 +120,7 @@ public class BaseMonitor extends Monitor {
     // info about spec
     List<PropertyAndHandlers> props;
     List<EventDefinition> events;
+    List<InternalEvent> interalEvents;
     private RVMParameters specParam;
     private UserJavaCode monitorDeclaration;
     private boolean existCondition = false;
@@ -128,18 +129,15 @@ public class BaseMonitor extends Monitor {
 
     final HashMap<PropertyAndHandlers, PropMonitor> propMonitors = new HashMap<PropertyAndHandlers, PropMonitor>();
 
-    public BaseMonitor(String name, RVMonitorSpec rvmSpec,
-            OptimizedCoenableSet coenableSet, boolean isOutermost)
-                    throws RVMException {
+    public BaseMonitor(String name, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet, boolean isOutermost)
+            throws RVMException {
         this(name, rvmSpec, coenableSet, isOutermost, "");
     }
 
-    public BaseMonitor(String name, RVMonitorSpec rvmSpec,
-            OptimizedCoenableSet coenableSet, boolean isOutermost,
-            String monitorNameSuffix) throws RVMException {
+    public BaseMonitor(String name, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet, boolean isOutermost,
+                       String monitorNameSuffix) throws RVMException {
         super(name, rvmSpec, coenableSet, isOutermost);
-        this.initialize(name, rvmSpec, coenableSet, isOutermost,
-                monitorNameSuffix);
+        this.initialize(name, rvmSpec, coenableSet, isOutermost, monitorNameSuffix);
     }
 
     private void checkIfAtomicMonitorCanBeEnabled() {
@@ -170,13 +168,13 @@ public class BaseMonitor extends Monitor {
                 && !this.isAtomicMoniorUsed());
     }
 
-    public void initialize(String name, RVMonitorSpec rvmSpec,
-            OptimizedCoenableSet coenableSet, boolean isOutermost,
-            String monitorNameSuffix) {
+    public void initialize(String name, RVMonitorSpec rvmSpec, OptimizedCoenableSet coenableSet,
+                           boolean isOutermost, String monitorNameSuffix) {
         this.isDefined = true;
         this.monitorName = new RVMVariable(getOutputName() + monitorNameSuffix
                 + "Monitor");
         this.events = rvmSpec.getEvents();
+        this.interalEvents = rvmSpec.getInternalEvents();
         this.props = rvmSpec.getPropertiesAndHandlers();
         this.monitorDeclaration = new UserJavaCode(rvmSpec.getDeclarationsStr());
         this.specParam = rvmSpec.getParameters();
@@ -306,8 +304,8 @@ public class BaseMonitor extends Monitor {
         return ret;
     }
 
-    public String printEventMethod(PropertyAndHandlers prop,
-            EventDefinition event, String methodNamePrefix) {
+    public String printEventMethod(PropertyAndHandlers prop, EventDefinition event,
+                                   String methodNamePrefix) {
         String synch = this.getFeatures().isSelfSynchronizationNeeded() ? " synchronized "
                 : " ";
         String ret = "";
@@ -456,8 +454,7 @@ public class BaseMonitor extends Monitor {
 
         if (this.isAtomicMoniorUsed()) {
             String tablevar = eventMonitoringCode.extractTableVariable();
-            ret += this.getInternalEventHandlerCallCode(idnum, tablevar, prop,
-                    categoryConditions);
+            ret += this.generateCallHandleEventCode(idnum, tablevar, prop, categoryConditions);
         }
 
         ret += aftereventMonitoringCode;
@@ -469,15 +466,13 @@ public class BaseMonitor extends Monitor {
         return ret;
     }
 
-    public String printEventMethod(PropertyAndHandlers prop,
-            EventDefinition event) {
+    public String printEventMethod(PropertyAndHandlers prop, EventDefinition event) {
         return this.printEventMethod(prop, event, "");
     }
 
     @Override
-    public String Monitoring(RVMVariable monitorVar, EventDefinition event,
-            RVMVariable loc, GlobalLock lock, String outputName,
-            boolean inMonitorSet) {
+    public String Monitoring(RVMVariable monitorVar, EventDefinition event, RVMVariable loc,
+                             GlobalLock lock, String outputName, boolean inMonitorSet) {
         String ret = "";
 
         // if (has__LOC) {
@@ -600,8 +595,8 @@ public class BaseMonitor extends Monitor {
         return ret;
     }
 
-    private String getHandlerCallingCode(RVMVariable monitorVar,
-            EventDefinition event, PropMonitor propMonitor) {
+    private String getHandlerCallingCode(RVMVariable monitorVar, EventDefinition event,
+                                         PropMonitor propMonitor) {
         String ret = "";
         if (event.getCondition() != null && event.getCondition().length() != 0) {
             ret += "if(" + monitorVar + "." + conditionFail + "){\n";
@@ -644,15 +639,13 @@ public class BaseMonitor extends Monitor {
         return ret;
     }
 
-    public String afterEventMethod(RVMVariable monitor,
-            PropertyAndHandlers prop, EventDefinition event, GlobalLock l,
-            String outputName) {
+    public String afterEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event,
+                                   GlobalLock l, String outputName) {
         return "";
     }
 
-    public String beforeEventMethod(RVMVariable monitor,
-            PropertyAndHandlers prop, EventDefinition event, GlobalLock l,
-            String outputName, boolean inMonitorSet) {
+    public String beforeEventMethod(RVMVariable monitor, PropertyAndHandlers prop, EventDefinition event,
+                                    GlobalLock l, String outputName, boolean inMonitorSet) {
         return "";
     }
 
@@ -666,8 +659,7 @@ public class BaseMonitor extends Monitor {
         this.checkIfAtomicMonitorCanBeEnabled();
 
         MonitorFeatures feature = this.getFeatures();
-        String synch = feature.isSelfSynchronizationNeeded() ? " synchronized "
-                : " ";
+        String synch = feature.isSelfSynchronizationNeeded() ? " synchronized " : " ";
 
         String ret = "";
 
@@ -809,8 +801,7 @@ public class BaseMonitor extends Monitor {
         // state declaration
         for (PropertyAndHandlers prop : props) {
             PropMonitor propMonitor = propMonitors.get(prop);
-            ret += propMonitor.getStateDeclarationCode(this
-                    .isAtomicMoniorUsed());
+            ret += propMonitor.getStateDeclarationCode(this.isAtomicMoniorUsed());
         }
         ret += "\n";
 
@@ -862,10 +853,9 @@ public class BaseMonitor extends Monitor {
             PropMonitor propMonitor = propMonitors.get(prop);
             ret += propMonitor.localDeclaration;
             if (this.isAtomicMoniorUsed()) {
-                ret += propMonitor.getInitializationCode(this
-                        .isAtomicMoniorUsed());
+                ret += propMonitor.getInitializationCode(this.isAtomicMoniorUsed());
                 int initstate = propMonitor.getInitialState();
-                ret += this.getStateUpdateCode(initstate, true);
+                ret += this.generateSetStateCode(initstate, true);
             } else
                 ret += propMonitor.initilization;
             ret += "\n";
@@ -931,7 +921,7 @@ public class BaseMonitor extends Monitor {
         }
 
         if (this.isAtomicMoniorUsed())
-            ret += this.getInternalEventHandlerCode();
+            ret += this.generateHandleEventImplCode();
 
         // events
         for (PropertyAndHandlers prop : props) {
@@ -964,7 +954,7 @@ public class BaseMonitor extends Monitor {
             if (this.isAtomicMoniorUsed()) {
                 ret += propMonitor.getResetCode(this.isAtomicMoniorUsed());
                 int resetstate = propMonitor.getResetState();
-                ret += this.getStateUpdateCode(resetstate, false);
+                ret += this.generateSetStateCode(resetstate, false);
             } else
                 ret += propMonitor.resetCode;
             for (String category : propMonitor.categoryVars.keySet()) {
@@ -1194,7 +1184,7 @@ public class BaseMonitor extends Monitor {
         return fmt.getCode();
     }
 
-    private String getStateUpdateCode(int newState, boolean createNew) {
+    private String generateSetStateCode(int newState, boolean createNew) {
         CodeStmtCollection stmts = new CodeStmtCollection();
 
         {
@@ -1225,7 +1215,8 @@ public class BaseMonitor extends Monitor {
         return fmt.getCode();
     }
 
-    private String getInternalEventHandlerCode() {
+    // Generate the implementation of handleEvent function which updates the state when receiving an event.
+    private String generateHandleEventImplCode() {
         CodeVarRefExpr eventid = new CodeVarRefExpr(new CodeVariable(
                 CodeType.integer(), "eventId"));
         CodeVarRefExpr transtable = new CodeVarRefExpr(new CodeVariable(
@@ -1283,9 +1274,9 @@ public class BaseMonitor extends Monitor {
         return fmt.getCode();
     }
 
-    private String getInternalEventHandlerCallCode(int eventid,
-            String tablevar, PropertyAndHandlers prop,
-            HashMap<String, RVMJavaCode> categoryConditions) {
+    // Generate code to call handleEvent function and set the category variables.
+    private String generateCallHandleEventCode(int eventid, String tablevar, PropertyAndHandlers prop,
+                                               HashMap<String, RVMJavaCode> categoryConditions) {
         CodeStmtCollection stmts = new CodeStmtCollection();
 
         CodeVarRefExpr nextStateRef;
@@ -1340,8 +1331,7 @@ public class BaseMonitor extends Monitor {
         // some string manipulation. As a result, we don't get the name of
         // the variable for holding the state. Here, I do some unreliable and
         // dirty trick, which is similar to existing string manipulation.
-        String varname = this.propMonitors.get(prop).stateDeclaration
-                .extractStateVariable();
+        String varname = this.propMonitors.get(prop).stateDeclaration.extractStateVariable();
         if (varname == null)
             return null;
 
