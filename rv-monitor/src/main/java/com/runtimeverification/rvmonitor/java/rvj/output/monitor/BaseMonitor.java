@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.runtimeverification.rvmonitor.java.rvj.Main;
 import com.runtimeverification.rvmonitor.java.rvj.output.OptimizedCoenableSet;
@@ -64,6 +66,7 @@ class PropMonitor {
     HashMap<String, RVMVariable> categoryVars = new HashMap<String, RVMVariable>();
     HashMap<String, HandlerMethod> handlerMethods = new HashMap<String, HandlerMethod>();
     HashMap<String, RVMVariable> eventMethods = new HashMap<String, RVMVariable>();
+    HashMap<String, String> eventToInternalEventsCaller = new HashMap<>();
 
     public String getStateDeclarationCode(boolean omitState) {
         if (omitState)
@@ -220,12 +223,9 @@ public class BaseMonitor extends Monitor {
                 String handlerBody = handlerBodies.get(category);
 
                 if (handlerBody.toString().length() != 0) {
-                    propMonitor.handlerMethods
-                    .put(category, new HandlerMethod(prop, category,
-                            specParam,
-                            rvmSpec.getCommonParamInEvents(),
-                            varsToSave, handlerBody, categoryVar, this));
-
+                    propMonitor.handlerMethods.put(category, new HandlerMethod(prop, category,
+                            specParam, rvmSpec.getCommonParamInEvents(), varsToSave,
+                            handlerBody, categoryVar, this));
                 }
             }
             for (EventDefinition event : events) {
@@ -235,6 +235,12 @@ public class BaseMonitor extends Monitor {
                 propMonitor.eventMethods.put(event.getId(), eventMethod);
             }
 
+            for (EventDefinition event : events) {
+                String callInternalEventsStr = prop.getLogicProperty(event.getId() + "_internal");
+                if (callInternalEventsStr != null) {
+                    propMonitor.eventToInternalEventsCaller.put(event.getId(), callInternalEventsStr);
+                }
+            }
             propMonitors.put(prop, propMonitor);
         }
 
@@ -454,8 +460,10 @@ public class BaseMonitor extends Monitor {
 
         if (this.isAtomicMoniorUsed()) {
             String tablevar = eventMonitoringCode.extractTableVariable();
-            ret += this.generateCallHandleEventCode(idnum, tablevar, prop, categoryConditions);
+            ret += this.generateCallingHandleEventCode(idnum, tablevar, prop, categoryConditions);
         }
+
+        ret += this.generateCallingInternalEventsCode(propMonitor.eventToInternalEventsCaller, event);
 
         ret += aftereventMonitoringCode;
 
@@ -1288,10 +1296,20 @@ public class BaseMonitor extends Monitor {
     }
 
     // Generate code to call handleEvent function and set the category variables.
-    private String generateCallHandleEventCode(int eventid, String tablevar, PropertyAndHandlers prop,
-                                               HashMap<String, RVMJavaCode> categoryConditions) {
+    private String generateCallingHandleEventCode(int eventid, String tablevar, PropertyAndHandlers prop,
+                                                  HashMap<String, RVMJavaCode> categoryConditions) {
         CodeStmtCollection stmts = new CodeStmtCollection();
 
+        // int curstate = this.getState()
+        {
+            CodeMethodInvokeExpr invoke = new CodeMethodInvokeExpr(CodeType.integer(),
+                    new CodeThisRefExpr(this.getRuntimeType()), "getState");
+            CodeVarDeclStmt decl = new CodeVarDeclStmt(
+                    new CodeVariable(CodeType.integer(), "curstate"), invoke);
+            stmts.add(decl);
+        }
+
+        // int nextstate = this.handleEvent(eventid, tableRef)
         CodeVarRefExpr nextStateRef;
         {
             CodeExpr tableRef = CodeExpr.fromLegacy(
@@ -1308,6 +1326,7 @@ public class BaseMonitor extends Monitor {
         }
 
         for (Entry<String, RVMJavaCode> pair : categoryConditions.entrySet()) {
+            // this.matched_category = nextstate == stateid;
             CodeFieldRefExpr matchFieldRef;
             {
                 RVMVariable matchvar = propMonitors.get(prop).categoryVars
@@ -1333,6 +1352,28 @@ public class BaseMonitor extends Monitor {
         ICodeFormatter fmt = CodeFormatters.getDefault();
         stmts.getCode(fmt);
         return fmt.getCode();
+    }
+
+    private String generateCallingInternalEventsCode(Map<String,String> internalEventsCallerMap,
+                                                     EventDefinition event) {
+        String res = "";
+        String eventName = event.getId();
+        String eventParamsStr = event.getParameters().parameterInvokeString();
+        if (internalEventsCallerMap.containsKey(eventName)) {
+            res = internalEventsCallerMap.get(eventName);
+            String tagPattern = "\\$(\\w+)\\$";
+            Pattern pattern = Pattern.compile(tagPattern);
+            Matcher matcher = pattern.matcher(res);
+            while (matcher.find()) {
+                String tagStr = matcher.group();
+                String internalEventName = tagStr.replaceAll(tagPattern, "$1");
+                String internalEventInvocation = String.format("%s(%s)", internalEventName, eventParamsStr);
+                String tagStrRegex = tagStr.replaceAll("\\$", "\\\\\\$");
+                res = res.replaceAll(tagStrRegex, internalEventInvocation);
+            }
+            res += "\n";
+        }
+        return res;
     }
 
     private String getStateVariable() {
