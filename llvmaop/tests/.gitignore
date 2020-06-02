@@ -1,3 +1,0 @@
-*.o
-#ignore bitcode files produced in tests
-*.bc

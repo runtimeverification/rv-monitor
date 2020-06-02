@@ -22,7 +22,6 @@
         <module>rv-monitor-rt</module>
         <module>logicrepository</module>
         <module>plugins_logicrepository</module>
-        <module>llvmaop</module>
         <module>rv-monitor</module>
         <module>installer</module>
     </modules>
