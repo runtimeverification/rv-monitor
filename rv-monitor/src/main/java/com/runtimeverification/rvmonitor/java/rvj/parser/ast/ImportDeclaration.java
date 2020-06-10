@@ -21,7 +21,7 @@
  */
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast;
 
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.Name;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.GenericVisitor;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor;
 
@@ -30,21 +30,21 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor.VoidVisitor
  */
 public final class ImportDeclaration extends Node {
 
-    private final NameExpr name;
+    private final Name name;
 
     private final boolean isStatic;
 
     private final boolean isAsterisk;
 
-    public ImportDeclaration(int line, int column, NameExpr name,
-            boolean isStatic, boolean isAsterisk) {
+    public ImportDeclaration(int line, int column, Name name,
+                             boolean isStatic, boolean isAsterisk) {
         super(line, column);
         this.name = name;
         this.isStatic = isStatic;
         this.isAsterisk = isAsterisk;
     }
 
-    public NameExpr getName() {
+    public Name getName() {
         return name;
     }
 

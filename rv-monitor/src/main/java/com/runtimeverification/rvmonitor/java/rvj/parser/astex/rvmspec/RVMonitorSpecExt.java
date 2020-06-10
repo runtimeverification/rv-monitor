@@ -27,13 +27,13 @@ public class RVMonitorSpecExt extends ExtNode {
     private final List<String> eventNames;
     private final List<ExtendedSpec> extendedSpecs;
 
-    public RVMonitorSpecExt(PackageDeclaration packageDeclaration, int line,
-            int column, boolean isPublic, int modifiers, String name,
-            List<RVMParameter> parameters, String inMethod,
-            List<ExtendedSpec> extendedSpecs, String declarations,
-            List<EventDefinitionExt> events,
-            List<PropertyAndHandlersExt> properties)
-                    throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+    public RVMonitorSpecExt(PackageDeclaration packageDeclaration, int line, int column,
+                            boolean isPublic, int modifiers, String name,
+                            List<RVMParameter> parameters, String inMethod,
+                            List<ExtendedSpec> extendedSpecs, String declarations,
+                            List<EventDefinitionExt> events,
+                            List<PropertyAndHandlersExt> properties)
+                    throws com.runtimeverification.rvmonitor.java.rvj.parser.ParseException {
         super(line, column);
         this.packageDeclaration = packageDeclaration;
         this.modifiers = modifiers;
@@ -60,7 +60,7 @@ public class RVMonitorSpecExt extends ExtNode {
         try {
             setVarsInEvents();
         } catch (RVMException e) {
-            throw new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException(
+            throw new com.runtimeverification.rvmonitor.java.rvj.parser.ParseException(
                     e.getMessage());
         }
     }

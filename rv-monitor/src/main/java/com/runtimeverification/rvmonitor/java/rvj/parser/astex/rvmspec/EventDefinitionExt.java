@@ -57,7 +57,7 @@ public class EventDefinitionExt extends ExtNode {
     public EventDefinitionExt(int line, int column, String id,
             List<RVMParameter> parameters, String block, boolean startEvent,
             boolean isBlockingEvent)
-                    throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+                    throws com.runtimeverification.rvmonitor.java.rvj.parser.ParseException {
         super(line, column);
         this.id = id;
         this.parameters = new RVMParameters(parameters);

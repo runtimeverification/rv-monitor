@@ -28,12 +28,12 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec> {
     private final RVMParameters commonParamInEvents;
     private final RVMParameters varsToSave;
 
-    public RVMonitorSpec(PackageDeclaration packageDeclaration, int line,
-            int column, int modifiers, String name,
-            List<RVMParameter> parameters, String inMethod,
-            String declarations, List<EventDefinition> events,
-            List<PropertyAndHandlers> properties)
-                    throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+    public RVMonitorSpec(PackageDeclaration packageDeclaration, int line, int column,
+                         int modifiers, String name,
+                         List<RVMParameter> parameters, String inMethod,
+                         String declarations, List<EventDefinition> events,
+                         List<PropertyAndHandlers> properties)
+                    throws com.runtimeverification.rvmonitor.java.rvj.parser.ParseException {
         super(line, column);
         this.packageDeclaration = packageDeclaration;
         this.modifiers = modifiers;
@@ -59,7 +59,7 @@ public class RVMonitorSpec extends Node implements Comparable<RVMonitorSpec> {
         try {
             setVarsInEvents();
         } catch (RVMException e) {
-            throw new com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException(
+            throw new com.runtimeverification.rvmonitor.java.rvj.parser.ParseException(
                     e.getMessage());
         }
 

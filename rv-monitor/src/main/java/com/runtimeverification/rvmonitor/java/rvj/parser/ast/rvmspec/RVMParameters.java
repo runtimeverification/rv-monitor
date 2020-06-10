@@ -48,12 +48,11 @@ Comparable<RVMParameters> {
         if (this.getParam(p.getName()) == null) {
             RVMParameter p2 = p;
             if (p.getType().getOp().charAt(p.getType().getOp().length() - 1) == '+') {
-                BaseTypePattern t2 = new BaseTypePattern(p.getType()
-                        .getBeginLine(), p.getType().getBeginColumn(), p
-                        .getType().getOp()
-                        .substring(0, p.getType().getOp().length() - 1));
-                p2 = new RVMParameter(p.getBeginLine(), p.getBeginColumn(), t2,
-                        p.getName());
+                BaseTypePattern t2 = new BaseTypePattern(
+                        p.getType().getBeginLine(),
+                        p.getType().getBeginColumn(),
+                        p.getType().getOp().substring(0, p.getType().getOp().length() - 1));
+                p2 = new RVMParameter(p.getBeginLine(), p.getBeginColumn(), t2, p.getName());
             }
             this.parameters.add(p2);
         }
@@ -76,12 +75,11 @@ Comparable<RVMParameters> {
                 RVMParameter p2 = p;
                 if (p.getType().getOp()
                         .charAt(p.getType().getOp().length() - 1) == '+') {
-                    BaseTypePattern t2 = new BaseTypePattern(p.getType()
-                            .getBeginLine(), p.getType().getBeginColumn(), p
-                            .getType().getOp()
-                            .substring(0, p.getType().getOp().length() - 1));
-                    p2 = new RVMParameter(p.getBeginLine(), p.getBeginColumn(),
-                            t2, p.getName());
+                    BaseTypePattern t2 = new BaseTypePattern(
+                            p.getType().getBeginLine(),
+                            p.getType().getBeginColumn(),
+                            p.getType().getOp().substring(0, p.getType().getOp().length() - 1));
+                    p2 = new RVMParameter(p.getBeginLine(), p.getBeginColumn(), t2, p.getName());
                 }
                 this.parameters.add(p2);
             }

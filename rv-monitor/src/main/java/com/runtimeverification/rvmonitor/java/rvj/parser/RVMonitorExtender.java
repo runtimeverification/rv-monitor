@@ -66,8 +66,8 @@ public class RVMonitorExtender {
         }
 
         // return as an original AST
-        return new RVMSpecFile(currentFile.getBeginLine(),
-                currentFile.getBeginColumn(), currentFile.getPakage(),
+        return new RVMSpecFile(currentFile.getBeginLine(), currentFile.getBeginColumn(),
+                currentFile.getPakage(),
                 currentFile.getImports(), specList);
     }
 
@@ -161,8 +161,8 @@ public class RVMonitorExtender {
             FormulaExt f = (FormulaExt) prop;
             HashMap<String, HandlerExt> handlers = propAndHandlers.get(prop);
 
-            Property translatedProp = new Formula(prop.getBeginLine(),
-                    prop.getBeginColumn(), prop.getType(), f.getFormula());
+            Property translatedProp = new Formula(prop.getBeginLine(), prop.getBeginColumn(),
+                    prop.getType(), f.getFormula());
             HashMap<String, String> translatedHandlers = new HashMap<String, String>();
             for (String state : handlers.keySet()) {
                 HandlerExt handler = handlers.get(state);
@@ -253,9 +253,8 @@ public class RVMonitorExtender {
             SpecContext context) throws RVMException {
         EventDefinition ret;
         try {
-            ret = new EventDefinition(event.getBeginLine(),
-                    event.getBeginColumn(), event.getId(), event
-                    .getParameters().toList(), event.getBlock(),
+            ret = new EventDefinition(event.getBeginLine(), event.getBeginColumn(),
+                    event.getId(), event.getParameters().toList(), event.getBlock(),
                     event.isStartEvent(), event.isBlockingEvent());
         } catch (Exception e) {
             throw new RVMException(e.getMessage());

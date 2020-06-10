@@ -23,8 +23,8 @@ public class SpecCombiner {
             if (pakage == null)
                 pakage = pakage2;
             else {
-                if (!pakage2.getName().getName()
-                        .equals(pakage.getName().getName()))
+                if (!pakage2.getName().getFullNameString()
+                        .equals(pakage.getName().getFullNameString()))
                     throw new RVMException(
                             "Specifications need to be in the same package to be combined.");
             }
@@ -35,8 +35,8 @@ public class SpecCombiner {
             for (ImportDeclaration imp2 : imports2) {
                 boolean included = false;
                 for (ImportDeclaration imp : imports) {
-                    if (imp2.getName().getName()
-                            .equals(imp.getName().getName())) {
+                    if (imp2.getName().getFullNameString()
+                            .equals(imp.getName().getFullNameString())) {
                         included = true;
                         break;
                     }

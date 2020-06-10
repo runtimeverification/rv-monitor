@@ -11,7 +11,7 @@ public class HandlerExt extends ExtNode {
     private ReferenceSpec r;
 
     public HandlerExt(int line, int column, String state, String blockStmt,
-            String specReference, String propertyReference) {
+                      String specReference, String propertyReference) {
         super(line, column);
         this.state = state;
         this.blockStmt = blockStmt;

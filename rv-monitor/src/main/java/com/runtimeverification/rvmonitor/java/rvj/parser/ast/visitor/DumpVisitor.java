@@ -25,8 +25,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.PackageDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.RVMSpecFile;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.NameExpr;
-import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.QualifiedNameExpr;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.Name;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.EventDefinition;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
@@ -199,15 +198,12 @@ public class DumpVisitor implements VoidVisitor<Object> {
     }
 
     @Override
-    public void visit(NameExpr n, Object arg) {
-        printer.print(n.getName());
-    }
-
-    @Override
-    public void visit(QualifiedNameExpr n, Object arg) {
-        n.getQualifier().accept(this, arg);
-        printer.print(".");
-        printer.print(n.getName());
+    public void visit(Name n, Object arg) {
+        if (n.getQualifier().isPresent()) {
+            n.getQualifier().get().accept(this, arg);
+            printer.print(".");
+        }
+        printer.print(n.getIdentifier());
     }
 
     @Override

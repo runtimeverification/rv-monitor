@@ -27,8 +27,8 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.HandlerEx
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.PropertyAndHandlersExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.PropertyExt;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.RVMonitorSpecExt;
-import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException;
-import com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.RVMonitorParser;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ParseException;
+import com.runtimeverification.rvmonitor.java.rvj.parser.RVMonitorParser;
 import com.runtimeverification.rvmonitor.util.RVMException;
 
 /**
@@ -253,8 +253,7 @@ public final class JavaParserAdapter {
         final String name = event.getName();
         List<RVMParameter> parameters = null;
         try {
-            parameters = parseJavaBubble(event.getDefinition())
-                    .AdviceParameters();
+            parameters = parseJavaBubble(event.getDefinition()).AdviceParameters();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -309,7 +308,6 @@ public final class JavaParserAdapter {
         final String propertyReference = null;
         final String specReference = null;
         final String action = handler.getAction();
-        return new HandlerExt(0, 0, id, action, propertyReference,
-                specReference);
+        return new HandlerExt(0, 0, id, action, propertyReference, specReference);
     }
 }
