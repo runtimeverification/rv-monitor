@@ -29,6 +29,7 @@ Comparable<EventDefinition> {
 
     boolean syncBeginEvent = false;
     boolean syncEndEvent = false;
+    boolean unsyncedEvent = false;
 
     private String condition;
     private String threadVar;
@@ -48,8 +49,9 @@ Comparable<EventDefinition> {
     RVMParameters rvmParametersOnSpec; // will be defined in RVMonitorSpec
 
     public EventDefinition(int beginLine, int beginColumn, String id,
-            List<RVMParameter> rvmParameters, String block, boolean startEvent,
-            boolean blockingEvent, boolean syncBeginEvent, boolean syncEndEvent) {
+                           List<RVMParameter> rvmParameters, String block, boolean startEvent,
+                           boolean blockingEvent, boolean syncBeginEvent, boolean syncEndEvent,
+                           boolean unsyncedEvent) {
         super(beginLine, beginColumn);
         this.id = id;
         this.parameters = new RVMParameters(rvmParameters);
@@ -59,6 +61,7 @@ Comparable<EventDefinition> {
         this.blockingEvent = blockingEvent;
         this.syncBeginEvent = syncBeginEvent;
         this.syncEndEvent = syncEndEvent;
+        this.unsyncedEvent = unsyncedEvent;
     }
 
     public String getId() {
@@ -178,6 +181,8 @@ Comparable<EventDefinition> {
     public boolean isSyncEndEvent() {
         return this.syncEndEvent;
     }
+
+    public boolean isUnsyncedEvent() { return this.unsyncedEvent; }
 
     public boolean isEndProgram() {
         return this.endProgram;

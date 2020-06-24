@@ -252,6 +252,7 @@ public final class JavaParserAdapter {
         final boolean blockingEvent = modifierList.contains("blocking");
         final boolean syncBeginEvent = modifierList.contains("syncBegin");
         final boolean syncEndEvent = modifierList.contains("syncEnd");
+        final boolean unsyncedEvent = modifierList.contains("unsynced");
         final String name = event.getName();
         List<RVMParameter> parameters = null;
         try {
@@ -263,7 +264,7 @@ public final class JavaParserAdapter {
         String block = event.getAction();
         try {
             return new EventDefinitionExt(0, 0, name, parameters, block,
-                    startEvent, blockingEvent, syncBeginEvent, syncEndEvent);
+                    startEvent, blockingEvent, syncBeginEvent, syncEndEvent, unsyncedEvent);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

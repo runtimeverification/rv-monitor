@@ -257,7 +257,8 @@ public class RVMonitorExtender {
                     event.getBeginColumn(), event.getId(),
                     event.getParameters().toList(), event.getBlock(),
                     event.isStartEvent(), event.isBlockingEvent(),
-                    event.isSyncBeginEvent(), event.isSyncEndEvent());
+                    event.isSyncBeginEvent(), event.isSyncEndEvent(),
+                    event.isUnsyncedEvent());
         } catch (Exception e) {
             throw new RVMException(e.getMessage());
         }

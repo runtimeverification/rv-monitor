@@ -26,6 +26,7 @@ public class EventDefinitionExt extends ExtNode {
     boolean blockingEvent = false;
     boolean syncBeginEvent = false;
     boolean syncEndEvent = false;
+    boolean unsyncedEvent = false;
 
     private String condition;
     private String threadVar;
@@ -57,9 +58,10 @@ public class EventDefinitionExt extends ExtNode {
      *
      * */
     public EventDefinitionExt(int line, int column, String id,
-            List<RVMParameter> parameters, String block, boolean startEvent,
-            boolean isBlockingEvent, boolean syncBeginEvent, boolean syncEndEvent)
-                    throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
+                              List<RVMParameter> parameters, String block, boolean startEvent,
+                              boolean isBlockingEvent, boolean syncBeginEvent, boolean syncEndEvent,
+                              boolean unsyncedEvent)
+            throws com.runtimeverification.rvmonitor.java.rvj.parser.main_parser.ParseException {
         super(line, column);
         this.id = id;
         this.parameters = new RVMParameters(parameters);
@@ -70,6 +72,7 @@ public class EventDefinitionExt extends ExtNode {
         this.blockingEvent = isBlockingEvent;
         this.syncBeginEvent = syncBeginEvent;
         this.syncEndEvent = syncEndEvent;
+        this.unsyncedEvent = unsyncedEvent;
     }
 
     public EventDefinitionExt(int line, int column, EventDefinitionExt e) {
@@ -81,6 +84,7 @@ public class EventDefinitionExt extends ExtNode {
         this.blockingEvent = e.isBlockingEvent();
         this.syncBeginEvent = e.isSyncBeginEvent();
         this.syncEndEvent = e.isSyncEndEvent();
+        this.unsyncedEvent = e.isUnsyncedEvent();
         this.rvmParameters = e.getRVMParameters();
         this.condition = e.getCondition();
         this.threadVar = e.getThreadVar();
@@ -204,6 +208,8 @@ public class EventDefinitionExt extends ExtNode {
     public boolean isSyncEndEvent() {
         return this.syncEndEvent;
     }
+
+    public boolean isUnsyncedEvent() { return this.unsyncedEvent; }
 
     public boolean isEndProgram() {
         return this.endProgram;

@@ -158,6 +158,7 @@ public class Advice {
         } else {
             boolean isSyncBeginEvent = false;
             boolean isSyncEndEvent = false;
+            boolean isUnsyncedEvent = false;
             Iterator<EventDefinition> eventIter;
             eventIter = this.events.iterator();
             while (eventIter.hasNext()) {
@@ -167,6 +168,9 @@ public class Advice {
                 }
                 if(event.isSyncEndEvent()) {
                    isSyncEndEvent = true;
+                }
+                if(event.isUnsyncedEvent()) {
+                    isUnsyncedEvent = true;
                 }
             }
 
@@ -187,7 +191,7 @@ public class Advice {
                     ret += activatorsManager.setValue(spec, true);
                     ret += ";\n";
                 }
-                if (this.isSync && !isSyncEndEvent)
+                if (this.isSync && !isSyncEndEvent && !isUnsyncedEvent)
                     ret += this.globalLock.getAcquireCode();
             }
 
@@ -266,7 +270,7 @@ public class Advice {
             }
 
             if (!Main.useFineGrainedLock) {
-                if (this.isSync && !isSyncBeginEvent)
+                if (this.isSync && !isSyncBeginEvent && !isUnsyncedEvent)
                     ret += this.globalLock.getReleaseCode();
             }
         }
