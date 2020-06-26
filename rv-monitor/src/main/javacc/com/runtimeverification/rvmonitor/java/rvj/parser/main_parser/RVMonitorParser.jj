@@ -28,8 +28,10 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.expr.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.*;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.*;
+
 
 /**
  * Grammar to parse Java version 1.5
@@ -37,6 +39,24 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.astex.rvmspec.*;
  * @author Julio Vilmar Gesser (jgesser@gmail.com) - bug fixes and added AST generation
  */
 public final class RVMonitorParser {
+        private String toTypeArgsString(List<Type> typeArgs) {
+            if(typeArgs == null) {
+                return "";
+            }
+
+            int i = 0;
+            String typeArgString = "<";
+            for(Type typeArg : typeArgs) {
+                if(i == 0) {
+                   typeArgString += typeArg.toString();
+                } else {
+                   typeArgString += ", " + typeArg.toString();
+                }
+                i += 1;
+            }
+            typeArgString += ">";
+            return typeArgString;
+        }
 }
 PARSER_END(RVMonitorParser)
 
@@ -869,37 +889,8 @@ RVMParameter RVMParameter():
 	int column;
 }
 {
-	type = SimpleTypePattern() {line = type.getBeginLine(); column = type.getBeginColumn();} (<IDENTIFIER> | "get" | "set") { name = token.image; }
+	type = TypePattern() {line = type.getBeginLine(); column = type.getBeginColumn();} (<IDENTIFIER> | "get" | "set") { name = token.image; }
 	{ return new RVMParameter(line, column, type, name); }
-}
-
-BaseTypePattern SimpleTypePattern():
-{
-	String id;
-	int line, column;
-}
-{
-	(<IDENTIFIER> | "get" | "set" ) {line = token.beginLine; column = token.beginColumn; id = token.image;}
-	("." {id += token.image;} (<IDENTIFIER> | "get" | "set") {id += token.image;})*
-	("[" {id += token.image;} "]" {id += token.image;})*
-	["+" {id += token.image;}]
-	{ return new BaseTypePattern(line, column, id); }
-}
-
-BaseTypePattern TypePattern():
-{
-	String id;
-	int line, column;
-}
-{
-	(<IDENTIFIER> | "get"| "set" | "byte" | "short" | "int"
-	| "long" | "float" | "double" | "boolean" | "char")
-	{
-		line = token.beginLine; column = token.beginColumn; id = token.image;}
-		("." {id += token.image;} (<IDENTIFIER> | "get" | "set") {id += token.image;})*
-		("[" {id += token.image;} "]" {id += token.image;})*
-		["+" {id += token.image;}]
-		{ return new BaseTypePattern(line, column, id); }
 }
 
 List<RVMParameter> AdviceParameters():
@@ -908,8 +899,8 @@ List<RVMParameter> AdviceParameters():
 	RVMParameter p = null;
 }
 {
-	"(" [ p = AdviceParameter() {parameters.add(p);} ( "," p = AdviceParameter() {parameters.add(p);} )* ] ")"
-	{ return parameters; }
+  "(" [ p = AdviceParameter() {parameters.add(p);} ( "," p = AdviceParameter() {parameters.add(p);} )* ] ")"
+  { return parameters; }
 }
 
 RVMParameter AdviceParameter():
@@ -921,9 +912,131 @@ RVMParameter AdviceParameter():
 }
 {
 	type = TypePattern() {line = type.getBeginLine(); column = type.getBeginColumn();}
-	(<IDENTIFIER> | "get" | "set") { name = token.image; }
+        (<IDENTIFIER> | "get" | "set") { name = token.image; }
 	{ return new RVMParameter(line, column, type, name); }
 }
+
+
+BaseTypePattern TypePattern():
+{
+	String id;
+	int line, column;
+	List<Type> typeArgs = null;
+}
+{
+	(<IDENTIFIER> | "get"| "set" | "byte" | "short" | "int"
+         | "long" | "float" | "double" | "boolean" | "char")
+        {
+          line = token.beginLine; column = token.beginColumn; id = token.image;}
+	[LOOKAHEAD(2) typeArgs = TypeArguments() ] { id += toTypeArgsString(typeArgs); typeArgs = null;}
+	(
+	    LOOKAHEAD(2) "." (<IDENTIFIER> | "get" | "set") {id += "." + token.image;}
+	    [ LOOKAHEAD(2) typeArgs = TypeArguments() ] {id += toTypeArgsString(typeArgs); typeArgs = null;}
+	)*
+	("[" {id += token.image;} "]" {id += token.image;})*
+	["+" {id += token.image;}]
+	{ return new BaseTypePattern(line, column, id); }
+}
+
+List TypeArguments():
+{
+	List ret = new LinkedList();
+	Type type;
+}
+{
+   "<" type = TypeArgument() { ret.add(type); } ( "," type = TypeArgument() { ret.add(type); } )* ">"
+   { return ret; }
+}
+
+Type TypeArgument():
+{
+	Type ret;
+}
+{
+ (
+   ret = ReferenceType()
+ |
+   ret = Wildcard()
+ )
+ { return ret; }
+}
+
+WildcardType Wildcard():
+{
+	ReferenceType ext = null;
+	ReferenceType sup = null;
+	int line;
+	int column;
+}
+{
+   "?" {line=token.beginLine; column=token.beginColumn;}
+   [
+		"extends" ext = ReferenceType()
+	|
+		"super" sup = ReferenceType()
+   ]
+   { return new WildcardType(line, column, ext, sup); }
+}
+
+ReferenceType ReferenceType():
+{
+	Type type;
+	int arrayCount = 0;
+}
+{
+  (
+   type = PrimitiveType() ( LOOKAHEAD(2) "[" "]" { arrayCount++; } )+
+  |
+   type = ClassOrInterfaceType() ( LOOKAHEAD(2) "[" "]" { arrayCount++; } )*
+  )
+  { return new ReferenceType(type.getBeginLine(), type.getBeginColumn(), type, arrayCount); }
+}
+
+PrimitiveType PrimitiveType():
+{
+	PrimitiveType ret;
+}
+{
+(
+  "boolean" { ret = new PrimitiveType(token.beginLine, token.beginColumn, PrimitiveType.Primitive.Boolean); }
+|
+  "char" { ret = new PrimitiveType(token.beginLine, token.beginColumn, PrimitiveType.Primitive.Char); }
+|
+  "byte" { ret = new PrimitiveType(token.beginLine, token.beginColumn, PrimitiveType.Primitive.Byte); }
+|
+  "short" { ret = new PrimitiveType(token.beginLine, token.beginColumn, PrimitiveType.Primitive.Short); }
+|
+  "int" { ret = new PrimitiveType(token.beginLine, token.beginColumn, PrimitiveType.Primitive.Int); }
+|
+  "long" { ret = new PrimitiveType(token.beginLine, token.beginColumn, PrimitiveType.Primitive.Long); }
+|
+  "float" { ret = new PrimitiveType(token.beginLine, token.beginColumn, PrimitiveType.Primitive.Float); }
+|
+  "double" { ret = new PrimitiveType(token.beginLine, token.beginColumn, PrimitiveType.Primitive.Double); }
+)
+{ return ret; }
+}
+
+ClassOrInterfaceType ClassOrInterfaceType():
+{
+	ClassOrInterfaceType ret;
+	String name;
+	List typeArgs = null;
+	int line;
+	int column;
+}
+{
+  (<IDENTIFIER> | "get" | "set")  {line=token.beginLine; column=token.beginColumn;} { name = token.image; }
+  [ LOOKAHEAD(2) typeArgs = TypeArguments() ]
+  { ret = new ClassOrInterfaceType(line, column, null, name, typeArgs); }
+  (
+	  LOOKAHEAD(2) "." (<IDENTIFIER> | "get" | "set") { name = token.image; }
+	  [ LOOKAHEAD(2) typeArgs = TypeArguments() ] { ret = new ClassOrInterfaceType(line, column, ret, name, typeArgs); }
+  )*
+  { return ret; }
+}
+
+
 
 /***********************************************
  * THE JAVARVM SPECIFICATION GRAMMAR ENDS HERE *
@@ -974,3 +1087,5 @@ NameExpr Name():
 	( LOOKAHEAD(2) "." (<IDENTIFIER> | "get" | "set") { ret = new QualifiedNameExpr(token.beginLine, token.beginColumn, ret, token.image); } )*
 	{ return ret; }
 }
+
+
