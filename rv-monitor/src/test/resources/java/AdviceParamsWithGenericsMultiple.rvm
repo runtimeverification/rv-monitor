@@ -1,0 +1,16 @@
+package rvm;
+
+import java.io.*;
+import java.util.*;
+
+AdviceParamsWithGenericsMultiple () {
+
+    event foo (List<Bar> buzz, List<Foo> fuzz) {}
+
+    ere : (foo)*
+
+    @fail {
+      System.out.println("Multiple Generics");
+    }
+}
+

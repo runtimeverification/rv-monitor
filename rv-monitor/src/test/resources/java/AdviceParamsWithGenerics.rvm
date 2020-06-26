@@ -1,0 +1,16 @@
+package rvm;
+
+import java.io.*;
+import java.util.*;
+
+HasNext () {
+
+    event foo (List<Bar> buzz) {}
+
+    ere : (foo)*
+
+    @fail {
+      System.out.println("Test handler");
+    }
+}
+

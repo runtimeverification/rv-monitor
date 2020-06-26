@@ -1,0 +1,15 @@
+package rvm;
+
+import java.io.*;
+import java.util.*;
+
+AdviceParamsWithGenericsNested () {
+
+    event foo (List<List<Bar>> buzz) {}
+
+    ere : (foo)*
+
+    @fail {
+      System.out.println("Nested Generics");
+    }
+}
