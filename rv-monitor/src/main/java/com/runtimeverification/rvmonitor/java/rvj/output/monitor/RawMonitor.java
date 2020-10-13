@@ -42,7 +42,9 @@ public class RawMonitor extends Monitor {
                     rvmSpec.getEvents(), coenableSet);
         }
 
-        monitorDeclaration = new UserJavaCode(rvmSpec.getDeclarationsStr());
+        String declStr = rvmSpec.getDeclarationsStr();
+        declStr = declStr.replaceAll("__CONSTRUCTOR", monitorName.toString());
+        monitorDeclaration = new UserJavaCode(declStr);
 
         events = rvmSpec.getEvents();
 
