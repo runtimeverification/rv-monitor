@@ -42,7 +42,12 @@ public class RawMonitor extends Monitor {
                     rvmSpec.getEvents(), coenableSet);
         }
 
-        monitorDeclaration = new UserJavaCode(rvmSpec.getDeclarationsStr());
+        // `public __CONSTRUCTOR() {..}` function is used to customize the intialization of
+        // the monitor variables in the raw monitor. We can intialize the monitor variables
+        // by either field intialization or constructor intialization.
+        String declStr = rvmSpec.getDeclarationsStr();
+        declStr = declStr.replaceAll("__CONSTRUCTOR", monitorName.toString());
+        monitorDeclaration = new UserJavaCode(declStr);
 
         events = rvmSpec.getEvents();
 
