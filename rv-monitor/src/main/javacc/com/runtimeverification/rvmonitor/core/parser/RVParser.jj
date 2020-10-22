@@ -251,7 +251,7 @@ Specification specification() : {
     (languageParameters = delimitedNoCurly())?
     "{"
         {languageDeclarations = parseUntilLineMatches(Pattern.compile(
-            "^([-a-zA-Z\\s_]*)\bevent\b([a-zA-Z_\\s0-9]+)\\(.*\\)(\\s)*\\{"));}
+            "^([-a-zA-Z\\s_]*)\\bevent\\b([a-zA-Z_\\s0-9]+)\\("));}
         (LOOKAHEAD( 2 ) myEvent = event() { events.add(myEvent); })+
         (myProperty = propertyAndHandlers() {properties.add(myProperty);})*
     "}"
