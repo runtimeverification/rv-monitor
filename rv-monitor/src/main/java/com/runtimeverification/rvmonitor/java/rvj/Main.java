@@ -455,6 +455,7 @@ public class Main {
             System.err.println(e.getMessage());
             if (Main.debug)
                 e.printStackTrace();
+            System.exit(1);
         }
     }
 }
