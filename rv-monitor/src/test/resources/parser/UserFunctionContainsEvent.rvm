@@ -1,0 +1,15 @@
+package mop;
+
+import java.util.*;
+
+UserFunctionContainsEvent() {
+
+    public void event1() throws Exception {
+        return;
+    }
+
+    event event1(Integer x)
+    {
+    }
+}
+
