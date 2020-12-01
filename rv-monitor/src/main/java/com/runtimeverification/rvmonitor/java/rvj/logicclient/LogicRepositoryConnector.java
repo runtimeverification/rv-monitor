@@ -138,7 +138,7 @@ public class LogicRepositoryConnector {
                             + logicPluginFarFilePath + File.pathSeparator
                             + mysqlConnectorPath + File.pathSeparator
                             + new File(Main.jarFilePath).getParent()
-                            + "/scala-library.jar",
+                            + "/*",
                     "com.runtimeverification.rvmonitor.logicrepository.Main" };
 
             logicOutput_OutputStream = executeProgram(cmdarray, executePath,

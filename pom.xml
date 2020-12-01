@@ -27,42 +27,67 @@
     <url>http://www.runtimeverification.com</url>
     <scm>
         <connection>scm:git:https://github.com/runtimeverification/rv-monitor.git</connection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
+
     <repositories>
         <repository>
-            <id>runtime-verification</id>
+            <id>runtime.verification</id>
             <name>Runtime Verification Repository</name>
             <url>https://s3.us-east-2.amazonaws.com/runtimeverificationmaven/internal</url>
             <snapshots><enabled>false</enabled></snapshots>
             <releases><enabled>true</enabled></releases>
         </repository>
         <repository>
-            <id>runtime-verification.snapshots</id>
+            <id>runtime.verification.snapshots</id>
             <name>Runtime Verification Snapshot Repository</name>
             <url>https://s3.us-east-2.amazonaws.com/runtimeverificationmaven/snapshots</url>
             <snapshots><enabled>true</enabled></snapshots>
             <releases><enabled>false</enabled></releases>
         </repository>
     </repositories>
-    <distributionManagement>
-        <repository>
-            <id>runtime-verification</id>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>runtime.verification</id>
             <name>Runtime Verification Repository</name>
             <url>https://s3.us-east-2.amazonaws.com/runtimeverificationmaven/internal</url>
-        </repository>
-        <snapshotRepository>
-            <id>runtime-verification.snapshots</id>
+            <snapshots><enabled>false</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </pluginRepository>
+        <pluginRepository>
+            <id>runtime.verification.snapshots</id>
             <name>Runtime Verification Snapshot Repository</name>
             <url>https://s3.us-east-2.amazonaws.com/runtimeverificationmaven/snapshots</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>false</enabled></releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>runtime.verification</id>
+            <name>Runtime Verification Repository</name>
+            <url>s3://runtimeverificationmaven/internal</url>
+        </repository>
+        <snapshotRepository>
+            <id>runtime.verification.snapshots</id>
+            <name>Runtime Verification Snapshot Repository</name>
+            <url>s3://runtimeverificationmaven/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.4.0-b180830.0359</version>
         </dependency>
     </dependencies>
     <build>
