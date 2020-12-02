@@ -205,6 +205,10 @@ public class CombinedOutput {
         ret += "}\n";
         ret += "\n";
 
+        if (Main.controlAPI) {
+            ret += "// Declarations for enable flag\n";
+            ret += "private static boolean enableMonitor = false;\n\n";
+        }
         // ret += this.statManager.fieldDecl();
 
         ret += this.lockManager.decl();
@@ -214,6 +218,16 @@ public class CombinedOutput {
         ret += this.activatorsManager.decl();
 
         ret += this.indexingTreeManager.decl();
+
+        if (Main.controlAPI) {
+            ret += "public static final void enable() {\n";
+            ret += "enableMonitor = true;\n";
+            ret += "}\n\n";
+
+            ret += "public static final void disable() {\n";
+            ret += "enableMonitor = false;\n";
+            ret += "}\n\n";
+        }
 
         {
             ICodeFormatter fmt = CodeFormatters.getDefault();

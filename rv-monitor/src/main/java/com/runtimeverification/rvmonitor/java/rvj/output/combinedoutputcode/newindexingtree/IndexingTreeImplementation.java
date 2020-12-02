@@ -320,6 +320,10 @@ public class IndexingTreeImplementation implements ICodeGenerator {
         this.field.getCode(fmt);
     }
 
+    public void getResetCode(ICodeFormatter fmt) {
+        this.field.getResetCode(fmt);
+    }
+
     /**
      * This class is used to insert some code while visiting a node in the
      * indexing tree. What the user typically needs to do is to create an
@@ -371,7 +375,7 @@ public class IndexingTreeImplementation implements ICodeGenerator {
          *
          * @param entry
          *            the last entry that includes the provided field
-         * @param contextref
+         * @param fieldref
          *            reference to the field
          * @return code to be added
          */
@@ -758,7 +762,11 @@ public class IndexingTreeImplementation implements ICodeGenerator {
                 init = new CodeNewExpr(type, args);
             }
 
-            return new CodeMemberField(name, false, true, true, type, init);
+            boolean isFinal = false;
+            if (!Main.controlAPI) {
+                isFinal = true;
+            }
+            return new CodeMemberField(name, false, true, isFinal, type, init);
         }
 
         /**

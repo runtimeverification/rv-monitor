@@ -38,4 +38,8 @@ public abstract class CodeMember {
         fmt.type(this.type);
         fmt.identifier(this.name);
     }
+
+    protected void getVariableNameOnly(ICodeFormatter fmt) {
+        fmt.identifier(this.name);
+    }
 }
