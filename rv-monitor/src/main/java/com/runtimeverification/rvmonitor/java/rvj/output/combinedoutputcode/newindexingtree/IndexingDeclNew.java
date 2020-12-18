@@ -445,4 +445,24 @@ public class IndexingDeclNew {
         }
         return ret;
     }
+
+    public String getResetIndexTreeCode() {
+        ICodeFormatter fmt = CodeFormatters.getDefault();
+
+        Set<IndexingTreeImplementation> indexingTreesImpls =
+                this.collectIndexingTreeImplementation(
+                        this.indexingTrees.values());
+        for (IndexingTreeImplementation indexingTreesImpl : indexingTreesImpls) {
+            indexingTreesImpl.getResetCode(fmt);
+        }
+
+        Set<IndexingTreeImplementation> indexingTreesForCopyImpls =
+                this.collectIndexingTreeImplementation(
+                        this.indexingTreesForCopy.values());
+        for (IndexingTreeImplementation indexingTreesForCopyImpl : indexingTreesForCopyImpls) {
+            indexingTreesForCopyImpl.getResetCode(fmt);
+        }
+
+        return fmt.getCode();
+    }
 }

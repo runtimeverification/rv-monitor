@@ -37,4 +37,13 @@ public class CodeMemberField extends CodeMember implements ICodeGenerator {
         }
         fmt.endOfStatement();
     }
+
+    public void getResetCode(ICodeFormatter fmt) {
+        if (this.init != null && this.init != CodeLiteralExpr.nul()) {
+            this.getVariableNameOnly(fmt);
+            fmt.operator("=");
+            this.init.getCode(fmt);
+            fmt.endOfStatement();
+        }
+    }
 }

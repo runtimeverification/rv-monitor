@@ -169,6 +169,11 @@ public class Advice {
                     }
                 }
             } else {
+                if (Main.controlAPI) {
+                    ret += "if (!enableMonitor) {\n";
+                    ret += "return;\n";
+                    ret += "}\n";
+                }
                 for (RVMonitorSpec spec : specsForActivation) {
                     ret += activatorsManager.setValue(spec, true);
                     ret += ";\n";

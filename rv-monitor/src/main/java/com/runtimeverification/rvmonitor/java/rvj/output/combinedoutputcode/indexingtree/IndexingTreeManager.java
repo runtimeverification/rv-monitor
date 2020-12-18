@@ -119,6 +119,15 @@ public class IndexingTreeManager {
             ret += "}\n\n";
         }
 
+        if (Main.controlAPI) {
+            ret += "public static void resetMonitor() {\n";
+            ret += "enableMonitor = false;\n";
+            for (IndexingDeclNew decl : trees.values()) {
+                ret += decl.getResetIndexTreeCode();
+            }
+            ret += "}\n\n";
+        }
+
         return ret;
     }
 

@@ -201,18 +201,18 @@ class JavaCodeFormatter implements ICodeFormatter {
             }
         }
 
-        boolean forcespace = false;
+        /*boolean forcespace = false;
         {
             switch (this.state) {
             case OPERATORSEMITIGHT:
-                forcespace = true;
+                forcespace = false;
                 break;
             default:
                 break;
             }
-        }
+        }*/
 
-        this.append(op, tightbefore, forcespace);
+        this.append(op, tightbefore, false);
 
         if (tightafter)
             this.state = State.OPERATORTIGHT;
