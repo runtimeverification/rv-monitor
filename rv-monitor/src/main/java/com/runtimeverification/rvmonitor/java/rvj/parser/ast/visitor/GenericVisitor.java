@@ -33,6 +33,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAnd
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.BaseTypePattern;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.*;
 
 /**
  * @author Julio Vilmar Gesser
@@ -70,4 +71,17 @@ public interface GenericVisitor<R, A> {
     public R visit(NameExpr n, A arg);
 
     public R visit(QualifiedNameExpr n, A arg);
+
+    // - Type ----------------------------------------------
+
+    public R visit(ClassOrInterfaceType n, A arg);
+
+    public R visit(PrimitiveType n, A arg);
+
+    public R visit(ReferenceType n, A arg);
+
+    public R visit(VoidType n, A arg);
+
+    public R visit(WildcardType n, A arg);
+
 }

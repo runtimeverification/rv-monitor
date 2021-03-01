@@ -30,6 +30,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.Formula;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.PropertyAndHandlers;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameter;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.BaseTypePattern;
 
 /**
@@ -68,4 +69,16 @@ public interface VoidVisitor<A> {
     public void visit(NameExpr n, A arg);
 
     public void visit(QualifiedNameExpr n, A arg);
+
+    //- Type ----------------------------------------------
+
+    public void visit(ClassOrInterfaceType n, A arg);
+
+    public void visit(PrimitiveType n, A arg);
+
+    public void visit(ReferenceType n, A arg);
+
+    public void visit(VoidType n, A arg);
+
+    public void visit(WildcardType n, A arg);
 }

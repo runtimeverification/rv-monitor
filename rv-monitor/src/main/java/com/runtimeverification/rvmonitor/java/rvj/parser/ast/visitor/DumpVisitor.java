@@ -20,6 +20,7 @@
 package com.runtimeverification.rvmonitor.java.rvj.parser.ast.visitor;
 
 import java.util.Iterator;
+import java.util.List;
 
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.ImportDeclaration;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.Node;
@@ -34,6 +35,7 @@ import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParamete
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMParameters;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.RVMonitorSpec;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.rvmspec.SpecModifierSet;
+import com.runtimeverification.rvmonitor.java.rvj.parser.ast.type.*;
 import com.runtimeverification.rvmonitor.java.rvj.parser.ast.typepattern.BaseTypePattern;
 
 /**
@@ -221,5 +223,80 @@ public class DumpVisitor implements VoidVisitor<Object> {
             printer.print(".*");
         }
         printer.printLn(";");
+    }
+
+    public void visit(ClassOrInterfaceType n, Object arg) {
+        if (n.getScope() != null) {
+            n.getScope().accept(this, arg);
+            printer.print(".");
+        }
+        printer.print(n.getName());
+        printTypeArgs(n.getTypeArgs(), arg);
+    }
+
+    protected void printTypeArgs(List<Type> args, Object arg) {
+        if (args != null) {
+            printer.print("<");
+            for (Iterator<Type> i = args.iterator(); i.hasNext();) {
+                Type t = i.next();
+                t.accept(this, arg);
+                if (i.hasNext()) {
+                    printer.print(", ");
+                }
+            }
+            printer.print(">");
+        }
+    }
+
+    public void visit(PrimitiveType n, Object arg) {
+        switch (n.getType()) {
+            case Boolean:
+                printer.print("boolean");
+                break;
+            case Byte:
+                printer.print("byte");
+                break;
+            case Char:
+                printer.print("char");
+                break;
+            case Double:
+                printer.print("double");
+                break;
+            case Float:
+                printer.print("float");
+                break;
+            case Int:
+                printer.print("int");
+                break;
+            case Long:
+                printer.print("long");
+                break;
+            case Short:
+                printer.print("short");
+                break;
+        }
+    }
+
+    public void visit(ReferenceType n, Object arg) {
+        n.getType().accept(this, arg);
+        for (int i = 0; i < n.getArrayCount(); i++) {
+            printer.print("[]");
+        }
+    }
+
+    public void visit(WildcardType n, Object arg) {
+        printer.print("?");
+        if (n.getExtends() != null) {
+            printer.print(" extends ");
+            n.getExtends().accept(this, arg);
+        }
+        if (n.getSuper() != null) {
+            printer.print(" super ");
+            n.getSuper().accept(this, arg);
+        }
+    }
+
+    public void visit(VoidType n, Object arg) {
+        printer.print("void");
     }
 }
